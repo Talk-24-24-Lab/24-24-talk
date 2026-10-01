@@ -47,18 +47,12 @@
 
 <!-- Aperçu du lien quand il est partagé -->
 <meta property="og:type" content="website" />
-<meta property="og:title" content="24/24 Let's go" />
+<meta property="og:title" content="24/24, Let's go" />
 <meta property="og:url" content="https://sebastienchevrier.github.io/24-24-talk/" />
-<meta property="og:image" content="https://sebastienchevrier.github.io/24-24-talk/24-24-Talk-letsgo.png" />
-<meta property="og:image:type" content="image/png" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="24/24 Let's go" />
 
 <!-- Aperçu du lien sur X/Twitter -->
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="24/24 Let's go" />
-<meta name="twitter:image" content="https://sebastienchevrier.github.io/24-24-talk/24-24-Talk-letsgo.png" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="24/24, Let's go" />
 <style>
   /* Nuit d'abord (24h/24) : sombre par défaut, clair si l'appareil ou la personne le demande. */
   :root{
@@ -6264,14 +6258,14 @@ const Reseau = (() => {
   const outChannels = new Map();
   let pendingAdd = null;
   let inviteFromLink = false;
-  // Invitation : le visuel 24/24 Talk tel quel + le lien direct (aperçu « 24/24 Let's go »).
+  // Invitation : le visuel 24/24 Talk tel quel + le lien direct (aperçu du lien : « 24/24, Let's go »).
   // Le visuel est préparé à l'avance pour que le partage parte tout de suite au toucher.
   let inviteVisual = null, inviteVisualLoading = null;
   function loadInviteVisual() {
     if (inviteVisual || inviteVisualLoading) return;
-    inviteVisualLoading = fetch("24-24-Talk-visuel.png")
+    inviteVisualLoading = fetch("24-24-Talk-visuel.jpg")
       .then((r) => (r.ok ? r.blob() : null))
-      .then((b) => { if (b) inviteVisual = new File([b], "24-24-Talk.png", { type: "image/png" }); })
+      .then((b) => { if (b) inviteVisual = new File([b], "24-24-Talk.jpg", { type: "image/jpeg" }); })
       .catch(() => { /* pas de réseau : on enverra le lien seul */ })
       .finally(() => { inviteVisualLoading = null; });
   }
