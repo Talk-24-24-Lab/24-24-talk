@@ -74,6 +74,9 @@
   .settings-btn svg{width:24px;height:24px;}
   .settings-btn:focus-visible{outline:3px solid var(--blue);outline-offset:2px;}
   nav.tabs[hidden]{display:none !important;}
+  .net-pushcard{border-color:rgba(46,207,142,.55);background:linear-gradient(135deg,rgba(46,207,142,.14),rgba(61,123,255,.10));}
+  .net-pushcard p{margin:0 0 10px;font-weight:700;font-size:15.5px;line-height:1.4;}
+  .net-pushcard .btn{width:100%;}
   .net-callrec{align-self:center;width:100%;max-width:420px;margin:6px auto;padding:10px 12px;border-radius:14px;background:var(--panel2);border:1px solid var(--line);font-size:14px;}
   .net-callrec-head{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;justify-content:space-between;}
   .net-callrec-head b{font-weight:700;}
@@ -633,7 +636,7 @@
   <section id="legal-privacy" class="view legal-view">
 <a class="back" href="index.html">← Retour à 24/24 Talk</a>
   <h1>Politique de confidentialité</h1>
-  <p class="updated">Dernière mise à jour : 1er octobre 2026 (statistiques de visite anonymes)</p>
+  <p class="updated">Dernière mise à jour : 1er octobre 2026 (statistiques de visite anonymes, historique des appels, notifications d'appel)</p>
 
   <p>24/24 Talk est une application de traduction éditée par Sébastien Albert Vincent CHEVRIER, responsable du traitement. Contact : <a href="mailto:schevrier.1975@gmail.com">schevrier.1975@gmail.com</a>.</p>
   <p><strong>En bref :</strong> aucune publicité, aucun pistage, seulement des statistiques de visite anonymes que vous pouvez désactiver. Votre historique de traduction reste sur votre téléphone. Pour traduire une phrase libre ou transformer votre voix en texte, l'appli fait appel à des services extérieurs, nommés ci-dessous. Si vous utilisez le Réseau 24/24 Talk, votre pseudo, votre langue et vos messages sont hébergés sur un serveur afin d'être remis à vos contacts.</p>
@@ -652,6 +655,8 @@
     <tr><td>Réseau : messages écrits ou dictés</td><td>Serveur Supabase (Union européenne), visibles uniquement par les participants de la discussion</td><td>Remettre vos messages à vos contacts</td></tr>
     <tr><td>Appel traduit : phrases prononcées, transformées en texte</td><td>Transmises en direct via Supabase à votre interlocuteur, jamais enregistrées ; aucun son n'est transmis</td><td>Appel traduit</td></tr>
     <tr><td>Statistiques de visite anonymes : identifiant tiré au hasard sur votre téléphone, ouverture de l'appli, nombre de traductions, nombre et durée des appels, présence en ligne</td><td>Serveur Supabase (Union européenne), sous forme de comptes par jour ; aucun nom, aucune adresse IP, aucun texte, aucun lien avec votre compte réseau</td><td>Mesure d'audience anonyme</td></tr>
+    <tr><td>Historique des appels (durée ; avec « Avec traduction », les phrases échangées pendant l'appel)</td><td>Uniquement sur votre téléphone, dans la discussion concernée ; jamais envoyé</td><td>Retrouver vos appels</td></tr>
+    <tr><td>Notifications d'appel (si vous les activez) : adresse technique de notification de votre navigateur et ses clés de chiffrement</td><td>Serveur Supabase (Union européenne) ; à chaque appel, une notification chiffrée de bout en bout (pseudo de la personne qui appelle) passe par le service de notification de votre navigateur (Google pour Chrome, voir « Destinataires »)</td><td>Vous prévenir d'un appel quand l'appli est fermée</td></tr>
     <tr><td>Réseau : signalements et blocages</td><td>Serveur Supabase ; un signalement contient une copie des derniers messages de la personne signalée</td><td>Modération, sécurité des utilisateurs</td></tr>
   </table>
 
@@ -662,6 +667,7 @@
     <li><strong>GitHub</strong> (GitHub, Inc., États-Unis), hébergeur du site : reçoit, comme tout hébergeur, l'adresse IP des visiteurs.</li>
     <li><strong>Supabase</strong> (Supabase, Inc.), hébergeur des données du Réseau 24/24 Talk : les données sont stockées dans un centre de données de l'Union européenne. Supabase agit comme sous-traitant, sur la base de clauses contractuelles types pour tout accès depuis l'extérieur de l'UE.</li>
     <li><strong>jsDelivr</strong> (cdn.jsdelivr.net) : si vous ouvrez l'onglet Réseau, le programme de connexion au serveur est téléchargé depuis ce service, qui reçoit alors votre adresse IP.</li>
+    <li><strong>Service de notification de votre navigateur</strong>, seulement si vous activez les notifications d'appel : Google (Firebase Cloud Messaging, Google LLC, États-Unis) pour Chrome sur Android, Apple pour Safari, Mozilla pour Firefox. Le contenu de la notification est chiffré de bout en bout : ce service sait seulement qu'une notification est envoyée à votre téléphone, sans pouvoir la lire.</li>
     <li><strong>Vos contacts</strong> du Réseau : ils reçoivent votre pseudo, votre langue et les messages que vous leur envoyez.</li>
   </ul>
   <p>Google et GitHub étant situés aux États-Unis, ces transferts s'appuient sur le cadre de protection des données UE–États-Unis (Data Privacy Framework) prévu par le RGPD.</p>
@@ -673,6 +679,8 @@
     <li>Historique de traduction : sur votre téléphone, jusqu'à ce que vous le supprimiez (500 traductions au maximum, les plus anciennes s'effacent).</li>
     <li>Messages du Réseau : supprimés automatiquement au bout de 90 jours, ou immédiatement si vous supprimez votre compte.</li>
     <li>Profil du Réseau : jusqu'à la suppression de votre compte.</li>
+    <li>Historique des appels : sur votre téléphone, 60 appels au plus par discussion ; effacé avec « Supprimer toutes mes données » ou si vous supprimez votre compte. Vous pouvez l'arrêter : <strong>Paramètres → Enregistrer l'historique sur ce téléphone</strong>.</li>
+    <li>Notifications d'appel : l'adresse de notification est supprimée dès que vous désactivez <strong>Paramètres → Appels quand l'appli est fermée</strong>, que vous supprimez votre compte, ou que votre navigateur la déclare expirée.</li>
     <li>Signalements : le temps de les traiter, au plus 12 mois.</li>
     <li>Statistiques de visite : l'identifiant tiré au hasard est renouvelé tous les 13 mois ; les comptes par jour sont conservés au plus 13 mois.</li>
   </ul>
@@ -5362,6 +5370,13 @@ const NET_STRINGS = {
     net_call_out: "📞 Appel sortant",
     net_call_in: "📞 Appel reçu",
     net_call_show: "Voir les échanges ({n})",
+    net_push_card: "🔔 Recevez les appels même quand l'appli est fermée.",
+    net_push_btn: "Activer",
+    net_push_on: "🔔 C'est activé : vous serez prévenu des appels même appli fermée.",
+    net_push_denied: "Les notifications sont bloquées pour 24/24 Talk. Dans Chrome : ⋮ → Paramètres → Paramètres des sites → Notifications → autorisez 24/24 Talk.",
+    net_push_fail: "Impossible d'activer les notifications pour le moment. Réessayez plus tard.",
+    net_push_opt: "🔔 Appels quand l'appli est fermée",
+    net_push_need_profile: "Créez d'abord votre profil : touchez Messagerie sur l'accueil.",
     net_contacts: "Mes contacts",
     net_no_contacts: "Pas encore de contact. Appuyez sur « {b} » : dès que votre ami aura choisi son pseudo, il apparaîtra ici et vous pourrez l'appeler.",
     net_call_btn: "Appeler",
@@ -5446,6 +5461,13 @@ const NET_STRINGS = {
     net_call_out: "📞 Outgoing call",
     net_call_in: "📞 Incoming call",
     net_call_show: "Show the conversation ({n})",
+    net_push_card: "🔔 Get calls even when the app is closed.",
+    net_push_btn: "Turn on",
+    net_push_on: "🔔 Done: you'll be notified of calls even when the app is closed.",
+    net_push_denied: "Notifications are blocked for 24/24 Talk. In Chrome: ⋮ → Settings → Site settings → Notifications → allow 24/24 Talk.",
+    net_push_fail: "Notifications can't be turned on right now. Please try again later.",
+    net_push_opt: "🔔 Calls when the app is closed",
+    net_push_need_profile: "First create your profile: tap Messages on the home screen.",
     net_contacts: "My contacts",
     net_no_contacts: "No contacts yet. Tap “{b}”: as soon as your friend picks a username, they will appear here and you can call them.",
     net_call_btn: "Call",
@@ -5530,6 +5552,13 @@ const NET_STRINGS = {
     net_call_out: "📞 Llamada saliente",
     net_call_in: "📞 Llamada recibida",
     net_call_show: "Ver la conversación ({n})",
+    net_push_card: "🔔 Recibe llamadas aunque la app esté cerrada.",
+    net_push_btn: "Activar",
+    net_push_on: "🔔 Listo: te avisaremos de las llamadas aunque la app esté cerrada.",
+    net_push_denied: "Las notificaciones están bloqueadas para 24/24 Talk. En Chrome: ⋮ → Configuración → Configuración de sitios → Notificaciones → permite 24/24 Talk.",
+    net_push_fail: "No se pueden activar las notificaciones ahora. Inténtalo más tarde.",
+    net_push_opt: "🔔 Llamadas con la app cerrada",
+    net_push_need_profile: "Primero crea tu perfil: toca Mensajes en el inicio.",
     net_contacts: "Mis contactos",
     net_no_contacts: "Aún no tienes contactos. Pulsa «{b}»: en cuanto tu amigo elija su seudónimo, aparecerá aquí y podrás llamarle.",
     net_call_btn: "Llamar",
@@ -5614,6 +5643,13 @@ const NET_STRINGS = {
     net_call_out: "📞 Chamada efetuada",
     net_call_in: "📞 Chamada recebida",
     net_call_show: "Ver a conversa ({n})",
+    net_push_card: "🔔 Receba chamadas mesmo com a app fechada.",
+    net_push_btn: "Ativar",
+    net_push_on: "🔔 Pronto: será avisado das chamadas mesmo com a app fechada.",
+    net_push_denied: "As notificações estão bloqueadas para o 24/24 Talk. No Chrome: ⋮ → Definições → Definições de sites → Notificações → permita o 24/24 Talk.",
+    net_push_fail: "Não é possível ativar as notificações agora. Tente mais tarde.",
+    net_push_opt: "🔔 Chamadas com a app fechada",
+    net_push_need_profile: "Primeiro crie o seu perfil: toque em Mensagens no início.",
     net_contacts: "Meus contatos",
     net_no_contacts: "Ainda não há contatos. Toque em «{b}»: assim que o seu amigo escolher um pseudônimo, ele aparecerá aqui e você poderá ligar.",
     net_call_btn: "Ligar",
@@ -5698,6 +5734,13 @@ const NET_STRINGS = {
     net_call_out: "📞 Ausgehender Anruf",
     net_call_in: "📞 Eingehender Anruf",
     net_call_show: "Gespräch anzeigen ({n})",
+    net_push_card: "🔔 Erhalte Anrufe, auch wenn die App geschlossen ist.",
+    net_push_btn: "Aktivieren",
+    net_push_on: "🔔 Erledigt: Du wirst über Anrufe informiert, auch wenn die App geschlossen ist.",
+    net_push_denied: "Benachrichtigungen sind für 24/24 Talk blockiert. In Chrome: ⋮ → Einstellungen → Website-Einstellungen → Benachrichtigungen → 24/24 Talk erlauben.",
+    net_push_fail: "Benachrichtigungen können gerade nicht aktiviert werden. Versuche es später erneut.",
+    net_push_opt: "🔔 Anrufe bei geschlossener App",
+    net_push_need_profile: "Erstelle zuerst dein Profil: Tippe auf der Startseite auf Nachrichten.",
     net_contacts: "Meine Kontakte",
     net_no_contacts: "Noch keine Kontakte. Tippe auf „{b}“: Sobald dein Freund einen Benutzernamen gewählt hat, erscheint er hier und du kannst ihn anrufen.",
     net_call_btn: "Anrufen",
@@ -5782,6 +5825,13 @@ const NET_STRINGS = {
     net_call_out: "📞 Chiamata in uscita",
     net_call_in: "📞 Chiamata ricevuta",
     net_call_show: "Mostra la conversazione ({n})",
+    net_push_card: "🔔 Ricevi le chiamate anche quando l'app è chiusa.",
+    net_push_btn: "Attiva",
+    net_push_on: "🔔 Fatto: sarai avvisato delle chiamate anche ad app chiusa.",
+    net_push_denied: "Le notifiche sono bloccate per 24/24 Talk. In Chrome: ⋮ → Impostazioni → Impostazioni sito → Notifiche → consenti 24/24 Talk.",
+    net_push_fail: "Impossibile attivare le notifiche ora. Riprova più tardi.",
+    net_push_opt: "🔔 Chiamate ad app chiusa",
+    net_push_need_profile: "Prima crea il tuo profilo: tocca Messaggi nella home.",
     net_contacts: "I miei contatti",
     net_no_contacts: "Ancora nessun contatto. Tocca «{b}»: appena il tuo amico avrà scelto un nome utente, apparirà qui e potrai chiamarlo.",
     net_call_btn: "Chiama",
@@ -5866,6 +5916,13 @@ const NET_STRINGS = {
     net_call_out: "📞 呼出电话",
     net_call_in: "📞 来电",
     net_call_show: "查看对话（{n}）",
+    net_push_card: "🔔 即使应用已关闭也能接到来电。",
+    net_push_btn: "开启",
+    net_push_on: "🔔 已开启：即使应用关闭也会收到来电通知。",
+    net_push_denied: "24/24 Talk 的通知已被屏蔽。在 Chrome 中：⋮ → 设置 → 网站设置 → 通知 → 允许 24/24 Talk。",
+    net_push_fail: "暂时无法开启通知，请稍后再试。",
+    net_push_opt: "🔔 应用关闭时接听来电",
+    net_push_need_profile: "请先创建个人资料：在首页点击“消息”。",
     net_contacts: "我的联系人",
     net_no_contacts: "还没有联系人。点击“{b}”：朋友选好昵称后会出现在这里，你就可以给他打电话。",
     net_call_btn: "呼叫",
@@ -5950,6 +6007,13 @@ const NET_STRINGS = {
     net_call_out: "📞 発信",
     net_call_in: "📞 着信",
     net_call_show: "会話を表示（{n}）",
+    net_push_card: "🔔 アプリを閉じていても着信を受け取れます。",
+    net_push_btn: "オンにする",
+    net_push_on: "🔔 オンになりました：アプリを閉じていても着信をお知らせします。",
+    net_push_denied: "24/24 Talk の通知がブロックされています。Chrome で：⋮ → 設定 → サイトの設定 → 通知 → 24/24 Talk を許可。",
+    net_push_fail: "現在、通知をオンにできません。あとでもう一度お試しください。",
+    net_push_opt: "🔔 アプリを閉じているときの着信",
+    net_push_need_profile: "まずプロフィールを作成してください：ホームで「メッセージ」をタップ。",
     net_contacts: "連絡先",
     net_no_contacts: "まだ連絡先がありません。「{b}」をタップしてください。相手がユーザー名を決めるとここに表示され、電話をかけられます。",
     net_call_btn: "発信",
@@ -6034,6 +6098,13 @@ const NET_STRINGS = {
     net_call_out: "📞 مكالمة صادرة",
     net_call_in: "📞 مكالمة واردة",
     net_call_show: "عرض المحادثة ({n})",
+    net_push_card: "🔔 استقبل المكالمات حتى عندما يكون التطبيق مغلقًا.",
+    net_push_btn: "تفعيل",
+    net_push_on: "🔔 تم التفعيل: سيتم إعلامك بالمكالمات حتى عندما يكون التطبيق مغلقًا.",
+    net_push_denied: "الإشعارات محظورة لـ ⁦24/24 Talk⁩. في Chrome: ⋮ ← الإعدادات ← إعدادات المواقع ← الإشعارات ← اسمح لـ ⁦24/24 Talk⁩.",
+    net_push_fail: "تعذّر تفعيل الإشعارات الآن. حاول لاحقًا.",
+    net_push_opt: "🔔 المكالمات عند إغلاق التطبيق",
+    net_push_need_profile: "أنشئ ملفك الشخصي أولًا: المس «الرسائل» في الصفحة الرئيسية.",
     net_contacts: "جهات اتصالي",
     net_no_contacts: "لا توجد جهات اتصال بعد. اضغط على «{b}»: بمجرد أن يختار صديقك اسم مستخدم سيظهر هنا ويمكنك الاتصال به.",
     net_call_btn: "اتصال",
@@ -6118,6 +6189,13 @@ const NET_STRINGS = {
     net_call_out: "📞 Исходящий звонок",
     net_call_in: "📞 Входящий звонок",
     net_call_show: "Показать разговор ({n})",
+    net_push_card: "🔔 Получайте звонки, даже когда приложение закрыто.",
+    net_push_btn: "Включить",
+    net_push_on: "🔔 Готово: вы будете получать уведомления о звонках, даже когда приложение закрыто.",
+    net_push_denied: "Уведомления для 24/24 Talk заблокированы. В Chrome: ⋮ → Настройки → Настройки сайтов → Уведомления → разрешите 24/24 Talk.",
+    net_push_fail: "Сейчас не удаётся включить уведомления. Попробуйте позже.",
+    net_push_opt: "🔔 Звонки при закрытом приложении",
+    net_push_need_profile: "Сначала создайте профиль: нажмите «Сообщения» на главном экране.",
     net_contacts: "Мои контакты",
     net_no_contacts: "Пока нет контактов. Нажмите «{b}»: как только друг выберет псевдоним, он появится здесь, и вы сможете ему позвонить.",
     net_call_btn: "Позвонить",
@@ -6424,6 +6502,14 @@ const Reseau = (() => {
       else safeStore.removeItem("lc_net_pending");
     } catch (e) { safeStore.removeItem("lc_net_pending"); }
   })();
+  // Ouvert en touchant la notification « … vous appelle » : on décroche dès que l'appel arrive.
+  let pendingAnswer = null;
+  (function readAnswer() {
+    const m = /[?&]appel=([a-z0-9]{6,40})/.exec(location.search || "");
+    if (!m) return;
+    pendingAnswer = { id: m[1], t: Date.now() };
+    try { history.replaceState(null, "", location.pathname); } catch (e) { /* ignoré */ }
+  })();
   function inviteUsed() {
     pendingAdd = null;
     safeStore.removeItem("lc_net_pending");
@@ -6519,6 +6605,7 @@ const Reseau = (() => {
 
   async function afterProfileReady() {
     Stats24.setNet(true);
+    if (pushState() === "on") syncPushSub(false);
     await Promise.all([loadConversations(), loadBlocks()]);
     await startRealtime();
     screen = "home";
@@ -6887,7 +6974,10 @@ const Reseau = (() => {
         <div class="net-convs">${items}</div>
       </div>`;
     }
-    root.innerHTML = `
+    const pushCard = pushState() === "off" && safeStore.getItem("lc_push") !== "0"
+      ? `<div class="card net-pushcard"><p>${escapeHtml(t("net_push_card"))}</p><button class="btn primary" id="netPushOn">${escapeHtml(t("net_push_btn"))}</button></div>`
+      : "";
+    root.innerHTML = `${pushCard}
       <div class="card">
         <div class="net-me"><b dir="ltr">@${escapeHtml(profile.pseudo)}</b><span>${escapeHtml(langLabel(profile.lang))}</span></div>
         <div class="row"><button class="btn primary" id="netInvite">${escapeHtml(t("net_invite"))}</button></div>
@@ -6904,6 +6994,15 @@ const Reseau = (() => {
         <select id="netMyLang"></select>
         <div class="row"><button class="btn ghost" id="netDelete" style="flex:1;">${escapeHtml(t("net_delete"))}</button></div>
       </div>`;
+    const pushBtn = root.querySelector("#netPushOn");
+    if (pushBtn) pushBtn.addEventListener("click", async () => {
+      pushBtn.disabled = true;
+      const [k, type] = pushMsgKey(await enablePush());
+      setFlash(escapeHtml(t(k)), type);
+      render();
+      const tg = document.getElementById("pushToggle");
+      if (tg) { const on = pushState() === "on"; tg.classList.toggle("on", on); tg.setAttribute("aria-pressed", on ? "true" : "false"); }
+    });
     root.querySelectorAll(".net-dial").forEach((b) => {
       b.addEventListener("click", () => {
         const c = convs.find((x) => x.id === b.dataset.id);
@@ -7127,6 +7226,127 @@ const Reseau = (() => {
     }
   }
 
+  // ---------- Notifications d'appel quand l'appli est fermée ----------
+  // Le téléphone s'inscrit auprès du service de notification de son navigateur (Google pour Chrome) ;
+  // le serveur 24/24 Talk lui envoie « @pseudo vous appelle », chiffré de bout en bout.
+  const pushSupported = configured && "serviceWorker" in navigator && "PushManager" in window && "Notification" in window;
+  let swReg = null;
+  if (pushSupported) {
+    navigator.serviceWorker.register("sw.js").then((r) => { swReg = r; }).catch(() => { /* notifications indisponibles */ });
+    navigator.serviceWorker.addEventListener("message", (e) => {
+      const d = e.data || {};
+      if (d.t !== "answer" || !d.call) return;
+      pendingAnswer = { id: String(d.call), t: Date.now() };
+      if (call && call.id === pendingAnswer.id && call.state === "incoming") { pendingAnswer = null; acceptCall(); }
+      else if (!sb && safeStore.getItem("lc_net_joined") === "1") ensureConnected();
+    });
+  }
+  function pushState() {
+    if (!pushSupported) return "unsupported";
+    if (Notification.permission === "denied") return "denied";
+    if (Notification.permission === "granted" && safeStore.getItem("lc_push") === "1") return "on";
+    return "off";
+  }
+  function swReady() {
+    if (swReg) return Promise.resolve(swReg);
+    return Promise.race([navigator.serviceWorker.ready, new Promise((_, rej) => setTimeout(() => rej(new Error("SW")), 8000))]);
+  }
+  async function invokePush(body) {
+    if (!sb || !sb.functions) return null;
+    try {
+      const { data, error } = await sb.functions.invoke("call-push", { body });
+      return error ? null : data;
+    } catch (e) { return null; }
+  }
+  function b64uToBytes(s) {
+    s = String(s).replace(/-/g, "+").replace(/_/g, "/");
+    while (s.length % 4) s += "=";
+    return Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+  }
+  async function syncPushSub(create) {
+    try {
+      const reg = await swReady();
+      let sub = await reg.pushManager.getSubscription();
+      if (!sub && create) {
+        const k = await invokePush({ action: "key" });
+        if (!k || !k.key) return false;
+        sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64uToBytes(k.key) });
+      }
+      if (!sub) return false;
+      const j = sub.toJSON();
+      const r = await invokePush({ action: "sub", endpoint: j.endpoint, p256dh: j.keys && j.keys.p256dh, auth: j.keys && j.keys.auth });
+      return !!(r && r.ok);
+    } catch (e) { return false; }
+  }
+  async function enablePush() {
+    if (!pushSupported) return "unsupported";
+    if (!profile) return "profile";
+    let perm = Notification.permission;
+    if (perm !== "granted") {
+      try { perm = await Notification.requestPermission(); } catch (e) { perm = "denied"; }
+    }
+    if (perm !== "granted") return "denied";
+    const ok = await syncPushSub(true);
+    if (ok) safeStore.setItem("lc_push", "1");
+    return ok ? "on" : "fail";
+  }
+  async function disablePush() {
+    safeStore.setItem("lc_push", "0");
+    try {
+      const reg = await swReady();
+      const sub = await reg.pushManager.getSubscription();
+      if (sub) {
+        await invokePush({ action: "unsub", endpoint: sub.endpoint });
+        await sub.unsubscribe();
+      }
+    } catch (e) { /* ignoré */ }
+  }
+  function notifyCall(type, c) {
+    if (!pushSupported && !(sb && sb.functions)) return;
+    if (!c || !c.convId) return;
+    invokePush({ type, conv: c.convId, call: c.id });
+  }
+  function closeCallNotifs(id) {
+    if (!("serviceWorker" in navigator)) return;
+    navigator.serviceWorker.getRegistration()
+      .then((r) => (r ? r.getNotifications({ tag: "call-" + id }) : []))
+      .then((ns) => (ns || []).forEach((n) => n.close()))
+      .catch(() => { /* ignoré */ });
+  }
+  function pushMsgKey(res) {
+    return res === "on" ? ["net_push_on", "ok"] : res === "denied" ? ["net_push_denied", "warn"] : res === "profile" ? ["net_push_need_profile", "warn"] : ["net_push_fail", "err"];
+  }
+  // Ligne « 🔔 Appels quand l'appli est fermée » dans les Paramètres.
+  (function pushSettingsRow() {
+    const card = document.querySelector("#settings .card");
+    if (!card || !pushSupported) return;
+    const row = document.createElement("div");
+    row.className = "settings-row";
+    row.innerHTML = `<span>${escapeHtml(t("net_push_opt"))}</span><button class="toggle" id="pushToggle" aria-pressed="false"></button>`;
+    const msg = document.createElement("div");
+    msg.id = "pushMsg";
+    card.insertBefore(msg, card.firstChild);
+    card.insertBefore(row, card.firstChild);
+    const btn = row.querySelector("#pushToggle");
+    const paint = () => {
+      const on = pushState() === "on";
+      btn.classList.toggle("on", on);
+      btn.setAttribute("aria-pressed", on ? "true" : "false");
+    };
+    paint();
+    btn.addEventListener("click", async () => {
+      if (pushState() === "on") {
+        await disablePush();
+        showMsg(msg, "", "");
+      } else {
+        const [k, type] = pushMsgKey(await enablePush());
+        showMsg(msg, escapeHtml(t(k)), type);
+      }
+      paint();
+      if (screen === "home" && isActiveTab()) render();
+    });
+  })();
+
   // ---------- Appel traduit ----------
   // Chaque téléphone transforme sa propre voix en texte et l'envoie ; celui qui reçoit la phrase
   // la traduit dans sa langue et la lit à voix haute. Aucun son n'est transmis ni enregistré.
@@ -7152,15 +7372,61 @@ const Reseau = (() => {
       try { navigator.vibrate && navigator.vibrate(60); } catch (e) { /* ignoré */ }
     }
   }
+  // Sonnerie d'appel reçu : petite mélodie de marimba fabriquée par le téléphone (aucun fichier audio).
+  function ringNote(ctx, out, freq, t0, dur, vol) {
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(vol, t0 + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    g.connect(out);
+    [[1, 1], [4, 0.22], [10, 0.05]].forEach(([mult, amp]) => {
+      const o = ctx.createOscillator();
+      const og = ctx.createGain();
+      o.type = "sine";
+      o.frequency.value = freq * mult;
+      og.gain.value = amp;
+      o.connect(og);
+      og.connect(g);
+      o.start(t0);
+      o.stop(t0 + dur + 0.05);
+    });
+  }
+  const RING_NOTES = [[659.25, 0], [830.61, 0.14], [987.77, 0.28], [1318.51, 0.42], [1108.73, 0.7], [987.77, 0.84], [830.61, 0.98], [987.77, 1.12]];
+  function ringMelody() {
+    try {
+      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === "suspended") audioCtx.resume().catch(() => {});
+      const t0 = audioCtx.currentTime + 0.05;
+      RING_NOTES.forEach(([f, dt], i) => ringNote(audioCtx, audioCtx.destination, f, t0 + dt, i === RING_NOTES.length - 1 ? 1.1 : 0.55, 0.42));
+    } catch (e) { /* son indisponible */ }
+  }
+  // Tonalité d'attente pour celui qui appelle : une note douce, comme un vrai téléphone.
+  function waitTone() {
+    try {
+      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === "suspended") audioCtx.resume().catch(() => {});
+      const t0 = audioCtx.currentTime + 0.05;
+      const g = audioCtx.createGain();
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(0.09, t0 + 0.05);
+      g.gain.setValueAtTime(0.09, t0 + 1.1);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + 1.25);
+      g.connect(audioCtx.destination);
+      [440, 480].forEach((f) => { const o = audioCtx.createOscillator(); o.frequency.value = f; o.connect(g); o.start(t0); o.stop(t0 + 1.3); });
+    } catch (e) { /* son indisponible */ }
+  }
   function startRing(incoming) {
     stopRing();
     const once = () => {
-      tone(incoming ? 740 : 440, 400);
-      setTimeout(() => tone(incoming ? 880 : 440, 400), 500);
-      if (incoming) { try { navigator.vibrate && navigator.vibrate([400, 200, 400]); } catch (e) { /* ignoré */ } }
+      if (incoming) {
+        ringMelody();
+        try { navigator.vibrate && navigator.vibrate([500, 250, 500]); } catch (e) { /* ignoré */ }
+      } else {
+        waitTone();
+      }
     };
     once();
-    ringTimer = setInterval(once, 2500);
+    ringTimer = setInterval(once, incoming ? 3000 : 4000);
   }
   function stopRing() {
     clearInterval(ringTimer);
@@ -7281,20 +7547,27 @@ const Reseau = (() => {
     screen = "call";
     render();
     startRing(false);
-    sendSignal(call.otherId, { t: "ring", callId: call.id, convId: c.id, pseudo: profile.pseudo, lang: profile.lang });
+    const ringMsg = { t: "ring", callId: call.id, convId: c.id, pseudo: profile.pseudo, lang: profile.lang };
+    sendSignal(call.otherId, ringMsg);
+    notifyCall("ring", call);
     const id = call.id;
+    // On renvoie la sonnerie toutes les 3 s : un contact qui ouvre l'appli depuis la notification la reçoit aussitôt.
+    call.reRing = setInterval(() => {
+      if (call && call.id === id && call.state === "ringing") sendSignal(call.otherId, ringMsg);
+    }, 3000);
     call.timer = setTimeout(() => {
       if (call && call.id === id && call.state === "ringing") {
         sendSignal(call.otherId, { t: "cancel", callId: id });
         endCall(t("net_call_noanswer"));
       }
-    }, 35000);
+    }, 45000);
   }
 
   async function onSignal(p) {
     if (!p || !p.from || p.from === me || !profile) return;
     if (p.t === "ring") {
       if (blockedIds.has(p.from)) return;
+      if (call && call.id === p.callId) return; // même appel, sonnerie répétée
       let c = convs.find((x) => x.id === p.convId && x.otherId === p.from);
       if (!c) {
         try { await loadConversations(); } catch (e) { return; }
@@ -7312,20 +7585,28 @@ const Reseau = (() => {
       warmChannel(p.from); // prêt à répondre sans attendre
       showRingBar();
       startRing(true);
+      if (document.visibilityState === "visible") closeCallNotifs(call.id);
       const id = call.id;
-      call.timer = setTimeout(() => { if (call && call.id === id && call.state === "incoming") endCall(null); }, 40000);
+      call.timer = setTimeout(() => { if (call && call.id === id && call.state === "incoming") endCall(null); }, 45000);
+      if (pendingAnswer && pendingAnswer.id === id && Date.now() - pendingAnswer.t < 90000) {
+        pendingAnswer = null;
+        acceptCall();
+      }
       return;
     }
     if (!call || p.callId !== call.id || p.from !== call.otherId) return;
     if (p.t === "accept" && call.role === "caller" && call.state === "ringing") {
       call.state = "active";
+      clearInterval(call.reRing);
       if (p.lang) call.otherLang = p.lang;
       clearTimeout(call.timer);
       stopRing();
       beginActive();
     } else if (p.t === "decline") {
+      call.remoteEnded = true;
       endCall(t("net_call_declined", { p: call.otherPseudo }));
     } else if (p.t === "busy") {
+      call.remoteEnded = true;
       endCall(t("net_call_busy", { p: call.otherPseudo }));
     } else if (p.t === "cancel") {
       endCall(call.state === "incoming" ? null : t("net_call_ended"));
@@ -7339,6 +7620,7 @@ const Reseau = (() => {
   async function acceptCall() {
     if (!call || call.state !== "incoming") return;
     clearTimeout(call.timer);
+    closeCallNotifs(call.id);
     stopRing();
     hideRingBar();
     call.state = "active";
@@ -7350,6 +7632,7 @@ const Reseau = (() => {
   }
   function declineCall() {
     if (!call) return;
+    closeCallNotifs(call.id);
     sendSignal(call.otherId, { t: "decline", callId: call.id });
     endCall(null);
   }
@@ -7435,6 +7718,9 @@ const Reseau = (() => {
   function endCall(message) {
     if (!call) return;
     clearTimeout(call.timer);
+    clearInterval(call.reRing);
+    // Appel jamais décroché : le contact voit « Appel manqué » au lieu de « … vous appelle ».
+    if (call.role === "caller" && call.state === "ringing" && !call.remoteEnded) notifyCall("cancel", call);
     if (call.listener) call.listener.stop();
     stopRing();
     hideRingBar();
