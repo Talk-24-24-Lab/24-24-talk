@@ -202,6 +202,18 @@
     border-radius:12px;background:var(--err);color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;
     justify-content:center;border:2px solid var(--panel);}
   .home-tile-badge[hidden]{display:none;}
+  .home-tr{margin:-2px 0 14px;}
+  .tr-switch{display:flex;gap:4px;padding:4px;background:var(--panel);border:1px solid var(--line);border-radius:999px;}
+  .tr-switch button{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:6px;border:none;background:transparent;
+    color:var(--muted);font-family:inherit;font-weight:700;font-size:14.5px;padding:11px 8px;border-radius:999px;cursor:pointer;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;-webkit-tap-highlight-color:transparent;}
+  .tr-switch button svg{width:17px;height:17px;flex:none;}
+  .tr-switch button.on{background:var(--blue);color:#fff;}
+  .tr-switch button[data-tr="0"].on{background:var(--panel2);color:var(--text);box-shadow:inset 0 0 0 1px var(--line);}
+  .tr-switch.small{margin:4px 0 10px;}
+  .tr-switch.small button{font-size:13px;padding:8px 6px;}
+  .net-call-top .tr-switch.small{width:100%;max-width:340px;margin:10px 0 0;}
+  .tr-hint{text-align:center;color:var(--muted);font-size:13px;line-height:1.4;margin:7px 4px 0;}
   .net-topbar{display:flex;align-items:center;gap:10px;margin:0 0 10px;}
   .net-topbar[hidden]{display:none;}
   .net-topbar-title{font-size:17px;font-weight:800;}
@@ -5300,6 +5312,11 @@ const NET_STRINGS = {
     net_unread: "{n} non lus",
     net_add_contact: "Ajouter",
     net_added: "@{p} est dans vos contacts.",
+    tr_label: "Traduction",
+    tr_on: "Avec traduction",
+    tr_off: "Sans traduction",
+    tr_on_hint: "Messages et appels traduits dans votre langue.",
+    tr_off_hint: "Messages et appels dans la langue d'origine, sans traduction.",
     net_how_title: "Comment ça marche",
     net_how_1: "Choisissez un pseudo et votre langue.",
     net_how_2: "Invitez un ami : il reçoit un lien par WhatsApp, Messenger ou SMS.",
@@ -5375,6 +5392,11 @@ const NET_STRINGS = {
     net_unread: "{n} unread",
     net_add_contact: "Add",
     net_added: "@{p} is now in your contacts.",
+    tr_label: "Translation",
+    tr_on: "With translation",
+    tr_off: "Without translation",
+    tr_on_hint: "Messages and calls are translated into your language.",
+    tr_off_hint: "Messages and calls stay in their original language.",
     net_how_title: "How it works",
     net_how_1: "Choose a username and your language.",
     net_how_2: "Invite a friend: they get a link by WhatsApp, Messenger or SMS.",
@@ -5450,6 +5472,11 @@ const NET_STRINGS = {
     net_unread: "{n} sin leer",
     net_add_contact: "Añadir",
     net_added: "@{p} ya está en tus contactos.",
+    tr_label: "Traducción",
+    tr_on: "Con traducción",
+    tr_off: "Sin traducción",
+    tr_on_hint: "Los mensajes y llamadas se traducen a tu idioma.",
+    tr_off_hint: "Los mensajes y llamadas quedan en su idioma original.",
     net_how_title: "Cómo funciona",
     net_how_1: "Elige un nombre de usuario y tu idioma.",
     net_how_2: "Invita a un amigo: recibe un enlace por WhatsApp, Messenger o SMS.",
@@ -5525,6 +5552,11 @@ const NET_STRINGS = {
     net_unread: "{n} não lidas",
     net_add_contact: "Adicionar",
     net_added: "@{p} agora está nos seus contatos.",
+    tr_label: "Tradução",
+    tr_on: "Com tradução",
+    tr_off: "Sem tradução",
+    tr_on_hint: "Mensagens e chamadas traduzidas para o seu idioma.",
+    tr_off_hint: "Mensagens e chamadas no idioma original, sem tradução.",
     net_how_title: "Como funciona",
     net_how_1: "Escolha um nome de utilizador e o seu idioma.",
     net_how_2: "Convide um amigo: ele recebe um link por WhatsApp, Messenger ou SMS.",
@@ -5600,6 +5632,11 @@ const NET_STRINGS = {
     net_unread: "{n} ungelesen",
     net_add_contact: "Hinzufügen",
     net_added: "@{p} ist jetzt in deinen Kontakten.",
+    tr_label: "Übersetzung",
+    tr_on: "Mit Übersetzung",
+    tr_off: "Ohne Übersetzung",
+    tr_on_hint: "Nachrichten und Anrufe werden in deine Sprache übersetzt.",
+    tr_off_hint: "Nachrichten und Anrufe bleiben in der Originalsprache.",
     net_how_title: "So funktioniert's",
     net_how_1: "Wähle einen Benutzernamen und deine Sprache.",
     net_how_2: "Lade einen Freund ein: Er bekommt einen Link per WhatsApp, Messenger oder SMS.",
@@ -5675,6 +5712,11 @@ const NET_STRINGS = {
     net_unread: "{n} non letti",
     net_add_contact: "Aggiungi",
     net_added: "@{p} è ora tra i tuoi contatti.",
+    tr_label: "Traduzione",
+    tr_on: "Con traduzione",
+    tr_off: "Senza traduzione",
+    tr_on_hint: "Messaggi e chiamate tradotti nella tua lingua.",
+    tr_off_hint: "Messaggi e chiamate nella lingua originale, senza traduzione.",
     net_how_title: "Come funziona",
     net_how_1: "Scegli un nome utente e la tua lingua.",
     net_how_2: "Invita un amico: riceve un link via WhatsApp, Messenger o SMS.",
@@ -5750,6 +5792,11 @@ const NET_STRINGS = {
     net_unread: "{n} 条未读",
     net_add_contact: "添加",
     net_added: "@{p} 已加入你的联系人。",
+    tr_label: "翻译",
+    tr_on: "开启翻译",
+    tr_off: "关闭翻译",
+    tr_on_hint: "消息和通话会翻译成你的语言。",
+    tr_off_hint: "消息和通话保持原语言，不翻译。",
     net_how_title: "使用方法",
     net_how_1: "选择一个用户名和你的语言。",
     net_how_2: "邀请朋友：他会通过 WhatsApp、Messenger 或短信收到链接。",
@@ -5825,6 +5872,11 @@ const NET_STRINGS = {
     net_unread: "未読 {n} 件",
     net_add_contact: "追加",
     net_added: "@{p} を連絡先に追加しました。",
+    tr_label: "翻訳",
+    tr_on: "翻訳あり",
+    tr_off: "翻訳なし",
+    tr_on_hint: "メッセージと通話はあなたの言語に翻訳されます。",
+    tr_off_hint: "メッセージと通話は元の言語のままです。",
     net_how_title: "使い方",
     net_how_1: "ユーザー名と言語を選びます。",
     net_how_2: "友だちを招待：WhatsApp、Messenger、SMS でリンクが届きます。",
@@ -5900,6 +5952,11 @@ const NET_STRINGS = {
     net_unread: "{n} غير مقروءة",
     net_add_contact: "إضافة",
     net_added: "أصبح @{p} ضمن جهات اتصالك.",
+    tr_label: "الترجمة",
+    tr_on: "مع الترجمة",
+    tr_off: "بدون ترجمة",
+    tr_on_hint: "تُترجَم الرسائل والمكالمات إلى لغتك.",
+    tr_off_hint: "تبقى الرسائل والمكالمات بلغتها الأصلية دون ترجمة.",
     net_how_title: "كيف يعمل",
     net_how_1: "اختر اسم مستخدم ولغتك.",
     net_how_2: "ادعُ صديقًا: يصله رابط عبر واتساب أو ماسنجر أو رسالة نصية.",
@@ -5975,6 +6032,11 @@ const NET_STRINGS = {
     net_unread: "{n} непрочитанных",
     net_add_contact: "Добавить",
     net_added: "@{p} теперь в ваших контактах.",
+    tr_label: "Перевод",
+    tr_on: "С переводом",
+    tr_off: "Без перевода",
+    tr_on_hint: "Сообщения и звонки переводятся на ваш язык.",
+    tr_off_hint: "Сообщения и звонки остаются на языке оригинала.",
     net_how_title: "Как это работает",
     net_how_1: "Выберите имя пользователя и свой язык.",
     net_how_2: "Пригласите друга: он получит ссылку в WhatsApp, Messenger или по SMS.",
@@ -6021,6 +6083,45 @@ const Reseau = (() => {
     };
     tilesBox.querySelector("#tilePhone").addEventListener("click", go("call"));
     tilesBox.querySelector("#tileMsg").addEventListener("click", go("msg"));
+  }
+
+  // Interrupteur « Avec traduction / Sans traduction » (messages et appels), mémorisé sur ce téléphone.
+  let trOn = safeStore.getItem("lc_net_tr") !== "0";
+  const ICON_GLOBE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>';
+  function trSwitchHtml(small) {
+    return `<div class="tr-switch${small ? " small" : ""}" role="group" aria-label="${escapeHtml(t("tr_label"))}">
+        <button type="button" data-tr="1" class="${trOn ? "on" : ""}" aria-pressed="${trOn}">${ICON_GLOBE}${escapeHtml(t("tr_on"))}</button>
+        <button type="button" data-tr="0" class="${trOn ? "" : "on"}" aria-pressed="${!trOn}">${escapeHtml(t("tr_off"))}</button>
+      </div>`;
+  }
+  function refreshTrSwitches() {
+    document.querySelectorAll(".tr-switch button[data-tr]").forEach((b) => {
+      const on = (b.dataset.tr === "1") === trOn;
+      b.classList.toggle("on", on);
+      b.setAttribute("aria-pressed", String(on));
+    });
+    document.querySelectorAll(".tr-hint").forEach((h) => { h.textContent = t(trOn ? "tr_on_hint" : "tr_off_hint"); });
+  }
+  function setTranslation(v) {
+    if (trOn === v) return;
+    trOn = v;
+    safeStore.setItem("lc_net_tr", v ? "1" : "0");
+    refreshTrSwitches();
+    if (screen === "chat") renderChatMessages();
+  }
+  document.addEventListener("click", (e) => {
+    const b = e.target && e.target.closest ? e.target.closest(".tr-switch button[data-tr]") : null;
+    if (b) setTranslation(b.dataset.tr === "1");
+  });
+  // Langue de lecture à voix haute : la mienne si c'est traduit, sinon celle de l'expéditeur.
+  function voiceLang(fromLang) {
+    return trOn || !fromLang ? profile.lang : fromLang;
+  }
+  if (tilesBox) {
+    const sw = document.createElement("div");
+    sw.className = "home-tr";
+    sw.innerHTML = trSwitchHtml(false) + `<p class="tr-hint">${escapeHtml(t(trOn ? "tr_on_hint" : "tr_off_hint"))}</p>`;
+    tilesBox.parentNode.insertBefore(sw, tilesBox.nextSibling);
   }
 
   // Barre du haut de l'écran réseau : retour à l'accueil + nom de la touche choisie.
@@ -6349,7 +6450,7 @@ const Reseau = (() => {
       if (m.sender_id !== me && isActiveTab() && document.visibilityState !== "hidden") {
         const toggle = document.getElementById("autoSpeakToggle");
         const auto = m.kind === "voice" || (toggle && toggle.classList.contains("on"));
-        if (auto) translateFor(m).then((txt) => txt && speak(txt, profile.lang));
+        if (auto) translateFor(m).then((txt) => txt && speak(txt, voiceLang(m.lang)));
       }
     } else if (m.sender_id !== me) {
       c.unread = true;
@@ -6372,7 +6473,7 @@ const Reseau = (() => {
     }
   }
   function translateFor(m) {
-    if (!profile || m.sender_id === me || m.lang === profile.lang) return Promise.resolve(m.body);
+    if (!profile || m.sender_id === me || m.lang === profile.lang || !trOn) return Promise.resolve(m.body);
     const key = m.id + "|" + profile.lang;
     if (trCache.has(key)) return trCache.get(key);
     const p = new Promise((resolve) => {
@@ -6607,6 +6708,7 @@ const Reseau = (() => {
           <button class="iconbtn" id="netBack">${escapeHtml(t("net_back"))}</button>
           <div class="net-chat-title"><b dir="ltr">${escapeHtml(name)}</b><span>${c.other ? escapeHtml(langLabel(c.other.lang)) : ""}</span></div>
         </div>
+        ${trSwitchHtml(true)}
         <div class="iconrow net-actions">
           ${c.otherId && !isBlocked ? `<button class="iconbtn net-callbtn" id="netCallBtn">${escapeHtml(t("net_call"))}</button>` : ""}
           ${c.otherId ? (isBlocked
@@ -6697,9 +6799,9 @@ const Reseau = (() => {
       div.setAttribute("dir", "auto");
       const badge = m.kind === "voice" ? `<div class="orig">${escapeHtml(t("net_voice_badge"))}</div>` : "";
       const time = new Date(m.created_at).toLocaleTimeString(UI_LANG, { hour: "2-digit", minute: "2-digit" });
-      if (mine || m.lang === profile.lang) {
+      if (mine || m.lang === profile.lang || !trOn) {
         div.innerHTML = `${escapeHtml(m.body)}${badge}<div class="orig net-time">${escapeHtml(time)}</div>`;
-        if (!mine) div.addEventListener("click", () => speak(m.body, profile.lang));
+        if (!mine) div.addEventListener("click", () => speak(m.body, m.lang || profile.lang));
       } else {
         div.innerHTML = `<span class="net-tr">${escapeHtml(t("net_translating"))}</span><div class="orig">${escapeHtml(m.body)}</div>${badge}<div class="orig net-time">${escapeHtml(time)}</div>`;
         translateFor(m).then((txt) => {
@@ -7008,11 +7110,12 @@ const Reseau = (() => {
   async function onRemoteLine(p) {
     const text = String(p.text || "").slice(0, 1000);
     if (!text) return;
-    const line = { mine: false, text: t("net_translating"), orig: text };
+    const doTr = trOn && p.lang && p.lang !== profile.lang;
+    const line = doTr ? { mine: false, text: t("net_translating"), orig: text } : { mine: false, text };
     call.lines.push(line);
     renderCallLines();
     let translated = text;
-    if (p.lang && p.lang !== profile.lang) {
+    if (doTr) {
       try {
         translated = (await TranslationProvider.translate(text, p.lang, profile.lang)).text;
       } catch (e) {
@@ -7026,7 +7129,7 @@ const Reseau = (() => {
     if (l) l.pause();
     call.speaking = (call.speaking || 0) + 1;
     const c0 = call;
-    speak(translated, profile.lang, () => {
+    speak(translated, doTr ? profile.lang : voiceLang(p.lang), () => {
       c0.speaking = Math.max(0, (c0.speaking || 1) - 1);
       if (call === c0 && c0.speaking === 0 && c0.listener === l && l) l.resume();
     });
@@ -7077,6 +7180,7 @@ const Reseau = (() => {
           <div class="net-call-name" dir="ltr">@${escapeHtml(call.otherPseudo || "")}</div>
           <div class="net-call-status${call.state === "active" ? " live" : ""}">${escapeHtml(status)}</div>
           <div class="net-call-lang">${escapeHtml(langLabel(profile.lang))} ⇄ ${escapeHtml(langLabel(call.otherLang || ""))}</div>
+          ${trSwitchHtml(true)}
         </div>
         <div class="conv-log net-log" id="netCallLog"></div>
         <div class="net-interim" id="netInterim" dir="auto">${escapeHtml(call.interim || "")}</div>
