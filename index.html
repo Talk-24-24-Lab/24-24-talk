@@ -68,7 +68,21 @@
     --muted:#5a6485; --line:#dbe1f2; --ok:#12955f; --warn:#a86a00; --err:#d63355; color-scheme: light; }
   *{box-sizing:border-box;}
   body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
-  header{padding:18px 16px 8px;text-align:center;}
+  header{padding:18px 16px 8px;text-align:center;position:relative;}
+  .settings-btn{position:absolute;top:12px;right:12px;width:46px;height:46px;border-radius:14px;border:1px solid var(--line);background:var(--panel);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;}
+  [dir="rtl"] .settings-btn{right:auto;left:12px;}
+  .settings-btn svg{width:24px;height:24px;}
+  .settings-btn:focus-visible{outline:3px solid var(--blue);outline-offset:2px;}
+  nav.tabs[hidden]{display:none !important;}
+  .net-callrec{align-self:center;width:100%;max-width:420px;margin:6px auto;padding:10px 12px;border-radius:14px;background:var(--panel2);border:1px solid var(--line);font-size:14px;}
+  .net-callrec-head{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;justify-content:space-between;}
+  .net-callrec-head b{font-weight:700;}
+  .net-callrec-head span{color:var(--muted);font-size:12.5px;}
+  .net-callrec details{margin-top:6px;}
+  .net-callrec summary{cursor:pointer;color:var(--blue2);font-size:13.5px;font-weight:600;}
+  .net-callrec-lines{display:flex;flex-direction:column;gap:6px;margin-top:8px;}
+  .net-callrec-lines .bubble{font-size:14px;}
+
   header .logo{width:56px;height:56px;border-radius:14px;display:block;margin:0 auto 8px;}
   header h1{display:flex;align-items:center;justify-content:center;gap:0;}
   header h1{margin:0;font-size:22px;letter-spacing:.3px;}
@@ -337,6 +351,7 @@
     <circle cx="306" cy="296" r="98" fill="url(#bubbleB)"/>
     <path d="M 336 212 L 364 140 L 288 196 Z" fill="url(#bubbleB)"/>
   </svg>
+  <button type="button" class="settings-btn" id="settingsBtn" aria-label="Paramètres" data-i18n-aria="tab_settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
   <h1 dir="ltr">24/24 Talk</h1>
   <p data-i18n="tagline">Parlez votre langue, 24h/24. 24/24 Talk fait le reste.</p>
 </header>
@@ -352,7 +367,7 @@
   <button class="close" id="inappBannerClose" aria-label="Fermer" data-i18n-aria="close">✕</button>
 </div>
 
-<nav class="tabs">
+<nav class="tabs" hidden>
   <button data-view="home" class="active" data-i18n="tab_home">Accueil</button>
   <button data-view="tr" data-i18n="tab_tr">🌐 Traduire</button>
   <button data-view="conv" data-i18n="tab_conv">Conversation</button>
@@ -458,7 +473,7 @@
         <span data-i18n="theme">Thème sombre / clair</span>
         <span style="color:var(--muted);font-size:13px;" data-i18n="theme_auto">Suit votre appareil</span>
       </div>
-      <div class="settings-row">
+      <div class="settings-row" style="display:none">
         <span data-i18n="autospeak">Lecture audio automatique</span>
         <button class="toggle" id="autoSpeakToggle"></button>
       </div>
@@ -4462,6 +4477,17 @@ tabs.forEach((btn) => {
   });
 });
 
+// Bouton ⚙️ en haut à droite : ouvre les Paramètres (les onglets ne sont plus affichés).
+(function initSettingsButton() {
+  const btn = document.getElementById("settingsBtn");
+  if (!btn) return;
+  btn.addEventListener("click", () => {
+    const tab = document.querySelector('nav.tabs button[data-view="settings"]');
+    if (tab) tab.click();
+    try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (e) { /* ignoré */ }
+  });
+})();
+
 // ---------- Message UI helper ----------
 function showMsg(container, text, type) {
   container.innerHTML = text ? `<div class="msg ${type}">${text}</div>` : "";
@@ -5333,6 +5359,9 @@ const NET_STRINGS = {
     home_msg: "Messagerie",
     home_msg_sub: "Messages traduits",
     net_home_back: "← Accueil",
+    net_call_out: "📞 Appel sortant",
+    net_call_in: "📞 Appel reçu",
+    net_call_show: "Voir les échanges ({n})",
     net_contacts: "Mes contacts",
     net_no_contacts: "Pas encore de contact. Appuyez sur « {b} » : dès que votre ami aura choisi son pseudo, il apparaîtra ici et vous pourrez l'appeler.",
     net_call_btn: "Appeler",
@@ -5414,6 +5443,9 @@ const NET_STRINGS = {
     home_msg: "Messages",
     home_msg_sub: "Translated messages",
     net_home_back: "← Home",
+    net_call_out: "📞 Outgoing call",
+    net_call_in: "📞 Incoming call",
+    net_call_show: "Show the conversation ({n})",
     net_contacts: "My contacts",
     net_no_contacts: "No contacts yet. Tap “{b}”: as soon as your friend picks a username, they will appear here and you can call them.",
     net_call_btn: "Call",
@@ -5495,6 +5527,9 @@ const NET_STRINGS = {
     home_msg: "Mensajes",
     home_msg_sub: "Mensajes traducidos",
     net_home_back: "← Inicio",
+    net_call_out: "📞 Llamada saliente",
+    net_call_in: "📞 Llamada recibida",
+    net_call_show: "Ver la conversación ({n})",
     net_contacts: "Mis contactos",
     net_no_contacts: "Aún no tienes contactos. Pulsa «{b}»: en cuanto tu amigo elija su seudónimo, aparecerá aquí y podrás llamarle.",
     net_call_btn: "Llamar",
@@ -5576,6 +5611,9 @@ const NET_STRINGS = {
     home_msg: "Mensagens",
     home_msg_sub: "Mensagens traduzidas",
     net_home_back: "← Início",
+    net_call_out: "📞 Chamada efetuada",
+    net_call_in: "📞 Chamada recebida",
+    net_call_show: "Ver a conversa ({n})",
     net_contacts: "Meus contatos",
     net_no_contacts: "Ainda não há contatos. Toque em «{b}»: assim que o seu amigo escolher um pseudônimo, ele aparecerá aqui e você poderá ligar.",
     net_call_btn: "Ligar",
@@ -5657,6 +5695,9 @@ const NET_STRINGS = {
     home_msg: "Nachrichten",
     home_msg_sub: "Übersetzte Nachrichten",
     net_home_back: "← Start",
+    net_call_out: "📞 Ausgehender Anruf",
+    net_call_in: "📞 Eingehender Anruf",
+    net_call_show: "Gespräch anzeigen ({n})",
     net_contacts: "Meine Kontakte",
     net_no_contacts: "Noch keine Kontakte. Tippe auf „{b}“: Sobald dein Freund einen Benutzernamen gewählt hat, erscheint er hier und du kannst ihn anrufen.",
     net_call_btn: "Anrufen",
@@ -5738,6 +5779,9 @@ const NET_STRINGS = {
     home_msg: "Messaggi",
     home_msg_sub: "Messaggi tradotti",
     net_home_back: "← Home",
+    net_call_out: "📞 Chiamata in uscita",
+    net_call_in: "📞 Chiamata ricevuta",
+    net_call_show: "Mostra la conversazione ({n})",
     net_contacts: "I miei contatti",
     net_no_contacts: "Ancora nessun contatto. Tocca «{b}»: appena il tuo amico avrà scelto un nome utente, apparirà qui e potrai chiamarlo.",
     net_call_btn: "Chiama",
@@ -5819,6 +5863,9 @@ const NET_STRINGS = {
     home_msg: "消息",
     home_msg_sub: "翻译消息",
     net_home_back: "← 首页",
+    net_call_out: "📞 呼出电话",
+    net_call_in: "📞 来电",
+    net_call_show: "查看对话（{n}）",
     net_contacts: "我的联系人",
     net_no_contacts: "还没有联系人。点击“{b}”：朋友选好昵称后会出现在这里，你就可以给他打电话。",
     net_call_btn: "呼叫",
@@ -5900,6 +5947,9 @@ const NET_STRINGS = {
     home_msg: "メッセージ",
     home_msg_sub: "翻訳メッセージ",
     net_home_back: "← ホーム",
+    net_call_out: "📞 発信",
+    net_call_in: "📞 着信",
+    net_call_show: "会話を表示（{n}）",
     net_contacts: "連絡先",
     net_no_contacts: "まだ連絡先がありません。「{b}」をタップしてください。相手がユーザー名を決めるとここに表示され、電話をかけられます。",
     net_call_btn: "発信",
@@ -5981,6 +6031,9 @@ const NET_STRINGS = {
     home_msg: "الرسائل",
     home_msg_sub: "رسائل مترجمة",
     net_home_back: "→ الرئيسية",
+    net_call_out: "📞 مكالمة صادرة",
+    net_call_in: "📞 مكالمة واردة",
+    net_call_show: "عرض المحادثة ({n})",
     net_contacts: "جهات اتصالي",
     net_no_contacts: "لا توجد جهات اتصال بعد. اضغط على «{b}»: بمجرد أن يختار صديقك اسم مستخدم سيظهر هنا ويمكنك الاتصال به.",
     net_call_btn: "اتصال",
@@ -6062,6 +6115,9 @@ const NET_STRINGS = {
     home_msg: "Сообщения",
     home_msg_sub: "Сообщения с переводом",
     net_home_back: "← Главная",
+    net_call_out: "📞 Исходящий звонок",
+    net_call_in: "📞 Входящий звонок",
+    net_call_show: "Показать разговор ({n})",
     net_contacts: "Мои контакты",
     net_no_contacts: "Пока нет контактов. Нажмите «{b}»: как только друг выберет псевдоним, он появится здесь, и вы сможете ему позвонить.",
     net_call_btn: "Позвонить",
@@ -6235,6 +6291,65 @@ const Reseau = (() => {
     if (homeTabBtn) homeTabBtn.click();
     try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (e) { /* ignoré */ }
   });
+  // Paramètres : même barre du haut avec « ← Accueil ».
+  const settingsView = document.getElementById("settings");
+  if (settingsView) {
+    const st = document.createElement("div");
+    st.className = "net-topbar";
+    st.innerHTML = `<button type="button" class="iconbtn" id="settingsBack">${escapeHtml(t("net_home_back"))}</button><span class="net-topbar-title">⚙️ ${escapeHtml(t("tab_settings"))}</span>`;
+    settingsView.insertBefore(st, settingsView.firstChild);
+    st.querySelector("#settingsBack").addEventListener("click", () => {
+      if (homeTabBtn) homeTabBtn.click();
+      try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (e) { /* ignoré */ }
+    });
+  }
+
+  // ---------- Historique des appels, gardé sur ce téléphone, dans chaque discussion ----------
+  // Toujours : sens et durée de l'appel. Avec « Avec traduction » : aussi tous les échanges de l'appel.
+  const CALLHIST_MAX = 60, CALLHIST_LINES = 200;
+  function callHistKey(convId) { return "lc_callhist_" + convId; }
+  function loadCallHist(convId) {
+    try {
+      const a = JSON.parse(safeStore.getItem(callHistKey(convId)) || "[]");
+      return Array.isArray(a) ? a : [];
+    } catch (e) { return []; }
+  }
+  function saveCallRecord(c) {
+    if (!c || !c.t0 || !c.convId) return;
+    if (typeof historyEnabled === "function" && !historyEnabled()) return;
+    const tr = !!(c.trUsed || trOn);
+    const pending = t("net_translating");
+    const rec = {
+      id: c.id, t: c.t0, d: Math.max(1, Math.round((Date.now() - c.t0) / 1000)), out: c.role === "caller", tr,
+      l: tr ? c.lines.slice(-CALLHIST_LINES).map((l) => ({ m: l.mine ? 1 : 0, x: l.text === pending ? (l.orig || "") : l.text, o: l.orig || "" })) : [],
+    };
+    let list = loadCallHist(c.convId).filter((r) => r && r.id !== rec.id);
+    list.push(rec);
+    list = list.slice(-CALLHIST_MAX);
+    for (let i = 0; i < 4; i++) {
+      try { safeStore.setItem(callHistKey(c.convId), JSON.stringify(list)); return; } catch (e) {
+        list = list.slice(Math.ceil(list.length / 2)); // mémoire du téléphone pleine : on garde les plus récents
+      }
+    }
+  }
+  function fmtDur(sec) {
+    const m = Math.floor(sec / 60), s = sec % 60;
+    return m ? m + " min " + String(s).padStart(2, "0") + " s" : s + " s";
+  }
+  function callRecHtml(r) {
+    const d = new Date(r.t);
+    const today = new Date().toDateString() === d.toDateString();
+    const when = today
+      ? d.toLocaleTimeString(UI_LANG, { hour: "2-digit", minute: "2-digit" })
+      : d.toLocaleString(UI_LANG, { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
+    const lines = (r.l || []).filter((l) => l && (l.x || l.o));
+    const body = lines.length
+      ? `<details><summary>${escapeHtml(t("net_call_show", { n: lines.length }))}</summary><div class="net-callrec-lines">${lines.map((l) =>
+          `<div class="bubble ${l.m ? "me" : "them"}" dir="auto">${escapeHtml(l.x || l.o)}${l.o && l.o !== l.x ? `<div class="orig">${escapeHtml(l.o)}</div>` : ""}</div>`).join("")}</div></details>`
+      : "";
+    return `<div class="net-callrec"><div class="net-callrec-head"><b>${escapeHtml(t(r.out ? "net_call_out" : "net_call_in"))} · ${escapeHtml(fmtDur(r.d || 0))}</b><span>${escapeHtml(when)}</span></div>${body}</div>`;
+  }
+
   function updateTopbar() {
     topbar.hidden = screen === "chat" || screen === "call";
     topbar.querySelector("#netTopTitle").textContent = mode === "call" ? "📞 " + t("home_phone") : "💬 " + t("home_msg");
@@ -6833,6 +6948,9 @@ const Reseau = (() => {
       started = false;
       outChannels.clear();
       safeStore.removeItem("lc_net_joined");
+      try {
+        Object.keys(localStorage).filter((k) => k.indexOf("lc_callhist_") === 0).forEach((k) => safeStore.removeItem(k));
+      } catch (e) { /* ignoré */ }
       Stats24.setNet(false);
       me = null;
       profile = null;
@@ -6940,12 +7058,24 @@ const Reseau = (() => {
   function renderChatMessages() {
     const log = root.querySelector("#netLog");
     if (!log || !currentConv) return;
-    if (!chatMsgs.length) {
+    const calls = loadCallHist(currentConv.id);
+    if (!chatMsgs.length && !calls.length) {
       log.innerHTML = chatLoading ? "" : `<div class="empty">${escapeHtml(t("net_empty_chat"))}</div>`;
       return;
     }
     log.innerHTML = "";
-    chatMsgs.forEach((m) => {
+    // Messages et appels, dans l'ordre où ils ont eu lieu.
+    const items = chatMsgs.map((m) => ({ at: new Date(m.created_at).getTime(), m }))
+      .concat(calls.map((r) => ({ at: r.t, r })))
+      .sort((a, b) => a.at - b.at);
+    items.forEach((it) => {
+      if (it.r) {
+        const wrap = document.createElement("div");
+        wrap.innerHTML = callRecHtml(it.r);
+        log.appendChild(wrap.firstElementChild);
+        return;
+      }
+      const m = it.m;
       const mine = m.sender_id === me;
       const div = document.createElement("div");
       div.className = "bubble " + (mine ? "me" : "them");
@@ -7227,6 +7357,7 @@ const Reseau = (() => {
   async function beginActive() {
     if (call && !call.t0) {
       call.t0 = Date.now();
+      if (trOn) call.trUsed = true;
       // Un appel n'est compté qu'une fois : par celui qui appelle.
       if (call.role === "caller") Stats24.track("appel");
     }
@@ -7260,6 +7391,7 @@ const Reseau = (() => {
   function onLocalPhrase(text) {
     if (!call || call.state !== "active") return;
     call.interim = "";
+    if (trOn) call.trUsed = true;
     call.lines.push({ mine: true, text });
     renderCallLines();
     sendSignal(call.otherId, { t: "line", callId: call.id, text: text.slice(0, 1000), lang: profile.lang });
@@ -7269,6 +7401,7 @@ const Reseau = (() => {
     const text = String(p.text || "").slice(0, 1000);
     if (!text) return;
     const doTr = trOn && p.lang && p.lang !== profile.lang;
+    if (trOn) call.trUsed = true;
     const line = doTr ? { mine: false, text: t("net_translating"), orig: text } : { mine: false, text };
     call.lines.push(line);
     renderCallLines();
@@ -7308,6 +7441,7 @@ const Reseau = (() => {
     try { window.speechSynthesis && window.speechSynthesis.cancel(); } catch (e) { /* ignoré */ }
     const fromList = call.fromList;
     if (call.t0 && call.role === "caller") Stats24.track("appel_sec", (Date.now() - call.t0) / 1000);
+    if (call.t0) saveCallRecord(call);
     call = null;
     if (message) setFlash(escapeHtml(message), "ok");
     if (screen === "call") {
