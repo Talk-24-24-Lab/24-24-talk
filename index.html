@@ -48,7 +48,6 @@
 <!-- Aperçu du lien quand il est partagé -->
 <meta property="og:type" content="website" />
 <meta property="og:title" content="24/24, Let's go – Clic ici pour ouvrir le lien de l'appli" />
-<meta property="og:description" content="📲 Rejoins-moi sur 24/24 Talk, c'est gratuit !" />
 <meta property="og:image" content="https://sebastienchevrier.github.io/24-24-talk/24-24-Talk-invitation-v3.jpg" />
 <meta property="og:image:type" content="image/jpeg" />
 <meta property="og:image:width" content="1200" />
@@ -5326,7 +5325,10 @@ const NET_STRINGS = {
     net_pseudo_bad: "Pseudo invalide : 3 à 20 caractères, lettres minuscules, chiffres, point ou _.",
     net_age_needed: "Cochez la case pour continuer.",
     net_invite: "📨 Inviter un ami",
-    net_invite_text: "📲 Rejoins-moi sur 24/24 Talk, c'est gratuit !\n{link}",
+    net_invite_text: "📲 Rejoins-moi sur 24/24 Talk, c'est gratuit !",
+    net_invite_step2: "📨 2/2 : envoyer la carte",
+    net_invite_step2_hint: "Message envoyé. Touchez « 2/2 : envoyer la carte » et choisissez la même personne.",
+    net_invite_sent: "✓ Invitation envoyée",
     net_link_copied: "Lien copié ✓",
     net_add_ph: "@pseudo de votre contact",
     net_add_btn: "Discuter",
@@ -5417,7 +5419,10 @@ const NET_STRINGS = {
     net_pseudo_bad: "Invalid username: 3 to 20 characters, lowercase letters, digits, dot or _.",
     net_age_needed: "Tick the box to continue.",
     net_invite: "📨 Invite a friend",
-    net_invite_text: "📲 Join me on 24/24 Talk, it's free!\n{link}",
+    net_invite_text: "📲 Join me on 24/24 Talk, it's free!",
+    net_invite_step2: "📨 2/2: send the card",
+    net_invite_step2_hint: "Message sent. Tap “2/2: send the card” and choose the same person.",
+    net_invite_sent: "✓ Invitation sent",
     net_link_copied: "Link copied ✓",
     net_add_ph: "your contact's @username",
     net_add_btn: "Chat",
@@ -5508,7 +5513,10 @@ const NET_STRINGS = {
     net_pseudo_bad: "Usuario no válido: de 3 a 20 caracteres, minúsculas, cifras, punto o _.",
     net_age_needed: "Marca la casilla para continuar.",
     net_invite: "📨 Invitar a un amigo",
-    net_invite_text: "📲 ¡Únete a mí en 24/24 Talk, es gratis!\n{link}",
+    net_invite_text: "📲 ¡Únete a mí en 24/24 Talk, es gratis!",
+    net_invite_step2: "📨 2/2: enviar la tarjeta",
+    net_invite_step2_hint: "Mensaje enviado. Toca «2/2: enviar la tarjeta» y elige a la misma persona.",
+    net_invite_sent: "✓ Invitación enviada",
     net_link_copied: "Enlace copiado ✓",
     net_add_ph: "@usuario de tu contacto",
     net_add_btn: "Chatear",
@@ -5599,7 +5607,10 @@ const NET_STRINGS = {
     net_pseudo_bad: "Nome inválido: 3 a 20 caracteres, letras minúsculas, algarismos, ponto ou _.",
     net_age_needed: "Marque a caixa para continuar.",
     net_invite: "📨 Convidar um amigo",
-    net_invite_text: "📲 Junta-te a mim no 24/24 Talk, é grátis!\n{link}",
+    net_invite_text: "📲 Junta-te a mim no 24/24 Talk, é grátis!",
+    net_invite_step2: "📨 2/2: enviar o cartão",
+    net_invite_step2_hint: "Mensagem enviada. Toque em «2/2: enviar o cartão» e escolha a mesma pessoa.",
+    net_invite_sent: "✓ Convite enviado",
     net_link_copied: "Link copiado ✓",
     net_add_ph: "@utilizador do seu contacto",
     net_add_btn: "Conversar",
@@ -5690,7 +5701,10 @@ const NET_STRINGS = {
     net_pseudo_bad: "Ungültiger Benutzername: 3 bis 20 Zeichen, Kleinbuchstaben, Ziffern, Punkt oder _.",
     net_age_needed: "Setze das Häkchen, um fortzufahren.",
     net_invite: "📨 Freund einladen",
-    net_invite_text: "📲 Komm zu mir auf 24/24 Talk, es ist kostenlos!\n{link}",
+    net_invite_text: "📲 Komm zu mir auf 24/24 Talk, es ist kostenlos!",
+    net_invite_step2: "📨 2/2: Karte senden",
+    net_invite_step2_hint: "Nachricht gesendet. Tippe auf „2/2: Karte senden“ und wähle dieselbe Person.",
+    net_invite_sent: "✓ Einladung gesendet",
     net_link_copied: "Link kopiert ✓",
     net_add_ph: "@Benutzername deines Kontakts",
     net_add_btn: "Chatten",
@@ -5781,7 +5795,10 @@ const NET_STRINGS = {
     net_pseudo_bad: "Nome utente non valido: da 3 a 20 caratteri, lettere minuscole, cifre, punto o _.",
     net_age_needed: "Spunta la casella per continuare.",
     net_invite: "📨 Invita un amico",
-    net_invite_text: "📲 Raggiungimi su 24/24 Talk, è gratis!\n{link}",
+    net_invite_text: "📲 Raggiungimi su 24/24 Talk, è gratis!",
+    net_invite_step2: "📨 2/2: invia la scheda",
+    net_invite_step2_hint: "Messaggio inviato. Tocca «2/2: invia la scheda» e scegli la stessa persona.",
+    net_invite_sent: "✓ Invito inviato",
     net_link_copied: "Link copiato ✓",
     net_add_ph: "@nome utente del tuo contatto",
     net_add_btn: "Chatta",
@@ -5872,7 +5889,10 @@ const NET_STRINGS = {
     net_pseudo_bad: "用户名无效：3 到 20 个字符，小写字母、数字、点或 _。",
     net_age_needed: "请勾选方框后继续。",
     net_invite: "📨 邀请朋友",
-    net_invite_text: "📲 来 24/24 Talk 找我吧，免费！\n{link}",
+    net_invite_text: "📲 来 24/24 Talk 找我吧，免费！",
+    net_invite_step2: "📨 2/2：发送卡片",
+    net_invite_step2_hint: "消息已发送。点击“2/2：发送卡片”，选择同一个人。",
+    net_invite_sent: "✓ 邀请已发送",
     net_link_copied: "链接已复制 ✓",
     net_add_ph: "联系人的 @用户名",
     net_add_btn: "聊天",
@@ -5963,7 +5983,10 @@ const NET_STRINGS = {
     net_pseudo_bad: "無効なユーザー名：3〜20文字、小文字、数字、ピリオド、_。",
     net_age_needed: "続けるにはチェックを入れてください。",
     net_invite: "📨 友だちを招待",
-    net_invite_text: "📲 24/24 Talk で話そう、無料です！\n{link}",
+    net_invite_text: "📲 24/24 Talk で話そう、無料です！",
+    net_invite_step2: "📨 2/2：カードを送る",
+    net_invite_step2_hint: "メッセージを送りました。「2/2：カードを送る」をタップして、同じ人を選んでください。",
+    net_invite_sent: "✓ 招待を送りました",
     net_link_copied: "リンクをコピーしました ✓",
     net_add_ph: "相手の @ユーザー名",
     net_add_btn: "チャット",
@@ -6054,7 +6077,10 @@ const NET_STRINGS = {
     net_pseudo_bad: "اسم مستخدم غير صالح: من 3 إلى 20 حرفًا، أحرف لاتينية صغيرة أو أرقام أو نقطة أو _.",
     net_age_needed: "ضع علامة في المربع للمتابعة.",
     net_invite: "📨 ادعُ صديقًا",
-    net_invite_text: "📲 انضم إليّ على ⁦24/24 Talk⁩، إنه مجاني!\n{link}",
+    net_invite_text: "📲 انضم إليّ على ⁦24/24 Talk⁩، إنه مجاني!",
+    net_invite_step2: "📨 2/2: إرسال البطاقة",
+    net_invite_step2_hint: "تم إرسال الرسالة. المس «2/2: إرسال البطاقة» واختر الشخص نفسه.",
+    net_invite_sent: "✓ تم إرسال الدعوة",
     net_link_copied: "تم نسخ الرابط ✓",
     net_add_ph: "‎@اسم المستخدم لجهة الاتصال",
     net_add_btn: "دردشة",
@@ -6145,7 +6171,10 @@ const NET_STRINGS = {
     net_pseudo_bad: "Недопустимое имя: от 3 до 20 символов, строчные латинские буквы, цифры, точка или _.",
     net_age_needed: "Отметьте флажок, чтобы продолжить.",
     net_invite: "📨 Пригласить друга",
-    net_invite_text: "📲 Присоединяйся ко мне в 24/24 Talk, это бесплатно!\n{link}",
+    net_invite_text: "📲 Присоединяйся ко мне в 24/24 Talk, это бесплатно!",
+    net_invite_step2: "📨 2/2: отправить карточку",
+    net_invite_step2_hint: "Сообщение отправлено. Нажмите «2/2: отправить карточку» и выберите того же человека.",
+    net_invite_sent: "✓ Приглашение отправлено",
     net_link_copied: "Ссылка скопирована ✓",
     net_add_ph: "@имя собеседника",
     net_add_btn: "Написать",
@@ -6460,12 +6489,28 @@ const Reseau = (() => {
   // Invitation : une phrase qui dit quoi faire + le lien direct. Les messageries affichent le lien en carte
   // cliquable avec le visuel 24/24 Talk et « 👆 Touchez ici pour ouvrir 24/24 Talk » (aperçu du lien). Une image envoyée avec le lien faisait
   // disparaître le lien dans certaines messageries (Messenger).
+  // Invitation en 2 messages : 1) la phrase seule (bulle sans adresse), 2) le lien seul, que la messagerie
+  // transforme en carte à toucher (visuel + « Clic ici pour ouvrir le lien de l'appli »).
+  let inviteStep = 0, inviteStepTimer = null;
+  function setInviteStep(n) {
+    inviteStep = n;
+    clearTimeout(inviteStepTimer);
+    if (n) inviteStepTimer = setTimeout(() => { inviteStep = 0; if (screen === "home" && isActiveTab()) render(); }, 5 * 60000);
+  }
   async function sendInvite(msgEl) {
     const link = inviteLink();
     if (navigator.share) {
       try {
-        // Seulement le lien : la messagerie affiche la carte (visuel + « Clic ici »), sans bulle d'adresse.
-        await navigator.share({ url: link });
+        if (inviteStep === 0) {
+          await navigator.share({ text: t("net_invite_text") });
+          setInviteStep(1);
+          setFlash(escapeHtml(t("net_invite_step2_hint")), "ok");
+        } else {
+          await navigator.share({ url: link });
+          setInviteStep(0);
+          setFlash(escapeHtml(t("net_invite_sent")), "ok");
+        }
+        render();
         return;
       } catch (e) {
         if (e && e.name === "AbortError") return; /* annulé */
@@ -6515,7 +6560,7 @@ const Reseau = (() => {
 
   // « &i=2 » : nouvelle adresse pour que les messageries reprennent la dernière image d'aperçu (elles la gardent en mémoire).
   function inviteLink() {
-    return baseUrl() + "?ajouter=" + (profile ? profile.pseudo : "") + "&i=5";
+    return baseUrl() + "?ajouter=" + (profile ? profile.pseudo : "") + "&i=4";
   }
   function baseUrl() {
     return location.href.split("#")[0].split("?")[0];
@@ -6976,7 +7021,7 @@ const Reseau = (() => {
     root.innerHTML = `${pushCard}
       <div class="card">
         <div class="net-me"><b dir="ltr">@${escapeHtml(profile.pseudo)}</b><span>${escapeHtml(langLabel(profile.lang))}</span></div>
-        <div class="row"><button class="btn primary" id="netInvite">${escapeHtml(t("net_invite"))}</button></div>
+        <div class="row"><button class="btn primary" id="netInvite">${escapeHtml(t(inviteStep ? "net_invite_step2" : "net_invite"))}</button></div>
         <div class="row net-add">
           <input type="text" id="netAddInput" class="net-input" maxlength="21" autocomplete="off" autocapitalize="none" spellcheck="false"
             placeholder="${escapeHtml(t("net_add_ph"))}" />
