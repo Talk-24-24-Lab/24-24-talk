@@ -48,6 +48,7 @@
 <!-- Aperçu du lien quand il est partagé -->
 <meta property="og:type" content="website" />
 <meta property="og:title" content="24/24, Let's go – Clic ici pour ouvrir le lien de l'appli" />
+<meta property="og:description" content="📲 Rejoins-moi sur 24/24 Talk, c'est gratuit !" />
 <meta property="og:image" content="https://sebastienchevrier.github.io/24-24-talk/24-24-Talk-invitation-v3.jpg" />
 <meta property="og:image:type" content="image/jpeg" />
 <meta property="og:image:width" content="1200" />
@@ -6463,7 +6464,8 @@ const Reseau = (() => {
     const link = inviteLink();
     if (navigator.share) {
       try {
-        await navigator.share({ text: t("net_invite_text", { link }) });
+        // Seulement le lien : la messagerie affiche la carte (visuel + « Clic ici »), sans bulle d'adresse.
+        await navigator.share({ url: link });
         return;
       } catch (e) {
         if (e && e.name === "AbortError") return; /* annulé */
@@ -6513,7 +6515,7 @@ const Reseau = (() => {
 
   // « &i=2 » : nouvelle adresse pour que les messageries reprennent la dernière image d'aperçu (elles la gardent en mémoire).
   function inviteLink() {
-    return baseUrl() + "?ajouter=" + (profile ? profile.pseudo : "") + "&i=4";
+    return baseUrl() + "?ajouter=" + (profile ? profile.pseudo : "") + "&i=5";
   }
   function baseUrl() {
     return location.href.split("#")[0].split("?")[0];
