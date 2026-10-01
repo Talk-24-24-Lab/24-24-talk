@@ -472,6 +472,10 @@
         <button class="toggle" id="keepHistToggle" aria-pressed="true"></button>
       </div>
       <div class="settings-row">
+        <span data-i18n="stats_opt">Statistiques de visite anonymes</span>
+        <button class="toggle" id="statsToggle" aria-pressed="true"></button>
+      </div>
+      <div class="settings-row">
         <label for="uiLangSelect" data-i18n="ui_lang">Langue de l'interface</label>
         <select id="uiLangSelect" class="ui-lang-select"></select>
       </div>
@@ -619,10 +623,10 @@
   <section id="legal-privacy" class="view legal-view">
 <a class="back" href="index.html">← Retour à 24/24 Talk</a>
   <h1>Politique de confidentialité</h1>
-  <p class="updated">Dernière mise à jour : 30 septembre 2026 (ajout du Réseau 24/24 Talk)</p>
+  <p class="updated">Dernière mise à jour : 1er octobre 2026 (statistiques de visite anonymes)</p>
 
   <p>24/24 Talk est une application de traduction éditée par Sébastien Albert Vincent CHEVRIER, responsable du traitement. Contact : <a href="mailto:schevrier.1975@gmail.com">schevrier.1975@gmail.com</a>.</p>
-  <p><strong>En bref :</strong> aucune publicité, aucun pistage. Votre historique de traduction reste sur votre téléphone. Pour traduire une phrase libre ou transformer votre voix en texte, l'appli fait appel à des services extérieurs, nommés ci-dessous. Si vous utilisez le Réseau 24/24 Talk, votre pseudo, votre langue et vos messages sont hébergés sur un serveur afin d'être remis à vos contacts.</p>
+  <p><strong>En bref :</strong> aucune publicité, aucun pistage, seulement des statistiques de visite anonymes que vous pouvez désactiver. Votre historique de traduction reste sur votre téléphone. Pour traduire une phrase libre ou transformer votre voix en texte, l'appli fait appel à des services extérieurs, nommés ci-dessous. Si vous utilisez le Réseau 24/24 Talk, votre pseudo, votre langue et vos messages sont hébergés sur un serveur afin d'être remis à vos contacts.</p>
 
   <h2>Données traitées</h2>
   <p>Aucun compte n'est requis : nous ne connaissons ni votre nom, ni votre e-mail, ni votre numéro.</p>
@@ -637,6 +641,7 @@
     <tr><td>Réseau : pseudo, langue, identifiant de compte anonyme</td><td>Serveur Supabase (Union européenne)</td><td>Vous permettre d'échanger avec vos contacts</td></tr>
     <tr><td>Réseau : messages écrits ou dictés</td><td>Serveur Supabase (Union européenne), visibles uniquement par les participants de la discussion</td><td>Remettre vos messages à vos contacts</td></tr>
     <tr><td>Appel traduit : phrases prononcées, transformées en texte</td><td>Transmises en direct via Supabase à votre interlocuteur, jamais enregistrées ; aucun son n'est transmis</td><td>Appel traduit</td></tr>
+    <tr><td>Statistiques de visite anonymes : identifiant tiré au hasard sur votre téléphone, ouverture de l'appli, nombre de traductions, nombre et durée des appels, présence en ligne</td><td>Serveur Supabase (Union européenne), sous forme de comptes par jour ; aucun nom, aucune adresse IP, aucun texte, aucun lien avec votre compte réseau</td><td>Mesure d'audience anonyme</td></tr>
     <tr><td>Réseau : signalements et blocages</td><td>Serveur Supabase ; un signalement contient une copie des derniers messages de la personne signalée</td><td>Modération, sécurité des utilisateurs</td></tr>
   </table>
 
@@ -659,10 +664,13 @@
     <li>Messages du Réseau : supprimés automatiquement au bout de 90 jours, ou immédiatement si vous supprimez votre compte.</li>
     <li>Profil du Réseau : jusqu'à la suppression de votre compte.</li>
     <li>Signalements : le temps de les traiter, au plus 12 mois.</li>
+    <li>Statistiques de visite : l'identifiant tiré au hasard est renouvelé tous les 13 mois ; les comptes par jour sont conservés au plus 13 mois.</li>
   </ul>
 
   <h2>Stockage local et cookies</h2>
-  <p>L'appli n'utilise aucun cookie publicitaire, aucun outil de pistage et aucune mesure d'audience. Elle utilise uniquement le stockage local du navigateur pour les fonctions que vous utilisez : historique, favoris, langue de l'interface, réglages et, si vous rejoignez le Réseau, votre identifiant de connexion. Ces stockages, strictement nécessaires au service demandé et à la personnalisation de l'interface, sont dispensés de consentement selon les lignes directrices de la CNIL sur les cookies et autres traceurs : c'est pourquoi aucun bandeau cookies n'est affiché.</p>
+  <p>L'appli n'utilise aucun cookie publicitaire et aucun outil de pistage. Elle utilise uniquement le stockage local du navigateur pour les fonctions que vous utilisez : historique, favoris, langue de l'interface, réglages et, si vous rejoignez le Réseau, votre identifiant de connexion. Ces stockages, strictement nécessaires au service demandé et à la personnalisation de l'interface, sont dispensés de consentement selon les lignes directrices de la CNIL sur les cookies et autres traceurs : c'est pourquoi aucun bandeau cookies n'est affiché.</p>
+  <h2>Statistiques de visite anonymes</h2>
+  <p>Pour savoir combien de personnes utilisent l'appli, un identifiant tiré au hasard est enregistré sur votre téléphone. Il permet uniquement de compter, jour par jour, les ouvertures de l'appli, le nombre de traductions, le nombre et la durée des appels, et le nombre de personnes en ligne. Aucun nom, aucune adresse IP, aucun texte traduit ou message n'est collecté, et ces chiffres ne sont jamais reliés à votre compte réseau ni partagés. Cette mesure d'audience, limitée au fonctionnement de l'appli et produisant des statistiques anonymes, est dispensée de consentement selon les lignes directrices de la CNIL. Vous pouvez la refuser à tout moment : <strong>Paramètres → Statistiques de visite anonymes</strong>.</p>
 
   <h2>Microphone</h2>
   <p>Le microphone n'est utilisé que lorsque vous appuyez sur 🎤 ou sur « Mode vocal », et uniquement pendant l'écoute. Vous pouvez retirer l'autorisation à tout moment dans les réglages de votre navigateur.</p>
@@ -3410,6 +3418,7 @@ const UI_STRINGS = {
     mic_help_ios: "🔓 Pour débloquer le micro : Réglages de l'iPhone → Safari → Microphone → Autoriser, puis rechargez la page.",
     mic_help_app: "📲 Appli installée : ouvrez Chrome, allez sur sebastienchevrier.github.io/24-24-talk, appuyez sur l'icône à gauche de l'adresse → Autorisations → Micro → Autoriser (ou « Réinitialiser les autorisations »). Puis fermez et rouvrez l'appli.",
     keep_hist: "Enregistrer l'historique sur ce téléphone",
+    stats_opt: "Statistiques de visite anonymes",
     hist_off: "L'enregistrement de l'historique est désactivé (Paramètres).",
     tap_listen: "Toucher pour écouter",
     hist_empty: "Aucune traduction pour le moment.", hist_nomatch: "Aucune traduction ne correspond à cette recherche.",
@@ -3475,6 +3484,7 @@ const UI_STRINGS = {
     mic_help_ios: "🔓 To unblock the microphone: iPhone Settings → Safari → Microphone → Allow, then reload the page.",
     mic_help_app: "📲 Installed app: open Chrome, go to sebastienchevrier.github.io/24-24-talk, tap the icon left of the address → Permissions → Microphone → Allow (or “Reset permissions”). Then close and reopen the app.",
     keep_hist: "Save history on this phone",
+    stats_opt: "Anonymous visit statistics",
     hist_off: "Saving history is turned off (Settings).",
     tap_listen: "Tap to listen",
     hist_empty: "No translations yet.", hist_nomatch: "No translation matches this search.",
@@ -3540,6 +3550,7 @@ const UI_STRINGS = {
     mic_help_ios: "🔓 Para desbloquear el micrófono: Ajustes del iPhone → Safari → Micrófono → Permitir, y recarga la página.",
     mic_help_app: "📲 App instalada: abre Chrome, ve a sebastienchevrier.github.io/24-24-talk, toca el icono a la izquierda de la dirección → Permisos → Micrófono → Permitir (o «Restablecer permisos»). Luego cierra y vuelve a abrir la app.",
     keep_hist: "Guardar el historial en este teléfono",
+    stats_opt: "Estadísticas de visitas anónimas",
     hist_off: "El guardado del historial está desactivado (Ajustes).",
     tap_listen: "Toca para escuchar",
     hist_empty: "Todavía no hay traducciones.", hist_nomatch: "Ninguna traducción coincide con esta búsqueda.",
@@ -3605,6 +3616,7 @@ const UI_STRINGS = {
     mic_help_ios: "🔓 Para desbloquear o microfone: Ajustes do iPhone → Safari → Microfone → Permitir e recarregue a página.",
     mic_help_app: "📲 App instalado: abra o Chrome, vá para sebastienchevrier.github.io/24-24-talk, toque no ícone à esquerda do endereço → Permissões → Microfone → Permitir (ou «Redefinir permissões»). Depois feche e reabra o app.",
     keep_hist: "Guardar o histórico neste telefone",
+    stats_opt: "Estatísticas anônimas de visitas",
     hist_off: "O registo do histórico está desativado (Definições).",
     tap_listen: "Toque para ouvir",
     hist_empty: "Nenhuma tradução por enquanto.", hist_nomatch: "Nenhuma tradução corresponde a esta pesquisa.",
@@ -3670,6 +3682,7 @@ const UI_STRINGS = {
     mic_help_ios: "🔓 Mikrofon freigeben: iPhone-Einstellungen → Safari → Mikrofon → Erlauben, dann die Seite neu laden.",
     mic_help_app: "📲 Installierte App: Chrome öffnen, sebastienchevrier.github.io/24-24-talk aufrufen, auf das Symbol links neben der Adresse tippen → Berechtigungen → Mikrofon → Zulassen (oder „Berechtigungen zurücksetzen“). Dann die App schließen und neu öffnen.",
     keep_hist: "Verlauf auf diesem Handy speichern",
+    stats_opt: "Anonyme Besuchsstatistik",
     hist_off: "Das Speichern des Verlaufs ist ausgeschaltet (Einstellungen).",
     tap_listen: "Zum Anhören tippen",
     hist_empty: "Noch keine Übersetzungen.", hist_nomatch: "Keine Übersetzung passt zu dieser Suche.",
@@ -3735,6 +3748,7 @@ const UI_STRINGS = {
     mic_help_ios: "🔓 Per sbloccare il microfono: Impostazioni dell'iPhone → Safari → Microfono → Consenti, poi ricarica la pagina.",
     mic_help_app: "📲 App installata: apri Chrome, vai su sebastienchevrier.github.io/24-24-talk, tocca l'icona a sinistra dell'indirizzo → Autorizzazioni → Microfono → Consenti (o «Reimposta autorizzazioni»). Poi chiudi e riapri l'app.",
     keep_hist: "Salva la cronologia su questo telefono",
+    stats_opt: "Statistiche di visita anonime",
     hist_off: "Il salvataggio della cronologia è disattivato (Impostazioni).",
     tap_listen: "Tocca per ascoltare",
     hist_empty: "Ancora nessuna traduzione.", hist_nomatch: "Nessuna traduzione corrisponde a questa ricerca.",
@@ -3800,6 +3814,7 @@ const UI_STRINGS = {
     mic_help_ios: "🔓 解除麦克风限制：iPhone 设置 → Safari → 麦克风 → 允许，然后重新加载页面。",
     mic_help_app: "📲 已安装的应用：打开 Chrome，访问 sebastienchevrier.github.io/24-24-talk，点按地址左侧的图标 → 权限 → 麦克风 → 允许（或“重置权限”）。然后关闭并重新打开应用。",
     keep_hist: "在本手机上保存历史记录",
+    stats_opt: "匿名访问统计",
     hist_off: "已关闭历史记录保存（设置）。",
     tap_listen: "点按收听",
     hist_empty: "还没有翻译记录。", hist_nomatch: "没有与此搜索匹配的翻译。",
@@ -3865,6 +3880,7 @@ const UI_STRINGS = {
     mic_help_ios: "🔓 マイクのブロックを解除するには：iPhone の設定 → Safari → マイク → 許可、その後ページを再読み込みしてください。",
     mic_help_app: "📲 インストール済みアプリ：Chrome を開き sebastienchevrier.github.io/24-24-talk にアクセスし、アドレス左のアイコン → 権限 → マイク → 許可（または「権限をリセット」）。その後アプリを閉じて開き直してください。",
     keep_hist: "この端末に履歴を保存する",
+    stats_opt: "匿名の利用統計",
     hist_off: "履歴の保存はオフになっています（設定）。",
     tap_listen: "タップして聞く",
     hist_empty: "まだ翻訳はありません。", hist_nomatch: "この検索に一致する翻訳はありません。",
@@ -3930,6 +3946,7 @@ const UI_STRINGS = {
     mic_help_ios: "🔓 لإلغاء حظر الميكروفون: إعدادات iPhone ← Safari ← الميكروفون ← السماح، ثم أعد تحميل الصفحة.",
     mic_help_app: "📲 التطبيق المثبّت: افتح Chrome وانتقل إلى ⁦sebastienchevrier.github.io/24-24-talk⁩، ثم اضغط على الأيقونة يسار العنوان ← الأذونات ← الميكروفون ← السماح (أو «إعادة ضبط الأذونات»). ثم أغلق التطبيق وأعد فتحه.",
     keep_hist: "حفظ السجلّ على هذا الهاتف",
+    stats_opt: "إحصاءات زيارات مجهولة الهوية",
     hist_off: "حفظ السجلّ متوقف (الإعدادات).",
     tap_listen: "اضغط للاستماع",
     hist_empty: "لا توجد ترجمات بعد.", hist_nomatch: "لا توجد ترجمة تطابق هذا البحث.",
@@ -3995,6 +4012,7 @@ const UI_STRINGS = {
     mic_help_ios: "🔓 Чтобы разблокировать микрофон: Настройки iPhone → Safari → Микрофон → Разрешить, затем перезагрузите страницу.",
     mic_help_app: "📲 Установленное приложение: откройте Chrome, перейдите на sebastienchevrier.github.io/24-24-talk, нажмите значок слева от адреса → Разрешения → Микрофон → Разрешить (или «Сбросить разрешения»). Затем закройте и снова откройте приложение.",
     keep_hist: "Сохранять историю на этом телефоне",
+    stats_opt: "Анонимная статистика посещений",
     hist_off: "Сохранение истории выключено (Настройки).",
     tap_listen: "Нажмите, чтобы прослушать",
     hist_empty: "Переводов пока нет.", hist_nomatch: "Нет переводов, соответствующих запросу.",
@@ -5106,6 +5124,19 @@ keepHistToggle.addEventListener("click", () => {
   keepHistToggle.setAttribute("aria-pressed", on ? "true" : "false");
   safeStore.setItem("lc_keep_history", on ? "1" : "0");
 });
+// Statistiques de visite anonymes (comptage sans donnée personnelle) : désactivables ici.
+const statsToggle = document.getElementById("statsToggle");
+if (statsToggle) {
+  const statsOn = safeStore.getItem("lc_stats_off") !== "1";
+  statsToggle.classList.toggle("on", statsOn);
+  statsToggle.setAttribute("aria-pressed", statsOn ? "true" : "false");
+  statsToggle.addEventListener("click", () => {
+    const on = statsToggle.classList.toggle("on");
+    statsToggle.setAttribute("aria-pressed", on ? "true" : "false");
+    safeStore.setItem("lc_stats_off", on ? "0" : "1");
+    if (!on) safeStore.removeItem("lc_aud");
+  });
+}
 const autoSpeakToggle = document.getElementById("autoSpeakToggle");
 autoSpeakToggle.classList.toggle("on", safeStore.getItem("lc_autospeak") === "1");
 autoSpeakToggle.addEventListener("click", () => {
@@ -6047,6 +6078,72 @@ Object.keys(NET_STRINGS).forEach((l) => {
   UI_STRINGS[l] = Object.assign(UI_STRINGS[l] || {}, NET_STRINGS[l]);
 });
 
+// ---------- Statistiques de visite anonymes ----------
+// Uniquement sur le site officiel. Aucune donnée personnelle : un identifiant tiré au hasard sur ce
+// téléphone (renouvelé au bout de 13 mois, jamais relié au compte réseau), et des comptes par jour.
+// Désactivable dans Paramètres.
+const Stats24 = (() => {
+  const enabled = location.hostname === "sebastienchevrier.github.io" && !!(NET_CONFIG.url && NET_CONFIG.key);
+  let netOn = false;
+  function newId() {
+    if (window.crypto && typeof crypto.randomUUID === "function") return crypto.randomUUID();
+    const b = new Uint8Array(16);
+    (window.crypto || {}).getRandomValues ? crypto.getRandomValues(b) : b.forEach((_, i) => { b[i] = Math.floor(Math.random() * 256); });
+    b[6] = (b[6] & 0x0f) | 0x40; b[8] = (b[8] & 0x3f) | 0x80;
+    const h = [...b].map((x) => x.toString(16).padStart(2, "0")).join("");
+    return h.slice(0, 8) + "-" + h.slice(8, 12) + "-" + h.slice(12, 16) + "-" + h.slice(16, 20) + "-" + h.slice(20);
+  }
+  function deviceId() {
+    let o = null;
+    try { o = JSON.parse(safeStore.getItem("lc_aud") || "null"); } catch (e) { o = null; }
+    if (!o || !o.id || !o.t || Date.now() - o.t > 395 * 86400000) {
+      o = { id: newId(), t: Date.now() };
+      safeStore.setItem("lc_aud", JSON.stringify(o));
+    }
+    return o.id;
+  }
+  function active() {
+    return enabled && safeStore.getItem("lc_stats_off") !== "1";
+  }
+  function rpc(name, body) {
+    if (!active()) return;
+    try {
+      fetch(NET_CONFIG.url + "/rest/v1/rpc/" + name, {
+        method: "POST",
+        headers: { apikey: NET_CONFIG.key, "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+        keepalive: true,
+      }).catch(() => {});
+    } catch (e) { /* hors ligne : rien n'est compté */ }
+  }
+  function track(kind, amount) {
+    if (!active()) return;
+    rpc("track", { sid: deviceId(), kind, amount: Math.max(1, Math.round(amount || 1)) });
+  }
+  function ping() {
+    if (!active() || document.visibilityState !== "visible") return;
+    rpc("ping", { sid: deviceId(), net: netOn });
+  }
+  if (enabled) {
+    track("ouverture");
+    ping();
+    setInterval(ping, 60000);
+    document.addEventListener("visibilitychange", ping);
+  }
+  return { track, setNet(v) { netOn = !!v; ping(); } };
+})();
+
+// Chaque traduction effectuée est comptée (le texte n'est jamais envoyé pour les statistiques).
+(function countTranslations() {
+  if (typeof TranslationProvider !== "object" || typeof TranslationProvider.translate !== "function") return;
+  const original = TranslationProvider.translate;
+  TranslationProvider.translate = async function () {
+    const r = await original.apply(this, arguments);
+    try { Stats24.track("traduction"); } catch (e) { /* ignoré */ }
+    return r;
+  };
+})();
+
 const Reseau = (() => {
   const root = document.getElementById("netRoot");
   const tabBtn = document.querySelector('nav.tabs button[data-view="net"]');
@@ -6249,6 +6346,7 @@ const Reseau = (() => {
   }
 
   async function afterProfileReady() {
+    Stats24.setNet(true);
     await Promise.all([loadConversations(), loadBlocks()]);
     await startRealtime();
     screen = "home";
@@ -6681,6 +6779,7 @@ const Reseau = (() => {
       started = false;
       outChannels.clear();
       safeStore.removeItem("lc_net_joined");
+      Stats24.setNet(false);
       me = null;
       profile = null;
       convs = [];
@@ -7072,6 +7171,11 @@ const Reseau = (() => {
   }
 
   async function beginActive() {
+    if (call && !call.t0) {
+      call.t0 = Date.now();
+      // Un appel n'est compté qu'une fois : par celui qui appelle.
+      if (call.role === "caller") Stats24.track("appel");
+    }
     screen = "call";
     render();
     const id = call.id;
@@ -7149,6 +7253,7 @@ const Reseau = (() => {
     hideRingBar();
     try { window.speechSynthesis && window.speechSynthesis.cancel(); } catch (e) { /* ignoré */ }
     const fromList = call.fromList;
+    if (call.t0 && call.role === "caller") Stats24.track("appel_sec", (Date.now() - call.t0) / 1000);
     call = null;
     if (message) setFlash(escapeHtml(message), "ok");
     if (screen === "call") {

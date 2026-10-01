@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Tableau de bord 24/24 Talk</title>
+<meta name="theme-color" content="#0b0e1a">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Stats 24/24">
+<!--
+  24/24 Talk — tableau de bord privé. © 2026 Sébastien Chevrier. Tous droits réservés.
+  Les chiffres ne s'affichent que pour le compte administrateur (vérifié par le serveur).
+-->
+<style>
+/* Une colonne pour le téléphone : en direct en haut, chiffres du jour, courbe 30 jours, totaux, consommation, inscrits. */
+:root{
+  --bg:#0b0e1a; --panel:#141a2e; --panel2:#1b2340; --line:#26304f; --grid:#1f2742;
+  --text:#eef1fb; --muted:#9aa4c7; --green:#2ecf8e; --blue:#3d7bff; --warn:#ffb020; --err:#ff5c7a;
+  --font:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);-webkit-font-smoothing:antialiased}
+body{padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+.page{max-width:720px;margin:0 auto;padding-inline:16px;padding-block:16px 40px}
+.top{display:flex;align-items:center;gap:12px}
+.top .logo{width:44px;height:44px;border-radius:12px;flex:none}
+.top h1{font-size:19px;font-weight:800;margin:0;line-height:1.2}
+.top small{display:block;color:var(--muted);font-size:12.5px;font-weight:600}
+.live{margin-inline-start:auto;display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--muted);white-space:nowrap}
+.live i{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 0 rgba(46,207,142,.6);animation:pulse 1.8s infinite}
+.live.off i{background:var(--warn);animation:none}
+@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(46,207,142,0)}100%{box-shadow:0 0 0 0 rgba(46,207,142,0)}}
+@media (prefers-reduced-motion:reduce){.live i{animation:none}}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;margin-top:14px}
+h2{font-size:15px;font-weight:800;margin:0 0 12px;letter-spacing:.2px}
+h2 span{color:var(--muted);font-weight:600}
+
+.hero{display:flex;align-items:center;gap:16px}
+.hero .num{font-size:56px;font-weight:900;line-height:1;font-variant-numeric:tabular-nums;color:var(--green)}
+.hero .lab{font-size:15px;font-weight:700}
+.hero .sub{font-size:13px;color:var(--muted);margin-top:4px}
+.upd{color:var(--muted);font-size:12px;margin:10px 2px 0;text-align:end;font-variant-numeric:tabular-nums}
+
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.tile{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:12px}
+.tile b{display:block;font-size:26px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.1}
+.tile span{display:block;font-size:12.5px;color:var(--muted);margin-top:4px;font-weight:600}
+
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.chips button{border:1px solid var(--line);background:var(--panel2);color:var(--muted);font:700 13px var(--font);padding:7px 11px;border-radius:999px;cursor:pointer}
+.chips button.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.chart{position:relative}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.tip{position:absolute;pointer-events:none;background:#0b0e1a;border:1px solid var(--line);border-radius:10px;padding:6px 9px;font-size:12.5px;white-space:nowrap;
+  transform:translate(-50%,-100%);box-shadow:0 8px 20px rgba(0,0,0,.4)}
+.tip[hidden]{display:none}
+.tip b{font-size:14px}
+
+.totals{display:grid;grid-template-columns:1fr;gap:0}
+@media (min-width:560px){.totals{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:20px}}
+.totals div{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--grid);font-size:14.5px}
+.totals b{font-variant-numeric:tabular-nums}
+
+.quota{display:grid;gap:12px}
+.q .row{display:flex;justify-content:space-between;align-items:baseline;font-size:14.5px;gap:10px}
+.q .row span{font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+.q small{display:block;color:var(--muted);font-size:12.5px;margin-top:5px;font-variant-numeric:tabular-nums}
+.bar{height:8px;border-radius:999px;background:var(--panel2);margin-top:6px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:999px;background:var(--green);min-width:3px}
+.bar i.warn{background:var(--warn)}
+.bar i.err{background:var(--err)}
+.note{color:var(--muted);font-size:12.5px;line-height:1.45;margin:12px 0 0}
+.note a{color:#8fb0ff}
+
+.users{list-style:none;margin:0;padding:0}
+.users li{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--grid)}
+.users li:last-child{border-bottom:none}
+.users b{display:block;font-size:15px;overflow-wrap:anywhere}
+.users small{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}
+.users .r{text-align:end;flex:none;font-variant-numeric:tabular-nums}
+.users .empty{color:var(--muted)}
+
+.msg{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;margin-top:18px;line-height:1.5;font-size:15.5px}
+.msg b{display:block;font-size:17px;margin-bottom:6px}
+.btn{display:inline-flex;margin-top:12px;align-items:center;justify-content:center;min-height:46px;padding:0 18px;border-radius:14px;background:var(--green);color:#0b0e1a;
+  font:800 15px var(--font);text-decoration:none;border:none;cursor:pointer}
+footer{color:var(--muted);font-size:12px;text-align:center;margin-top:22px;line-height:1.5}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top">
+    <img class="logo" src="icon-192.png" alt="" width="44" height="44">
+    <div><h1>Tableau de bord</h1><small>24/24 Talk</small></div>
+    <div class="live off" id="live"><i></i><span id="liveTxt">…</span></div>
+  </div>
+
+  <div id="state" class="msg">Chargement des chiffres…</div>
+
+  <div id="dash" hidden>
+    <div class="card">
+      <div class="hero">
+        <div class="num" id="online">0</div>
+        <div><div class="lab">personnes en ligne maintenant</div><div class="sub" id="onlineSub"></div></div>
+      </div>
+    </div>
+    <p class="upd" id="upd"></p>
+
+    <div class="card">
+      <h2>Aujourd'hui <span id="todayDate"></span></h2>
+      <div class="tiles" id="today"></div>
+    </div>
+
+    <div class="card">
+      <h2>30 derniers jours</h2>
+      <div class="chips" id="chips"></div>
+      <div class="chart" id="chart"><div class="tip" id="tip" hidden></div></div>
+    </div>
+
+    <div class="card">
+      <h2>Depuis le début</h2>
+      <div class="totals" id="totals"></div>
+    </div>
+
+    <div class="card">
+      <h2>Consommation du serveur <span>(offre gratuite)</span></h2>
+      <div class="quota" id="quota"></div>
+      <p class="note">Limites de l'offre gratuite Supabase, à confirmer sur votre <a href="https://supabase.com/dashboard/org/dvqxjexblgovcvxncift/usage" target="_blank" rel="noopener">page de consommation Supabase</a>.</p>
+    </div>
+
+    <div class="card">
+      <h2>Inscrits au réseau <span id="usersCount"></span></h2>
+      <ul class="users" id="users"></ul>
+    </div>
+  </div>
+
+  <footer>Mis à jour toutes les 15 secondes.<br>Accès réservé à l'administrateur · © 2026 Sébastien Chevrier</footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function () {
+  "use strict";
+  var URL_ = "https://wsgcumnaltdinchsdovs.supabase.co";
+  var KEY = "sb_publishable_FkPVBXxsT57oNonWUv16_g_9M0eIyxl";
+  var APP = "https://sebastienchevrier.github.io/24-24-talk/";
+  var REFRESH = 15000;
+  var LANGS = { fr: "Français", en: "Anglais", mg: "Malgache", es: "Espagnol", pt: "Portugais", de: "Allemand", it: "Italien", zh: "Chinois", ja: "Japonais", ar: "Arabe", ru: "Russe", sw: "Swahili", hi: "Hindi", ta: "Tamoul", ht: "Créole haïtien" };
+  var METRICS = [
+    { k: "personnes", label: "Personnes" },
+    { k: "traductions", label: "Traductions" },
+    { k: "messages", label: "Messages" },
+    { k: "appels", label: "Appels" },
+    { k: "minutes", label: "Minutes d'appel" },
+    { k: "inscrits", label: "Inscrits" },
+    { k: "ouvertures", label: "Ouvertures" }
+  ];
+  var metric = "personnes";
+  try { metric = localStorage.getItem("tdb_metric") || "personnes"; } catch (e) {}
+  var last = null;
+  var sb = null;
+  var $ = function (id) { return document.getElementById(id); };
+  var nf = new Intl.NumberFormat("fr-FR");
+  function fmt(n) { return nf.format(Number(n) || 0); }
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function dateFr(d, withTime) {
+    if (!d) return "—";
+    var x = new Date(d);
+    var o = { day: "2-digit", month: "2-digit", timeZone: "Indian/Reunion" };
+    if (withTime) { o.hour = "2-digit"; o.minute = "2-digit"; }
+    return x.toLocaleString("fr-FR", o);
+  }
+  function setLive(ok, txt) {
+    $("live").classList.toggle("off", !ok);
+    $("liveTxt").textContent = txt;
+  }
+  function showState(html) {
+    $("state").innerHTML = html;
+    $("state").hidden = false;
+    $("dash").hidden = true;
+  }
+
+  function render(d) {
+    last = d;
+    $("state").hidden = true;
+    $("dash").hidden = false;
+    $("online").textContent = fmt(d.online);
+    $("onlineSub").textContent = "dont " + fmt(d.online_net) + " sur Téléphone / Messagerie";
+    $("todayDate").textContent = "· " + new Date(d.now).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", timeZone: "Indian/Reunion" });
+    var t = d.today || {};
+    var tiles = [
+      ["personnes", "personnes ont ouvert l'appli"], ["ouvertures", "ouvertures"], ["traductions", "traductions"],
+      ["messages", "messages envoyés"], ["appels", "appels"], ["minutes", "minutes d'appel"], ["inscrits", "nouveaux inscrits"]
+    ];
+    $("today").innerHTML = tiles.map(function (x) { return '<div class="tile"><b>' + fmt(t[x[0]]) + "</b><span>" + x[1] + "</span></div>"; }).join("");
+    var tt = d.totals || {};
+    var tot = [
+      ["Inscrits au réseau", tt.inscrits], ["Discussions", tt.discussions], ["Messages", tt.messages], ["Traductions", tt.traductions],
+      ["Appels", tt.appels], ["Minutes d'appel", tt.minutes], ["Personnes (30 j)", tt.personnes_30j]
+    ];
+    $("totals").innerHTML = tot.map(function (x) { return "<div><span>" + x[0] + "</span><b>" + fmt(x[1]) + "</b></div>"; }).join("");
+    var q = d.quota || {};
+    var quotas = [
+      ["Base de données", q.db_mo, 500, " Mo"],
+      ["Utilisateurs actifs ce mois", q.actifs_mois, 50000, ""],
+      ["Connexions en direct", q.temps_reel, 200, ""]
+    ];
+    $("quota").innerHTML = quotas.map(function (x) {
+      var pct = Math.min(100, (Number(x[1]) || 0) / x[2] * 100);
+      var cls = pct >= 90 ? "err" : pct >= 70 ? "warn" : "";
+      return '<div class="q"><div class="row"><b>' + x[0] + "</b><span>" + (pct < 1 && pct > 0 ? "&lt; 1" : Math.round(pct)) + " %</span></div>" +
+        '<div class="bar"><i class="' + cls + '" style="width:' + pct.toFixed(2) + '%"></i></div><small>' + fmt(x[1]) + x[3] + " sur " + fmt(x[2]) + x[3] + "</small></div>";
+    }).join("");
+    var users = d.users || [];
+    $("usersCount").textContent = "(" + users.length + ")";
+    $("users").innerHTML = users.length ? users.map(function (u) {
+      var n = Number(u.messages) || 0;
+      return "<li><div><b>@" + esc(u.pseudo) + "</b><small>" + esc(LANGS[u.lang] || u.lang) + " · inscrit le " + dateFr(u.cree) + "</small></div>" +
+        '<div class="r"><b>' + fmt(n) + " message" + (n > 1 ? "s" : "") + "</b><small>" + (u.dernier_message ? "dernier : " + dateFr(u.dernier_message, true) : "aucun message") + "</small></div></li>";
+    }).join("") : '<li class="empty">Personne pour l\'instant.</li>';
+    drawChart();
+  }
+
+  function drawChips() {
+    $("chips").innerHTML = METRICS.map(function (m) {
+      return '<button type="button" data-k="' + m.k + '" class="' + (m.k === metric ? "on" : "") + '" aria-pressed="' + (m.k === metric) + '">' + m.label + "</button>";
+    }).join("");
+    Array.prototype.forEach.call($("chips").querySelectorAll("button"), function (b) {
+      b.addEventListener("click", function () {
+        metric = b.dataset.k;
+        try { localStorage.setItem("tdb_metric", metric); } catch (e) {}
+        drawChips();
+        drawChart();
+      });
+    });
+  }
+
+  // Histogramme 30 jours : une seule série, barres fines arrondies en haut, grille discrète, info-bulle au toucher.
+  function drawChart() {
+    if (!last) return;
+    var days = last.days || [];
+    var vals = days.map(function (d) { return Number(d[metric]) || 0; });
+    var W = Math.max(280, Math.round($("chart").clientWidth || 320)), H = 200, L = 30, R = 4, T = 10, B = 24;
+    var max = Math.max.apply(null, vals.concat([1]));
+    var step = max <= 4 ? 1 : max <= 10 ? 2 : Math.pow(10, Math.floor(Math.log10(max))) * (max / Math.pow(10, Math.floor(Math.log10(max))) > 5 ? 2 : 1);
+    var top = Math.ceil(max / step) * step;
+    var n = vals.length || 1, slot = (W - L - R) / n, bw = Math.max(2, slot - 2);
+    var y = function (v) { return T + (H - T - B) * (1 - v / top); };
+    var s = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="' + esc(METRICS.filter(function (m) { return m.k === metric; })[0].label) + ' par jour, 30 derniers jours">';
+    for (var g = 0; g <= top; g += step) {
+      s += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + y(g) + '" y2="' + y(g) + '" stroke="#1f2742" stroke-width="1"/>';
+      s += '<text x="' + (L - 6) + '" y="' + (y(g) + 4) + '" text-anchor="end" font-size="12" fill="#9aa4c7">' + fmt(g) + "</text>";
+    }
+    days.forEach(function (d, i) {
+      var v = vals[i], x = L + i * slot + (slot - bw) / 2, h = Math.max(0, (H - T - B) * v / top);
+      var r = Math.min(4, bw / 2, h);
+      if (h > 0) {
+        var x2 = x + bw, yb = H - B, yt = yb - h;
+        s += '<path d="M' + x + " " + yb + "V" + (yt + r) + "Q" + x + " " + yt + " " + (x + r) + " " + yt + "H" + (x2 - r) + "Q" + x2 + " " + yt + " " + x2 + " " + (yt + r) + "V" + yb + 'Z" fill="' + (i === days.length - 1 ? "#2ecf8e" : "#3d7bff") + '"/>';
+      }
+      s += '<rect class="hit" data-i="' + i + '" x="' + (L + i * slot) + '" y="' + T + '" width="' + slot + '" height="' + (H - T - B) + '" fill="transparent"/>';
+      if (i % 5 === 4 || i === days.length - 1) {
+        s += '<text x="' + (L + i * slot + slot / 2) + '" y="' + (H - 8) + '" text-anchor="middle" font-size="12" fill="#9aa4c7">' + dateFr(d.day) + "</text>";
+      }
+    });
+    s += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + (H - B) + '" y2="' + (H - B) + '" stroke="#26304f" stroke-width="1"/></svg>';
+    var box = $("chart"), tip = $("tip");
+    box.innerHTML = s;
+    box.appendChild(tip);
+    tip.hidden = true;
+    var lab = METRICS.filter(function (m) { return m.k === metric; })[0].label;
+    Array.prototype.forEach.call(box.querySelectorAll(".hit"), function (h) {
+      var show = function () {
+        var i = +h.dataset.i, rb = box.getBoundingClientRect(), hb = h.getBoundingClientRect();
+        tip.innerHTML = "<b>" + fmt(vals[i]) + "</b> " + esc(lab.toLowerCase()) + "<br>" + new Date(days[i].day + "T12:00:00").toLocaleDateString("fr-FR", { weekday: "short", day: "numeric", month: "short" });
+        tip.style.left = Math.min(rb.width - 60, Math.max(60, hb.left - rb.left + hb.width / 2)) + "px";
+        tip.style.top = Math.max(30, y(vals[i]) / H * rb.height - 6) + "px";
+        tip.hidden = false;
+      };
+      h.addEventListener("mouseenter", show);
+      h.addEventListener("click", show);
+      h.addEventListener("mouseleave", function () { tip.hidden = true; });
+    });
+  }
+
+  async function load() {
+    if (!sb) return;
+    var res;
+    try { res = await sb.rpc("admin_stats"); } catch (e) { res = { error: e }; }
+    if (res.error) {
+      var m = String((res.error && res.error.message) || "");
+      if (/NOT_ADMIN|permission denied/i.test(m)) {
+        showState("<b>Accès réservé</b>Ce tableau de bord est réservé à l'administrateur de 24/24 Talk.");
+        setLive(false, "Accès refusé");
+      } else {
+        setLive(false, "Hors ligne");
+        if (!last) showState("<b>Pas de connexion</b>Impossible de joindre le serveur. Vérifiez votre connexion Internet ; nouvel essai dans quelques secondes.");
+      }
+      return;
+    }
+    render(res.data || {});
+    setLive(true, "En direct");
+    $("upd").textContent = "Mis à jour à " + new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", second: "2-digit", timeZone: "Indian/Reunion" });
+  }
+
+  async function start() {
+    drawChips();
+    if (!window.supabase || !window.supabase.createClient) {
+      showState("<b>Pas de connexion</b>Impossible de charger le tableau de bord. Vérifiez votre connexion Internet, puis rouvrez l'appli.");
+      return;
+    }
+    sb = window.supabase.createClient(URL_, KEY, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false, storageKey: "lc_net_auth" } });
+    var s = await sb.auth.getSession();
+    if (!s || !s.data || !s.data.session) {
+      showState("<b>Connectez-vous d'abord</b>Ouvrez 24/24 Talk sur ce téléphone, touchez <b style=\"display:inline\">Messagerie</b> et vérifiez que votre pseudo @seb1975 s'affiche. Revenez ensuite ici." +
+        '<br><a class="btn" href="' + APP + '">Ouvrir 24/24 Talk</a>');
+      setLive(false, "Non connecté");
+      return;
+    }
+    await load();
+    setInterval(function () { if (document.visibilityState === "visible") load(); }, REFRESH);
+    document.addEventListener("visibilitychange", function () { if (document.visibilityState === "visible") load(); });
+  }
+  start();
+  var rz; window.addEventListener("resize", function () { clearTimeout(rz); rz = setTimeout(drawChart, 150); });
+
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () {}); });
+  }
+})();
+</script>
+</body>
+</html>
