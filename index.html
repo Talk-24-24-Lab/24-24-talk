@@ -47,7 +47,7 @@
 
 <!-- Aperçu du lien quand il est partagé -->
 <meta property="og:type" content="website" />
-<meta property="og:title" content="24/24, Let's go – Clic ici pour ouvrir le lien de l'appli" />
+<meta property="og:title" content="24/24, Let's go – Clic ici pour ouvrir le lien de l'appli – C'est gratuit" />
 <meta property="og:image" content="https://sebastienchevrier.github.io/24-24-talk/24-24-Talk-invitation-v3.jpg" />
 <meta property="og:image:type" content="image/jpeg" />
 <meta property="og:image:width" content="1200" />
@@ -56,7 +56,7 @@
 
 <!-- Aperçu du lien sur X/Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="24/24, Let's go – Clic ici pour ouvrir le lien de l'appli" />
+<meta name="twitter:title" content="24/24, Let's go – Clic ici pour ouvrir le lien de l'appli – C'est gratuit" />
 <meta name="twitter:image" content="https://sebastienchevrier.github.io/24-24-talk/24-24-Talk-invitation-v3.jpg" />
 <style>
   /* Nuit d'abord (24h/24) : sombre par défaut, clair si l'appareil ou la personne le demande. */
@@ -6489,28 +6489,13 @@ const Reseau = (() => {
   // Invitation : une phrase qui dit quoi faire + le lien direct. Les messageries affichent le lien en carte
   // cliquable avec le visuel 24/24 Talk et « 👆 Touchez ici pour ouvrir 24/24 Talk » (aperçu du lien). Une image envoyée avec le lien faisait
   // disparaître le lien dans certaines messageries (Messenger).
-  // Invitation en 2 messages : 1) la phrase seule (bulle sans adresse), 2) le lien seul, que la messagerie
-  // transforme en carte à toucher (visuel + « Clic ici pour ouvrir le lien de l'appli »).
-  let inviteStep = 0, inviteStepTimer = null;
-  function setInviteStep(n) {
-    inviteStep = n;
-    clearTimeout(inviteStepTimer);
-    if (n) inviteStepTimer = setTimeout(() => { inviteStep = 0; if (screen === "home" && isActiveTab()) render(); }, 5 * 60000);
-  }
+  // Invitation : seulement le lien, que la messagerie transforme en carte à toucher
+  // (visuel + « 24/24, Let's go – Clic ici pour ouvrir le lien de l'appli – C'est gratuit »).
   async function sendInvite(msgEl) {
     const link = inviteLink();
     if (navigator.share) {
       try {
-        if (inviteStep === 0) {
-          await navigator.share({ text: t("net_invite_text") });
-          setInviteStep(1);
-          setFlash(escapeHtml(t("net_invite_step2_hint")), "ok");
-        } else {
-          await navigator.share({ url: link });
-          setInviteStep(0);
-          setFlash(escapeHtml(t("net_invite_sent")), "ok");
-        }
-        render();
+        await navigator.share({ url: link });
         return;
       } catch (e) {
         if (e && e.name === "AbortError") return; /* annulé */
@@ -6560,7 +6545,7 @@ const Reseau = (() => {
 
   // « &i=2 » : nouvelle adresse pour que les messageries reprennent la dernière image d'aperçu (elles la gardent en mémoire).
   function inviteLink() {
-    return baseUrl() + "?ajouter=" + (profile ? profile.pseudo : "") + "&i=4";
+    return baseUrl() + "?ajouter=" + (profile ? profile.pseudo : "") + "&i=5";
   }
   function baseUrl() {
     return location.href.split("#")[0].split("?")[0];
@@ -7021,7 +7006,7 @@ const Reseau = (() => {
     root.innerHTML = `${pushCard}
       <div class="card">
         <div class="net-me"><b dir="ltr">@${escapeHtml(profile.pseudo)}</b><span>${escapeHtml(langLabel(profile.lang))}</span></div>
-        <div class="row"><button class="btn primary" id="netInvite">${escapeHtml(t(inviteStep ? "net_invite_step2" : "net_invite"))}</button></div>
+        <div class="row"><button class="btn primary" id="netInvite">${escapeHtml(t("net_invite"))}</button></div>
         <div class="row net-add">
           <input type="text" id="netAddInput" class="net-input" maxlength="21" autocomplete="off" autocapitalize="none" spellcheck="false"
             placeholder="${escapeHtml(t("net_add_ph"))}" />
