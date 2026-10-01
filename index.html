@@ -1,4 +1,11 @@
 <!doctype html>
+<!--
+  24/24 Talk — © 2026 Sébastien Chevrier (La Réunion). Tous droits réservés.
+  Version officielle : https://sebastienchevrier.github.io/24-24-talk/
+  Code, nom, logo, textes et visuels protégés par le droit d'auteur (Code de la propriété
+  intellectuelle, art. L.111-1 et L.122-4). Toute reproduction, modification ou réutilisation sans
+  autorisation écrite de l'auteur est interdite et constitue une contrefaçon (art. L.335-2 et suivants).
+-->
 <html lang="fr">
 <head>
 <meta charset="UTF-8" />
@@ -36,6 +43,8 @@
   } catch (e) { /* navigateur ancien : l'appli marche quand même, sans icône personnalisée */ }
 })();
 </script>
+<meta name="author" content="Sébastien Chevrier" />
+<meta name="copyright" content="© 2026 Sébastien Chevrier. Tous droits réservés." />
 
 <!-- Aperçu du lien sur les réseaux sociaux (Facebook, WhatsApp, LinkedIn, Messenger, iMessage…) -->
 <meta property="og:type" content="website" />
@@ -74,6 +83,9 @@
     padding:9px 14px;border-radius:999px;font-size:13px;cursor:pointer;white-space:nowrap;}
   nav.tabs button.active{background:var(--blue);border-color:var(--blue);color:#fff;}
   main{max-width:640px;margin:0 auto;padding:0 14px 24px;}
+  .unofficial{position:sticky;top:0;z-index:60;background:#ffb020;color:#0b0e1a;padding:10px 14px;text-align:center;
+    font-size:14px;font-weight:700;line-height:1.4;}
+  .unofficial a{color:#0b0e1a;text-decoration:underline;}
   .site-footer{max-width:640px;margin:0 auto;padding:18px 16px 32px;text-align:center;color:var(--muted);
     font-size:12px;border-top:1px solid var(--line);}
   .view{display:none;}
@@ -4062,11 +4074,20 @@ function applyStaticI18n() {
 // ---------- Langue de l'interface (voir i18n.js) ----------
 applyStaticI18n();
 
-// ---------- Environnement d'hébergement ----------
-// Hébergée sur claude.ai (page publiée), l'appli tourne dans un cadre verrouillé : pas d'appel
-// réseau vers MyMemory, pas de micro, pas de service worker, pas de boîtes alert()/confirm().
-// `window.claude` n'existe que dans ce cadre : on s'en sert pour adapter l'appli sans la casser.
-const HOSTED_ON_CLAUDE = typeof window.claude !== "undefined" && window.claude !== null;
+// ---------- Version officielle ----------
+// 24/24 Talk © 2026 Sébastien Chevrier — https://sebastienchevrier.github.io/24-24-talk/
+// Copiée sur un autre site, l'appli le signale et renvoie vers la version officielle ;
+// le réseau (messages et appels) n'y fonctionne pas.
+const AUTEUR_24_24_TALK = "24/24 Talk — © 2026 Sébastien Chevrier (La Réunion) — version officielle : https://sebastienchevrier.github.io/24-24-talk/";
+const OFFICIAL_URL = "https://sebastienchevrier.github.io/24-24-talk/";
+const IS_OFFICIAL_SITE = ["sebastienchevrier.github.io", "localhost", "127.0.0.1", ""].includes(location.hostname);
+if (!IS_OFFICIAL_SITE) {
+  const bar = document.createElement("div");
+  bar.className = "unofficial";
+  bar.setAttribute("role", "alert");
+  bar.innerHTML = '⚠️ Copie non officielle · Unofficial copy — Version officielle : <a href="' + OFFICIAL_URL + '">sebastienchevrier.github.io/24-24-talk</a> · © Sébastien Chevrier';
+  document.body.insertBefore(bar, document.body.firstChild);
+}
 
 // ---------- Stockage local robuste ----------
 // localStorage peut être indisponible (navigation privée, données bloquées, aperçu) et même lever
@@ -4229,34 +4250,6 @@ const TranslationProvider = {
     // 2. Moteur générique en ligne, pour tout le reste
     if (!navigator.onLine) throw new Error("OFFLINE");
 
-    // 2a. Version hébergée sur claude.ai : l'appel réseau vers MyMemory y est bloqué. On passe par
-    //     Claude (capacité "sample" de la page), sur le compte Claude de la personne qui utilise
-    //     l'appli, avec son accord. Indisponible pour un visiteur sans compte : message clair.
-    if (HOSTED_ON_CLAUDE) {
-      const sample = await getClaudeSample();
-      if (!sample) throw new Error("ENGINE_UNAVAILABLE");
-      const from = langByCode(sourceCode).name;
-      const to = langByCode(targetCode).name;
-      const prompt =
-        `Traduis le texte ci-dessous du ${from} vers le ${to}. ` +
-        `Réponds uniquement avec la traduction, sans guillemets, sans explication, sans note.\n\n` +
-        `Texte :\n${text}`;
-      try {
-        const { text: out } = await sample(prompt, { modelTier: "quick" });
-        const clean = (out || "").trim();
-        if (!clean) throw { code: "empty_completion" };
-        return { text: clean, source: "engine" };
-      } catch (e) {
-        const code = e && e.code;
-        if (["not_granted", "sampling_disabled", "not_declared", "capability_disabled", "capability_removed"].includes(code)) {
-          throw new Error("ENGINE_UNAVAILABLE");
-        }
-        if (code === "rate_limited") throw new Error("RATE_LIMITED");
-        if (code === "session_expired") throw new Error("SESSION_EXPIRED");
-        if (code === "refused") throw new Error("REFUSED");
-        throw new Error("SERVER");
-      }
-    }
     const url =
       "https://api.mymemory.translated.net/get?q=" +
       encodeURIComponent(text) +
@@ -4281,21 +4274,6 @@ const TranslationProvider = {
     return { text: translated, source: "engine" };
   },
 };
-
-// Accès à Claude depuis la page hébergée : demandé une seule fois au chargement (ne demande rien à
-// la personne tant qu'elle ne traduit pas), mémorisé ensuite. null = indisponible dans cette vue.
-let claudeSamplePromise = null;
-function getClaudeSample() {
-  if (!claudeSamplePromise) {
-    claudeSamplePromise =
-      HOSTED_ON_CLAUDE && window.claude && typeof window.claude.use === "function"
-        ? window.claude.use("sample").catch(() => null)
-        : Promise.resolve(null);
-  }
-  return claudeSamplePromise;
-}
-if (HOSTED_ON_CLAUDE) getClaudeSample();
-
 
 // ---------- Stockage local : historique / favoris ----------
 const HIST_KEY = "lc_history";
@@ -4558,7 +4536,7 @@ async function copyText(text, msgEl) {
   }
 }
 async function shareText(text, msgEl) {
-  if (navigator.share && !HOSTED_ON_CLAUDE) {
+  if (navigator.share) {
     try {
       await navigator.share({ text });
       return;
@@ -4736,13 +4714,13 @@ document.getElementById("micBtn").addEventListener("click", async () => {
 // ---------- MODE VOCAL EN TEMPS RÉEL ----------
 // Version complète (navigateur avec reconnaissance vocale) : le micro écoute en continu ; chaque
 // phrase terminée est traduite puis lue à voix haute, et l'écoute reprend après la lecture.
-// Version hébergée sur claude.ai (micro de la page bloqué) ou navigateur sans reconnaissance
+// Navigateur sans reconnaissance
 // vocale : on dicte avec le micro du clavier du téléphone ; la traduction part toute seule dès
 // qu'on marque une pause, puis elle est lue à voix haute.
 const voiceModeBtn = document.getElementById("voiceModeBtn");
 const voiceHint = document.getElementById("voiceHint");
 // Devient faux si le micro de la page est bloqué : le mode vocal passe alors au micro du clavier.
-let useLiveMic = !!SpeechRecognitionAPI && !HOSTED_ON_CLAUDE;
+let useLiveMic = !!SpeechRecognitionAPI;
 function fallBackToKeyboardMic() {
   useLiveMic = false;
   if (voiceRecog) { const r = voiceRecog; voiceRecog = null; try { r.stop(); } catch (e) { /* déjà arrêté */ } }
@@ -5221,19 +5199,11 @@ renderInstallTop();
   });
 })();
 
-// ---------- Version hébergée : le micro est bloqué par le cadre, on masque les boutons ----------
-if (HOSTED_ON_CLAUDE) {
-  ["micBtn", "convMicBtn"].forEach((id) => {
-    const b = document.getElementById(id);
-    if (b) b.hidden = true;
-  });
-}
-
 // ---------- Service Worker (fonctionnement hors-ligne de la coquille) ----------
 // Désactivé tant que le fichier service-worker.js n'est pas publié à côté de index.html
 // (version en un seul fichier) : évite une erreur 404 à chaque ouverture.
 const SERVICE_WORKER_FILE = null;
-if (SERVICE_WORKER_FILE && "serviceWorker" in navigator && !HOSTED_ON_CLAUDE) {
+if (SERVICE_WORKER_FILE && "serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register(SERVICE_WORKER_FILE).catch(() => {
       /* installation PWA non critique : l'app reste utilisable sans */
@@ -6067,7 +6037,7 @@ const Reseau = (() => {
     topbar.querySelector("#netTopTitle").textContent = mode === "call" ? "📞 " + t("home_phone") : "💬 " + t("home_msg");
   }
 
-  const configured = !!(NET_CONFIG.url && NET_CONFIG.key);
+  const configured = IS_OFFICIAL_SITE && !!(NET_CONFIG.url && NET_CONFIG.key);
   let sb = null; // client Supabase
   let me = null; // identifiant de l'utilisateur connecté
   let profile = null; // { id, pseudo, lang }
@@ -6666,7 +6636,6 @@ const Reseau = (() => {
     root.querySelector("#netSend").addEventListener("click", () => sendMessage(input.value, "text"));
     let micActive = null;
     const micBtn = root.querySelector("#netMic");
-    if (HOSTED_ON_CLAUDE) micBtn.hidden = true;
     micBtn.addEventListener("click", async () => {
       if (micActive) {
         try { micActive.stop(); } catch (e) { /* ignoré */ }
@@ -6842,7 +6811,7 @@ const Reseau = (() => {
   }
 
   function createListener(lang, onPhrase, onFail) {
-    if (!SpeechRecognitionAPI || HOSTED_ON_CLAUDE) {
+    if (!SpeechRecognitionAPI) {
       onFail("unavailable");
       return null;
     }
@@ -7005,7 +6974,7 @@ const Reseau = (() => {
     render();
     const id = call.id;
     const msgEl = root.querySelector("#netCallMsg");
-    const ok = SpeechRecognitionAPI && !HOSTED_ON_CLAUDE ? await ensureMicPermission(msgEl, true) : false;
+    const ok = SpeechRecognitionAPI ? await ensureMicPermission(msgEl, true) : false;
     if (!call || call.id !== id) return;
     if (!ok) {
       call.micOff = true;
