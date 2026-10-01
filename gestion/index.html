@@ -91,6 +91,10 @@ h2 span{color:var(--muted);font-weight:600}
 .msg b{display:block;font-size:17px;margin-bottom:6px}
 .btn{display:inline-flex;margin-top:12px;align-items:center;justify-content:center;min-height:46px;padding:0 18px;border-radius:14px;background:var(--green);color:#0b0e1a;
   font:800 15px var(--font);text-decoration:none;border:none;cursor:pointer}
+.install{margin-top:14px;padding:16px;border-radius:18px;background:linear-gradient(135deg,rgba(46,207,142,.16),rgba(61,123,255,.12));border:1px solid rgba(46,207,142,.5)}
+.install .btn{display:flex;width:100%;min-height:58px;margin-top:0;font-size:17px;gap:10px;border-radius:16px}
+.install p{margin:10px 2px 0;color:var(--muted);font-size:13.5px;line-height:1.45}
+.install p b{color:var(--text)}
 footer{color:var(--muted);font-size:12px;text-align:center;margin-top:22px;line-height:1.5}
 [hidden]{display:none!important}
 </style>
@@ -101,6 +105,11 @@ footer{color:var(--muted);font-size:12px;text-align:center;margin-top:22px;line-
     <img class="logo" src="icon-192.png" alt="" width="44" height="44">
     <div><h1>Tableau de bord</h1><small>24/24 Talk</small></div>
     <div class="live off" id="live"><i></i><span id="liveTxt">…</span></div>
+  </div>
+
+  <div class="install" id="install" hidden>
+    <button class="btn" id="installBtn" type="button" hidden>📲 Installer l'icône</button>
+    <p id="installHelp">Pour mettre l'icône sur votre téléphone : touchez <b>⋮</b> en haut à droite de Chrome, puis <b>Ajouter à l'écran d'accueil</b>, puis <b>Installer</b>.</p>
   </div>
 
   <div id="state" class="msg">Chargement des chiffres…</div>
@@ -331,6 +340,29 @@ footer{color:var(--muted);font-size:12px;text-align:center;margin-top:22px;line-
   }
   start();
   var rz; window.addEventListener("resize", function () { clearTimeout(rz); rz = setTimeout(drawChart, 150); });
+
+  // Icône sur le téléphone : bouton d'installation quand Chrome le permet, sinon le chemin par le menu ⋮.
+  var standalone = (window.matchMedia && matchMedia("(display-mode: standalone)").matches) || navigator.standalone === true;
+  var deferred = null;
+  if (!standalone) $("install").hidden = false;
+  window.addEventListener("beforeinstallprompt", function (e) {
+    e.preventDefault();
+    deferred = e;
+    $("install").hidden = false;
+    $("installBtn").hidden = false;
+    $("installHelp").innerHTML = "Touchez le bouton, puis <b>Installer</b> : l'icône <b>Stats 24/24</b> apparaît sur votre écran d'accueil.";
+  });
+  $("installBtn").addEventListener("click", async function () {
+    if (!deferred) return;
+    deferred.prompt();
+    try { await deferred.userChoice; } catch (e) {}
+    deferred = null;
+    $("installBtn").hidden = true;
+  });
+  window.addEventListener("appinstalled", function () {
+    $("installBtn").hidden = true;
+    $("installHelp").innerHTML = "✅ C'est fait : l'icône <b>Stats 24/24</b> est sur votre écran d'accueil. Vous pouvez fermer Chrome et l'ouvrir depuis l'icône.";
+  });
 
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () {}); });
