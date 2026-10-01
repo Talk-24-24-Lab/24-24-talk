@@ -23,7 +23,7 @@ Créé à La Réunion par Sébastien Chevrier.
 
 - 📞 **Téléphone** — appelez vos proches : vous parlez votre langue, ils vous entendent dans la leur, en direct.
 - 💬 **Messagerie** — écrivez ou dictez : chacun lit le message dans sa propre langue.
-- 🛡️ **Réseau indépendant** — pas besoin de Facebook, de WhatsApp ni de numéro de téléphone : un pseudo suffit.
+- 🛡️ **Réseau indépendant** — un réseau à part entière : appels, messages et traduction, tout se passe dans l'appli. Un pseudo suffit.
 - 🌍 **112 langues** — dont le malgache et le swahili. Interface disponible en 10 langues.
 
 ## Pour commencer
@@ -36,7 +36,7 @@ Astuce : sur l'écran d'accueil, le bouton **Ajouter à l'écran d'accueil** ins
 
 ## Vie privée
 
-- Aucune adresse e-mail, aucun numéro de téléphone demandé.
+- Aucune donnée personnelle demandée : un pseudo suffit.
 - Les messages du réseau sont hébergés en France.
 - L'historique des traductions reste uniquement sur votre téléphone.
 
