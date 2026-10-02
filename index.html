@@ -7100,6 +7100,26 @@ const Reseau = (() => {
       }
     }
   }
+  // Appel inscrit dans la discussion, comme Messenger : les deux personnes le voient, sur tous leurs téléphones.
+  function logCallMessage(c) {
+    if (!c || c.role !== "caller" || !c.convId || !sb || !profile) return;
+    const rec = {
+      id: c.id,
+      s: c.t0 ? "ok" : (c.endStatus || "noans"),
+      d: c.t0 ? Math.max(1, Math.round((Date.now() - c.t0) / 1000)) : 0,
+    };
+    sb.from("messages").insert({ conversation_id: c.convId, body: JSON.stringify(rec), lang: profile.lang, kind: "call" })
+      .select("id,conversation_id,sender_id,body,lang,kind,created_at").single()
+      .then(({ data }) => { if (data) onNewMessage(data); }, () => { /* serveur pas encore prêt : le journal local suffit */ });
+  }
+  function parseCallMsg(m) {
+    let r = {};
+    try { r = JSON.parse(m.body) || {}; } catch (e) { r = {}; }
+    const out = m.sender_id === me;
+    let st = r.s || "ok";
+    if (!out && (st === "noans" || st === "busy")) st = "missed"; // pour la personne appelée : appel manqué
+    return { id: r.id, t: new Date(m.created_at).getTime(), d: Number(r.d) || 0, out, s: st, l: [] };
+  }
   function fmtDur(sec) {
     const m = Math.floor(sec / 60), s = sec % 60;
     return m ? m + " min " + String(s).padStart(2, "0") + " s" : s + " s";
@@ -7627,7 +7647,7 @@ const Reseau = (() => {
       }
       if (m.sender_id !== me && isActiveTab() && document.visibilityState !== "hidden") {
         const toggle = document.getElementById("autoSpeakToggle");
-        const auto = m.kind === "voice" || (toggle && toggle.classList.contains("on"));
+        const auto = m.kind !== "call" && (m.kind === "voice" || (toggle && toggle.classList.contains("on")));
         if (auto) translateFor(m).then((txt) => txt && speak(txt, voiceLang(m.lang)));
       }
     } else if (m.sender_id !== me) {
@@ -7651,6 +7671,7 @@ const Reseau = (() => {
     }
   }
   function translateFor(m) {
+    if (m && m.kind === "call") return Promise.resolve(null);
     if (!profile || m.sender_id === me || m.lang === profile.lang || !trOn) return Promise.resolve(m.body);
     const key = m.id + "|" + profile.lang;
     if (trCache.has(key)) return trCache.get(key);
@@ -7785,7 +7806,9 @@ const Reseau = (() => {
             const name = c.other ? "@" + c.other.pseudo : t("net_deleted_user");
             const lang = c.other ? langLabel(c.other.lang) : "";
             const blocked = c.otherId && blockedIds.has(c.otherId) ? " 🚫" : "";
-            const prev = c.last && visibleForMe(c.last) ? (c.last.kind === "voice" ? "🎙 " : "") + c.last.body : "";
+            const prev = !(c.last && visibleForMe(c.last)) ? ""
+              : c.last.kind === "call" ? callRecTitle(parseCallMsg(c.last))
+              : (c.last.kind === "voice" ? "🎙 " : "") + c.last.body;
             return `<button class="net-conv${c.unread ? " unread" : ""}" data-id="${escapeHtml(c.id)}">
                 <span class="net-conv-top"><b dir="ltr">${escapeHtml(name)}</b>${blocked}<span class="net-conv-lang">${escapeHtml(lang)}</span></span>
                 <span class="net-conv-prev" dir="auto">${escapeHtml(prev.length > 70 ? prev.slice(0, 70) + "…" : prev)}</span>
@@ -7995,7 +8018,8 @@ const Reseau = (() => {
   function renderChatMessages() {
     const log = root.querySelector("#netLog");
     if (!log || !currentConv) return;
-    const calls = loadCallHist(currentConv.id);
+    const dbCallIds = new Set(chatMsgs.filter((m) => m.kind === "call").map((m) => parseCallMsg(m).id).filter(Boolean));
+    const calls = loadCallHist(currentConv.id).filter((r) => !dbCallIds.has(r.id) && r.t > clearedAt(currentConv.id));
     if (!chatMsgs.length && !calls.length) {
       log.innerHTML = chatLoading ? "" : `<div class="empty">${escapeHtml(t("net_empty_chat"))}</div>`;
       return;
@@ -8014,6 +8038,18 @@ const Reseau = (() => {
       }
       const m = it.m;
       const mine = m.sender_id === me;
+      if (m.kind === "call") {
+        const wrap = document.createElement("div");
+        wrap.innerHTML = callRecHtml(parseCallMsg(m));
+        const el = wrap.firstElementChild;
+        el.style.cursor = "pointer";
+        el.addEventListener("click", () => actionSheet([
+          { label: t("net_call_btn") + " @" + (currentConv.other ? currentConv.other.pseudo : ""), run: () => { if (!call && currentConv && currentConv.otherId && !blockedIds.has(currentConv.otherId)) startCall(false); } },
+          { label: t("net_m_del_me"), run: () => { hideForMe(m.id); chatMsgs = chatMsgs.filter((x) => x.id !== m.id); renderChatMessages(); } },
+        ]));
+        log.appendChild(el);
+        return;
+      }
       const div = document.createElement("div");
       div.className = "bubble " + (mine ? "me" : "them");
       div.setAttribute("dir", "auto");
@@ -8041,8 +8077,9 @@ const Reseau = (() => {
       log.appendChild(div);
     });
     // « Vu » ou « Envoyé » sous mon dernier message, comme Messenger.
-    const lastMine = [...chatMsgs].reverse().find((x) => x.sender_id === me);
-    const lastAny = chatMsgs[chatMsgs.length - 1];
+    const realMsgs = chatMsgs.filter((x) => x.kind !== "call");
+    const lastMine = [...realMsgs].reverse().find((x) => x.sender_id === me);
+    const lastAny = realMsgs[realMsgs.length - 1];
     if (lastMine && lastAny && lastAny.id === lastMine.id) {
       const seen = currentConv.otherRead && new Date(currentConv.otherRead) >= new Date(lastMine.created_at);
       const st = document.createElement("div");
@@ -8741,6 +8778,7 @@ const Reseau = (() => {
     const fromList = call.fromList;
     if (call.t0 && call.role === "caller") Stats24.track("appel_sec", (Date.now() - call.t0) / 1000);
     saveCallRecord(call);
+    logCallMessage(call);
     call = null;
     if (message) setFlash(escapeHtml(message), "ok");
     if (screen === "call") {
