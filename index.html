@@ -339,6 +339,9 @@
   .net-ctrl-btn.on{background:var(--text);color:var(--bg);border-color:var(--text);}
   .net-ctrl-btn:active{transform:scale(.94);}
   .net-call-timer{text-align:center;font-size:20px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:4px;}
+  .net-voice-toggle{margin:12px auto 0;display:flex;align-items:center;gap:6px;min-height:42px;padding:0 18px;border-radius:999px;border:1px solid var(--line);background:var(--panel2);color:var(--muted);font-weight:700;font-size:15px;cursor:pointer;}
+  .net-voice-toggle.on{background:var(--ok);border-color:var(--ok);color:#0b0e1a;}
+  .net-voice-info{margin-top:10px;text-align:center;color:var(--ok);font-size:14px;font-weight:700;min-height:1px;}
   .net-call-info{text-align:center;color:var(--warn);font-size:13.5px;font-weight:700;min-height:1px;}
   .net-call-status{font-weight:700;font-size:15px;text-align:center;line-height:1.4;}
   .net-call-status.live::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--ok);
@@ -5527,10 +5530,19 @@ if (SERVICE_WORKER_FILE && "serviceWorker" in navigator) {
 // Ces deux valeurs sont publiques par nature : la sécurité repose sur les règles de la base.
 const NET_CONFIG = { url: "https://wsgcumnaltdinchsdovs.supabase.co", key: "sb_publishable_FkPVBXxsT57oNonWUv16_g_9M0eIyxl" };
 const NET_SDK_URL = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+// Voix réelle (WebRTC) : la voix va directement d'un téléphone à l'autre. Les serveurs STUN aident les
+// deux téléphones à se trouver. Pour les réseaux qui bloquent le direct, ajouter ici un relais TURN,
+// ex. { urls: "turn:turn.cloudflare.com:3478", username: "…", credential: "…" }.
+const RTC_ICE_SERVERS = [{ urls: ["stun:stun.l.google.com:19302", "stun:stun1.l.google.com:19302", "stun:stun.cloudflare.com:3478"] }];
 
 // ---------- Textes du réseau (11 langues) ----------
 const NET_STRINGS = {
   fr: {
+    net_in_voice: "En communication avec @{p}",
+    net_mode_voice: "Voix réelle",
+    net_voice_live: "🗣 Voix réelle : vous vous entendez directement, sans traduction.",
+    net_voice_connecting: "Connexion de la voix…",
+    net_voice_fail: "Voix directe impossible sur ce réseau : retour à l'appel traduit.",
     net_calllog: "Journal des appels",
     net_calllog_empty: "Aucun appel pour le moment.",
     net_call_missed: "📞 Appel manqué",
@@ -5636,6 +5648,11 @@ const NET_STRINGS = {
     net_how_3: "Écrivez-lui ou appelez-le : chacun lit et entend dans sa propre langue.",
   },
   en: {
+    net_in_voice: "On a call with @{p}",
+    net_mode_voice: "Real voice",
+    net_voice_live: "🗣 Real voice: you hear each other directly, without translation.",
+    net_voice_connecting: "Connecting the voice…",
+    net_voice_fail: "A direct voice link isn't possible on this network: back to the translated call.",
     net_calllog: "Call log",
     net_calllog_empty: "No calls yet.",
     net_call_missed: "📞 Missed call",
@@ -5741,6 +5758,11 @@ const NET_STRINGS = {
     net_how_3: "Write to them or call them: each of you reads and hears in your own language.",
   },
   es: {
+    net_in_voice: "En llamada con @{p}",
+    net_mode_voice: "Voz real",
+    net_voice_live: "🗣 Voz real: os oís directamente, sin traducción.",
+    net_voice_connecting: "Conectando la voz…",
+    net_voice_fail: "La voz directa no es posible en esta red: volvemos a la llamada traducida.",
     net_calllog: "Registro de llamadas",
     net_calllog_empty: "Todavía no hay llamadas.",
     net_call_missed: "📞 Llamada perdida",
@@ -5846,6 +5868,11 @@ const NET_STRINGS = {
     net_how_3: "Escríbele o llámale: cada uno lee y oye en su propio idioma.",
   },
   pt: {
+    net_in_voice: "Em chamada com @{p}",
+    net_mode_voice: "Voz real",
+    net_voice_live: "🗣 Voz real: vocês se ouvem diretamente, sem tradução.",
+    net_voice_connecting: "Conectando a voz…",
+    net_voice_fail: "Voz direta indisponível nesta rede: voltando à chamada traduzida.",
     net_calllog: "Registo de chamadas",
     net_calllog_empty: "Ainda não há chamadas.",
     net_call_missed: "📞 Chamada perdida",
@@ -5951,6 +5978,11 @@ const NET_STRINGS = {
     net_how_3: "Escreva-lhe ou ligue-lhe: cada um lê e ouve no seu próprio idioma.",
   },
   de: {
+    net_in_voice: "Im Gespräch mit @{p}",
+    net_mode_voice: "Echte Stimme",
+    net_voice_live: "🗣 Echte Stimme: Ihr hört euch direkt, ohne Übersetzung.",
+    net_voice_connecting: "Stimme wird verbunden…",
+    net_voice_fail: "Direkte Sprachverbindung in diesem Netz nicht möglich: zurück zum übersetzten Anruf.",
     net_calllog: "Anrufliste",
     net_calllog_empty: "Noch keine Anrufe.",
     net_call_missed: "📞 Verpasster Anruf",
@@ -6056,6 +6088,11 @@ const NET_STRINGS = {
     net_how_3: "Schreib ihm oder ruf ihn an: Jeder liest und hört in seiner eigenen Sprache.",
   },
   it: {
+    net_in_voice: "In chiamata con @{p}",
+    net_mode_voice: "Voce reale",
+    net_voice_live: "🗣 Voce reale: vi sentite direttamente, senza traduzione.",
+    net_voice_connecting: "Collegamento della voce…",
+    net_voice_fail: "Voce diretta non possibile su questa rete: si torna alla chiamata tradotta.",
     net_calllog: "Registro chiamate",
     net_calllog_empty: "Ancora nessuna chiamata.",
     net_call_missed: "📞 Chiamata persa",
@@ -6161,6 +6198,11 @@ const NET_STRINGS = {
     net_how_3: "Scrivigli o chiamalo: ognuno legge e sente nella propria lingua.",
   },
   zh: {
+    net_in_voice: "正在与 @{p} 通话",
+    net_mode_voice: "真实语音",
+    net_voice_live: "🗣 真实语音：双方直接听到对方，不经翻译。",
+    net_voice_connecting: "正在连接语音…",
+    net_voice_fail: "此网络无法建立直接语音：已切回翻译通话。",
     net_calllog: "通话记录",
     net_calllog_empty: "暂无通话。",
     net_call_missed: "📞 未接来电",
@@ -6266,6 +6308,11 @@ const NET_STRINGS = {
     net_how_3: "给他发消息或打电话：每个人都用自己的语言读和听。",
   },
   ja: {
+    net_in_voice: "@{p} と通話中",
+    net_mode_voice: "実際の声",
+    net_voice_live: "🗣 実際の声：翻訳なしで直接お互いの声が聞こえます。",
+    net_voice_connecting: "音声を接続中…",
+    net_voice_fail: "このネットワークでは直接音声をつなげません。翻訳通話に戻ります。",
     net_calllog: "通話履歴",
     net_calllog_empty: "まだ通話はありません。",
     net_call_missed: "📞 不在着信",
@@ -6371,6 +6418,11 @@ const NET_STRINGS = {
     net_how_3: "メッセージや通話：それぞれ自分の言語で読んで聞けます。",
   },
   ar: {
+    net_in_voice: "في مكالمة مع @{p}",
+    net_mode_voice: "الصوت الحقيقي",
+    net_voice_live: "🗣 الصوت الحقيقي: تسمعان بعضكما مباشرة، دون ترجمة.",
+    net_voice_connecting: "جارٍ توصيل الصوت…",
+    net_voice_fail: "تعذّر الاتصال الصوتي المباشر على هذه الشبكة: العودة إلى المكالمة المترجمة.",
     net_calllog: "سجل المكالمات",
     net_calllog_empty: "لا توجد مكالمات بعد.",
     net_call_missed: "📞 مكالمة فائتة",
@@ -6476,6 +6528,11 @@ const NET_STRINGS = {
     net_how_3: "راسِله أو اتصل به: كلٌّ يقرأ ويسمع بلغته.",
   },
   ru: {
+    net_in_voice: "Разговор с @{p}",
+    net_mode_voice: "Живой голос",
+    net_voice_live: "🗣 Живой голос: вы слышите друг друга напрямую, без перевода.",
+    net_voice_connecting: "Подключение голоса…",
+    net_voice_fail: "Прямая голосовая связь в этой сети невозможна: возвращаемся к переводимому звонку.",
     net_calllog: "Журнал звонков",
     net_calllog_empty: "Звонков пока нет.",
     net_call_missed: "📞 Пропущенный звонок",
@@ -6581,6 +6638,11 @@ const NET_STRINGS = {
     net_how_3: "Пишите или звоните: каждый читает и слышит на своём языке.",
   },
   mg: {
+    net_in_voice: "Miresaka amin'i @{p}",
+    net_mode_voice: "Feo tena izy",
+    net_voice_live: "🗣 Feo tena izy: mifandre mivantana ianareo, tsy misy fandikana.",
+    net_voice_connecting: "Mampifandray ny feo…",
+    net_voice_fail: "Tsy azo atao amin'ity tambajotra ity ny feo mivantana: miverina amin'ny antso voadika.",
     net_calllog: "Tantaran'ny antso",
     net_calllog_empty: "Mbola tsy misy antso.",
     net_call_missed: "📞 Antso tsy voaray",
@@ -8124,6 +8186,11 @@ const Reseau = (() => {
       updateCallInfo();
     } else if (p.t === "line" && call.state === "active") {
       onRemoteLine(p);
+    } else if (p.t === "rtc" && call.state === "active") {
+      onRtc(p);
+    } else if (p.t === "mode" && call.state === "active" && (p.mode === "voice" || p.mode === "translate")) {
+      if (call.mode === undefined) call.mode = p.mode; // reçu avant la fin du décroché
+      else setMode(p.mode, true);
     }
   }
 
@@ -8160,10 +8227,23 @@ const Reseau = (() => {
     screen = "call";
     render();
     if (call.muted) sendSignal(call.otherId, { t: "mute", callId: call.id, on: true });
+    if (!call.mode) {
+      // Même langue des deux côtés : pas besoin de traduire, on passe la vraie voix.
+      call.mode = sameLang(profile.lang, call.otherLang) && voiceSupported() ? "voice" : "translate";
+      if (!voiceSupported()) sendSignal(call.otherId, { t: "mode", callId: call.id, mode: "translate" });
+      renderCall();
+    }
+    if (call.mode === "voice") { startVoice(); return; }
+    await startListening();
+  }
+
+  // Appel traduit : le micro écoute, chaque phrase est envoyée en texte puis traduite et lue chez l'autre.
+  async function startListening() {
+    if (!call || call.mode === "voice" || call.listener) return;
     const id = call.id;
     const msgEl = root.querySelector("#netCallMsg");
     const ok = SpeechRecognitionAPI ? await ensureMicPermission(msgEl, true) : false;
-    if (!call || call.id !== id) return;
+    if (!call || call.id !== id || call.mode === "voice" || call.listener) return;
     if (!ok) {
       call.micOff = true;
       renderCall();
@@ -8182,6 +8262,134 @@ const Reseau = (() => {
         const el = root.querySelector("#netInterim");
         if (el) el.textContent = tx;
       };
+    }
+  }
+
+  function sameLang(a, b) {
+    const x = String(a || "").toLowerCase().split("-")[0], y = String(b || "").toLowerCase().split("-")[0];
+    return !!x && x === y;
+  }
+  function voiceSupported() {
+    return typeof RTCPeerConnection === "function" && !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+  }
+  function setVoiceInfo(txt) {
+    if (call) call.voiceInfo = txt;
+    const el = root.querySelector("#netVoiceInfo");
+    if (el) el.textContent = txt || "";
+  }
+  async function startVoice() {
+    const c = call;
+    if (!c || c.voice || c.mode !== "voice") return;
+    const v = { pc: null, stream: null, audio: null, pendingIce: [], ok: false, timer: null };
+    c.voice = v;
+    setVoiceInfo(t("net_voice_connecting"));
+    try {
+      v.stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
+    } catch (e) {
+      if (c.voice === v) voiceFailed(c);
+      return;
+    }
+    if (call !== c || c.voice !== v) { v.stream.getTracks().forEach((tr) => tr.stop()); return; }
+    v.stream.getAudioTracks().forEach((tr) => { tr.enabled = !c.muted; });
+    let pc;
+    try { pc = new RTCPeerConnection({ iceServers: RTC_ICE_SERVERS }); } catch (e) { voiceFailed(c); return; }
+    v.pc = pc;
+    v.stream.getTracks().forEach((tr) => pc.addTrack(tr, v.stream));
+    pc.onicecandidate = (e) => {
+      if (e.candidate && c.voice === v) sendSignal(c.otherId, { t: "rtc", callId: c.id, ice: e.candidate.toJSON ? e.candidate.toJSON() : e.candidate });
+    };
+    pc.ontrack = (e) => {
+      if (c.voice !== v) return;
+      if (!v.audio) {
+        v.audio = document.createElement("audio");
+        v.audio.autoplay = true;
+        v.audio.setAttribute("playsinline", "");
+        document.body.appendChild(v.audio);
+      }
+      v.audio.srcObject = (e.streams && e.streams[0]) || new MediaStream([e.track]);
+      v.audio.volume = c.speaker ? 1 : 0.35;
+      const pl = v.audio.play();
+      if (pl && pl.catch) pl.catch(() => { /* lecture bloquée : reprend au prochain toucher */ });
+    };
+    pc.onconnectionstatechange = () => {
+      if (c.voice !== v) return;
+      if (pc.connectionState === "connected") {
+        v.ok = true;
+        clearTimeout(v.timer);
+        setVoiceInfo(t("net_voice_live"));
+      } else if (pc.connectionState === "failed") {
+        voiceFailed(c);
+      }
+    };
+    // Pas de voix au bout de 15 s (réseau qui bloque le direct) : on repasse en appel traduit.
+    v.timer = setTimeout(() => { if (c.voice === v && !v.ok) voiceFailed(c); }, 15000);
+    if (c.role === "caller") {
+      try {
+        await pc.setLocalDescription(await pc.createOffer());
+        sendSignal(c.otherId, { t: "rtc", callId: c.id, sdp: { type: pc.localDescription.type, sdp: pc.localDescription.sdp } });
+      } catch (e) { voiceFailed(c); return; }
+    }
+    // Messages de connexion arrivés pendant qu'on préparait le micro.
+    const q = (c.rtcQueue || []).splice(0);
+    for (const m of q) await onRtc(m);
+  }
+  async function onRtc(p) {
+    const c = call;
+    if (!c) return;
+    const v = c.voice;
+    if (!v || !v.pc) { (c.rtcQueue = c.rtcQueue || []).push(p); return; }
+    const pc = v.pc;
+    try {
+      if (p.sdp) {
+        await pc.setRemoteDescription(p.sdp);
+        if (p.sdp.type === "offer") {
+          await pc.setLocalDescription(await pc.createAnswer());
+          sendSignal(c.otherId, { t: "rtc", callId: c.id, sdp: { type: pc.localDescription.type, sdp: pc.localDescription.sdp } });
+        }
+        for (const ice of v.pendingIce.splice(0)) { try { await pc.addIceCandidate(ice); } catch (e) { /* ignoré */ } }
+      } else if (p.ice) {
+        if (!pc.remoteDescription) v.pendingIce.push(p.ice);
+        else { try { await pc.addIceCandidate(p.ice); } catch (e) { /* ignoré */ } }
+      }
+    } catch (e) {
+      voiceFailed(c);
+    }
+  }
+  function stopVoice(c) {
+    const v = c && c.voice;
+    if (!v) return;
+    c.voice = null;
+    c.rtcQueue = [];
+    clearTimeout(v.timer);
+    try { if (v.pc) v.pc.close(); } catch (e) { /* ignoré */ }
+    if (v.stream) v.stream.getTracks().forEach((tr) => tr.stop());
+    if (v.audio) { try { v.audio.srcObject = null; } catch (e) { /* ignoré */ } v.audio.remove(); }
+  }
+  function voiceFailed(c) {
+    if (!c || call !== c) return;
+    stopVoice(c);
+    if (c.mode !== "voice") return;
+    sendSignal(c.otherId, { t: "mode", callId: c.id, mode: "translate" });
+    setMode("translate", true);
+    const el = root.querySelector("#netCallMsg");
+    if (el) el.innerHTML = `<div class="msg warn">${escapeHtml(t("net_voice_fail"))}</div>`;
+  }
+  // Passage voix réelle ⇄ appel traduit, pour les deux téléphones en même temps.
+  function setMode(mode, fromRemote) {
+    if (!call || call.state !== "active" || call.mode === mode) return;
+    if (mode === "voice" && !voiceSupported()) return;
+    call.mode = mode;
+    if (!fromRemote) sendSignal(call.otherId, { t: "mode", callId: call.id, mode });
+    if (mode === "voice") {
+      if (call.listener) { call.listener.stop(); call.listener = null; }
+      call.interim = "";
+      renderCall();
+      startVoice();
+    } else {
+      stopVoice(call);
+      call.voiceInfo = "";
+      renderCall();
+      startListening();
     }
   }
 
@@ -8238,6 +8446,7 @@ const Reseau = (() => {
     // Appel jamais décroché : le contact voit « Appel manqué » au lieu de « … vous appelle ».
     if (call.role === "caller" && call.state === "ringing" && !call.remoteEnded) notifyCall("cancel", call);
     if (call.listener) call.listener.stop();
+    stopVoice(call);
     stopRing();
     hideRingBar();
     try { window.speechSynthesis && window.speechSynthesis.cancel(); } catch (e) { /* ignoré */ }
@@ -8266,7 +8475,9 @@ const Reseau = (() => {
       screen = currentConv ? "chat" : "home";
       return render();
     }
-    const status = call.state === "active" ? t("net_in_call", { p: call.otherPseudo }) : t("net_ringing", { p: call.otherPseudo });
+    const status = call.state === "active"
+      ? t(call.mode === "voice" ? "net_in_voice" : "net_in_call", { p: call.otherPseudo })
+      : t("net_ringing", { p: call.otherPseudo });
     // Plein écran, comme un vrai appel : le bouton rouge « Raccrocher » reste toujours visible en bas.
     root.innerHTML = `
       <div class="net-call" role="dialog" aria-label="${escapeHtml(status)}">
@@ -8276,12 +8487,14 @@ const Reseau = (() => {
           <div class="net-call-status${call.state === "active" ? " live" : ""}">${escapeHtml(status)}</div>
           ${call.state === "active" ? `<div class="net-call-timer" id="netCallTimer"></div><div class="net-call-info" id="netCallInfo"></div>` : ""}
           <div class="net-call-lang">${escapeHtml(langLabel(profile.lang))} ⇄ ${escapeHtml(langLabel(call.otherLang || ""))}</div>
-          ${trSwitchHtml(true)}
+          ${call.state === "active" && call.mode === "voice" ? "" : trSwitchHtml(true)}
+          ${call.state === "active" && voiceSupported() ? `<button type="button" class="net-voice-toggle${call.mode === "voice" ? " on" : ""}" id="netVoiceMode" aria-pressed="${call.mode === "voice"}">🗣 ${escapeHtml(t("net_mode_voice"))}</button>` : ""}
+          ${call.state === "active" && call.mode === "voice" ? `<div class="net-voice-info" id="netVoiceInfo">${escapeHtml(call.voiceInfo || "")}</div>` : ""}
         </div>
         <div class="conv-log net-log" id="netCallLog"></div>
         <div class="net-interim" id="netInterim" dir="auto">${escapeHtml(call.interim || "")}</div>
         <div class="net-call-bottom">
-          ${call.state === "active" ? `
+          ${call.state === "active" && call.mode !== "voice" ? `
           ${call.micOff ? `<div class="msg warn">${escapeHtml(t("net_call_mic_off"))}</div>` : ""}
           <div class="row net-call-type">
             <input type="text" id="netCallInput" class="net-input" dir="auto" maxlength="1000" placeholder="${escapeHtml(t("net_call_type_ph"))}" style="flex:1;" />
@@ -8298,6 +8511,8 @@ const Reseau = (() => {
     renderCallLines();
     updateCallInfo();
     root.querySelector("#netHangup").addEventListener("click", hangup);
+    const vm = root.querySelector("#netVoiceMode");
+    if (vm) vm.addEventListener("click", () => { if (call) setMode(call.mode === "voice" ? "translate" : "voice"); });
     const muteBtn = root.querySelector("#netMute");
     if (muteBtn) muteBtn.addEventListener("click", () => {
       if (!call) return;
@@ -8305,6 +8520,7 @@ const Reseau = (() => {
       const l = call.listener;
       if (l) { if (call.muted) l.pause(); else if (!call.speaking) l.resume(); }
       call.interim = "";
+      if (call.voice && call.voice.stream) call.voice.stream.getAudioTracks().forEach((tr) => { tr.enabled = !call.muted; });
       if (call.state === "active") sendSignal(call.otherId, { t: "mute", callId: call.id, on: call.muted });
       muteBtn.classList.toggle("on", call.muted);
       muteBtn.setAttribute("aria-pressed", String(call.muted));
@@ -8317,6 +8533,7 @@ const Reseau = (() => {
       if (!call) return;
       call.speaker = !call.speaker;
       safeStore.setItem("lc_speaker", call.speaker ? "1" : "0");
+      if (call.voice && call.voice.audio) call.voice.audio.volume = call.speaker ? 1 : 0.35;
       spkBtn.classList.toggle("on", call.speaker);
       spkBtn.setAttribute("aria-pressed", String(call.speaker));
     });
