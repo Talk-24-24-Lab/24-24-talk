@@ -91,8 +91,18 @@ h2 span{color:var(--muted);font-weight:600}
 .users .new{display:inline-block;margin-inline-start:6px;padding:1px 7px;border-radius:999px;background:rgba(46,207,142,.18);color:var(--green);font-size:11.5px;font-weight:800;vertical-align:2px}
 .users .act{flex:none;display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 14px;border-radius:12px;background:var(--blue);color:#fff;font:800 14px var(--font);text-decoration:none;white-space:nowrap}
 .users .me{flex:none;color:var(--muted);font-size:12.5px;font-weight:700}
-.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:14px;padding:5px;background:var(--panel);border:1px solid var(--line);border-radius:16px}
-.tabs button{min-height:44px;border:none;border-radius:12px;background:transparent;color:var(--muted);font:800 15px var(--font);cursor:pointer}
+.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:14px;padding:5px;background:var(--panel);border:1px solid var(--line);border-radius:16px}
+.tabs button{min-height:44px;padding:0 4px;border:none;border-radius:12px;background:transparent;color:var(--muted);font:800 14px var(--font);cursor:pointer}
+.tabs .badge{display:inline-block;min-width:18px;padding:0 5px;border-radius:999px;background:var(--err);color:#fff;font-size:11.5px;line-height:18px}
+.ban{flex:none;min-height:42px;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);color:var(--muted);font:800 13px var(--font);cursor:pointer}
+.ban.on{border-color:var(--err);color:var(--err)}
+.acts{display:flex;gap:6px;flex:none}
+.sus{display:inline-block;margin-inline-start:6px;padding:1px 7px;border-radius:999px;background:rgba(255,92,122,.18);color:var(--err);font-size:11.5px;font-weight:800;vertical-align:2px}
+.rep{padding:12px 0;border-bottom:1px solid var(--grid)}
+.rep:last-child{border-bottom:none}
+.rep .row1{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.rep q{display:block;margin-top:8px;padding:8px 10px;border-radius:10px;background:var(--panel2);font-size:14px;quotes:none;overflow-wrap:anywhere}
+.rep small{display:block;color:var(--muted);font-size:12.5px;margin-top:3px}
 .tabs button.on{background:var(--panel2);color:var(--text);box-shadow:inset 0 0 0 1px var(--line)}
 .search{width:100%;min-height:46px;margin-bottom:6px;padding:0 14px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font:600 15.5px var(--font)}
 .search::placeholder{color:var(--muted)}
@@ -128,6 +138,7 @@ footer{color:var(--muted);font-size:12px;text-align:center;margin-top:22px;line-
     <div class="tabs" role="tablist">
       <button type="button" role="tab" id="tabStats" data-v="stats">📊 Chiffres</button>
       <button type="button" role="tab" id="tabUsers" data-v="users">👥 Inscrits <span id="tabUsersN"></span></button>
+      <button type="button" role="tab" id="tabReports" data-v="reports">🚩 Signalés <span id="tabRepN"></span></button>
     </div>
 
     <div id="viewStats">
@@ -163,6 +174,14 @@ footer{color:var(--muted);font-size:12px;text-align:center;margin-top:22px;line-
 
     </div>
 
+    <div id="viewReports" hidden>
+      <div class="card">
+        <h2>Signalements <span id="repCount"></span></h2>
+        <div id="reports"></div>
+        <p class="note">Un compte <b>suspendu</b> ne peut plus envoyer de message, appeler ni ouvrir de discussion. Ses anciens messages restent visibles. Vous pouvez le rétablir à tout moment.</p>
+      </div>
+    </div>
+
     <div id="viewUsers" hidden>
       <div class="card">
         <h2>Inscrits au réseau <span id="usersCount"></span></h2>
@@ -195,7 +214,9 @@ footer{color:var(--muted);font-size:12px;text-align:center;margin-top:22px;line-
     { k: "ouvertures", label: "Ouvertures" }
   ];
   var ME = "seb1975";
-  var view = /inscrits/.test(location.hash) ? "users" : "stats";
+  var modo = null; // { reports: [], bannis: [] } ; null tant que le code SQL n'est pas installé
+  var modoMissing = false;
+  var view = /inscrits/.test(location.hash) ? "users" : /signalements/.test(location.hash) ? "reports" : "stats";
   var metric = "personnes";
   try { metric = localStorage.getItem("tdb_metric") || "personnes"; } catch (e) {}
   var last = null;
@@ -269,24 +290,92 @@ footer{color:var(--muted);font-size:12px;text-align:center;margin-top:22px;line-
     $("users").innerHTML = list.length ? list.map(function (u) {
       var n = Number(u.messages) || 0;
       var isNew = u.cree && now - new Date(u.cree).getTime() < 48 * 3600e3;
+      var banned = isBanned(u.pseudo);
       var act = u.pseudo === ME ? '<span class="me">c\'est vous</span>' :
-        '<a class="act" href="' + APP + "?ajouter=" + encodeURIComponent(u.pseudo) + '" aria-label="Écrire à @' + esc(u.pseudo) + '">💬 Écrire</a>';
-      return '<li><div class="who"><b>@' + esc(u.pseudo) + (isNew ? '<span class="new">Nouveau</span>' : "") + "</b><small>" +
+        '<span class="acts">' + (modo ? banBtn(u.pseudo, banned) : "") +
+        '<a class="act" href="' + APP + "?ajouter=" + encodeURIComponent(u.pseudo) + '" aria-label="Écrire à @' + esc(u.pseudo) + '">💬 Écrire</a></span>';
+      return '<li><div class="who"><b>@' + esc(u.pseudo) + (isNew ? '<span class="new">Nouveau</span>' : "") + (banned ? '<span class="sus">Suspendu</span>' : "") + "</b><small>" +
         esc(LANGS[u.lang] || u.lang) + " · inscrit le " + dateFr(u.cree, true) + "</small><small>" + fmt(n) + " message" + (n > 1 ? "s" : "") +
         (u.dernier_message ? " · dernier le " + dateFr(u.dernier_message, true) : "") + "</small></div>" + act + "</li>";
     }).join("") : '<li class="empty">' + (q ? "Aucun pseudo ne correspond." : "Personne pour l'instant.") + "</li>";
   }
 
+  function isBanned(p) { return !!(modo && modo.bannis.indexOf(p) !== -1); }
+  function banBtn(p, banned) {
+    return '<button type="button" class="ban' + (banned ? " on" : "") + '" data-ban="' + esc(p) + '" data-on="' + (banned ? "0" : "1") + '">' + (banned ? "Rétablir" : "Suspendre") + "</button>";
+  }
+  function drawReports() {
+    if (modoMissing) {
+      $("reports").innerHTML = '<p class="note" style="margin:0">Cet écran n\'est pas encore activé sur le serveur : lancez le code SQL « signalements » envoyé par Claude dans l\'éditeur SQL de Supabase.</p>';
+      $("repCount").textContent = "";
+      $("tabRepN").innerHTML = "";
+      return;
+    }
+    if (!modo) return;
+    var list = modo.reports || [];
+    var seen = 0;
+    try { seen = Number(localStorage.getItem("tdb_rep_seen")) || 0; } catch (e) {}
+    var fresh = view === "reports" ? 0 : list.filter(function (r) { return new Date(r.cree).getTime() > seen; }).length;
+    $("tabRepN").innerHTML = fresh ? '<span class="badge">' + fresh + "</span>" : "";
+    $("repCount").textContent = "(" + list.length + ")";
+    $("reports").innerHTML = list.length ? list.map(function (r) {
+      var cible = r.cible ? "@" + esc(r.cible) : "compte supprimé";
+      return '<div class="rep"><div class="row1"><div><b>' + cible + (r.suspendu ? '<span class="sus">Suspendu</span>' : "") + "</b>" +
+        "<small>signalé par " + (r.par ? "@" + esc(r.par) : "compte supprimé") + " · " + dateFr(r.cree, true) + "</small></div>" +
+        (r.cible && r.cible !== ME ? banBtn(r.cible, r.suspendu) : "") + "</div>" +
+        (r.motif ? "<small>Motif : " + esc(r.motif) + "</small>" : "") +
+        (r.message ? "<q>« " + esc(r.message) + " »</q>" : "") + "</div>";
+    }).join("") : '<p class="note" style="margin:0">Aucun signalement pour l\'instant. 👍</p>';
+  }
+  async function loadModo() {
+    if (!sb) return;
+    var res;
+    try { res = await sb.rpc("admin_moderation"); } catch (e) { return; }
+    if (res.error) {
+      if (/admin_moderation|function|schema cache/i.test(String(res.error.message || ""))) { modoMissing = true; drawReports(); }
+      return;
+    }
+    modoMissing = false;
+    modo = res.data || { reports: [], bannis: [] };
+    modo.reports = modo.reports || [];
+    modo.bannis = modo.bannis || [];
+    drawReports();
+    drawUsers();
+  }
+  // Suspendre / rétablir : demande une confirmation (2e appui), puis met à jour le serveur.
+  document.addEventListener("click", async function (e) {
+    var b = e.target.closest && e.target.closest("button[data-ban]");
+    if (!b || !sb) return;
+    var p = b.dataset.ban, on = b.dataset.on === "1";
+    if (!b.dataset.confirm) {
+      b.dataset.confirm = "1";
+      b.textContent = on ? "Confirmer ?" : "Rétablir ?";
+      setTimeout(function () { if (b.isConnected && b.dataset.confirm) { delete b.dataset.confirm; b.textContent = on ? "Suspendre" : "Rétablir"; } }, 4000);
+      return;
+    }
+    b.disabled = true;
+    b.textContent = "…";
+    var res;
+    try { res = await sb.rpc("admin_ban", { target_pseudo: p, suspendre: on }); } catch (err) { res = { error: err }; }
+    if (res.error) { b.disabled = false; delete b.dataset.confirm; b.textContent = "Erreur, réessayer"; return; }
+    await loadModo();
+  });
+
   function showView(v) {
-    view = v === "users" ? "users" : "stats";
+    view = v === "users" ? "users" : v === "reports" ? "reports" : "stats";
     $("viewStats").hidden = view !== "stats";
     $("viewUsers").hidden = view !== "users";
-    ["tabStats", "tabUsers"].forEach(function (id) {
+    $("viewReports").hidden = view !== "reports";
+    if (view === "reports") {
+      try { localStorage.setItem("tdb_rep_seen", String(Date.now())); } catch (e) {}
+      drawReports();
+    }
+    ["tabStats", "tabUsers", "tabReports"].forEach(function (id) {
       var on = $(id).dataset.v === view;
       $(id).classList.toggle("on", on);
       $(id).setAttribute("aria-selected", String(on));
     });
-    try { history.replaceState(null, "", view === "users" ? "#inscrits" : location.pathname + location.search); } catch (e) {}
+    try { history.replaceState(null, "", view === "users" ? "#inscrits" : view === "reports" ? "#signalements" : location.pathname + location.search); } catch (e) {}
     if (view === "stats") drawChart();
   }
 
@@ -368,6 +457,7 @@ footer{color:var(--muted);font-size:12px;text-align:center;margin-top:22px;line-
       return;
     }
     render(res.data || {});
+    loadModo();
     setLive(true, "En direct");
     $("upd").textContent = "Mis à jour à " + new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", second: "2-digit", timeZone: "Indian/Reunion" });
   }
@@ -377,6 +467,7 @@ footer{color:var(--muted);font-size:12px;text-align:center;margin-top:22px;line-
     showView(view);
     $("tabStats").addEventListener("click", function () { showView("stats"); });
     $("tabUsers").addEventListener("click", function () { showView("users"); });
+    $("tabReports").addEventListener("click", function () { showView("reports"); });
     $("userSearch").addEventListener("input", drawUsers);
     if (!window.supabase || !window.supabase.createClient) {
       showState("<b>Pas de connexion</b>Impossible de charger le tableau de bord. Vérifiez votre connexion Internet, puis rouvrez l'appli.");
