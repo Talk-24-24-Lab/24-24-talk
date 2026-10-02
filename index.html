@@ -315,6 +315,17 @@
   .net-hangup svg{width:32px;height:32px;transform:rotate(135deg);}
   .net-hangup:active{transform:scale(.94);}
   .net-hangup-label{font-size:13.5px;font-weight:700;margin-top:6px;}
+  .net-call-ctrls{display:flex;justify-content:center;align-items:flex-start;gap:28px;width:100%;margin-top:4px;}
+  .net-ctrl{display:flex;flex-direction:column;align-items:center;min-width:76px;}
+  .net-ctrl > span{font-size:13px;font-weight:700;margin-top:6px;color:var(--muted);}
+  .net-ctrl .net-hangup-label{color:var(--text);}
+  .net-ctrl-btn{width:60px;height:60px;border-radius:50%;border:1px solid var(--line);background:var(--panel2);color:var(--text);margin-top:18px;margin-bottom:6px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;}
+  .net-ctrl-btn svg{width:26px;height:26px;}
+  .net-ctrl-btn.on{background:var(--text);color:var(--bg);border-color:var(--text);}
+  .net-ctrl-btn:active{transform:scale(.94);}
+  .net-call-timer{text-align:center;font-size:20px;font-weight:800;font-variant-numeric:tabular-nums;margin-top:4px;}
+  .net-call-info{text-align:center;color:var(--warn);font-size:13.5px;font-weight:700;min-height:1px;}
   .net-call-status{font-weight:700;font-size:15px;text-align:center;line-height:1.4;}
   .net-call-status.live::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--ok);
     margin-inline-end:8px;vertical-align:middle;animation:voicePulse 1.4s ease-in-out infinite;}
@@ -4618,7 +4629,7 @@ async function shareText(text, msgEl) {
 }
 
 // ---------- Synthèse vocale (lecture) ----------
-function speak(text, langCode, onDone) {
+function speak(text, langCode, onDone, volume) {
   // onDone est appelé une seule fois, à la fin de la lecture (ou tout de suite si elle échoue).
   let called = false;
   const done = () => {
@@ -4634,6 +4645,7 @@ function speak(text, langCode, onDone) {
   const lang = langByCode(langCode);
   const utter = new SpeechSynthesisUtterance(text);
   utter.lang = lang.speech;
+  if (typeof volume === "number") utter.volume = Math.max(0, Math.min(1, volume));
   utter.onend = done;
   utter.onerror = done;
   // Filet de sécurité : certains navigateurs ne signalent pas toujours la fin de lecture.
@@ -5361,6 +5373,10 @@ const NET_STRINGS = {
     net_accept: "Répondre",
     net_decline: "Refuser",
     net_hangup: "Raccrocher",
+    net_mute: "Sourdine",
+    net_speaker: "Haut-parleur",
+    net_remote_muted: "🔇 @{p} a coupé son micro",
+    net_you_muted: "🔇 Votre micro est coupé",
     net_in_call: "Appel traduit avec @{p} : parlez, il vous entend dans sa langue.",
     net_call_declined: "@{p} a refusé l'appel.",
     net_call_noanswer: "Pas de réponse.",
@@ -5455,6 +5471,10 @@ const NET_STRINGS = {
     net_accept: "Answer",
     net_decline: "Decline",
     net_hangup: "Hang up",
+    net_mute: "Mute",
+    net_speaker: "Speaker",
+    net_remote_muted: "🔇 @{p} muted their mic",
+    net_you_muted: "🔇 Your mic is muted",
     net_in_call: "Translated call with @{p}: speak, they hear you in their language.",
     net_call_declined: "@{p} declined the call.",
     net_call_noanswer: "No answer.",
@@ -5549,6 +5569,10 @@ const NET_STRINGS = {
     net_accept: "Responder",
     net_decline: "Rechazar",
     net_hangup: "Colgar",
+    net_mute: "Silenciar",
+    net_speaker: "Altavoz",
+    net_remote_muted: "🔇 @{p} ha silenciado su micro",
+    net_you_muted: "🔇 Tu micro está silenciado",
     net_in_call: "Llamada traducida con @{p}: habla, te oye en su idioma.",
     net_call_declined: "@{p} ha rechazado la llamada.",
     net_call_noanswer: "Sin respuesta.",
@@ -5643,6 +5667,10 @@ const NET_STRINGS = {
     net_accept: "Atender",
     net_decline: "Recusar",
     net_hangup: "Desligar",
+    net_mute: "Silêncio",
+    net_speaker: "Altifalante",
+    net_remote_muted: "🔇 @{p} desligou o microfone",
+    net_you_muted: "🔇 O seu microfone está desligado",
     net_in_call: "Chamada traduzida com @{p}: fale, ele ouve no idioma dele.",
     net_call_declined: "@{p} recusou a chamada.",
     net_call_noanswer: "Sem resposta.",
@@ -5737,6 +5765,10 @@ const NET_STRINGS = {
     net_accept: "Annehmen",
     net_decline: "Ablehnen",
     net_hangup: "Auflegen",
+    net_mute: "Stumm",
+    net_speaker: "Lautsprecher",
+    net_remote_muted: "🔇 @{p} hat das Mikrofon stummgeschaltet",
+    net_you_muted: "🔇 Dein Mikrofon ist stumm",
     net_in_call: "Übersetzter Anruf mit @{p}: Sprich, er hört dich in seiner Sprache.",
     net_call_declined: "@{p} hat den Anruf abgelehnt.",
     net_call_noanswer: "Keine Antwort.",
@@ -5831,6 +5863,10 @@ const NET_STRINGS = {
     net_accept: "Rispondi",
     net_decline: "Rifiuta",
     net_hangup: "Riaggancia",
+    net_mute: "Muto",
+    net_speaker: "Vivavoce",
+    net_remote_muted: "🔇 @{p} ha disattivato il microfono",
+    net_you_muted: "🔇 Il tuo microfono è disattivato",
     net_in_call: "Chiamata tradotta con @{p}: parla, ti sente nella sua lingua.",
     net_call_declined: "@{p} ha rifiutato la chiamata.",
     net_call_noanswer: "Nessuna risposta.",
@@ -5925,6 +5961,10 @@ const NET_STRINGS = {
     net_accept: "接听",
     net_decline: "拒绝",
     net_hangup: "挂断",
+    net_mute: "静音",
+    net_speaker: "扬声器",
+    net_remote_muted: "🔇 @{p} 已关闭麦克风",
+    net_you_muted: "🔇 你的麦克风已关闭",
     net_in_call: "与 @{p} 的翻译通话：请说话，对方会听到他的语言。",
     net_call_declined: "@{p} 拒绝了通话。",
     net_call_noanswer: "无人接听。",
@@ -6019,6 +6059,10 @@ const NET_STRINGS = {
     net_accept: "応答",
     net_decline: "拒否",
     net_hangup: "終了",
+    net_mute: "ミュート",
+    net_speaker: "スピーカー",
+    net_remote_muted: "🔇 @{p} がマイクをミュートしました",
+    net_you_muted: "🔇 マイクはミュート中です",
     net_in_call: "@{p} さんと翻訳通話中：話すと、相手には相手の言語で聞こえます。",
     net_call_declined: "@{p} さんが通話を拒否しました。",
     net_call_noanswer: "応答がありません。",
@@ -6113,6 +6157,10 @@ const NET_STRINGS = {
     net_accept: "رد",
     net_decline: "رفض",
     net_hangup: "إنهاء",
+    net_mute: "كتم",
+    net_speaker: "مكبّر الصوت",
+    net_remote_muted: "🔇 ⁦@{p}⁩ كتم الميكروفون",
+    net_you_muted: "🔇 الميكروفون مكتوم",
     net_in_call: "مكالمة مترجمة مع ⁦@{p}⁩: تحدَّث، وسيسمعك بلغته.",
     net_call_declined: "رفض ⁦@{p}⁩ المكالمة.",
     net_call_noanswer: "لا يوجد رد.",
@@ -6207,6 +6255,10 @@ const NET_STRINGS = {
     net_accept: "Ответить",
     net_decline: "Отклонить",
     net_hangup: "Завершить",
+    net_mute: "Без звука",
+    net_speaker: "Динамик",
+    net_remote_muted: "🔇 @{p} выключил(а) микрофон",
+    net_you_muted: "🔇 Ваш микрофон выключен",
     net_in_call: "Звонок с переводом с @{p}: говорите, собеседник слышит вас на своём языке.",
     net_call_declined: "@{p} отклонил звонок.",
     net_call_noanswer: "Нет ответа.",
@@ -6325,6 +6377,8 @@ const Reseau = (() => {
   tabBtn.textContent = t("tab_net");
 
   const homeTabBtn = document.querySelector('nav.tabs button[data-view="home"]');
+  const ICON_MIC_OFF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 2l20 20"/><path d="M18.9 13.3A7 7 0 0 0 19 12v-2"/><path d="M15 9.3V5a3 3 0 0 0-5.7-1.3"/><path d="M9 9v3a3 3 0 0 0 5.1 2.1"/><path d="M16.9 16.9A7 7 0 0 1 5 12v-2"/><path d="M12 19v3"/></svg>';
+  const ICON_SPEAKER = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5L6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg>';
   const ICON_PHONE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>';
   const ICON_MSG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.8-.9L3 21l1.9-5.2A8.4 8.4 0 0 1 12 3a8.5 8.5 0 0 1 9 8.5z"/></svg>';
   let mode = "msg"; // "call" = Téléphone (liste d'appel), "msg" = Messagerie (discussions)
@@ -7568,6 +7622,7 @@ const Reseau = (() => {
     call = {
       id: rid(), convId: c.id, otherId: c.otherId, otherPseudo: c.other.pseudo, otherLang: c.other.lang,
       role: "caller", state: "ringing", lines: [], listener: null, interim: "", micOff: false, fromList: fromList === true,
+      muted: false, remoteMuted: false, speaker: safeStore.getItem("lc_speaker") !== "0",
     };
     screen = "call";
     render();
@@ -7606,6 +7661,7 @@ const Reseau = (() => {
       call = {
         id: p.callId, convId: c.id, otherId: p.from, otherPseudo: (c.other && c.other.pseudo) || p.pseudo,
         otherLang: p.lang || (c.other && c.other.lang), role: "callee", state: "incoming", lines: [], listener: null, interim: "", micOff: false,
+        muted: false, remoteMuted: false, speaker: safeStore.getItem("lc_speaker") !== "0",
       };
       warmChannel(p.from); // prêt à répondre sans attendre
       showRingBar();
@@ -7637,6 +7693,9 @@ const Reseau = (() => {
       endCall(call.state === "incoming" ? null : t("net_call_ended"));
     } else if (p.t === "hangup") {
       endCall(t("net_call_ended"));
+    } else if (p.t === "mute" && call.state === "active") {
+      call.remoteMuted = !!p.on;
+      updateCallInfo();
     } else if (p.t === "line" && call.state === "active") {
       onRemoteLine(p);
     }
@@ -7665,6 +7724,8 @@ const Reseau = (() => {
   async function beginActive() {
     if (call && !call.t0) {
       call.t0 = Date.now();
+      const c1 = call;
+      call.tick = setInterval(() => { if (call === c1) updateCallInfo(); }, 1000);
       if (trOn) call.trUsed = true;
       // Un appel n'est compté qu'une fois : par celui qui appelle.
       if (call.role === "caller") Stats24.track("appel");
@@ -7696,8 +7757,9 @@ const Reseau = (() => {
     }
   }
 
-  function onLocalPhrase(text) {
+  function onLocalPhrase(text, typed) {
     if (!call || call.state !== "active") return;
+    if (call.muted && !typed) return; // sourdine : le micro n'envoie rien
     call.interim = "";
     if (trOn) call.trUsed = true;
     call.lines.push({ mine: true, text });
@@ -7730,8 +7792,8 @@ const Reseau = (() => {
     const c0 = call;
     speak(translated, doTr ? profile.lang : voiceLang(p.lang), () => {
       c0.speaking = Math.max(0, (c0.speaking || 1) - 1);
-      if (call === c0 && c0.speaking === 0 && c0.listener === l && l) l.resume();
-    });
+      if (call === c0 && c0.speaking === 0 && c0.listener === l && l && !c0.muted) l.resume();
+    }, c0.speaker ? 1 : 0.35);
   }
 
   function hangup() {
@@ -7743,6 +7805,7 @@ const Reseau = (() => {
   function endCall(message) {
     if (!call) return;
     clearTimeout(call.timer);
+    clearInterval(call.tick);
     clearInterval(call.reRing);
     // Appel jamais décroché : le contact voit « Appel manqué » au lieu de « … vous appelle ».
     if (call.role === "caller" && call.state === "ringing" && !call.remoteEnded) notifyCall("cancel", call);
@@ -7783,6 +7846,7 @@ const Reseau = (() => {
           <div class="net-call-avatar${call.state === "active" ? " live" : ""}" aria-hidden="true">${escapeHtml((call.otherPseudo || "?").charAt(0))}</div>
           <div class="net-call-name" dir="ltr">@${escapeHtml(call.otherPseudo || "")}</div>
           <div class="net-call-status${call.state === "active" ? " live" : ""}">${escapeHtml(status)}</div>
+          ${call.state === "active" ? `<div class="net-call-timer" id="netCallTimer"></div><div class="net-call-info" id="netCallInfo"></div>` : ""}
           <div class="net-call-lang">${escapeHtml(langLabel(profile.lang))} ⇄ ${escapeHtml(langLabel(call.otherLang || ""))}</div>
           ${trSwitchHtml(true)}
         </div>
@@ -7796,22 +7860,64 @@ const Reseau = (() => {
             <button class="btn ghost" id="netCallSend">${escapeHtml(t("send"))}</button>
           </div>` : ""}
           <div id="netCallMsg"></div>
-          <button type="button" class="net-hangup" id="netHangup" aria-label="${escapeHtml(t("net_hangup"))}">${ICON_PHONE}</button>
-          <div class="net-hangup-label" aria-hidden="true">${escapeHtml(t("net_hangup"))}</div>
+          <div class="net-call-ctrls">
+            ${call.state === "active" ? `<div class="net-ctrl"><button type="button" class="net-ctrl-btn${call.muted ? " on" : ""}" id="netMute" aria-pressed="${call.muted}">${ICON_MIC_OFF}</button><span>${escapeHtml(t("net_mute"))}</span></div>` : ""}
+            <div class="net-ctrl"><button type="button" class="net-hangup" id="netHangup" aria-label="${escapeHtml(t("net_hangup"))}">${ICON_PHONE}</button><span class="net-hangup-label">${escapeHtml(t("net_hangup"))}</span></div>
+            ${call.state === "active" ? `<div class="net-ctrl"><button type="button" class="net-ctrl-btn${call.speaker ? " on" : ""}" id="netSpeaker" aria-pressed="${call.speaker}">${ICON_SPEAKER}</button><span>${escapeHtml(t("net_speaker"))}</span></div>` : ""}
+          </div>
         </div>
       </div>`;
     renderCallLines();
+    updateCallInfo();
     root.querySelector("#netHangup").addEventListener("click", hangup);
+    const muteBtn = root.querySelector("#netMute");
+    if (muteBtn) muteBtn.addEventListener("click", () => {
+      if (!call) return;
+      call.muted = !call.muted;
+      const l = call.listener;
+      if (l) { if (call.muted) l.pause(); else if (!call.speaking) l.resume(); }
+      call.interim = "";
+      sendSignal(call.otherId, { t: "mute", callId: call.id, on: call.muted });
+      muteBtn.classList.toggle("on", call.muted);
+      muteBtn.setAttribute("aria-pressed", String(call.muted));
+      const it = root.querySelector("#netInterim");
+      if (it) it.textContent = "";
+      updateCallInfo();
+    });
+    const spkBtn = root.querySelector("#netSpeaker");
+    if (spkBtn) spkBtn.addEventListener("click", () => {
+      if (!call) return;
+      call.speaker = !call.speaker;
+      safeStore.setItem("lc_speaker", call.speaker ? "1" : "0");
+      spkBtn.classList.toggle("on", call.speaker);
+      spkBtn.setAttribute("aria-pressed", String(call.speaker));
+    });
     const inp = root.querySelector("#netCallInput");
     if (inp) {
       const send = () => {
         const v = inp.value.trim();
         if (!v) return;
         inp.value = "";
-        onLocalPhrase(v);
+        onLocalPhrase(v, true);
       };
       root.querySelector("#netCallSend").addEventListener("click", send);
       inp.addEventListener("keydown", (e) => { if (e.key === "Enter") send(); });
+    }
+  }
+  // Chronomètre et état des micros, mis à jour sans redessiner l'écran.
+  function updateCallInfo() {
+    if (!call) return;
+    const tm = root.querySelector("#netCallTimer");
+    if (tm && call.t0) {
+      const s = Math.floor((Date.now() - call.t0) / 1000);
+      tm.textContent = String(Math.floor(s / 60)).padStart(2, "0") + ":" + String(s % 60).padStart(2, "0");
+    }
+    const info = root.querySelector("#netCallInfo");
+    if (info) {
+      const parts = [];
+      if (call.muted) parts.push(t("net_you_muted"));
+      if (call.remoteMuted) parts.push(t("net_remote_muted", { p: call.otherPseudo }));
+      info.textContent = parts.join(" · ");
     }
   }
   function renderCallLines() {
