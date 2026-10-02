@@ -292,6 +292,14 @@
   .net-log{max-height:52vh;overflow-y:auto;padding:2px;}
   .net-tr.net-fail{font-size:12px;opacity:.8;}
   .net-time{font-size:10.5px;}
+  .net-status{align-self:flex-end;margin-top:-6px;font-size:12px;color:var(--muted);}
+  .net-status.seen{color:var(--blue2);}
+  .net-typing{min-height:18px;margin:-6px 4px 8px;font-size:13px;color:var(--muted);font-style:italic;}
+  .net-sheet{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center;padding:12px;}
+  .net-sheet-card{width:100%;max-width:460px;display:flex;flex-direction:column;gap:8px;padding-bottom:env(safe-area-inset-bottom,0px);}
+  .net-sheet-btn{min-height:52px;border-radius:14px;border:1px solid var(--line);background:var(--panel);color:var(--text);font-size:16px;font-weight:600;cursor:pointer;}
+  .net-sheet-btn.danger{color:var(--err);}
+  .net-sheet-btn.cancel{margin-top:4px;font-weight:700;}
   /* Appel reçu : plein écran, Raccrocher et Répondre côte à côte */
   .net-ring{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;flex-direction:column;align-items:center;
     padding:calc(56px + env(safe-area-inset-top,0px)) 24px calc(40px + env(safe-area-inset-bottom,0px));box-sizing:border-box;}
@@ -5538,6 +5546,19 @@ const RTC_ICE_SERVERS = [{ urls: ["stun:stun.l.google.com:19302", "stun:stun1.l.
 // ---------- Textes du réseau (11 langues) ----------
 const NET_STRINGS = {
   fr: {
+    net_seen: "Vu",
+    net_sent: "Envoyé",
+    net_typing: "@{p} est en train d'écrire…",
+    net_m_original: "Voir l'original",
+    net_m_translation: "Voir la traduction",
+    net_m_del_all: "🗑 Supprimer pour tout le monde",
+    net_m_del_me: "Supprimer pour moi",
+    net_clear: "🗑 Supprimer la discussion",
+    net_clear_confirm: "Appuyez encore : la discussion sera effacée de ce téléphone",
+    net_cleared: "Discussion effacée de ce téléphone.",
+    net_more: "⋯ Plus",
+    net_cancel: "Annuler",
+    net_m_deleted: "Message supprimé.",
     net_in_voice: "En communication avec @{p}",
     net_mode_voice: "Voix réelle",
     net_voice_live: "🗣 Voix réelle : vous vous entendez directement, sans traduction.",
@@ -5648,6 +5669,19 @@ const NET_STRINGS = {
     net_how_3: "Écrivez-lui ou appelez-le : chacun lit et entend dans sa propre langue.",
   },
   en: {
+    net_seen: "Seen",
+    net_sent: "Sent",
+    net_typing: "@{p} is typing…",
+    net_m_original: "Show original",
+    net_m_translation: "Show translation",
+    net_m_del_all: "🗑 Unsend for everyone",
+    net_m_del_me: "Remove for me",
+    net_clear: "🗑 Delete conversation",
+    net_clear_confirm: "Tap again: the conversation will be erased from this phone",
+    net_cleared: "Conversation erased from this phone.",
+    net_more: "⋯ More",
+    net_cancel: "Cancel",
+    net_m_deleted: "Message deleted.",
     net_in_voice: "On a call with @{p}",
     net_mode_voice: "Real voice",
     net_voice_live: "🗣 Real voice: you hear each other directly, without translation.",
@@ -5758,6 +5792,19 @@ const NET_STRINGS = {
     net_how_3: "Write to them or call them: each of you reads and hears in your own language.",
   },
   es: {
+    net_seen: "Visto",
+    net_sent: "Enviado",
+    net_typing: "@{p} está escribiendo…",
+    net_m_original: "Ver el original",
+    net_m_translation: "Ver la traducción",
+    net_m_del_all: "🗑 Eliminar para todos",
+    net_m_del_me: "Eliminar para mí",
+    net_clear: "🗑 Eliminar la conversación",
+    net_clear_confirm: "Toca de nuevo: la conversación se borrará de este teléfono",
+    net_cleared: "Conversación borrada de este teléfono.",
+    net_more: "⋯ Más",
+    net_cancel: "Cancelar",
+    net_m_deleted: "Mensaje eliminado.",
     net_in_voice: "En llamada con @{p}",
     net_mode_voice: "Voz real",
     net_voice_live: "🗣 Voz real: os oís directamente, sin traducción.",
@@ -5868,6 +5915,19 @@ const NET_STRINGS = {
     net_how_3: "Escríbele o llámale: cada uno lee y oye en su propio idioma.",
   },
   pt: {
+    net_seen: "Visto",
+    net_sent: "Enviado",
+    net_typing: "@{p} está digitando…",
+    net_m_original: "Ver o original",
+    net_m_translation: "Ver a tradução",
+    net_m_del_all: "🗑 Apagar para todos",
+    net_m_del_me: "Apagar para mim",
+    net_clear: "🗑 Apagar a conversa",
+    net_clear_confirm: "Toque de novo: a conversa será apagada deste telefone",
+    net_cleared: "Conversa apagada deste telefone.",
+    net_more: "⋯ Mais",
+    net_cancel: "Cancelar",
+    net_m_deleted: "Mensagem apagada.",
     net_in_voice: "Em chamada com @{p}",
     net_mode_voice: "Voz real",
     net_voice_live: "🗣 Voz real: vocês se ouvem diretamente, sem tradução.",
@@ -5978,6 +6038,19 @@ const NET_STRINGS = {
     net_how_3: "Escreva-lhe ou ligue-lhe: cada um lê e ouve no seu próprio idioma.",
   },
   de: {
+    net_seen: "Gesehen",
+    net_sent: "Gesendet",
+    net_typing: "@{p} schreibt…",
+    net_m_original: "Original anzeigen",
+    net_m_translation: "Übersetzung anzeigen",
+    net_m_del_all: "🗑 Für alle löschen",
+    net_m_del_me: "Für mich löschen",
+    net_clear: "🗑 Unterhaltung löschen",
+    net_clear_confirm: "Nochmal tippen: Die Unterhaltung wird von diesem Telefon gelöscht",
+    net_cleared: "Unterhaltung von diesem Telefon gelöscht.",
+    net_more: "⋯ Mehr",
+    net_cancel: "Abbrechen",
+    net_m_deleted: "Nachricht gelöscht.",
     net_in_voice: "Im Gespräch mit @{p}",
     net_mode_voice: "Echte Stimme",
     net_voice_live: "🗣 Echte Stimme: Ihr hört euch direkt, ohne Übersetzung.",
@@ -6088,6 +6161,19 @@ const NET_STRINGS = {
     net_how_3: "Schreib ihm oder ruf ihn an: Jeder liest und hört in seiner eigenen Sprache.",
   },
   it: {
+    net_seen: "Visualizzato",
+    net_sent: "Inviato",
+    net_typing: "@{p} sta scrivendo…",
+    net_m_original: "Mostra l'originale",
+    net_m_translation: "Mostra la traduzione",
+    net_m_del_all: "🗑 Elimina per tutti",
+    net_m_del_me: "Elimina per me",
+    net_clear: "🗑 Elimina la conversazione",
+    net_clear_confirm: "Tocca di nuovo: la conversazione verrà cancellata da questo telefono",
+    net_cleared: "Conversazione cancellata da questo telefono.",
+    net_more: "⋯ Altro",
+    net_cancel: "Annulla",
+    net_m_deleted: "Messaggio eliminato.",
     net_in_voice: "In chiamata con @{p}",
     net_mode_voice: "Voce reale",
     net_voice_live: "🗣 Voce reale: vi sentite direttamente, senza traduzione.",
@@ -6198,6 +6284,19 @@ const NET_STRINGS = {
     net_how_3: "Scrivigli o chiamalo: ognuno legge e sente nella propria lingua.",
   },
   zh: {
+    net_seen: "已读",
+    net_sent: "已发送",
+    net_typing: "@{p} 正在输入…",
+    net_m_original: "查看原文",
+    net_m_translation: "查看译文",
+    net_m_del_all: "🗑 为所有人删除",
+    net_m_del_me: "仅为我删除",
+    net_clear: "🗑 删除对话",
+    net_clear_confirm: "再点一次：将从本手机删除此对话",
+    net_cleared: "已从本手机删除对话。",
+    net_more: "⋯ 更多",
+    net_cancel: "取消",
+    net_m_deleted: "消息已删除。",
     net_in_voice: "正在与 @{p} 通话",
     net_mode_voice: "真实语音",
     net_voice_live: "🗣 真实语音：双方直接听到对方，不经翻译。",
@@ -6308,6 +6407,19 @@ const NET_STRINGS = {
     net_how_3: "给他发消息或打电话：每个人都用自己的语言读和听。",
   },
   ja: {
+    net_seen: "既読",
+    net_sent: "送信済み",
+    net_typing: "@{p} が入力中…",
+    net_m_original: "原文を表示",
+    net_m_translation: "翻訳を表示",
+    net_m_del_all: "🗑 全員から削除",
+    net_m_del_me: "自分だけ削除",
+    net_clear: "🗑 会話を削除",
+    net_clear_confirm: "もう一度タップ：この電話から会話を消去します",
+    net_cleared: "この電話から会話を消去しました。",
+    net_more: "⋯ その他",
+    net_cancel: "キャンセル",
+    net_m_deleted: "メッセージを削除しました。",
     net_in_voice: "@{p} と通話中",
     net_mode_voice: "実際の声",
     net_voice_live: "🗣 実際の声：翻訳なしで直接お互いの声が聞こえます。",
@@ -6418,6 +6530,19 @@ const NET_STRINGS = {
     net_how_3: "メッセージや通話：それぞれ自分の言語で読んで聞けます。",
   },
   ar: {
+    net_seen: "تمت المشاهدة",
+    net_sent: "تم الإرسال",
+    net_typing: "@{p} يكتب…",
+    net_m_original: "عرض الأصل",
+    net_m_translation: "عرض الترجمة",
+    net_m_del_all: "🗑 حذف لدى الجميع",
+    net_m_del_me: "حذف لدي فقط",
+    net_clear: "🗑 حذف المحادثة",
+    net_clear_confirm: "المس مرة أخرى: ستُمحى المحادثة من هذا الهاتف",
+    net_cleared: "تم محو المحادثة من هذا الهاتف.",
+    net_more: "⋯ المزيد",
+    net_cancel: "إلغاء",
+    net_m_deleted: "تم حذف الرسالة.",
     net_in_voice: "في مكالمة مع @{p}",
     net_mode_voice: "الصوت الحقيقي",
     net_voice_live: "🗣 الصوت الحقيقي: تسمعان بعضكما مباشرة، دون ترجمة.",
@@ -6528,6 +6653,19 @@ const NET_STRINGS = {
     net_how_3: "راسِله أو اتصل به: كلٌّ يقرأ ويسمع بلغته.",
   },
   ru: {
+    net_seen: "Просмотрено",
+    net_sent: "Отправлено",
+    net_typing: "@{p} печатает…",
+    net_m_original: "Показать оригинал",
+    net_m_translation: "Показать перевод",
+    net_m_del_all: "🗑 Удалить у всех",
+    net_m_del_me: "Удалить у меня",
+    net_clear: "🗑 Удалить переписку",
+    net_clear_confirm: "Нажмите ещё раз: переписка будет стёрта с этого телефона",
+    net_cleared: "Переписка стёрта с этого телефона.",
+    net_more: "⋯ Ещё",
+    net_cancel: "Отмена",
+    net_m_deleted: "Сообщение удалено.",
     net_in_voice: "Разговор с @{p}",
     net_mode_voice: "Живой голос",
     net_voice_live: "🗣 Живой голос: вы слышите друг друга напрямую, без перевода.",
@@ -6638,6 +6776,19 @@ const NET_STRINGS = {
     net_how_3: "Пишите или звоните: каждый читает и слышит на своём языке.",
   },
   mg: {
+    net_seen: "Hita",
+    net_sent: "Lasa",
+    net_typing: "@{p} manoratra…",
+    net_m_original: "Hijery ny tany am-boalohany",
+    net_m_translation: "Hijery ny fandikana",
+    net_m_del_all: "🗑 Hamafa ho an'ny rehetra",
+    net_m_del_me: "Hamafa ho ahy ihany",
+    net_clear: "🗑 Hamafa ny resaka",
+    net_clear_confirm: "Tsindrio indray: ho voafafa amin'ity finday ity ny resaka",
+    net_cleared: "Voafafa amin'ity finday ity ny resaka.",
+    net_more: "⋯ Hafa",
+    net_cancel: "Hanafoana",
+    net_m_deleted: "Voafafa ny hafatra.",
     net_in_voice: "Miresaka amin'i @{p}",
     net_mode_voice: "Feo tena izy",
     net_voice_live: "🗣 Feo tena izy: mifandre mivantana ianareo, tsy misy fandikana.",
@@ -7262,6 +7413,7 @@ const Reseau = (() => {
         otherId: o ? o.user_id : null,
         other: prof || null,
         lastRead: r.last_read,
+        otherRead: o ? o.last_read : null,
         last,
         unread: !!(last && last.sender_id !== me && new Date(last.created_at) > new Date(r.last_read)),
       };
@@ -7322,7 +7474,11 @@ const Reseau = (() => {
     const { data } = await sb.from("messages").select("id,conversation_id,sender_id,body,lang,kind,created_at")
       .eq("conversation_id", c.id).order("created_at", { ascending: false }).limit(60);
     if (currentConv !== c) return;
-    chatMsgs = (data || []).slice().reverse();
+    chatMsgs = (data || []).slice().reverse().filter(visibleForMe);
+    sb.from("members").select("user_id,last_read").eq("conversation_id", c.id).then(({ data: mm }) => {
+      const o = (mm || []).find((r) => r.user_id !== me);
+      if (o && currentConv === c) { c.otherRead = o.last_read; renderChatMessages(); }
+    }, () => {});
     chatLoading = false;
     c.unread = false;
     updateBadge();
@@ -7342,6 +7498,110 @@ const Reseau = (() => {
     currentConv.unread = false;
     updateBadge();
     sb.from("members").update({ last_read: stamp }).eq("conversation_id", currentConv.id).eq("user_id", me).then(() => {}, () => {});
+    const c = currentConv;
+    if (c.otherId && !blockedIds.has(c.otherId) && c.seenSent !== stamp) {
+      c.seenSent = stamp;
+      sendSignal(c.otherId, { t: "seen", convId: c.id, at: stamp });
+    }
+  }
+
+  // ---------- Effacement local, « Vu », « en train d'écrire », menus (comme Messenger) ----------
+  function clearedAt(convId) { return Number(safeStore.getItem("lc_cleared_" + convId)) || 0; }
+  function hiddenIds() {
+    try { return new Set(JSON.parse(safeStore.getItem("lc_hidden_msgs") || "[]")); } catch (e) { return new Set(); }
+  }
+  function hideForMe(id) {
+    const a = [...hiddenIds(), id].slice(-500);
+    safeStore.setItem("lc_hidden_msgs", JSON.stringify(a));
+  }
+  function visibleForMe(m) {
+    if (!m) return false;
+    if (new Date(m.created_at).getTime() <= clearedAt(m.conversation_id)) return false;
+    return !hiddenIds().has(m.id);
+  }
+  // Petit menu qui monte du bas de l'écran (actions sur un message ou sur la discussion).
+  function actionSheet(items) {
+    const old = document.getElementById("netSheet");
+    if (old) old.remove();
+    const box = document.createElement("div");
+    box.id = "netSheet";
+    box.className = "net-sheet";
+    box.innerHTML = `<div class="net-sheet-card">${items.map((it, i) =>
+      `<button type="button" class="net-sheet-btn${it.danger ? " danger" : ""}" data-i="${i}">${escapeHtml(it.label)}</button>`).join("")}
+      <button type="button" class="net-sheet-btn cancel" data-i="-1">${escapeHtml(t("net_cancel"))}</button></div>`;
+    document.body.appendChild(box);
+    const close = () => box.remove();
+    box.addEventListener("click", (e) => {
+      const b = e.target.closest && e.target.closest("button[data-i]");
+      if (e.target === box || (b && b.dataset.i === "-1")) return close();
+      if (!b) return;
+      const it = items[Number(b.dataset.i)];
+      if (it.confirm && !b.dataset.armed) {
+        b.dataset.armed = "1";
+        b.textContent = it.confirm;
+        b.classList.add("danger");
+        return;
+      }
+      close();
+      it.run();
+    });
+  }
+  function messageMenu(m, shownText) {
+    const mine = m.sender_id === me;
+    const items = [];
+    items.push({ label: t("listen"), run: () => speak(shownText || m.body, shownText && shownText !== m.body ? profile.lang : (m.lang || profile.lang)) });
+    items.push({ label: t("copy"), run: () => copyText(shownText || m.body, root.querySelector("#netChatMsg")) });
+    if (!mine && m.lang !== profile.lang && trOn) {
+      const showing = !!showOrig[m.id];
+      items.push({ label: t(showing ? "net_m_translation" : "net_m_original"), run: () => { showOrig[m.id] = !showing; renderChatMessages(); } });
+    }
+    if (mine) items.push({ label: t("net_m_del_all"), danger: true, confirm: t("net_m_del_all") + " ?", run: () => deleteForAll(m) });
+    items.push({ label: t("net_m_del_me"), run: () => { hideForMe(m.id); chatMsgs = chatMsgs.filter((x) => x.id !== m.id); renderChatMessages(); } });
+    actionSheet(items);
+  }
+  const showOrig = {};
+  async function deleteForAll(m) {
+    const c = currentConv;
+    const { error } = await sb.from("messages").delete().eq("id", m.id);
+    const msgEl = root.querySelector("#netChatMsg");
+    if (error) { showMsg(msgEl, escapeHtml(t("net_err_conn")), "err"); return; }
+    chatMsgs = chatMsgs.filter((x) => x.id !== m.id);
+    if (c && c.last && c.last.id === m.id) c.last = chatMsgs.length ? chatMsgs[chatMsgs.length - 1] : null;
+    renderChatMessages();
+    showMsg(msgEl, escapeHtml(t("net_m_deleted")), "ok");
+    if (c && c.otherId) sendSignal(c.otherId, { t: "del", convId: c.id, id: m.id });
+  }
+  // « en train d'écrire » : un petit signal au plus toutes les 3 s pendant la frappe.
+  let typingSentAt = 0;
+  function notifyTyping() {
+    const c = currentConv;
+    if (!c || !c.otherId || blockedIds.has(c.otherId)) return;
+    const now = Date.now();
+    if (now - typingSentAt < 3000) return;
+    typingSentAt = now;
+    sendSignal(c.otherId, { t: "typing", convId: c.id });
+  }
+  let typingTimer = null;
+  function showTyping(convId) {
+    const c = currentConv;
+    const el = root.querySelector("#netTyping");
+    if (!c || c.id !== convId || !el) return;
+    el.textContent = t("net_typing", { p: c.other ? c.other.pseudo : "" });
+    clearTimeout(typingTimer);
+    typingTimer = setTimeout(() => { const e2 = root.querySelector("#netTyping"); if (e2) e2.textContent = ""; }, 4500);
+  }
+  function onChatSignal(p) {
+    const c = convs.find((x) => x.id === p.convId && x.otherId === p.from);
+    if (!c) return;
+    if (p.t === "seen") {
+      c.otherRead = p.at;
+      if (currentConv === c && screen === "chat") renderChatMessages();
+    } else if (p.t === "typing") {
+      if (currentConv === c && screen === "chat") showTyping(c.id);
+    } else if (p.t === "del") {
+      if (currentConv === c) { chatMsgs = chatMsgs.filter((x) => x.id !== p.id); if (screen === "chat") renderChatMessages(); }
+      if (c.last && c.last.id === p.id) { c.last = null; if (screen === "home") render(); }
+    }
   }
 
   async function onNewMessage(m) {
@@ -7355,6 +7615,7 @@ const Reseau = (() => {
     c.last = m;
     sortConvs();
     const inThisChat = screen === "chat" && currentConv && currentConv.id === m.conversation_id;
+    if (inThisChat && m.sender_id !== me) { clearTimeout(typingTimer); const te = root.querySelector("#netTyping"); if (te) te.textContent = ""; }
     if (inThisChat) {
       if (!chatMsgs.some((x) => x.id === m.id)) chatMsgs.push(m);
       renderChatMessages();
@@ -7524,7 +7785,7 @@ const Reseau = (() => {
             const name = c.other ? "@" + c.other.pseudo : t("net_deleted_user");
             const lang = c.other ? langLabel(c.other.lang) : "";
             const blocked = c.otherId && blockedIds.has(c.otherId) ? " 🚫" : "";
-            const prev = c.last ? (c.last.kind === "voice" ? "🎙 " : "") + c.last.body : "";
+            const prev = c.last && visibleForMe(c.last) ? (c.last.kind === "voice" ? "🎙 " : "") + c.last.body : "";
             return `<button class="net-conv${c.unread ? " unread" : ""}" data-id="${escapeHtml(c.id)}">
                 <span class="net-conv-top"><b dir="ltr">${escapeHtml(name)}</b>${blocked}<span class="net-conv-lang">${escapeHtml(lang)}</span></span>
                 <span class="net-conv-prev" dir="auto">${escapeHtml(prev.length > 70 ? prev.slice(0, 70) + "…" : prev)}</span>
@@ -7646,12 +7907,11 @@ const Reseau = (() => {
         ${trSwitchHtml(true)}
         <div class="iconrow net-actions">
           ${c.otherId && !isBlocked ? `<button class="iconbtn net-callbtn" id="netCallBtn">${escapeHtml(t("net_call"))}</button>` : ""}
-          ${c.otherId ? (isBlocked
-            ? `<button class="iconbtn" id="netUnblock">${escapeHtml(t("net_unblock"))}</button>`
-            : `<button class="iconbtn" id="netBlock">${escapeHtml(t("net_block"))}</button>`) : ""}
-          ${c.otherId ? `<button class="iconbtn" id="netReport">${escapeHtml(t("net_report"))}</button>` : ""}
+          ${c.otherId && isBlocked ? `<button class="iconbtn" id="netUnblock">${escapeHtml(t("net_unblock"))}</button>` : ""}
+          <button class="iconbtn" id="netMore">${escapeHtml(t("net_more"))}</button>
         </div>
         <div class="conv-log net-log" id="netLog"></div>
+        <div class="net-typing" id="netTyping" aria-live="polite"></div>
         <textarea id="netInput" dir="auto" maxlength="2000" placeholder="${escapeHtml(t("net_msg_ph"))}" style="min-height:56px;"></textarea>
         <div class="row">
           <button class="btn primary" id="netSend">${escapeHtml(t("send"))}</button>
@@ -7694,13 +7954,13 @@ const Reseau = (() => {
     });
     const callBtn = root.querySelector("#netCallBtn");
     if (callBtn) callBtn.addEventListener("click", () => startCall(false));
-    const blockBtn = root.querySelector("#netBlock");
-    if (blockBtn) armConfirm(blockBtn, t("net_block_confirm"), async () => {
+    input.addEventListener("input", () => { if (input.value.trim()) notifyTyping(); });
+    const doBlock = async () => {
       const { error } = await sb.from("blocks").insert({ blocked: c.otherId });
       if (!error || error.code === "23505") blockedIds.add(c.otherId);
       setFlash(escapeHtml(error && error.code !== "23505" ? t("net_err_conn") : t("net_block_done")), error && error.code !== "23505" ? "err" : "ok");
       render();
-    });
+    };
     const unblockBtn = root.querySelector("#netUnblock");
     if (unblockBtn) unblockBtn.addEventListener("click", async () => {
       const { error } = await sb.from("blocks").delete().eq("blocked", c.otherId);
@@ -7708,14 +7968,27 @@ const Reseau = (() => {
       setFlash(escapeHtml(error ? t("net_err_conn") : t("net_unblock_done")), error ? "err" : "ok");
       render();
     });
-    const reportBtn = root.querySelector("#netReport");
-    if (reportBtn) armConfirm(reportBtn, t("net_report_confirm"), async () => {
+    const doReport = async () => {
       // Copie des derniers messages de la personne signalée, pour que la modération puisse vérifier.
       const theirs = chatMsgs.filter((m) => m.sender_id === c.otherId).slice(-10);
       const copy = theirs.map((m) => m.body).join("\n").slice(0, 2000);
       const lastId = theirs.length ? theirs[theirs.length - 1].id : null;
       const { error } = await sb.from("reports").insert({ reported: c.otherId, message_id: lastId, body_copy: copy, reason: "user_report" });
       showMsg(root.querySelector("#netChatMsg"), escapeHtml(error ? t("net_err_conn") : t("net_report_done")), error ? "err" : "ok");
+    };
+    const doClear = () => {
+      safeStore.setItem("lc_cleared_" + c.id, String(Date.now()));
+      chatMsgs = [];
+      c.last = null;
+      setFlash(escapeHtml(t("net_cleared")), "ok");
+      render();
+    };
+    root.querySelector("#netMore").addEventListener("click", () => {
+      const items = [];
+      if (c.otherId && !isBlocked) items.push({ label: t("net_block"), danger: true, confirm: t("net_block_confirm"), run: doBlock });
+      if (c.otherId) items.push({ label: t("net_report"), danger: true, confirm: t("net_report_confirm"), run: doReport });
+      items.push({ label: t("net_clear"), danger: true, confirm: t("net_clear_confirm"), run: doClear });
+      actionSheet(items);
     });
   }
 
@@ -7746,9 +8019,9 @@ const Reseau = (() => {
       div.setAttribute("dir", "auto");
       const badge = m.kind === "voice" ? `<div class="orig">${escapeHtml(t("net_voice_badge"))}</div>` : "";
       const time = new Date(m.created_at).toLocaleTimeString(UI_LANG, { hour: "2-digit", minute: "2-digit" });
-      if (mine || m.lang === profile.lang || !trOn) {
+      if (mine || m.lang === profile.lang || !trOn || showOrig[m.id]) {
         div.innerHTML = `${escapeHtml(m.body)}${badge}<div class="orig net-time">${escapeHtml(time)}</div>`;
-        if (!mine) div.addEventListener("click", () => speak(m.body, m.lang || profile.lang));
+        div.addEventListener("click", () => messageMenu(m, m.body));
       } else {
         div.innerHTML = `<span class="net-tr">${escapeHtml(t("net_translating"))}</span><div class="orig">${escapeHtml(m.body)}</div>${badge}<div class="orig net-time">${escapeHtml(time)}</div>`;
         translateFor(m).then((txt) => {
@@ -7756,16 +8029,27 @@ const Reseau = (() => {
           if (!span) return;
           if (txt) {
             span.textContent = txt;
-            div.onclick = () => speak(txt, profile.lang);
+            div.onclick = () => messageMenu(m, txt);
           } else {
             span.textContent = t("net_translate_fail");
             span.classList.add("net-fail");
           }
         });
       }
-      div.style.cursor = mine ? "default" : "pointer";
+      if (!div.onclick && !mine && !(m.lang === profile.lang || !trOn || showOrig[m.id])) div.onclick = () => messageMenu(m, null);
+      div.style.cursor = "pointer";
       log.appendChild(div);
     });
+    // « Vu » ou « Envoyé » sous mon dernier message, comme Messenger.
+    const lastMine = [...chatMsgs].reverse().find((x) => x.sender_id === me);
+    const lastAny = chatMsgs[chatMsgs.length - 1];
+    if (lastMine && lastAny && lastAny.id === lastMine.id) {
+      const seen = currentConv.otherRead && new Date(currentConv.otherRead) >= new Date(lastMine.created_at);
+      const st = document.createElement("div");
+      st.className = "net-status" + (seen ? " seen" : "");
+      st.textContent = seen ? "✓✓ " + t("net_seen") : "✓ " + t("net_sent");
+      log.appendChild(st);
+    }
     log.scrollTop = log.scrollHeight;
   }
 
@@ -8131,6 +8415,10 @@ const Reseau = (() => {
 
   async function onSignal(p) {
     if (!p || !p.from || p.from === me || !profile) return;
+    if (p.t === "seen" || p.t === "typing" || p.t === "del") {
+      if (!blockedIds.has(p.from)) onChatSignal(p);
+      return;
+    }
     if (p.t === "ring") {
       if (blockedIds.has(p.from)) return;
       if (call && call.id === p.callId) return; // même appel, sonnerie répétée
