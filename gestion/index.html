@@ -86,6 +86,16 @@ h2 span{color:var(--muted);font-weight:600}
 .users small{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}
 .users .r{text-align:end;flex:none;font-variant-numeric:tabular-nums}
 .users .empty{color:var(--muted)}
+.users li{align-items:center}
+.users .who{min-width:0;flex:1}
+.users .new{display:inline-block;margin-inline-start:6px;padding:1px 7px;border-radius:999px;background:rgba(46,207,142,.18);color:var(--green);font-size:11.5px;font-weight:800;vertical-align:2px}
+.users .act{flex:none;display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 14px;border-radius:12px;background:var(--blue);color:#fff;font:800 14px var(--font);text-decoration:none;white-space:nowrap}
+.users .me{flex:none;color:var(--muted);font-size:12.5px;font-weight:700}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:14px;padding:5px;background:var(--panel);border:1px solid var(--line);border-radius:16px}
+.tabs button{min-height:44px;border:none;border-radius:12px;background:transparent;color:var(--muted);font:800 15px var(--font);cursor:pointer}
+.tabs button.on{background:var(--panel2);color:var(--text);box-shadow:inset 0 0 0 1px var(--line)}
+.search{width:100%;min-height:46px;margin-bottom:6px;padding:0 14px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font:600 15.5px var(--font)}
+.search::placeholder{color:var(--muted)}
 
 .msg{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px;margin-top:18px;line-height:1.5;font-size:15.5px}
 .msg b{display:block;font-size:17px;margin-bottom:6px}
@@ -115,6 +125,12 @@ footer{color:var(--muted);font-size:12px;text-align:center;margin-top:22px;line-
   <div id="state" class="msg">Chargement des chiffres…</div>
 
   <div id="dash" hidden>
+    <div class="tabs" role="tablist">
+      <button type="button" role="tab" id="tabStats" data-v="stats">📊 Chiffres</button>
+      <button type="button" role="tab" id="tabUsers" data-v="users">👥 Inscrits <span id="tabUsersN"></span></button>
+    </div>
+
+    <div id="viewStats">
     <div class="card">
       <div class="hero">
         <div class="num" id="online">0</div>
@@ -145,9 +161,15 @@ footer{color:var(--muted);font-size:12px;text-align:center;margin-top:22px;line-
       <p class="note">Limites de l'offre gratuite Supabase, à confirmer sur votre <a href="https://supabase.com/dashboard/org/dvqxjexblgovcvxncift/usage" target="_blank" rel="noopener">page de consommation Supabase</a>.</p>
     </div>
 
-    <div class="card">
-      <h2>Inscrits au réseau <span id="usersCount"></span></h2>
-      <ul class="users" id="users"></ul>
+    </div>
+
+    <div id="viewUsers" hidden>
+      <div class="card">
+        <h2>Inscrits au réseau <span id="usersCount"></span></h2>
+        <input class="search" id="userSearch" type="search" placeholder="Rechercher un pseudo…" autocomplete="off" aria-label="Rechercher un pseudo">
+        <ul class="users" id="users"></ul>
+        <p class="note">« Écrire » ouvre 24/24 Talk directement sur la discussion avec cette personne : vous pouvez lui envoyer un message ou l'appeler. Aucune adresse e-mail ni numéro n'est demandé à l'inscription, le contact passe uniquement par le réseau.</p>
+      </div>
     </div>
   </div>
 
@@ -172,6 +194,8 @@ footer{color:var(--muted);font-size:12px;text-align:center;margin-top:22px;line-
     { k: "inscrits", label: "Inscrits" },
     { k: "ouvertures", label: "Ouvertures" }
   ];
+  var ME = "seb1975";
+  var view = /inscrits/.test(location.hash) ? "users" : "stats";
   var metric = "personnes";
   try { metric = localStorage.getItem("tdb_metric") || "personnes"; } catch (e) {}
   var last = null;
@@ -230,12 +254,40 @@ footer{color:var(--muted);font-size:12px;text-align:center;margin-top:22px;line-
     }).join("");
     var users = d.users || [];
     $("usersCount").textContent = "(" + users.length + ")";
-    $("users").innerHTML = users.length ? users.map(function (u) {
-      var n = Number(u.messages) || 0;
-      return "<li><div><b>@" + esc(u.pseudo) + "</b><small>" + esc(LANGS[u.lang] || u.lang) + " · inscrit le " + dateFr(u.cree) + "</small></div>" +
-        '<div class="r"><b>' + fmt(n) + " message" + (n > 1 ? "s" : "") + "</b><small>" + (u.dernier_message ? "dernier : " + dateFr(u.dernier_message, true) : "aucun message") + "</small></div></li>";
-    }).join("") : '<li class="empty">Personne pour l\'instant.</li>';
+    $("tabUsersN").textContent = "(" + users.length + ")";
+    drawUsers();
     drawChart();
+  }
+
+  // Écran « Inscrits » : tous les comptes, du plus récent au plus ancien, avec un bouton pour leur écrire.
+  function drawUsers() {
+    if (!last) return;
+    var all = last.users || [];
+    var q = ($("userSearch").value || "").trim().toLowerCase().replace(/^@/, "");
+    var list = q ? all.filter(function (u) { return String(u.pseudo).indexOf(q) !== -1; }) : all;
+    var now = Date.now();
+    $("users").innerHTML = list.length ? list.map(function (u) {
+      var n = Number(u.messages) || 0;
+      var isNew = u.cree && now - new Date(u.cree).getTime() < 48 * 3600e3;
+      var act = u.pseudo === ME ? '<span class="me">c\'est vous</span>' :
+        '<a class="act" href="' + APP + "?ajouter=" + encodeURIComponent(u.pseudo) + '" aria-label="Écrire à @' + esc(u.pseudo) + '">💬 Écrire</a>';
+      return '<li><div class="who"><b>@' + esc(u.pseudo) + (isNew ? '<span class="new">Nouveau</span>' : "") + "</b><small>" +
+        esc(LANGS[u.lang] || u.lang) + " · inscrit le " + dateFr(u.cree, true) + "</small><small>" + fmt(n) + " message" + (n > 1 ? "s" : "") +
+        (u.dernier_message ? " · dernier le " + dateFr(u.dernier_message, true) : "") + "</small></div>" + act + "</li>";
+    }).join("") : '<li class="empty">' + (q ? "Aucun pseudo ne correspond." : "Personne pour l'instant.") + "</li>";
+  }
+
+  function showView(v) {
+    view = v === "users" ? "users" : "stats";
+    $("viewStats").hidden = view !== "stats";
+    $("viewUsers").hidden = view !== "users";
+    ["tabStats", "tabUsers"].forEach(function (id) {
+      var on = $(id).dataset.v === view;
+      $(id).classList.toggle("on", on);
+      $(id).setAttribute("aria-selected", String(on));
+    });
+    try { history.replaceState(null, "", view === "users" ? "#inscrits" : location.pathname + location.search); } catch (e) {}
+    if (view === "stats") drawChart();
   }
 
   function drawChips() {
@@ -322,6 +374,10 @@ footer{color:var(--muted);font-size:12px;text-align:center;margin-top:22px;line-
 
   async function start() {
     drawChips();
+    showView(view);
+    $("tabStats").addEventListener("click", function () { showView("stats"); });
+    $("tabUsers").addEventListener("click", function () { showView("users"); });
+    $("userSearch").addEventListener("input", drawUsers);
     if (!window.supabase || !window.supabase.createClient) {
       showState("<b>Pas de connexion</b>Impossible de charger le tableau de bord. Vérifiez votre connexion Internet, puis rouvrez l'appli.");
       return;
