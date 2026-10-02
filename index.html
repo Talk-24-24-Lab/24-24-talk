@@ -292,6 +292,14 @@
   .net-log{max-height:52vh;overflow-y:auto;padding:2px;}
   .net-tr.net-fail{font-size:12px;opacity:.8;}
   .net-time{font-size:10.5px;}
+  .net-langrow{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin:8px 0 2px;min-height:40px;padding:6px 12px;border-radius:12px;border:1px dashed var(--line);background:transparent;color:var(--muted);font-size:14px;cursor:pointer;}
+  .net-cl-chip{display:block;margin-top:4px;padding:3px 8px;border-radius:8px;border:1px dashed var(--line);background:transparent;color:var(--muted);font-size:12.5px;cursor:pointer;text-align:start;max-width:100%;}
+  .net-cl-chip.custom{border-style:solid;border-color:var(--blue);color:var(--text);}
+  .net-langrow.custom{border-style:solid;border-color:var(--blue);color:var(--text);}
+  .net-cl{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:16px;}
+  .net-cl h3{margin:0 0 6px;font-size:18px;}
+  .net-cl select{width:100%;margin-bottom:6px;}
+  .net-cl-hint{color:var(--muted);font-size:13px;margin:4px 0 8px;}
   .net-status{align-self:flex-end;margin-top:-6px;font-size:12px;color:var(--muted);}
   .net-status.seen{color:var(--blue2);}
   .net-typing{min-height:18px;margin:-6px 4px 8px;font-size:13px;color:var(--muted);font-style:italic;}
@@ -5546,6 +5554,12 @@ const RTC_ICE_SERVERS = [{ urls: ["stun:stun.l.google.com:19302", "stun:stun1.l.
 // ---------- Textes du réseau (11 langues) ----------
 const NET_STRINGS = {
   fr: {
+    net_cl_title: "Langues de cette discussion",
+    net_cl_speak: "🗣 Je parle et j'écris en",
+    net_cl_read: "🌐 Je lis et j'écoute en",
+    net_cl_hint: "Seulement pour cette discussion (messages et appels). Ailleurs, votre langue reste {l}.",
+    net_cl_save: "Enregistrer",
+    net_cl_reset: "Revenir à ma langue habituelle",
     net_seen: "Vu",
     net_sent: "Envoyé",
     net_typing: "@{p} est en train d'écrire…",
@@ -5669,6 +5683,12 @@ const NET_STRINGS = {
     net_how_3: "Écrivez-lui ou appelez-le : chacun lit et entend dans sa propre langue.",
   },
   en: {
+    net_cl_title: "Languages for this conversation",
+    net_cl_speak: "🗣 I speak and write in",
+    net_cl_read: "🌐 I read and listen in",
+    net_cl_hint: "Only for this conversation (messages and calls). Elsewhere, your language stays {l}.",
+    net_cl_save: "Save",
+    net_cl_reset: "Back to my usual language",
     net_seen: "Seen",
     net_sent: "Sent",
     net_typing: "@{p} is typing…",
@@ -5792,6 +5812,12 @@ const NET_STRINGS = {
     net_how_3: "Write to them or call them: each of you reads and hears in your own language.",
   },
   es: {
+    net_cl_title: "Idiomas de esta conversación",
+    net_cl_speak: "🗣 Hablo y escribo en",
+    net_cl_read: "🌐 Leo y escucho en",
+    net_cl_hint: "Solo para esta conversación (mensajes y llamadas). En las demás, tu idioma sigue siendo {l}.",
+    net_cl_save: "Guardar",
+    net_cl_reset: "Volver a mi idioma habitual",
     net_seen: "Visto",
     net_sent: "Enviado",
     net_typing: "@{p} está escribiendo…",
@@ -5915,6 +5941,12 @@ const NET_STRINGS = {
     net_how_3: "Escríbele o llámale: cada uno lee y oye en su propio idioma.",
   },
   pt: {
+    net_cl_title: "Idiomas desta conversa",
+    net_cl_speak: "🗣 Falo e escrevo em",
+    net_cl_read: "🌐 Leio e ouço em",
+    net_cl_hint: "Só para esta conversa (mensagens e chamadas). Nas outras, seu idioma continua {l}.",
+    net_cl_save: "Salvar",
+    net_cl_reset: "Voltar ao meu idioma habitual",
     net_seen: "Visto",
     net_sent: "Enviado",
     net_typing: "@{p} está digitando…",
@@ -6038,6 +6070,12 @@ const NET_STRINGS = {
     net_how_3: "Escreva-lhe ou ligue-lhe: cada um lê e ouve no seu próprio idioma.",
   },
   de: {
+    net_cl_title: "Sprachen für diese Unterhaltung",
+    net_cl_speak: "🗣 Ich spreche und schreibe auf",
+    net_cl_read: "🌐 Ich lese und höre auf",
+    net_cl_hint: "Nur für diese Unterhaltung (Nachrichten und Anrufe). Sonst bleibt deine Sprache {l}.",
+    net_cl_save: "Speichern",
+    net_cl_reset: "Zurück zu meiner üblichen Sprache",
     net_seen: "Gesehen",
     net_sent: "Gesendet",
     net_typing: "@{p} schreibt…",
@@ -6161,6 +6199,12 @@ const NET_STRINGS = {
     net_how_3: "Schreib ihm oder ruf ihn an: Jeder liest und hört in seiner eigenen Sprache.",
   },
   it: {
+    net_cl_title: "Lingue di questa conversazione",
+    net_cl_speak: "🗣 Parlo e scrivo in",
+    net_cl_read: "🌐 Leggo e ascolto in",
+    net_cl_hint: "Solo per questa conversazione (messaggi e chiamate). Altrove la tua lingua resta {l}.",
+    net_cl_save: "Salva",
+    net_cl_reset: "Torna alla mia lingua abituale",
     net_seen: "Visualizzato",
     net_sent: "Inviato",
     net_typing: "@{p} sta scrivendo…",
@@ -6284,6 +6328,12 @@ const NET_STRINGS = {
     net_how_3: "Scrivigli o chiamalo: ognuno legge e sente nella propria lingua.",
   },
   zh: {
+    net_cl_title: "此对话的语言",
+    net_cl_speak: "🗣 我说和写的语言",
+    net_cl_read: "🌐 我读和听的语言",
+    net_cl_hint: "仅适用于此对话（消息和通话）。其他对话仍使用 {l}。",
+    net_cl_save: "保存",
+    net_cl_reset: "恢复为我的常用语言",
     net_seen: "已读",
     net_sent: "已发送",
     net_typing: "@{p} 正在输入…",
@@ -6407,6 +6457,12 @@ const NET_STRINGS = {
     net_how_3: "给他发消息或打电话：每个人都用自己的语言读和听。",
   },
   ja: {
+    net_cl_title: "この会話の言語",
+    net_cl_speak: "🗣 話す・書く言語",
+    net_cl_read: "🌐 読む・聞く言語",
+    net_cl_hint: "この会話（メッセージと通話）だけに適用されます。ほかの会話では {l} のままです。",
+    net_cl_save: "保存",
+    net_cl_reset: "いつもの言語に戻す",
     net_seen: "既読",
     net_sent: "送信済み",
     net_typing: "@{p} が入力中…",
@@ -6530,6 +6586,12 @@ const NET_STRINGS = {
     net_how_3: "メッセージや通話：それぞれ自分の言語で読んで聞けます。",
   },
   ar: {
+    net_cl_title: "لغات هذه المحادثة",
+    net_cl_speak: "🗣 أتحدث وأكتب بـ",
+    net_cl_read: "🌐 أقرأ وأستمع بـ",
+    net_cl_hint: "لهذه المحادثة فقط (الرسائل والمكالمات). في غيرها تبقى لغتك {l}.",
+    net_cl_save: "حفظ",
+    net_cl_reset: "العودة إلى لغتي المعتادة",
     net_seen: "تمت المشاهدة",
     net_sent: "تم الإرسال",
     net_typing: "@{p} يكتب…",
@@ -6653,6 +6715,12 @@ const NET_STRINGS = {
     net_how_3: "راسِله أو اتصل به: كلٌّ يقرأ ويسمع بلغته.",
   },
   ru: {
+    net_cl_title: "Языки этой переписки",
+    net_cl_speak: "🗣 Я говорю и пишу на",
+    net_cl_read: "🌐 Я читаю и слушаю на",
+    net_cl_hint: "Только для этой переписки (сообщения и звонки). В остальных ваш язык остаётся {l}.",
+    net_cl_save: "Сохранить",
+    net_cl_reset: "Вернуть мой обычный язык",
     net_seen: "Просмотрено",
     net_sent: "Отправлено",
     net_typing: "@{p} печатает…",
@@ -6776,6 +6844,12 @@ const NET_STRINGS = {
     net_how_3: "Пишите или звоните: каждый читает и слышит на своём языке.",
   },
   mg: {
+    net_cl_title: "Fiteny amin'ity resaka ity",
+    net_cl_speak: "🗣 Miteny sy manoratra amin'ny",
+    net_cl_read: "🌐 Mamaky sy mihaino amin'ny",
+    net_cl_hint: "Ho an'ity resaka ity ihany (hafatra sy antso). Any amin'ny hafa, {l} foana ny fiteninao.",
+    net_cl_save: "Tehirizina",
+    net_cl_reset: "Hiverina amin'ny fiteniko mahazatra",
     net_seen: "Hita",
     net_sent: "Lasa",
     net_typing: "@{p} manoratra…",
@@ -7037,9 +7111,56 @@ const Reseau = (() => {
     const b = e.target && e.target.closest ? e.target.closest(".tr-switch button[data-tr]") : null;
     if (b) setTranslation(b.dataset.tr === "1");
   });
+  // Langues choisies pour une discussion : celle dans laquelle je parle/écris, celle dans laquelle je lis/écoute.
+  // Vide = ma langue habituelle (profil).
+  function convLangs(convId) {
+    let o = {};
+    try { o = JSON.parse(safeStore.getItem("lc_convlang_" + convId) || "{}") || {}; } catch (e) { o = {}; }
+    return { speak: o.speak || profile.lang, read: o.read || profile.lang };
+  }
+  function mySpeak(convId) { return convId ? convLangs(convId).speak : profile.lang; }
+  function myRead(convId) { return convId ? convLangs(convId).read : profile.lang; }
+  function setConvLangs(convId, speak, read) {
+    const o = { speak: speak === profile.lang ? "" : speak, read: read === profile.lang ? "" : read };
+    if (!o.speak && !o.read) safeStore.removeItem("lc_convlang_" + convId);
+    else safeStore.setItem("lc_convlang_" + convId, JSON.stringify(o));
+  }
   // Langue de lecture à voix haute : la mienne si c'est traduit, sinon celle de l'expéditeur.
-  function voiceLang(fromLang) {
-    return trOn || !fromLang ? profile.lang : fromLang;
+  function voiceLang(fromLang, convId) {
+    return trOn || !fromLang ? myRead(convId) : fromLang;
+  }
+  function convLangSheet(c) {
+    const old = document.getElementById("netSheet");
+    if (old) old.remove();
+    const cur = convLangs(c.id);
+    const box = document.createElement("div");
+    box.id = "netSheet";
+    box.className = "net-sheet";
+    box.innerHTML = `<div class="net-sheet-card net-cl">
+        <h3>${escapeHtml(t("net_cl_title"))}</h3>
+        <label class="net-label" for="netClSpeak">${escapeHtml(t("net_cl_speak"))}</label>
+        <select id="netClSpeak"></select>
+        <label class="net-label" for="netClRead">${escapeHtml(t("net_cl_read"))}</label>
+        <select id="netClRead"></select>
+        <p class="net-cl-hint">${escapeHtml(t("net_cl_hint", { l: langLabel(profile.lang) }))}</p>
+        <button type="button" class="btn primary" id="netClSave">${escapeHtml(t("net_cl_save"))}</button>
+        <button type="button" class="net-sheet-btn" id="netClReset">${escapeHtml(t("net_cl_reset"))}</button>
+        <button type="button" class="net-sheet-btn cancel" id="netClCancel">${escapeHtml(t("net_cancel"))}</button>
+      </div>`;
+    document.body.appendChild(box);
+    fillLangSelect(box.querySelector("#netClSpeak"), cur.speak);
+    fillLangSelect(box.querySelector("#netClRead"), cur.read);
+    const close = () => box.remove();
+    const apply = (sp, rd) => {
+      setConvLangs(c.id, sp, rd);
+      close();
+      if ((currentConv === c && screen === "chat") || screen === "home") render();
+    };
+    box.addEventListener("click", (e) => { if (e.target === box) close(); });
+    box.querySelector("#netClCancel").addEventListener("click", close);
+    box.querySelector("#netClReset").addEventListener("click", () => apply(profile.lang, profile.lang));
+    box.querySelector("#netClSave").addEventListener("click", () =>
+      apply(box.querySelector("#netClSpeak").value, box.querySelector("#netClRead").value));
   }
   if (tilesBox) {
     const sw = document.createElement("div");
@@ -7569,9 +7690,9 @@ const Reseau = (() => {
   function messageMenu(m, shownText) {
     const mine = m.sender_id === me;
     const items = [];
-    items.push({ label: t("listen"), run: () => speak(shownText || m.body, shownText && shownText !== m.body ? profile.lang : (m.lang || profile.lang)) });
+    items.push({ label: t("listen"), run: () => speak(shownText || m.body, shownText && shownText !== m.body ? myRead(m.conversation_id) : (m.lang || myRead(m.conversation_id))) });
     items.push({ label: t("copy"), run: () => copyText(shownText || m.body, root.querySelector("#netChatMsg")) });
-    if (!mine && m.lang !== profile.lang && trOn) {
+    if (!mine && m.lang !== myRead(m.conversation_id) && trOn) {
       const showing = !!showOrig[m.id];
       items.push({ label: t(showing ? "net_m_translation" : "net_m_original"), run: () => { showOrig[m.id] = !showing; renderChatMessages(); } });
     }
@@ -7648,7 +7769,7 @@ const Reseau = (() => {
       if (m.sender_id !== me && isActiveTab() && document.visibilityState !== "hidden") {
         const toggle = document.getElementById("autoSpeakToggle");
         const auto = m.kind !== "call" && (m.kind === "voice" || (toggle && toggle.classList.contains("on")));
-        if (auto) translateFor(m).then((txt) => txt && speak(txt, voiceLang(m.lang)));
+        if (auto) translateFor(m).then((txt) => txt && speak(txt, voiceLang(m.lang, m.conversation_id)));
       }
     } else if (m.sender_id !== me) {
       c.unread = true;
@@ -7672,11 +7793,12 @@ const Reseau = (() => {
   }
   function translateFor(m) {
     if (m && m.kind === "call") return Promise.resolve(null);
-    if (!profile || m.sender_id === me || m.lang === profile.lang || !trOn) return Promise.resolve(m.body);
-    const key = m.id + "|" + profile.lang;
+    const target = profile ? myRead(m.conversation_id) : null;
+    if (!profile || m.sender_id === me || m.lang === target || !trOn) return Promise.resolve(m.body);
+    const key = m.id + "|" + target;
     if (trCache.has(key)) return trCache.get(key);
     const p = new Promise((resolve) => {
-      trQueue.push({ body: m.body, from: m.lang, to: profile.lang, resolve });
+      trQueue.push({ body: m.body, from: m.lang, to: target, resolve });
       trNext();
     }).then((txt) => {
       if (!txt) trCache.delete(key); // échec : on retentera à la prochaine ouverture
@@ -7790,7 +7912,8 @@ const Reseau = (() => {
             const blocked = c.otherId && blockedIds.has(c.otherId);
             return `<div class="net-contact">
                 <span class="net-avatar" aria-hidden="true">${escapeHtml(p.charAt(0))}</span>
-                <span class="net-contact-name"><b dir="ltr">@${escapeHtml(p)}</b><span class="net-conv-lang">${escapeHtml(langLabel(c.other.lang))}</span></span>
+                <span class="net-contact-name"><b dir="ltr">@${escapeHtml(p)}</b><span class="net-conv-lang">${escapeHtml(langLabel(c.other.lang))}</span>
+                  <button type="button" class="net-cl-chip${convLangs(c.id).speak !== profile.lang || convLangs(c.id).read !== profile.lang ? " custom" : ""}" data-cl="${escapeHtml(c.id)}">🗣 ${escapeHtml(langLabel(convLangs(c.id).speak))} · 🌐 ${escapeHtml(langLabel(convLangs(c.id).read))} ✎</button></span>
                 ${blocked ? "🚫" : `<button type="button" class="net-dial" data-id="${escapeHtml(c.id)}" aria-label="${escapeHtml(t("net_call_btn") + " @" + p)}">${ICON_PHONE}<span>${escapeHtml(t("net_call_btn"))}</span></button>`}
               </div>`;
           }).join("")
@@ -7852,6 +7975,9 @@ const Reseau = (() => {
       render();
       const tg = document.getElementById("pushToggle");
       if (tg) { const on = pushState() === "on"; tg.classList.toggle("on", on); tg.setAttribute("aria-pressed", on ? "true" : "false"); }
+    });
+    root.querySelectorAll(".net-cl-chip").forEach((b) => {
+      b.addEventListener("click", () => { const c = convs.find((x) => x.id === b.dataset.cl); if (c) convLangSheet(c); });
     });
     root.querySelectorAll(".net-dial, .net-redial").forEach((b) => {
       b.addEventListener("click", () => {
@@ -7928,6 +8054,7 @@ const Reseau = (() => {
           <div class="net-chat-title"><b dir="ltr">${escapeHtml(name)}</b><span>${c.other ? escapeHtml(langLabel(c.other.lang)) : ""}</span></div>
         </div>
         ${trSwitchHtml(true)}
+        <button type="button" class="net-langrow${convLangs(c.id).speak !== profile.lang || convLangs(c.id).read !== profile.lang ? " custom" : ""}" id="netConvLang">🗣 ${escapeHtml(langLabel(convLangs(c.id).speak))} · 🌐 ${escapeHtml(langLabel(convLangs(c.id).read))} <span aria-hidden="true">✎</span></button>
         <div class="iconrow net-actions">
           ${c.otherId && !isBlocked ? `<button class="iconbtn net-callbtn" id="netCallBtn">${escapeHtml(t("net_call"))}</button>` : ""}
           ${c.otherId && isBlocked ? `<button class="iconbtn" id="netUnblock">${escapeHtml(t("net_unblock"))}</button>` : ""}
@@ -7967,7 +8094,7 @@ const Reseau = (() => {
       showMsg(msgEl, "", "");
       if (SpeechRecognitionAPI && !(await ensureMicPermission(msgEl, false))) return;
       micBtn.classList.add("recording");
-      micActive = startDictation(input, { value: profile.lang }, (finalText) => {
+      micActive = startDictation(input, { value: mySpeak(c.id) }, (finalText) => {
         micBtn.classList.remove("recording");
         micActive = null;
         if (finalText) sendMessage(finalText, "voice");
@@ -7977,6 +8104,7 @@ const Reseau = (() => {
     });
     const callBtn = root.querySelector("#netCallBtn");
     if (callBtn) callBtn.addEventListener("click", () => startCall(false));
+    root.querySelector("#netConvLang").addEventListener("click", () => convLangSheet(c));
     input.addEventListener("input", () => { if (input.value.trim()) notifyTyping(); });
     const doBlock = async () => {
       const { error } = await sb.from("blocks").insert({ blocked: c.otherId });
@@ -8055,7 +8183,8 @@ const Reseau = (() => {
       div.setAttribute("dir", "auto");
       const badge = m.kind === "voice" ? `<div class="orig">${escapeHtml(t("net_voice_badge"))}</div>` : "";
       const time = new Date(m.created_at).toLocaleTimeString(UI_LANG, { hour: "2-digit", minute: "2-digit" });
-      if (mine || m.lang === profile.lang || !trOn || showOrig[m.id]) {
+      const rl = myRead(m.conversation_id);
+      if (mine || m.lang === rl || !trOn || showOrig[m.id]) {
         div.innerHTML = `${escapeHtml(m.body)}${badge}<div class="orig net-time">${escapeHtml(time)}</div>`;
         div.addEventListener("click", () => messageMenu(m, m.body));
       } else {
@@ -8072,7 +8201,7 @@ const Reseau = (() => {
           }
         });
       }
-      if (!div.onclick && !mine && !(m.lang === profile.lang || !trOn || showOrig[m.id])) div.onclick = () => messageMenu(m, null);
+      if (!div.onclick && !mine && !(m.lang === rl || !trOn || showOrig[m.id])) div.onclick = () => messageMenu(m, null);
       div.style.cursor = "pointer";
       log.appendChild(div);
     });
@@ -8096,7 +8225,7 @@ const Reseau = (() => {
     const input = root.querySelector("#netInput");
     const msgEl = root.querySelector("#netChatMsg");
     const { data, error } = await sb.from("messages")
-      .insert({ conversation_id: currentConv.id, body: body.slice(0, 2000), lang: profile.lang, kind: kind === "voice" ? "voice" : "text" })
+      .insert({ conversation_id: currentConv.id, body: body.slice(0, 2000), lang: mySpeak(currentConv.id), kind: kind === "voice" ? "voice" : "text" })
       .select("id,conversation_id,sender_id,body,lang,kind,created_at").single();
     if (error) {
       const blocked = /row-level security|policy/i.test(error.message || "");
@@ -8332,7 +8461,7 @@ const Reseau = (() => {
       <div class="net-ring-top">
         <div class="net-ring-avatar" aria-hidden="true">${escapeHtml(who.charAt(0))}</div>
         <div class="net-ring-txt">${escapeHtml(t("net_incoming", { p: who }))}</div>
-        <div class="net-ring-lang">${escapeHtml(langLabel(call.otherLang || ""))} ⇄ ${escapeHtml(langLabel(profile.lang))}</div>
+        <div class="net-ring-lang">${escapeHtml(langLabel(call.otherLang || ""))} ⇄ ${escapeHtml(langLabel(mySpeak(call.convId)))}</div>
       </div>
       <div class="net-ring-btns">
         <button type="button" class="net-ring-btn net-decline" id="netDecline"><span class="net-ring-ic">${ICON_PHONE}</span>${escapeHtml(t("net_hangup"))}</button>
@@ -8434,7 +8563,7 @@ const Reseau = (() => {
     screen = "call";
     render();
     startRing(false);
-    const ringMsg = { t: "ring", callId: call.id, convId: c.id, pseudo: profile.pseudo, lang: profile.lang };
+    const ringMsg = { t: "ring", callId: call.id, convId: c.id, pseudo: profile.pseudo, lang: mySpeak(c.id) };
     sendSignal(call.otherId, ringMsg);
     notifyCall("ring", call);
     const id = call.id;
@@ -8529,7 +8658,7 @@ const Reseau = (() => {
     const c = convs.find((x) => x.id === call.convId);
     if (c) currentConv = c;
     goToTab();
-    sendSignal(call.otherId, { t: "accept", callId: call.id, lang: profile.lang });
+    sendSignal(call.otherId, { t: "accept", callId: call.id, lang: mySpeak(call.convId) });
     beginActive();
   }
   function declineCall() {
@@ -8554,8 +8683,10 @@ const Reseau = (() => {
     if (call.muted) sendSignal(call.otherId, { t: "mute", callId: call.id, on: true });
     if (!call.mode) {
       // Même langue des deux côtés : pas besoin de traduire, on passe la vraie voix.
-      call.mode = sameLang(profile.lang, call.otherLang) && voiceSupported() ? "voice" : "translate";
-      if (!voiceSupported()) sendSignal(call.otherId, { t: "mode", callId: call.id, mode: "translate" });
+      const sp = mySpeak(call.convId), rd = myRead(call.convId);
+      call.mode = sameLang(sp, call.otherLang) && sameLang(rd, call.otherLang) && voiceSupported() ? "voice" : "translate";
+      // Si l'un des deux a besoin de la traduction, les deux téléphones passent en appel traduit.
+      if (call.mode === "translate") sendSignal(call.otherId, { t: "mode", callId: call.id, mode: "translate" });
       renderCall();
     }
     if (call.mode === "voice") { startVoice(); return; }
@@ -8574,7 +8705,7 @@ const Reseau = (() => {
       renderCall();
       return;
     }
-    call.listener = createListener(profile.lang, onLocalPhrase, () => {
+    call.listener = createListener(mySpeak(call.convId), onLocalPhrase, () => {
       if (!call) return;
       call.micOff = true;
       call.listener = null;
@@ -8725,13 +8856,14 @@ const Reseau = (() => {
     if (trOn) call.trUsed = true;
     call.lines.push({ mine: true, text });
     renderCallLines();
-    sendSignal(call.otherId, { t: "line", callId: call.id, text: text.slice(0, 1000), lang: profile.lang });
+    sendSignal(call.otherId, { t: "line", callId: call.id, text: text.slice(0, 1000), lang: mySpeak(call.convId) });
   }
 
   async function onRemoteLine(p) {
     const text = String(p.text || "").slice(0, 1000);
     if (!text) return;
-    const doTr = trOn && p.lang && p.lang !== profile.lang;
+    const target = myRead(call.convId);
+    const doTr = trOn && p.lang && p.lang !== target;
     if (trOn) call.trUsed = true;
     const line = doTr ? { mine: false, text: t("net_translating"), orig: text } : { mine: false, text };
     call.lines.push(line);
@@ -8739,7 +8871,7 @@ const Reseau = (() => {
     let translated = text;
     if (doTr) {
       try {
-        translated = (await TranslationProvider.translate(text, p.lang, profile.lang)).text;
+        translated = (await TranslationProvider.translate(text, p.lang, target)).text;
       } catch (e) {
         translated = text;
       }
@@ -8751,7 +8883,7 @@ const Reseau = (() => {
     if (l) l.pause();
     call.speaking = (call.speaking || 0) + 1;
     const c0 = call;
-    speak(translated, doTr ? profile.lang : voiceLang(p.lang), () => {
+    speak(translated, doTr ? target : voiceLang(p.lang, call.convId), () => {
       c0.speaking = Math.max(0, (c0.speaking || 1) - 1);
       if (call === c0 && c0.speaking === 0 && c0.listener === l && l && !c0.muted) l.resume();
     }, c0.speaker ? 1 : 0.35);
@@ -8812,7 +8944,7 @@ const Reseau = (() => {
           <div class="net-call-name" dir="ltr">@${escapeHtml(call.otherPseudo || "")}</div>
           <div class="net-call-status${call.state === "active" ? " live" : ""}">${escapeHtml(status)}</div>
           ${call.state === "active" ? `<div class="net-call-timer" id="netCallTimer"></div><div class="net-call-info" id="netCallInfo"></div>` : ""}
-          <div class="net-call-lang">${escapeHtml(langLabel(profile.lang))} ⇄ ${escapeHtml(langLabel(call.otherLang || ""))}</div>
+          <div class="net-call-lang">${escapeHtml(langLabel(mySpeak(call.convId)))} ⇄ ${escapeHtml(langLabel(call.otherLang || ""))}</div>
           ${call.state === "active" && call.mode === "voice" ? "" : trSwitchHtml(true)}
           ${call.state === "active" && voiceSupported() ? `<button type="button" class="net-voice-toggle${call.mode === "voice" ? " on" : ""}" id="netVoiceMode" aria-pressed="${call.mode === "voice"}">🗣 ${escapeHtml(t("net_mode_voice"))}</button>` : ""}
           ${call.state === "active" && call.mode === "voice" ? `<div class="net-voice-info" id="netVoiceInfo">${escapeHtml(call.voiceInfo || "")}</div>` : ""}
