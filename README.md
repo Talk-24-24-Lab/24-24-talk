@@ -24,7 +24,7 @@ Créé à La Réunion par Sébastien Chevrier.
 - 📞 **Téléphone** — appelez vos proches : vous parlez votre langue, ils vous entendent dans la leur, en direct.
 - 💬 **Messagerie** — écrivez ou dictez : chacun lit le message dans sa propre langue.
 - 🛡️ **Réseau indépendant** — un réseau à part entière : appels, messages et traduction, tout se passe dans l'appli. Un pseudo suffit.
-- 🌍 **112 langues** — dont le malgache et le swahili. Interface disponible en 10 langues.
+- 🌍 **112 langues** — dont le malgache et le swahili. Interface disponible en 11 langues, dont le malgache.
 
 ## Pour commencer
 
