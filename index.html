@@ -19,6 +19,33 @@
 <meta name="apple-mobile-web-app-title" content="24/24 Talk" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <script>
+/* 24/24 Talk — langue de l'interface. 11 langues sont incluses dans l'appli ; les autres sont de petits
+   fichiers (i18n/xx.js) téléchargés seulement par les téléphones réglés dans cette langue. */
+window.UI_PACKS = ["nl"];
+(function () {
+  var BUILTIN = ["fr", "en", "es", "pt", "de", "it", "zh", "ja", "ar", "ru", "mg"];
+  var pref = "auto";
+  try { pref = localStorage.getItem("lc_uilang") || "auto"; } catch (e) { /* stockage indisponible */ }
+  function known(c) { return BUILTIN.indexOf(c) !== -1 || window.UI_PACKS.indexOf(c) !== -1; }
+  function pick() {
+    if (pref !== "auto" && known(pref)) return pref;
+    var list = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || "fr"];
+    for (var i = 0; i < list.length; i++) {
+      var low = String(list[i]).toLowerCase();
+      if (/^zh-(tw|hk|mo|hant)/.test(low) && known("zh-TW")) return "zh-TW";
+      var b = low.split("-")[0];
+      if (b === "fil") b = "tl";
+      if (b === "no" || b === "nn") b = "nb";
+      if (known(b)) return b;
+    }
+    return "en";
+  }
+  var code = pick();
+  window.UI_PICK = code;
+  if (BUILTIN.indexOf(code) === -1) document.write('<script src="i18n/' + code + '.js?v=1"><\/script>');
+})();
+</script>
+<script>
 /* 24/24 Talk — © 2026 Sébastien Chevrier. Fiche d'installation (icône + nom sur l'écran d'accueil). */
 (function () {
   try {
@@ -4275,6 +4302,14 @@ function readUiLangPref() {
   try { return window.localStorage.getItem("lc_uilang") || "auto"; } catch (e) { return "auto"; }
 }
 function detectUiLang() {
+  // Langue téléchargée à part (i18n/xx.js) : on l'ajoute à l'appli si le fichier est bien arrivé.
+  const pack = window.I18N_PACK;
+  if (pack && pack.code && pack.s && window.UI_PICK === pack.code) {
+    UI_STRINGS[pack.code] = Object.assign({}, UI_STRINGS.en, pack.s);
+    if (!UI_LANGS.includes(pack.code)) UI_LANGS.push(pack.code);
+    return pack.code;
+  }
+  if (window.UI_PICK && UI_LANGS.includes(window.UI_PICK)) return window.UI_PICK;
   const pref = readUiLangPref();
   if (pref !== "auto" && UI_LANGS.includes(pref)) return pref;
   const list = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || "fr"]);
@@ -4287,14 +4322,14 @@ function detectUiLang() {
 const UI_LANG = detectUiLang();
 
 function t(key, vars) {
-  let s = (UI_STRINGS[UI_LANG] && UI_STRINGS[UI_LANG][key]) || UI_STRINGS.fr[key] || key;
+  let s = (UI_STRINGS[UI_LANG] && UI_STRINGS[UI_LANG][key]) || (UI_LANG !== "fr" && UI_STRINGS.en && UI_STRINGS.en[key]) || UI_STRINGS.fr[key] || key;
   if (vars) Object.keys(vars).forEach((k) => { s = s.split("{" + k + "}").join(vars[k]); });
   return s;
 }
 
 // Nom d'une langue du catalogue dans la langue de l'interface (le navigateur connaît ces noms).
 let _displayNames = null;
-try { if (window.Intl && Intl.DisplayNames) _displayNames = new Intl.DisplayNames(UI_LANG === "mg" ? ["mg", "fr"] : [UI_LANG], { type: "language" }); } catch (e) { _displayNames = null; }
+try { if (window.Intl && Intl.DisplayNames) _displayNames = new Intl.DisplayNames(UI_LANG === "mg" ? ["mg", "fr"] : [UI_LANG, "en"], { type: "language" }); } catch (e) { _displayNames = null; }
 function localLangName(code) {
   const l = langByCode(code);
   if (UI_LANG === "fr" || !_displayNames) return l.name;
@@ -4323,7 +4358,7 @@ function phoneCatalogLang() {
 
 function applyStaticI18n() {
   document.documentElement.lang = UI_LANG;
-  document.documentElement.dir = UI_LANG === "ar" ? "rtl" : "ltr";
+  document.documentElement.dir = ["ar", "he", "fa", "ur", "ps"].includes(UI_LANG) ? "rtl" : "ltr";
   document.querySelectorAll("[data-i18n]").forEach((el) => { el.textContent = t(el.dataset.i18n); });
   document.querySelectorAll("[data-i18n-html]").forEach((el) => { el.innerHTML = t(el.dataset.i18nHtml); });
   document.querySelectorAll("[data-i18n-ph]").forEach((el) => { el.placeholder = t(el.dataset.i18nPh); });
@@ -5505,13 +5540,13 @@ renderInstallTop();
   auto.value = "auto";
   auto.textContent = t("ui_lang_auto");
   sel.appendChild(auto);
-  UI_LANGS.forEach((code) => {
+  UI_LANGS.concat((window.UI_PACKS || []).filter((c) => !UI_LANGS.includes(c))).forEach((code) => {
     const o = document.createElement("option");
     o.value = code;
-    o.textContent = UI_LANG_LABELS[code];
+    o.textContent = UI_LANG_LABELS[code] || nativeName(code);
     sel.appendChild(o);
   });
-  sel.value = UI_LANGS.includes(pref) ? pref : "auto";
+  sel.value = UI_LANGS.includes(pref) || (window.UI_PACKS || []).includes(pref) ? pref : "auto";
   sel.addEventListener("change", () => {
     safeStore.setItem("lc_uilang", sel.value);
     location.reload();
