@@ -12,6 +12,7 @@ var TXT = {
   ja: ["から着信", "タップして応答", "不在着信"],
   ar: ["يتصل بك", "المس للرد", "مكالمة فائتة"],
   ru: ["звонит вам", "Нажмите, чтобы ответить", "Пропущенный звонок"],
+  mg: ["miantso anao", "Tsindrio raha hamaly", "Antso tsy voaray"],
 };
 function txt() {
   var l = String((self.navigator && self.navigator.language) || "en").slice(0, 2).toLowerCase();

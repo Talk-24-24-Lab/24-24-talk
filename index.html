@@ -82,6 +82,15 @@
   .net-pushcard{border-color:rgba(46,207,142,.55);background:linear-gradient(135deg,rgba(46,207,142,.14),rgba(61,123,255,.10));}
   .net-pushcard p{margin:0 0 10px;font-weight:700;font-size:15.5px;line-height:1.4;}
   .net-pushcard .btn{width:100%;}
+  .net-callrec.missed .net-callrec-head b{color:#ff5c7a;}
+  .net-logrow{display:flex;align-items:center;gap:12px;padding:8px 2px;border-bottom:1px solid var(--line);}
+  .net-logrow:last-child{border-bottom:none;}
+  .net-logic{width:30px;text-align:center;font-size:20px;font-weight:800;color:#2ecf8e;flex-shrink:0;}
+  .net-logrow.missed .net-logic,.net-logrow.missed b{color:#ff5c7a;}
+  .net-logrow .net-contact-name{flex:1;min-width:0;}
+  .net-logrow .net-conv-lang{white-space:normal;overflow:visible;text-overflow:clip;}
+  .net-redial{flex-shrink:0;width:44px;height:44px;border-radius:50%;border:none;background:#2ecf8e;color:#0b0e1a;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+  .net-redial svg{width:20px;height:20px;}
   .net-callrec{align-self:center;width:100%;max-width:420px;margin:6px auto;padding:10px 12px;border-radius:14px;background:var(--panel2);border:1px solid var(--line);font-size:14px;}
   .net-callrec-head{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;justify-content:space-between;}
   .net-callrec-head b{font-weight:700;}
@@ -5421,6 +5430,13 @@ const NET_SDK_URL = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
 // ---------- Textes du réseau (11 langues) ----------
 const NET_STRINGS = {
   fr: {
+    net_calllog: "Journal des appels",
+    net_calllog_empty: "Aucun appel pour le moment.",
+    net_call_missed: "📞 Appel manqué",
+    net_st_noans: "sans réponse",
+    net_st_declined: "refusé",
+    net_st_busy: "occupé",
+    net_callback: "Rappeler",
     tab_net: "💬 Discuter",
     net_off: "Le réseau 24/24 Talk arrive très bientôt : discutez avec le monde entier, chacun dans sa langue.",
     net_loading: "Connexion au réseau…",
@@ -5519,6 +5535,13 @@ const NET_STRINGS = {
     net_how_3: "Écrivez-lui ou appelez-le : chacun lit et entend dans sa propre langue.",
   },
   en: {
+    net_calllog: "Call log",
+    net_calllog_empty: "No calls yet.",
+    net_call_missed: "📞 Missed call",
+    net_st_noans: "no answer",
+    net_st_declined: "declined",
+    net_st_busy: "busy",
+    net_callback: "Call back",
     tab_net: "💬 Chat",
     net_off: "The 24/24 Talk network is coming very soon: chat with the whole world, each in your own language.",
     net_loading: "Connecting to the network…",
@@ -5617,6 +5640,13 @@ const NET_STRINGS = {
     net_how_3: "Write to them or call them: each of you reads and hears in your own language.",
   },
   es: {
+    net_calllog: "Registro de llamadas",
+    net_calllog_empty: "Todavía no hay llamadas.",
+    net_call_missed: "📞 Llamada perdida",
+    net_st_noans: "sin respuesta",
+    net_st_declined: "rechazada",
+    net_st_busy: "ocupado",
+    net_callback: "Devolver la llamada",
     tab_net: "💬 Chatear",
     net_off: "La red 24/24 Talk llega muy pronto: chatea con todo el mundo, cada uno en su idioma.",
     net_loading: "Conectando a la red…",
@@ -5715,6 +5745,13 @@ const NET_STRINGS = {
     net_how_3: "Escríbele o llámale: cada uno lee y oye en su propio idioma.",
   },
   pt: {
+    net_calllog: "Registo de chamadas",
+    net_calllog_empty: "Ainda não há chamadas.",
+    net_call_missed: "📞 Chamada perdida",
+    net_st_noans: "sem resposta",
+    net_st_declined: "recusada",
+    net_st_busy: "ocupado",
+    net_callback: "Ligar de volta",
     tab_net: "💬 Conversar",
     net_off: "A rede 24/24 Talk chega muito em breve: converse com o mundo inteiro, cada um no seu idioma.",
     net_loading: "Ligando à rede…",
@@ -5813,6 +5850,13 @@ const NET_STRINGS = {
     net_how_3: "Escreva-lhe ou ligue-lhe: cada um lê e ouve no seu próprio idioma.",
   },
   de: {
+    net_calllog: "Anrufliste",
+    net_calllog_empty: "Noch keine Anrufe.",
+    net_call_missed: "📞 Verpasster Anruf",
+    net_st_noans: "keine Antwort",
+    net_st_declined: "abgelehnt",
+    net_st_busy: "besetzt",
+    net_callback: "Zurückrufen",
     tab_net: "💬 Chatten",
     net_off: "Das 24/24 Talk-Netzwerk kommt sehr bald: Chatte mit der ganzen Welt, jeder in seiner Sprache.",
     net_loading: "Verbindung zum Netzwerk…",
@@ -5911,6 +5955,13 @@ const NET_STRINGS = {
     net_how_3: "Schreib ihm oder ruf ihn an: Jeder liest und hört in seiner eigenen Sprache.",
   },
   it: {
+    net_calllog: "Registro chiamate",
+    net_calllog_empty: "Ancora nessuna chiamata.",
+    net_call_missed: "📞 Chiamata persa",
+    net_st_noans: "nessuna risposta",
+    net_st_declined: "rifiutata",
+    net_st_busy: "occupato",
+    net_callback: "Richiama",
     tab_net: "💬 Chatta",
     net_off: "La rete 24/24 Talk arriva prestissimo: chatta con tutto il mondo, ognuno nella sua lingua.",
     net_loading: "Connessione alla rete…",
@@ -6009,6 +6060,13 @@ const NET_STRINGS = {
     net_how_3: "Scrivigli o chiamalo: ognuno legge e sente nella propria lingua.",
   },
   zh: {
+    net_calllog: "通话记录",
+    net_calllog_empty: "暂无通话。",
+    net_call_missed: "📞 未接来电",
+    net_st_noans: "无人接听",
+    net_st_declined: "已拒绝",
+    net_st_busy: "忙线",
+    net_callback: "回拨",
     tab_net: "💬 聊天",
     net_off: "24/24 Talk 社交网络即将上线：与全世界聊天，各用各的语言。",
     net_loading: "正在连接网络…",
@@ -6107,6 +6165,13 @@ const NET_STRINGS = {
     net_how_3: "给他发消息或打电话：每个人都用自己的语言读和听。",
   },
   ja: {
+    net_calllog: "通話履歴",
+    net_calllog_empty: "まだ通話はありません。",
+    net_call_missed: "📞 不在着信",
+    net_st_noans: "応答なし",
+    net_st_declined: "拒否",
+    net_st_busy: "通話中",
+    net_callback: "折り返す",
     tab_net: "💬 チャット",
     net_off: "24/24 Talk ネットワークはまもなく公開：世界中の人と、それぞれの言語でチャットできます。",
     net_loading: "ネットワークに接続中…",
@@ -6205,6 +6270,13 @@ const NET_STRINGS = {
     net_how_3: "メッセージや通話：それぞれ自分の言語で読んで聞けます。",
   },
   ar: {
+    net_calllog: "سجل المكالمات",
+    net_calllog_empty: "لا توجد مكالمات بعد.",
+    net_call_missed: "📞 مكالمة فائتة",
+    net_st_noans: "لا رد",
+    net_st_declined: "مرفوضة",
+    net_st_busy: "مشغول",
+    net_callback: "معاودة الاتصال",
     tab_net: "💬 دردشة",
     net_off: "شبكة ⁦24/24 Talk⁩ قادمة قريبًا جدًا: تحدَّث مع العالم كله، وكلٌّ بلغته.",
     net_loading: "جارٍ الاتصال بالشبكة…",
@@ -6303,6 +6375,13 @@ const NET_STRINGS = {
     net_how_3: "راسِله أو اتصل به: كلٌّ يقرأ ويسمع بلغته.",
   },
   ru: {
+    net_calllog: "Журнал звонков",
+    net_calllog_empty: "Звонков пока нет.",
+    net_call_missed: "📞 Пропущенный звонок",
+    net_st_noans: "нет ответа",
+    net_st_declined: "отклонён",
+    net_st_busy: "занято",
+    net_callback: "Перезвонить",
     tab_net: "💬 Чат",
     net_off: "Сеть 24/24 Talk скоро появится: общайтесь со всем миром, каждый на своём языке.",
     net_loading: "Подключение к сети…",
@@ -6401,6 +6480,13 @@ const NET_STRINGS = {
     net_how_3: "Пишите или звоните: каждый читает и слышит на своём языке.",
   },
   mg: {
+    net_calllog: "Tantaran'ny antso",
+    net_calllog_empty: "Mbola tsy misy antso.",
+    net_call_missed: "📞 Antso tsy voaray",
+    net_st_noans: "tsy nisy namaly",
+    net_st_declined: "nolavina",
+    net_st_busy: "efa an-tariby",
+    net_callback: "Hiantso indray",
     tab_net: "💬 Hiresaka",
     net_off: "Tonga tsy ho ela ny tambajotra 24/24 Talk: miresaha amin'izao tontolo izao, samy amin'ny fiteniny avy.",
     net_loading: "Mifandray amin'ny tambajotra…",
@@ -6680,13 +6766,15 @@ const Reseau = (() => {
       return Array.isArray(a) ? a : [];
     } catch (e) { return []; }
   }
+  // s : "ok" décroché · "noans" sans réponse · "declined" refusé · "busy" occupé · "missed" manqué (appel reçu)
   function saveCallRecord(c) {
-    if (!c || !c.t0 || !c.convId) return;
+    if (!c || !c.convId || !(c.t0 || c.tStart)) return;
     if (typeof historyEnabled === "function" && !historyEnabled()) return;
     const tr = !!(c.trUsed || trOn);
     const pending = t("net_translating");
     const rec = {
-      id: c.id, t: c.t0, d: Math.max(1, Math.round((Date.now() - c.t0) / 1000)), out: c.role === "caller", tr,
+      id: c.id, t: c.t0 || c.tStart, d: c.t0 ? Math.max(1, Math.round((Date.now() - c.t0) / 1000)) : 0, out: c.role === "caller", tr,
+      s: c.t0 ? "ok" : (c.endStatus || (c.role === "caller" ? "noans" : "missed")),
       l: tr ? c.lines.slice(-CALLHIST_LINES).map((l) => ({ m: l.mine ? 1 : 0, x: l.text === pending ? (l.orig || "") : l.text, o: l.orig || "" })) : [],
     };
     let list = loadCallHist(c.convId).filter((r) => r && r.id !== rec.id);
@@ -6713,7 +6801,38 @@ const Reseau = (() => {
       ? `<details><summary>${escapeHtml(t("net_call_show", { n: lines.length }))}</summary><div class="net-callrec-lines">${lines.map((l) =>
           `<div class="bubble ${l.m ? "me" : "them"}" dir="auto">${escapeHtml(l.x || l.o)}${l.o && l.o !== l.x ? `<div class="orig">${escapeHtml(l.o)}</div>` : ""}</div>`).join("")}</div></details>`
       : "";
-    return `<div class="net-callrec"><div class="net-callrec-head"><b>${escapeHtml(t(r.out ? "net_call_out" : "net_call_in"))} · ${escapeHtml(fmtDur(r.d || 0))}</b><span>${escapeHtml(when)}</span></div>${body}</div>`;
+    return `<div class="net-callrec${callMissed(r) ? " missed" : ""}"><div class="net-callrec-head"><b>${escapeHtml(callRecTitle(r))}</b><span>${escapeHtml(when)}</span></div>${body}</div>`;
+  }
+  function callMissed(r) { return r.s === "missed"; }
+  function callRecTitle(r) {
+    if (r.s === "missed") return t("net_call_missed");
+    const head = t(r.out ? "net_call_out" : "net_call_in");
+    if (r.s && r.s !== "ok") return head + " · " + t("net_st_" + r.s);
+    return head + " · " + fmtDur(r.d || 0);
+  }
+  function callWhen(ts) {
+    const d = new Date(ts);
+    return new Date().toDateString() === d.toDateString()
+      ? d.toLocaleTimeString(UI_LANG, { hour: "2-digit", minute: "2-digit" })
+      : d.toLocaleString(UI_LANG, { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
+  }
+  // Journal des appels (écran Téléphone) : tous les appels de toutes les discussions, du plus récent au plus ancien.
+  function callLogHtml() {
+    const rows = [];
+    convs.forEach((c) => { loadCallHist(c.id).forEach((r) => { if (r && r.t) rows.push({ r, c }); }); });
+    rows.sort((a, b) => b.r.t - a.r.t);
+    const list = rows.slice(0, 40);
+    const body = list.length ? list.map(({ r, c }) => {
+      const name = c.other ? "@" + c.other.pseudo : t("net_deleted_user");
+      const ic = r.s === "missed" ? "↙" : r.out ? "↗" : "↙";
+      const canCall = c.other && !(c.otherId && blockedIds.has(c.otherId));
+      return `<div class="net-logrow${callMissed(r) ? " missed" : ""}">
+          <span class="net-logic" aria-hidden="true">${ic}</span>
+          <span class="net-contact-name"><b dir="ltr">${escapeHtml(name)}</b><span class="net-conv-lang">${escapeHtml(callRecTitle(r).replace(/^📞\s*/, ""))} · ${escapeHtml(callWhen(r.t))}</span></span>
+          ${canCall ? `<button type="button" class="net-redial" data-id="${escapeHtml(c.id)}" aria-label="${escapeHtml(t("net_callback") + " " + name)}">${ICON_PHONE}</button>` : ""}
+        </div>`;
+    }).join("") : `<div class="empty">${escapeHtml(t("net_calllog_empty"))}</div>`;
+    return `<div class="card"><h3 class="net-h3">${escapeHtml(t("net_calllog"))}</h3><div class="net-convs">${body}</div></div>`;
   }
 
   function updateTopbar() {
@@ -7234,7 +7353,8 @@ const Reseau = (() => {
       listCard = `<div class="card">
         <h3 class="net-h3">${escapeHtml(t("net_contacts"))}</h3>
         <div class="net-convs">${rows}</div>
-      </div>`;
+      </div>
+      ${callLogHtml()}`;
     } else {
       const items = list.length
         ? list.map((c) => {
@@ -7282,7 +7402,7 @@ const Reseau = (() => {
       const tg = document.getElementById("pushToggle");
       if (tg) { const on = pushState() === "on"; tg.classList.toggle("on", on); tg.setAttribute("aria-pressed", on ? "true" : "false"); }
     });
-    root.querySelectorAll(".net-dial").forEach((b) => {
+    root.querySelectorAll(".net-dial, .net-redial").forEach((b) => {
       b.addEventListener("click", () => {
         const c = convs.find((x) => x.id === b.dataset.id);
         if (!c || call) return;
@@ -7820,7 +7940,7 @@ const Reseau = (() => {
     const c = currentConv;
     call = {
       id: rid(), convId: c.id, otherId: c.otherId, otherPseudo: c.other.pseudo, otherLang: c.other.lang,
-      role: "caller", state: "ringing", lines: [], listener: null, interim: "", micOff: false, fromList: fromList === true,
+      role: "caller", state: "ringing", tStart: Date.now(), lines: [], listener: null, interim: "", micOff: false, fromList: fromList === true,
       muted: false, remoteMuted: false, speaker: safeStore.getItem("lc_speaker") !== "0",
     };
     screen = "call";
@@ -7859,7 +7979,7 @@ const Reseau = (() => {
       }
       call = {
         id: p.callId, convId: c.id, otherId: p.from, otherPseudo: (c.other && c.other.pseudo) || p.pseudo,
-        otherLang: p.lang || (c.other && c.other.lang), role: "callee", state: "incoming", lines: [], listener: null, interim: "", micOff: false,
+        otherLang: p.lang || (c.other && c.other.lang), role: "callee", state: "incoming", tStart: Date.now(), lines: [], listener: null, interim: "", micOff: false,
         muted: false, remoteMuted: false, speaker: safeStore.getItem("lc_speaker") !== "0",
       };
       warmChannel(p.from); // prêt à répondre sans attendre
@@ -7884,9 +8004,11 @@ const Reseau = (() => {
       beginActive();
     } else if (p.t === "decline") {
       call.remoteEnded = true;
+      call.endStatus = "declined";
       endCall(t("net_call_declined", { p: call.otherPseudo }));
     } else if (p.t === "busy") {
       call.remoteEnded = true;
+      call.endStatus = "busy";
       endCall(t("net_call_busy", { p: call.otherPseudo }));
     } else if (p.t === "cancel") {
       endCall(call.state === "incoming" ? null : t("net_call_ended"));
@@ -7917,6 +8039,7 @@ const Reseau = (() => {
     if (!call) return;
     closeCallNotifs(call.id);
     sendSignal(call.otherId, { t: "decline", callId: call.id });
+    call.endStatus = "declined";
     endCall(null);
   }
 
@@ -7931,6 +8054,7 @@ const Reseau = (() => {
     }
     screen = "call";
     render();
+    if (call.muted) sendSignal(call.otherId, { t: "mute", callId: call.id, on: true });
     const id = call.id;
     const msgEl = root.querySelector("#netCallMsg");
     const ok = SpeechRecognitionAPI ? await ensureMicPermission(msgEl, true) : false;
@@ -8014,7 +8138,7 @@ const Reseau = (() => {
     try { window.speechSynthesis && window.speechSynthesis.cancel(); } catch (e) { /* ignoré */ }
     const fromList = call.fromList;
     if (call.t0 && call.role === "caller") Stats24.track("appel_sec", (Date.now() - call.t0) / 1000);
-    if (call.t0) saveCallRecord(call);
+    saveCallRecord(call);
     call = null;
     if (message) setFlash(escapeHtml(message), "ok");
     if (screen === "call") {
@@ -8060,9 +8184,9 @@ const Reseau = (() => {
           </div>` : ""}
           <div id="netCallMsg"></div>
           <div class="net-call-ctrls">
-            ${call.state === "active" ? `<div class="net-ctrl"><button type="button" class="net-ctrl-btn${call.muted ? " on" : ""}" id="netMute" aria-pressed="${call.muted}">${ICON_MIC_OFF}</button><span>${escapeHtml(t("net_mute"))}</span></div>` : ""}
+            ${call.state !== "incoming" ? `<div class="net-ctrl"><button type="button" class="net-ctrl-btn${call.muted ? " on" : ""}" id="netMute" aria-pressed="${call.muted}">${ICON_MIC_OFF}</button><span>${escapeHtml(t("net_mute"))}</span></div>` : ""}
             <div class="net-ctrl"><button type="button" class="net-hangup" id="netHangup" aria-label="${escapeHtml(t("net_hangup"))}">${ICON_PHONE}</button><span class="net-hangup-label">${escapeHtml(t("net_hangup"))}</span></div>
-            ${call.state === "active" ? `<div class="net-ctrl"><button type="button" class="net-ctrl-btn${call.speaker ? " on" : ""}" id="netSpeaker" aria-pressed="${call.speaker}">${ICON_SPEAKER}</button><span>${escapeHtml(t("net_speaker"))}</span></div>` : ""}
+            ${call.state !== "incoming" ? `<div class="net-ctrl"><button type="button" class="net-ctrl-btn${call.speaker ? " on" : ""}" id="netSpeaker" aria-pressed="${call.speaker}">${ICON_SPEAKER}</button><span>${escapeHtml(t("net_speaker"))}</span></div>` : ""}
           </div>
         </div>
       </div>`;
@@ -8076,7 +8200,7 @@ const Reseau = (() => {
       const l = call.listener;
       if (l) { if (call.muted) l.pause(); else if (!call.speaking) l.resume(); }
       call.interim = "";
-      sendSignal(call.otherId, { t: "mute", callId: call.id, on: call.muted });
+      if (call.state === "active") sendSignal(call.otherId, { t: "mute", callId: call.id, on: call.muted });
       muteBtn.classList.toggle("on", call.muted);
       muteBtn.setAttribute("aria-pressed", String(call.muted));
       const it = root.querySelector("#netInterim");
