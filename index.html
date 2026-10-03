@@ -8307,7 +8307,7 @@ const Reseau = (() => {
     if (error) {
       const em = String(error.message || "");
       const blocked = /row-level security|policy/i.test(em);
-      showMsg(msgEl, escapeHtml(em.includes("RATE_LIMIT") ? t("net_rate_limit") : blocked ? t("net_blocked") : t("net_send_fail")), "err");
+      showMsg(msgEl, escapeHtml(em.includes("SUSPENDED") ? t("net_suspended") : em.includes("RATE_LIMIT") ? t("net_rate_limit") : blocked ? t("net_blocked") : t("net_send_fail")), "err");
       return;
     }
     if (input) input.value = "";
