@@ -1,6 +1,6 @@
 {
-  "name": "Stats 24/24 Talk",
-  "short_name": "Stats 24/24",
+  "name": "Stats TEST 24/24 Talk",
+  "short_name": "Stats TEST",
   "description": "Tableau de bord privé de 24/24 Talk : utilisateurs en direct, traductions, appels, messages et consommation du serveur.",
   "id": "/24-24-talk/gestion/",
   "start_url": "/24-24-talk/gestion/",
