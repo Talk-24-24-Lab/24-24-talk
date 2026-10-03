@@ -4,8 +4,8 @@
   "use strict";
   var CFG = window.EW_CONFIG || { env: "test", basePath: "../", talkReadyTimeoutMs: 15000 };
   var APPS = window.EW_APPS || [];
-  var VERSION = "0.1.3 (prototype)";
-  var VERSION_TAG = "0.1.3";
+  var VERSION = "0.2.0 (prototype)";
+  var VERSION_TAG = "0.2.0";
 
   // ---------- Stockage (peut être indisponible : navigation privée stricte, etc.) ----------
   var store = {
@@ -99,18 +99,12 @@
 
   // ---------- Navigation principale (barre basse sur téléphone, menu latéral sur ordinateur) ----------
   var talkApp = APPS.filter(function (a) { return a.bottomNav && a.status === "available"; })[0];
-  var NAV = [
-    { route: "accueil", href: "#/accueil", label: t("home"), icon: "home" },
-    { route: "applications", href: "#/applications", label: t("apps"), icon: "apps" }
-  ];
-  // TALK n'est plus dans la barre basse (choix de Sébastien, 3 oct. 2026) : il s'ouvre depuis Applications, en pleine page.
-  NAV.push({ route: "profil", href: "#/profil", label: t("profile"), icon: "profile" });
-  $("mainnav").innerHTML = NAV.map(function (n) {
-    return '<a href="' + n.href + '" data-nav="' + n.route + '">' + svg(n.icon) + "<span>" + esc(n.label) + "</span></a>";
-  }).join("");
+  // Barre du bas commune (shell.js) : Accueil · Applications · TALK · Profil, la même dans TALK.
+  // TALK s'ouvre en pleine page (pas dans un cadre, qui restait figé sur téléphone) mais garde cette barre.
+  $("mainnav").innerHTML = window.EWShell.navHtml(CFG.basePath, true, null, lang);
 
   // Adresse de l'application seule (pleine page, hors du portail). Dans un cadre, TALK restait figé sur le téléphone de Sébastien.
-  function fullHref(a) { return CFG.basePath + a.src.replace(/[?&]embed=1\b/, "").replace(/\?$/, ""); }
+  function fullHref(a) { return CFG.basePath + a.src.replace(/([?&])embed=1\b/, "$1ew=1"); }
 
   // ---------- Cartes d'applications (accueil et page Applications) ----------
   function appCard(a) {

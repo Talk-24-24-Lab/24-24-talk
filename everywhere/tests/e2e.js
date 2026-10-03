@@ -71,10 +71,10 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const ok = /24\/24 EVERYWHERE/.test(h1) && cards.length === 2 && /TALK/.test(cards[0]) && /reserved/.test(cards[1]) && /RÉSERVÉ/.test(cards[1]);
     return { ok, detail: cards.length + " cartes" };
   });
-  await step("Barre basse : Accueil, Applications, Profil (TALK retiré)", async () => {
+  await step("Barre basse commune : Accueil, Applications, TALK, Profil", async () => {
     const labels = await page.$$eval("#mainnav a", (n) => n.map((a) => a.textContent.trim()));
     const pos = await page.$eval("#mainnav", (n) => { const r = n.getBoundingClientRect(); return { bottom: Math.round(r.bottom), h: innerHeight, dir: getComputedStyle(n).flexDirection }; });
-    return { ok: labels.join(",") === "Accueil,Applications,Profil" && pos.bottom === pos.h && pos.dir === "row", detail: labels.join(", ") + " · collée en bas" };
+    return { ok: labels.join(",") === "Accueil,Applications,TALK,Profil" && pos.bottom === pos.h && pos.dir === "row", detail: labels.join(", ") + " · collée en bas" };
   });
   await step("Zones tactiles ≥ 44 px (barre basse, roue dentée)", async () => {
     const sizes = await page.$$eval("#mainnav a, #topSettings", (n) => n.map((a) => { const r = a.getBoundingClientRect(); return Math.min(r.width, r.height); }));
@@ -106,14 +106,45 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.waitForURL((u) => /\/index\.html$/.test(u.pathname), { timeout: 10000 });
     await page.waitForSelector("#tileMsg");
     const emb = await page.evaluate(() => document.documentElement.classList.contains("embedded"));
+    await page.waitForSelector("#ewsNav");
     await page.tap("#tileMsg");
     await page.waitForSelector("#net.view.active", { timeout: 5000 });
     await page.screenshot({ path: path.join(OUT, "telephone-talk.png") });
     return { ok: !emb, detail: "adresse " + page.url().replace(ORIGIN, "") + ", Messagerie ouverte" };
   });
-  await step("Retour arrière depuis TALK : revient au portail", async () => {
-    await page.goBack();
+  await step("TALK dans la coquille : même barre du bas (TALK actif), barre du haut, sans grand en-tête", async () => {
+    const r = await page.evaluate(() => {
+      const nav = document.getElementById("ewsNav");
+      const labels = [...nav.querySelectorAll("a")].map((a) => a.textContent.trim()).join(",");
+      const cur = nav.querySelector('[aria-current="page"]');
+      const nr = nav.getBoundingClientRect();
+      return { shell: document.documentElement.classList.contains("ew-shell"), labels, cur: cur && cur.dataset.nav,
+        bottom: Math.round(nr.bottom) === innerHeight, top: !!document.getElementById("ewsTop"),
+        hero: getComputedStyle(document.querySelector("header.hero-earth")).display === "none",
+        sizes: [...nav.querySelectorAll("a")].every((a) => a.getBoundingClientRect().height >= 44) };
+    });
+    return { ok: r.shell && r.labels === "Accueil,Applications,TALK,Profil" && r.cur === "talk" && r.bottom && r.top && r.hero && r.sizes, detail: r.labels + " · actif : " + r.cur };
+  });
+  await step("Roue dentée de la coquille dans TALK : ouvre les réglages de TALK", async () => {
+    await page.tap("#ewsSettings");
+    await page.waitForSelector("#settings.view.active", { timeout: 5000 });
+    return { ok: true };
+  });
+  await step("Depuis TALK, la barre du bas ramène à l'accueil du portail", async () => {
+    await page.tap('#ewsNav a[data-nav="accueil"]');
+    await page.waitForSelector("#view-accueil.active", { timeout: 10000 });
+    await page.tap('#mainnav a[data-nav="talk"]');
+    await page.waitForURL((u) => /\/index\.html$/.test(u.pathname), { timeout: 10000 });
+    await page.waitForSelector("#ewsNav");
+    await page.tap('#ewsNav a[data-nav="applications"]');
     await page.waitForSelector("#view-applications.active", { timeout: 10000 });
+    return { ok: true, detail: "Accueil, puis TALK, puis Applications" };
+  });
+  await step("Retour arrière : TALK puis portail", async () => {
+    await page.goBack();
+    await page.waitForURL((u) => /\/index\.html$/.test(u.pathname), { timeout: 10000 });
+    await page.goBack();
+    await page.waitForFunction(() => /everywhere/.test(location.pathname), null, { timeout: 10000 });
     return { ok: true };
   });
   await step("Ancienne adresse #/app/talk → TALK en pleine page", async () => {
@@ -172,7 +203,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   await step("Manifeste valide (nom, start_url, standalone, icônes 192/512/maskable)", async () => {
     const m = await page.evaluate(async () => (await fetch("manifest.webmanifest")).json());
     const sizes = m.icons.map((i) => i.sizes + ":" + (i.purpose || "any"));
-    return { ok: m.display === "standalone" && !!m.start_url && sizes.includes("192x192:any") && sizes.includes("512x512:any") && sizes.includes("512x512:maskable"), detail: m.name };
+    return { ok: m.scope === "../" && m.display === "standalone" && !!m.start_url && sizes.includes("192x192:any") && sizes.includes("512x512:any") && sizes.includes("512x512:maskable"), detail: m.name };
   });
   await step("Icônes : fichiers présents et aux bonnes dimensions", async () => {
     const dims = await page.evaluate(async () => {
@@ -188,7 +219,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.goto(URL_EW);
     await page.evaluate(() => navigator.serviceWorker.ready);
     await sleep(500);
-    const keys = await page.evaluate(async () => { const c = await caches.open("ew-shell-v4"); return (await c.keys()).map((r) => new URL(r.url).pathname); });
+    const keys = await page.evaluate(async () => { const c = await caches.open("ew-shell-v5"); return (await c.keys()).map((r) => new URL(r.url).pathname); });
     const priv = keys.filter((k) => !/everywhere\/|terre-tech/.test(k));
     return { ok: keys.length >= 10 && !priv.length, detail: keys.length + " fichiers publics en cache, aucun hors du portail" };
   });
@@ -231,7 +262,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   page = await openPortal(ctx);
   await step("Interface en anglais selon la langue du téléphone", async () => {
     const labels = await page.$$eval("#mainnav a", (n) => n.map((a) => a.textContent.trim()));
-    return { ok: labels.join(",") === "Home,Apps,Profile", detail: labels.join(", ") };
+    return { ok: labels.join(",") === "Home,Apps,TALK,Profile", detail: labels.join(", ") };
   });
   await ctx.close();
 
@@ -259,7 +290,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.goto(ORIGIN + BASE);
     await page.waitForSelector("#tilePhone");
     await sleep(800);
-    const r = await page.evaluate(() => ({ emb: document.documentElement.classList.contains("embedded"),
+    const r = await page.evaluate(() => ({ emb: document.documentElement.classList.contains("embedded") || document.documentElement.classList.contains("ew-shell") || !!document.getElementById("ewsNav"),
       hero: getComputedStyle(document.querySelector("header.hero-earth")).display !== "none", banner: !!document.querySelector(".test-banner") && getComputedStyle(document.querySelector(".test-banner")).display !== "none" }));
     return { ok: !r.emb && r.hero && r.banner && !errs.length, detail: errs.join(" | ").slice(0, 160) || "aucune erreur" };
   });

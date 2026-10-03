@@ -4,7 +4,7 @@
   "description": "24/24 ONE WORLD : toutes les applications 24/24 dans une seule interface.",
   "id": "./",
   "start_url": "./#/accueil",
-  "scope": "./",
+  "scope": "../",
   "display": "standalone",
   "orientation": "any",
   "background_color": "#050913",
@@ -18,6 +18,6 @@
     { "src": "logo.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
   ],
   "shortcuts": [
-    { "name": "24/24 TALK", "url": "./#/app/talk", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] }
+    { "name": "24/24 TALK", "url": "../index.html?ew=1", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] }
   ]
 }
