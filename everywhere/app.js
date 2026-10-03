@@ -4,8 +4,8 @@
   "use strict";
   var CFG = window.EW_CONFIG || { env: "test", basePath: "../", talkReadyTimeoutMs: 15000 };
   var APPS = window.EW_APPS || [];
-  var VERSION = "0.2.0 (prototype)";
-  var VERSION_TAG = "0.2.0";
+  var VERSION = "0.3.0 (prototype)";
+  var VERSION_TAG = "0.3.0";
 
   // ---------- Stockage (peut être indisponible : navigation privée stricte, etc.) ----------
   var store = {
@@ -26,7 +26,7 @@
       apps_lead: "Chaque application s'ouvre ici, sans quitter 24/24 EVERYWHERE.",
       open: "Ouvrir", reserved: "Disponible ultérieurement", reserved_badge: "EMPLACEMENT RÉSERVÉ",
       reserved_txt: "Cet emplacement accueillera une prochaine application de 24/24 ONE WORLD. Elle n'existe pas encore.",
-      profile_note: "Votre profil est celui de 24/24 TALK : il n'est pas copié ailleurs. Il est lié à ce navigateur, sur cet appareil.",
+      profile_note: "Votre profil est celui de 24/24 TALK : il n'est pas copié ailleurs.",
       ui_lang: "Langue de l'interface", set_in_talk: "Régler dans TALK", theme: "Thème", theme_auto: "Suit votre appareil",
       stats: "Statistiques de visite anonymes", calls_closed: "Appels quand l'appli est fermée",
       push_on: "Activés", push_denied: "Bloqués par le navigateur", push_off: "Pas encore activés", push_unsup: "Non disponibles ici",
@@ -228,36 +228,12 @@
     if (b) { e.preventDefault(); openTalk(b.getAttribute("data-open-talk")); }
   });
 
-  // ---------- Profil (lu dans TALK, jamais recopié) ----------
-  var LANG_NAMES = { fr: "Français", en: "English", es: "Español", pt: "Português", de: "Deutsch", it: "Italiano", mg: "Malagasy", zh: "中文", ja: "日本語", ar: "العربية", ru: "Русский" };
+  // ---------- Profil ----------
+  // CONNECT (connect.js) : profil lu directement sur le serveur avec la session de TALK, sécurité du compte, appareils.
   function renderProfile() {
-    var card = $("profileCard");
-    if (!talkApp) { card.innerHTML = '<div class="state"><p>' + esc(t("prof_off")) + "</p></div>"; return; }
-    card.innerHTML = '<div class="state"><div class="spinner" aria-hidden="true"></div><p>' + esc(t("prof_loading")) + "</p></div>";
-    ensureFrame(talkApp);
-    var done = false;
-    var timer = setTimeout(function () {
-      if (done) return;
-      done = true;
-      card.innerHTML = '<div class="state" role="alert"><p>' + esc(t("prof_error")) + '</p><button type="button" class="btn primary" id="profRetry">' + esc(t("retry")) + "</button></div>";
-      $("profRetry").addEventListener("click", renderProfile);
-    }, (CFG.talkReadyTimeoutMs || 15000) + 2000);
-    waiting.push(function (me) {
-      if (done) return;
-      done = true;
-      clearTimeout(timer);
-      if (!me.configured) { card.innerHTML = '<div class="state"><p>' + esc(t("prof_off")) + "</p></div>"; return; }
-      if (!me.pseudo) {
-        card.innerHTML = '<div class="state"><p><b>' + esc(t("prof_none")) + "</b></p><p class=\"muted\">" + esc(t("prof_none_txt")) +
-          '</p><button type="button" class="btn primary" data-open-talk="net">' + esc(t("prof_create")) + "</button></div>";
-        return;
-      }
-      var l = LANG_NAMES[me.lang] || String(me.lang || "").toUpperCase();
-      card.innerHTML = '<div class="profile-head"><span class="avatar" aria-hidden="true">' + esc(me.pseudo.charAt(0).toUpperCase()) + "</span>" +
-        "<span><b dir=\"ltr\">@" + esc(me.pseudo) + '</b><span class="muted">' + esc(t("prof_lang", { l: l })) + "</span></span></div>" +
-        '<button type="button" class="btn primary wide" data-open-talk="net">' + esc(t("prof_chats")) + "</button>";
-    });
-    sendWhenReady(talkApp.id, { t: "ew:who" });
+    var login = false;
+    try { login = sessionStorage.getItem("ew_connect_login") === "1"; sessionStorage.removeItem("ew_connect_login"); } catch (e) { login = false; }
+    window.EWConnect.render($("profileCard"), { openTalk: openTalk, login: login });
   }
 
   // ---------- Paramètres ----------

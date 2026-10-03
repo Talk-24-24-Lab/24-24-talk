@@ -5686,6 +5686,7 @@ const NET_STRINGS = {
     net_retry: "Réessayer",
     net_setup_title: "Créez votre profil",
     net_setup_text: "Un pseudo et votre langue, c'est tout : pas d'e-mail, pas de numéro. Vos contacts lisent vos messages déjà traduits dans leur langue.",
+    net_have_account: "J'ai déjà un compte (code reçu par e-mail)",
     net_invited: "@{p} vous invite à discuter sur 24/24 Talk.",
     net_pseudo_ph: "pseudo (ex. : sebastien974)",
     net_pseudo_rule: "3 à 20 caractères : lettres minuscules, chiffres, point ou _",
@@ -5817,6 +5818,7 @@ const NET_STRINGS = {
     net_retry: "Try again",
     net_setup_title: "Create your profile",
     net_setup_text: "Just a username and your language: no email, no phone number. Your contacts read your messages already translated into their language.",
+    net_have_account: "I already have an account (code by email)",
     net_invited: "@{p} invites you to chat on 24/24 Talk.",
     net_pseudo_ph: "username (e.g. sebastien974)",
     net_pseudo_rule: "3 to 20 characters: lowercase letters, digits, dot or _",
@@ -7634,8 +7636,14 @@ const Reseau = (() => {
   }
 
   async function loadConversations() {
-    const { data: mems, error } = await sb.from("members").select("conversation_id,user_id,last_read");
+    // CONNECT : « Effacer la discussion » est aussi enregistré sur le serveur (cleared_at), pour tous les appareils.
+    let { data: mems, error } = await sb.from("members").select("conversation_id,user_id,last_read,cleared_at");
+    if (error && /cleared_at/.test(error.message || "")) ({ data: mems, error } = await sb.from("members").select("conversation_id,user_id,last_read"));
     if (error) throw error;
+    (mems || []).forEach((r) => { if (r.user_id === me && r.cleared_at) serverCleared[r.conversation_id] = Date.parse(r.cleared_at) || 0; });
+    sb.from("hidden_messages").select("message_id").then(({ data, error: e }) => {
+      if (!e && data) serverHidden = new Set(data.map((r) => r.message_id));
+    }, () => {});
     const mine = (mems || []).filter((r) => r.user_id === me);
     const others = (mems || []).filter((r) => r.user_id !== me);
     const ids = [...new Set(others.map((r) => r.user_id))];
@@ -7753,13 +7761,21 @@ const Reseau = (() => {
   }
 
   // ---------- Effacement local, « Vu », « en train d'écrire », menus (comme Messenger) ----------
-  function clearedAt(convId) { return Number(safeStore.getItem("lc_cleared_" + convId)) || 0; }
+  // CONNECT : ce téléphone + le serveur (respecté sur tous les appareils du compte).
+  let serverCleared = {};
+  let serverHidden = new Set();
+  function clearedAt(convId) { return Math.max(Number(safeStore.getItem("lc_cleared_" + convId)) || 0, serverCleared[convId] || 0); }
   function hiddenIds() {
-    try { return new Set(JSON.parse(safeStore.getItem("lc_hidden_msgs") || "[]")); } catch (e) { return new Set(); }
+    let local = [];
+    try { local = JSON.parse(safeStore.getItem("lc_hidden_msgs") || "[]"); } catch (e) { local = []; }
+    return new Set([...local, ...serverHidden]);
   }
   function hideForMe(id) {
-    const a = [...hiddenIds(), id].slice(-500);
-    safeStore.setItem("lc_hidden_msgs", JSON.stringify(a));
+    let local = [];
+    try { local = JSON.parse(safeStore.getItem("lc_hidden_msgs") || "[]"); } catch (e) { local = []; }
+    safeStore.setItem("lc_hidden_msgs", JSON.stringify([...local, id].slice(-500)));
+    serverHidden.add(id);
+    if (sb) sb.from("hidden_messages").insert({ message_id: id }).then(() => {}, () => {});
   }
   function visibleForMe(m) {
     if (!m) return false;
@@ -7954,6 +7970,7 @@ const Reseau = (() => {
         <label class="net-check"><input type="checkbox" id="netAge" /> <span>${t("net_age_html")}</span></label>
         <div class="row"><button class="btn primary" id="netCreate">${escapeHtml(t("net_create"))}</button></div>
         <div id="netSetupMsg">${flashHtml()}</div>
+        <p class="net-note"><a href="everywhere/#/profil" id="netHaveAccount">${escapeHtml(t("net_have_account"))}</a></p>
       </div>`;
     const sel = root.querySelector("#netLang");
     fillLangSelect(sel, DEFAULT_SRC);
@@ -7963,6 +7980,8 @@ const Reseau = (() => {
       if (v !== input.value) input.value = v;
     });
     root.querySelector("#netCreate").addEventListener("click", () => createProfile(input.value, sel.value, root.querySelector("#netAge").checked));
+    // CONNECT : se connecter à un compte existant (relié à un e-mail) se fait dans Profil d'EVERYWHERE.
+    root.querySelector("#netHaveAccount").addEventListener("click", () => { try { sessionStorage.setItem("ew_connect_login", "1"); } catch (e) { /* ignoré */ } });
   }
 
   async function createProfile(pseudo, lang, ageOk) {
@@ -8126,8 +8145,12 @@ const Reseau = (() => {
 
   async function deleteAccount() {
     try {
-      const { error } = await sb.from("profiles").delete().eq("id", me);
-      if (error) throw error;
+      // CONNECT : supprimer_mon_compte efface aussi l'e-mail relié ; repli sur l'ancien effacement si la fonction n'existe pas.
+      const r = await sb.rpc("supprimer_mon_compte");
+      if (r.error) {
+        const { error } = await sb.from("profiles").delete().eq("id", me);
+        if (error) throw error;
+      }
       if (call) endCall(null);
       try { await sb.removeAllChannels(); } catch (e) { /* ignoré */ }
       try { await sb.auth.signOut(); } catch (e) { /* ignoré */ }
@@ -8242,6 +8265,8 @@ const Reseau = (() => {
     };
     const doClear = () => {
       safeStore.setItem("lc_cleared_" + c.id, String(Date.now()));
+      serverCleared[c.id] = Date.now();
+      sb.from("members").update({ cleared_at: new Date().toISOString() }).eq("conversation_id", c.id).eq("user_id", me).then(() => {}, () => {});
       chatMsgs = [];
       c.last = null;
       setFlash(escapeHtml(t("net_cleared")), "ok");
