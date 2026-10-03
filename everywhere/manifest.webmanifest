@@ -1,0 +1,23 @@
+{
+  "name": "24/24 EVERYWHERE (TEST)",
+  "short_name": "EVERYWHERE",
+  "description": "24/24 ONE WORLD : toutes les applications 24/24 dans une seule interface.",
+  "id": "./",
+  "start_url": "./#/accueil",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#050913",
+  "theme_color": "#050913",
+  "lang": "fr",
+  "categories": ["social", "communication", "productivity"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "logo.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ],
+  "shortcuts": [
+    { "name": "24/24 TALK", "url": "./#/app/talk", "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}

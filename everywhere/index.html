@@ -1,0 +1,125 @@
+<!doctype html>
+<!--
+  24/24 EVERYWHERE — portail de 24/24 ONE WORLD. © 2026 Sébastien Chevrier (La Réunion). Tous droits réservés.
+  Un seul site, une interface commune, plusieurs applications. Première application : 24/24 TALK.
+-->
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>24/24 EVERYWHERE</title>
+<meta name="description" content="24/24 ONE WORLD : toutes les applications 24/24 dans une seule interface.">
+<meta name="theme-color" content="#050913">
+<meta name="color-scheme" content="dark light">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="logo.svg">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="EVERYWHERE">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="preload" href="../terre-tech.jpg" as="image">
+<link rel="stylesheet" href="style.css">
+<script src="config.js"></script>
+<script src="apps.js"></script>
+</head>
+<body>
+<a class="skip" href="#main" data-t="skip">Aller au contenu</a>
+<div class="env-banner" id="envBanner" role="status" hidden></div>
+<div class="offline" id="offline" role="status" hidden data-t="offline">Hors ligne : certaines fonctions sont indisponibles.</div>
+
+<div class="shell">
+  <header class="topbar">
+    <a class="brand" href="#/accueil" aria-label="24/24 EVERYWHERE, accueil">
+      <img src="logo.svg" alt="" width="36" height="36">
+      <span class="brand-txt"><b>24/24</b> <span>EVERYWHERE</span></span>
+    </a>
+    <span class="topbar-title" id="topTitle" aria-live="polite"></span>
+    <button type="button" class="icon-btn" id="topSettings" data-t-aria="settings" aria-label="Paramètres">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+    </button>
+  </header>
+
+  <nav class="mainnav" id="mainnav" aria-label="Navigation principale"></nav>
+
+  <main id="main" tabindex="-1">
+    <!-- ACCUEIL -->
+    <section class="view" id="view-accueil" data-route="accueil" aria-labelledby="h-accueil">
+      <div class="hero">
+        <div class="hero-earth" role="img" aria-label="La Terre vue de l'espace, de nuit"></div>
+        <div class="hero-txt">
+          <img class="hero-logo" src="logo.svg" alt="" width="72" height="72">
+          <p class="kicker">24/24 ONE WORLD</p>
+          <h1 id="h-accueil">24/24 EVERYWHERE</h1>
+          <p class="lead" data-t="lead">Toutes vos applications 24/24, au même endroit.</p>
+        </div>
+      </div>
+      <div class="pad">
+        <h2 class="h2" data-t="your_apps">Vos applications</h2>
+        <div class="app-grid" id="homeApps"></div>
+        <div class="quick">
+          <a class="quick-btn" href="#/profil"><span aria-hidden="true">👤</span><span data-t="profile">Profil</span></a>
+          <a class="quick-btn" href="#/parametres"><span aria-hidden="true">⚙️</span><span data-t="settings">Paramètres</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- APPLICATIONS -->
+    <section class="view" id="view-applications" data-route="applications" aria-labelledby="h-apps">
+      <div class="pad">
+        <h1 class="h1" id="h-apps" data-t="apps">Applications</h1>
+        <p class="muted" data-t="apps_lead">Chaque application s'ouvre ici, sans quitter 24/24 EVERYWHERE.</p>
+        <div class="app-list" id="appList"></div>
+      </div>
+    </section>
+
+    <!-- PROFIL -->
+    <section class="view" id="view-profil" data-route="profil" aria-labelledby="h-profil">
+      <div class="pad">
+        <h1 class="h1" id="h-profil" data-t="profile">Profil</h1>
+        <div class="card" id="profileCard" aria-live="polite"></div>
+        <p class="note" data-t="profile_note">Votre profil est celui de 24/24 TALK : il n'est pas copié ailleurs. Il est lié à ce navigateur, sur cet appareil.</p>
+      </div>
+    </section>
+
+    <!-- PARAMÈTRES -->
+    <section class="view" id="view-parametres" data-route="parametres" aria-labelledby="h-param">
+      <div class="pad">
+        <h1 class="h1" id="h-param" data-t="settings">Paramètres</h1>
+        <div class="card">
+          <div class="row"><span data-t="ui_lang">Langue de l'interface</span><button type="button" class="link-btn" data-open-talk="settings" data-t="set_in_talk">Régler dans TALK</button></div>
+          <div class="row"><span data-t="theme">Thème</span><span class="muted" data-t="theme_auto">Suit votre appareil</span></div>
+          <div class="row"><span data-t="stats">Statistiques de visite anonymes</span><button type="button" class="toggle" id="statsToggle" role="switch" aria-checked="true"><span class="sr" data-t="stats">Statistiques de visite anonymes</span></button></div>
+          <div class="row"><span data-t="calls_closed">Appels quand l'appli est fermée</span><span class="muted" id="pushState"></span></div>
+        </div>
+        <div class="card" id="installCard">
+          <div class="row"><span data-t="install_title">Installer 24/24 EVERYWHERE</span></div>
+          <button type="button" class="btn primary" id="installBtn" hidden data-t="install_btn">📲 Installer sur l'écran d'accueil</button>
+          <p class="note" id="installHelp"></p>
+        </div>
+        <div class="card">
+          <div class="row"><span data-t="talk_settings">Réglages de 24/24 TALK</span><button type="button" class="link-btn" data-open-talk="settings" data-t="open">Ouvrir</button></div>
+          <div class="row"><span data-t="version">Version</span><span class="muted" id="versionTxt"></span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- APPLICATIONS INTÉGRÉES (cadres créés par app.js) -->
+    <section class="view view-app" id="view-app" data-route="app" aria-label="Application">
+      <div class="app-frames" id="appFrames"></div>
+    </section>
+
+    <!-- PAGE INCONNUE -->
+    <section class="view" id="view-404" data-route="404" aria-labelledby="h-404">
+      <div class="pad empty">
+        <h1 class="h1" id="h-404" data-t="nf_title">Page introuvable</h1>
+        <p class="muted" data-t="nf_txt">Cette adresse n'existe pas dans 24/24 EVERYWHERE.</p>
+        <a class="btn primary" href="#/accueil" data-t="back_home">Revenir à l'accueil</a>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
