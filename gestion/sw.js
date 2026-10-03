@@ -1,7 +1,7 @@
 /* 24/24 Talk — tableau de bord. © 2026 Sébastien Chevrier.
    Garde une copie de l'écran pour qu'il s'ouvre même sans réseau ; les chiffres, eux, viennent toujours du serveur. */
-var CACHE = "stats2424-v3";
-var SHELL = ["./", "manifest.json", "icon-192.png", "icon-512.png", "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"];
+var CACHE = "stats2424-v4";
+var SHELL = ["./", "manifest.json", "icon-192.png", "icon-512.png", "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"];
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(SHELL); }).catch(function () {}).then(function () { return self.skipWaiting(); }));
 });

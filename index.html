@@ -5580,7 +5580,10 @@ if (SERVICE_WORKER_FILE && "serviceWorker" in navigator) {
 // Rempli une fois le projet Supabase créé (adresse du projet + clé publique « publishable »/« anon »).
 // Ces deux valeurs sont publiques par nature : la sécurité repose sur les règles de la base.
 const NET_CONFIG = { url: "https://wsgcumnaltdinchsdovs.supabase.co", key: "sb_publishable_FkPVBXxsT57oNonWUv16_g_9M0eIyxl" };
-const NET_SDK_URL = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+// Version figée + empreinte (SRI) : le navigateur refuse le fichier s'il a été modifié sur le CDN.
+// Pour changer de version : nouvelle URL et nouvelle empreinte (sha384 du fichier publié sur npm).
+const NET_SDK_URL = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js";
+const NET_SDK_SRI = "sha384-Rj26LVGvoeRVR6+mwQmFfcR3QOBEwT+ZmuCWpuiqeTzJpCs0ER4ITAWGb4Hiy3Ok";
 // Voix réelle (WebRTC) : la voix va directement d'un téléphone à l'autre. Les serveurs STUN aident les
 // deux téléphones à se trouver. Pour les réseaux qui bloquent le direct, ajouter ici un relais TURN,
 // ex. { urls: "turn:turn.cloudflare.com:3478", username: "…", credential: "…" }.
@@ -7442,6 +7445,8 @@ const Reseau = (() => {
       if (window.supabase && typeof window.supabase.createClient === "function") return resolve(window.supabase);
       const s = document.createElement("script");
       s.src = NET_SDK_URL;
+      s.integrity = NET_SDK_SRI;
+      s.crossOrigin = "anonymous";
       s.async = true;
       s.onload = () => (window.supabase && window.supabase.createClient ? resolve(window.supabase) : reject(new Error("SDK")));
       s.onerror = () => reject(new Error("NETWORK"));
