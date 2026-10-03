@@ -42,7 +42,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   }
   var code = pick();
   window.UI_PICK = code;
-  if (BUILTIN.indexOf(code) === -1) document.write('<script src="i18n/' + code + '.js?v=1"><\/script>');
+  if (BUILTIN.indexOf(code) === -1) document.write('<script src="i18n/' + code + '.js?v=2"><\/script>');
 })();
 </script>
 <script>
@@ -435,7 +435,6 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   <p data-i18n="tagline">Parlez votre langue, 24h/24. 24/24 Talk fait le reste.</p>
 </header>
 
-<p class="promo-banner" data-i18n-html="promo_html">🎁 Gratuit jusqu'au 1er novembre 2026 — ensuite 1,99&nbsp;$/mois. <a href="cgv.html">Voir les conditions</a></p>
 <p class="trust-line" data-i18n="trust">🔒 Sans inscription, sans carte bancaire : rien n'est jamais prélevé automatiquement. Votre historique reste uniquement sur votre téléphone.</p>
 <div class="install-top" id="installTop">
   <button class="install-top-btn" id="installTopBtn" type="button" data-i18n="install_btn">📲 Installer l'application</button>
@@ -574,12 +573,12 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
       <button class="btn primary" id="installBtn" style="width:100%;margin-top:8px;" hidden data-i18n="install_btn">📲 Installer l'application</button>
       <p class="install-help" id="installHelp"></p>
     </div>
-    <div class="card" id="subCard">
+    <div class="card" id="subCard" hidden>
       <div class="settings-row">
         <span data-i18n="sub">Abonnement</span>
         <span id="subStatus" style="color:var(--muted);font-size:13px;"></span>
       </div>
-      <button class="btn" id="subBtn" style="width:100%;margin-top:8px;">S'abonner — 1,99 $/mois</button>
+      <button class="btn" id="subBtn" style="width:100%;margin-top:8px;">S'abonner</button>
       <div id="subMsg"></div>
       <p style="color:var(--muted);font-size:11px;margin:8px 0 0;" data-i18n-html="pay_note_html">
         Le paiement s'effectue sur une page sécurisée Stripe, en dehors de cette application.
@@ -591,8 +590,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
     </div>
     <p class="footer-note" data-i18n-html="footer_note_html">
       24/24 Talk — version web gratuite. Aucun compte requis. Votre historique et vos réglages restent sur cet appareil. <a class="link" href="privacy.html">Confidentialité</a> · <a class="link" href="cgu.html">CGU</a>
-      · <a class="link" href="cgv.html">CGV / Tarifs</a> · <a class="link" href="mentions-legales.html">Mentions légales</a><br>
-      Gratuit jusqu'au 1er novembre 2026, puis 1,99&nbsp;$/mois. <a class="link" href="cgv.html">Détails</a>.
+      · <a class="link" href="cgv.html">CGV / Tarifs</a> · <a class="link" href="mentions-legales.html">Mentions légales</a>
     </p>
   </section>
 
@@ -657,30 +655,26 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   <section id="legal-cgv" class="view legal-view">
 <a class="back" href="index.html">← Retour à 24/24 Talk</a>
   <h1>Conditions Générales de Vente</h1>
-  <p class="updated">Dernière mise à jour : 29 septembre 2026</p>
+  <p class="updated">Dernière mise à jour : 3 octobre 2026</p>
 
-  <h2>1. Offre de lancement</h2>
+  <h2>1. Phase de lancement</h2>
   <div class="price">
-    <p><b>Gratuit jusqu'au 1er novembre 2026.</b><br>
-    Toutes les fonctionnalités de l'application sont accessibles sans frais jusqu'à cette date.</p>
+    <p><b>Gratuit pendant la phase de lancement.</b><br>
+    Toutes les fonctionnalités de l'application sont accessibles sans frais. Aucun abonnement n'est
+    proposé pour l'instant et rien n'est jamais prélevé.</p>
   </div>
 
-  <h2>2. Tarif après l'offre de lancement</h2>
-  <div class="price">
-    <p>À partir du 1er novembre 2026 : <b>1,99 $ / mois</b> pour un accès complet et illimité.</p>
-  </div>
-  <p>Le tarif indiqué correspond à un abonnement mensuel, résiliable à tout moment. Le prix affiché
-  peut légèrement varier selon la devise locale et les taxes applicables, calculées par le
-  prestataire de paiement en ligne utilisé.</p>
+  <h2>2. Offre payante éventuelle</h2>
+  <p>Si une offre payante est créée, son prix, son contenu et sa date de début seront annoncés à
+  l'avance sur cette page et dans l'application. Elle ne s'appliquera qu'aux personnes qui
+  l'acceptent expressément, sous la forme d'un abonnement mensuel résiliable à tout moment.</p>
 
   <h2>3. Modalités de paiement</h2>
   <p>Les paiements sont traités exclusivement par un prestataire de paiement en ligne tiers
   (Stripe, ou équivalent). L'éditeur ne collecte, ne stocke et ne traite directement aucune
   donnée bancaire.</p>
-  <p><i>Note pour la version web actuelle : à la date indiquée ci-dessus, aucun module de paiement
-  n'est encore intégré dans cette version web de l'application. La bascule effective vers un
-  abonnement payant nécessitera la mise en place d'un prestataire de paiement (Stripe ou
-  équivalent) avant le 1er novembre 2026. Cette page sera mise à jour dès que ce sera fait.</i></p>
+  <p><i>Note pour la version web actuelle : aucun module de paiement n'est intégré à l'application.
+  Cette page sera mise à jour avant toute mise en place d'un paiement.</i></p>
 
   <h2>4. Droit de rétractation</h2>
   <p>Conformément à la réglementation applicable, le droit de rétractation de 14 jours pour les
@@ -712,7 +706,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   <section id="legal-privacy" class="view legal-view">
 <a class="back" href="index.html">← Retour à 24/24 Talk</a>
   <h1>Politique de confidentialité</h1>
-  <p class="updated">Dernière mise à jour : 1er octobre 2026 (statistiques de visite anonymes, historique des appels, notifications d'appel)</p>
+  <p class="updated">Dernière mise à jour : 3 octobre 2026 (appels sans traduction en voix réelle)</p>
 
   <p>24/24 Talk est une application de traduction éditée par Sébastien Albert Vincent CHEVRIER, responsable du traitement. Contact : <a href="mailto:schevrier.1975@gmail.com">schevrier.1975@gmail.com</a>.</p>
   <p><strong>En bref :</strong> aucune publicité, aucun pistage, seulement des statistiques de visite anonymes que vous pouvez désactiver. Votre historique de traduction reste sur votre téléphone. Pour traduire une phrase libre ou transformer votre voix en texte, l'appli fait appel à des services extérieurs, nommés ci-dessous. Si vous utilisez le Réseau 24/24 Talk, votre pseudo, votre langue et vos messages sont hébergés sur un serveur afin d'être remis à vos contacts.</p>
@@ -730,6 +724,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
     <tr><td>Réseau : pseudo, langue, identifiant de compte anonyme</td><td>Serveur Supabase (Union européenne)</td><td>Vous permettre d'échanger avec vos contacts</td></tr>
     <tr><td>Réseau : messages écrits ou dictés</td><td>Serveur Supabase (Union européenne), visibles uniquement par les participants de la discussion</td><td>Remettre vos messages à vos contacts</td></tr>
     <tr><td>Appel traduit : phrases prononcées, transformées en texte</td><td>Transmises en direct via Supabase à votre interlocuteur, jamais enregistrées ; aucun son n'est transmis</td><td>Appel traduit</td></tr>
+    <tr><td>Appel sans traduction : votre voix</td><td>Envoyée directement de votre téléphone à celui de votre interlocuteur (WebRTC), chiffrée de bout en bout, jamais enregistrée ni stockée par 24/24 Talk. Si la liaison directe échoue, l'appel repasse en mode traduit.</td><td>Appel en voix réelle</td></tr>
     <tr><td>Statistiques de visite anonymes : identifiant tiré au hasard sur votre téléphone, ouverture de l'appli, nombre de traductions, nombre et durée des appels, présence en ligne</td><td>Serveur Supabase (Union européenne), sous forme de comptes par jour ; aucun nom, aucune adresse IP, aucun texte, aucun lien avec votre compte réseau</td><td>Mesure d'audience anonyme</td></tr>
     <tr><td>Historique des appels (durée ; avec « Avec traduction », les phrases échangées pendant l'appel)</td><td>Uniquement sur votre téléphone, dans la discussion concernée ; jamais envoyé</td><td>Retrouver vos appels</td></tr>
     <tr><td>Notifications d'appel (si vous les activez) : adresse technique de notification de votre navigateur et ses clés de chiffrement</td><td>Serveur Supabase (Union européenne) ; à chaque appel, une notification chiffrée de bout en bout (pseudo de la personne qui appelle) passe par le service de notification de votre navigateur (Google pour Chrome, voir « Destinataires »)</td><td>Vous prévenir d'un appel quand l'appli est fermée</td></tr>
@@ -742,6 +737,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
     <li><strong>Reconnaissance vocale</strong> : sur Android, la dictée de Chrome et le micro du clavier sont assurés par Google (Google LLC, États-Unis) ; sur iPhone, par Apple. L'audio peut être envoyé à leurs serveurs pour être transformé en texte, selon leurs propres politiques.</li>
     <li><strong>GitHub</strong> (GitHub, Inc., États-Unis), hébergeur du site : reçoit, comme tout hébergeur, l'adresse IP des visiteurs.</li>
     <li><strong>Supabase</strong> (Supabase, Inc.), hébergeur des données du Réseau 24/24 Talk : les données sont stockées dans un centre de données de l'Union européenne. Supabase agit comme sous-traitant, sur la base de clauses contractuelles types pour tout accès depuis l'extérieur de l'UE.</li>
+    <li><strong>Serveurs de mise en relation des appels</strong> (Google et Cloudflare) : pendant un appel sans traduction, ils aident les deux téléphones à se trouver et voient leurs adresses IP. Ils ne reçoivent pas la voix.</li>
     <li><strong>jsDelivr</strong> (cdn.jsdelivr.net) : si vous ouvrez l'onglet Réseau, le programme de connexion au serveur est téléchargé depuis ce service, qui reçoit alors votre adresse IP.</li>
     <li><strong>Service de notification de votre navigateur</strong>, seulement si vous activez les notifications d'appel : Google (Firebase Cloud Messaging, Google LLC, États-Unis) pour Chrome sur Android, Apple pour Safari, Mozilla pour Firefox. Le contenu de la notification est chiffré de bout en bout : ce service sait seulement qu'une notification est envoyée à votre téléphone, sans pouvoir la lire.</li>
     <li><strong>Vos contacts</strong> du Réseau : ils reçoivent votre pseudo, votre langue et les messages que vous leur envoyez.</li>
@@ -767,7 +763,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   <p>Pour savoir combien de personnes utilisent l'appli, un identifiant tiré au hasard est enregistré sur votre téléphone. Il permet uniquement de compter, jour par jour, les ouvertures de l'appli, le nombre de traductions, le nombre et la durée des appels, et le nombre de personnes en ligne. Aucun nom, aucune adresse IP, aucun texte traduit ou message n'est collecté, et ces chiffres ne sont jamais reliés à votre compte réseau ni partagés. Cette mesure d'audience, limitée au fonctionnement de l'appli et produisant des statistiques anonymes, est dispensée de consentement selon les lignes directrices de la CNIL. Vous pouvez la refuser à tout moment : <strong>Paramètres → Statistiques de visite anonymes</strong>.</p>
 
   <h2>Microphone</h2>
-  <p>Le microphone n'est utilisé que lorsque vous appuyez sur 🎤 ou sur « Mode vocal », et uniquement pendant l'écoute. Vous pouvez retirer l'autorisation à tout moment dans les réglages de votre navigateur.</p>
+  <p>Le microphone n'est utilisé que lorsque vous appuyez sur 🎤 ou sur « Mode vocal », et pendant un appel, et uniquement pendant l'écoute ou la durée de l'appel. Vous pouvez retirer l'autorisation à tout moment dans les réglages de votre navigateur.</p>
 
   <h2>Vos droits et la suppression de vos données</h2>
   <p>Vos données locales sont entièrement entre vos mains. Dans Paramètres, vous pouvez désactiver l'enregistrement de l'historique, supprimer une traduction, tout l'historique ou toutes vos données. Effacer les données du site dans votre navigateur, ou désinstaller l'appli, efface aussi tout. Dans l'onglet Réseau, « Supprimer mon compte réseau » efface votre profil et vos messages du serveur.</p>
@@ -3491,7 +3487,7 @@ const UI_STRINGS = {
     sub: "Abonnement",
     pay_note_html: "Le paiement s'effectue sur une page sécurisée Stripe, en dehors de cette application. <a class=\"link\" href=\"cgv.html\">Voir les CGV</a>.",
     wipe: "Supprimer toutes mes données",
-    footer_note_html: "24/24 Talk — version web gratuite. Aucun compte requis. Votre historique et vos réglages restent sur cet appareil. <a class=\"link\" href=\"privacy.html\">Confidentialité</a> · <a class=\"link\" href=\"cgu.html\">CGU</a> · <a class=\"link\" href=\"cgv.html\">CGV / Tarifs</a> · <a class=\"link\" href=\"mentions-legales.html\">Mentions légales</a><br>Gratuit jusqu'au 1er novembre 2026, puis 1,99&nbsp;$/mois. <a class=\"link\" href=\"cgv.html\">Détails</a>.",
+    footer_note_html: "24/24 Talk — version web gratuite. Aucun compte requis. Votre historique et vos réglages restent sur cet appareil. <a class=\"link\" href=\"privacy.html\">Confidentialité</a> · <a class=\"link\" href=\"cgu.html\">CGU</a> · <a class=\"link\" href=\"cgv.html\">CGV / Tarifs</a> · <a class=\"link\" href=\"mentions-legales.html\">Mentions légales</a>",
     rights: "© 2026 Sébastien Chevrier. Tous droits réservés.",
     sub_active: "Abonné ✓", sub_manage: "Gérer mon abonnement", sub_days: "Gratuit encore {n} j",
     sub_btn: "S'abonner — 1,99 $/mois", sub_ended: "Période gratuite terminée",
@@ -3564,7 +3560,7 @@ const UI_STRINGS = {
     sub: "Subscription",
     pay_note_html: "Payment takes place on a secure Stripe page, outside this app. <a class=\"link\" href=\"cgv.html\">Sales terms (in French)</a>.",
     wipe: "Delete all my data",
-    footer_note_html: "24/24 Talk — free web version. No account needed. Your history and settings stay on this device. <a class=\"link\" href=\"privacy.html\">Privacy</a> · <a class=\"link\" href=\"cgu.html\">Terms of use</a> · <a class=\"link\" href=\"cgv.html\">Sales terms / Pricing</a> · <a class=\"link\" href=\"mentions-legales.html\">Legal notice</a> (legal pages in French)<br>Free until November 1, 2026, then $1.99/month. <a class=\"link\" href=\"cgv.html\">Details</a>.",
+    footer_note_html: "24/24 Talk — free web version. No account needed. Your history and settings stay on this device. <a class=\"link\" href=\"privacy.html\">Privacy</a> · <a class=\"link\" href=\"cgu.html\">Terms of use</a> · <a class=\"link\" href=\"cgv.html\">Sales terms / Pricing</a> · <a class=\"link\" href=\"mentions-legales.html\">Legal notice</a> (legal pages in French)",
     rights: "© 2026 Sébastien Chevrier. All rights reserved.",
     sub_active: "Subscribed ✓", sub_manage: "Manage my subscription", sub_days: "Free for {n} more days",
     sub_btn: "Subscribe — $1.99/month", sub_ended: "Free period ended",
@@ -3637,7 +3633,7 @@ const UI_STRINGS = {
     sub: "Suscripción",
     pay_note_html: "El pago se realiza en una página segura de Stripe, fuera de esta app. <a class=\"link\" href=\"cgv.html\">Condiciones de venta (en francés)</a>.",
     wipe: "Borrar todos mis datos",
-    footer_note_html: "24/24 Talk — versión web gratuita. Sin cuenta. Tu historial y tus ajustes se quedan en este dispositivo. <a class=\"link\" href=\"privacy.html\">Privacidad</a> · <a class=\"link\" href=\"cgu.html\">Condiciones de uso</a> · <a class=\"link\" href=\"cgv.html\">Condiciones de venta / Precios</a> · <a class=\"link\" href=\"mentions-legales.html\">Aviso legal</a> (páginas legales en francés)<br>Gratis hasta el 1 de noviembre de 2026, después 1,99&nbsp;$/mes. <a class=\"link\" href=\"cgv.html\">Detalles</a>.",
+    footer_note_html: "24/24 Talk — versión web gratuita. Sin cuenta. Tu historial y tus ajustes se quedan en este dispositivo. <a class=\"link\" href=\"privacy.html\">Privacidad</a> · <a class=\"link\" href=\"cgu.html\">Condiciones de uso</a> · <a class=\"link\" href=\"cgv.html\">Condiciones de venta / Precios</a> · <a class=\"link\" href=\"mentions-legales.html\">Aviso legal</a> (páginas legales en francés)",
     rights: "© 2026 Sébastien Chevrier. Todos los derechos reservados.",
     sub_active: "Suscrito ✓", sub_manage: "Gestionar mi suscripción", sub_days: "Gratis {n} días más",
     sub_btn: "Suscribirse — 1,99 $/mes", sub_ended: "Periodo gratuito terminado",
@@ -3710,7 +3706,7 @@ const UI_STRINGS = {
     sub: "Assinatura",
     pay_note_html: "O pagamento é feito em uma página segura da Stripe, fora deste app. <a class=\"link\" href=\"cgv.html\">Condições de venda (em francês)</a>.",
     wipe: "Apagar todos os meus dados",
-    footer_note_html: "24/24 Talk — versão web gratuita. Sem conta. Seu histórico e suas configurações ficam neste aparelho. <a class=\"link\" href=\"privacy.html\">Privacidade</a> · <a class=\"link\" href=\"cgu.html\">Termos de uso</a> · <a class=\"link\" href=\"cgv.html\">Condições de venda / Preços</a> · <a class=\"link\" href=\"mentions-legales.html\">Aviso legal</a> (páginas legais em francês)<br>Grátis até 1 de novembro de 2026, depois US$&nbsp;1,99/mês. <a class=\"link\" href=\"cgv.html\">Detalhes</a>.",
+    footer_note_html: "24/24 Talk — versão web gratuita. Sem conta. Seu histórico e suas configurações ficam neste aparelho. <a class=\"link\" href=\"privacy.html\">Privacidade</a> · <a class=\"link\" href=\"cgu.html\">Termos de uso</a> · <a class=\"link\" href=\"cgv.html\">Condições de venda / Preços</a> · <a class=\"link\" href=\"mentions-legales.html\">Aviso legal</a> (páginas legais em francês)",
     rights: "© 2026 Sébastien Chevrier. Todos os direitos reservados.",
     sub_active: "Assinante ✓", sub_manage: "Gerenciar minha assinatura", sub_days: "Grátis por mais {n} dias",
     sub_btn: "Assinar — US$ 1,99/mês", sub_ended: "Período gratuito encerrado",
@@ -3783,7 +3779,7 @@ const UI_STRINGS = {
     sub: "Abonnement",
     pay_note_html: "Die Zahlung erfolgt auf einer sicheren Stripe-Seite außerhalb dieser App. <a class=\"link\" href=\"cgv.html\">Verkaufsbedingungen (auf Französisch)</a>.",
     wipe: "Alle meine Daten löschen",
-    footer_note_html: "24/24 Talk – kostenlose Webversion. Kein Konto nötig. Dein Verlauf und deine Einstellungen bleiben auf diesem Gerät. <a class=\"link\" href=\"privacy.html\">Datenschutz</a> · <a class=\"link\" href=\"cgu.html\">Nutzungsbedingungen</a> · <a class=\"link\" href=\"cgv.html\">Verkaufsbedingungen / Preise</a> · <a class=\"link\" href=\"mentions-legales.html\">Impressum</a> (Rechtstexte auf Französisch)<br>Kostenlos bis 1. November 2026, danach 1,99&nbsp;$/Monat. <a class=\"link\" href=\"cgv.html\">Details</a>.",
+    footer_note_html: "24/24 Talk – kostenlose Webversion. Kein Konto nötig. Dein Verlauf und deine Einstellungen bleiben auf diesem Gerät. <a class=\"link\" href=\"privacy.html\">Datenschutz</a> · <a class=\"link\" href=\"cgu.html\">Nutzungsbedingungen</a> · <a class=\"link\" href=\"cgv.html\">Verkaufsbedingungen / Preise</a> · <a class=\"link\" href=\"mentions-legales.html\">Impressum</a> (Rechtstexte auf Französisch)",
     rights: "© 2026 Sébastien Chevrier. Alle Rechte vorbehalten.",
     sub_active: "Abonniert ✓", sub_manage: "Mein Abo verwalten", sub_days: "Noch {n} Tage kostenlos",
     sub_btn: "Abonnieren – 1,99 $/Monat", sub_ended: "Kostenloser Zeitraum beendet",
@@ -3856,7 +3852,7 @@ const UI_STRINGS = {
     sub: "Abbonamento",
     pay_note_html: "Il pagamento avviene su una pagina sicura di Stripe, fuori da questa app. <a class=\"link\" href=\"cgv.html\">Condizioni di vendita (in francese)</a>.",
     wipe: "Elimina tutti i miei dati",
-    footer_note_html: "24/24 Talk — versione web gratuita. Nessun account richiesto. La tua cronologia e le tue impostazioni restano su questo dispositivo. <a class=\"link\" href=\"privacy.html\">Privacy</a> · <a class=\"link\" href=\"cgu.html\">Condizioni d'uso</a> · <a class=\"link\" href=\"cgv.html\">Condizioni di vendita / Prezzi</a> · <a class=\"link\" href=\"mentions-legales.html\">Note legali</a> (pagine legali in francese)<br>Gratis fino al 1° novembre 2026, poi 1,99&nbsp;$/mese. <a class=\"link\" href=\"cgv.html\">Dettagli</a>.",
+    footer_note_html: "24/24 Talk — versione web gratuita. Nessun account richiesto. La tua cronologia e le tue impostazioni restano su questo dispositivo. <a class=\"link\" href=\"privacy.html\">Privacy</a> · <a class=\"link\" href=\"cgu.html\">Condizioni d'uso</a> · <a class=\"link\" href=\"cgv.html\">Condizioni di vendita / Prezzi</a> · <a class=\"link\" href=\"mentions-legales.html\">Note legali</a> (pagine legali in francese)",
     rights: "© 2026 Sébastien Chevrier. Tutti i diritti riservati.",
     sub_active: "Abbonato ✓", sub_manage: "Gestisci il mio abbonamento", sub_days: "Gratis ancora {n} giorni",
     sub_btn: "Abbonati — 1,99 $/mese", sub_ended: "Periodo gratuito terminato",
@@ -3929,7 +3925,7 @@ const UI_STRINGS = {
     sub: "订阅",
     pay_note_html: "付款在 Stripe 的安全页面上完成，不在本应用内。<a class=\"link\" href=\"cgv.html\">销售条款（法语）</a>。",
     wipe: "删除我的所有数据",
-    footer_note_html: "24/24 Talk — 免费网页版。无需账户。你的历史记录和设置保存在本设备上。<a class=\"link\" href=\"privacy.html\">隐私</a> · <a class=\"link\" href=\"cgu.html\">使用条款</a> · <a class=\"link\" href=\"cgv.html\">销售条款 / 价格</a> · <a class=\"link\" href=\"mentions-legales.html\">法律声明</a>（法律页面为法语）<br>2026年11月1日前免费，之后每月 1.99 美元。<a class=\"link\" href=\"cgv.html\">详情</a>。",
+    footer_note_html: "24/24 Talk — 免费网页版。无需账户。你的历史记录和设置保存在本设备上。<a class=\"link\" href=\"privacy.html\">隐私</a> · <a class=\"link\" href=\"cgu.html\">使用条款</a> · <a class=\"link\" href=\"cgv.html\">销售条款 / 价格</a> · <a class=\"link\" href=\"mentions-legales.html\">法律声明</a>（法律页面为法语）",
     rights: "© 2026 Sébastien Chevrier。保留所有权利。",
     sub_active: "已订阅 ✓", sub_manage: "管理我的订阅", sub_days: "还可免费使用 {n} 天",
     sub_btn: "订阅 — 每月 1.99 美元", sub_ended: "免费期已结束",
@@ -4002,7 +3998,7 @@ const UI_STRINGS = {
     sub: "定期購読",
     pay_note_html: "お支払いはこのアプリの外にある Stripe の安全なページで行われます。<a class=\"link\" href=\"cgv.html\">販売条件（フランス語）</a>。",
     wipe: "すべてのデータを削除",
-    footer_note_html: "24/24 Talk — 無料のウェブ版。アカウント不要。履歴と設定はこの端末内に保存されます。<a class=\"link\" href=\"privacy.html\">プライバシー</a> · <a class=\"link\" href=\"cgu.html\">利用規約</a> · <a class=\"link\" href=\"cgv.html\">販売条件 / 料金</a> · <a class=\"link\" href=\"mentions-legales.html\">法的表示</a>（法的ページはフランス語）<br>2026年11月1日まで無料、その後は月額1.99ドル。<a class=\"link\" href=\"cgv.html\">詳細</a>。",
+    footer_note_html: "24/24 Talk — 無料のウェブ版。アカウント不要。履歴と設定はこの端末内に保存されます。<a class=\"link\" href=\"privacy.html\">プライバシー</a> · <a class=\"link\" href=\"cgu.html\">利用規約</a> · <a class=\"link\" href=\"cgv.html\">販売条件 / 料金</a> · <a class=\"link\" href=\"mentions-legales.html\">法的表示</a>（法的ページはフランス語）",
     rights: "© 2026 Sébastien Chevrier. 無断転載を禁じます。",
     sub_active: "購読中 ✓", sub_manage: "購読を管理", sub_days: "無料期間：残り{n}日",
     sub_btn: "購読する — 月額1.99ドル", sub_ended: "無料期間は終了しました",
@@ -4075,7 +4071,7 @@ const UI_STRINGS = {
     sub: "الاشتراك",
     pay_note_html: "يتم الدفع عبر صفحة آمنة من Stripe خارج هذا التطبيق. <a class=\"link\" href=\"cgv.html\">شروط البيع (بالفرنسية)</a>.",
     wipe: "حذف جميع بياناتي",
-    footer_note_html: "⁦24/24 Talk⁩ — نسخة ويب مجانية. لا حاجة إلى حساب. يبقى سجلّك وإعداداتك على هذا الجهاز. <a class=\"link\" href=\"privacy.html\">الخصوصية</a> · <a class=\"link\" href=\"cgu.html\">شروط الاستخدام</a> · <a class=\"link\" href=\"cgv.html\">شروط البيع / الأسعار</a> · <a class=\"link\" href=\"mentions-legales.html\">البيانات القانونية</a> (الصفحات القانونية بالفرنسية)<br>مجاني حتى 1 نوفمبر 2026، ثم 1.99 دولار شهريًا. <a class=\"link\" href=\"cgv.html\">التفاصيل</a>.",
+    footer_note_html: "⁦24/24 Talk⁩ — نسخة ويب مجانية. لا حاجة إلى حساب. يبقى سجلّك وإعداداتك على هذا الجهاز. <a class=\"link\" href=\"privacy.html\">الخصوصية</a> · <a class=\"link\" href=\"cgu.html\">شروط الاستخدام</a> · <a class=\"link\" href=\"cgv.html\">شروط البيع / الأسعار</a> · <a class=\"link\" href=\"mentions-legales.html\">البيانات القانونية</a> (الصفحات القانونية بالفرنسية)",
     rights: "© 2026 ⁦Sébastien Chevrier⁩. جميع الحقوق محفوظة.",
     sub_active: "مشترك ✓", sub_manage: "إدارة اشتراكي", sub_days: "مجاني لمدة {n} يومًا أخرى",
     sub_btn: "اشترك — 1.99 دولار شهريًا", sub_ended: "انتهت الفترة المجانية",
@@ -4148,7 +4144,7 @@ const UI_STRINGS = {
     sub: "Подписка",
     pay_note_html: "Оплата проходит на защищённой странице Stripe, вне этого приложения. <a class=\"link\" href=\"cgv.html\">Условия продажи (на французском)</a>.",
     wipe: "Удалить все мои данные",
-    footer_note_html: "24/24 Talk — бесплатная веб-версия. Без регистрации. Ваша история и настройки остаются на этом устройстве. <a class=\"link\" href=\"privacy.html\">Конфиденциальность</a> · <a class=\"link\" href=\"cgu.html\">Условия использования</a> · <a class=\"link\" href=\"cgv.html\">Условия продажи / Цены</a> · <a class=\"link\" href=\"mentions-legales.html\">Правовая информация</a> (юридические страницы на французском)<br>Бесплатно до 1 ноября 2026 г., затем 1,99&nbsp;$ в месяц. <a class=\"link\" href=\"cgv.html\">Подробнее</a>.",
+    footer_note_html: "24/24 Talk — бесплатная веб-версия. Без регистрации. Ваша история и настройки остаются на этом устройстве. <a class=\"link\" href=\"privacy.html\">Конфиденциальность</a> · <a class=\"link\" href=\"cgu.html\">Условия использования</a> · <a class=\"link\" href=\"cgv.html\">Условия продажи / Цены</a> · <a class=\"link\" href=\"mentions-legales.html\">Правовая информация</a> (юридические страницы на французском)",
     rights: "© 2026 Sébastien Chevrier. Все права защищены.",
     sub_active: "Подписка оформлена ✓", sub_manage: "Управлять подпиской", sub_days: "Бесплатно ещё {n} дн.",
     sub_btn: "Подписаться — 1,99 $ в месяц", sub_ended: "Бесплатный период закончился",
@@ -4239,7 +4235,7 @@ const UI_STRINGS = {
     sub: "Famandrihana",
     pay_note_html: "Ao amin'ny pejy azo antoka Stripe, ivelan'ity appli ity, no anaovana ny fandoavana. <a class=\"link\" href=\"cgv.html\">Jereo ny CGV</a>.",
     wipe: "Hamafa ny angon-drakitro rehetra",
-    footer_note_html: "24/24 Talk — kinova web maimaimpoana. Tsy mila kaonty. Ao amin'ity fitaovana ity ihany no mijanona ny tantaranao sy ny fikiranao. <a class=\"link\" href=\"privacy.html\">Tsiambaratelo</a> · <a class=\"link\" href=\"cgu.html\">CGU</a> · <a class=\"link\" href=\"cgv.html\">CGV / Sarany</a> · <a class=\"link\" href=\"mentions-legales.html\">Fampahafantarana ara-dalàna</a><br>Maimaimpoana hatramin'ny 1 Novambra 2026, avy eo 1,99&nbsp;$/volana. <a class=\"link\" href=\"cgv.html\">Antsipiriany</a>.",
+    footer_note_html: "24/24 Talk — kinova web maimaimpoana. Tsy mila kaonty. Ao amin'ity fitaovana ity ihany no mijanona ny tantaranao sy ny fikiranao. <a class=\"link\" href=\"privacy.html\">Tsiambaratelo</a> · <a class=\"link\" href=\"cgu.html\">CGU</a> · <a class=\"link\" href=\"cgv.html\">CGV / Sarany</a> · <a class=\"link\" href=\"mentions-legales.html\">Fampahafantarana ara-dalàna</a>",
     rights: "© 2026 Sébastien Chevrier. Zo rehetra voatokana.",
     sub_active: "Famandrihana mandeha ✓",
     sub_manage: "Hitantana ny famandrihako",
