@@ -4,8 +4,8 @@
   "use strict";
   var CFG = window.EW_CONFIG || { env: "test", basePath: "../", talkReadyTimeoutMs: 15000 };
   var APPS = window.EW_APPS || [];
-  var VERSION = "0.1.1 (prototype)";
-  var VERSION_TAG = "0.1.1";
+  var VERSION = "0.1.2 (prototype)";
+  var VERSION_TAG = "0.1.2";
 
   // ---------- Stockage (peut être indisponible : navigation privée stricte, etc.) ----------
   var store = {
@@ -21,7 +21,7 @@
   var STR = {
     fr: {
       skip: "Aller au contenu", offline: "Hors ligne : certaines fonctions sont indisponibles.",
-      home: "Accueil", apps: "Applications", profile: "Profil", settings: "Paramètres",
+      home: "Accueil", apps: "Applications", profile: "Profil", settings: "Paramètres", open_full: "Ouvrir en plein écran",
       lead: "Toutes vos applications 24/24, au même endroit.", your_apps: "Vos applications",
       apps_lead: "Chaque application s'ouvre ici, sans quitter 24/24 EVERYWHERE.",
       open: "Ouvrir", reserved: "Disponible ultérieurement", reserved_badge: "EMPLACEMENT RÉSERVÉ",
@@ -46,7 +46,7 @@
     },
     en: {
       skip: "Skip to content", offline: "Offline: some features are unavailable.",
-      home: "Home", apps: "Apps", profile: "Profile", settings: "Settings",
+      home: "Home", apps: "Apps", profile: "Profile", settings: "Settings", open_full: "Open full screen",
       lead: "All your 24/24 apps, in one place.", your_apps: "Your apps",
       apps_lead: "Each app opens right here, without leaving 24/24 EVERYWHERE.",
       open: "Open", reserved: "Available later", reserved_badge: "RESERVED SLOT",
@@ -322,12 +322,20 @@
       var on = v.getAttribute("data-route") === target;
       v.classList.toggle("active", on);
       v.setAttribute("aria-hidden", on ? "false" : "true");
-      if ("inert" in v) v.inert = !on;
+      // Pas de « inert » sur l'écran des applications : sur certains téléphones, une application affichée dans un
+      // cadre restait insensible au toucher après coup. visibility + pointer-events suffisent à la masquer.
+      if ("inert" in v && !v.classList.contains("view-app")) v.inert = !on;
     });
     document.querySelectorAll("[data-nav]").forEach(function (n) {
       if (n.getAttribute("data-nav") === (target === "app" ? "app/" + appId : target)) n.setAttribute("aria-current", "page");
       else n.removeAttribute("aria-current");
     });
+    // Bouton « ouvrir en plein écran » : l'application seule, hors du portail (solution de secours si besoin).
+    var openBtn = $("topOpen");
+    if (target === "app" && appById(appId).status === "available") {
+      openBtn.href = CFG.basePath + appById(appId).src.replace(/[?&]embed=1\b/, "").replace(/\?$/, "");
+      openBtn.hidden = false;
+    } else openBtn.hidden = true;
     if (target === "parametres") $("topSettings").setAttribute("aria-current", "page");
     else $("topSettings").removeAttribute("aria-current");
     var title = target === "app" ? loc(appById(appId).name) : TITLES[target] || "";

@@ -119,6 +119,25 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const still = await talkFrame(page).evaluate(() => window.__marque);
     return { ok: still === 42, detail: still === 42 ? "même page TALK, pas rechargée" : "rechargée" };
   });
+  await step("TALK répond au toucher après Accueil → TALK (Messagerie), le portail ne bouge pas", async () => {
+    const inert = await page.evaluate(() => document.getElementById("view-app").inert === true);
+    await tf.evaluate(() => { window.scrollTo(0, 0); window.__clics = 0; document.addEventListener("click", () => window.__clics++, true); });
+    await tf.tap("#tileMsg");
+    await tf.waitForSelector("#net.view.active", { timeout: 5000 });
+    await page.waitForTimeout(800);
+    const clics = await tf.evaluate(() => window.__clics);
+    const shift = await page.evaluate(() => document.getElementById("main").scrollTop + document.getElementById("view-app").scrollTop + document.scrollingElement.scrollTop);
+    const btn = await page.evaluate(() => { const b = document.getElementById("topOpen"); return !b.hidden && /index\.html$/.test(b.getAttribute("href")); });
+    return { ok: !inert && clics > 0 && shift === 0 && btn, detail: "clics reçus " + clics + ", décalage du portail " + shift + ", bouton plein écran " + (btn ? "présent" : "absent") };
+  });
+  await step("Bouton plein écran masqué hors des applications", async () => {
+    await page.click('#mainnav a[href="#/profil"]');
+    await page.waitForSelector("#view-profil.active");
+    const hidden = await page.evaluate(() => document.getElementById("topOpen").hidden);
+    await page.click('#mainnav a[href="#/app/talk"]');
+    await page.waitForSelector(".app-frame-wrap.active");
+    return { ok: hidden };
+  });
   await step("Roue dentée dans TALK : ouvre les réglages de TALK", async () => {
     await page.click("#topSettings");
     await tf.waitForSelector("#settings.view.active", { timeout: 5000 });
@@ -196,7 +215,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.goto(URL_EW);
     await page.evaluate(() => navigator.serviceWorker.ready);
     await sleep(500);
-    const keys = await page.evaluate(async () => { const c = await caches.open("ew-shell-v2"); return (await c.keys()).map((r) => new URL(r.url).pathname); });
+    const keys = await page.evaluate(async () => { const c = await caches.open("ew-shell-v3"); return (await c.keys()).map((r) => new URL(r.url).pathname); });
     const priv = keys.filter((k) => !/everywhere\/|terre-tech/.test(k));
     return { ok: keys.length >= 10 && !priv.length, detail: keys.length + " fichiers publics en cache, aucun hors du portail" };
   });

@@ -43,6 +43,7 @@ body.no-banner .topbar{padding-top:calc(6px + var(--sat));}
 .icon-btn{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--panel);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
 .icon-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 .icon-btn[aria-current="page"]{border-color:var(--teal);color:var(--teal);}
+a.icon-btn{color:inherit;text-decoration:none;}
 
 main{grid-area:main;position:relative;overflow:hidden;min-height:0;}
 main:focus{outline:none;}

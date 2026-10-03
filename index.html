@@ -7151,7 +7151,12 @@ const Reseau = (() => {
       if (screen === "chat" && !call) { currentConv = null; screen = "home"; }
       if (isActiveTab()) open();
       else tabBtn.click();
-      try { document.querySelector("nav.tabs").scrollIntoView({ block: "start", behavior: "smooth" }); } catch (e) { /* ignoré */ }
+      try {
+        const nv = document.querySelector("nav.tabs");
+        // Dans le portail, scrollIntoView ferait aussi défiler la page du portail autour de TALK : on ne fait défiler que TALK.
+        if (EMBEDDED) window.scrollTo({ top: Math.max(0, nv.getBoundingClientRect().top + window.scrollY - 6), behavior: "smooth" });
+        else nv.scrollIntoView({ block: "start", behavior: "smooth" });
+      } catch (e) { /* ignoré */ }
     };
     tilesBox.querySelector("#tilePhone").addEventListener("click", go("call"));
     tilesBox.querySelector("#tileMsg").addEventListener("click", go("msg"));
