@@ -139,6 +139,9 @@ Deno.serve(async (req) => {
       const oid = other[0].user_id;
       const blocked = await sql`select 1 from public.blocks where (blocker = ${oid} and blocked = ${uid}) or (blocker = ${uid} and blocked = ${oid})`;
       if (blocked.length) return json({ sent: 0 }, 200, h);
+      // Compte suspendu par l'administrateur : pas de notification.
+      const banned = await sql`select 1 from private.bans where user_id = ${uid}`;
+      if (banned.length) return json({ sent: 0 }, 200, h);
       // Limite anti-abus : 20 notifications par minute et par personne qui appelle.
       const recent = await sql`select count(*)::int as n from private.push_log where caller = ${uid} and at > now() - interval '1 minute'`;
       if (recent[0].n >= 20) return json({ sent: 0, limited: true }, 200, h);
