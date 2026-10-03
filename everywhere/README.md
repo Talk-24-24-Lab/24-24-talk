@@ -41,7 +41,7 @@ everywhere/
 ├── sw.js                   service worker du portail (coquille publique seulement)
 ├── icons/                  icônes 192, 512, 512 « maskable », 180 (iPhone)
 ├── tests/
-│   ├── e2e.js              29 tests automatiques (Playwright)
+│   ├── e2e.js              31 tests automatiques (Playwright)
 │   └── fake-supabase.js    faux serveur, pour les tests uniquement
 └── README.md               ce fichier
 ```
