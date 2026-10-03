@@ -7527,6 +7527,7 @@ const Reseau = (() => {
   async function afterProfileReady() {
     Stats24.setNet(true);
     if (pushState() === "on") syncPushSub(false);
+    else autoPush();
     await Promise.all([loadConversations(), loadBlocks()]);
     await startRealtime();
     screen = "home";
@@ -7935,6 +7936,12 @@ const Reseau = (() => {
     if (!ageOk) return showMsg(msg, escapeHtml(t("net_age_needed")), "warn");
     const btn = root.querySelector("#netCreate");
     btn.disabled = true;
+    // Appels appli fermée = fonction de base : l'autorisation est demandée dès la création du compte
+    // (le navigateur exige qu'elle soit demandée pendant l'appui sur un bouton).
+    const permAsk = pushSupported && Notification.permission === "default" && safeStore.getItem("lc_push") !== "0"
+      ? Notification.requestPermission().catch(() => "denied")
+      : null;
+    if (permAsk) permAsk.then((p) => { if (p === "granted" && profile) autoPush(); });
     try {
       if (!me) {
         const { data, error } = await sb.auth.signInAnonymously();
@@ -8375,6 +8382,18 @@ const Reseau = (() => {
     const ok = await syncPushSub(true);
     if (ok) safeStore.setItem("lc_push", "1");
     return ok ? "on" : "fail";
+  }
+  // Active les appels appli fermée sans rien demander quand l'autorisation est déjà donnée
+  // (sauf si la personne les a coupés elle-même dans les Paramètres).
+  function autoPush() {
+    if (!pushSupported || !profile || Notification.permission !== "granted" || safeStore.getItem("lc_push") === "0") return;
+    syncPushSub(true).then((ok) => {
+      if (!ok) return;
+      safeStore.setItem("lc_push", "1");
+      const tg = document.getElementById("pushToggle");
+      if (tg) { tg.classList.add("on"); tg.setAttribute("aria-pressed", "true"); }
+      if (screen === "home" && isActiveTab()) render();
+    });
   }
   async function disablePush() {
     safeStore.setItem("lc_push", "0");
