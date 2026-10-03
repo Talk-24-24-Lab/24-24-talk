@@ -42,7 +42,7 @@ Astuce : sur l'écran d'accueil, le bouton **Ajouter à l'écran d'accueil** ins
 
 ## Tarif
 
-Gratuit jusqu'au 1er novembre 2026, sans inscription et sans carte bancaire. Ensuite : 1,99 $ par mois.
+Gratuit pendant la phase de lancement, sans inscription et sans carte bancaire. Aucun abonnement n'est proposé pour l'instant.
 
 ---
 
