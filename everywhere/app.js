@@ -4,7 +4,8 @@
   "use strict";
   var CFG = window.EW_CONFIG || { env: "test", basePath: "../", talkReadyTimeoutMs: 15000 };
   var APPS = window.EW_APPS || [];
-  var VERSION = "0.1.0 (prototype)";
+  var VERSION = "0.1.1 (prototype)";
+  var VERSION_TAG = "0.1.1";
 
   // ---------- Stockage (peut être indisponible : navigation privée stricte, etc.) ----------
   var store = {
@@ -156,8 +157,24 @@
     ifr.title = loc(a.name);
     // Micro (dictée, appels), lecture audio, presse-papiers et plein écran : nécessaires à TALK.
     ifr.setAttribute("allow", "microphone; camera; autoplay; clipboard-read; clipboard-write; fullscreen; screen-wake-lock");
-    ifr.src = CFG.basePath + a.src;
+    // Numéro de version dans l'adresse : le téléphone ne réutilise pas une ancienne copie de l'application.
+    ifr.src = CFG.basePath + a.src + (a.src.indexOf("?") === -1 ? "?" : "&") + "v=" + encodeURIComponent(VERSION_TAG);
     f.iframe = ifr;
+    // Filet de sécurité : si l'application s'affiche mais ne répond pas au pont (ancienne version en cache,
+    // script bloqué…), on l'affiche quand même au lieu de rester sur l'écran de chargement.
+    ifr.addEventListener("load", function () {
+      setTimeout(function () {
+        if (f.ready || f.iframe !== ifr) return;
+        var doc = null;
+        try { doc = ifr.contentDocument; } catch (e) { doc = null; }
+        if (doc && doc.body && doc.body.children.length) {
+          f.ready = true;
+          clearTimeout(f.timer);
+          f.overlay.hidden = true;
+          flushPending(a.id);
+        }
+      }, 3000);
+    });
     f.wrap.insertBefore(ifr, f.overlay);
     clearTimeout(f.timer);
     f.timer = setTimeout(function () { if (!f.ready) f.overlay.innerHTML = overlayHtml("error", a); }, CFG.talkReadyTimeoutMs || 15000);
