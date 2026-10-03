@@ -1,0 +1,48 @@
+/* 24/24 EVERYWHERE — coquille commune (barre du haut, barre du bas). © 2026 Sébastien Chevrier.
+   Chargée par le portail (everywhere/) ET par 24/24 TALK : même apparence partout, identité Terre.
+   Jetons préfixés --ews- pour ne jamais entrer en conflit avec les styles de TALK. */
+:root{
+  --ews-bg:#050913; --ews-bg2:#0b1224; --ews-panel:#111a30; --ews-line:#25325a;
+  --ews-text:#eef3ff; --ews-muted:#9fb0d4; --ews-teal:#1fe2cd; --ews-teal2:#a8efe6;
+  --ews-nav-h:64px; --ews-top-h:56px;
+  --ews-sat:env(safe-area-inset-top,0px); --ews-sab:env(safe-area-inset-bottom,0px);
+  --ews-sal:env(safe-area-inset-left,0px); --ews-sar:env(safe-area-inset-right,0px);
+}
+@media (prefers-color-scheme: light){
+  :root{ --ews-bg:#f3f6fc; --ews-bg2:#e8eef9; --ews-panel:#ffffff; --ews-line:#d6deef; --ews-text:#0f1730; --ews-muted:#55628a;
+    --ews-teal:#0a9e8f; --ews-teal2:#0b6f66; }
+}
+
+/* Passage d'une page à l'autre en douceur (Chrome, Edge, Safari récents) : les deux barres restent en place. */
+@view-transition{ navigation:auto; }
+.topbar{view-transition-name:ews-top;}
+.mainnav{view-transition-name:ews-nav;}
+@media (prefers-reduced-motion:reduce){ ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none !important;} }
+
+.topbar{display:flex;align-items:center;gap:10px;min-height:var(--ews-top-h);
+  padding:6px calc(12px + var(--ews-sar)) 6px calc(12px + var(--ews-sal));background:var(--ews-bg);border-bottom:1px solid var(--ews-line);}
+.brand{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ews-text);min-height:44px;}
+.brand img{border-radius:10px;}
+.brand-txt{font-size:15px;letter-spacing:.04em;}
+.brand-txt span{color:var(--ews-teal2);font-weight:700;}
+.topbar-title{flex:1;text-align:center;font-weight:800;font-size:15px;color:var(--ews-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+@media (max-width:479px){ .topbar-title{visibility:hidden;} }
+.icon-btn{width:44px;height:44px;border-radius:12px;border:1px solid var(--ews-line);background:var(--ews-panel);color:var(--ews-text);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;padding:0;}
+.icon-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.icon-btn[aria-current="page"]{border-color:var(--ews-teal);color:var(--ews-teal);}
+a.icon-btn{text-decoration:none;}
+
+.mainnav{display:flex;justify-content:space-around;background:var(--ews-bg2);border-top:1px solid var(--ews-line);
+  padding:4px calc(4px + var(--ews-sar)) calc(4px + var(--ews-sab)) calc(4px + var(--ews-sal));min-height:var(--ews-nav-h);}
+.mainnav a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:52px;min-width:52px;
+  text-decoration:none;color:var(--ews-muted);font:700 12px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;border-radius:12px;}
+.mainnav a svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.mainnav a[aria-current="page"]{color:var(--ews-teal);background:color-mix(in srgb,var(--ews-teal) 12%,transparent);}
+
+/* ---------- 24/24 TALK dans la coquille (html.ew-shell, posé par TALK quand on vient d'EVERYWHERE) ---------- */
+html.ew-shell header.hero-earth, html.ew-shell .install-top, html.ew-shell #installCard{display:none !important;}
+html.ew-shell body{padding-bottom:calc(var(--ews-nav-h) + var(--ews-sab) + 8px);}
+html.ew-shell .ews-top{position:relative;z-index:20;}
+/* Barre du bas fixée en bas ; un appel (sonnerie ou appel en cours, z-index 45-50) passe par-dessus. */
+html.ew-shell .ews-nav{position:fixed;left:0;right:0;bottom:0;z-index:40;}

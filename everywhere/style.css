@@ -28,22 +28,12 @@ button{font:inherit;color:inherit;}
   padding:calc(6px + var(--sat)) 10px 6px;letter-spacing:.02em;}
 .offline{background:var(--warn);color:#1a1200;font-weight:700;font-size:14px;text-align:center;padding:6px 10px;}
 
-/* Coquille : barre haute, contenu, barre de navigation basse (téléphone). */
+/* Coquille : barre haute, contenu, barre de navigation basse (téléphone). Leur apparence est dans shell.css (commune avec TALK). */
+.shell>.topbar{grid-area:top;}
+.shell>.mainnav{grid-area:nav;}
+body.no-banner .topbar{padding-top:calc(6px + var(--sat));}
 .shell{flex:1;min-height:0;display:grid;grid-template-rows:auto 1fr auto;grid-template-areas:"top" "main" "nav";}
 
-.topbar{grid-area:top;display:flex;align-items:center;gap:10px;min-height:var(--top-h);
-  padding:6px calc(12px + var(--sar)) 6px calc(12px + var(--sal));background:var(--bg);border-bottom:1px solid var(--line);}
-body.no-banner .topbar{padding-top:calc(6px + var(--sat));}
-.brand{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--text);min-height:44px;}
-.brand img{border-radius:10px;}
-.brand-txt{font-size:15px;letter-spacing:.04em;}
-.brand-txt span{color:var(--teal2);font-weight:700;}
-@media (max-width:479px){ .topbar-title{visibility:hidden;} }
-.topbar-title{flex:1;text-align:center;font-weight:800;font-size:15px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.icon-btn{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--panel);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
-.icon-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
-.icon-btn[aria-current="page"]{border-color:var(--teal);color:var(--teal);}
-a.icon-btn{color:inherit;text-decoration:none;}
 
 main{grid-area:main;position:relative;overflow:hidden;min-height:0;}
 main:focus{outline:none;}
@@ -54,12 +44,6 @@ main:focus{outline:none;}
 .view:not(.view-app).active{display:block;}
 .pad{padding:18px 16px 28px;max-width:960px;margin:0 auto;}
 
-.mainnav{grid-area:nav;display:flex;justify-content:space-around;background:var(--bg2);border-top:1px solid var(--line);
-  padding:4px calc(4px + var(--sar)) calc(4px + var(--sab)) calc(4px + var(--sal));min-height:var(--nav-h);}
-.mainnav a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:52px;min-width:52px;
-  text-decoration:none;color:var(--muted);font-size:12px;font-weight:700;border-radius:12px;}
-.mainnav a svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
-.mainnav a[aria-current="page"]{color:var(--teal);background:color-mix(in srgb,var(--teal) 12%,transparent);}
 
 /* Accueil */
 /* Le bandeau Terre reste sombre quel que soit le thème ; le bas est fondu en noir (masque aussi la mention de l'image). */
