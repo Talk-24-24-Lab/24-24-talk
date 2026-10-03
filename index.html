@@ -5676,6 +5676,8 @@ const NET_STRINGS = {
     net_not_found: "Aucun utilisateur avec ce pseudo.",
     net_self: "C'est votre propre pseudo 🙂",
     net_blocked: "Impossible : l'un de vous a bloqué l'autre.",
+    net_suspended: "Votre compte est suspendu. Pour en parler : schevrier.1975@gmail.com",
+    net_rate_limit: "Trop d'envois d'un coup. Patientez une minute puis réessayez.",
     net_convs: "Mes discussions",
     net_no_convs: "Pas encore de discussion. Appuyez sur « 📨 Inviter un ami » : dès qu'il aura choisi son pseudo, votre discussion apparaîtra ici. Ouvrez-la ensuite pour écrire, envoyer un message vocal 🎤 ou lancer un 📞 appel traduit.",
     net_back: "← Retour",
@@ -5805,6 +5807,8 @@ const NET_STRINGS = {
     net_not_found: "No user with this username.",
     net_self: "That's your own username 🙂",
     net_blocked: "Not possible: one of you has blocked the other.",
+    net_suspended: "Your account is suspended. To discuss it: schevrier.1975@gmail.com",
+    net_rate_limit: "Too many at once. Wait a minute and try again.",
     net_convs: "My chats",
     net_no_convs: "No chats yet. Tap “📨 Invite a friend”: as soon as they choose a username, your chat will appear here. Open it to write, send a voice message 🎤 or start a 📞 translated call.",
     net_back: "← Back",
@@ -7651,7 +7655,8 @@ const Reseau = (() => {
     if (error) {
       const m = String(error.message || "");
       setFlash(
-        m.includes("NOT_FOUND") ? t("net_not_found") : m.includes("SELF") ? t("net_self") : m.includes("BLOCKED") ? t("net_blocked") : t("net_err_conn"),
+        m.includes("NOT_FOUND") ? t("net_not_found") : m.includes("SELF") ? t("net_self") : m.includes("BLOCKED") ? t("net_blocked")
+          : m.includes("SUSPENDED") ? t("net_suspended") : m.includes("RATE_LIMIT") ? t("net_rate_limit") : t("net_err_conn"),
         "warn"
       );
       screen = "home";
@@ -8189,7 +8194,8 @@ const Reseau = (() => {
       const copy = theirs.map((m) => m.body).join("\n").slice(0, 2000);
       const lastId = theirs.length ? theirs[theirs.length - 1].id : null;
       const { error } = await sb.from("reports").insert({ reported: c.otherId, message_id: lastId, body_copy: copy, reason: "user_report" });
-      showMsg(root.querySelector("#netChatMsg"), escapeHtml(error ? t("net_err_conn") : t("net_report_done")), error ? "err" : "ok");
+      const rl = error && String(error.message || "").includes("RATE_LIMIT");
+      showMsg(root.querySelector("#netChatMsg"), escapeHtml(rl ? t("net_rate_limit") : error ? t("net_err_conn") : t("net_report_done")), error ? "err" : "ok");
     };
     const doClear = () => {
       safeStore.setItem("lc_cleared_" + c.id, String(Date.now()));
@@ -8292,8 +8298,9 @@ const Reseau = (() => {
       .insert({ conversation_id: currentConv.id, body: body.slice(0, 2000), lang: mySpeak(currentConv.id), kind: kind === "voice" ? "voice" : "text" })
       .select("id,conversation_id,sender_id,body,lang,kind,created_at").single();
     if (error) {
-      const blocked = /row-level security|policy/i.test(error.message || "");
-      showMsg(msgEl, escapeHtml(blocked ? t("net_blocked") : t("net_send_fail")), "err");
+      const em = String(error.message || "");
+      const blocked = /row-level security|policy/i.test(em);
+      showMsg(msgEl, escapeHtml(em.includes("RATE_LIMIT") ? t("net_rate_limit") : blocked ? t("net_blocked") : t("net_send_fail")), "err");
       return;
     }
     if (input) input.value = "";
@@ -8834,9 +8841,11 @@ const Reseau = (() => {
     pc.onconnectionstatechange = () => {
       if (c.voice !== v) return;
       if (pc.connectionState === "connected") {
+        const first = !v.ok;
         v.ok = true;
         clearTimeout(v.timer);
         setVoiceInfo(t("net_voice_live"));
+        if (first && c.role === "caller") countVoicePath(pc);
       } else if (pc.connectionState === "failed") {
         voiceFailed(c);
       }
@@ -8885,8 +8894,24 @@ const Reseau = (() => {
     if (v.stream) v.stream.getTracks().forEach((tr) => tr.stop());
     if (v.audio) { try { v.audio.srcObject = null; } catch (e) { /* ignoré */ } v.audio.remove(); }
   }
+  // Statistiques anonymes des appels en voix réelle (comptées une fois, par la personne qui appelle) :
+  // voix_ok = voix établie, voix_relais = établie grâce à un relais TURN, voix_echec = repli en appel traduit.
+  function countVoicePath(pc) {
+    try { Stats24.track("voix_ok"); } catch (e) { /* ignoré */ }
+    pc.getStats().then((stats) => {
+      let pair = null;
+      stats.forEach((r) => { if (r.type === "transport" && r.selectedCandidatePairId) pair = stats.get(r.selectedCandidatePairId); });
+      if (!pair) stats.forEach((r) => { if (!pair && r.type === "candidate-pair" && r.state === "succeeded" && r.nominated) pair = r; });
+      if (!pair) return;
+      const loc = stats.get(pair.localCandidateId), rem = stats.get(pair.remoteCandidateId);
+      const types = [loc && loc.candidateType, rem && rem.candidateType];
+      console.log("[24/24] chemin de la voix :", types.join(" ↔ "));
+      if (types.includes("relay")) { try { Stats24.track("voix_relais"); } catch (e) { /* ignoré */ } }
+    }).catch(() => { /* ignoré */ });
+  }
   function voiceFailed(c) {
     if (!c || call !== c) return;
+    if (c.role === "caller" && c.voice && c.voice.pc && !c.voice.ok) { try { Stats24.track("voix_echec"); } catch (e) { /* ignoré */ } }
     stopVoice(c);
     if (c.mode !== "voice") return;
     sendSignal(c.otherId, { t: "mode", callId: c.id, mode: "translate" });
