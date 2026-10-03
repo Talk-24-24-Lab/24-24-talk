@@ -41,7 +41,7 @@ everywhere/
 ├── sw.js                   service worker du portail (coquille publique seulement)
 ├── icons/                  icônes 192, 512, 512 « maskable », 180 (iPhone)
 ├── tests/
-│   ├── e2e.js              31 tests automatiques (Playwright)
+│   ├── e2e.js              27 tests automatiques (Playwright)
 │   └── fake-supabase.js    faux serveur, pour les tests uniquement
 └── README.md               ce fichier
 ```
@@ -94,7 +94,11 @@ Les captures et `resultats.json` sont écrits dans `everywhere/tests/resultats/`
 5. Ajouter le portail à l'écran d'accueil, puis l'ouvrir depuis l'icône.
 6. Depuis un 2e appareil, appeler @sebtest pendant que le portail est sur Accueil : le portail bascule sur TALK et sonne.
 
-## 9. Limites connues
+## 9. Changement du 3 octobre 2026 (version 0.1.3)
+
+À la demande de Sébastien : TALK ne figure plus dans la barre basse et s'ouvre **en pleine page** depuis la carte TALK (Accueil ou Applications). Dans le portail (cadre), TALK restait figé sur son téléphone. Le bouton « retour » du téléphone ramène au portail. Le profil est toujours lu dans TALK, sans copie. Les appels quand le portail est ouvert arrivent par la notification de TALK.
+
+## 10. Limites connues
 
 - Le portail est traduit en français et en anglais (TALK garde ses 31 langues).
 - Le compte reste lié à un navigateur sur un appareil (comme TALK aujourd'hui). La continuité entre appareils est la prochaine étape d'EVERYWHERE.

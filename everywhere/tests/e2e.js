@@ -71,10 +71,10 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const ok = /24\/24 EVERYWHERE/.test(h1) && cards.length === 2 && /TALK/.test(cards[0]) && /reserved/.test(cards[1]) && /RÉSERVÉ/.test(cards[1]);
     return { ok, detail: cards.length + " cartes" };
   });
-  await step("Barre basse : Accueil, Applications, TALK, Profil", async () => {
+  await step("Barre basse : Accueil, Applications, Profil (TALK retiré)", async () => {
     const labels = await page.$$eval("#mainnav a", (n) => n.map((a) => a.textContent.trim()));
     const pos = await page.$eval("#mainnav", (n) => { const r = n.getBoundingClientRect(); return { bottom: Math.round(r.bottom), h: innerHeight, dir: getComputedStyle(n).flexDirection }; });
-    return { ok: labels.join(",") === "Accueil,Applications,TALK,Profil" && pos.bottom === pos.h && pos.dir === "row", detail: labels.join(", ") + " · collée en bas" };
+    return { ok: labels.join(",") === "Accueil,Applications,Profil" && pos.bottom === pos.h && pos.dir === "row", detail: labels.join(", ") + " · collée en bas" };
   });
   await step("Zones tactiles ≥ 44 px (barre basse, roue dentée)", async () => {
     const sizes = await page.$$eval("#mainnav a, #topSettings", (n) => n.map((a) => { const r = a.getBoundingClientRect(); return Math.min(r.width, r.height); }));
@@ -99,50 +99,30 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   await page.waitForSelector("#view-accueil.active");
   await page.screenshot({ path: path.join(OUT, "telephone-accueil.png") });
 
-  let tf;
-  await step("TALK s'ouvre dans le portail (même page, sans redirection)", async () => {
-    await page.click('#mainnav a[href="#/app/talk"]');
-    tf = await waitTalkReady(page);
-    const url = page.url();
-    const embedded = await tf.evaluate(() => document.documentElement.classList.contains("embedded"));
-    const heroHidden = await tf.evaluate(() => getComputedStyle(document.querySelector("header.hero-earth")).display === "none");
-    const tiles = await tf.evaluate(() => !!document.querySelector("#tilePhone") && !!document.querySelector("#tileMsg"));
-    return { ok: /everywhere\/#\/app\/talk$/.test(url) && embedded && heroHidden && tiles, detail: "adresse " + url.replace(ORIGIN, "") };
+  await step("Applications → carte TALK : TALK s'ouvre en pleine page et répond au toucher", async () => {
+    await page.click('#mainnav a[href="#/applications"]');
+    await page.waitForSelector("#view-applications.active");
+    await page.tap("#appList .app-card:not(.reserved)");
+    await page.waitForURL((u) => /\/index\.html$/.test(u.pathname), { timeout: 10000 });
+    await page.waitForSelector("#tileMsg");
+    const emb = await page.evaluate(() => document.documentElement.classList.contains("embedded"));
+    await page.tap("#tileMsg");
+    await page.waitForSelector("#net.view.active", { timeout: 5000 });
+    await page.screenshot({ path: path.join(OUT, "telephone-talk.png") });
+    return { ok: !emb, detail: "adresse " + page.url().replace(ORIGIN, "") + ", Messagerie ouverte" };
   });
-  await page.screenshot({ path: path.join(OUT, "telephone-talk.png") });
-  await step("TALK reste chargé quand on change d'écran (appels et messages continuent)", async () => {
-    await tf.evaluate(() => { window.__marque = 42; });
-    await page.click('#mainnav a[href="#/profil"]');
-    await page.waitForSelector("#view-profil.active");
-    await page.click('#mainnav a[href="#/app/talk"]');
-    await page.waitForSelector(".app-frame-wrap.active");
-    const still = await talkFrame(page).evaluate(() => window.__marque);
-    return { ok: still === 42, detail: still === 42 ? "même page TALK, pas rechargée" : "rechargée" };
-  });
-  await step("TALK répond au toucher après Accueil → TALK (Messagerie), le portail ne bouge pas", async () => {
-    const inert = await page.evaluate(() => document.getElementById("view-app").inert === true);
-    await tf.evaluate(() => { window.scrollTo(0, 0); window.__clics = 0; document.addEventListener("click", () => window.__clics++, true); });
-    await tf.tap("#tileMsg");
-    await tf.waitForSelector("#net.view.active", { timeout: 5000 });
-    await page.waitForTimeout(800);
-    const clics = await tf.evaluate(() => window.__clics);
-    const shift = await page.evaluate(() => document.getElementById("main").scrollTop + document.getElementById("view-app").scrollTop + document.scrollingElement.scrollTop);
-    const btn = await page.evaluate(() => { const b = document.getElementById("topOpen"); return !b.hidden && /index\.html$/.test(b.getAttribute("href")); });
-    return { ok: !inert && clics > 0 && shift === 0 && btn, detail: "clics reçus " + clics + ", décalage du portail " + shift + ", bouton plein écran " + (btn ? "présent" : "absent") };
-  });
-  await step("Bouton plein écran masqué hors des applications", async () => {
-    await page.click('#mainnav a[href="#/profil"]');
-    await page.waitForSelector("#view-profil.active");
-    const hidden = await page.evaluate(() => document.getElementById("topOpen").hidden);
-    await page.click('#mainnav a[href="#/app/talk"]');
-    await page.waitForSelector(".app-frame-wrap.active");
-    return { ok: hidden };
-  });
-  await step("Roue dentée dans TALK : ouvre les réglages de TALK", async () => {
-    await page.click("#topSettings");
-    await tf.waitForSelector("#settings.view.active", { timeout: 5000 });
+  await step("Retour arrière depuis TALK : revient au portail", async () => {
+    await page.goBack();
+    await page.waitForSelector("#view-applications.active", { timeout: 10000 });
     return { ok: true };
   });
+  await step("Ancienne adresse #/app/talk → TALK en pleine page", async () => {
+    await page.goto(URL_EW + "#/app/talk");
+    await page.waitForURL((u) => /\/index\.html$/.test(u.pathname), { timeout: 10000 });
+    return { ok: true };
+  });
+  await page.goto(URL_EW + "#/accueil");
+  await page.waitForSelector("#view-accueil.active");
   await step("Profil sans compte : invitation à créer son profil dans TALK", async () => {
     await page.click('#mainnav a[href="#/profil"]');
     await page.waitForSelector("#profileCard [data-open-talk='net']", { timeout: 20000 });
@@ -151,16 +131,9 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   });
   await step("« Créer mon profil » ouvre la messagerie de TALK", async () => {
     await page.click("#profileCard [data-open-talk='net']");
-    await page.waitForFunction(() => location.hash === "#/app/talk");
-    await talkFrame(page).waitForSelector("#net.view.active", { timeout: 5000 });
+    await page.waitForURL((u) => /\/index\.html$/.test(u.pathname), { timeout: 10000 });
+    await page.goto(URL_EW + "#/accueil");
     return { ok: true };
-  });
-  await step("Appel entrant : le portail affiche TALK, où qu'on soit", async () => {
-    await page.click('#mainnav a[href="#/accueil"]');
-    await page.waitForSelector("#view-accueil.active");
-    await talkFrame(page).evaluate(() => window.parent.postMessage({ t: "ew:ring" }, location.origin));
-    await page.waitForFunction(() => location.hash === "#/app/talk", null, { timeout: 3000 });
-    return { ok: true, detail: "message ew:ring simulé depuis TALK" };
   });
   await step("Sécurité du pont : message d'une autre origine ignoré", async () => {
     await page.click('#mainnav a[href="#/accueil"]');
@@ -215,7 +188,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.goto(URL_EW);
     await page.evaluate(() => navigator.serviceWorker.ready);
     await sleep(500);
-    const keys = await page.evaluate(async () => { const c = await caches.open("ew-shell-v3"); return (await c.keys()).map((r) => new URL(r.url).pathname); });
+    const keys = await page.evaluate(async () => { const c = await caches.open("ew-shell-v4"); return (await c.keys()).map((r) => new URL(r.url).pathname); });
     const priv = keys.filter((k) => !/everywhere\/|terre-tech/.test(k));
     return { ok: keys.length >= 10 && !priv.length, detail: keys.length + " fichiers publics en cache, aucun hors du portail" };
   });
@@ -253,29 +226,12 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   await page.screenshot({ path: path.join(OUT, "telephone-profil.png") });
   await ctx.close();
 
-  // ---------- Erreur : TALK ne répond pas ----------
-  ctx = await newCtx();
-  blockTalk = true;
-  page = await openPortal(ctx);
-  await page.evaluate(() => { EW_CONFIG.talkReadyTimeoutMs = 1500; });
-  await step("Erreur : TALK injoignable → message clair et bouton Réessayer", async () => {
-    await page.goto(URL_EW + "#/app/talk");
-    await page.evaluate(() => { EW_CONFIG.talkReadyTimeoutMs = 1500; });
-    await page.waitForSelector('[data-retry="talk"]', { timeout: 25000 });
-    blockTalk = false;
-    await page.click('[data-retry="talk"]');
-    await waitTalkReady(page);
-    return { ok: true, detail: "affiché puis rétabli après Réessayer" };
-  });
-  blockTalk = false;
-  await ctx.close();
-
   // ---------- Anglais ----------
   ctx = await newCtx({ locale: "en-US" });
   page = await openPortal(ctx);
   await step("Interface en anglais selon la langue du téléphone", async () => {
     const labels = await page.$$eval("#mainnav a", (n) => n.map((a) => a.textContent.trim()));
-    return { ok: labels.join(",") === "Home,Apps,TALK,Profile", detail: labels.join(", ") };
+    return { ok: labels.join(",") === "Home,Apps,Profile", detail: labels.join(", ") };
   });
   await ctx.close();
 
@@ -288,9 +244,6 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
       const r = await page.evaluate(() => ({ dir: getComputedStyle(document.getElementById("mainnav")).flexDirection, sw: document.documentElement.scrollWidth, w: innerWidth,
         cols: getComputedStyle(document.getElementById("homeApps")).gridTemplateColumns.split(" ").length }));
       await page.screenshot({ path: path.join(OUT, name + "-accueil.png") });
-      await page.click('#mainnav a[href="#/app/talk"]');
-      await waitTalkReady(page);
-      await page.screenshot({ path: path.join(OUT, name + "-talk.png") });
       const want = name === "ordinateur" ? "column" : "row";
       return { ok: r.dir === want && r.sw <= r.w && r.cols === 2, detail: "menu " + (r.dir === "column" ? "latéral" : "bas") + ", " + r.cols + " colonnes" };
     });
