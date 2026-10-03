@@ -1,0 +1,142 @@
+/* 24/24 EVERYWHERE — © 2026 Sébastien Chevrier. Mobile d'abord : les règles de base visent un téléphone,
+   les @media (min-width) adaptent ensuite tablette et ordinateur. */
+:root{
+  --bg:#050913; --bg2:#0b1224; --panel:#111a30; --panel2:#18233f; --line:#25325a;
+  --text:#eef3ff; --muted:#9fb0d4; --teal:#1fe2cd; --teal2:#a8efe6; --blue:#3d7bff; --ok:#2ecf8e; --warn:#ffb020; --err:#ff5c7a;
+  --nav-h:64px; --top-h:56px;
+  --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px); --sal:env(safe-area-inset-left,0px); --sar:env(safe-area-inset-right,0px);
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){
+  :root{ --bg:#f3f6fc; --bg2:#e8eef9; --panel:#ffffff; --panel2:#eef2fb; --line:#d6deef; --text:#0f1730; --muted:#55628a;
+    --teal:#0a9e8f; --teal2:#0b6f66; --blue:#2a62e0; --ok:#12955f; --warn:#a86a00; --err:#d63355; color-scheme:light; }
+}
+*{box-sizing:border-box;}
+html{height:100%;}
+body{margin:0;height:100vh;display:flex;flex-direction:column;background:var(--bg);color:var(--text);
+  font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-text-size-adjust:100%;overflow:hidden;}
+@supports (height:100dvh){ body{height:100dvh;} }
+a{color:var(--teal);}
+button{font:inherit;color:inherit;}
+:focus-visible{outline:3px solid var(--teal);outline-offset:2px;}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+.skip{position:absolute;left:8px;top:-60px;z-index:100;background:var(--panel);padding:10px 14px;border-radius:10px;}
+.skip:focus{top:8px;}
+[hidden]{display:none !important;}
+
+.env-banner{position:relative;z-index:30;background:#ff8a00;color:#1a0d00;font:700 13px/1.3 system-ui,sans-serif;text-align:center;
+  padding:calc(6px + var(--sat)) 10px 6px;letter-spacing:.02em;}
+.offline{background:var(--warn);color:#1a1200;font-weight:700;font-size:14px;text-align:center;padding:6px 10px;}
+
+/* Coquille : barre haute, contenu, barre de navigation basse (téléphone). */
+.shell{flex:1;min-height:0;display:grid;grid-template-rows:auto 1fr auto;grid-template-areas:"top" "main" "nav";}
+
+.topbar{grid-area:top;display:flex;align-items:center;gap:10px;min-height:var(--top-h);
+  padding:6px calc(12px + var(--sar)) 6px calc(12px + var(--sal));background:var(--bg);border-bottom:1px solid var(--line);}
+body.no-banner .topbar{padding-top:calc(6px + var(--sat));}
+.brand{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--text);min-height:44px;}
+.brand img{border-radius:10px;}
+.brand-txt{font-size:15px;letter-spacing:.04em;}
+.brand-txt span{color:var(--teal2);font-weight:700;}
+@media (max-width:479px){ .topbar-title{visibility:hidden;} }
+.topbar-title{flex:1;text-align:center;font-weight:800;font-size:15px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.icon-btn{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--panel);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
+.icon-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.icon-btn[aria-current="page"]{border-color:var(--teal);color:var(--teal);}
+
+main{grid-area:main;position:relative;overflow:hidden;min-height:0;}
+main:focus{outline:none;}
+.view{position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;visibility:hidden;pointer-events:none;
+  padding-left:var(--sal);padding-right:var(--sar);}
+.view.active{visibility:visible;pointer-events:auto;}
+.view:not(.view-app){display:none;}
+.view:not(.view-app).active{display:block;}
+.pad{padding:18px 16px 28px;max-width:960px;margin:0 auto;}
+
+.mainnav{grid-area:nav;display:flex;justify-content:space-around;background:var(--bg2);border-top:1px solid var(--line);
+  padding:4px calc(4px + var(--sar)) calc(4px + var(--sab)) calc(4px + var(--sal));min-height:var(--nav-h);}
+.mainnav a{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:52px;min-width:52px;
+  text-decoration:none;color:var(--muted);font-size:12px;font-weight:700;border-radius:12px;}
+.mainnav a svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.mainnav a[aria-current="page"]{color:var(--teal);background:color-mix(in srgb,var(--teal) 12%,transparent);}
+
+/* Accueil */
+/* Le bandeau Terre reste sombre quel que soit le thème ; le bas est fondu en noir (masque aussi la mention de l'image). */
+.hero{position:relative;min-height:240px;display:flex;align-items:flex-end;overflow:hidden;background:#050913;border-radius:0 0 26px 26px;}
+.hero-earth{position:absolute;inset:0;background:#02050b url("../terre-tech.jpg") center 55%/cover no-repeat;}
+.hero-earth::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,9,19,.1) 0%,rgba(5,9,19,.6) 50%,#050913 82%);}
+.hero-txt{position:relative;padding:22px 16px 12px;width:100%;max-width:960px;margin:0 auto;}
+.hero-logo{display:block;border-radius:18px;box-shadow:0 0 28px rgba(31,226,205,.35);margin-bottom:10px;}
+.kicker{margin:0;color:#a8efe6;font-weight:800;letter-spacing:.18em;font-size:12px;}
+.hero h1{margin:2px 0 4px;font-size:30px;line-height:1.1;color:#fff;text-shadow:0 0 18px rgba(31,226,205,.5);letter-spacing:.01em;}
+.lead{margin:0;color:#d7f7f2;font-size:15px;}
+.h1{font-size:24px;margin:4px 0 6px;}
+.h2{font-size:17px;margin:4px 0 12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;}
+.muted{color:var(--muted);}
+.note{color:var(--muted);font-size:13.5px;margin:12px 2px 0;}
+
+.app-grid,.app-list{display:grid;gap:12px;grid-template-columns:1fr;}
+.app-card{position:relative;display:flex;gap:14px;align-items:center;text-align:left;width:100%;padding:16px;border-radius:18px;
+  border:1px solid var(--line);background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 16%,var(--panel)),var(--panel));
+  color:var(--text);text-decoration:none;min-height:88px;}
+a.app-card:hover{border-color:var(--accent);}
+.app-card .app-ic{width:56px;height:56px;border-radius:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--accent);color:#06121f;}
+.app-card .app-ic svg{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+.app-card b{display:block;font-size:18px;}
+.app-card small{display:block;color:var(--muted);font-size:14px;margin-top:2px;}
+.app-card .go{margin-left:auto;font-weight:800;color:var(--accent);white-space:nowrap;}
+.app-card.reserved{border-style:dashed;background:var(--panel);}
+.app-card.reserved .app-ic{background:var(--panel2);color:var(--muted);}
+.badge{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.04em;padding:3px 8px;border-radius:999px;background:var(--panel2);color:var(--muted);margin-top:6px;}
+.quick{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;}
+.quick-btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:52px;border-radius:14px;border:1px solid var(--line);background:var(--panel);
+  color:var(--text);text-decoration:none;font-weight:700;}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin-top:14px;}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;border-bottom:1px solid var(--line);}
+.row:last-child{border-bottom:none;}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 18px;border-radius:14px;border:1px solid var(--line);
+  background:var(--panel2);font-weight:800;cursor:pointer;text-decoration:none;color:var(--text);}
+.btn.primary{background:var(--teal);border-color:var(--teal);color:#04161a;}
+.btn.wide{width:100%;margin-top:10px;}
+.link-btn{min-height:44px;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);font-weight:700;cursor:pointer;}
+.toggle{width:52px;height:30px;border-radius:999px;border:none;background:var(--line);position:relative;cursor:pointer;flex-shrink:0;}
+.toggle::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:left .15s;}
+.toggle[aria-checked="true"]{background:var(--ok);}
+.toggle[aria-checked="true"]::after{left:25px;}
+.profile-head{display:flex;align-items:center;gap:14px;}
+.avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--blue));color:#04161a;display:flex;align-items:center;
+  justify-content:center;font-size:28px;font-weight:900;flex-shrink:0;}
+.profile-head b{font-size:20px;display:block;}
+.state{text-align:center;padding:18px 6px;}
+.state p{margin:6px 0 12px;}
+.spinner{width:28px;height:28px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--teal);margin:4px auto;animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.empty{text-align:center;padding-top:60px;}
+
+/* Applications intégrées : le cadre reste chargé quand on change d'écran (appels et messages continuent). */
+.view-app{overflow:hidden;padding:0;}
+.app-frames{position:absolute;inset:0;}
+.app-frame-wrap{position:absolute;inset:0;visibility:hidden;}
+.app-frame-wrap.active{visibility:visible;}
+.app-frame-wrap iframe{width:100%;height:100%;border:0;display:block;background:var(--bg);}
+.app-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:24px;}
+.app-overlay .state{max-width:360px;}
+
+/* Tablette */
+@media (min-width:640px){
+  .app-grid{grid-template-columns:1fr 1fr;}
+  .hero{min-height:280px;}
+  .hero h1{font-size:36px;}
+}
+/* Ordinateur : navigation latérale. */
+@media (min-width:960px){
+  .shell{grid-template-columns:232px 1fr;grid-template-rows:auto 1fr;grid-template-areas:"top top" "nav main";}
+  .mainnav{flex-direction:column;justify-content:flex-start;gap:4px;border-top:none;border-right:1px solid var(--line);padding:14px 10px;}
+  .mainnav a{flex:0 0 auto;flex-direction:row;justify-content:flex-start;gap:12px;padding:0 14px;font-size:15px;min-height:48px;}
+  .hero{min-height:320px;}
+  .app-list{grid-template-columns:1fr 1fr;}
+}
+@media (prefers-reduced-motion: reduce){ *{animation:none !important;transition:none !important;} }
+/* Mode installé (standalone) : pas de bouton d'installation. */
+@media (display-mode: standalone){ #installCard{display:none;} }

@@ -426,6 +426,9 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   header.hero-earth p{color:#a8efe6;font-size:14px;}
   header.hero-earth .logo{box-shadow:0 0 0 1px rgba(168,239,230,.25),0 0 24px rgba(31,226,205,.35);}
   header.hero-earth .settings-btn{background:rgba(2,5,11,.55);border-color:rgba(168,239,230,.3);color:#eaf6ff;}
+  /* Dans 24/24 EVERYWHERE : pas de grand en-tête, ni de bandeau ou de bouton d'installation en double. */
+  html.embedded header.hero-earth, html.embedded .install-top, html.embedded .test-banner, html.embedded #installCard{display:none !important;}
+  html.embedded main{padding-top:6px;}
 </style>
 </head>
 <body>
@@ -4410,6 +4413,9 @@ applyStaticI18n();
 const AUTEUR_24_24_TALK = "24/24 Talk — © 2026 Sébastien Chevrier (La Réunion) — version officielle : https://sebastienchevrier.github.io/24-24-talk/";
 const OFFICIAL_URL = "https://sebastienchevrier.github.io/24-24-talk/";
 const IS_OFFICIAL_SITE = ["sebastienchevrier.github.io", "talk-24-24-lab.github.io", "localhost", "127.0.0.1", ""].includes(location.hostname);
+// Ouvert dans le portail 24/24 EVERYWHERE (même site) : le portail affiche déjà le logo, le bandeau et l'installation.
+const EMBEDDED = (() => { try { return window.parent !== window && /[?&]embed=1\b/.test(location.search) && window.parent.location.origin === location.origin; } catch (e) { return false; } })();
+if (EMBEDDED) document.documentElement.classList.add("embedded");
 // COPIE DE TEST : bandeau permanent pour ne jamais la confondre avec le vrai site.
 document.addEventListener("DOMContentLoaded", () => {
   const t = document.createElement("div");
@@ -7365,6 +7371,7 @@ const Reseau = (() => {
 
   const configured = IS_OFFICIAL_SITE && !!(NET_CONFIG.url && NET_CONFIG.key);
   let sb = null; // client Supabase
+  let ewRing = () => {}; // prévient 24/24 EVERYWHERE d'un appel entrant (voir le pont en fin de module)
   let me = null; // identifiant de l'utilisateur connecté
   let profile = null; // { id, pseudo, lang }
   let screen = configured ? "loading" : "off";
@@ -8522,6 +8529,7 @@ const Reseau = (() => {
   }
   function startRing(incoming) {
     stopRing();
+    if (incoming) ewRing();
     const once = () => {
       if (incoming) {
         ringMelody();
@@ -9198,6 +9206,33 @@ const Reseau = (() => {
   if (pendingAdd && inviteFromLink) {
     setTimeout(() => goToTab(), 300);
   }
+  // ---------- Pont avec 24/24 EVERYWHERE (seulement quand TALK est ouvert dans le portail, même site) ----------
+  if (EMBEDDED) {
+    const toPortal = (m) => { try { window.parent.postMessage(m, location.origin); } catch (e) { /* ignoré */ } };
+    const meMsg = (extra) => Object.assign({ t: "ew:me", configured, pseudo: profile ? profile.pseudo : null, lang: profile ? profile.lang : null,
+      joined: safeStore.getItem("lc_net_joined") === "1" }, extra || {});
+    window.addEventListener("message", (e) => {
+      if (e.origin !== location.origin || e.source !== window.parent) return;
+      const d = e.data || {};
+      if (d.t === "ew:who") {
+        // Déjà inscrit mais pas encore reconnecté : on attend la reconnexion (12 s au plus) avant de répondre.
+        if (profile || !configured || safeStore.getItem("lc_net_joined") !== "1") { toPortal(meMsg()); return; }
+        if (!sb) ensureConnected();
+        const t0 = Date.now();
+        const iv = setInterval(() => {
+          if (profile || Date.now() - t0 > 12000) { clearInterval(iv); toPortal(meMsg(profile ? null : { error: true })); }
+        }, 250);
+      } else if (d.t === "ew:view") {
+        if (d.view === "settings") { const b = document.querySelector('nav.tabs button[data-view="settings"]'); if (b) b.click(); }
+        else if (d.view === "net") { const b = document.getElementById("tileMsg"); if (b) b.click(); }
+        else if (d.view === "home" && homeTabBtn) homeTabBtn.click();
+        try { window.scrollTo(0, 0); } catch (e) { /* ignoré */ }
+      }
+    });
+    ewRing = () => toPortal({ t: "ew:ring" });
+    toPortal({ t: "ew:hello", app: "talk" });
+  }
+
   render();
 
   return { open, _state: () => ({ screen, profile, convs: convs.length, call: call && call.state }) };
