@@ -4,8 +4,8 @@
   "use strict";
   var CFG = window.EW_CONFIG || { env: "test", basePath: "../", talkReadyTimeoutMs: 15000 };
   var APPS = window.EW_APPS || [];
-  var VERSION = "0.1.2 (prototype)";
-  var VERSION_TAG = "0.1.2";
+  var VERSION = "0.1.3 (prototype)";
+  var VERSION_TAG = "0.1.3";
 
   // ---------- Stockage (peut être indisponible : navigation privée stricte, etc.) ----------
   var store = {
@@ -103,18 +103,21 @@
     { route: "accueil", href: "#/accueil", label: t("home"), icon: "home" },
     { route: "applications", href: "#/applications", label: t("apps"), icon: "apps" }
   ];
-  if (talkApp) NAV.push({ route: "app/" + talkApp.id, href: "#/app/" + talkApp.id, label: "TALK", icon: talkApp.icon });
+  // TALK n'est plus dans la barre basse (choix de Sébastien, 3 oct. 2026) : il s'ouvre depuis Applications, en pleine page.
   NAV.push({ route: "profil", href: "#/profil", label: t("profile"), icon: "profile" });
   $("mainnav").innerHTML = NAV.map(function (n) {
     return '<a href="' + n.href + '" data-nav="' + n.route + '">' + svg(n.icon) + "<span>" + esc(n.label) + "</span></a>";
   }).join("");
+
+  // Adresse de l'application seule (pleine page, hors du portail). Dans un cadre, TALK restait figé sur le téléphone de Sébastien.
+  function fullHref(a) { return CFG.basePath + a.src.replace(/[?&]embed=1\b/, "").replace(/\?$/, ""); }
 
   // ---------- Cartes d'applications (accueil et page Applications) ----------
   function appCard(a) {
     var name = esc(loc(a.name));
     var style = ' style="--accent:' + esc(a.accent || "#3d7bff") + '"';
     if (a.status === "available") {
-      return '<a class="app-card" href="#/app/' + esc(a.id) + '"' + style + '><span class="app-ic">' + svg(a.icon) + "</span>" +
+      return '<a class="app-card" href="' + esc(fullHref(a)) + '"' + style + '><span class="app-ic">' + svg(a.icon) + "</span>" +
         "<span><b>" + name + "</b><small>" + esc(loc(a.tagline)) + '</small></span><span class="go">' + esc(t("open")) + " →</span></a>";
     }
     return '<div class="app-card reserved"' + style + ' aria-disabled="true"><span class="app-ic">' + svg(a.icon) + "</span>" +
@@ -212,7 +215,8 @@
       w.forEach(function (cb) { cb(d); });
     } else if (d.t === "ew:ring") {
       // Appel entrant : on montre TALK, où qu'on soit dans le portail.
-      if (location.hash !== "#/app/" + id) location.hash = "#/app/" + id;
+      var ra = appById(id);
+      if (ra) location.href = fullHref(ra);
     }
   });
   var pending = {}; // id -> messages à envoyer quand l'application sera prête
@@ -223,9 +227,7 @@
   function flushPending(id) { (pending[id] || []).forEach(function (m) { postTo(id, m); }); pending[id] = []; }
   function openTalk(view) {
     if (!talkApp) return;
-    location.hash = "#/app/" + talkApp.id;
-    ensureFrame(talkApp);
-    if (view) sendWhenReady(talkApp.id, { t: "ew:view", view: view });
+    location.href = fullHref(talkApp);
   }
   document.addEventListener("click", function (e) {
     var b = e.target.closest ? e.target.closest("[data-open-talk]") : null;
@@ -313,6 +315,7 @@
     if (view === "app") {
       var a = appById(appId);
       if (!a) target = "404";
+      else if (a.status === "available") { location.replace(fullHref(a)); return; } // ancienne adresse #/app/talk
       else {
         ensureFrame(a);
         Object.keys(frames).forEach(function (id) { frames[id].wrap.classList.toggle("active", id === a.id); });
@@ -355,10 +358,7 @@
   route();
 
   // TALK est préparé en arrière-plan juste après l'affichage : appels et messages arrivent même depuis l'accueil.
-  if (talkApp) {
-    var warm = function () { ensureFrame(talkApp); };
-    if ("requestIdleCallback" in window) requestIdleCallback(warm, { timeout: 1500 }); else setTimeout(warm, 600);
-  }
+  // (TALK n'est plus préparé dans un cadre en arrière-plan : les appels arrivent par la notification de TALK.)
 
   // ---------- Hors ligne ----------
   function paintOnline() { $("offline").hidden = navigator.onLine !== false; }
@@ -373,7 +373,7 @@
       var d = e.data || {};
       if (d.t === "answer" && d.call && talkApp) {
         // TALK reçoit lui-même ce message (sw.js l'envoie à toutes ses fenêtres) : ici on l'affiche seulement.
-        location.hash = "#/app/" + talkApp.id;
+        location.href = fullHref(talkApp);
       }
     });
   }
