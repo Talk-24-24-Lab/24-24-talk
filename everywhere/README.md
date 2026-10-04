@@ -213,3 +213,21 @@ Réglages ajoutés dans `ew_tr_v1` : `out` (speaker | earbuds), `hands`, `rate`,
 Fichiers : `traduction/moteur.js` (voix, vitesse, fin de lecture), `traduction/everywhere.js`, `traduction/everywhere.css`.
 Tests : **84 tests automatiques** (5 nouveaux : écouteurs, répéter, mains libres, réglages audio, voix automatique).
 Non testé : vrai téléphone Android avec de vrais écouteurs Bluetooth.
+
+## Version 0.6.1 (4 oct. 2026) : campagne de tests « expert » sur tout ONE WORLD
+
+Nouveau fichier `tests/expert.js` (32 tests, en plus des 84 de `e2e.js`) : 18 écrans × 4 variantes (320 px, sombre,
+contraste renforcé + très grand texte, anglais), accessibilité automatique axe-core (WCAG 2.1 AA), réglages abîmés,
+pannes (hors ligne, quota, service en panne), touches répétées, texte et pseudo piégés, CONNECT avec saisies hostiles,
+leçon LEARN complète, TALK seul dans ses 31 langues, recherche de clés secrètes.
+Lancement : `npm i axe-core` (dans un dossier de travail) puis `AXE=<chemin>/axe.min.js node everywhere/tests/expert.js`.
+
+Défauts trouvés et corrigés :
+- Paramètres : les 3 boutons « taille du texte » avaient un nom décalé pour les lecteurs d'écran (« Grand » lu sur Normal…),
+  et la page entière recevait le nom « Normal » (`app.js`).
+- Interrupteurs (Paramètres, EVERYWHERE) : zone à toucher portée de 30 à 44 px de haut, même dessin (`style.css`).
+- EVERYWHERE, appeler sur TALK : texte vert trop pâle (« Inviter un contact », boutons « Appeler ») → contraste suffisant.
+- Test du cache hors ligne : nom du cache lu dans `sw.js` au lieu d'être écrit en dur (cassé par la 0.6.0).
+
+Constaté dans TALK, NON corrigé (fichier de TALK, apparence à décider) : 2 contrastes insuffisants
+(lien « CGV » du bandeau, bouton de traduction `data-tr`).

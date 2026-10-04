@@ -76,14 +76,14 @@ html.contrast-high .tr-big{border:3px solid var(--text);}
 
 /* ---------- Mode B : contacts TALK ---------- */
 .tr-search{margin-bottom:10px;}
-.tr-invite{width:100%;min-height:52px;border-radius:14px;border:2px solid var(--g);background:var(--panel);color:var(--g);font-weight:800;font-size:16px;cursor:pointer;}
+.tr-invite{width:100%;min-height:52px;border-radius:14px;border:2px solid var(--g);background:var(--panel);color:color-mix(in srgb,var(--g) 70%,var(--text));font-weight:800;font-size:16px;cursor:pointer;}
 .tr-contacts{list-style:none;margin:8px 0 0;padding:0;}
 .tr-ct{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);}
 .tr-ct>span:nth-child(2){flex:1;min-width:0;}
 .tr-ct b{display:block;overflow:hidden;text-overflow:ellipsis;}
 .tr-ct small{display:block;color:var(--muted);}
 .tr-av{width:44px;height:44px;border-radius:50%;background:color-mix(in srgb,var(--blue) 14%,var(--panel));color:var(--blue);font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.tr-callbtn{background:var(--g);border-color:var(--g);color:#fff;border-radius:999px;min-height:44px;}
+.tr-callbtn{background:#0c7d45;border-color:#0c7d45;color:#fff;border-radius:999px;min-height:44px;}
 .tr-none{padding:14px 0;}
 .tr-sheet{position:fixed;inset:0;z-index:60;background:rgba(5,9,19,.5);display:flex;align-items:flex-end;justify-content:center;}
 .tr-sheet-in{background:var(--panel);color:var(--text);width:100%;max-width:520px;border-radius:22px 22px 0 0;padding:18px 16px calc(18px + var(--sab));max-height:90%;overflow-y:auto;}

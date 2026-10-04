@@ -2,7 +2,7 @@
    Il ne garde en mémoire QUE la coquille publique du portail (pages, styles, icônes) pour qu'elle s'ouvre vite
    et hors ligne. Il ne touche jamais aux applications (TALK a son propre fonctionnement), ni au serveur Supabase,
    ni aux conversations : ces requêtes passent sans être enregistrées. */
-var CACHE = "ew-shell-v10";
+var CACHE = "ew-shell-v11";
 var SHELL = ["./", "index.html", "shell.css", "style.css", "prefs.js", "shell.js", "connect.js", "app.js", "apps.js", "config.js", "logo.svg", "manifest.webmanifest",
   "learn/learn.css", "learn/progress.js", "learn/exercises.js", "learn/learn.js",
   "learn/content/catalogue.json", "learn/content/en.json", "learn/content/es.json",
