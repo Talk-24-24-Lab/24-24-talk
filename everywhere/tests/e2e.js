@@ -609,7 +609,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
           r.start = function () {
             window.__srLangs.push(r.lang);
             r._t = setTimeout(function () {
-              const txt = window.__say || "";
+              const txt = (window.__sayQ && window.__sayQ.length) ? window.__sayQ.shift() : (window.__say || "");
               r.onresult && r.onresult({ resultIndex: 0, results: [Object.assign([{ transcript: txt }], { isFinal: true })] });
               r.onend && r.onend();
             }, window.__srDelay);
@@ -620,7 +620,14 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
       }
       try { navigator.mediaDevices.getUserMedia = function () { return Promise.resolve({ getTracks: function () { return []; } }); }; } catch (e) {}
       const syn = window.speechSynthesis;
-      if (syn) { syn.speak = function (u) { window.__spoken.push({ t: u.text, l: u.lang, v: u.volume }); }; syn.cancel = function () {}; }
+      // Voix factices (comme sur un téléphone) ; la fin de chaque phrase est annoncée 50 ms plus tard.
+      window.SpeechSynthesisUtterance = function (t) { this.text = t; };
+      const VOICES = [{ name: "Voix locale", lang: "fr-FR", voiceURI: "l-fr" }, { name: "Google français", lang: "fr-FR", voiceURI: "g-fr" }, { name: "Google US English", lang: "en-US", voiceURI: "g-en" }];
+      if (syn) {
+        syn.getVoices = function () { return VOICES; };
+        syn.speak = function (u) { window.__spoken.push({ t: u.text, l: u.lang, v: u.volume, r: u.rate, voice: u.voice && u.voice.voiceURI }); setTimeout(function () { u.onend && u.onend(); }, 50); };
+        syn.cancel = function () {};
+      }
       window.__shared = null;
       navigator.share = function (d) { window.__shared = d; return Promise.resolve(); };
     }, !!(opts && opts.noStt));
@@ -723,6 +730,77 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const s = await page.evaluate(() => window.__spoken[window.__spoken.length - 1]);
     await page.evaluate(() => { localStorage.removeItem("ew_tr_v1"); });
     return { ok: l2 === "es" && /^es/.test(s.l) && Math.abs(s.v - 0.4) < 0.01, detail: "espagnol en haut, volume " + s.v };
+  });
+  await step("Écouteurs Bluetooth : seule la traduction destinée à la personne 1 est lue ; la personne 2 lit la sienne en haut", async () => {
+    await page.goto(URL_EW + "#/everywhere/face");
+    await page.reload(); // réglages par défaut (français en bas, anglais en haut)
+    await page.waitForSelector("#trFace");
+    await page.tap("#trOut");
+    const note = await page.textContent('[data-msg="1"]');
+    const out = await page.$eval("#trFace", (e) => e.getAttribute("data-out"));
+    const n0 = await page.evaluate(() => { window.__say = "Où est la gare ?"; return window.__spoken.length; });
+    await page.tap('[data-mic="1"]');
+    await page.waitForFunction(() => { const l = document.querySelectorAll('[data-log="2"] .tr-big-txt'); return l.length && l[l.length - 1].textContent === "Where is the train station?"; }, null, { timeout: 5000 });
+    await sleep(500);
+    const n1 = await page.evaluate(() => window.__spoken.length);
+    await page.evaluate(() => { window.__say = "It's straight ahead."; });
+    await page.tap('[data-mic="2"]');
+    await page.waitForFunction((n) => window.__spoken.length > n, n1, { timeout: 5000 });
+    const s = await page.evaluate(() => window.__spoken[window.__spoken.length - 1]);
+    await page.screenshot({ path: path.join(OUT, "everywhere-ecouteurs.png") });
+    return { ok: out === "earbuds" && /Écouteurs/.test(note) && n1 === n0 && s.t === "C'est tout droit." && /^fr/.test(s.l),
+      detail: "phrase de la personne 1 affichée sans être lue ; réponse lue en " + s.l };
+  });
+  await step("Répéter : relit la dernière traduction destinée à la personne 1", async () => {
+    const n = await page.evaluate(() => window.__spoken.length);
+    await page.tap('[data-replay="1"]');
+    await page.waitForFunction((k) => window.__spoken.length > k, n, { timeout: 3000 });
+    const s = await page.evaluate(() => window.__spoken[window.__spoken.length - 1]);
+    return { ok: s.t === "C'est tout droit." && /^fr/.test(s.l), detail: s.t };
+  });
+  await step("Mains libres (haut-parleur) : après chaque phrase lue, le micro s'ouvre tout seul pour l'autre personne", async () => {
+    await page.tap("#trOut");
+    await page.tap("#trHands");
+    const note = await page.textContent('[data-msg="1"]');
+    const k = await page.evaluate(() => { window.__sayQ = ["Où est la gare ?", "It's straight ahead."]; window.__say = ""; return { sr: window.__srLangs.length, sp: window.__spoken.length }; });
+    await page.tap('[data-mic="1"]');
+    await page.waitForFunction((k) => window.__srLangs.length >= k.sr + 3 && window.__spoken.length >= k.sp + 2, k, { timeout: 8000 });
+    const r = await page.evaluate((k) => ({ sr: window.__srLangs.slice(k.sr, k.sr + 3), sp: window.__spoken.slice(k.sp).map((x) => x.t) }), k);
+    await page.tap("#trHands");
+    const saved = await page.evaluate(() => JSON.parse(localStorage.getItem("ew_tr_v1")));
+    return { ok: /Mains libres/.test(note) && r.sr.join() === "fr-FR,en-US,fr-FR" && r.sp[0] === "Where is the train station?" && r.sp[1] === "C'est tout droit." && saved.hands === false && saved.out === "speaker",
+      detail: "micros enchaînés : " + r.sr.join(" → ") };
+  });
+  await step("Configurations audio : haut-parleur ou écouteurs, vitesse et voix choisies appliquées, bouton Essayer", async () => {
+    await page.goto(URL_EW + "#/everywhere/reglages");
+    await page.waitForSelector("#trRate");
+    const txt = (await page.textContent("#view-everywhere")).replace(/\s+/g, " ");
+    await page.check('input[name="trOut"][value="earbuds"]');
+    await page.$eval("#trRate", (e) => { e.value = "120"; e.dispatchEvent(new Event("input", { bubbles: true })); });
+    const opts = await page.$$eval('[data-voice="fr"] option', (n) => n.map((o) => o.value));
+    await page.selectOption('[data-voice="fr"]', "l-fr");
+    const n = await page.evaluate(() => window.__spoken.length);
+    await page.tap('[data-try="fr"]');
+    await page.waitForFunction((k) => window.__spoken.length > k, n, { timeout: 3000 });
+    const s = await page.evaluate(() => window.__spoken[window.__spoken.length - 1]);
+    await page.screenshot({ path: path.join(OUT, "everywhere-configurations-audio.png"), fullPage: true });
+    const saved = await page.evaluate(() => JSON.parse(localStorage.getItem("ew_tr_v1")));
+    await page.goto(URL_EW + "#/everywhere/face");
+    await page.waitForSelector("#trFace");
+    const out = await page.$eval("#trOut", (e) => e.textContent);
+    await page.evaluate(() => { localStorage.removeItem("ew_tr_v1"); });
+    return { ok: /Haut-parleur du téléphone/.test(txt) && /Écouteurs Bluetooth/.test(txt) && /ne pilote pas/.test(txt) && opts.join() === ",l-fr,g-fr" &&
+      s.voice === "l-fr" && Math.abs(s.r - 1.2) < 0.01 && /24\/24 ONE WORLD/.test(s.t) && saved.out === "earbuds" && /Écouteurs/.test(out),
+      detail: "voix " + s.voice + ", vitesse " + s.r + ", sortie gardée : " + saved.out };
+  });
+  await step("Voix automatique : la plus naturelle du téléphone est choisie", async () => {
+    await page.reload();
+    await page.waitForSelector("#trFace");
+    const n = await page.evaluate(() => { window.__say = "It's straight ahead."; return window.__spoken.length; });
+    await page.tap('[data-mic="2"]');
+    await page.waitForFunction((k) => window.__spoken.length > k, n, { timeout: 5000 });
+    const s = await page.evaluate(() => window.__spoken[window.__spoken.length - 1]);
+    return { ok: s.voice === "g-fr" && s.r === 1, detail: s.voice };
   });
   await step("Mode A : quitter l'écran coupe le micro ; aucune erreur JavaScript", async () => {
     await page.tap('#mainnav a[data-nav="accueil"]');

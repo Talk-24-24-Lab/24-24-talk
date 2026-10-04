@@ -192,3 +192,24 @@ Tests (0.5.0) : **79 tests automatiques**, dont 20 pour EVERYWHERE (côte à cô
 son, taille, langues, panne de traduction, navigateur sans micro, contacts, invitation, langues avant l'appel,
 appel ouvert dans TALK, retour dans EVERYWHERE, absence de fonctions LEARN et de clé). Micro, voix et traduction
 sont simulés dans les tests : un essai sur un vrai téléphone reste nécessaire.
+
+## Version 0.6.0 (4 oct. 2026, dossier « Universal AI Connect », site de test uniquement)
+
+Demande de Sébastien : haut-parleur, plus des écouteurs Bluetooth du commerce en option, en reprenant dans l'appli
+ce que font les écouteurs traducteurs. Tout est dans EVERYWHERE (conversation côte à côte) et ses Configurations.
+
+| Fonction d'un écouteur traducteur | Dans l'appli (PROTOTYPE testé) |
+|---|---|
+| Traduction dans l'oreille | Bouton **🔈 Haut-parleur / 🎧 Écouteurs**. Haut-parleur : chaque traduction est lue. Écouteurs (portés par la personne 1) : seule la traduction de ce que dit la personne 2 est lue ; la personne 2 lit la sienne en haut de l'écran. |
+| Conversation fluide sans toucher | **🙌 Mains libres** : après chaque phrase traduite (et lue jusqu'au bout), le micro de l'autre personne s'ouvre tout seul. Un micro allumé touché = pause. Rien entendu = pause. |
+| Bouton « répéter » | **↻ Répéter** dans chaque moitié : relit la dernière traduction destinée à cette personne. |
+| Audio haute qualité | **Voix** au choix par langue (ou « Automatique » = la plus naturelle du téléphone) et **vitesse** 70 à 130 %, bouton **▶ Essayer**. |
+
+Limites (honnêtes) : le son sort là où Android l'envoie (une page web ne choisit pas la sortie et ne pilote pas les
+écouteurs) ; le micro utilisé dépend d'Android ; pas de réduction de bruit propre à l'appli ; pas de traduction hors
+ligne ; pas de mode groupe. Traduction toujours MyMemory (1 à 3 s).
+
+Réglages ajoutés dans `ew_tr_v1` : `out` (speaker | earbuds), `hands`, `rate`, `voices` ({ langue: voix }).
+Fichiers : `traduction/moteur.js` (voix, vitesse, fin de lecture), `traduction/everywhere.js`, `traduction/everywhere.css`.
+Tests : **84 tests automatiques** (5 nouveaux : écouteurs, répéter, mains libres, réglages audio, voix automatique).
+Non testé : vrai téléphone Android avec de vrais écouteurs Bluetooth.

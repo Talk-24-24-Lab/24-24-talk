@@ -37,17 +37,44 @@
   }
 
   // ---------- Lecture à voix haute ----------
+  // Le son sort là où Android l'envoie : haut-parleur du téléphone, ou écouteurs Bluetooth s'ils sont connectés.
+  // Une page web ne peut pas choisir elle-même la sortie ni piloter les écouteurs.
   var canSpeak = typeof window.speechSynthesis !== "undefined" && typeof window.SpeechSynthesisUtterance !== "undefined";
-  function speak(text, code, volume) {
-    if (!canSpeak || !text) return false;
+  function allVoices() { try { return (canSpeak && window.speechSynthesis.getVoices()) || []; } catch (e) { return []; } }
+  // Voix du téléphone pour une langue (fr → fr-FR, fr-CA…).
+  function voicesFor(code) {
+    var want = String(lang(code).speech || code).toLowerCase().replace("_", "-"), base = want.split("-")[0];
+    return allVoices().filter(function (v) { var l = String(v.lang || "").toLowerCase().replace("_", "-"); return l === want || l.split("-")[0] === base; })
+      .sort(function (a, b) { return (String(b.lang).toLowerCase() === want) - (String(a.lang).toLowerCase() === want); });
+  }
+  // Voix choisie (identifiant gardé dans les réglages) ou, à défaut, la plus naturelle disponible.
+  function pickVoice(code, uri) {
+    var list = voicesFor(code);
+    if (uri) { var v = list.filter(function (x) { return x.voiceURI === uri; })[0]; if (v) return v; }
+    return list.filter(function (x) { return /natural|neural|premium|enhanced|google/i.test(x.name || ""); })[0] || list[0] || null;
+  }
+  // opts : { rate (0,5 à 1,5), voice (identifiant), done() appelé une fois la phrase lue, ou tout de suite si rien n'est lu }.
+  function speak(text, code, volume, opts) {
+    opts = opts || {};
+    var called = false, timer = null;
+    function done() { if (called) return; called = true; clearTimeout(timer); if (opts.done) opts.done(); }
+    if (!canSpeak || !text) { done(); return false; }
     try {
       window.speechSynthesis.cancel();
       var u = new SpeechSynthesisUtterance(text);
       u.lang = lang(code).speech;
       u.volume = typeof volume === "number" ? Math.max(0, Math.min(1, volume)) : 1;
+      var rate = typeof opts.rate === "number" ? Math.max(0.5, Math.min(1.5, opts.rate)) : 1;
+      u.rate = rate;
+      var v = pickVoice(code, opts.voice);
+      if (v) { try { u.voice = v; u.lang = v.lang || u.lang; } catch (e) { /* voix refusée : voix par défaut */ } }
+      u.onend = done;
+      u.onerror = done;
+      // Certains Android n'annoncent pas toujours la fin de la phrase : délai de secours selon la longueur.
+      timer = setTimeout(done, Math.min(20000, 1500 + String(text).length * 90 / rate));
       window.speechSynthesis.speak(u);
       return true;
-    } catch (e) { return false; }
+    } catch (e) { done(); return false; }
   }
   function stopSpeaking() { if (canSpeak) { try { window.speechSynthesis.cancel(); } catch (e) { /* rien */ } } }
 
@@ -104,6 +131,6 @@
     return { stop: function () { try { r.stop(); } catch (e) { /* déjà arrêté */ } } };
   }
 
-  window.EWMoteur = { lang: lang, langs: LANGS, translate: translate, speak: speak, stopSpeaking: stopSpeaking, canSpeak: canSpeak,
+  window.EWMoteur = { lang: lang, langs: LANGS, translate: translate, speak: speak, stopSpeaking: stopSpeaking, canSpeak: canSpeak, voicesFor: voicesFor, pickVoice: pickVoice,
     canListen: !!SR, askMic: askMic, listen: listen };
 })();

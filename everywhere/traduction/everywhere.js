@@ -5,8 +5,10 @@
      #/everywhere/face       mode A : écran coupé en deux (haut et bas, même sens de lecture), un micro par personne
      #/everywhere/appel      mode B : contacts TALK, inviter un contact, appel traduit (celui de TALK, sans autre infrastructure)
      #/everywhere/langues    mes langues
-     #/everywhere/reglages   configurations (son, volume, taille du texte)
+     #/everywhere/reglages   configurations (son, haut-parleur ou écouteurs, voix, vitesse, volume, taille du texte)
    Aucune fonction d'apprentissage ici (LEARN) ; les appels restent ceux de TALK.
+   Son : haut-parleur du téléphone, ou écouteurs Bluetooth du commerce (option). Android envoie le son vers les écouteurs
+   connectés ; l'appli ne pilote pas les écouteurs (aucune fonction propre à un fabricant).
    Réglages gardés sur cet appareil (clé ew_tr_v1). La conversation côte à côte n'est enregistrée nulle part. */
 (function () {
   "use strict";
@@ -41,7 +43,19 @@
       c_create: "Créer mon profil dans TALK", c_link_copied: "Lien copié : collez-le dans un SMS ou WhatsApp.", c_link_txt: "Copiez ce lien et envoyez-le : {u}",
       c_before: "Appeler @{p}", c_i_speak: "Je parle", c_i_read: "Je lis et j'écoute", c_go: "📞 Appeler @{p}", cancel: "Annuler",
       c_how: "L'appel s'ouvre dans TALK, avec la traduction : chacun parle sa langue, l'autre lit et entend la traduction. À la fin, vous revenez ici.",
-      c_lang_of: "Parle {l}"
+      c_lang_of: "Parle {l}",
+      out_btn_sp: "Haut-parleur", out_btn_ea: "Écouteurs", hands_btn: "Mains libres", replay: "Répéter la dernière traduction",
+      out_sp_on: "🔊 Haut-parleur : chaque traduction est lue à voix haute pour la personne en face.",
+      out_ea_on: "🎧 Écouteurs : la personne 1 entend dans ses écouteurs ce que dit la personne 2. La personne 2 lit sa traduction en haut.",
+      hands_on: "Mains libres : après chaque phrase, le micro s'ouvre tout seul pour l'autre personne. Touchez un micro allumé pour arrêter.",
+      hands_off: "Mains libres arrêté.", hands_pause: "Mains libres en pause (rien entendu). Touchez un micro pour reprendre.",
+      nothing_replay: "Rien à répéter pour l'instant.",
+      set_out: "Sortie du son", set_out_sp: "🔊 Haut-parleur du téléphone", set_out_sp_d: "Les deux personnes entendent chaque traduction.",
+      set_out_ea: "🎧 Écouteurs Bluetooth (option)", set_out_ea_d: "Vous portez des écouteurs du commerce, déjà connectés au téléphone en Bluetooth. Vous entendez la traduction de ce que dit l'autre ; l'autre lit la sienne à l'écran.",
+      set_hands: "Mains libres (le micro passe tout seul à l'autre personne)",
+      set_rate: "Vitesse de la voix", set_voice: "Voix pour {l}", voice_auto: "Automatique (la plus naturelle du téléphone)", voice_none: "Aucune voix trouvée sur ce téléphone pour cette langue : la voix par défaut sera utilisée.",
+      try_voice: "▶ Essayer", sample: "Bonjour, je suis la voix de 24/24 ONE WORLD.",
+      bt_note: "Écouteurs : n'importe quel modèle Bluetooth du commerce. Connectez-les dans les réglages Bluetooth d'Android, puis touchez « Essayer » : le son doit sortir dans les écouteurs. L'appli ne choisit pas elle-même la sortie et ne pilote pas les boutons des écouteurs. Le micro utilisé (téléphone ou écouteurs) dépend d'Android."
     },
     en: {
       title: "EVERYWHERE", sub: "Translate and connect everywhere.",
@@ -68,7 +82,19 @@
       c_create: "Create my profile in TALK", c_link_copied: "Link copied: paste it in an SMS or WhatsApp.", c_link_txt: "Copy this link and send it: {u}",
       c_before: "Call @{p}", c_i_speak: "I speak", c_i_read: "I read and listen in", c_go: "📞 Call @{p}", cancel: "Cancel",
       c_how: "The call opens in TALK, with translation: each person speaks their language, the other reads and hears the translation. At the end, you come back here.",
-      c_lang_of: "Speaks {l}"
+      c_lang_of: "Speaks {l}",
+      out_btn_sp: "Speaker", out_btn_ea: "Earbuds", hands_btn: "Hands-free", replay: "Repeat the last translation",
+      out_sp_on: "🔊 Speaker: each translation is read aloud for the other person.",
+      out_ea_on: "🎧 Earbuds: person 1 hears what person 2 says in their earbuds. Person 2 reads their translation at the top.",
+      hands_on: "Hands-free: after each sentence, the mic opens by itself for the other person. Tap a lit mic to stop.",
+      hands_off: "Hands-free stopped.", hands_pause: "Hands-free paused (nothing heard). Tap a mic to resume.",
+      nothing_replay: "Nothing to repeat yet.",
+      set_out: "Sound output", set_out_sp: "🔊 Phone speaker", set_out_sp_d: "Both people hear each translation.",
+      set_out_ea: "🎧 Bluetooth earbuds (option)", set_out_ea_d: "You wear store-bought earbuds, already connected to the phone by Bluetooth. You hear the translation of what the other person says; they read theirs on the screen.",
+      set_hands: "Hands-free (the mic passes to the other person by itself)",
+      set_rate: "Voice speed", set_voice: "Voice for {l}", voice_auto: "Automatic (the phone's most natural voice)", voice_none: "No voice found on this phone for this language: the default voice will be used.",
+      try_voice: "▶ Try", sample: "Hello, I am the voice of 24/24 ONE WORLD.",
+      bt_note: "Earbuds: any store-bought Bluetooth model. Connect them in Android's Bluetooth settings, then tap “Try”: the sound should come out in the earbuds. The app doesn't choose the output itself and doesn't control the earbud buttons. Which mic is used (phone or earbuds) depends on Android."
     }
   };
   function t(k, v) {
@@ -96,7 +122,10 @@
     var me = M.lang(p.me).name !== p.me ? p.me : defMe();
     var other = M.lang(p.other).name !== p.other ? p.other : (me === "en" ? "fr" : "en");
     mem = { me: me, other: other, sound: p.sound !== false, volume: typeof p.volume === "number" ? Math.max(0, Math.min(1, p.volume)) : 1,
-      size: [0, 1, 2].indexOf(p.size) !== -1 ? p.size : 0 };
+      size: [0, 1, 2].indexOf(p.size) !== -1 ? p.size : 0,
+      out: p.out === "earbuds" ? "earbuds" : "speaker", hands: p.hands === true,
+      rate: typeof p.rate === "number" ? Math.max(0.7, Math.min(1.3, p.rate)) : 1,
+      voices: p.voices && typeof p.voices === "object" ? p.voices : {} };
     return mem;
   }
   function savePrefs() { store.set(KEY, JSON.stringify(mem)); }
@@ -115,7 +144,8 @@
     call: '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/>',
     globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.8 3 2.8 15 0 18M12 3c-2.8 3-2.8 15 0 18"/>',
     mic: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/>',
-    kb: '<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/>'
+    kb: '<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/>',
+    replay: '<path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/>'
   };
   function ic(n) { return '<svg viewBox="0 0 24 24" aria-hidden="true">' + ICON[n] + "</svg>"; }
   function home(root) {
@@ -132,13 +162,15 @@
   function halfLang(who) { var p = prefs(); return who === 1 ? p.me : p.other; }
   function faceScreen(root) {
     var p = prefs();
-    face = { lines: [], listening: 0, rec: null, root: root, typing: 0 };
+    face = { lines: [], listening: 0, rec: null, root: root, typing: 0, seq: 0 };
     root.innerHTML = '<h1 class="sr" id="h-tr">' + esc(t("face")) + "</h1>" +
-      '<div class="tr-face" id="trFace" data-size="' + p.size + '">' +
+      '<div class="tr-face" id="trFace" data-size="' + p.size + '" data-out="' + p.out + '">' +
         halfHtml(2) +
         '<div class="tr-mid" role="toolbar" aria-label="' + esc(t("face")) + '">' +
           '<button type="button" class="tr-tool" id="trSwap" aria-label="' + esc(t("swap")) + '">⇅ ' + esc(t("langs_btn")) + "</button>" +
           '<button type="button" class="tr-tool" id="trSound" role="switch" aria-checked="' + p.sound + '">' + (p.sound ? "🔊" : "🔇") + " " + esc(t("sound_btn")) + "</button>" +
+          '<button type="button" class="tr-tool" id="trOut">' + outLabel(p.out) + "</button>" +
+          '<button type="button" class="tr-tool" id="trHands" role="switch" aria-checked="' + p.hands + '">🙌 ' + esc(t("hands_btn")) + "</button>" +
           '<button type="button" class="tr-tool" id="trSize">A+ ' + esc(t("text_btn")) + "</button>" +
           '<a class="tr-tool" href="#/everywhere/reglages" aria-label="' + esc(t("settings")) + '">⚙</a>' +
         "</div>" +
@@ -147,6 +179,7 @@
       '<p class="sr" role="status" id="trFaceSr"></p>';
     paintFace();
   }
+  function outLabel(out) { return out === "earbuds" ? "🎧 " + esc(t("out_btn_ea")) : "🔈 " + esc(t("out_btn_sp")); }
   function halfHtml(who) {
     var code = halfLang(who);
     return '<section class="tr-half p' + who + '" data-who="' + who + '" aria-label="' + esc(t(who === 1 ? "p1" : "p2")) + '">' +
@@ -155,7 +188,8 @@
       '<p class="tr-msg" data-msg="' + who + '" role="alert"></p>' +
       '<form class="tr-type" data-type="' + who + '" hidden><input type="text" data-input="' + who + '" autocomplete="off" lang="' + esc(code) + '"><button type="submit" class="btn primary">' + esc(t("send")) + "</button></form>" +
       '<div class="tr-acts"><button type="button" class="tr-mic" data-mic="' + who + '" aria-label="' + esc(t("speak_in", { l: langName(code) })) + '">' + ic("mic") + "</button>" +
-      '<button type="button" class="tr-kb" data-kb="' + who + '" aria-label="' + esc(t("type_in", { l: langName(code) })) + '">' + ic("kb") + "</button></div>" +
+      '<button type="button" class="tr-kb" data-kb="' + who + '" aria-label="' + esc(t("type_in", { l: langName(code) })) + '">' + ic("kb") + "</button>" +
+      '<button type="button" class="tr-kb" data-replay="' + who + '" aria-label="' + esc(t("replay")) + '">' + ic("replay") + "</button></div>" +
       "</section>";
   }
   function paintFace() {
@@ -202,16 +236,32 @@
       paintFace();
       var sr = face && face.root.querySelector("#trFaceSr");
       if (sr) sr.textContent = tr;
-      var p = prefs();
-      if (p.sound) M.speak(tr, to, p.volume);
+      var p = prefs(), next = who === 1 ? 2 : 1, f = face, my = ++f.seq;
+      // Haut-parleur : tout est lu. Écouteurs (portés par la personne 1) : seul ce qui est dit à la personne 1 est lu.
+      var aloud = p.sound && (p.out === "speaker" || next === 1);
+      var chain = function () { if (face === f && f.seq === my && prefs().hands && !f.listening && !f.paused) startMic(next); };
+      if (aloud) M.speak(tr, to, p.volume, { rate: p.rate, voice: p.voices[to], done: function () { setTimeout(chain, 250); } });
+      else setTimeout(chain, 300);
     }, function (e) {
       line.err = errText(e && e.message);
       paintFace();
     });
   }
+  // Répéter : relit la dernière traduction destinée à cette moitié (comme le bouton « répéter » d'un écouteur traducteur).
+  function replay(who) {
+    if (!face) return;
+    var last = face.lines.filter(function (l) { return l.from !== who && l.tr; }).pop();
+    if (!last) { msg(who, t("nothing_replay")); return; }
+    var p = prefs(), code = halfLang(who);
+    face.seq++;
+    M.speak(last.tr, code, p.volume, { rate: p.rate, voice: p.voices[code] });
+  }
   function startMic(who) {
     if (!face) return;
-    if (face.listening === who) { if (face.rec) face.rec.stop(); return; }
+    face.seq++; // un micro touché annule l'enchaînement automatique en cours
+    // Micro allumé touché : arrêt (en mains libres, l'enchaînement se met en pause jusqu'au prochain micro touché).
+    if (face.listening === who) { face.paused = true; if (face.rec) face.rec.stop(); return; }
+    face.paused = false;
     if (face.listening) { msg(who, t("busy")); return; }
     if (!M.canListen) { msg(who, t("no_stt")); openType(who); return; }
     msg(1, ""); msg(2, "");
@@ -229,7 +279,7 @@
         error: function (code) {
           if (face !== f) return;
           f.listening = 0; f.rec = null; paintFace();
-          msg(who, code === "DENIED" ? t("mic_denied") : code === "NETWORK" ? t("net_err") : code === "NO_SPEECH" ? t("no_speech") : t("stt_fail"));
+          msg(who, code === "DENIED" ? t("mic_denied") : code === "NETWORK" ? t("net_err") : code === "NO_SPEECH" ? (prefs().hands ? t("hands_pause") : t("no_speech")) : t("stt_fail"));
         },
         end: function () { if (face !== f) return; if (f.listening === who) { f.listening = 0; f.rec = null; msg(who, ""); } paintFace(); }
       });
@@ -266,13 +316,59 @@
           sizes.map(function (n, i) { return '<button type="button" role="radio" data-trsize="' + i + '" aria-checked="' + (p.size === i) + '" aria-label="' + esc(n) + '" class="ts' + i + '">A</button>'; }).join("") +
         "</span></div>" +
         '<p class="note">' + esc(t("set_note")) + ' <a href="#/parametres">' + esc(t("a11y_link")) + "</a></p>" +
+      "</div>" +
+      '<div class="card"><h2 class="tr-h2" id="trLblOut">' + esc(t("set_out")) + '</h2><div role="radiogroup" aria-labelledby="trLblOut">' +
+        ["speaker", "earbuds"].map(function (o) {
+          var k = o === "speaker" ? "set_out_sp" : "set_out_ea";
+          return '<label class="tr-opt"><input type="radio" name="trOut" value="' + o + '"' + (p.out === o ? " checked" : "") + "><span><b>" + esc(t(k)) + "</b><small>" + esc(t(k + "_d")) + "</small></span></label>";
+        }).join("") +
+        '</div><div class="row"><span id="trLblHands">' + esc(t("set_hands")) + '</span><button type="button" class="toggle" id="trSetHands" role="switch" aria-labelledby="trLblHands" aria-checked="' + p.hands + '"></button></div>' +
+        '<label class="tr-field"><span>' + esc(t("set_rate")) + ' <b id="trRateTxt">' + Math.round(p.rate * 100) + ' %</b></span><input type="range" id="trRate" min="70" max="130" step="10" value="' + Math.round(p.rate * 100) + '"></label>' +
+        '<div id="trVoices"></div>' +
+        '<p class="note">' + esc(t("bt_note")) + "</p>" +
       "</div>";
     root.querySelector("#trSetSound").addEventListener("click", function (e) { var q = prefs(); q.sound = !q.sound; savePrefs(); e.currentTarget.setAttribute("aria-checked", String(q.sound)); });
     root.querySelector("#trVol").addEventListener("input", function (e) { var q = prefs(); q.volume = (+e.target.value) / 100; savePrefs(); root.querySelector("#trVolTxt").textContent = e.target.value + " %"; });
+    root.querySelectorAll('input[name="trOut"]').forEach(function (r) {
+      r.addEventListener("change", function () { var q = prefs(); q.out = r.value; savePrefs(); });
+    });
+    root.querySelector("#trSetHands").addEventListener("click", function (e) { var q = prefs(); q.hands = !q.hands; savePrefs(); e.currentTarget.setAttribute("aria-checked", String(q.hands)); });
+    root.querySelector("#trRate").addEventListener("input", function (e) { var q = prefs(); q.rate = (+e.target.value) / 100; savePrefs(); root.querySelector("#trRateTxt").textContent = e.target.value + " %"; });
+    paintVoices(root);
+    if (M.canSpeak && window.speechSynthesis.addEventListener) {
+      // La liste des voix arrive parfois après l'ouverture de l'écran.
+      var onVoices = function () { if (document.body.contains(root.querySelector("#trVoices"))) paintVoices(root); else window.speechSynthesis.removeEventListener("voiceschanged", onVoices); };
+      try { window.speechSynthesis.addEventListener("voiceschanged", onVoices); } catch (e) { /* rien */ }
+    }
     root.querySelectorAll("[data-trsize]").forEach(function (b) {
       b.addEventListener("click", function () {
         var q = prefs(); q.size = +b.getAttribute("data-trsize"); savePrefs();
         root.querySelectorAll("[data-trsize]").forEach(function (x) { x.setAttribute("aria-checked", String(x === b)); });
+      });
+    });
+  }
+
+  // Une liste de voix par langue de la conversation (ma langue, langue d'en face), avec un bouton pour l'essayer.
+  function paintVoices(root) {
+    var box = root.querySelector("#trVoices");
+    if (!box) return;
+    var p = prefs();
+    box.innerHTML = [p.me, p.other].filter(function (x, i, a) { return a.indexOf(x) === i; }).map(function (code) {
+      var list = M.voicesFor(code), cur = p.voices[code] || "";
+      return '<label class="tr-field"><span>' + esc(t("set_voice", { l: langName(code) })) + '</span><select data-voice="' + esc(code) + '">' +
+        '<option value="">' + esc(t("voice_auto")) + "</option>" +
+        list.map(function (v) { return '<option value="' + esc(v.voiceURI) + '"' + (v.voiceURI === cur ? " selected" : "") + ">" + esc(v.name + " (" + v.lang + ")") + "</option>"; }).join("") +
+        "</select></label>" + (list.length ? "" : '<p class="note">' + esc(t("voice_none")) + "</p>") +
+        '<button type="button" class="btn" data-try="' + esc(code) + '">' + esc(t("try_voice")) + " · " + esc(langName(code)) + "</button>";
+    }).join("");
+    box.querySelectorAll("[data-voice]").forEach(function (s) {
+      s.addEventListener("change", function () { var q = prefs(); var c = s.getAttribute("data-voice"); if (s.value) q.voices[c] = s.value; else delete q.voices[c]; savePrefs(); });
+    });
+    box.querySelectorAll("[data-try]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var c = b.getAttribute("data-try"), q = prefs();
+        var txt = STR[c] ? STR[c].sample : (c === lang ? t("sample") : "24/24 ONE WORLD");
+        M.speak(txt, c, q.volume, { rate: q.rate, voice: q.voices[c] });
       });
     });
   }
@@ -404,13 +500,25 @@
   // ---------- Événements ----------
   document.addEventListener("click", function (e) {
     if (!e.target.closest) return;
-    var b = e.target.closest("[data-mic], [data-kb], #trSwap, #trSound, #trSize, [data-call]");
+    var b = e.target.closest("[data-mic], [data-kb], [data-replay], #trSwap, #trSound, #trOut, #trHands, #trSize, [data-call]");
     if (!b) return;
     if (b.hasAttribute("data-call")) { callSheet(b.getAttribute("data-call")); return; }
     if (!face || !face.root.contains(b)) return;
     var p = prefs();
     if (b.hasAttribute("data-mic")) startMic(+b.getAttribute("data-mic"));
     else if (b.hasAttribute("data-kb")) openType(+b.getAttribute("data-kb"));
+    else if (b.hasAttribute("data-replay")) replay(+b.getAttribute("data-replay"));
+    else if (b.id === "trOut") {
+      p.out = p.out === "earbuds" ? "speaker" : "earbuds"; savePrefs();
+      b.innerHTML = outLabel(p.out);
+      face.root.querySelector("#trFace").setAttribute("data-out", p.out);
+      msg(1, t(p.out === "earbuds" ? "out_ea_on" : "out_sp_on")); msg(2, "");
+    } else if (b.id === "trHands") {
+      p.hands = !p.hands; savePrefs();
+      b.setAttribute("aria-checked", String(p.hands));
+      if (!p.hands) face.seq++;
+      msg(1, t(p.hands ? "hands_on" : "hands_off")); msg(2, "");
+    }
     else if (b.id === "trSwap") {
       var x = p.me; p.me = p.other; p.other = x; savePrefs();
       faceScreen(face.root);
