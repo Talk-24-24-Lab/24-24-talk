@@ -6,6 +6,20 @@
 (function () {
   "use strict";
   var CFG = window.EW_CONFIG || {};
+  // Retour depuis le lien de l'e-mail (#access_token=…&refresh_token=…&type=…, ou #error_…) : on le lit tout de suite,
+  // on efface l'adresse (le jeton ne reste pas dans l'historique) et on ouvre Profil.
+  var RETURN = null;
+  (function () {
+    var h = location.hash || "";
+    if (!/(^#|&)(access_token|error_code|error_description|message)=/.test(h)) return;
+    var q = {};
+    h.replace(/^#/, "").split("&").forEach(function (kv) {
+      var i = kv.indexOf("=");
+      if (i > 0) try { q[kv.slice(0, i)] = decodeURIComponent(kv.slice(i + 1).replace(/\+/g, " ")); } catch (e) { /* ignoré */ }
+    });
+    RETURN = { at: q.access_token || "", rt: q.refresh_token || "", type: q.type || "", err: q.error_description || q.error_code || "", msg: q.message || "" };
+    try { history.replaceState(null, "", location.pathname + location.search + "#/profil"); } catch (e) { location.hash = "#/profil"; }
+  })();
   var S = {
     fr: {
       loading: "Lecture de votre profil…", error: "Impossible de joindre le serveur. Vérifiez votre connexion.", retry: "Réessayer",
@@ -18,9 +32,10 @@
       sec_yes: "Compte sécurisé : {e}", sec_pending: "Adresse en attente de confirmation : {e}",
       sync: "Sur un autre appareil, vous retrouvez votre pseudo, vos contacts et les messages des 90 derniers jours. L'historique de traduction, les favoris et les réglages restent sur cet appareil.",
       email_lbl: "Votre adresse e-mail", email_ph: "nom@exemple.com", send: "Recevoir le code", cancel: "Annuler",
-      email_link_txt: "Nous envoyons un code à 6 chiffres à cette adresse. Elle sert uniquement à retrouver votre compte et n'est jamais montrée aux autres utilisateurs.",
-      login_txt: "Saisissez l'adresse e-mail reliée à votre compte : nous y envoyons un code à 6 chiffres.",
-      code_lbl: "Code reçu par e-mail (6 chiffres)", code_sent: "Code envoyé à {e}. Pensez à regarder dans les courriers indésirables.", verify: "Valider",
+      email_link_txt: "Nous envoyons un e-mail de confirmation à cette adresse. Elle sert uniquement à retrouver votre compte et n'est jamais montrée aux autres utilisateurs.",
+      login_txt: "Saisissez l'adresse e-mail reliée à votre compte : nous y envoyons un e-mail de connexion.",
+      code_lbl: "Si l'e-mail contient un code à 6 chiffres, saisissez-le ici", code_sent: "E-mail envoyé à {e}. Ouvrez-le sur ce téléphone et appuyez sur le lien : il ramène ici, dans Chrome. Pensez à regarder dans les courriers indésirables.", verify: "Valider",
+      refresh: "J'ai appuyé sur le lien : actualiser", ret_err: "Le lien de l'e-mail n'a pas fonctionné ({m}). Demandez un nouvel e-mail.", ret_half: "Première confirmation reçue. Confirmez aussi avec le lien envoyé à votre autre adresse.",
       linked_ok: "C'est fait : votre compte est relié à {e}.", login_ok: "Connecté : bienvenue @{p} !",
       replace_warn: "Attention : cet appareil a déjà le compte @{p}, qui n'est relié à aucun e-mail. Si vous vous connectez à un autre compte, @{p} sera perdu définitivement.",
       replace_ok: "Je comprends, continuer",
@@ -47,9 +62,10 @@
       sec_yes: "Account secured: {e}", sec_pending: "Address waiting for confirmation: {e}",
       sync: "On another device you get back your username, your contacts and the last 90 days of messages. Translation history, favorites and settings stay on this device.",
       email_lbl: "Your email address", email_ph: "name@example.com", send: "Get the code", cancel: "Cancel",
-      email_link_txt: "We send a 6-digit code to this address. It's only used to recover your account and is never shown to other users.",
-      login_txt: "Enter the email address linked to your account: we send a 6-digit code to it.",
-      code_lbl: "Code received by email (6 digits)", code_sent: "Code sent to {e}. Check your spam folder too.", verify: "Confirm",
+      email_link_txt: "We send a confirmation email to this address. It's only used to recover your account and is never shown to other users.",
+      login_txt: "Enter the email address linked to your account: we send a sign-in email to it.",
+      code_lbl: "If the email contains a 6-digit code, enter it here", code_sent: "Email sent to {e}. Open it on this phone and tap the link: it brings you back here, in Chrome. Check your spam folder too.", verify: "Confirm",
+      refresh: "I tapped the link: refresh", ret_err: "The email link didn't work ({m}). Ask for a new email.", ret_half: "First confirmation received. Also confirm with the link sent to your other address.",
       linked_ok: "Done: your account is linked to {e}.", login_ok: "Signed in: welcome @{p}!",
       replace_warn: "Warning: this device already has the account @{p}, which isn't linked to any email. If you sign in to another account, @{p} will be lost for good.",
       replace_ok: "I understand, continue",
@@ -101,6 +117,7 @@
     });
   }
 
+  function returnUrl() { return location.href.split("#")[0].split("?")[0]; }
   function errText(e) {
     var m = String((e && (e.message || e.msg || e.error_description)) || e || "");
     var code = String((e && (e.code || e.error_code)) || "");
@@ -157,7 +174,8 @@
       send.disabled = true;
       msg(m, "");
       client().then(function (c) {
-        return mode === "link" ? c.auth.updateUser({ email: e }) : c.auth.signInWithOtp({ email: e, options: { shouldCreateUser: false } });
+        return mode === "link" ? c.auth.updateUser({ email: e }, { emailRedirectTo: returnUrl() })
+          : c.auth.signInWithOtp({ email: e, options: { shouldCreateUser: false, emailRedirectTo: returnUrl() } });
       }).then(function (r) {
         send.disabled = false;
         if (r && r.error) return msg(m, errText(r.error));
@@ -170,9 +188,10 @@
     step.innerHTML =
       '<label class="cx-lbl" for="cxCode">' + esc(t("code_lbl")) + "</label>" +
       '<input class="cx-input cx-code" id="cxCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*">' +
-      '<div class="cx-actions"><button type="button" class="btn primary" id="cxVerify">' + esc(t("verify")) + "</button></div>";
+      '<div class="cx-actions"><button type="button" class="btn" id="cxVerify">' + esc(t("verify")) + "</button></div>" +
+      '<button type="button" class="btn primary wide" id="cxRefresh">' + esc(t("refresh")) + "</button>";
     var code = step.querySelector("#cxCode"), ver = step.querySelector("#cxVerify");
-    code.focus();
+    step.querySelector("#cxRefresh").addEventListener("click", function () { location.reload(); });
     code.addEventListener("input", function () { code.value = code.value.replace(/\D/g, "").slice(0, 6); });
     ver.addEventListener("click", function () {
       var k = code.value.trim();
@@ -235,12 +254,17 @@
     opts = opts || {};
     if (!CFG.supabase) { card.innerHTML = '<div class="state"><p>' + esc(t("off")) + "</p></div>"; return; }
     // Aucune session enregistrée sur cet appareil : pas besoin du serveur pour afficher l'invitation (marche aussi hors ligne).
+    if (RETURN) return finishReturn(card, opts);
     if (!store.get("lc_net_auth")) return noProfile(card, opts);
     card.innerHTML = '<div class="state"><div class="spinner" aria-hidden="true"></div><p>' + esc(t("loading")) + "</p></div>";
     var c, user = null, prof = null;
     client().then(function (x) { c = x; return c.auth.getSession(); }).then(function (r) {
       if (r.error) throw r.error;
       user = r.data && r.data.session ? r.data.session.user : null;
+      if (!user) return null;
+      // Données du compte à jour (e-mail confirmé depuis le lien, par exemple).
+      return c.auth.getUser().then(function (u) { if (u && u.data && u.data.user) user = u.data.user; }, function () { /* on garde la session */ });
+    }).then(function () {
       if (!user) return null;
       return c.from("profiles").select("id,pseudo,lang").eq("id", user.id).maybeSingle().then(function (p) {
         if (p.error) throw p.error;
@@ -255,8 +279,22 @@
       card.querySelector("#cxRetry").addEventListener("click", function () { render(card, opts); });
     });
   }
+  function finishReturn(card, opts) {
+    var r = RETURN; RETURN = null;
+    var o = { openTalk: opts.openTalk };
+    if (r.err) { o.note = t("ret_err", { m: r.err.slice(0, 80) }); return render(card, o); }
+    if (!r.at || !r.rt) { o.note = r.msg ? t("ret_half") : ""; o.noteOk = true; return render(card, o); }
+    card.innerHTML = '<div class="state"><div class="spinner" aria-hidden="true"></div><p>' + esc(t("loading")) + "</p></div>";
+    client().then(function (c) { return c.auth.setSession({ access_token: r.at, refresh_token: r.rt }); }).then(function (x) {
+      if (x && x.error) throw x.error;
+      store.set("lc_net_joined", "1"); // TALK se reconnecte tout seul à ce compte
+      o.flash = r.type === "email_change" ? "linked" : "login";
+      render(card, o);
+    }).catch(function (e) { o.note = t("ret_err", { m: errText(e) }); render(card, o); });
+  }
+  function noteHtml(opts) { return opts.note ? '<p class="cx-msg ' + (opts.noteOk ? "ok" : "err") + '" role="status">' + esc(opts.note) + "</p>" : ""; }
   function noProfile(card, opts) {
-    card.innerHTML = '<div class="state"><p><b>' + esc(t("none")) + '</b></p><p class="muted">' + esc(t("none_txt")) + "</p>" +
+    card.innerHTML = noteHtml(opts) + '<div class="state"><p><b>' + esc(t("none")) + '</b></p><p class="muted">' + esc(t("none_txt")) + "</p>" +
       '<button type="button" class="btn primary wide" id="cxCreate">' + esc(t("create")) + "</button>" +
       '<button type="button" class="btn wide" id="cxHave">' + esc(t("have")) + '</button></div><div id="cxBox"></div>';
     card.querySelector("#cxCreate").addEventListener("click", function () { opts.openTalk && opts.openTalk("net"); });
@@ -271,7 +309,7 @@
     var l = LANG_NAMES[prof.lang] || String(prof.lang || "").toUpperCase();
     var email = user.email || "", pending = user.new_email || "";
     var secured = !!email && user.is_anonymous !== true;
-    var html = (opts.flash === "login" ? '<p class="cx-msg ok" role="status">' + esc(t("login_ok", { p: prof.pseudo })) + "</p>" : "") +
+    var html = noteHtml(opts) + (opts.flash === "login" ? '<p class="cx-msg ok" role="status">' + esc(t("login_ok", { p: prof.pseudo })) + "</p>" : "") +
       (opts.flash === "linked" ? '<p class="cx-msg ok" role="status">' + esc(t("linked_ok", { e: maskEmail(email || pending) })) + "</p>" : "") +
       '<div class="profile-head"><span class="avatar" aria-hidden="true">' + esc(prof.pseudo.charAt(0).toUpperCase()) + "</span>" +
       '<span><b dir="ltr">@' + esc(prof.pseudo) + '</b><span class="muted">' + esc(t("lang", { l: l })) + "</span></span></div>" +

@@ -50,12 +50,14 @@
           getUser: function () { var s = load(); return R({ data: { user: s.session ? user(s) : null }, error: null }); },
           signInAnonymously: function () { var s = load(); s.session = true; save(s); return R({ data: { user: user(s) }, error: null }); },
           onAuthStateChange: function () { return { data: { subscription: { unsubscribe: function () {} } } }; },
-          updateUser: function (a) {
+          updateUser: function (a, o) {
             var s = load();
+            try { localStorage.setItem("fake_redirect", (o && o.emailRedirectTo) || ""); } catch (e) {}
             if (a.email === "pris@exemple.fr") return R(err("A user with this email address has already been registered", "email_exists", 422));
             s.new_email = a.email; save(s); return R({ data: { user: user(s) }, error: null });
           },
           signInWithOtp: function (a) {
+            try { localStorage.setItem("fake_redirect", (a.options && a.options.emailRedirectTo) || ""); } catch (e) {}
             if (a.email !== "connu@exemple.fr") return R(err("Signups not allowed for otp", "otp_disabled", 422));
             var s = load(); s.pending = a.email; save(s); return R({ data: {}, error: null });
           },
@@ -65,6 +67,10 @@
             if (a.type === "email_change") { s.email = s.new_email; s.new_email = ""; s.anon = false; }
             else { s.session = true; s.email = a.email; s.anon = false; }
             save(s); return R({ data: { user: user(s), session: {} }, error: null });
+          },
+          setSession: function (t) {
+            if (!t.access_token || !t.refresh_token) return R(err("Auth session missing!", "session_missing", 400));
+            var s = load(); s.session = true; s.anon = false; s.email = s.email || "connu@exemple.fr"; save(s); return R({ data: { session: {}, user: user(s) }, error: null });
           },
           signOut: function (o) {
             var s = load();
