@@ -1,11 +1,11 @@
-/* 24/24 EVERYWHERE — coquille commune : navigation, routes internes, profil, paramètres, applications intégrées.
+/* 24/24 ONE WORLD — coquille commune : navigation, routes internes, profil, paramètres, applications intégrées.
    © 2026 Sébastien Chevrier. Tous droits réservés. Sans bibliothèque ni étape de compilation (comme 24/24 TALK). */
 (function () {
   "use strict";
   var CFG = window.EW_CONFIG || { env: "test", basePath: "../", talkReadyTimeoutMs: 15000 };
   var APPS = window.EW_APPS || [];
-  var VERSION = "0.3.1 (prototype)";
-  var VERSION_TAG = "0.3.1";
+  var VERSION = "0.5.0 (prototype)";
+  var VERSION_TAG = "0.5.0";
 
   // ---------- Stockage (peut être indisponible : navigation privée stricte, etc.) ----------
   var store = {
@@ -22,51 +22,61 @@
     fr: {
       skip: "Aller au contenu", offline: "Hors ligne : certaines fonctions sont indisponibles.",
       home: "Accueil", apps: "Applications", profile: "Profil", settings: "Paramètres", open_full: "Ouvrir en plein écran",
-      lead: "Toutes vos applications 24/24, au même endroit.", your_apps: "Vos applications",
-      apps_lead: "Chaque application s'ouvre ici, sans quitter 24/24 EVERYWHERE.",
+      lead: "Un monde sans barrières.", your_apps: "Vos applications",
+      talk_tag: "Communiquer sans barrières.", ew_tag: "Traduire et connecter partout.", learn_tag: "Apprendre sans limites.",
+      kicker: "Une seule application. Trois interfaces. Un seul compte.",
+      signature: "Un monde. Une connexion. Aucune frontière linguistique.", learn: "LEARN",
+      a11y: "Affichage et accessibilité", text_size: "Taille du texte", contrast: "Contraste renforcé",
+      th_light: "Clair", th_dark: "Sombre", th_auto: "Auto", ts_names: "Normal|Grand|Très grand", everywhere: "EVERYWHERE",
+      apps_lead: "TALK, EVERYWHERE et LEARN : une seule application, un seul compte.",
       open: "Ouvrir", reserved: "Disponible ultérieurement", reserved_badge: "EMPLACEMENT RÉSERVÉ",
       reserved_txt: "Cet emplacement accueillera une prochaine application de 24/24 ONE WORLD. Elle n'existe pas encore.",
       profile_note: "Votre profil est celui de 24/24 TALK : il n'est pas copié ailleurs.",
       ui_lang: "Langue de l'interface", set_in_talk: "Régler dans TALK", theme: "Thème", theme_auto: "Suit votre appareil",
       stats: "Statistiques de visite anonymes", calls_closed: "Appels quand l'appli est fermée",
       push_on: "Activés", push_denied: "Bloqués par le navigateur", push_off: "Pas encore activés", push_unsup: "Non disponibles ici",
-      install_title: "Installer 24/24 EVERYWHERE", install_btn: "📲 Installer sur l'écran d'accueil",
+      install_title: "Installer 24/24 ONE WORLD", install_btn: "📲 Installer sur l'écran d'accueil",
       install_ios: "Sur iPhone : touchez Partager, puis « Sur l'écran d'accueil ».",
       install_other: "Dans Chrome : menu ⋮, puis « Ajouter à l'écran d'accueil » ou « Installer l'application ».",
       install_done: "Installé ✓",
       talk_settings: "Réglages de 24/24 TALK", version: "Version",
-      nf_title: "Page introuvable", nf_txt: "Cette adresse n'existe pas dans 24/24 EVERYWHERE.", back_home: "Revenir à l'accueil",
+      nf_title: "Page introuvable", nf_txt: "Cette adresse n'existe pas dans 24/24 ONE WORLD.", back_home: "Revenir à l'accueil",
       loading_app: "Ouverture de {app}…", app_error: "{app} ne répond pas.", app_error_txt: "Vérifiez votre connexion, puis réessayez.", retry: "Réessayer",
       prof_loading: "Lecture de votre profil TALK…", prof_error: "Impossible de lire votre profil pour le moment.",
       prof_none: "Vous n'avez pas encore de profil.", prof_none_txt: "Créez-le dans 24/24 TALK : un pseudo et votre langue suffisent, sans e-mail ni numéro.",
       prof_create: "Créer mon profil dans TALK", prof_lang: "Langue parlée : {l}", prof_chats: "Ouvrir mes discussions",
       prof_off: "La messagerie de TALK n'est pas activée sur ce site.",
-      env_test: "24/24 EVERYWHERE · SITE DE TEST · données fictives · ne pas partager",
+      env_test: "24/24 ONE WORLD · SITE DE TEST · données fictives · ne pas partager",
       title_app: "{app}"
     },
     en: {
       skip: "Skip to content", offline: "Offline: some features are unavailable.",
       home: "Home", apps: "Apps", profile: "Profile", settings: "Settings", open_full: "Open full screen",
-      lead: "All your 24/24 apps, in one place.", your_apps: "Your apps",
-      apps_lead: "Each app opens right here, without leaving 24/24 EVERYWHERE.",
+      lead: "A world without barriers.", your_apps: "Your apps",
+      talk_tag: "Communicate without barriers.", ew_tag: "Translate and connect everywhere.", learn_tag: "Learn without limits.",
+      kicker: "One app. Three interfaces. One account.",
+      signature: "One world. One connection. No language borders.", learn: "LEARN",
+      a11y: "Display and accessibility", text_size: "Text size", contrast: "High contrast",
+      th_light: "Light", th_dark: "Dark", th_auto: "Auto", ts_names: "Normal|Large|Extra large", everywhere: "EVERYWHERE",
+      apps_lead: "TALK, EVERYWHERE and LEARN: one app, one account.",
       open: "Open", reserved: "Available later", reserved_badge: "RESERVED SLOT",
       reserved_txt: "This slot will host a future 24/24 ONE WORLD app. It does not exist yet.",
       profile_note: "Your profile is your 24/24 TALK profile: it is not copied anywhere else. It is tied to this browser, on this device.",
       ui_lang: "Interface language", set_in_talk: "Set in TALK", theme: "Theme", theme_auto: "Follows your device",
       stats: "Anonymous visit statistics", calls_closed: "Calls when the app is closed",
       push_on: "On", push_denied: "Blocked by the browser", push_off: "Not on yet", push_unsup: "Not available here",
-      install_title: "Install 24/24 EVERYWHERE", install_btn: "📲 Add to home screen",
+      install_title: "Install 24/24 ONE WORLD", install_btn: "📲 Add to home screen",
       install_ios: "On iPhone: tap Share, then “Add to Home Screen”.",
       install_other: "In Chrome: menu ⋮, then “Add to home screen” or “Install app”.",
       install_done: "Installed ✓",
       talk_settings: "24/24 TALK settings", version: "Version",
-      nf_title: "Page not found", nf_txt: "This address does not exist in 24/24 EVERYWHERE.", back_home: "Back to home",
+      nf_title: "Page not found", nf_txt: "This address does not exist in 24/24 ONE WORLD.", back_home: "Back to home",
       loading_app: "Opening {app}…", app_error: "{app} is not responding.", app_error_txt: "Check your connection, then try again.", retry: "Try again",
       prof_loading: "Reading your TALK profile…", prof_error: "Your profile can't be read right now.",
       prof_none: "You don't have a profile yet.", prof_none_txt: "Create it in 24/24 TALK: a username and your language are enough, no email or phone number.",
       prof_create: "Create my profile in TALK", prof_lang: "Spoken language: {l}", prof_chats: "Open my chats",
       prof_off: "TALK messaging is not enabled on this site.",
-      env_test: "24/24 EVERYWHERE · TEST SITE · fake data · do not share",
+      env_test: "24/24 ONE WORLD · TEST SITE · fake data · do not share",
       title_app: "{app}"
     }
   };
@@ -91,6 +101,8 @@
   var ICONS = {
     home: '<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>',
     apps: '<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>',
+    learn: '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2.5 9 2.5 12 0v-5"/><path d="M22 9v6"/>',
+    globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.8 3 2.8 15 0 18M12 3c-2.8 3-2.8 15 0 18"/>',
     talk: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 10.5h7M8.5 13.5h4.5"/>',
     profile: '<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
     slot: '<rect x="4" y="4" width="16" height="16" rx="4" stroke-dasharray="3 3"/><path d="M12 9v6M9 12h6"/>'
@@ -104,7 +116,7 @@
   $("mainnav").innerHTML = window.EWShell.navHtml(CFG.basePath, true, null, lang);
 
   // Adresse de l'application seule (pleine page, hors du portail). Dans un cadre, TALK restait figé sur le téléphone de Sébastien.
-  function fullHref(a) { return CFG.basePath + a.src.replace(/([?&])embed=1\b/, "$1ew=1"); }
+  function fullHref(a) { return a.route ? a.route : CFG.basePath + a.src.replace(/([?&])embed=1\b/, "$1ew=1"); }
 
   // ---------- Cartes d'applications (accueil et page Applications) ----------
   function appCard(a) {
@@ -117,7 +129,6 @@
     return '<div class="app-card reserved"' + style + ' aria-disabled="true"><span class="app-ic">' + svg(a.icon) + "</span>" +
       "<span><b>" + name + "</b><small>" + esc(loc(a.tagline)) + '</small><span class="badge">' + esc(t("reserved_badge")) + "</span></span></div>";
   }
-  $("homeApps").innerHTML = APPS.map(appCard).join("");
   $("appList").innerHTML = APPS.map(appCard).join("");
 
   // ---------- Applications intégrées : un cadre par application, gardé chargé entre les écrans ----------
@@ -265,6 +276,34 @@
     installEvt.prompt();
     installEvt.userChoice.then(function () { installEvt = null; paintInstall(); }).catch(function () {});
   });
+  // Affichage et accessibilité (prefs.js) : taille du texte, thème, contraste. Gardés sur cet appareil.
+  var TS_NAMES = t("ts_names").split("|");
+  document.querySelectorAll("[data-ts]").forEach(function (b, i) { b.setAttribute("aria-label", TS_NAMES[i]); });
+  function paintA11y() {
+    var p = window.EWPrefs ? window.EWPrefs.read() : { theme: "light", contrast: false, text: 0 };
+    document.querySelectorAll("button[data-ts]").forEach(function (b) { b.setAttribute("aria-checked", String(+b.getAttribute("data-ts") === p.text)); });
+    document.querySelectorAll("button[data-theme]").forEach(function (b) { b.setAttribute("aria-checked", String(b.getAttribute("data-theme") === p.theme)); });
+    $("contrastToggle").setAttribute("aria-checked", String(!!p.contrast));
+  }
+  document.addEventListener("click", function (e) {
+    if (!window.EWPrefs || !e.target.closest) return;
+    var b = e.target.closest("button[data-ts], button[data-theme], #contrastToggle");
+    if (!b) return;
+    if (b.hasAttribute("data-ts")) window.EWPrefs.set("text", +b.getAttribute("data-ts"));
+    else if (b.hasAttribute("data-theme")) window.EWPrefs.set("theme", b.getAttribute("data-theme"));
+    else window.EWPrefs.set("contrast", !window.EWPrefs.read().contrast);
+    paintA11y();
+  });
+  // Flèches gauche/droite dans les groupes de choix (usage au clavier).
+  document.addEventListener("keydown", function (e) {
+    if ((e.key !== "ArrowRight" && e.key !== "ArrowLeft") || !e.target.closest) return;
+    var g = e.target.closest(".seg");
+    if (!g) return;
+    var bs = [].slice.call(g.querySelectorAll("button")), i = bs.indexOf(e.target);
+    var n = bs[(i + (e.key === "ArrowRight" ? 1 : bs.length - 1)) % bs.length];
+    n.focus(); n.click(); e.preventDefault();
+  });
+
   // Roue dentée : dans une application, ouvre ses propres réglages ; ailleurs, les paramètres du portail.
   $("topSettings").addEventListener("click", function () {
     var m = /^#\/app\/([^/]+)/.exec(location.hash || "");
@@ -273,8 +312,8 @@
     else location.hash = "#/parametres";
   });
 
-  // ---------- Routes internes (#/accueil, #/applications, #/app/<id>, #/profil, #/parametres) ----------
-  var TITLES = { accueil: "", applications: t("apps"), profil: t("profile"), parametres: t("settings"), "404": "" };
+  // ---------- Routes internes (#/accueil, #/applications, #/everywhere/…, #/app/<id>, #/profil, #/parametres) ----------
+  var TITLES = { accueil: "", applications: t("apps"), profil: t("profile"), parametres: t("settings"), everywhere: t("everywhere"), learn: t("learn"), "404": "" };
   var first = true;
   function route() {
     var h = (location.hash || "").replace(/^#\/?/, "");
@@ -290,7 +329,7 @@
         ensureFrame(a);
         Object.keys(frames).forEach(function (id) { frames[id].wrap.classList.toggle("active", id === a.id); });
       }
-    } else if (["accueil", "applications", "profil", "parametres"].indexOf(view) === -1) target = "404";
+    } else if (["accueil", "applications", "profil", "parametres", "everywhere", "learn"].indexOf(view) === -1) target = "404";
     document.querySelectorAll(".view").forEach(function (v) {
       var on = v.getAttribute("data-route") === target;
       v.classList.toggle("active", on);
@@ -312,10 +351,13 @@
     if (target === "parametres") $("topSettings").setAttribute("aria-current", "page");
     else $("topSettings").removeAttribute("aria-current");
     var title = target === "app" ? loc(appById(appId).name) : TITLES[target] || "";
+    if (target === "everywhere" && window.EWEverywhere) title = window.EWEverywhere.show($("ewTr"), parts.slice(1), lang) || t("everywhere");
+    else if (window.EWEverywhere && $("ewTr").innerHTML) { window.EWEverywhere.show($("ewTr"), [], lang); } // quitte la conversation : micro et voix coupés
+    if (target === "learn" && window.EWLearn) title = window.EWLearn.show($("ewLearn"), parts.slice(1), lang) || t("learn");
     $("topTitle").textContent = title;
-    document.title = (title ? title + " · " : "") + "24/24 EVERYWHERE";
+    document.title = (title ? title + " · " : "") + "24/24 ONE WORLD";
     if (target === "profil") renderProfile();
-    if (target === "parametres") { paintStats(); paintPush(); paintInstall(); }
+    if (target === "parametres") { paintStats(); paintPush(); paintInstall(); paintA11y(); }
     if (!first) {
       var active = document.querySelector(".view.active");
       var h1 = active && active.querySelector("h1");

@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "_comment": "24/24 LEARN — catalogue des cours. Ajouter une langue = une entrée ici + un fichier <id>.json (même format que en.json). Aucun code à modifier.",
+  "base": "fr",
+  "levels": [
+    { "id": "debutant", "name": { "fr": "Débutant", "en": "Beginner" }, "hint": { "fr": "Premiers mots et phrases utiles", "en": "First words and useful phrases" } },
+    { "id": "intermediaire", "name": { "fr": "Intermédiaire", "en": "Intermediate" }, "hint": { "fr": "Situations de la vie courante et du travail", "en": "Everyday and work situations" } },
+    { "id": "avance", "name": { "fr": "Avancé", "en": "Advanced" }, "hint": { "fr": "Expressions idiomatiques et nuances", "en": "Idioms and nuances" } }
+  ],
+  "languages": [
+    { "id": "en", "name": { "fr": "Anglais", "en": "English" }, "native": "English", "flag": "🇬🇧", "voice": "en-GB", "status": "available", "file": "en.json" },
+    { "id": "es", "name": { "fr": "Espagnol", "en": "Spanish" }, "native": "Español", "flag": "🇪🇸", "voice": "es-ES", "status": "available", "file": "es.json" },
+    { "id": "it", "name": { "fr": "Italien", "en": "Italian" }, "native": "Italiano", "flag": "🇮🇹", "voice": "it-IT", "status": "soon" },
+    { "id": "de", "name": { "fr": "Allemand", "en": "German" }, "native": "Deutsch", "flag": "🇩🇪", "voice": "de-DE", "status": "soon" }
+  ]
+}

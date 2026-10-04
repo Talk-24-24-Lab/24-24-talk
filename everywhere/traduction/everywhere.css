@@ -1,0 +1,82 @@
+/* 24/24 EVERYWHERE — traduire et connecter partout. © 2026 Sébastien Chevrier. Tous droits réservés.
+   Vert = EVERYWHERE. Mobile d'abord ; zones tactiles ≥ 44 px. L'apparence définitive sera décidée à la fin (Sébastien). */
+#view-everywhere{--g:var(--green,#13a05a);--gbg:var(--green-bg,#e6f6ec);}
+.tr-head{display:flex;align-items:center;gap:14px;margin:4px 0 14px;}
+.tr-head h1{margin:0;font-size:26px;color:var(--g);letter-spacing:.03em;}
+.tr-head p{margin:2px 0 0;}
+.tr-logo{width:56px;height:56px;border-radius:50%;background:var(--g);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.tr-logo svg{width:32px;height:32px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+#view-everywhere h1{font-size:24px;margin:6px 0 10px;}
+.tr-back{display:inline-flex;align-items:center;min-height:44px;font-weight:700;color:var(--teal);text-decoration:none;}
+
+.tr-big{display:flex;align-items:center;gap:14px;padding:16px;min-height:84px;border-radius:20px;color:#fff;text-decoration:none;margin-bottom:12px;}
+.tr-big.face{background:linear-gradient(160deg,#2fc66f 0%,#13a05a 55%,#0c7d45 100%);}
+.tr-big.call{background:linear-gradient(160deg,#3b7bff 0%,#1f5fe0 55%,#1747b4 100%);}
+.tr-big b{display:block;font-size:19px;}
+.tr-big small{display:block;font-size:14.5px;opacity:.95;margin-top:2px;}
+.tr-big-ic{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.tr-big-ic svg{width:26px;height:26px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.tr-row{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:56px;padding:0 16px;border:1px solid var(--line);border-radius:16px;
+  background:var(--panel);color:var(--text);text-decoration:none;margin-bottom:10px;}
+.tr-row span{color:var(--muted);font-size:14.5px;text-align:right;}
+html.contrast-high .tr-big{border:3px solid var(--text);}
+
+/* ---------- Mode A : écran coupé en deux, même sens de lecture ---------- */
+#ewTr.tr-full{padding:0;max-width:none;height:100%;}
+.tr-face{display:grid;grid-template-rows:1fr auto 1fr;height:100%;min-height:440px;}
+.tr-half{display:flex;flex-direction:column;min-height:0;padding:10px 14px;}
+.tr-half.p2{background:color-mix(in srgb,var(--blue) 10%,var(--bg));}
+.tr-half.p1{background:color-mix(in srgb,var(--g) 12%,var(--bg));}
+.tr-who{display:flex;align-items:center;gap:4px;font-weight:800;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);}
+.tr-who select{font:inherit;text-transform:none;letter-spacing:0;font-size:15px;color:var(--text);background:var(--panel);border:1px solid var(--line);border-radius:10px;min-height:40px;padding:0 6px;max-width:60%;}
+.tr-log{flex:1;min-height:0;overflow-y:auto;padding:4px 0;}
+.tr-line{padding:6px 0;border-bottom:1px solid color-mix(in srgb,var(--line) 60%,transparent);}
+.tr-line:last-child{border-bottom:none;}
+.tr-big-txt{margin:0;font-size:22px;font-weight:800;line-height:1.25;color:var(--text);}
+.tr-small-txt{margin:2px 0 0;font-size:15px;color:var(--muted);}
+.tr-line.mine .tr-big-txt{font-weight:600;}
+.tr-err{margin:4px 0 0;color:var(--err);font-weight:700;font-size:14px;}
+.tr-empty{color:var(--muted);font-size:15px;margin:6px 0;}
+.tr-face[data-size="1"] .tr-big-txt{font-size:27px;} .tr-face[data-size="1"] .tr-small-txt{font-size:17px;}
+.tr-face[data-size="2"] .tr-big-txt{font-size:33px;} .tr-face[data-size="2"] .tr-small-txt{font-size:19px;}
+.tr-msg{margin:4px 0;min-height:1.2em;font-weight:700;font-size:14px;color:var(--text);}
+.tr-msg:empty{min-height:0;margin:0;}
+.tr-acts{display:flex;align-items:center;justify-content:center;gap:14px;padding-top:4px;}
+.tr-mic{width:68px;height:68px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;
+  box-shadow:0 4px 14px rgba(0,0,0,.18);}
+.p1 .tr-mic{background:var(--g);}
+.p2 .tr-mic{background:var(--blue);}
+.tr-mic svg{width:32px;height:32px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.tr-mic.on{background:var(--err);animation:trpulse 1.2s ease-in-out infinite;}
+@keyframes trpulse{50%{box-shadow:0 0 0 10px color-mix(in srgb,var(--err) 25%,transparent);}}
+@media (prefers-reduced-motion:reduce){ .tr-mic.on{animation:none;} }
+.tr-kb{width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:var(--panel);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text);}
+.tr-kb svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.tr-type{display:flex;gap:8px;margin:6px 0;}
+.tr-type input{flex:1;min-width:0;min-height:48px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--text);padding:0 12px;font-size:17px;}
+.tr-mid{display:flex;justify-content:space-around;align-items:center;gap:4px;padding:4px 6px;background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.tr-tool{min-height:44px;min-width:44px;padding:0 10px;border:none;background:none;font-weight:800;font-size:14.5px;color:var(--text);cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;text-decoration:none;border-radius:10px;}
+.tr-tool[aria-checked="false"]{color:var(--muted);}
+
+/* ---------- Mes langues, configurations ---------- */
+.tr-field{display:flex;flex-direction:column;gap:6px;margin:8px 0 12px;font-weight:700;}
+.tr-field select,.tr-field input[type=range]{min-height:48px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);color:var(--text);padding:0 10px;font-size:16px;}
+.tr-field input[type=range]{padding:0;accent-color:var(--g);}
+.tr-ok{color:var(--ok);font-weight:700;margin:6px 0 0;min-height:1.2em;}
+
+/* ---------- Mode B : contacts TALK ---------- */
+.tr-search{margin-bottom:10px;}
+.tr-invite{width:100%;min-height:52px;border-radius:14px;border:2px solid var(--g);background:var(--panel);color:var(--g);font-weight:800;font-size:16px;cursor:pointer;}
+.tr-contacts{list-style:none;margin:8px 0 0;padding:0;}
+.tr-ct{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);}
+.tr-ct>span:nth-child(2){flex:1;min-width:0;}
+.tr-ct b{display:block;overflow:hidden;text-overflow:ellipsis;}
+.tr-ct small{display:block;color:var(--muted);}
+.tr-av{width:44px;height:44px;border-radius:50%;background:color-mix(in srgb,var(--blue) 14%,var(--panel));color:var(--blue);font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.tr-callbtn{background:var(--g);border-color:var(--g);color:#fff;border-radius:999px;min-height:44px;}
+.tr-none{padding:14px 0;}
+.tr-sheet{position:fixed;inset:0;z-index:60;background:rgba(5,9,19,.5);display:flex;align-items:flex-end;justify-content:center;}
+.tr-sheet-in{background:var(--panel);color:var(--text);width:100%;max-width:520px;border-radius:22px 22px 0 0;padding:18px 16px calc(18px + var(--sab));max-height:90%;overflow-y:auto;}
+.tr-sheet-in h2{margin:0 0 6px;font-size:20px;}
+@media (min-width:640px){ .tr-sheet{align-items:center;} .tr-sheet-in{border-radius:22px;} }

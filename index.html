@@ -27,10 +27,10 @@
   document.documentElement.classList.add("ew-shell");
   var l = document.createElement("link");
   l.rel = "stylesheet";
-  l.href = "everywhere/shell.css?v=0.2.0";
+  l.href = "everywhere/shell.css?v=0.5.0";
   document.head.appendChild(l);
   var sc = document.createElement("script");
-  sc.src = "everywhere/shell.js?v=0.2.0";
+  sc.src = "everywhere/shell.js?v=0.5.0";
   sc.defer = true;
   document.head.appendChild(sc);
 })();
@@ -7469,6 +7469,16 @@ const Reseau = (() => {
     pendingAnswer = { id: m[1], t: Date.now() };
     try { history.replaceState(null, "", location.pathname); } catch (e) { /* ignoré */ }
   })();
+  // Arrivé depuis 24/24 EVERYWHERE (« Appeler sur TALK ») : ?ew_appel=<discussion> lance l'appel traduit habituel de TALK
+  // avec ce contact, puis ramène dans EVERYWHERE à la fin de l'appel. Aucune autre infrastructure d'appel.
+  let pendingEwCall = null;
+  let ewCallReturn = false;
+  (function readEwCall() {
+    const m = /[?&]ew_appel=([0-9a-f-]{36})/i.exec(location.search || "");
+    if (!m) return;
+    pendingEwCall = m[1].toLowerCase();
+    try { history.replaceState(null, "", location.pathname + (/[?&]ew=1\b/.test(location.search) ? "?ew=1" : "")); } catch (e) { /* ignoré */ }
+  })();
   function inviteUsed() {
     pendingAdd = null;
     safeStore.removeItem("lc_net_pending");
@@ -7574,6 +7584,16 @@ const Reseau = (() => {
       const p = pendingAdd;
       inviteUsed();
       if (p !== profile.pseudo) await openWith(p);
+    }
+    if (pendingEwCall) {
+      const id = pendingEwCall;
+      pendingEwCall = null;
+      const c = convs.find((x) => x.id === id);
+      if (c && c.other && !blockedIds.has(c.otherId) && !call) {
+        await openChat(c);
+        ewCallReturn = true;
+        startCall();
+      }
     }
   }
 
@@ -9084,6 +9104,11 @@ const Reseau = (() => {
     logCallMessage(call);
     call = null;
     if (message) setFlash(escapeHtml(message), "ok");
+    if (ewCallReturn) {
+      // Appel lancé depuis EVERYWHERE : retour dans EVERYWHERE, après avoir laissé lire le message de fin.
+      ewCallReturn = false;
+      setTimeout(() => { location.href = "everywhere/#/everywhere/appel"; }, 1800);
+    }
     if (screen === "call") {
       if (fromList) {
         // Appel lancé depuis le Téléphone : retour à la liste des contacts.
@@ -9258,7 +9283,7 @@ const Reseau = (() => {
     setTimeout(() => ensureConnected(), 600);
   }
   // Arrivé par un lien d'invitation : on ouvre directement l'onglet Réseau.
-  if (pendingAdd && inviteFromLink) {
+  if ((pendingAdd && inviteFromLink) || pendingEwCall) {
     setTimeout(() => goToTab(), 300);
   }
   // ---------- Pont avec 24/24 EVERYWHERE (seulement quand TALK est ouvert dans le portail, même site) ----------
