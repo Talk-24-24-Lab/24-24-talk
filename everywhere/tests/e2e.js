@@ -219,7 +219,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.goto(URL_EW);
     await page.evaluate(() => navigator.serviceWorker.ready);
     await sleep(500);
-    const keys = await page.evaluate(async () => { const c = await caches.open("ew-shell-v6"); return (await c.keys()).map((r) => new URL(r.url).pathname); });
+    const keys = await page.evaluate(async () => { const c = await caches.open("ew-shell-v7"); return (await c.keys()).map((r) => new URL(r.url).pathname); });
     const priv = keys.filter((k) => !/everywhere\/|terre-tech/.test(k));
     return { ok: keys.length >= 10 && !priv.length, detail: keys.length + " fichiers publics en cache, aucun hors du portail" };
   });
@@ -323,6 +323,10 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     return { ok: joined === "1" && /Compte sécurisé/.test(await card(page)), detail: "TALK se reconnectera à ce compte" };
   });
   await page.screenshot({ path: path.join(OUT, "connect-nouvel-appareil.png") });
+  await step("Lien de l'e-mail : l'e-mail renvoie vers le portail (Profil)", async () => {
+    const r = await page.evaluate(() => localStorage.getItem("fake_redirect"));
+    return { ok: r === URL_EW, detail: r };
+  });
   await step("Lien « J'ai déjà un compte » de TALK : ouvre directement la connexion", async () => {
     await page.evaluate(() => { localStorage.removeItem("fake_sb"); localStorage.removeItem("lc_net_auth"); sessionStorage.setItem("ew_connect_login", "1"); });
     await page.goto(URL_EW + "#/accueil");
@@ -331,6 +335,29 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const left = await page.evaluate(() => sessionStorage.getItem("ew_connect_login"));
     const src = fs.readFileSync(path.join(SITE, "index.html"), "utf8");
     return { ok: left === null && /id="netHaveAccount"/.test(src) && /ew_connect_login/.test(src) };
+  });
+  await ctx.close();
+
+  // ---------- CONNECT : retour par le lien de l'e-mail ----------
+  ctx = await newCtx({}, true);
+  page = await openPortal(ctx, "#access_token=aaa.bbb.ccc&expires_in=3600&refresh_token=rrr&token_type=bearer&type=magiclink");
+  await step("Lien de l'e-mail (nouvel appareil) : compte retrouvé, jeton effacé de l'adresse", async () => {
+    await page.waitForFunction(() => /Connecté : bienvenue @sebtest/.test(document.querySelector("#profileCard").textContent), null, { timeout: 10000 });
+    const r = await page.evaluate(() => ({ h: location.hash, j: localStorage.getItem("lc_net_joined") }));
+    return { ok: r.h === "#/profil" && r.j === "1" && !page._errors.length, detail: "adresse : " + r.h };
+  });
+  await ctx.close();
+  ctx = await newCtx({}, true);
+  page = await openPortal(ctx, "#error=access_denied&error_code=otp_expired&error_description=Email+link+is+invalid+or+has+expired");
+  await step("Lien de l'e-mail périmé : message clair, rien d'autre ne change", async () => {
+    await page.waitForFunction(() => /n'a pas fonctionné/.test(document.querySelector("#profileCard").textContent), null, { timeout: 10000 });
+    const txt = await page.textContent("#profileCard .cx-msg");
+    return { ok: /expired/.test(txt) && (await page.evaluate(() => location.hash)) === "#/profil", detail: txt.trim().slice(0, 80) };
+  });
+  await step("Lien de l'e-mail arrivé sur l'adresse principale (TALK) : renvoyé vers Profil", async () => {
+    await page.goto(ORIGIN + BASE + "#access_token=aaa.bbb.ccc&refresh_token=rrr&type=email_change");
+    await page.waitForFunction(() => /relié à/.test((document.querySelector("#profileCard") || {}).textContent || ""), null, { timeout: 15000 });
+    return { ok: /everywhere\/$/.test(new URL(page.url()).pathname) && new URL(page.url()).hash === "#/profil", detail: new URL(page.url()).pathname + new URL(page.url()).hash };
   });
   await ctx.close();
 
