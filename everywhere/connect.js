@@ -48,6 +48,12 @@
       e_unknown: "Aucun compte n'est relié à cette adresse.", e_rate: "Trop d'e-mails envoyés pour le moment. Réessayez dans une heure.",
       e_notauth: "Site de test : seules les adresses des membres de l'équipe du projet reçoivent les e-mails.",
       e_net: "Pas de connexion. Réessayez.", e_other: "Ça n'a pas marché ({m}). Réessayez.",
+      del_title: "Supprimer mon compte", del_txt: "Votre compte @{p} sera effacé du serveur : pseudo, contacts, conversations, appareils connectés, profil linguistique synchronisé et adresse e-mail reliée. C'est définitif : personne ne pourra le récupérer, pas même l'équipe.",
+      del_local: "Les réglages enregistrés seulement sur cet appareil (préférences, phrases préparées) restent ici ; vous pouvez les effacer dans Paramètres.",
+      del_btn: "Supprimer mon compte…", del_type: "Pour confirmer, écrivez votre pseudo : {p}", del_go: "Supprimer définitivement", del_wrong: "Le pseudo ne correspond pas.",
+      del_wait: "Suppression en cours…", del_done: "Votre compte a été supprimé du serveur. Cet appareil n'est plus connecté.",
+      del_net: "Pas de connexion : rien n'a été supprimé. Réessayez quand vous aurez du réseau.", del_auth: "Votre session a expiré ou a été déconnectée : rien n'a été supprimé. Reconnectez-vous puis recommencez.",
+      dev_out_none: "Cet appareil n'est plus dans votre liste : rien n'a été modifié.",
       today: "aujourd'hui", ago_min: "il y a {n} min", ago_h: "il y a {n} h", ago_d: "il y a {n} j",
       android: "Android", iphone: "iPhone", ipad: "iPad", windows: "Ordinateur Windows", mac: "Mac", linux: "Ordinateur Linux", other: "Appareil"
     },
@@ -78,6 +84,12 @@
       e_unknown: "No account is linked to this address.", e_rate: "Too many emails sent for now. Try again in an hour.",
       e_notauth: "Test site: only addresses of the project's team members receive emails.",
       e_net: "No connection. Try again.", e_other: "That didn't work ({m}). Try again.",
+      del_title: "Delete my account", del_txt: "Your account @{p} will be erased from the server: username, contacts, chats, signed-in devices, synced language profile and linked email address. This is final: nobody can recover it, not even the team.",
+      del_local: "Settings saved only on this device (preferences, prepared phrases) stay here; you can erase them in Settings.",
+      del_btn: "Delete my account…", del_type: "To confirm, type your username: {p}", del_go: "Delete for good", del_wrong: "The username doesn't match.",
+      del_wait: "Deleting…", del_done: "Your account has been deleted from the server. This device is no longer signed in.",
+      del_net: "No connection: nothing was deleted. Try again when you're online.", del_auth: "Your session expired or was signed out: nothing was deleted. Sign in again, then retry.",
+      dev_out_none: "This device is no longer in your list: nothing was changed.",
       today: "today", ago_min: "{n} min ago", ago_h: "{n} h ago", ago_d: "{n} d ago",
       android: "Android", iphone: "iPhone", ipad: "iPad", windows: "Windows computer", mac: "Mac", linux: "Linux computer", other: "Device"
     }
@@ -232,7 +244,8 @@
           b.disabled = true;
           client().then(function (c) { return c.rpc("deconnecter_appareil", { sid: b.getAttribute("data-out") }); }).then(function (x) {
             if (x.error) { b.disabled = false; return msg(dm, errText(x.error)); }
-            devices(box, t("dev_out_done"));
+            // Le serveur ne déconnecte qu'un appareil de CE compte : « false » = rien n'a été touché.
+            devices(box, x.data === false ? t("dev_out_none") : t("dev_out_done"));
           }, function (err) { b.disabled = false; msg(dm, errText(err)); });
         });
       });
@@ -246,6 +259,48 @@
         }, function (err) { all.disabled = false; msg(dm, errText(err)); });
       });
     }).catch(function () { box.innerHTML = '<h2 class="cx-h">' + esc(t("dev_title")) + '</h2><p class="muted">' + esc(t("dev_err")) + "</p>"; });
+  }
+
+  // ---------- Supprimer mon compte ----------
+  // Le serveur (supprimer_mon_compte) n'efface QUE le compte du jeton présenté, et seulement si la session est encore active.
+  // Ici : confirmation explicite (écrire son pseudo), puis nettoyage de la session sur cet appareil.
+  function deleteBox(box, prof, card, opts) {
+    box.innerHTML = '<h2 class="cx-h">' + esc(t("del_title")) + '</h2><button type="button" class="btn danger wide" id="cxDelOpen">' + esc(t("del_btn")) + '</button><div id="cxDelForm"></div>';
+    var open = box.querySelector("#cxDelOpen"), f = box.querySelector("#cxDelForm");
+    open.addEventListener("click", function () {
+      open.hidden = true;
+      f.innerHTML = '<p class="cx-warn">' + esc(t("del_txt", { p: prof.pseudo })) + '</p><p class="muted">' + esc(t("del_local")) + "</p>" +
+        '<label class="cx-lbl" for="cxDelName">' + esc(t("del_type", { p: prof.pseudo })) + "</label>" +
+        '<input class="cx-input" id="cxDelName" autocomplete="off" autocapitalize="none" spellcheck="false" dir="ltr">' +
+        '<div class="cx-actions"><button type="button" class="btn danger" id="cxDelGo">' + esc(t("del_go")) + '</button>' +
+        '<button type="button" class="btn primary" id="cxDelNo">' + esc(t("cancel")) + '</button></div><div id="cxDelMsg" aria-live="polite"></div>';
+      var inp = f.querySelector("#cxDelName"), go = f.querySelector("#cxDelGo"), m = f.querySelector("#cxDelMsg");
+      inp.focus();
+      f.querySelector("#cxDelNo").addEventListener("click", function () { f.innerHTML = ""; open.hidden = false; open.focus(); });
+      go.addEventListener("click", function () {
+        if (inp.value.trim().replace(/^@/, "").toLowerCase() !== String(prof.pseudo).toLowerCase()) return msg(m, t("del_wrong"));
+        go.disabled = true;
+        msg(m, t("del_wait"), "ok");
+        client().then(function (c) {
+          return c.rpc("supprimer_mon_compte").then(function (r) {
+            if (r.error) throw r.error;
+            return c.auth.signOut({ scope: "local" }).catch(function () { /* compte déjà effacé */ });
+          });
+        }).then(function () {
+          ["lc_net_auth", "lc_net_joined"].forEach(function (k) { try { localStorage.removeItem(k); } catch (e) { /* ignoré */ } });
+          try {
+            Object.keys(localStorage).filter(function (k) { return k.indexOf("lc_callhist_") === 0; }).forEach(function (k) { localStorage.removeItem(k); });
+            var lp = JSON.parse(localStorage.getItem("ow_profile_v1") || "null");
+            if (lp && lp.sync) { lp.sync = false; localStorage.setItem("ow_profile_v1", JSON.stringify(lp)); }
+          } catch (e) { /* ignoré */ }
+          render(card, { openTalk: opts.openTalk, note: t("del_done"), noteOk: true });
+        }).catch(function (e) {
+          go.disabled = false;
+          var s = String((e && (e.message || e.code)) || e || "");
+          msg(m, /AUTH|JWT|401|403|42501/i.test(s + " " + (e && e.status)) ? t("del_auth") : /fetch|network|NETWORK|Load failed/i.test(s) || !navigator.onLine ? t("del_net") : t("e_other", { m: s.slice(0, 80) }));
+        });
+      });
+    });
   }
 
   // ---------- Écran Profil ----------
@@ -322,6 +377,7 @@
         '<p class="muted">' + esc(t("sync")) + "</p>";
     }
     html += '</section><section class="cx-sec" id="cxDevices"></section>' +
+      '<section class="cx-sec cx-del" id="cxDelete"></section>' +
       '<p class="cx-other"><button type="button" class="link-btn" id="cxOther">' + esc(t("other_account")) + '</button></p><div id="cxOtherBox"></div>';
     card.innerHTML = html;
     card.querySelector("#cxChats").addEventListener("click", function () { opts.openTalk && opts.openTalk("net"); });
@@ -332,6 +388,7 @@
         function () { card.querySelector("#cxBox").innerHTML = ""; sec.hidden = false; });
     });
     devices(card.querySelector("#cxDevices"));
+    deleteBox(card.querySelector("#cxDelete"), prof, card, opts);
     // Autre compte : prévenir si le compte actuel n'est relié à aucun e-mail (il serait perdu).
     var other = card.querySelector("#cxOther"), ob = card.querySelector("#cxOtherBox");
     other.addEventListener("click", function () {

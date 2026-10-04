@@ -29,17 +29,28 @@
     if (table === "profiles") return [KENJI, MARIA];
     return [];
   }
+  // Profil linguistique : la ligne du compte est gardée dans localStorage « fake_lp » ; chaque écriture est notée dans « fake_lp_log ».
+  function lpGet() { try { return JSON.parse(localStorage.getItem("fake_lp") || "null"); } catch (e) { return null; } }
+  function lpLog(op, row) { try { var l = JSON.parse(localStorage.getItem("fake_lp_log") || "[]"); l.push({ op: op, row: row || null }); localStorage.setItem("fake_lp_log", JSON.stringify(l)); } catch (e) {} }
   function builder(table) {
-    var single = false;
+    var single = false, op = "select", payload = null;
     var b = {
       then: function (ok, ko) {
-        var data = table === "profiles" && single ? (load().session ? PROFILE : null) : rows(table);
+        var data;
+        if (table === "language_profiles") {
+          if (localStorage.getItem("fake_lp_fail") === "1" && op !== "select") return Promise.resolve({ data: null, error: { message: "permission denied", code: "42501" } }).then(ok, ko);
+          if (op === "upsert") { localStorage.setItem("fake_lp", JSON.stringify(Object.assign({ updated_at: new Date().toISOString() }, payload))); lpLog("upsert", payload); data = null; }
+          else if (op === "delete") { localStorage.removeItem("fake_lp"); lpLog("delete"); data = null; }
+          else data = single ? lpGet() : (lpGet() ? [lpGet()] : []);
+        } else data = table === "profiles" && single ? (load().session ? PROFILE : null) : rows(table);
         return Promise.resolve({ data: data, error: null }).then(ok, ko);
       },
+      upsert: function (p) { op = "upsert"; payload = p; return b; },
+      delete: function () { op = "delete"; return b; },
       maybeSingle: function () { single = true; return b; },
       single: function () { single = true; return b; }
     };
-    ["select", "eq", "neq", "in", "or", "order", "limit", "gt", "lt", "gte", "lte", "is", "insert", "update", "upsert", "delete", "match", "range", "not", "filter"]
+    ["select", "eq", "neq", "in", "or", "order", "limit", "gt", "lt", "gte", "lte", "is", "insert", "update", "match", "range", "not", "filter"]
       .forEach(function (m) { b[m] = function () { return b; }; });
     return b;
   }
@@ -96,7 +107,22 @@
         rpc: function (name, args) {
           var s = load();
           if (name === "mes_appareils") return R({ data: s.devices, error: null });
-          if (name === "deconnecter_appareil") { s.devices = s.devices.filter(function (d) { return d.id !== args.sid; }); save(s); return R({ data: true, error: null }); }
+          if (name === "deconnecter_appareil") {
+            // Comme le vrai serveur : seul un appareil de CE compte peut être déconnecté (sinon « false », rien ne change).
+            var had = s.devices.some(function (d) { return d.id === args.sid && !d.actuel; });
+            s.devices = s.devices.filter(function (d) { return d.id !== args.sid || d.actuel; }); save(s); return R({ data: had, error: null });
+          }
+          if (name === "supprimer_mon_compte") {
+            // localStorage « fake_del_fail » : "net" = coupure réseau, "auth" = session révoquée (le serveur refuse, rien n'est effacé).
+            var f = localStorage.getItem("fake_del_fail");
+            if (f === "net") return Promise.reject(new TypeError("Failed to fetch"));
+            if (f === "auth") return R({ data: null, error: { message: "AUTH", code: "P0001" } });
+            if (!s.session) return R({ data: null, error: { message: "AUTH", code: "P0001" } });
+            s.session = false; s.deleted = true; s.email = ""; s.devices = []; localStorage.removeItem("fake_lp"); save(s);
+            return R({ data: null, error: null });
+          }
+          // @maria a choisi « visible par mes contacts » (langues parlées : français, anglais) ; @kenji est resté privé.
+          if (name === "langues_de_mes_contacts") return R({ data: contactsOn() ? [{ user_id: MARIA.id, display_name: "Maria", native_lang: "es", spoken: [{ code: "fr", level: "B2" }, { code: "en", level: "C1" }] }] : [], error: null });
           return R({ data: null, error: null });
         },
         channel: channel,

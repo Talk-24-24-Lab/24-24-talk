@@ -6,6 +6,9 @@
      #/everywhere/appel      mode B : contacts TALK, inviter un contact, appel traduit (celui de TALK, sans autre infrastructure)
      #/everywhere/langues    mes langues
      #/everywhere/reglages   configurations (son, haut-parleur ou écouteurs, voix, vitesse, volume, taille du texte)
+     #/everywhere/voyage     parcours Voyage (voyage.js) : préparation, phrases utiles, faible connexion
+   Profil linguistique (profil/profil.js) : langue maternelle = « Ma langue » par défaut, favorites en tête des listes,
+   vitesse de lecture (nombre de phrases affichées) et préférence Parler/Écrire en conversation côte à côte.
    Aucune fonction d'apprentissage ici (LEARN) ; les appels restent ceux de TALK.
    Son : haut-parleur du téléphone, ou écouteurs Bluetooth du commerce (option). Android envoie le son vers les écouteurs
    connectés ; l'appli ne pilote pas les écouteurs (aucune fonction propre à un fabricant).
@@ -21,6 +24,7 @@
     fr: {
       title: "EVERYWHERE", sub: "Traduire et connecter partout.",
       face: "Conversation côte à côte", face_d: "Téléphone posé entre vous deux", call: "Appeler sur TALK", call_d: "Appel traduit avec un contact",
+      trip: "Voyage", trip_d: "Phrases utiles, préparation, faible connexion", fav_group: "★ Favorites", c_also: "Parle aussi {l}",
       my_langs: "Mes langues", settings: "Configurations", settings_d: "Son, volume, texte", back: "← EVERYWHERE",
       p1: "Personne 1", p2: "Personne 2", speak: "Parler", speak_in: "Parler en {l}", type: "Écrire", type_in: "Écrire en {l}", send: "Traduire",
       listening: "J'écoute…", translating: "Traduction…", empty: "Touchez le micro et parlez. La traduction s'affiche dans l'autre moitié et peut être lue à voix haute.",
@@ -60,6 +64,7 @@
     en: {
       title: "EVERYWHERE", sub: "Translate and connect everywhere.",
       face: "Side-by-side conversation", face_d: "Phone placed between you", call: "Call on TALK", call_d: "Translated call with a contact",
+      trip: "Travel", trip_d: "Useful phrases, preparation, weak connection", fav_group: "★ Favorites", c_also: "Also speaks {l}",
       my_langs: "My languages", settings: "Settings", settings_d: "Sound, volume, text", back: "← EVERYWHERE",
       p1: "Person 1", p2: "Person 2", speak: "Speak", speak_in: "Speak in {l}", type: "Type", type_in: "Type in {l}", send: "Translate",
       listening: "Listening…", translating: "Translating…", empty: "Tap the mic and speak. The translation appears in the other half and can be read aloud.",
@@ -111,6 +116,8 @@
   // ---------- Réglages (sur cet appareil) ----------
   var mem = null;
   function defMe() {
+    var nat = window.EWProfil && window.EWProfil.native();
+    if (nat && M.lang(nat).name !== nat) return nat; // langue maternelle du profil linguistique
     var p = store.get("lc_uilang");
     var l = (p && p !== "auto" ? p : (navigator.language || "fr")).slice(0, 2).toLowerCase();
     return M.lang(l).name !== l ? l : "fr";
@@ -130,10 +137,18 @@
   }
   function savePrefs() { store.set(KEY, JSON.stringify(mem)); }
 
+  // Langues favorites du profil linguistique en tête de liste (sans les retirer de la liste complète).
   function langOptions(sel) {
-    return M.langs.map(function (l) {
-      return '<option value="' + esc(l.code) + '"' + (l.code === sel ? " selected" : "") + ">" + esc((l.flag ? l.flag + " " : "") + l.name) + "</option>";
-    }).join("");
+    var fav = window.EWProfil ? window.EWProfil.favorites() : [];
+    var favSel = false;
+    var opt = function (l, inFav) {
+      var on = l.code === sel && (inFav || !favSel);
+      if (on && inFav) favSel = true;
+      return '<option value="' + esc(l.code) + '"' + (on ? " selected" : "") + ">" + esc((l.flag ? l.flag + " " : "") + l.name) + "</option>";
+    };
+    var favs = M.langs.filter(function (l) { return fav.indexOf(l.code) !== -1; });
+    var head = favs.length ? '<optgroup label="' + esc(t("fav_group")) + '">' + favs.map(function (l) { return opt(l, true); }).join("") + "</optgroup>" : "";
+    return head + M.langs.map(function (l) { return opt(l, false); }).join("");
   }
   function langName(code) { var l = M.lang(code); return l.name; }
   function backLink() { return '<a class="tr-back" href="#/everywhere">' + esc(t("back")) + "</a>"; }
@@ -145,7 +160,8 @@
     globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.8 3 2.8 15 0 18M12 3c-2.8 3-2.8 15 0 18"/>',
     mic: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/>',
     kb: '<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/>',
-    replay: '<path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/>'
+    replay: '<path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/>',
+    trip: '<rect x="4" y="7" width="16" height="13" rx="2.5"/><path d="M9 7V4.5h6V7"/><path d="M4 12h16"/>'
   };
   function ic(n) { return '<svg viewBox="0 0 24 24" aria-hidden="true">' + ICON[n] + "</svg>"; }
   function home(root) {
@@ -153,6 +169,7 @@
     root.innerHTML = '<div class="tr-head"><span class="tr-logo" aria-hidden="true">' + ic("globe") + '</span><div><h1 id="h-tr">' + esc(t("title")) + '</h1><p class="muted">' + esc(t("sub")) + "</p></div></div>" +
       '<a class="tr-big face" id="trGoFace" href="#/everywhere/face"><span class="tr-big-ic">' + ic("face") + "</span><span><b>" + esc(t("face")) + "</b><small>" + esc(t("face_d")) + "</small></span></a>" +
       '<a class="tr-big call" id="trGoCall" href="#/everywhere/appel"><span class="tr-big-ic">' + ic("call") + "</span><span><b>" + esc(t("call")) + "</b><small>" + esc(t("call_d")) + "</small></span></a>" +
+      '<a class="tr-big trip" id="trGoTrip" href="#/everywhere/voyage"><span class="tr-big-ic">' + ic("trip") + "</span><span><b>" + esc(t("trip")) + "</b><small>" + esc(t("trip_d")) + "</small></span></a>" +
       '<a class="tr-row" href="#/everywhere/langues"><b>' + esc(t("my_langs")) + "</b><span>" + esc(langName(p.me)) + " ⇄ " + esc(langName(p.other)) + "</span></a>" +
       '<a class="tr-row" href="#/everywhere/reglages"><b>' + esc(t("settings")) + "</b><span>" + esc(t("settings_d")) + "</span></a>";
   }
@@ -178,6 +195,8 @@
       "</div>" +
       '<p class="sr" role="status" id="trFaceSr"></p>';
     paintFace();
+    // Préférence « Écrire » du profil : les claviers sont ouverts d'emblée (sans prendre le focus).
+    if (window.EWProfil && window.EWProfil.prefer() === "text") root.querySelectorAll("form.tr-type").forEach(function (f) { f.hidden = false; });
   }
   function outLabel(out) { return out === "earbuds" ? "🎧 " + esc(t("out_btn_ea")) : "🔈 " + esc(t("out_btn_sp")); }
   function halfHtml(who) {
@@ -202,7 +221,9 @@
       if (!face.lines.length) { log.innerHTML = '<p class="tr-empty">' + esc(t("empty")) + "</p>"; }
       else {
         // Chaque moitié lit tout dans sa propre langue : en grand ce qui est dit (ou traduit) pour elle, en petit l'autre langue.
-        log.innerHTML = face.lines.slice(-4).map(function (l) {
+        // Vitesse de lecture du profil : lente = 2 phrases (plus d'espace), normale = 4, rapide = 6.
+        var rd = window.EWProfil ? window.EWProfil.reading() : "normal";
+        log.innerHTML = face.lines.slice(rd === "slow" ? -2 : rd === "fast" ? -6 : -4).map(function (l) {
           var mine = l.from === who;
           var big = mine ? l.orig : (l.tr || (l.err ? "" : "…"));
           var small = mine ? (l.tr || (l.err ? "" : "…")) : l.orig;
@@ -406,7 +427,16 @@
               var p = profs.filter(function (x) { return x.id === m.user_id; })[0];
               return p ? { convId: m.conversation_id, id: p.id, pseudo: p.pseudo, lang: p.lang } : null;
             }).filter(Boolean).sort(function (a, b) { return a.pseudo < b.pseudo ? -1 : 1; });
-            return { me: me, pseudo: prof.pseudo, plang: prof.lang, contacts: contacts };
+            // Langues que mes contacts ont choisi de montrer (profil linguistique « visible par mes contacts ») ; sinon rien.
+            return sb.rpc("langues_de_mes_contacts").then(function (lr) {
+              var rows = lr && !lr.error && Array.isArray(lr.data) ? lr.data : [];
+              contacts.forEach(function (c) {
+                var r = rows.filter(function (x) { return x && x.user_id === c.id; })[0];
+                c.also = r && Array.isArray(r.spoken) ? r.spoken.map(function (x) { return x && typeof x.code === "string" ? x.code : null; }).filter(Boolean).slice(0, 6) : [];
+              });
+            }, function () { /* fonction absente : on garde la liste */ }).then(function () {
+              return { me: me, pseudo: prof.pseudo, plang: prof.lang, contacts: contacts };
+            });
           });
         });
       });
@@ -440,7 +470,8 @@
     if (!list.length) { ul.innerHTML = '<li class="muted tr-none">' + esc(t("c_nomatch")) + "</li>"; return; }
     ul.innerHTML = list.map(function (c) {
       return '<li class="tr-ct"><span class="tr-av" aria-hidden="true">' + esc(c.pseudo.charAt(0).toUpperCase()) + "</span>" +
-        "<span><b>@" + esc(c.pseudo) + "</b><small>" + esc(t("c_lang_of", { l: langName(c.lang) })) + "</small></span>" +
+        "<span><b>@" + esc(c.pseudo) + "</b><small>" + esc(t("c_lang_of", { l: langName(c.lang) })) +
+        (c.also && c.also.length ? " · " + esc(t("c_also", { l: c.also.map(langName).join(", ") })) : "") + "</small></span>" +
         '<button type="button" class="btn tr-callbtn" data-call="' + esc(c.convId) + '" aria-label="' + esc(t("c_call") + " @" + c.pseudo) + '">' + esc(t("c_call")) + "</button></li>";
     }).join("");
   }
@@ -566,14 +597,20 @@
     M.stopSpeaking();
     var old = document.getElementById("trSheet");
     if (old) old.remove();
+    if (window.EWVoyage) window.EWVoyage.leave();
     var s = (parts || [])[0] || "";
     root.classList.toggle("tr-full", s === "face");
     if (s === "face") { faceScreen(root); return t("face"); }
     if (s === "appel") { callScreen(root, token); return t("call"); }
     if (s === "langues") { langsScreen(root); return t("my_langs"); }
     if (s === "reglages") { settingsScreen(root); return t("settings"); }
+    if (s === "voyage" && window.EWVoyage) return window.EWVoyage.show(root, lang);
     home(root);
     return t("title");
   }
-  window.EWEverywhere = { show: show, _strings: STR, prefs: prefs };
+  window.EWEverywhere = {
+    show: show, _strings: STR, prefs: prefs,
+    reload: function () { mem = null; }, // le profil linguistique a modifié ew_tr_v1
+    setOther: function (code) { var p = prefs(); if (M.lang(code).name === code) return; if (p.me === code) p.me = p.other; p.other = code; savePrefs(); }
+  };
 })();

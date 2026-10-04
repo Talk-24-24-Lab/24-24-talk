@@ -39,7 +39,9 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 const ROUTES = ["#/accueil", "#/applications", "#/profil", "#/parametres", "#/everywhere", "#/everywhere/face", "#/everywhere/appel", "#/everywhere/langues",
   "#/everywhere/reglages", "#/learn", "#/learn/apprendre", "#/learn/lecon/es-deb-1", "#/learn/reviser", "#/learn/defi", "#/learn/progression",
-  "#/learn/conversation", "#/learn/cultures", "#/introuvable"];
+  "#/learn/conversation", "#/learn/cultures", "#/introuvable",
+  // 0.7.0 : profil linguistique, Voyage, AI LAB
+  "#/profil/linguistique", "#/everywhere/voyage", "#/ailab"];
 const DICT = { "fr|en": { "Bonjour": "Hello", "Où est la gare ?": "Where is the train station?" }, "en|fr": { "It's straight ahead.": "C'est tout droit." } };
 
 (async () => {

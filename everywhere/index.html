@@ -10,7 +10,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>24/24 ONE WORLD</title>
-<meta name="description" content="24/24 ONE WORLD : une seule application, trois interfaces (TALK, EVERYWHERE, LEARN), un seul compte. Un monde sans barrières.">
+<meta name="description" content="24/24 ONE WORLD : une seule application, un seul compte : TALK, EVERYWHERE, LEARN, et AI LAB bientôt. Un monde sans barrières.">
 <meta name="theme-color" content="#1f5fe0">
 <meta name="color-scheme" content="dark light">
 <link rel="manifest" href="manifest.webmanifest">
@@ -26,6 +26,7 @@
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="traduction/everywhere.css">
 <link rel="stylesheet" href="learn/learn.css">
+<link rel="stylesheet" href="profil/profil.css">
 <script src="config.js"></script>
 <script src="apps.js"></script>
 <script src="shell.js"></script>
@@ -83,6 +84,13 @@
             <span id="duoLearnD" data-t="learn_tag">Apprendre sans limites.</span>
             <span class="duo-btn" aria-hidden="true" data-t="open">Ouvrir</span>
           </a>
+          <!-- AI LAB : espace d'innovation, « Bientôt » tant que rien n'y est opérationnel (aucune fonction simulée). -->
+          <a class="duo-card ailab" id="cardAilab" href="#/ailab" aria-labelledby="duoAiT" aria-describedby="duoAiD">
+            <span class="duo-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6"/><path d="M10 3v6L4.5 18.5A2 2 0 0 0 6.2 21.5h11.6a2 2 0 0 0 1.7-3L14 9V3"/><path d="M7.5 15h9"/></svg></span>
+            <b id="duoAiT">AI LAB</b>
+            <span id="duoAiD" data-t="ailab_tag">Innover avec l'IA.</span>
+            <span class="duo-btn soon" aria-hidden="true" data-t="soon">Bientôt</span>
+          </a>
         </div>
         <p class="signature" data-t="signature">Un monde. Une connexion. Aucune frontière linguistique.</p>
         <div class="quick">
@@ -102,6 +110,11 @@
       <div class="pad" id="ewLearn"></div>
     </section>
 
+    <!-- AI LAB : présenté comme « Bientôt » (rien n'est simulé) -->
+    <section class="view" id="view-ailab" data-route="ailab" aria-labelledby="h-ailab">
+      <div class="pad" id="ewAilab"></div>
+    </section>
+
     <!-- APPLICATIONS -->
     <section class="view" id="view-applications" data-route="applications" aria-labelledby="h-apps">
       <div class="pad">
@@ -114,9 +127,13 @@
     <!-- PROFIL -->
     <section class="view" id="view-profil" data-route="profil" aria-labelledby="h-profil">
       <div class="pad">
-        <h1 class="h1" id="h-profil" data-t="profile">Profil</h1>
-        <div class="card" id="profileCard" aria-live="polite"></div>
-        <p class="note" data-t="profile_note">Votre profil est celui de 24/24 TALK : il n'est pas copié ailleurs.</p>
+        <div id="profileMain">
+          <h1 class="h1" id="h-profil" data-t="profile">Profil</h1>
+          <div class="card" id="lpSummary"></div>
+          <div class="card" id="profileCard" aria-live="polite"></div>
+          <p class="note" data-t="profile_note">Votre profil est celui de 24/24 TALK : il n'est pas copié ailleurs.</p>
+        </div>
+        <div id="lpEdit" hidden></div>
       </div>
     </section>
 
@@ -175,7 +192,11 @@
 <script src="learn/learn.js"></script>
 <script src="traduction/langues.js"></script>
 <script src="traduction/moteur.js"></script>
+<script src="profil/profil.js"></script>
+<script src="traduction/phrases.js"></script>
+<script src="traduction/voyage.js"></script>
 <script src="traduction/everywhere.js"></script>
+<script src="ailab/ailab.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

@@ -4,8 +4,8 @@
   "use strict";
   var CFG = window.EW_CONFIG || { env: "test", basePath: "../", talkReadyTimeoutMs: 15000 };
   var APPS = window.EW_APPS || [];
-  var VERSION = "0.6.1 (prototype)";
-  var VERSION_TAG = "0.6.1";
+  var VERSION = "0.7.0 (prototype)";
+  var VERSION_TAG = "0.7.0";
 
   // ---------- Stockage (peut être indisponible : navigation privée stricte, etc.) ----------
   var store = {
@@ -26,9 +26,10 @@
       talk_tag: "Communiquer sans barrières.", ew_tag: "Traduire et connecter partout.", learn_tag: "Apprendre sans limites.",
       kicker: "Une seule application. Trois interfaces. Un seul compte.",
       signature: "Un monde. Une connexion. Aucune frontière linguistique.", learn: "LEARN",
+      ailab_tag: "Innover avec l'IA.", soon: "Bientôt", soon_badge: "BIENTÔT", ailab: "AI LAB", lp_title: "Profil linguistique",
       a11y: "Affichage et accessibilité", text_size: "Taille du texte", contrast: "Contraste renforcé",
       th_light: "Clair", th_dark: "Sombre", th_auto: "Auto", ts_names: "Normal|Grand|Très grand", everywhere: "EVERYWHERE",
-      apps_lead: "TALK, EVERYWHERE et LEARN : une seule application, un seul compte.",
+      apps_lead: "TALK, EVERYWHERE et LEARN : une seule application, un seul compte. AI LAB arrive bientôt.",
       open: "Ouvrir", reserved: "Disponible ultérieurement", reserved_badge: "EMPLACEMENT RÉSERVÉ",
       reserved_txt: "Cet emplacement accueillera une prochaine application de 24/24 ONE WORLD. Elle n'existe pas encore.",
       profile_note: "Votre profil est celui de 24/24 TALK : il n'est pas copié ailleurs.",
@@ -56,9 +57,10 @@
       talk_tag: "Communicate without barriers.", ew_tag: "Translate and connect everywhere.", learn_tag: "Learn without limits.",
       kicker: "One app. Three interfaces. One account.",
       signature: "One world. One connection. No language borders.", learn: "LEARN",
+      ailab_tag: "Innovating with AI.", soon: "Coming soon", soon_badge: "COMING SOON", ailab: "AI LAB", lp_title: "Language profile",
       a11y: "Display and accessibility", text_size: "Text size", contrast: "High contrast",
       th_light: "Light", th_dark: "Dark", th_auto: "Auto", ts_names: "Normal|Large|Extra large", everywhere: "EVERYWHERE",
-      apps_lead: "TALK, EVERYWHERE and LEARN: one app, one account.",
+      apps_lead: "TALK, EVERYWHERE and LEARN: one app, one account. AI LAB is coming soon.",
       open: "Open", reserved: "Available later", reserved_badge: "RESERVED SLOT",
       reserved_txt: "This slot will host a future 24/24 ONE WORLD app. It does not exist yet.",
       profile_note: "Your profile is your 24/24 TALK profile: it is not copied anywhere else. It is tied to this browser, on this device.",
@@ -105,7 +107,8 @@
     globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.8 3 2.8 15 0 18M12 3c-2.8 3-2.8 15 0 18"/>',
     talk: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 10.5h7M8.5 13.5h4.5"/>',
     profile: '<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
-    slot: '<rect x="4" y="4" width="16" height="16" rx="4" stroke-dasharray="3 3"/><path d="M12 9v6M9 12h6"/>'
+    slot: '<rect x="4" y="4" width="16" height="16" rx="4" stroke-dasharray="3 3"/><path d="M12 9v6M9 12h6"/>',
+    lab: '<path d="M9 3h6"/><path d="M10 3v6L4.5 18.5A2 2 0 0 0 6.2 21.5h11.6a2 2 0 0 0 1.7-3L14 9V3"/><path d="M7.5 15h9"/>'
   };
   function svg(name) { return '<svg viewBox="0 0 24 24" aria-hidden="true">' + (ICONS[name] || ICONS.slot) + "</svg>"; }
 
@@ -126,8 +129,13 @@
       return '<a class="app-card" href="' + esc(fullHref(a)) + '"' + style + '><span class="app-ic">' + svg(a.icon) + "</span>" +
         "<span><b>" + name + "</b><small>" + esc(loc(a.tagline)) + '</small></span><span class="go">' + esc(t("open")) + " →</span></a>";
     }
+    var badge = '<span class="badge">' + esc(t(a.status === "soon" ? "soon_badge" : "reserved_badge")) + "</span>";
+    if (a.status === "soon" && a.route) {
+      return '<a class="app-card reserved" href="' + esc(a.route) + '"' + style + '><span class="app-ic">' + svg(a.icon) + "</span>" +
+        "<span><b>" + name + "</b><small>" + esc(loc(a.tagline)) + "</small>" + badge + "</span></a>";
+    }
     return '<div class="app-card reserved"' + style + ' aria-disabled="true"><span class="app-ic">' + svg(a.icon) + "</span>" +
-      "<span><b>" + name + "</b><small>" + esc(loc(a.tagline)) + '</small><span class="badge">' + esc(t("reserved_badge")) + "</span></span></div>";
+      "<span><b>" + name + "</b><small>" + esc(loc(a.tagline)) + "</small>" + badge + "</span></div>";
   }
   $("appList").innerHTML = APPS.map(appCard).join("");
 
@@ -241,7 +249,14 @@
 
   // ---------- Profil ----------
   // CONNECT (connect.js) : profil lu directement sur le serveur avec la session de TALK, sécurité du compte, appareils.
-  function renderProfile() {
+  function renderProfile(sub) {
+    // #/profil/linguistique : modifier le profil linguistique (profil/profil.js) ; #/profil : CONNECT + résumé.
+    var editLp = sub === "linguistique" && window.EWProfil;
+    $("profileMain").hidden = !!editLp;
+    $("lpEdit").hidden = !editLp;
+    if (editLp) { window.EWProfil.show($("lpEdit"), lang); return; }
+    $("lpEdit").innerHTML = "";
+    if (window.EWProfil) window.EWProfil.summary($("lpSummary"), lang);
     var login = false;
     try { login = sessionStorage.getItem("ew_connect_login") === "1"; sessionStorage.removeItem("ew_connect_login"); } catch (e) { login = false; }
     window.EWConnect.render($("profileCard"), { openTalk: openTalk, login: login });
@@ -314,7 +329,7 @@
   });
 
   // ---------- Routes internes (#/accueil, #/applications, #/everywhere/…, #/app/<id>, #/profil, #/parametres) ----------
-  var TITLES = { accueil: "", applications: t("apps"), profil: t("profile"), parametres: t("settings"), everywhere: t("everywhere"), learn: t("learn"), "404": "" };
+  var TITLES = { accueil: "", applications: t("apps"), profil: t("profile"), parametres: t("settings"), everywhere: t("everywhere"), learn: t("learn"), ailab: t("ailab"), "404": "" };
   var first = true;
   function route() {
     var h = (location.hash || "").replace(/^#\/?/, "");
@@ -326,11 +341,13 @@
       var a = appById(appId);
       if (!a) target = "404";
       else if (a.status === "available") { location.replace(fullHref(a)); return; } // ancienne adresse #/app/talk
+      else if (a.route) { location.replace(a.route); return; } // espace annoncé (AI LAB) : sa page d'information
       else {
         ensureFrame(a);
         Object.keys(frames).forEach(function (id) { frames[id].wrap.classList.toggle("active", id === a.id); });
       }
-    } else if (["accueil", "applications", "profil", "parametres", "everywhere", "learn"].indexOf(view) === -1) target = "404";
+    } else if (["accueil", "applications", "profil", "parametres", "everywhere", "learn", "ailab"].indexOf(view) === -1) target = "404";
+    else if (view === "profil" && appId && appId !== "linguistique") target = "404";
     document.querySelectorAll(".view").forEach(function (v) {
       var on = v.getAttribute("data-route") === target;
       v.classList.toggle("active", on);
@@ -355,9 +372,11 @@
     if (target === "everywhere" && window.EWEverywhere) title = window.EWEverywhere.show($("ewTr"), parts.slice(1), lang) || t("everywhere");
     else if (window.EWEverywhere && $("ewTr").innerHTML) { window.EWEverywhere.show($("ewTr"), [], lang); } // quitte la conversation : micro et voix coupés
     if (target === "learn" && window.EWLearn) title = window.EWLearn.show($("ewLearn"), parts.slice(1), lang) || t("learn");
+    if (target === "ailab" && window.EWAilab) title = window.EWAilab.show($("ewAilab"), lang) || t("ailab");
+    if (target === "profil" && appId === "linguistique") title = t("lp_title");
     $("topTitle").textContent = title;
     document.title = (title ? title + " · " : "") + "24/24 ONE WORLD";
-    if (target === "profil") renderProfile();
+    if (target === "profil") renderProfile(appId);
     if (target === "parametres") { paintStats(); paintPush(); paintInstall(); paintA11y(); }
     if (!first) {
       var active = document.querySelector(".view.active");
