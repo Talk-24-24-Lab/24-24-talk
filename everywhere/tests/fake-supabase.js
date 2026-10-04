@@ -107,7 +107,20 @@
         rpc: function (name, args) {
           var s = load();
           if (name === "mes_appareils") return R({ data: s.devices, error: null });
-          if (name === "deconnecter_appareil") { s.devices = s.devices.filter(function (d) { return d.id !== args.sid; }); save(s); return R({ data: true, error: null }); }
+          if (name === "deconnecter_appareil") {
+            // Comme le vrai serveur : seul un appareil de CE compte peut être déconnecté (sinon « false », rien ne change).
+            var had = s.devices.some(function (d) { return d.id === args.sid && !d.actuel; });
+            s.devices = s.devices.filter(function (d) { return d.id !== args.sid || d.actuel; }); save(s); return R({ data: had, error: null });
+          }
+          if (name === "supprimer_mon_compte") {
+            // localStorage « fake_del_fail » : "net" = coupure réseau, "auth" = session révoquée (le serveur refuse, rien n'est effacé).
+            var f = localStorage.getItem("fake_del_fail");
+            if (f === "net") return Promise.reject(new TypeError("Failed to fetch"));
+            if (f === "auth") return R({ data: null, error: { message: "AUTH", code: "P0001" } });
+            if (!s.session) return R({ data: null, error: { message: "AUTH", code: "P0001" } });
+            s.session = false; s.deleted = true; s.email = ""; s.devices = []; localStorage.removeItem("fake_lp"); save(s);
+            return R({ data: null, error: null });
+          }
           // @maria a choisi « visible par mes contacts » (langues parlées : français, anglais) ; @kenji est resté privé.
           if (name === "langues_de_mes_contacts") return R({ data: contactsOn() ? [{ user_id: MARIA.id, display_name: "Maria", native_lang: "es", spoken: [{ code: "fr", level: "B2" }, { code: "en", level: "C1" }] }] : [], error: null });
           return R({ data: null, error: null });

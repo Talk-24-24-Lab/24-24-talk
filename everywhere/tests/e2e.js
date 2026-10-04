@@ -189,13 +189,13 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.waitForSelector("#view-404.active");
     return { ok: true };
   });
-  await step("Page Applications : TALK, EVERYWHERE et LEARN ; #/app/everywhere mène à EVERYWHERE", async () => {
+  await step("Page Applications : TALK, EVERYWHERE, LEARN et AI LAB ; #/app/everywhere mène à EVERYWHERE", async () => {
     await page.goto(URL_EW + "#/applications");
     await page.waitForSelector("#view-applications.active");
     const names = await page.$$eval("#appList .app-card b", (n) => n.map((b) => b.textContent));
     await page.goto(URL_EW + "#/app/everywhere");
     await page.waitForSelector("#view-everywhere.active");
-    return { ok: names.join(",") === "24/24 TALK,24/24 EVERYWHERE,24/24 LEARN" && (await page.evaluate(() => location.hash)) === "#/everywhere", detail: names.join(", ") };
+    return { ok: names.join(",") === "24/24 TALK,24/24 EVERYWHERE,24/24 LEARN,24/24 AI LAB" && (await page.evaluate(() => location.hash)) === "#/everywhere", detail: names.join(", ") };
   });
   await step("Pas de défilement horizontal (téléphone, tous les écrans)", async () => {
     const bad = [];

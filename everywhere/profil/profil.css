@@ -25,3 +25,9 @@
 .lp-erase.sure{background:var(--err);border-color:var(--err);color:#fff;}
 .toggle[aria-disabled="true"]{opacity:.5;cursor:not-allowed;}
 html.contrast-high .lp-chip{border-width:2px;}
+/* Avatar à initiales (aucune photo), dates, accord explicite */
+.lp-who{display:flex;gap:12px;align-items:center;margin:8px 0;}
+.lp-who > span:last-child{display:flex;flex-direction:column;gap:2px;min-width:0;}
+.lp-av{flex:0 0 auto;}
+.lp-consent{margin-top:8px;}
+.lp-consent small{display:block;margin-top:4px;}

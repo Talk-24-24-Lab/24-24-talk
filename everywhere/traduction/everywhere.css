@@ -121,3 +121,15 @@ html.contrast-high .tr-big{border:3px solid var(--text);}
 .vy-big-mine{margin:0;color:var(--muted);font-size:18px;}
 .vy-big .cx-actions .btn{min-height:52px;}
 #view-everywhere .card .tr-h2{margin-top:2px;}
+/* Voyage : langues source/cible, recherche, phrases favorites */
+.vy-pair{display:grid;grid-template-columns:1fr;gap:4px;align-items:end;}
+@media (min-width:560px){.vy-pair{grid-template-columns:1fr auto 1fr;gap:10px;}}
+.vy-pair .vy-mini{justify-self:start;margin:4px 0;}
+.vy-search{margin-top:18px;}
+.vy-sbox{display:flex;gap:8px;align-items:center;}
+.vy-sbox input{flex:1;min-width:0;min-height:48px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:0 12px;font:inherit;}
+.vy-found{min-height:1.2em;margin:6px 0;font-weight:600;}
+.vy-ph{position:relative;padding-inline-end:58px;}
+.vy-star{position:absolute;top:6px;inset-inline-end:6px;width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font-size:1.3rem;line-height:1;cursor:pointer;}
+.vy-star[aria-pressed="true"]{border-color:var(--warn);color:var(--text);}
+.vy-empty{list-style:none;padding:14px 4px;}

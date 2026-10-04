@@ -42,6 +42,11 @@
       vis: "Qui voit mes langues", vis_private: "Personne (privé, par défaut)", vis_contacts: "Mes contacts TALK (langue maternelle, langues parlées et nom affiché seulement)",
       vis_need_sync: "Pour que vos contacts voient vos langues, activez d'abord « Sauvegarder sur mon compte ».",
       never: "Jamais visibles : votre e-mail, vos appareils, vos réglages, votre progression LEARN.",
+      cancel: "Annuler", cancel_note: "Rien n'est enregistré tant que vous n'appuyez pas sur « Enregistrer ».",
+      dates: "Créé le {c} · modifié le {u}", dates_new: "Pas encore enregistré.",
+      consent: "J'accepte que mon profil linguistique soit enregistré sur le serveur du projet (Supabase, Union européenne) pour le retrouver sur mes autres appareils. Je peux retirer cet accord à tout moment en désactivant la sauvegarde : la copie du serveur est alors effacée.",
+      consent_need: "Cochez la case d'accord pour sauvegarder sur votre compte, ou désactivez la sauvegarde.", consent_on: "Accord donné le {d}.",
+      avatar_note: "Avatar : vos initiales. Aucune photo n'est envoyée ni stockée.",
       save: "Enregistrer", saving: "Enregistrement…", saved: "Enregistré sur cet appareil.", saved_sync: "Enregistré sur cet appareil et sur votre compte.",
       sync_err: "Enregistré sur cet appareil. Le compte n'a pas pu être mis à jour ({m}). Réessayez plus tard.",
       offline: "Hors ligne : enregistré sur cet appareil seulement. Touchez de nouveau « Enregistrer » une fois connecté.",
@@ -74,6 +79,11 @@
       vis: "Who sees my languages", vis_private: "Nobody (private, default)", vis_contacts: "My TALK contacts (native language, languages spoken and display name only)",
       vis_need_sync: "For your contacts to see your languages, first turn on “Save to my account”.",
       never: "Never visible: your email, your devices, your settings, your LEARN progress.",
+      cancel: "Cancel", cancel_note: "Nothing is saved until you tap “Save”.",
+      dates: "Created {c} · updated {u}", dates_new: "Not saved yet.",
+      consent: "I agree that my language profile is stored on the project's server (Supabase, European Union) so I can get it back on my other devices. I can withdraw this at any time by turning sync off: the server copy is then erased.",
+      consent_need: "Tick the consent box to save to your account, or turn sync off.", consent_on: "Consent given on {d}.",
+      avatar_note: "Avatar: your initials. No photo is sent or stored.",
       save: "Save", saving: "Saving…", saved: "Saved on this device.", saved_sync: "Saved on this device and to your account.",
       sync_err: "Saved on this device. Your account couldn't be updated ({m}). Try again later.",
       offline: "Offline: saved on this device only. Tap “Save” again once connected.",
@@ -132,9 +142,18 @@
       prefer: p.prefer === "text" ? "text" : "voice",
       visibility: p.visibility === "contacts" ? "contacts" : "private",
       sync: p.sync === true,
-      updated: typeof p.updated === "string" ? p.updated.slice(0, 40) : ""
+      updated: typeof p.updated === "string" ? p.updated.slice(0, 40) : "",
+      created: typeof p.created === "string" ? p.created.slice(0, 40) : "",
+      // Accord explicite pour la copie sur le compte : date ISO, ou "" (jamais d'accord présumé).
+      consent: p.sync === true && typeof p.consent === "string" ? p.consent.slice(0, 40) : ""
     };
   }
+  function initials(p) {
+    var src = (p.name || "").trim() || langName(p.native) || "?";
+    return src.split(/\s+/).slice(0, 2).map(function (w) { return Array.from(w)[0] || ""; }).join("").toUpperCase() || "?";
+  }
+  function day(iso) { var d = new Date(iso); return isNaN(d) ? "?" : d.toLocaleDateString(lang === "en" ? "en-GB" : "fr-FR", { day: "numeric", month: "long", year: "numeric" }); }
+  function datesTxt(p) { return p.created || p.updated ? t("dates", { c: day(p.created || p.updated), u: day(p.updated || p.created) }) : t("dates_new"); }
   function read() {
     var raw = null;
     try { raw = JSON.parse(store.get(KEY) || "null"); } catch (e) { raw = null; }
@@ -142,7 +161,8 @@
   }
   function write(p) {
     var o = { v: 1, name: p.name, native: p.native, spoken: p.spoken, ui: p.ui, favorites: p.favorites, rate: p.rate, reading: p.reading,
-      prefer: p.prefer, visibility: p.visibility, sync: p.sync, updated: new Date().toISOString() };
+      prefer: p.prefer, visibility: p.visibility, sync: p.sync, consent: p.sync ? p.consent || "" : "",
+      created: p.created || new Date().toISOString(), updated: new Date().toISOString() };
     store.set(KEY, JSON.stringify(o));
     return clean(o);
   }
@@ -181,7 +201,9 @@
   function fromRow(r) {
     var pr = r.prefs && typeof r.prefs === "object" ? r.prefs : {};
     return clean({ name: r.display_name, native: r.native_lang, spoken: r.spoken, ui: r.ui_lang, favorites: r.favorites, visibility: r.visibility, sync: true,
-      rate: pr.rate, reading: pr.reading, prefer: pr.prefer, updated: r.updated_at });
+      rate: pr.rate, reading: pr.reading, prefer: pr.prefer, updated: r.updated_at,
+      // La ligne n'existe sur le serveur que si l'accord a été donné : on reprend sa date de dernière écriture.
+      consent: r.updated_at });
   }
   function trPrefs() { var o = {}; try { o = JSON.parse(store.get("ew_tr_v1") || "{}") || {}; } catch (e) { o = {}; } return typeof o === "object" ? o : {}; }
   function errMsg(e) {
@@ -202,6 +224,7 @@
     }
     var priv = p.visibility === "contacts" && p.sync ? t("priv_contacts") : p.sync ? t("priv_synced") : t("priv_private");
     box.innerHTML = '<h2 class="cx-h">' + esc(t("sum_title")) + "</h2>" +
+      '<div class="lp-who"><span class="avatar lp-av" aria-hidden="true">' + esc(initials(p)) + "</span><span><b>" + esc(p.name || langLabel(p.native)) + '</b><small class="muted">' + esc(datesTxt(p)) + "</small></span></div>" +
       '<p class="lp-line">' + esc(t("native_s", { l: langLabel(p.native) })) + "</p>" +
       '<p class="lp-line">' + esc(t("spoken_s", { l: p.spoken.length ? p.spoken.map(function (s) { return langName(s.code) + " " + s.level; }).join(", ") : t("none") })) + "</p>" +
       '<p class="lp-priv">' + esc(priv) + "</p>" +
@@ -259,12 +282,12 @@
       }).join("") + '<label class="lp-addfav"><span class="sr">' + esc(t("add_lang")) + '</span><select id="lpFavAdd"><option value="">＋ ' + esc(t("add_lang")) + "</option>" + langOptions("", pool) + "</select></label>";
     }
     var tsn = t("ts_names").split("|"), th = t("th").split("|"), rd = t("reading_opts").split("|"), pf = t("prefer_opts").split("|");
-    root.innerHTML = '<a class="tr-back" href="#/profil">' + esc(t("back")) + '</a><h1 class="h1" id="h-profil">' + esc(t("title")) + "</h1>" +
+    root.innerHTML = '<a class="tr-back" href="#/profil">' + esc(t("back")) + '</a><h1 class="h1" id="h-lp">' + esc(t("title")) + "</h1>" +
       '<div id="lpMsgTop" aria-live="polite"></div>' +
       // Identité
       '<section class="card" aria-labelledby="lpH1"><h2 class="cx-h" id="lpH1">' + esc(t("s_identity")) + "</h2>" +
         '<label class="tr-field"><span>' + esc(t("name")) + '</span><input class="cx-input" id="lpName" maxlength="' + MAX_NAME + '" autocomplete="nickname" placeholder="' + esc(t("name_ph")) + '" value="' + esc(st.p.name) + '"></label>' +
-        '<p class="note">' + esc(t("pseudo_note")) + "</p></section>" +
+        '<p class="note">' + esc(t("pseudo_note")) + '</p><div class="lp-who"><span class="avatar lp-av" aria-hidden="true" id="lpAv">' + esc(initials(st.p)) + '</span><span><small class="muted">' + esc(t("avatar_note")) + '</small><small class="muted" id="lpDates">' + esc(datesTxt(read())) + "</small></span></div></section>" +
       // Langues
       '<section class="card" aria-labelledby="lpH2"><h2 class="cx-h" id="lpH2">' + esc(t("s_langs")) + "</h2>" +
         '<label class="tr-field"><span>' + esc(t("native")) + '</span><select id="lpNative">' + langOptions(st.p.native) + "</select></label>" +
@@ -297,12 +320,15 @@
       '<section class="card" aria-labelledby="lpH8"><h2 class="cx-h" id="lpH8">' + esc(t("s_priv")) + "</h2>" +
         toggle("lpSync", t("sync"), st.p.sync, !st.hasAccount) +
         '<p class="note" id="lpSyncNote">' + esc(st.hasAccount ? t("sync_note") : t("sync_need")) + "</p>" +
+        '<label class="tr-opt lp-consent" id="lpConsentBox"' + (st.p.sync ? "" : " hidden") + '><input type="checkbox" id="lpConsent"' + (st.p.consent ? " checked" : "") + "><span>" + esc(t("consent")) +
+          (st.p.consent ? '<small class="muted">' + esc(t("consent_on", { d: day(st.p.consent) })) + "</small>" : "") + "</span></label>" +
         '<div role="radiogroup" aria-labelledby="lpVisL"><p class="lp-lbl" id="lpVisL">' + esc(t("vis")) + "</p>" +
           '<label class="tr-opt"><input type="radio" name="lpVis" value="private"' + (st.p.visibility !== "contacts" ? " checked" : "") + "><span><b>" + esc(t("vis_private")) + "</b></span></label>" +
           '<label class="tr-opt"><input type="radio" name="lpVis" value="contacts"' + (st.p.visibility === "contacts" ? " checked" : "") + "><span><b>" + esc(t("vis_contacts")) + "</b></span></label></div>" +
         '<p class="note" id="lpVisNote"></p><p class="note">' + esc(t("never")) + "</p></section>" +
       '<section class="card"><h2 class="cx-h">' + esc(t("applied")) + '</h2><ul class="lp-applied">' + t("applied_list").split("|").map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul></section>" +
-      '<div class="lp-actions"><button type="button" class="btn primary wide" id="lpSave">' + esc(t("save")) + '</button><div id="lpMsg" aria-live="polite"></div>' +
+      '<div class="lp-actions"><button type="button" class="btn primary wide" id="lpSave">' + esc(t("save")) + '</button>' +
+        '<button type="button" class="btn wide" id="lpCancel">' + esc(t("cancel")) + '</button><p class="note">' + esc(t("cancel_note")) + '</p><div id="lpMsg" aria-live="polite"></div>' +
       (read().exists ? '<button type="button" class="link-btn lp-erase" id="lpErase">' + esc(t("erase")) + "</button>" : "") + "</div>";
 
     var $ = function (s) { return root.querySelector(s); };
@@ -330,8 +356,10 @@
         else st.p.favorites.push(el.value);
         $("#lpFavs").innerHTML = favHtml();
       } else if (el.name === "lpVis") st.p.visibility = el.value === "contacts" ? "contacts" : "private";
+      else if (el.id === "lpConsent") st.p.consent = el.checked ? new Date().toISOString() : "";
     });
     root.addEventListener("input", function (e) {
+      if (e.target.id === "lpName") { st.p.name = e.target.value; $("#lpAv").textContent = initials({ name: e.target.value.replace(/[<>]/g, ""), native: st.p.native }); }
       if (e.target.id === "lpRate") { st.p.rate = (+e.target.value) / 100; $("#lpRateTxt").textContent = e.target.value + " %"; }
     });
     root.addEventListener("click", function (e) {
@@ -368,7 +396,10 @@
       else if (b.id === "lpSync") {
         if (!st.hasAccount) { $("#lpSyncNote").textContent = t("sync_need"); return; }
         st.p.sync = !st.p.sync; b.setAttribute("aria-checked", String(st.p.sync)); paintVis();
+        $("#lpConsentBox").hidden = !st.p.sync;
+        if (!st.p.sync) { st.p.consent = ""; $("#lpConsent").checked = false; }
       } else if (b.id === "lpSave") save(b);
+      else if (b.id === "lpCancel") { token++; location.hash = "#/profil"; }
       else if (b.id === "lpErase") erase(b);
     });
 
@@ -376,6 +407,7 @@
       var name = $("#lpName").value;
       if (name.length > MAX_NAME || /[<>]/.test(name)) { note($("#lpMsg"), t("e_name"), "err"); $("#lpName").focus(); return; }
       st.p.name = name.trim();
+      if (st.p.sync && !st.p.consent) { note($("#lpMsg"), t("consent_need"), "err"); $("#lpConsent").focus(); return; }
       var wasSynced = read().sync;
       var p2 = write(st.p);
       p2._comm = st.comm;
@@ -384,6 +416,7 @@
       var finish = function (text, kind) {
         if (my !== token) return;
         btn.disabled = false; btn.textContent = t("save");
+        var dt = $("#lpDates"); if (dt) dt.textContent = datesTxt(read());
         note($("#lpMsg"), text, kind);
         if (reload) setTimeout(function () { location.reload(); }, 900); // nouvelle langue de l'interface
       };

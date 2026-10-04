@@ -203,15 +203,20 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   });
   await ctx.close();
 
-  await step("Sauvegarde sur le compte (choix explicite) : envoyée au serveur ; visible par mes contacts seulement si je le choisis ; arrêt = copie du compte supprimée", async () => {
+  await step("Sauvegarde sur le compte (choix explicite + case d'accord obligatoire) : envoyée au serveur ; visible par mes contacts seulement si je le choisis ; arrêt = copie du compte supprimée", async () => {
     const c = await ctxFor({ init: { lc_net_auth: "fake" } });
     const pg = await open(c, "#/profil/linguistique");
     await pg.waitForSelector("#lpSave");
     await pg.tap("#lpSync");
     const enabled = await pg.$eval('input[name="lpVis"][value="contacts"]', (r) => !r.disabled);
     await pg.check('input[name="lpVis"][value="contacts"]');
+    // Sans la case d'accord cochée : refusé, rien n'est envoyé.
     await pg.tap("#lpSave");
-    await pg.waitForSelector("#lpMsg .cx-msg");
+    await pg.waitForSelector("#lpMsg .cx-msg.err");
+    const refused = /Cochez la case/.test(await pg.textContent("#lpMsg")) && !(await ls(pg, "fake_lp"));
+    await pg.check("#lpConsent");
+    await pg.tap("#lpSave");
+    await pg.waitForSelector("#lpMsg .cx-msg.ok");
     const msg1 = await pg.textContent("#lpMsg");
     const row = JSON.parse(await ls(pg, "fake_lp"));
     await pg.goto(URL_EW + "#/profil/linguistique");
@@ -223,9 +228,9 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const log = JSON.parse(await ls(pg, "fake_lp_log")).map((x) => x.op).join(",");
     const left = await ls(pg, "fake_lp");
     await c.close();
-    const ok = enabled && /et sur votre compte/.test(msg1) && row.visibility === "contacts" && row.native_lang === "fr" && row.user_id && !("email" in row) &&
+    const ok = refused && enabled && /et sur votre compte/.test(msg1) && row.visibility === "contacts" && row.native_lang === "fr" && row.user_id && !("email" in row) &&
       fallback && log === "upsert,delete" && !left;
-    return { ok, detail: "ligne envoyée : " + Object.keys(row).filter((k) => k !== "updated_at").join(",") + " · journal : " + log };
+    return { ok, detail: "refus sans accord : " + refused + " · ligne envoyée : " + Object.keys(row).filter((k) => k !== "updated_at").join(",") + " · journal : " + log };
   });
   await step("Sans compte TALK : impossible d'activer la sauvegarde sur le compte (message), le profil marche sur l'appareil", async () => {
     const c = await ctxFor({});
@@ -254,6 +259,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const pg = await open(c, "#/profil/linguistique");
     await pg.waitForSelector("#lpSave");
     await pg.tap("#lpSync");
+    await pg.check("#lpConsent");
     await pg.tap("#lpSave");
     await pg.waitForSelector("#lpMsg .cx-msg.err");
     const m = await pg.textContent("#lpMsg");
@@ -294,7 +300,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.waitForSelector("#vyDest");
     const r = await page.evaluate(() => ({ dest: document.getElementById("vyDest").value, st: document.getElementById("vyStatus").textContent, cats: document.querySelectorAll("[data-cat]").length,
       ph: document.querySelectorAll(".vy-ph").length, low: document.querySelector(".vy-low").textContent }));
-    return { ok: r.dest === "en" && /Phrases intégrées/.test(r.st) && r.cats === 6 && r.ph === 7 && /Besoin d'Internet : traduire une phrase nouvelle/.test(r.low), detail: r.cats + " situations, " + r.ph + " phrases (Essentiel)" };
+    return { ok: r.dest === "en" && /Phrases intégrées/.test(r.st) && r.cats === 7 && r.ph === 7 && /Besoin d'Internet : traduire une phrase nouvelle/.test(r.low), detail: r.cats + " situations, " + r.ph + " phrases (Essentiel)" };
   });
   await page.screenshot({ path: path.join(OUT, "voyage.png") });
   await step("Voyage : changer de situation (Restaurant), écouter une phrase dans la langue du pays", async () => {
@@ -376,6 +382,169 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     return { ok: r.dir === "auto" && r.cdir === "rtl" && ov <= 1, detail: r.t + " · " + r.cdir };
   });
 
+  // =============== Voyage : recherche, phrases favorites, langue source ===============
+  await step("Voyage, recherche : sans accents ni majuscules, dans toutes les situations ; aucun résultat = message clair ; Effacer rend les situations", async () => {
+    const c = await ctxFor({});
+    const pg = await open(c, "#/everywhere/voyage");
+    await pg.waitForSelector("#vySearch");
+    await pg.fill("#vySearch", "A QUELLE heure");
+    await sleep(150);
+    const r1 = await pg.evaluate(() => ({ n: document.querySelectorAll(".vy-ph").length, f: document.getElementById("vyFound").textContent, tabs: document.querySelector(".vy-cats").hidden,
+      t: [...document.querySelectorAll(".vy-there")].map((e) => e.textContent).join(" | ") }));
+    await pg.fill("#vySearch", "pharmacy");
+    await sleep(100);
+    const r2 = await pg.evaluate(() => document.querySelectorAll(".vy-ph").length);
+    await pg.fill("#vySearch", "zzzz");
+    await sleep(100);
+    const r3 = await pg.evaluate(() => ({ n: document.querySelectorAll(".vy-ph").length, f: document.getElementById("vyFound").textContent }));
+    await pg.tap("#vyClear");
+    const r4 = await pg.evaluate(() => ({ q: document.getElementById("vySearch").value, tabs: document.querySelector(".vy-cats").hidden, n: document.querySelectorAll(".vy-ph").length, foc: document.activeElement.id }));
+    await c.close();
+    return { ok: r1.n === 2 && /2 phrase/.test(r1.f) && r1.tabs === true && r2 === 1 && r3.n === 0 && /Aucune phrase ne correspond/.test(r3.f) && r4.q === "" && r4.tabs === false && r4.n === 7 && r4.foc === "vySearch",
+      detail: "« A QUELLE heure » → " + r1.t + " · « zzzz » → " + r3.f };
+  });
+  await step("Voyage, recherche piégée (<img onerror>, 500 caractères) : affichée comme du texte, rien ne s'exécute, limitée à 60 caractères", async () => {
+    const c = await ctxFor({});
+    const pg = await open(c, "#/everywhere/voyage");
+    await pg.waitForSelector("#vySearch");
+    await pg.fill("#vySearch", "<img src=x onerror=window.__xss=1>" + "a".repeat(500));
+    await sleep(150);
+    const r = await pg.evaluate(() => ({ xss: !!window.__xss, img: !!document.querySelector("#vyFound img, #vyList img"), len: document.getElementById("vySearch").value.length, f: document.getElementById("vyFound").textContent }));
+    await c.close();
+    return { ok: !r.xss && !r.img && r.len <= 60 && /<img/.test(r.f) && !pg._errors.length, detail: "longueur gardée " + r.len + " · " + r.f.slice(0, 60) };
+  });
+  await step("Voyage, phrases favorites : ☆ → ★, onglet « Favorites », gardées après rechargement, retirées = message d'aide", async () => {
+    const c = await ctxFor({});
+    const pg = await open(c, "#/everywhere/voyage");
+    await pg.waitForSelector('[data-fav="b2"]');
+    await pg.tap('[data-fav="b2"]');
+    await pg.tap('[data-cat="urgence"]');
+    await pg.tap('[data-fav="u4"]');
+    const pressed = await pg.getAttribute('[data-fav="u4"]', "aria-pressed");
+    await pg.reload(); await pg.waitForSelector(".vy-ph");
+    await pg.tap('[data-cat="fav"]');
+    const list = await pg.$$eval("#vyList .vy-there", (n) => n.map((x) => x.textContent));
+    await pg.tap('[data-fav="b2"]'); await pg.tap('[data-fav="u4"]');
+    const empty = (await pg.textContent("#vyList")).trim();
+    const st = JSON.parse(await ls(pg, "ew_voyage_v1"));
+    await c.close();
+    return { ok: pressed === "true" && list.join("|") === "Thank you very much|I need a doctor" && /Aucune phrase favorite/.test(empty) && Array.isArray(st.fav) && st.fav.length === 0,
+      detail: "favorites : " + list.join(", ") };
+  });
+  await step("Voyage, favorites abîmées dans le stockage (ids inconnus, doublons, pas un tableau) : nettoyées, l'écran s'ouvre", async () => {
+    const bad = [JSON.stringify({ fav: ["b1", "b1", "<x>", 5, "zz"], cat: "fav" }), JSON.stringify({ fav: "b1", cat: "<script>" }), "{oops"];
+    const out = [];
+    for (const b of bad) {
+      const c = await ctxFor({ init: { ew_voyage_v1: b } });
+      const pg = await open(c, "#/everywhere/voyage");
+      await pg.waitForSelector("#vyList");
+      out.push((await pg.$$eval("#vyList [data-fav]", (n) => n.length)) + (pg._errors.length ? " ERREUR" : ""));
+      await c.close();
+    }
+    return { ok: out[0] === "1" && !out.join("").includes("ERREUR") && out[1] === "7" && out[2] === "7", detail: out.join(" / ") + " phrases affichées" };
+  });
+  await step("Voyage, langue source et langue cible au choix : espagnol → allemand, puis « Inverser » ; même langue des deux côtés = inversion", async () => {
+    const c = await ctxFor({});
+    const pg = await open(c, "#/everywhere/voyage");
+    await pg.waitForSelector("#vySrc");
+    await pg.selectOption("#vySrc", "es");
+    await pg.selectOption("#vyDest", "de");
+    const a = await pg.evaluate(() => [document.querySelector(".vy-there").textContent, document.querySelector(".vy-mine").textContent]);
+    await pg.tap("#vySwap");
+    const b = await pg.evaluate(() => [document.getElementById("vySrc").value, document.getElementById("vyDest").value, document.querySelector(".vy-there").textContent]);
+    await pg.selectOption("#vySrc", "es");
+    const d = await pg.evaluate(() => [document.getElementById("vySrc").value, document.getElementById("vyDest").value]);
+    const tr = JSON.parse(await ls(pg, "ew_tr_v1") || "{}");
+    await c.close();
+    return { ok: a[0] === "Guten Tag" && a[1] === "Hola" && b.join() === "de,es,Hola" && d.join() === "es,de" && tr.me !== "es",
+      detail: "es→de : " + a.join(" / ") + " · inversé : " + b.join(",") + " · réglages EVERYWHERE inchangés" };
+  });
+
+  // =============== CONNECT : supprimer mon compte ===============
+  await step("CONNECT, supprimer mon compte : explication claire, pseudo à recopier (mauvais pseudo refusé), Annuler ne fait rien", async () => {
+    const c = await ctxFor({ init: { lc_net_auth: "fake" } });
+    const pg = await open(c, "#/profil");
+    await pg.waitForSelector("#cxDelOpen", { timeout: 15000 });
+    await pg.tap("#cxDelOpen");
+    const txt = await pg.textContent("#cxDelForm .cx-warn");
+    await pg.fill("#cxDelName", "quelquun");
+    await pg.tap("#cxDelGo");
+    await pg.waitForSelector("#cxDelMsg .cx-msg");
+    const wrong = await pg.textContent("#cxDelMsg");
+    await pg.tap("#cxDelNo");
+    const after = await pg.evaluate(() => ({ form: document.getElementById("cxDelForm").innerHTML, btn: !document.getElementById("cxDelOpen").hidden, foc: document.activeElement.id }));
+    const still = JSON.parse(await ls(pg, "fake_sb") || "{}").deleted !== true && (await ls(pg, "lc_net_auth")) === "fake";
+    await c.close();
+    return { ok: /définitif/.test(txt) && /sebtest/.test(txt) && /ne correspond pas/.test(wrong) && after.form === "" && after.btn && after.foc === "cxDelOpen" && still, detail: wrong.trim() };
+  });
+  await step("CONNECT, supprimer mon compte, coupure réseau puis session révoquée : rien n'est supprimé, message clair à chaque fois", async () => {
+    const out = [];
+    for (const f of ["net", "auth"]) {
+      const c = await ctxFor({ init: { lc_net_auth: "fake", fake_del_fail: f } });
+      const pg = await open(c, "#/profil");
+      await pg.waitForSelector("#cxDelOpen", { timeout: 15000 });
+      await pg.tap("#cxDelOpen");
+      await pg.fill("#cxDelName", "@SebTest");
+      await pg.tap("#cxDelGo");
+      await pg.waitForSelector("#cxDelMsg .cx-msg.err", { timeout: 8000 });
+      out.push({ m: (await pg.textContent("#cxDelMsg")).trim(), auth: await ls(pg, "lc_net_auth"), en: await pg.isEnabled("#cxDelGo") });
+      await c.close();
+    }
+    return { ok: /Pas de connexion : rien n'a été supprimé/.test(out[0].m) && /session a expiré.*rien n'a été supprimé.*Reconnectez-vous/.test(out[1].m) && out.every((o) => o.auth === "fake" && o.en),
+      detail: out.map((o) => o.m).join(" | ") };
+  });
+  await step("CONNECT, supprimer mon compte confirmé : effacé du serveur, cet appareil déconnecté, sauvegarde du profil linguistique coupée", async () => {
+    const c = await ctxFor({ init: { lc_net_auth: "fake", lc_net_joined: "1", lc_callhist_x: "[]", fake_lp: JSON.stringify({ user_id: "x", native_lang: "fr" }),
+      ow_profile_v1: JSON.stringify({ native: "fr", sync: true, consent: "2026-10-04T10:00:00Z" }) } });
+    const pg = await open(c, "#/profil");
+    await pg.waitForSelector("#cxDelOpen", { timeout: 15000 });
+    await pg.tap("#cxDelOpen");
+    await pg.fill("#cxDelName", "sebtest");
+    await pg.tap("#cxDelGo");
+    await pg.waitForSelector("#cxCreate", { timeout: 8000 });
+    const r = await pg.evaluate(() => ({ note: document.querySelector("#profileCard .cx-msg").textContent, auth: localStorage.getItem("lc_net_auth"), joined: localStorage.getItem("lc_net_joined"),
+      hist: localStorage.getItem("lc_callhist_x"), lp: localStorage.getItem("fake_lp"), sync: JSON.parse(localStorage.getItem("ow_profile_v1")).sync, del: JSON.parse(localStorage.getItem("fake_sb")).deleted }));
+    await c.close();
+    return { ok: /a été supprimé du serveur/.test(r.note) && !r.auth && !r.joined && r.hist === null && r.lp === null && r.sync === false && r.del === true && !pg._errors.length, detail: r.note.trim() };
+  });
+  await step("CONNECT : déconnecter un appareil déjà retiré ailleurs → le serveur répond « rien changé », c'est dit (pas de faux succès)", async () => {
+    const now = new Date().toISOString();
+    const sb = { session: true, email: "", new_email: "", anon: true, pending: "", devices: [{ id: "11111111-1111-4111-8111-111111111111", appareil: "Android Chrome", depuis: now, vu: now, actuel: true },
+      { id: "22222222-2222-4222-8222-222222222222", appareil: "Windows Chrome", depuis: now, vu: now, actuel: false }] };
+    const c = await ctxFor({ init: { lc_net_auth: "fake", fake_sb: JSON.stringify(sb) } });
+    const pg = await open(c, "#/profil");
+    await pg.waitForSelector("#cxDevices [data-out]", { timeout: 15000 });
+    await pg.evaluate(() => { const s = JSON.parse(localStorage.getItem("fake_sb") || "null"); if (s) { s.devices = s.devices.filter((d) => d.actuel); localStorage.setItem("fake_sb", JSON.stringify(s)); } });
+    await pg.tap("#cxDevices [data-out]"); await pg.tap("#cxDevices [data-out]");
+    await pg.waitForSelector("#cxDevices .cx-msg");
+    const m = (await pg.textContent("#cxDevices .cx-msg")).trim();
+    await c.close();
+    return { ok: /n'est plus dans votre liste : rien n'a été modifié/.test(m), detail: m };
+  });
+
+  // =============== Profil : dates, avatar à initiales, Annuler ===============
+  await step("Profil linguistique : avatar à initiales (aucune photo), dates de création et de modification, Annuler n'enregistre rien", async () => {
+    const c = await ctxFor({});
+    const pg = await open(c, "#/profil/linguistique");
+    await pg.waitForSelector("#lpSave");
+    const before = await pg.textContent("#lpDates");
+    await pg.fill("#lpName", "Jean Dupont");
+    const av = await pg.textContent("#lpAv");
+    await pg.tap("#lpCancel");
+    await pg.waitForSelector("#profileMain:not([hidden])");
+    const none = await ls(pg, "ow_profile_v1");
+    await pg.goto(URL_EW + "#/profil/linguistique"); await pg.waitForSelector("#lpSave");
+    await pg.fill("#lpName", "Jean Dupont");
+    await pg.tap("#lpSave"); await pg.waitForSelector("#lpMsg .cx-msg");
+    const dates = await pg.textContent("#lpDates");
+    const p = JSON.parse(await ls(pg, "ow_profile_v1"));
+    await pg.goto(URL_EW + "#/profil"); await sleep(300);
+    const sum = await pg.textContent("#lpSummary");
+    await c.close();
+    return { ok: /Pas encore enregistré/.test(before) && av === "JD" && none === null && /^Créé le .+ · modifié le /.test(dates) && !!p.created && !!p.updated && /JD/.test(sum) && /Créé le/.test(sum),
+      detail: "avatar " + av + " · " + dates.trim() };
+  });
+
   // =============== 320 px, sombre, anglais, accessibilité automatique ===============
   const VARS = [
     ["320 px clair", { viewport: { width: 320, height: 640 } }, {}],
@@ -432,7 +601,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     return { ok: !found.length, detail: found.slice(0, 4).join(" ; ") || "0 défaut (12 écrans vérifiés)" };
   });
   await step("Code : aucune clé secrète dans les nouveaux fichiers ; aucune appel à un service d'IA", async () => {
-    const files = ["everywhere/profil/profil.js", "everywhere/traduction/voyage.js", "everywhere/traduction/phrases.js", "everywhere/ailab/ailab.js", "supabase/test/10-profil-linguistique.sql"];
+    const files = ["everywhere/profil/profil.js", "everywhere/traduction/voyage.js", "everywhere/traduction/phrases.js", "everywhere/ailab/ailab.js", "everywhere/connect.js", "supabase/test/10-profil-linguistique.sql"];
     const bad = files.filter((f) => /sb_secret_|service_role|sk-[A-Za-z0-9]{10}|api\.openai|anthropic\.com\/v1|generativelanguage/.test(fs.readFileSync(path.join(SITE, f), "utf8")));
     return { ok: !bad.length, detail: files.length + " fichiers vérifiés" + (bad.length ? " : " + bad.join(",") : "") };
   });
