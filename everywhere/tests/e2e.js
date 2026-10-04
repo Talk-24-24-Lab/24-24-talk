@@ -219,7 +219,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.goto(URL_EW);
     await page.evaluate(() => navigator.serviceWorker.ready);
     await sleep(500);
-    const keys = await page.evaluate(async () => { const c = await caches.open("ew-shell-v5"); return (await c.keys()).map((r) => new URL(r.url).pathname); });
+    const keys = await page.evaluate(async () => { const c = await caches.open("ew-shell-v6"); return (await c.keys()).map((r) => new URL(r.url).pathname); });
     const priv = keys.filter((k) => !/everywhere\/|terre-tech/.test(k));
     return { ok: keys.length >= 10 && !priv.length, detail: keys.length + " fichiers publics en cache, aucun hors du portail" };
   });

@@ -25,7 +25,7 @@
       replace_warn: "Attention : cet appareil a déjà le compte @{p}, qui n'est relié à aucun e-mail. Si vous vous connectez à un autre compte, @{p} sera perdu définitivement.",
       replace_ok: "Je comprends, continuer",
       other_account: "Se connecter à un autre compte",
-      dev_title: "Mes appareils", dev_this: "Cet appareil", dev_seen: "Vu {d}", dev_out: "Déconnecter", dev_out_sure: "Confirmer", dev_out_all: "Déconnecter tous les autres appareils",
+      dev_title: "Mes appareils", dev_this: "Cet appareil", dev_seen: "Vu {d}", dev_since: "Connecté {d}", dev_out: "Déconnecter", dev_out_sure: "Confirmer", dev_out_all: "Déconnecter tous les autres appareils",
       dev_out_done: "Appareil déconnecté : il n'a plus accès à vos conversations et ne sonnera plus.", dev_all_done: "Tous vos autres appareils sont déconnectés.",
       dev_none: "Aucun autre appareil connecté.", dev_err: "Impossible de lire la liste des appareils pour le moment.",
       e_email: "Adresse e-mail invalide.", e_code: "Le code doit faire 6 chiffres.", e_bad_code: "Code incorrect ou expiré. Demandez-en un nouveau.",
@@ -54,7 +54,7 @@
       replace_warn: "Warning: this device already has the account @{p}, which isn't linked to any email. If you sign in to another account, @{p} will be lost for good.",
       replace_ok: "I understand, continue",
       other_account: "Sign in to another account",
-      dev_title: "My devices", dev_this: "This device", dev_seen: "Seen {d}", dev_out: "Sign out", dev_out_sure: "Confirm", dev_out_all: "Sign out all other devices",
+      dev_title: "My devices", dev_this: "This device", dev_seen: "Seen {d}", dev_since: "Signed in {d}", dev_out: "Sign out", dev_out_sure: "Confirm", dev_out_all: "Sign out all other devices",
       dev_out_done: "Device signed out: it no longer has access to your chats and won't ring.", dev_all_done: "All your other devices are signed out.",
       dev_none: "No other device signed in.", dev_err: "Can't read the device list right now.",
       e_email: "Invalid email address.", e_code: "The code must be 6 digits.", e_bad_code: "Wrong or expired code. Ask for a new one.",
@@ -199,7 +199,7 @@
       var html = '<h2 class="cx-h">' + esc(t("dev_title")) + "</h2>" + (flash ? '<p class="cx-msg ok" role="status">' + esc(flash) + "</p>" : "") + '<ul class="cx-devs">';
       list.forEach(function (d) {
         html += '<li class="cx-dev"><span><b>' + esc(deviceName(d.appareil)) + "</b><small>" +
-          esc(d.actuel ? t("dev_this") : t("dev_seen", { d: ago(d.vu) })) + "</small></span>" +
+          esc(d.actuel ? t("dev_since", { d: ago(d.depuis) }) : t("dev_seen", { d: ago(d.vu) })) + "</small></span>" +
           (d.actuel ? '<span class="badge">' + esc(t("dev_this")) + "</span>" : '<button type="button" class="link-btn" data-out="' + esc(d.id) + '">' + esc(t("dev_out")) + "</button>") + "</li>";
       });
       html += "</ul>" + (others.length ? '<button type="button" class="btn wide" id="cxOutAll">' + esc(t("dev_out_all")) + "</button>" : '<p class="muted">' + esc(t("dev_none")) + "</p>") +
