@@ -114,3 +114,36 @@ Serveur : scripts `analyse/mission-6/connect/` (partie A appliquée sur la base 
 retour arrière complet dans `09-connect-retour-arriere.sql`. Ce qui suit un compte sur un autre appareil :
 pseudo, contacts, conversations, messages des 90 derniers jours. Ce qui reste sur l'appareil : historique de
 traduction, favoris, réglages. Tests : 38 tests automatiques (faux serveur, code 123456).
+
+## EVERYWHERE : apprendre et découvrir (0.4.0, site de test uniquement)
+
+Cahier des charges du 4 octobre 2026 : **une seule plateforme, deux applications** (TALK pour communiquer,
+EVERYWHERE pour apprendre et découvrir). Phase 1 (socle) et MVP de la phase 2 réalisés.
+
+**Socle (phase 1)** : accueil « 24/24 Everywhere · Un monde sans barrières. » avec deux grandes cartes
+(TALK en bleu, EVERYWHERE en vert, bouton « Ouvrir ») ; barre commune Accueil · Talk · Everywhere · Profil
+(la même dans TALK) ; fond clair par défaut ; Paramètres → taille du texte (3 niveaux), thème clair / sombre /
+auto, contraste renforcé (`prefs.js`, gardés sur l'appareil, clé `ew_prefs`).
+
+**MVP (phase 2)**, module `learn/`, écrans `#/everywhere/…` dans le portail (pas de nouvelle page) :
+
+| Fichier | Rôle |
+|---|---|
+| `learn/content/catalogue.json` | langues (anglais, espagnol ; italien et allemand « bientôt »), niveaux |
+| `learn/content/en.json`, `es.json` | leçons : thème, vocabulaire, expressions, exercices (5 leçons par langue, 3 niveaux) |
+| `learn/exercises.js` | moteur d'exercices : choix, associer, compléter, écoute (synthèse vocale du navigateur, gratuite) |
+| `learn/progress.js` | progression sur l'appareil (clé `ew_learn_v1`) : XP, leçons, exercices, objectif, série, historique, mots ratés |
+| `learn/learn.js` | écrans : tableau de bord, choix langue/niveau, leçon, résultat, révision, défi, progression |
+| `learn/learn.css` | styles du module |
+
+- **Ajouter une langue** : une entrée dans `catalogue.json` + un fichier `<code>.json` (même format). Aucun code à changer.
+- **Ajouter une leçon** : un bloc de plus dans le fichier de la langue. Le test « Contenus » vérifie chaque exercice.
+- **Ajouter un type d'exercice** : une fonction dans `TYPES` (`learn/exercises.js`).
+- **Synchronisation (phase 3, PROPOSITION)** : `EWProgress.onChange()` prévient de chaque changement ; une table
+  Supabase protégée par compte (même compte que TALK et CONNECT) pourra s'y brancher sans toucher aux écrans.
+- **Conversation avec l'IA (phase 3, PROPOSITION)** : écran « Bientôt » seulement. Besoin : une fonction serveur
+  (Supabase Edge Function) qui garde la clé secrète et appelle un modèle d'IA. Aucun service activé, aucune clé dans le site.
+- **Cultures du monde (phase 3)** : écran « Bientôt », contenus prévus comme les leçons (un fichier par thème).
+
+Tests : 60 tests automatiques (`node everywhere/tests/e2e.js`), dont 18 pour EVERYWHERE (contenus, leçon complète,
+mauvaise réponse, résultat, progression gardée, révision, défi, clavier, accessibilité, tablette, ordinateur).

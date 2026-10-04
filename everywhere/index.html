@@ -8,8 +8,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>24/24 EVERYWHERE</title>
-<meta name="description" content="24/24 ONE WORLD : toutes les applications 24/24 dans une seule interface.">
-<meta name="theme-color" content="#050913">
+<meta name="description" content="24/24 Everywhere : une seule plateforme, deux applications, un monde sans barrières.">
+<meta name="theme-color" content="#1f5fe0">
 <meta name="color-scheme" content="dark light">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/svg+xml" href="logo.svg">
@@ -19,8 +19,10 @@
 <meta name="apple-mobile-web-app-title" content="EVERYWHERE">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="preload" href="../terre-tech.jpg" as="image">
+<script src="prefs.js"></script>
 <link rel="stylesheet" href="shell.css">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="learn/learn.css">
 <script src="config.js"></script>
 <script src="apps.js"></script>
 <script src="shell.js"></script>
@@ -53,20 +55,37 @@
       <div class="hero">
         <div class="hero-earth" role="img" aria-label="La Terre vue de l'espace, de nuit"></div>
         <div class="hero-txt">
-          <img class="hero-logo" src="logo.svg" alt="" width="72" height="72">
           <p class="kicker">24/24 ONE WORLD</p>
-          <h1 id="h-accueil">24/24 EVERYWHERE</h1>
-          <p class="lead" data-t="lead">Toutes vos applications 24/24, au même endroit.</p>
+          <h1 id="h-accueil">24/24 <span>Everywhere</span></h1>
+          <p class="lead" data-t="lead">Un monde sans barrières.</p>
         </div>
       </div>
       <div class="pad">
-        <h2 class="h2" data-t="your_apps">Vos applications</h2>
-        <div class="app-grid" id="homeApps"></div>
+        <div class="duo" id="homeDuo">
+          <a class="duo-card talk" id="cardTalk" href="../index.html?ew=1" aria-labelledby="duoTalkT" aria-describedby="duoTalkD">
+            <span class="duo-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg></span>
+            <b id="duoTalkT">TALK</b>
+            <span id="duoTalkD" data-t="talk_tag">Communiquer sans barrières.</span>
+            <span class="duo-btn" aria-hidden="true" data-t="open">Ouvrir</span>
+          </a>
+          <a class="duo-card ew" id="cardEverywhere" href="#/everywhere" aria-labelledby="duoEwT" aria-describedby="duoEwD">
+            <span class="duo-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.8 3 2.8 15 0 18M12 3c-2.8 3-2.8 15 0 18"/></svg></span>
+            <b id="duoEwT">EVERYWHERE</b>
+            <span id="duoEwD" data-t="ew_tag">Accéder au monde sans limites.</span>
+            <span class="duo-btn" aria-hidden="true" data-t="open">Ouvrir</span>
+          </a>
+        </div>
+        <p class="signature" data-t="signature">Une seule plateforme. Deux applications. Un monde sans barrières.</p>
         <div class="quick">
           <a class="quick-btn" href="#/profil"><span aria-hidden="true">👤</span><span data-t="profile">Profil</span></a>
           <a class="quick-btn" href="#/parametres"><span aria-hidden="true">⚙️</span><span data-t="settings">Paramètres</span></a>
         </div>
       </div>
+    </section>
+
+    <!-- EVERYWHERE : apprendre, pratiquer, progresser (module learn/) -->
+    <section class="view" id="view-everywhere" data-route="everywhere" aria-labelledby="h-ew">
+      <div class="pad" id="ewLearn"></div>
     </section>
 
     <!-- APPLICATIONS -->
@@ -91,9 +110,20 @@
     <section class="view" id="view-parametres" data-route="parametres" aria-labelledby="h-param">
       <div class="pad">
         <h1 class="h1" id="h-param" data-t="settings">Paramètres</h1>
+        <div class="card" aria-labelledby="h-a11y">
+          <h2 class="cx-h" id="h-a11y" data-t="a11y">Affichage et accessibilité</h2>
+          <div class="row"><span id="lblTs" data-t="text_size">Taille du texte</span>
+            <span class="seg" role="radiogroup" aria-labelledby="lblTs">
+              <button type="button" role="radio" data-ts="0" aria-label="Normal">A</button><button type="button" role="radio" data-ts="1" aria-label="Grand" class="ts1">A</button><button type="button" role="radio" data-ts="2" aria-label="Très grand" class="ts2">A</button>
+            </span></div>
+          <div class="row"><span id="lblTheme" data-t="theme">Thème</span>
+            <span class="seg" role="radiogroup" aria-labelledby="lblTheme">
+              <button type="button" role="radio" data-theme="light" data-t="th_light">Clair</button><button type="button" role="radio" data-theme="dark" data-t="th_dark">Sombre</button><button type="button" role="radio" data-theme="auto" data-t="th_auto">Auto</button>
+            </span></div>
+          <div class="row"><span data-t="contrast">Contraste renforcé</span><button type="button" class="toggle" id="contrastToggle" role="switch" aria-checked="false"><span class="sr" data-t="contrast">Contraste renforcé</span></button></div>
+        </div>
         <div class="card">
           <div class="row"><span data-t="ui_lang">Langue de l'interface</span><button type="button" class="link-btn" data-open-talk="settings" data-t="set_in_talk">Régler dans TALK</button></div>
-          <div class="row"><span data-t="theme">Thème</span><span class="muted" data-t="theme_auto">Suit votre appareil</span></div>
           <div class="row"><span data-t="stats">Statistiques de visite anonymes</span><button type="button" class="toggle" id="statsToggle" role="switch" aria-checked="true"><span class="sr" data-t="stats">Statistiques de visite anonymes</span></button></div>
           <div class="row"><span data-t="calls_closed">Appels quand l'appli est fermée</span><span class="muted" id="pushState"></span></div>
         </div>
@@ -126,6 +156,9 @@
 </div>
 
 <script src="connect.js"></script>
+<script src="learn/progress.js"></script>
+<script src="learn/exercises.js"></script>
+<script src="learn/learn.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

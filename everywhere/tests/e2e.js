@@ -64,23 +64,30 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   // ---------- Téléphone ----------
   let ctx = await newCtx();
   let page = await openPortal(ctx);
-  await step("Accueil : logo, nom EVERYWHERE, carte TALK, carte module 2", async () => {
+  await step("Accueil : « 24/24 Everywhere », « Un monde sans barrières. », cartes TALK et EVERYWHERE avec bouton Ouvrir", async () => {
     await page.waitForSelector("#view-accueil.active");
-    const h1 = await page.textContent("#h-accueil");
-    const cards = await page.$$eval("#homeApps .app-card", (n) => n.map((x) => x.className + "|" + x.textContent.trim()));
-    const ok = /24\/24 EVERYWHERE/.test(h1) && cards.length === 2 && /TALK/.test(cards[0]) && /reserved/.test(cards[1]) && /RÉSERVÉ/.test(cards[1]);
-    return { ok, detail: cards.length + " cartes" };
+    const h1 = (await page.textContent("#h-accueil")).trim();
+    const lead = (await page.textContent("#view-accueil .lead")).trim();
+    const cards = await page.$$eval("#homeDuo .duo-card", (n) => n.map((x) => ({ t: x.querySelector("b").textContent, d: x.textContent, href: x.getAttribute("href"), w: x.getBoundingClientRect().width, h: x.getBoundingClientRect().height })));
+    const ok = h1 === "24/24 Everywhere" && lead === "Un monde sans barrières." && cards.length === 2 && cards[0].t === "TALK" && /Communiquer sans barrières/.test(cards[0].d) &&
+      cards[1].t === "EVERYWHERE" && /Accéder au monde sans limites/.test(cards[1].d) && cards.every((c) => /Ouvrir/.test(c.d) && c.w >= 330 && c.h >= 150);
+    return { ok, detail: cards.map((c) => c.t + " → " + c.href + " (" + Math.round(c.w) + "×" + Math.round(c.h) + " px)").join(" · ") };
   });
-  await step("Barre basse commune : Accueil, Applications, TALK, Profil", async () => {
+  await step("Fond clair, bleu principal (TALK), vert (EVERYWHERE)", async () => {
+    const c = await page.evaluate(() => ({ bg: getComputedStyle(document.body).backgroundColor, talk: getComputedStyle(document.getElementById("cardTalk")).backgroundImage, ew: getComputedStyle(document.getElementById("cardEverywhere")).backgroundImage }));
+    const light = /rgb\((24[0-9]|25[0-5]), (24[0-9]|25[0-5]), 255\)/.test(c.bg);
+    return { ok: light && /31, 95, 224/.test(c.talk) && /19, 160, 90/.test(c.ew), detail: "fond " + c.bg };
+  });
+  await step("Barre basse commune : Accueil, Talk, Everywhere, Profil", async () => {
     const labels = await page.$$eval("#mainnav a", (n) => n.map((a) => a.textContent.trim()));
     const pos = await page.$eval("#mainnav", (n) => { const r = n.getBoundingClientRect(); return { bottom: Math.round(r.bottom), h: innerHeight, dir: getComputedStyle(n).flexDirection }; });
-    return { ok: labels.join(",") === "Accueil,Applications,TALK,Profil" && pos.bottom === pos.h && pos.dir === "row", detail: labels.join(", ") + " · collée en bas" };
+    return { ok: labels.join(",") === "Accueil,Talk,Everywhere,Profil" && pos.bottom === pos.h && pos.dir === "row", detail: labels.join(", ") + " · collée en bas" };
   });
   await step("Zones tactiles ≥ 44 px (barre basse, roue dentée)", async () => {
     const sizes = await page.$$eval("#mainnav a, #topSettings", (n) => n.map((a) => { const r = a.getBoundingClientRect(); return Math.min(r.width, r.height); }));
     return { ok: sizes.every((s) => s >= 44), detail: "plus petite : " + Math.round(Math.min.apply(null, sizes)) + " px" };
   });
-  for (const [label, route, view] of [["Applications", "#/applications", "view-applications"], ["Profil", "#/profil", "view-profil"], ["Accueil", "#/accueil", "view-accueil"]]) {
+  for (const [label, route, view] of [["Everywhere", "#/everywhere", "view-everywhere"], ["Profil", "#/profil", "view-profil"], ["Accueil", "#/accueil", "view-accueil"]]) {
     await step("Navigation : " + label, async () => {
       await page.click('#mainnav a[href="' + route + '"]');
       await page.waitForSelector("#" + view + ".active");
@@ -99,10 +106,8 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   await page.waitForSelector("#view-accueil.active");
   await page.screenshot({ path: path.join(OUT, "telephone-accueil.png") });
 
-  await step("Applications → carte TALK : TALK s'ouvre en pleine page et répond au toucher", async () => {
-    await page.click('#mainnav a[href="#/applications"]');
-    await page.waitForSelector("#view-applications.active");
-    await page.tap("#appList .app-card:not(.reserved)");
+  await step("Accueil → carte TALK : TALK s'ouvre en pleine page et répond au toucher", async () => {
+    await page.tap("#cardTalk .duo-btn");
     await page.waitForURL((u) => /\/index\.html$/.test(u.pathname), { timeout: 10000 });
     await page.waitForSelector("#tileMsg");
     const emb = await page.evaluate(() => document.documentElement.classList.contains("embedded"));
@@ -123,7 +128,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
         hero: getComputedStyle(document.querySelector("header.hero-earth")).display === "none",
         sizes: [...nav.querySelectorAll("a")].every((a) => a.getBoundingClientRect().height >= 44) };
     });
-    return { ok: r.shell && r.labels === "Accueil,Applications,TALK,Profil" && r.cur === "talk" && r.bottom && r.top && r.hero && r.sizes, detail: r.labels + " · actif : " + r.cur };
+    return { ok: r.shell && r.labels === "Accueil,Talk,Everywhere,Profil" && r.cur === "talk" && r.bottom && r.top && r.hero && r.sizes, detail: r.labels + " · actif : " + r.cur };
   });
   await step("Roue dentée de la coquille dans TALK : ouvre les réglages de TALK", async () => {
     await page.tap("#ewsSettings");
@@ -136,9 +141,9 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.tap('#mainnav a[data-nav="talk"]');
     await page.waitForURL((u) => /\/index\.html$/.test(u.pathname), { timeout: 10000 });
     await page.waitForSelector("#ewsNav");
-    await page.tap('#ewsNav a[data-nav="applications"]');
-    await page.waitForSelector("#view-applications.active", { timeout: 10000 });
-    return { ok: true, detail: "Accueil, puis TALK, puis Applications" };
+    await page.tap('#ewsNav a[data-nav="everywhere"]');
+    await page.waitForSelector("#view-everywhere.active .lx-mods", { timeout: 10000 });
+    return { ok: true, detail: "Accueil, puis TALK, puis EVERYWHERE" };
   });
   await step("Retour arrière : TALK puis portail", async () => {
     await page.goBack();
@@ -180,22 +185,24 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.waitForSelector("#view-404.active");
     return { ok: true };
   });
-  await step("Module 2 : emplacement réservé, sans fonction simulée", async () => {
-    await page.goto(URL_EW + "#/app/app2");
-    await page.waitForSelector('.app-frame-wrap[data-app="app2"].active');
-    const txt = await page.textContent('.app-frame-wrap[data-app="app2"]');
-    const hasFrame = await page.$('.app-frame-wrap[data-app="app2"] iframe');
-    return { ok: /n'existe pas encore/.test(txt) && !hasFrame };
+  await step("Page Applications : TALK et EVERYWHERE ; #/app/everywhere mène au module", async () => {
+    await page.goto(URL_EW + "#/applications");
+    await page.waitForSelector("#view-applications.active");
+    const names = await page.$$eval("#appList .app-card b", (n) => n.map((b) => b.textContent));
+    await page.goto(URL_EW + "#/app/everywhere");
+    await page.waitForSelector("#view-everywhere.active");
+    return { ok: names.join(",") === "24/24 TALK,24/24 EVERYWHERE" && (await page.evaluate(() => location.hash)) === "#/everywhere", detail: names.join(", ") };
   });
   await step("Pas de défilement horizontal (téléphone, tous les écrans)", async () => {
     const bad = [];
-    for (const r of ["#/accueil", "#/applications", "#/profil", "#/parametres"]) {
+    for (const r of ["#/accueil", "#/applications", "#/profil", "#/parametres", "#/everywhere", "#/everywhere/apprendre", "#/everywhere/lecon/en-deb-1", "#/everywhere/progression", "#/everywhere/conversation"]) {
       await page.goto(URL_EW + r);
       await page.waitForSelector(".view.active");
+      await sleep(250);
       const w = await page.evaluate(() => { const v = document.querySelector(".view.active"); return [document.documentElement.scrollWidth, innerWidth, v.scrollWidth, v.clientWidth]; });
       if (w[0] > w[1] || w[2] > w[3]) bad.push(r + " " + w.join("/"));
     }
-    return { ok: !bad.length, detail: bad.join("; ") || "4 écrans vérifiés à 393 px" };
+    return { ok: !bad.length, detail: bad.join("; ") || "9 écrans vérifiés à 393 px" };
   });
   await step("Aucune erreur JavaScript dans le portail", async () => ({ ok: page._errors.length === 0, detail: page._errors.join(" | ").slice(0, 200) }));
 
@@ -219,7 +226,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.goto(URL_EW);
     await page.evaluate(() => navigator.serviceWorker.ready);
     await sleep(500);
-    const keys = await page.evaluate(async () => { const c = await caches.open("ew-shell-v7"); return (await c.keys()).map((r) => new URL(r.url).pathname); });
+    const keys = await page.evaluate(async () => { const c = await caches.open("ew-shell-v8"); return (await c.keys()).map((r) => new URL(r.url).pathname); });
     const priv = keys.filter((k) => !/everywhere\/|terre-tech/.test(k));
     return { ok: keys.length >= 10 && !priv.length, detail: keys.length + " fichiers publics en cache, aucun hors du portail" };
   });
@@ -361,12 +368,226 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   });
   await ctx.close();
 
+  // ---------- EVERYWHERE : apprendre (phase 1 + MVP de la phase 2) ----------
+  const CONTENT = path.join(__dirname, "..", "learn", "content");
+  const CAT = JSON.parse(fs.readFileSync(path.join(CONTENT, "catalogue.json"), "utf8"));
+  const LESSONS = {};
+  CAT.languages.filter((l) => l.status === "available").forEach((l) => { LESSONS[l.id] = JSON.parse(fs.readFileSync(path.join(CONTENT, l.file), "utf8")).lessons; });
+  await step("Contenus : chaque exercice a une réponse parmi ses choix, chaque langue a des leçons aux 3 niveaux", async () => {
+    const bad = [];
+    let nLessons = 0, nEx = 0;
+    for (const [code, ls] of Object.entries(LESSONS)) {
+      for (const lv of CAT.levels) if (!ls.some((l) => l.level === lv.id)) bad.push(code + " sans leçon " + lv.id);
+      for (const l of ls) {
+        nLessons++;
+        if (!l.id.startsWith(code + "-") || !l.vocab.length || !l.exercises.length) bad.push(l.id + " incomplète");
+        for (const ex of l.exercises) {
+          nEx++;
+          if (ex.type === "match") { if (ex.pairs.length < 3) bad.push(l.id + " paires"); continue; }
+          if (!ex.options.includes(ex.answer) || new Set(ex.options).size !== ex.options.length) bad.push(l.id + " : " + ex.answer);
+          if (ex.type === "complete" && ex.sentence.split("___").length !== 2) bad.push(l.id + " phrase à trou");
+        }
+      }
+    }
+    return { ok: !bad.length, detail: bad.join(", ") || Object.keys(LESSONS).length + " langues, " + nLessons + " leçons, " + nEx + " exercices" };
+  });
+
+  ctx = await newCtx();
+  page = await openPortal(ctx);
+  // Répond à l'exercice affiché. wrong = true : choisit volontairement une mauvaise réponse.
+  async function answer(p, ex, wrong) {
+    if (ex.type === "match") {
+      for (let i = 0; i < ex.pairs.length; i++) {
+        await p.tap('#lxEx .lx-m[data-side="l"][data-i="' + i + '"]');
+        await p.tap('#lxEx .lx-m[data-side="r"][data-i="' + i + '"]');
+      }
+      return;
+    }
+    const target = wrong ? ex.options.find((o) => o !== ex.answer) : ex.answer;
+    const opts = await p.$$("#lxEx .lx-opt");
+    for (const o of opts) if ((await o.textContent()).trim() === target) { await o.tap(); return; }
+    throw new Error("option introuvable : " + target);
+  }
+  await step("Carte EVERYWHERE de l'accueil → tableau de bord EVERYWHERE (modules, invitation à choisir une langue)", async () => {
+    await page.tap("#cardEverywhere .duo-btn");
+    await page.waitForSelector("#view-everywhere.active #lxStart", { timeout: 10000 });
+    const mods = await page.$$eval("#view-everywhere .lx-mod", (n) => n.map((m) => m.textContent.replace(/\s+/g, " ").trim()));
+    const soon = mods.filter((m) => /Bientôt/.test(m));
+    const cur = await page.$eval('#mainnav a[data-nav="everywhere"]', (a) => a.getAttribute("aria-current"));
+    await page.screenshot({ path: path.join(OUT, "everywhere-tableau-de-bord.png") });
+    return { ok: mods.length === 6 && soon.length === 2 && /Conversation avec l'IA/.test(soon[0]) && /Cultures du monde/.test(soon[1]) && cur === "page" && (await page.evaluate(() => location.hash)) === "#/everywhere",
+      detail: "6 modules, dont 2 marqués « Bientôt » (IA, cultures)" };
+  });
+  await step("Choix de la langue (anglais) et du niveau (débutant) : leçons du niveau affichées", async () => {
+    await page.tap("#lxStart");
+    await page.waitForSelector("#view-everywhere [data-lang]");
+    const soonLangs = await page.$$eval("#view-everywhere [data-lang]:disabled", (n) => n.length);
+    await page.tap('#view-everywhere [data-lang="en"]');
+    await page.waitForSelector("#lxLessons .lx-lesson");
+    const checked = await page.$eval('#view-everywhere [data-lang="en"]', (b) => b.getAttribute("aria-checked"));
+    const lvl = await page.$eval('#view-everywhere [data-level="debutant"]', (b) => b.getAttribute("aria-checked"));
+    const n = await page.$$eval("#lxLessons .lx-lesson", (x) => x.length);
+    await page.tap('#view-everywhere [data-level="avance"]');
+    await page.waitForFunction(() => /Expressions idiomatiques/.test(document.querySelector("#lxLessons").textContent));
+    await page.tap('#view-everywhere [data-level="debutant"]');
+    await page.waitForFunction(() => document.querySelectorAll("#lxLessons .lx-lesson").length === 3);
+    await page.screenshot({ path: path.join(OUT, "everywhere-apprendre.png") });
+    const want = LESSONS.en.filter((l) => l.level === "debutant").length;
+    return { ok: checked === "true" && lvl === "true" && n === want && soonLangs === 2, detail: n + " leçons débutant, niveau avancé vérifié, 2 langues « Bientôt » non sélectionnables" };
+  });
+  const L1 = LESSONS.en[0];
+  await step("Leçon : vocabulaire, expressions courantes, boutons d'écoute, puis exercices", async () => {
+    await page.tap('#lxLessons a[href="#/everywhere/lecon/' + L1.id + '"]');
+    await page.waitForSelector("#lxGo");
+    const words = await page.$$eval("#view-everywhere .lx-word", (n) => n.length);
+    const says = await page.$$eval("#view-everywhere .lx-word [data-say]", (n) => n.length);
+    const h1 = await page.textContent("#view-everywhere h1");
+    await page.screenshot({ path: path.join(OUT, "everywhere-lecon.png") });
+    return { ok: words === L1.vocab.length + L1.phrases.length && says === words && h1.includes(L1.title), detail: words + " mots et phrases, chacun avec son bouton d'écoute" };
+  });
+  await step("Exercice : une mauvaise réponse est signalée en texte, avec la bonne réponse", async () => {
+    await page.tap("#lxGo");
+    await page.waitForSelector("#lxEx .lx-opt");
+    await answer(page, L1.exercises[0], true);
+    await page.waitForSelector("#lxNext:not([hidden])");
+    const fb = (await page.textContent("#lxFb")).trim();
+    const good = await page.$eval("#lxEx .lx-opt.good", (b) => b.textContent.trim());
+    const dis = await page.$$eval("#lxEx .lx-opt", (n) => n.every((b) => b.disabled));
+    await page.screenshot({ path: path.join(OUT, "everywhere-exercice-faux.png") });
+    return { ok: fb.includes("La bonne réponse : " + L1.exercises[0].answer) && good.startsWith(L1.exercises[0].answer) && dis, detail: fb };
+  });
+  await step("Exercices suivants (associer, compléter, écouter, expression) : réussis, puis résultat affiché", async () => {
+    const types = [];
+    for (let i = 1; i < L1.exercises.length; i++) {
+      await page.tap("#lxNext");
+      await page.waitForFunction((n) => document.querySelector(".lx-count") && document.querySelector(".lx-count").textContent.includes(String(n)), i + 1);
+      const ex = L1.exercises[i];
+      types.push(ex.type);
+      await answer(page, ex, false);
+      await page.waitForSelector("#lxNext:not([hidden])");
+      const fb = await page.$eval("#lxFb", (f) => f.className);
+      if (!/ok/.test(fb)) throw new Error("exercice " + (i + 1) + " non validé");
+      if (i === 1) await page.screenshot({ path: path.join(OUT, "everywhere-exercice-associer.png") });
+    }
+    await page.tap("#lxNext");
+    await page.waitForSelector("#lxScore");
+    const score = (await page.textContent("#lxScore")).trim();
+    const stars = await page.$eval(".lx-stars", (s) => s.getAttribute("aria-label"));
+    await page.screenshot({ path: path.join(OUT, "everywhere-resultat.png") });
+    const n = L1.exercises.length;
+    return { ok: score === (n - 1) + " bonnes réponses sur " + n && stars === "2 / 3" && !!(await page.$("#lxNextLesson")), detail: score + " · types : " + [...new Set(types)].join(", ") };
+  });
+  await step("Progression consultable : XP, leçon terminée, exercices, historique", async () => {
+    await page.goto(URL_EW + "#/everywhere/progression");
+    await page.waitForSelector("#lxStXp");
+    const r = await page.evaluate(() => ({ xp: document.querySelector("#lxStXp b").textContent, les: document.querySelector("#lxStLessons b").textContent,
+      ex: document.querySelector("#lxStEx b").textContent, hist: document.querySelector("#lxHist") && document.querySelector("#lxHist").textContent }));
+    await page.screenshot({ path: path.join(OUT, "everywhere-progression.png"), fullPage: true });
+    const n = L1.exercises.length, xp = (n - 1) * 10 + 20;
+    return { ok: r.xp === String(xp) && r.les === "1" && r.ex === String(n) && r.hist && r.hist.includes(L1.title), detail: r.xp + " XP, " + r.les + " leçon, " + r.ex + " exercices, historique à jour" };
+  });
+  await step("Progression gardée après fermeture et réouverture de la page", async () => {
+    await page.reload();
+    await page.waitForSelector("#lxStXp");
+    await page.goto(URL_EW + "#/everywhere/apprendre");
+    await page.waitForSelector("#lxLessons .badge.ok");
+    const b = await page.textContent("#lxLessons .badge.ok");
+    return { ok: /Terminée · 5\/6/.test(b), detail: b.trim() };
+  });
+  await step("Tableau de bord : leçon suivante proposée, objectif du jour", async () => {
+    await page.goto(URL_EW + "#/everywhere");
+    await page.waitForSelector("#lxContinue");
+    const href = await page.getAttribute("#lxContinue", "href");
+    const bar = await page.$eval("#view-everywhere .lx-today [role=progressbar]", (b) => b.getAttribute("aria-valuenow"));
+    return { ok: href === "#/everywhere/lecon/" + LESSONS.en[1].id && +bar > 0, detail: "suivante : " + LESSONS.en[1].title };
+  });
+  await step("Réviser : questions tirées de la leçon terminée (dont le mot raté)", async () => {
+    await page.goto(URL_EW + "#/everywhere/reviser");
+    await page.tap("#lxGo");
+    await page.waitForSelector("#lxEx .lx-q");
+    const pool = L1.vocab.map((v) => v.w).concat(L1.vocab.map((v) => v.t));
+    let seenMissed = false, n = 0;
+    for (;;) {
+      n++;
+      const q = await page.evaluate(() => ({ q: document.querySelector("#lxEx .lx-q").textContent, e: (document.querySelector("#lxEx .lx-expr span") || {}).textContent || "", o: [...document.querySelectorAll("#lxEx .lx-opt")].map((b) => b.textContent.trim()) }));
+      if (/Thank you|Merci/.test(q.q + q.e + q.o.join())) seenMissed = true;
+      if (!q.o.every((o) => pool.includes(o))) throw new Error("choix hors leçon : " + q.o.join(" | "));
+      await page.tap("#lxEx .lx-opt");
+      await page.waitForSelector("#lxNext:not([hidden])");
+      const last = /résultat/.test(await page.textContent("#lxNext"));
+      await page.tap("#lxNext");
+      if (last) break;
+      await page.waitForFunction((k) => document.querySelector(".lx-count") && document.querySelector(".lx-count").textContent.startsWith("Exercice " + k), n + 1);
+    }
+    await page.waitForSelector("#lxScore");
+    return { ok: n === 6 && seenMissed, detail: n + " questions, le mot raté (« Thank you ») revient en révision" };
+  });
+  await step("Défi rapide : 8 questions, résultat affiché", async () => {
+    await page.goto(URL_EW + "#/everywhere/defi");
+    await page.tap("#lxGo");
+    for (let i = 0; i < 8; i++) {
+      await page.waitForSelector("#lxEx .lx-opt:not([disabled])");
+      await page.tap("#lxEx .lx-opt");
+      await page.waitForSelector("#lxNext:not([hidden])");
+      await page.tap("#lxNext");
+    }
+    await page.waitForSelector("#lxScore");
+    return { ok: /sur 8$/.test((await page.textContent("#lxScore")).trim()) };
+  });
+  await step("Conversation avec l'IA et Cultures : annoncées « Bientôt », sans fausse IA ni clé dans le site", async () => {
+    await page.goto(URL_EW + "#/everywhere/conversation");
+    await page.waitForSelector("#view-everywhere .lx-soon");
+    const txt = await page.textContent("#view-everywhere");
+    const inputs = await page.$$eval("#view-everywhere input, #view-everywhere textarea", (n) => n.length);
+    const src = ["learn/learn.js", "learn/exercises.js", "learn/progress.js", "app.js", "config.js"].map((f) => fs.readFileSync(path.join(__dirname, "..", f), "utf8")).join("\n");
+    const secret = /sk-ant-|sk-[A-Za-z0-9]{20}|service_role|api[_-]?key\s*[:=]/i.test(src);
+    await page.goto(URL_EW + "#/everywhere/cultures");
+    await page.waitForSelector("#view-everywhere .lx-soon");
+    return { ok: /Bientôt/.test(txt) && /clé doit rester secrète/.test(txt) && inputs === 0 && !secret, detail: "aucune zone de saisie simulée, aucune clé dans le code" };
+  });
+  await step("Clavier : un exercice se fait entièrement au clavier (Tab, Entrée)", async () => {
+    await page.goto(URL_EW + "#/everywhere/lecon/" + L1.id);
+    await page.waitForSelector("#lxGo");
+    await page.focus("#lxGo");
+    await page.keyboard.press("Enter");
+    await page.waitForSelector("#lxEx .lx-opt");
+    const focusedQ = await page.evaluate(() => document.activeElement.classList.contains("lx-q"));
+    await page.keyboard.press("Tab");
+    const onOpt = await page.evaluate(() => document.activeElement.classList.contains("lx-opt"));
+    await page.keyboard.press("Enter");
+    await page.waitForSelector("#lxNext:not([hidden])");
+    const onNext = await page.evaluate(() => document.activeElement.id === "lxNext");
+    const live = await page.$eval("#lxFb", (f) => f.getAttribute("aria-live"));
+    return { ok: focusedQ && onOpt && onNext && live === "polite", detail: "question annoncée, choix au clavier, résultat lu par le lecteur d'écran" };
+  });
+  await step("Accessibilité : taille du texte, contraste renforcé et thème sombre (Paramètres)", async () => {
+    await page.goto(URL_EW + "#/parametres");
+    await page.waitForSelector("#view-parametres.active");
+    await page.tap('button[data-ts="2"]');
+    await page.tap("#contrastToggle");
+    await page.tap('button[data-theme="dark"]');
+    const r = await page.evaluate(() => ({ ts: document.documentElement.getAttribute("data-ts"), c: document.documentElement.classList.contains("contrast-high"),
+      dark: document.documentElement.classList.contains("theme-dark"), zoom: getComputedStyle(document.querySelector("#view-parametres .pad")).zoom, bg: getComputedStyle(document.body).backgroundColor }));
+    await page.screenshot({ path: path.join(OUT, "parametres-accessibilite.png") });
+    await page.goto(URL_EW + "#/everywhere");
+    await page.reload();
+    await page.waitForSelector("#view-everywhere .lx-mods");
+    const kept = await page.evaluate(() => document.documentElement.getAttribute("data-ts") === "2" && document.documentElement.classList.contains("theme-dark"));
+    const sw = await page.evaluate(() => { const v = document.querySelector(".view.active"); return v.scrollWidth <= v.clientWidth && document.documentElement.scrollWidth <= innerWidth; });
+    await page.screenshot({ path: path.join(OUT, "everywhere-grand-texte-sombre.png") });
+    await page.tap('#mainnav a[data-nav="accueil"]');
+    await page.evaluate(() => { localStorage.removeItem("ew_prefs"); });
+    return { ok: r.ts === "2" && r.c && r.dark && +r.zoom > 1.2 && r.bg === "rgb(5, 9, 19)" && kept && sw, detail: "texte ×" + r.zoom + ", réglages gardés après rechargement, pas de défilement horizontal" };
+  });
+  await step("EVERYWHERE : aucune erreur JavaScript", async () => ({ ok: !page._errors.length, detail: page._errors.join(" | ").slice(0, 200) || "aucune" }));
+  await ctx.close();
+
   // ---------- Anglais ----------
   ctx = await newCtx({ locale: "en-US" });
   page = await openPortal(ctx);
   await step("Interface en anglais selon la langue du téléphone", async () => {
     const labels = await page.$$eval("#mainnav a", (n) => n.map((a) => a.textContent.trim()));
-    return { ok: labels.join(",") === "Home,Apps,TALK,Profile", detail: labels.join(", ") };
+    return { ok: labels.join(",") === "Home,Talk,Everywhere,Profile", detail: labels.join(", ") };
   });
   await ctx.close();
 
@@ -377,10 +598,22 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await step("Mise en page " + name + " (" + vp.width + " px)", async () => {
       await page.waitForSelector("#view-accueil.active");
       const r = await page.evaluate(() => ({ dir: getComputedStyle(document.getElementById("mainnav")).flexDirection, sw: document.documentElement.scrollWidth, w: innerWidth,
-        cols: getComputedStyle(document.getElementById("homeApps")).gridTemplateColumns.split(" ").length }));
+        cols: getComputedStyle(document.getElementById("homeDuo")).gridTemplateColumns.split(" ").length }));
       await page.screenshot({ path: path.join(OUT, name + "-accueil.png") });
       const want = name === "ordinateur" ? "column" : "row";
       return { ok: r.dir === want && r.sw <= r.w && r.cols === 2, detail: "menu " + (r.dir === "column" ? "latéral" : "bas") + ", " + r.cols + " colonnes" };
+    });
+    await step("EVERYWHERE sur " + name + " : leçon et exercice utilisables, sans défilement horizontal", async () => {
+      await page.goto(URL_EW + "#/everywhere/lecon/es-deb-1");
+      await page.waitForSelector("#lxGo");
+      await page.click("#lxGo");
+      await page.waitForSelector("#lxEx .lx-opt");
+      await page.click("#lxEx .lx-opt");
+      await page.waitForSelector("#lxNext:not([hidden])");
+      const r = await page.evaluate(() => { const v = document.querySelector(".view.active"); return { ok: v.scrollWidth <= v.clientWidth && document.documentElement.scrollWidth <= innerWidth,
+        cols: getComputedStyle(document.querySelector(".lx-opts")).gridTemplateColumns.split(" ").length }; });
+      await page.screenshot({ path: path.join(OUT, name + "-everywhere-exercice.png") });
+      return { ok: r.ok, detail: "espagnol, choix sur " + r.cols + " colonnes" };
     });
     await ctx.close();
   }

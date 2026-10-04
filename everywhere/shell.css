@@ -13,6 +13,16 @@
     --ews-teal:#0a9e8f; --ews-teal2:#0b6f66; }
 }
 
+/* Portail : thème choisi dans Paramètres (prefs.js). Fond clair et bleu par défaut ; vert réservé à EVERYWHERE.
+   TALK seul (sans classe theme-*) garde son apparence actuelle. */
+html.theme-light, html.theme-auto{ --ews-teal:#1f5fe0; --ews-teal2:#1749b8; }
+html.theme-light{ --ews-bg:#f5f8ff; --ews-bg2:#ffffff; --ews-panel:#ffffff; --ews-line:#d8e1f3; --ews-text:#0d1733; --ews-muted:#4d5b80; }
+html.theme-dark{ --ews-bg:#050913; --ews-bg2:#0b1224; --ews-panel:#111a30; --ews-line:#25325a; --ews-text:#eef3ff; --ews-muted:#9fb0d4;
+  --ews-teal:#7aa7ff; --ews-teal2:#a9c6ff; }
+@media (prefers-color-scheme: dark){ html.theme-auto{ --ews-teal:#7aa7ff; --ews-teal2:#a9c6ff; } }
+html.contrast-high{ --ews-muted:var(--ews-text); }
+html.contrast-high .mainnav, html.contrast-high .topbar{ border-width:2px; }
+
 /* Passage d'une page à l'autre en douceur (Chrome, Edge, Safari récents) : les deux barres restent en place. */
 @view-transition{ navigation:auto; }
 .topbar{view-transition-name:ews-top;}
