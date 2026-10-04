@@ -103,10 +103,12 @@ a.app-card:hover{border-color:var(--accent);}
 .btn.primary{background:var(--teal);border-color:var(--teal);color:var(--on-primary,#04161a);}
 .btn.wide{width:100%;margin-top:10px;}
 .link-btn{min-height:44px;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);font-weight:700;cursor:pointer;}
-.toggle{width:52px;height:30px;border-radius:999px;border:none;background:var(--line);position:relative;cursor:pointer;flex-shrink:0;}
-.toggle::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:left .15s;}
-.toggle[aria-checked="true"]{background:var(--ok);}
-.toggle[aria-checked="true"]::after{left:25px;}
+/* Interrupteur : rail de 52×30 dessiné, mais zone à toucher de 56×44 (taille minimale conseillée sur téléphone). */
+.toggle{width:56px;height:44px;padding:0;border:none;background:none;position:relative;cursor:pointer;flex-shrink:0;}
+.toggle::before{content:"";position:absolute;left:2px;top:7px;width:52px;height:30px;border-radius:999px;background:var(--line);}
+.toggle::after{content:"";position:absolute;top:10px;left:5px;width:24px;height:24px;border-radius:50%;background:#fff;transition:left .15s;}
+.toggle[aria-checked="true"]::before{background:var(--ok);}
+.toggle[aria-checked="true"]::after{left:27px;}
 .profile-head{display:flex;align-items:center;gap:14px;}
 .avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--blue));color:#04161a;display:flex;align-items:center;
   justify-content:center;font-size:28px;font-weight:900;flex-shrink:0;}

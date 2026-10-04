@@ -4,8 +4,8 @@
   "use strict";
   var CFG = window.EW_CONFIG || { env: "test", basePath: "../", talkReadyTimeoutMs: 15000 };
   var APPS = window.EW_APPS || [];
-  var VERSION = "0.6.0 (prototype)";
-  var VERSION_TAG = "0.6.0";
+  var VERSION = "0.6.1 (prototype)";
+  var VERSION_TAG = "0.6.1";
 
   // ---------- Stockage (peut être indisponible : navigation privée stricte, etc.) ----------
   var store = {
@@ -278,7 +278,8 @@
   });
   // Affichage et accessibilité (prefs.js) : taille du texte, thème, contraste. Gardés sur cet appareil.
   var TS_NAMES = t("ts_names").split("|");
-  document.querySelectorAll("[data-ts]").forEach(function (b, i) { b.setAttribute("aria-label", TS_NAMES[i]); });
+  // Seulement les boutons : <html> porte aussi data-ts (prefs.js) et décalait les noms lus par le lecteur d'écran.
+  document.querySelectorAll("button[data-ts]").forEach(function (b) { b.setAttribute("aria-label", TS_NAMES[+b.getAttribute("data-ts")] || ""); });
   function paintA11y() {
     var p = window.EWPrefs ? window.EWPrefs.read() : { theme: "light", contrast: false, text: 0 };
     document.querySelectorAll("button[data-ts]").forEach(function (b) { b.setAttribute("aria-checked", String(+b.getAttribute("data-ts") === p.text)); });
