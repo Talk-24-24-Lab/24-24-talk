@@ -1,4 +1,4 @@
-/* 24/24 EVERYWHERE — progression d'apprentissage. © 2026 Sébastien Chevrier. Tous droits réservés.
+/* 24/24 LEARN — progression d'apprentissage. © 2026 Sébastien Chevrier. Tous droits réservés.
    Enregistrée SUR CET APPAREIL (clé ew_learn_v1). Rien n'est envoyé au serveur pour l'instant.
    Toute modification passe par ce fichier et prévient les abonnés (onChange) : la future synchronisation avec
    le compte 24/24 (même compte que TALK) n'aura qu'à s'y brancher, sans toucher aux écrans. */

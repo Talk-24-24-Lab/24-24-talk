@@ -64,30 +64,33 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   // ---------- Téléphone ----------
   let ctx = await newCtx();
   let page = await openPortal(ctx);
-  await step("Accueil : « 24/24 Everywhere », « Un monde sans barrières. », cartes TALK et EVERYWHERE avec bouton Ouvrir", async () => {
+  await step("Accueil : « 24/24 One World », « Un monde sans barrières. », trois cartes TALK, EVERYWHERE et LEARN avec bouton Ouvrir", async () => {
     await page.waitForSelector("#view-accueil.active");
     const h1 = (await page.textContent("#h-accueil")).trim();
     const lead = (await page.textContent("#view-accueil .lead")).trim();
     const cards = await page.$$eval("#homeDuo .duo-card", (n) => n.map((x) => ({ t: x.querySelector("b").textContent, d: x.textContent, href: x.getAttribute("href"), w: x.getBoundingClientRect().width, h: x.getBoundingClientRect().height })));
-    const ok = h1 === "24/24 Everywhere" && lead === "Un monde sans barrières." && cards.length === 2 && cards[0].t === "TALK" && /Communiquer sans barrières/.test(cards[0].d) &&
-      cards[1].t === "EVERYWHERE" && /Accéder au monde sans limites/.test(cards[1].d) && cards.every((c) => /Ouvrir/.test(c.d) && c.w >= 330 && c.h >= 150);
+    const kick = (await page.textContent("#view-accueil .kicker")).trim();
+    const ok = h1 === "24/24 One World" && lead === "Un monde sans barrières." && kick === "Une seule application. Trois interfaces. Un seul compte." && cards.length === 3 &&
+      cards[0].t === "TALK" && /Communiquer sans barrières/.test(cards[0].d) && cards[1].t === "EVERYWHERE" && /Traduire et connecter partout/.test(cards[1].d) &&
+      cards[2].t === "LEARN" && /Apprendre sans limites/.test(cards[2].d) && cards.every((c) => /Ouvrir/.test(c.d) && c.w >= 330 && c.h >= 150);
     return { ok, detail: cards.map((c) => c.t + " → " + c.href + " (" + Math.round(c.w) + "×" + Math.round(c.h) + " px)").join(" · ") };
   });
-  await step("Fond clair, bleu principal (TALK), vert (EVERYWHERE)", async () => {
-    const c = await page.evaluate(() => ({ bg: getComputedStyle(document.body).backgroundColor, talk: getComputedStyle(document.getElementById("cardTalk")).backgroundImage, ew: getComputedStyle(document.getElementById("cardEverywhere")).backgroundImage }));
+  await step("Fond clair, bleu (TALK), vert (EVERYWHERE), violet (LEARN)", async () => {
+    const c = await page.evaluate(() => ({ bg: getComputedStyle(document.body).backgroundColor, talk: getComputedStyle(document.getElementById("cardTalk")).backgroundImage,
+      ew: getComputedStyle(document.getElementById("cardEverywhere")).backgroundImage, learn: getComputedStyle(document.getElementById("cardLearn")).backgroundImage }));
     const light = /rgb\((24[0-9]|25[0-5]), (24[0-9]|25[0-5]), 255\)/.test(c.bg);
-    return { ok: light && /31, 95, 224/.test(c.talk) && /19, 160, 90/.test(c.ew), detail: "fond " + c.bg };
+    return { ok: light && /31, 95, 224/.test(c.talk) && /19, 160, 90/.test(c.ew) && /107, 63, 214/.test(c.learn), detail: "fond " + c.bg };
   });
-  await step("Barre basse commune : Accueil, Talk, Everywhere, Profil", async () => {
+  await step("Barre basse commune : Accueil, Everywhere, Learn, Talk, Profil", async () => {
     const labels = await page.$$eval("#mainnav a", (n) => n.map((a) => a.textContent.trim()));
     const pos = await page.$eval("#mainnav", (n) => { const r = n.getBoundingClientRect(); return { bottom: Math.round(r.bottom), h: innerHeight, dir: getComputedStyle(n).flexDirection }; });
-    return { ok: labels.join(",") === "Accueil,Talk,Everywhere,Profil" && pos.bottom === pos.h && pos.dir === "row", detail: labels.join(", ") + " · collée en bas" };
+    return { ok: labels.join(",") === "Accueil,Everywhere,Learn,Talk,Profil" && pos.bottom === pos.h && pos.dir === "row", detail: labels.join(", ") + " · collée en bas" };
   });
   await step("Zones tactiles ≥ 44 px (barre basse, roue dentée)", async () => {
     const sizes = await page.$$eval("#mainnav a, #topSettings", (n) => n.map((a) => { const r = a.getBoundingClientRect(); return Math.min(r.width, r.height); }));
     return { ok: sizes.every((s) => s >= 44), detail: "plus petite : " + Math.round(Math.min.apply(null, sizes)) + " px" };
   });
-  for (const [label, route, view] of [["Everywhere", "#/everywhere", "view-everywhere"], ["Profil", "#/profil", "view-profil"], ["Accueil", "#/accueil", "view-accueil"]]) {
+  for (const [label, route, view] of [["Everywhere", "#/everywhere", "view-everywhere"], ["Learn", "#/learn", "view-learn"], ["Profil", "#/profil", "view-profil"], ["Accueil", "#/accueil", "view-accueil"]]) {
     await step("Navigation : " + label, async () => {
       await page.click('#mainnav a[href="' + route + '"]');
       await page.waitForSelector("#" + view + ".active");
@@ -128,7 +131,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
         hero: getComputedStyle(document.querySelector("header.hero-earth")).display === "none",
         sizes: [...nav.querySelectorAll("a")].every((a) => a.getBoundingClientRect().height >= 44) };
     });
-    return { ok: r.shell && r.labels === "Accueil,Talk,Everywhere,Profil" && r.cur === "talk" && r.bottom && r.top && r.hero && r.sizes, detail: r.labels + " · actif : " + r.cur };
+    return { ok: r.shell && r.labels === "Accueil,Everywhere,Learn,Talk,Profil" && r.cur === "talk" && r.bottom && r.top && r.hero && r.sizes, detail: r.labels + " · actif : " + r.cur };
   });
   await step("Roue dentée de la coquille dans TALK : ouvre les réglages de TALK", async () => {
     await page.tap("#ewsSettings");
@@ -142,7 +145,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.waitForURL((u) => /\/index\.html$/.test(u.pathname), { timeout: 10000 });
     await page.waitForSelector("#ewsNav");
     await page.tap('#ewsNav a[data-nav="everywhere"]');
-    await page.waitForSelector("#view-everywhere.active .lx-mods", { timeout: 10000 });
+    await page.waitForSelector("#view-everywhere.active .tr-big", { timeout: 10000 });
     return { ok: true, detail: "Accueil, puis TALK, puis EVERYWHERE" };
   });
   await step("Retour arrière : TALK puis portail", async () => {
@@ -185,24 +188,25 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.waitForSelector("#view-404.active");
     return { ok: true };
   });
-  await step("Page Applications : TALK et EVERYWHERE ; #/app/everywhere mène au module", async () => {
+  await step("Page Applications : TALK, EVERYWHERE et LEARN ; #/app/everywhere mène à EVERYWHERE", async () => {
     await page.goto(URL_EW + "#/applications");
     await page.waitForSelector("#view-applications.active");
     const names = await page.$$eval("#appList .app-card b", (n) => n.map((b) => b.textContent));
     await page.goto(URL_EW + "#/app/everywhere");
     await page.waitForSelector("#view-everywhere.active");
-    return { ok: names.join(",") === "24/24 TALK,24/24 EVERYWHERE" && (await page.evaluate(() => location.hash)) === "#/everywhere", detail: names.join(", ") };
+    return { ok: names.join(",") === "24/24 TALK,24/24 EVERYWHERE,24/24 LEARN" && (await page.evaluate(() => location.hash)) === "#/everywhere", detail: names.join(", ") };
   });
   await step("Pas de défilement horizontal (téléphone, tous les écrans)", async () => {
     const bad = [];
-    for (const r of ["#/accueil", "#/applications", "#/profil", "#/parametres", "#/everywhere", "#/everywhere/apprendre", "#/everywhere/lecon/en-deb-1", "#/everywhere/progression", "#/everywhere/conversation"]) {
+    for (const r of ["#/accueil", "#/applications", "#/profil", "#/parametres", "#/everywhere", "#/everywhere/face", "#/everywhere/appel", "#/everywhere/langues", "#/everywhere/reglages",
+      "#/learn", "#/learn/apprendre", "#/learn/lecon/en-deb-1", "#/learn/progression", "#/learn/conversation"]) {
       await page.goto(URL_EW + r);
       await page.waitForSelector(".view.active");
       await sleep(250);
       const w = await page.evaluate(() => { const v = document.querySelector(".view.active"); return [document.documentElement.scrollWidth, innerWidth, v.scrollWidth, v.clientWidth]; });
       if (w[0] > w[1] || w[2] > w[3]) bad.push(r + " " + w.join("/"));
     }
-    return { ok: !bad.length, detail: bad.join("; ") || "9 écrans vérifiés à 393 px" };
+    return { ok: !bad.length, detail: bad.join("; ") || "14 écrans vérifiés à 393 px" };
   });
   await step("Aucune erreur JavaScript dans le portail", async () => ({ ok: page._errors.length === 0, detail: page._errors.join(" | ").slice(0, 200) }));
 
@@ -226,7 +230,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.goto(URL_EW);
     await page.evaluate(() => navigator.serviceWorker.ready);
     await sleep(500);
-    const keys = await page.evaluate(async () => { const c = await caches.open("ew-shell-v8"); return (await c.keys()).map((r) => new URL(r.url).pathname); });
+    const keys = await page.evaluate(async () => { const c = await caches.open("ew-shell-v9"); return (await c.keys()).map((r) => new URL(r.url).pathname); });
     const priv = keys.filter((k) => !/everywhere\/|terre-tech/.test(k));
     return { ok: keys.length >= 10 && !priv.length, detail: keys.length + " fichiers publics en cache, aucun hors du portail" };
   });
@@ -408,41 +412,41 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     for (const o of opts) if ((await o.textContent()).trim() === target) { await o.tap(); return; }
     throw new Error("option introuvable : " + target);
   }
-  await step("Carte EVERYWHERE de l'accueil → tableau de bord EVERYWHERE (modules, invitation à choisir une langue)", async () => {
-    await page.tap("#cardEverywhere .duo-btn");
-    await page.waitForSelector("#view-everywhere.active #lxStart", { timeout: 10000 });
-    const mods = await page.$$eval("#view-everywhere .lx-mod", (n) => n.map((m) => m.textContent.replace(/\s+/g, " ").trim()));
+  await step("Carte LEARN de l'accueil → tableau de bord LEARN (modules, invitation à choisir une langue)", async () => {
+    await page.tap("#cardLearn .duo-btn");
+    await page.waitForSelector("#view-learn.active #lxStart", { timeout: 10000 });
+    const mods = await page.$$eval("#view-learn .lx-mod", (n) => n.map((m) => m.textContent.replace(/\s+/g, " ").trim()));
     const soon = mods.filter((m) => /Bientôt/.test(m));
-    const cur = await page.$eval('#mainnav a[data-nav="everywhere"]', (a) => a.getAttribute("aria-current"));
-    await page.screenshot({ path: path.join(OUT, "everywhere-tableau-de-bord.png") });
-    return { ok: mods.length === 6 && soon.length === 2 && /Conversation avec l'IA/.test(soon[0]) && /Cultures du monde/.test(soon[1]) && cur === "page" && (await page.evaluate(() => location.hash)) === "#/everywhere",
+    const cur = await page.$eval('#mainnav a[data-nav="learn"]', (a) => a.getAttribute("aria-current"));
+    await page.screenshot({ path: path.join(OUT, "learn-tableau-de-bord.png") });
+    return { ok: mods.length === 6 && soon.length === 2 && /Conversation avec l'IA/.test(soon[0]) && /Cultures du monde/.test(soon[1]) && cur === "page" && (await page.evaluate(() => location.hash)) === "#/learn",
       detail: "6 modules, dont 2 marqués « Bientôt » (IA, cultures)" };
   });
   await step("Choix de la langue (anglais) et du niveau (débutant) : leçons du niveau affichées", async () => {
     await page.tap("#lxStart");
-    await page.waitForSelector("#view-everywhere [data-lang]");
-    const soonLangs = await page.$$eval("#view-everywhere [data-lang]:disabled", (n) => n.length);
-    await page.tap('#view-everywhere [data-lang="en"]');
+    await page.waitForSelector("#view-learn [data-lang]");
+    const soonLangs = await page.$$eval("#view-learn [data-lang]:disabled", (n) => n.length);
+    await page.tap('#view-learn [data-lang="en"]');
     await page.waitForSelector("#lxLessons .lx-lesson");
-    const checked = await page.$eval('#view-everywhere [data-lang="en"]', (b) => b.getAttribute("aria-checked"));
-    const lvl = await page.$eval('#view-everywhere [data-level="debutant"]', (b) => b.getAttribute("aria-checked"));
+    const checked = await page.$eval('#view-learn [data-lang="en"]', (b) => b.getAttribute("aria-checked"));
+    const lvl = await page.$eval('#view-learn [data-level="debutant"]', (b) => b.getAttribute("aria-checked"));
     const n = await page.$$eval("#lxLessons .lx-lesson", (x) => x.length);
-    await page.tap('#view-everywhere [data-level="avance"]');
+    await page.tap('#view-learn [data-level="avance"]');
     await page.waitForFunction(() => /Expressions idiomatiques/.test(document.querySelector("#lxLessons").textContent));
-    await page.tap('#view-everywhere [data-level="debutant"]');
+    await page.tap('#view-learn [data-level="debutant"]');
     await page.waitForFunction(() => document.querySelectorAll("#lxLessons .lx-lesson").length === 3);
-    await page.screenshot({ path: path.join(OUT, "everywhere-apprendre.png") });
+    await page.screenshot({ path: path.join(OUT, "learn-apprendre.png") });
     const want = LESSONS.en.filter((l) => l.level === "debutant").length;
     return { ok: checked === "true" && lvl === "true" && n === want && soonLangs === 2, detail: n + " leçons débutant, niveau avancé vérifié, 2 langues « Bientôt » non sélectionnables" };
   });
   const L1 = LESSONS.en[0];
   await step("Leçon : vocabulaire, expressions courantes, boutons d'écoute, puis exercices", async () => {
-    await page.tap('#lxLessons a[href="#/everywhere/lecon/' + L1.id + '"]');
+    await page.tap('#lxLessons a[href="#/learn/lecon/' + L1.id + '"]');
     await page.waitForSelector("#lxGo");
-    const words = await page.$$eval("#view-everywhere .lx-word", (n) => n.length);
-    const says = await page.$$eval("#view-everywhere .lx-word [data-say]", (n) => n.length);
-    const h1 = await page.textContent("#view-everywhere h1");
-    await page.screenshot({ path: path.join(OUT, "everywhere-lecon.png") });
+    const words = await page.$$eval("#view-learn .lx-word", (n) => n.length);
+    const says = await page.$$eval("#view-learn .lx-word [data-say]", (n) => n.length);
+    const h1 = await page.textContent("#view-learn h1");
+    await page.screenshot({ path: path.join(OUT, "learn-lecon.png") });
     return { ok: words === L1.vocab.length + L1.phrases.length && says === words && h1.includes(L1.title), detail: words + " mots et phrases, chacun avec son bouton d'écoute" };
   });
   await step("Exercice : une mauvaise réponse est signalée en texte, avec la bonne réponse", async () => {
@@ -453,7 +457,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const fb = (await page.textContent("#lxFb")).trim();
     const good = await page.$eval("#lxEx .lx-opt.good", (b) => b.textContent.trim());
     const dis = await page.$$eval("#lxEx .lx-opt", (n) => n.every((b) => b.disabled));
-    await page.screenshot({ path: path.join(OUT, "everywhere-exercice-faux.png") });
+    await page.screenshot({ path: path.join(OUT, "learn-exercice-faux.png") });
     return { ok: fb.includes("La bonne réponse : " + L1.exercises[0].answer) && good.startsWith(L1.exercises[0].answer) && dis, detail: fb };
   });
   await step("Exercices suivants (associer, compléter, écouter, expression) : réussis, puis résultat affiché", async () => {
@@ -467,42 +471,42 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
       await page.waitForSelector("#lxNext:not([hidden])");
       const fb = await page.$eval("#lxFb", (f) => f.className);
       if (!/ok/.test(fb)) throw new Error("exercice " + (i + 1) + " non validé");
-      if (i === 1) await page.screenshot({ path: path.join(OUT, "everywhere-exercice-associer.png") });
+      if (i === 1) await page.screenshot({ path: path.join(OUT, "learn-exercice-associer.png") });
     }
     await page.tap("#lxNext");
     await page.waitForSelector("#lxScore");
     const score = (await page.textContent("#lxScore")).trim();
     const stars = await page.$eval(".lx-stars", (s) => s.getAttribute("aria-label"));
-    await page.screenshot({ path: path.join(OUT, "everywhere-resultat.png") });
+    await page.screenshot({ path: path.join(OUT, "learn-resultat.png") });
     const n = L1.exercises.length;
     return { ok: score === (n - 1) + " bonnes réponses sur " + n && stars === "2 / 3" && !!(await page.$("#lxNextLesson")), detail: score + " · types : " + [...new Set(types)].join(", ") };
   });
   await step("Progression consultable : XP, leçon terminée, exercices, historique", async () => {
-    await page.goto(URL_EW + "#/everywhere/progression");
+    await page.goto(URL_EW + "#/learn/progression");
     await page.waitForSelector("#lxStXp");
     const r = await page.evaluate(() => ({ xp: document.querySelector("#lxStXp b").textContent, les: document.querySelector("#lxStLessons b").textContent,
       ex: document.querySelector("#lxStEx b").textContent, hist: document.querySelector("#lxHist") && document.querySelector("#lxHist").textContent }));
-    await page.screenshot({ path: path.join(OUT, "everywhere-progression.png"), fullPage: true });
+    await page.screenshot({ path: path.join(OUT, "learn-progression.png"), fullPage: true });
     const n = L1.exercises.length, xp = (n - 1) * 10 + 20;
     return { ok: r.xp === String(xp) && r.les === "1" && r.ex === String(n) && r.hist && r.hist.includes(L1.title), detail: r.xp + " XP, " + r.les + " leçon, " + r.ex + " exercices, historique à jour" };
   });
   await step("Progression gardée après fermeture et réouverture de la page", async () => {
     await page.reload();
     await page.waitForSelector("#lxStXp");
-    await page.goto(URL_EW + "#/everywhere/apprendre");
+    await page.goto(URL_EW + "#/learn/apprendre");
     await page.waitForSelector("#lxLessons .badge.ok");
     const b = await page.textContent("#lxLessons .badge.ok");
     return { ok: /Terminée · 5\/6/.test(b), detail: b.trim() };
   });
   await step("Tableau de bord : leçon suivante proposée, objectif du jour", async () => {
-    await page.goto(URL_EW + "#/everywhere");
+    await page.goto(URL_EW + "#/learn");
     await page.waitForSelector("#lxContinue");
     const href = await page.getAttribute("#lxContinue", "href");
-    const bar = await page.$eval("#view-everywhere .lx-today [role=progressbar]", (b) => b.getAttribute("aria-valuenow"));
-    return { ok: href === "#/everywhere/lecon/" + LESSONS.en[1].id && +bar > 0, detail: "suivante : " + LESSONS.en[1].title };
+    const bar = await page.$eval("#view-learn .lx-today [role=progressbar]", (b) => b.getAttribute("aria-valuenow"));
+    return { ok: href === "#/learn/lecon/" + LESSONS.en[1].id && +bar > 0, detail: "suivante : " + LESSONS.en[1].title };
   });
   await step("Réviser : questions tirées de la leçon terminée (dont le mot raté)", async () => {
-    await page.goto(URL_EW + "#/everywhere/reviser");
+    await page.goto(URL_EW + "#/learn/reviser");
     await page.tap("#lxGo");
     await page.waitForSelector("#lxEx .lx-q");
     const pool = L1.vocab.map((v) => v.w).concat(L1.vocab.map((v) => v.t));
@@ -523,7 +527,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     return { ok: n === 6 && seenMissed, detail: n + " questions, le mot raté (« Thank you ») revient en révision" };
   });
   await step("Défi rapide : 8 questions, résultat affiché", async () => {
-    await page.goto(URL_EW + "#/everywhere/defi");
+    await page.goto(URL_EW + "#/learn/defi");
     await page.tap("#lxGo");
     for (let i = 0; i < 8; i++) {
       await page.waitForSelector("#lxEx .lx-opt:not([disabled])");
@@ -535,18 +539,18 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     return { ok: /sur 8$/.test((await page.textContent("#lxScore")).trim()) };
   });
   await step("Conversation avec l'IA et Cultures : annoncées « Bientôt », sans fausse IA ni clé dans le site", async () => {
-    await page.goto(URL_EW + "#/everywhere/conversation");
-    await page.waitForSelector("#view-everywhere .lx-soon");
-    const txt = await page.textContent("#view-everywhere");
-    const inputs = await page.$$eval("#view-everywhere input, #view-everywhere textarea", (n) => n.length);
+    await page.goto(URL_EW + "#/learn/conversation");
+    await page.waitForSelector("#view-learn .lx-soon");
+    const txt = await page.textContent("#view-learn");
+    const inputs = await page.$$eval("#view-learn input, #view-learn textarea", (n) => n.length);
     const src = ["learn/learn.js", "learn/exercises.js", "learn/progress.js", "app.js", "config.js"].map((f) => fs.readFileSync(path.join(__dirname, "..", f), "utf8")).join("\n");
     const secret = /sk-ant-|sk-[A-Za-z0-9]{20}|service_role|api[_-]?key\s*[:=]/i.test(src);
-    await page.goto(URL_EW + "#/everywhere/cultures");
-    await page.waitForSelector("#view-everywhere .lx-soon");
+    await page.goto(URL_EW + "#/learn/cultures");
+    await page.waitForSelector("#view-learn .lx-soon");
     return { ok: /Bientôt/.test(txt) && /clé doit rester secrète/.test(txt) && inputs === 0 && !secret, detail: "aucune zone de saisie simulée, aucune clé dans le code" };
   });
   await step("Clavier : un exercice se fait entièrement au clavier (Tab, Entrée)", async () => {
-    await page.goto(URL_EW + "#/everywhere/lecon/" + L1.id);
+    await page.goto(URL_EW + "#/learn/lecon/" + L1.id);
     await page.waitForSelector("#lxGo");
     await page.focus("#lxGo");
     await page.keyboard.press("Enter");
@@ -569,17 +573,246 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const r = await page.evaluate(() => ({ ts: document.documentElement.getAttribute("data-ts"), c: document.documentElement.classList.contains("contrast-high"),
       dark: document.documentElement.classList.contains("theme-dark"), zoom: getComputedStyle(document.querySelector("#view-parametres .pad")).zoom, bg: getComputedStyle(document.body).backgroundColor }));
     await page.screenshot({ path: path.join(OUT, "parametres-accessibilite.png") });
-    await page.goto(URL_EW + "#/everywhere");
+    await page.goto(URL_EW + "#/learn");
     await page.reload();
-    await page.waitForSelector("#view-everywhere .lx-mods");
+    await page.waitForSelector("#view-learn .lx-mods");
     const kept = await page.evaluate(() => document.documentElement.getAttribute("data-ts") === "2" && document.documentElement.classList.contains("theme-dark"));
     const sw = await page.evaluate(() => { const v = document.querySelector(".view.active"); return v.scrollWidth <= v.clientWidth && document.documentElement.scrollWidth <= innerWidth; });
-    await page.screenshot({ path: path.join(OUT, "everywhere-grand-texte-sombre.png") });
+    await page.screenshot({ path: path.join(OUT, "learn-grand-texte-sombre.png") });
     await page.tap('#mainnav a[data-nav="accueil"]');
     await page.evaluate(() => { localStorage.removeItem("ew_prefs"); });
     return { ok: r.ts === "2" && r.c && r.dark && +r.zoom > 1.2 && r.bg === "rgb(5, 9, 19)" && kept && sw, detail: "texte ×" + r.zoom + ", réglages gardés après rechargement, pas de défilement horizontal" };
   });
-  await step("EVERYWHERE : aucune erreur JavaScript", async () => ({ ok: !page._errors.length, detail: page._errors.join(" | ").slice(0, 200) || "aucune" }));
+  await step("LEARN : aucune erreur JavaScript", async () => ({ ok: !page._errors.length, detail: page._errors.join(" | ").slice(0, 200) || "aucune" }));
+  await ctx.close();
+
+  // ---------- EVERYWHERE : conversation côte à côte et appel traduit via TALK ----------
+  // Micro, voix et traduction simulés : reconnaissance vocale factice (dit window.__say), voix enregistrée dans window.__spoken,
+  // service de traduction MyMemory remplacé par un petit dictionnaire (aucun accès Internet).
+  const DICT = { "fr|en": { "Où est la gare ?": "Where is the train station?", "Bonjour": "Hello" }, "en|fr": { "It's straight ahead.": "C'est tout droit." } };
+  async function ewCtx(opts, fake, mm) {
+    const c = await newCtx(opts, fake);
+    await c.route(/api\.mymemory\.translated\.net/, (r) => {
+      const u = new URL(r.request().url());
+      if (mm === "down") return r.fulfill({ status: 500, body: "x" });
+      const tr = (DICT[u.searchParams.get("langpair")] || {})[u.searchParams.get("q")] || "[" + u.searchParams.get("q") + "]";
+      r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ responseData: { translatedText: tr } }) });
+    });
+    await c.addInitScript((noStt) => {
+      window.__spoken = [];
+      window.__srLangs = [];
+      window.__srDelay = 150;
+      if (noStt) { delete window.SpeechRecognition; delete window.webkitSpeechRecognition; }
+      else {
+        window.SpeechRecognition = window.webkitSpeechRecognition = function () {
+          const r = this;
+          r.start = function () {
+            window.__srLangs.push(r.lang);
+            r._t = setTimeout(function () {
+              const txt = window.__say || "";
+              r.onresult && r.onresult({ resultIndex: 0, results: [Object.assign([{ transcript: txt }], { isFinal: true })] });
+              r.onend && r.onend();
+            }, window.__srDelay);
+          };
+          r.stop = function () { clearTimeout(r._t); r.onend && r.onend(); };
+          r.abort = function () { clearTimeout(r._t); };
+        };
+      }
+      try { navigator.mediaDevices.getUserMedia = function () { return Promise.resolve({ getTracks: function () { return []; } }); }; } catch (e) {}
+      const syn = window.speechSynthesis;
+      if (syn) { syn.speak = function (u) { window.__spoken.push({ t: u.text, l: u.lang, v: u.volume }); }; syn.cancel = function () {}; }
+      window.__shared = null;
+      navigator.share = function (d) { window.__shared = d; return Promise.resolve(); };
+    }, !!(opts && opts.noStt));
+    return c;
+  }
+  ctx = await ewCtx();
+  page = await openPortal(ctx, "#/accueil");
+  const ewLog = (p, who) => p.$$eval('[data-log="' + who + '"] .tr-line', (n) => n.map((l) => ({ big: l.querySelector(".tr-big-txt").textContent, small: (l.querySelector(".tr-small-txt") || {}).textContent || "" })));
+  await step("Carte EVERYWHERE de l'accueil → accueil EVERYWHERE : côte à côte, appeler sur TALK, mes langues, configurations (aucune leçon)", async () => {
+    await page.tap("#cardEverywhere .duo-btn");
+    await page.waitForSelector("#view-everywhere.active #trGoFace");
+    const txt = (await page.textContent("#view-everywhere")).replace(/\s+/g, " ");
+    const cur = await page.$eval('#mainnav a[data-nav="everywhere"]', (a) => a.getAttribute("aria-current"));
+    const learnBits = await page.$$eval("#view-everywhere .lx-mod, #view-everywhere .lx-lesson", (n) => n.length);
+    await page.screenshot({ path: path.join(OUT, "everywhere-accueil.png") });
+    return { ok: /Conversation côte à côte/.test(txt) && /Appeler sur TALK/.test(txt) && /Mes langues/.test(txt) && /Configurations/.test(txt) && cur === "page" && learnBits === 0 && !/leçon|exercice/i.test(txt),
+      detail: "4 entrées, barre du bas sur Everywhere" };
+  });
+  await step("Mode A : écran coupé en deux, personne 2 en haut, personne 1 en bas, même sens de lecture, un micro chacun", async () => {
+    await page.tap("#trGoFace");
+    await page.waitForSelector("#trFace");
+    const r = await page.evaluate(() => {
+      const h2 = document.querySelector(".tr-half.p2"), h1 = document.querySelector(".tr-half.p1"), a = h2.getBoundingClientRect(), b = h1.getBoundingClientRect();
+      const tr = [h2, h1, document.getElementById("trFace")].map((x) => getComputedStyle(x).transform);
+      return { top: a.top < b.top, sameW: Math.abs(a.width - b.width) < 1, halfH: [Math.round(a.height), Math.round(b.height)], rot: tr.filter((x) => x !== "none").length,
+        mics: document.querySelectorAll(".tr-half [data-mic]").length, l2: h2.querySelector("select").value, l1: h1.querySelector("select").value,
+        who: [h2.querySelector(".tr-who").textContent, h1.querySelector(".tr-who").textContent], vh: innerHeight, sw: document.documentElement.scrollWidth <= innerWidth };
+    });
+    await page.screenshot({ path: path.join(OUT, "everywhere-cote-a-cote.png") });
+    return { ok: r.top && r.sameW && r.rot === 0 && r.mics === 2 && r.l1 === "fr" && r.l2 === "en" && /Personne 2/.test(r.who[0]) && /Personne 1/.test(r.who[1]) && r.halfH[0] > 150 && r.halfH[1] > 150 && r.sw,
+      detail: "haut " + r.halfH[0] + " px, bas " + r.halfH[1] + " px, aucune rotation, français en bas, anglais en haut" };
+  });
+  await step("Mode A : la personne 1 parle français → traduit en anglais en haut, lu à voix haute en anglais", async () => {
+    await page.evaluate(() => { window.__say = "Où est la gare ?"; });
+    await page.tap('[data-mic="1"]');
+    await page.waitForFunction(() => window.__spoken.length === 1, null, { timeout: 5000 });
+    const top = await ewLog(page, 2), bottom = await ewLog(page, 1);
+    const sp = await page.evaluate(() => ({ s: window.__spoken[0], l: window.__srLangs[0] }));
+    return { ok: top[0].big === "Where is the train station?" && top[0].small === "Où est la gare ?" && bottom[0].big === "Où est la gare ?" && bottom[0].small === "Where is the train station?" &&
+      sp.l === "fr-FR" && sp.s.t === "Where is the train station?" && /^en/.test(sp.s.l), detail: "écoute en " + sp.l + ", voix " + sp.s.l };
+  });
+  await step("Mode A : la personne 2 répond en anglais → traduit en français en bas", async () => {
+    await page.evaluate(() => { window.__say = "It's straight ahead."; });
+    await page.tap('[data-mic="2"]');
+    await page.waitForFunction(() => window.__spoken.length === 2, null, { timeout: 5000 });
+    const bottom = await ewLog(page, 1);
+    const sp = await page.evaluate(() => ({ s: window.__spoken[1], l: window.__srLangs[1] }));
+    await page.screenshot({ path: path.join(OUT, "everywhere-cote-a-cote-conversation.png") });
+    return { ok: bottom[1].big === "C'est tout droit." && bottom[1].small === "It's straight ahead." && sp.l === "en-US" && /^fr/.test(sp.s.l), detail: "« C'est tout droit. » lu en " + sp.s.l };
+  });
+  await step("Mode A : un seul micro à la fois (l'autre bouton l'explique)", async () => {
+    await page.evaluate(() => { window.__srDelay = 1500; window.__say = "Bonjour"; });
+    await page.tap('[data-mic="1"]');
+    await page.waitForSelector('[data-mic="1"].on');
+    await page.tap('[data-mic="2"]');
+    const m = await page.textContent('[data-msg="2"]');
+    await page.waitForFunction(() => window.__spoken.length === 3, null, { timeout: 5000 });
+    await page.evaluate(() => { window.__srDelay = 150; });
+    return { ok: /Un seul micro à la fois/.test(m), detail: m };
+  });
+  await step("Mode A : écrire au clavier (sans micro) est traduit aussi", async () => {
+    await page.tap('[data-kb="1"]');
+    await page.fill('[data-input="1"]', "Bonjour");
+    await page.press('[data-input="1"]', "Enter");
+    await page.waitForFunction(() => window.__spoken.length === 4, null, { timeout: 5000 });
+    const top = await ewLog(page, 2);
+    return { ok: top[top.length - 1].big === "Hello" };
+  });
+  await step("Mode A : son coupé (rien n'est lu), taille du texte agrandie, langues inversées", async () => {
+    await page.tap("#trSound");
+    await page.evaluate(() => { window.__say = "Bonjour"; });
+    await page.tap('[data-mic="1"]');
+    await page.waitForFunction(() => { const l = document.querySelectorAll('[data-log="2"] .tr-line'); return l.length && l[l.length - 1].querySelector(".tr-big-txt").textContent === "Hello"; }, null, { timeout: 5000 });
+    await sleep(200);
+    const n = await page.evaluate(() => window.__spoken.length);
+    const f0 = await page.$eval('[data-log="2"] .tr-big-txt', (e) => parseFloat(getComputedStyle(e).fontSize));
+    await page.tap("#trSize");
+    const f1 = await page.$eval('[data-log="2"] .tr-big-txt', (e) => parseFloat(getComputedStyle(e).fontSize));
+    await page.tap("#trSwap");
+    const langs = await page.evaluate(() => [document.querySelector('[data-lang-of="1"]').value, document.querySelector('[data-lang-of="2"]').value]);
+    await page.tap("#trSwap");
+    await page.tap("#trSound");
+    const p = await page.evaluate(() => JSON.parse(localStorage.getItem("ew_tr_v1")));
+    return { ok: n === 4 && f1 > f0 && langs.join() === "en,fr" && p.sound === true && p.size === 1, detail: "texte " + f0 + " → " + f1 + " px, réglages gardés sur l'appareil" };
+  });
+  await step("Mes langues : choix enregistré et repris en côte à côte ; Configurations : volume appliqué à la voix", async () => {
+    await page.goto(URL_EW + "#/everywhere/langues");
+    await page.waitForSelector("#trOther");
+    await page.selectOption("#trOther", "es");
+    await page.goto(URL_EW + "#/everywhere/reglages");
+    await page.waitForSelector("#trVol");
+    await page.$eval("#trVol", (e) => { e.value = "40"; e.dispatchEvent(new Event("input", { bubbles: true })); });
+    await page.screenshot({ path: path.join(OUT, "everywhere-configurations.png") });
+    await page.goto(URL_EW + "#/everywhere/face");
+    await page.waitForSelector("#trFace");
+    const l2 = await page.$eval('[data-lang-of="2"]', (e) => e.value);
+    const n0 = await page.evaluate(() => { window.__say = "Bonjour"; return window.__spoken.length; });
+    await page.tap('[data-mic="1"]');
+    await page.waitForFunction((n) => window.__spoken.length > n, n0, { timeout: 5000 });
+    const s = await page.evaluate(() => window.__spoken[window.__spoken.length - 1]);
+    await page.evaluate(() => { localStorage.removeItem("ew_tr_v1"); });
+    return { ok: l2 === "es" && /^es/.test(s.l) && Math.abs(s.v - 0.4) < 0.01, detail: "espagnol en haut, volume " + s.v };
+  });
+  await step("Mode A : quitter l'écran coupe le micro ; aucune erreur JavaScript", async () => {
+    await page.tap('#mainnav a[data-nav="accueil"]');
+    await page.waitForSelector("#view-accueil.active");
+    return { ok: !page._errors.length && !(await page.$("#trFace")), detail: page._errors.join(" | ").slice(0, 160) || "aucune" };
+  });
+  await ctx.close();
+
+  ctx = await ewCtx(null, false, "down");
+  page = await openPortal(ctx, "#/everywhere/face");
+  await step("Mode A : service de traduction en panne → message clair, rien n'est lu", async () => {
+    await page.waitForSelector("#trFace");
+    await page.evaluate(() => { window.__say = "Bonjour"; });
+    await page.tap('[data-mic="1"]');
+    await page.waitForSelector('[data-log="2"] .tr-err', { timeout: 5000 });
+    const e = await page.textContent('[data-log="2"] .tr-err');
+    return { ok: /Traduction impossible/.test(e) && (await page.evaluate(() => window.__spoken.length)) === 0, detail: e };
+  });
+  await ctx.close();
+
+  ctx = await ewCtx({ noStt: true });
+  page = await openPortal(ctx, "#/everywhere/face");
+  await step("Mode A : navigateur sans micro → explication et clavier proposé", async () => {
+    await page.waitForSelector("#trFace");
+    await page.tap('[data-mic="2"]');
+    const m = await page.textContent('[data-msg="2"]');
+    const open = await page.$eval('[data-type="2"]', (f) => !f.hidden);
+    return { ok: /utilisez « Écrire »/.test(m) && open, detail: m.slice(0, 80) };
+  });
+  await ctx.close();
+
+  ctx = await ewCtx();
+  page = await openPortal(ctx, "#/everywhere/appel");
+  await step("Appeler sur TALK sans accès au serveur : message et bouton Réessayer (pas de liste inventée)", async () => {
+    await page.waitForSelector("#trRetry", { timeout: 10000 });
+    return { ok: !(await page.$(".tr-ct")) };
+  });
+  await ctx.close();
+
+  ctx = await ewCtx(null, true);
+  await ctx.addInitScript(() => { localStorage.setItem("fake_contacts", "1"); localStorage.setItem("lc_net_joined", "1"); });
+  page = await openPortal(ctx, "#/everywhere");
+  await step("Appeler sur TALK : contacts TALK autorisés listés (@kenji, @maria) avec « Appeler », recherche", async () => {
+    await page.tap("#trGoCall");
+    await page.waitForSelector(".tr-ct", { timeout: 10000 });
+    const names = await page.$$eval(".tr-ct b", (n) => n.map((b) => b.textContent));
+    await page.screenshot({ path: path.join(OUT, "everywhere-appeler-sur-talk.png") });
+    await page.fill("#trSearch", "mar");
+    const filtered = await page.$$eval(".tr-ct b", (n) => n.map((b) => b.textContent));
+    await page.fill("#trSearch", "");
+    return { ok: names.join() === "@kenji,@maria" && filtered.join() === "@maria", detail: names.join(", ") + " ; recherche « mar » → " + filtered.join(", ") };
+  });
+  await step("Inviter un contact : le lien TALK (?ajouter=<mon pseudo>) part par le partage du téléphone", async () => {
+    await page.tap("#trInvite");
+    await page.waitForFunction(() => !!window.__shared, null, { timeout: 3000 });
+    const u = await page.evaluate(() => window.__shared.url);
+    const talkLink = new URL(u);
+    return { ok: talkLink.pathname === BASE && talkLink.searchParams.get("ajouter") === "sebtest" && talkLink.searchParams.get("i") === "5", detail: talkLink.pathname + talkLink.search };
+  });
+  await step("Avant l'appel : langues réglables, enregistrées pour TALK (même réglage que dans TALK)", async () => {
+    await page.tap('[data-call="aaaaaaaa-0000-4000-8000-000000000001"]');
+    await page.waitForSelector("#trSheet");
+    await page.selectOption("#trCSpeak", "fr");
+    await page.selectOption("#trCRead", "en");
+    await page.screenshot({ path: path.join(OUT, "everywhere-avant-appel.png") });
+    const href = await page.$eval("#trCGo", (a) => a.getAttribute("href"));
+    return { ok: /index\.html\?ew=1&ew_appel=aaaaaaaa-0000-4000-8000-000000000001$/.test(href), detail: href };
+  });
+  await step("Appeler : TALK s'ouvre et lance son appel traduit habituel vers @kenji", async () => {
+    await page.tap("#trCGo");
+    await page.waitForURL((u) => /\/index\.html$/.test(u.pathname), { timeout: 10000 });
+    await page.waitForSelector("#netHangup", { timeout: 15000 });
+    const txt = (await page.textContent("body")).replace(/\s+/g, " ");
+    const cl = await page.evaluate(() => localStorage.getItem("lc_convlang_aaaaaaaa-0000-4000-8000-000000000001"));
+    const url = page.url();
+    await page.screenshot({ path: path.join(OUT, "everywhere-appel-dans-talk.png") });
+    return { ok: /Sonnerie chez @kenji/.test(txt) && JSON.parse(cl).read === "en" && !/ew_appel/.test(url), detail: "« Sonnerie chez @kenji… », langue de lecture : anglais, adresse nettoyée" };
+  });
+  await step("Fin de l'appel : retour dans EVERYWHERE (Appeler sur TALK)", async () => {
+    await page.tap("#netHangup");
+    await page.waitForURL((u) => /\/everywhere\/$/.test(u.pathname) && u.hash === "#/everywhere/appel", { timeout: 10000 });
+    await page.waitForSelector(".tr-ct", { timeout: 10000 });
+    return { ok: true };
+  });
+  await step("EVERYWHERE : aucune erreur JavaScript, aucune fonction de LEARN, aucune clé secrète dans le code", async () => {
+    const src = ["traduction/everywhere.js", "traduction/moteur.js"].map((f) => fs.readFileSync(path.join(__dirname, "..", f), "utf8")).join("\n");
+    const learn = /EWLearn|EWProgress|EWExercises|ew_learn_v1/.test(src);
+    const secret = /sk-ant-|sk-[A-Za-z0-9]{20}|service_role|api[_-]?key\s*[:=]/i.test(src);
+    return { ok: !page._errors.length && !learn && !secret, detail: page._errors.join(" | ").slice(0, 160) || "aucune erreur" };
+  });
   await ctx.close();
 
   // ---------- Anglais ----------
@@ -587,7 +820,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   page = await openPortal(ctx);
   await step("Interface en anglais selon la langue du téléphone", async () => {
     const labels = await page.$$eval("#mainnav a", (n) => n.map((a) => a.textContent.trim()));
-    return { ok: labels.join(",") === "Home,Talk,Everywhere,Profile", detail: labels.join(", ") };
+    return { ok: labels.join(",") === "Home,Everywhere,Learn,Talk,Profile", detail: labels.join(", ") };
   });
   await ctx.close();
 
@@ -601,10 +834,10 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
         cols: getComputedStyle(document.getElementById("homeDuo")).gridTemplateColumns.split(" ").length }));
       await page.screenshot({ path: path.join(OUT, name + "-accueil.png") });
       const want = name === "ordinateur" ? "column" : "row";
-      return { ok: r.dir === want && r.sw <= r.w && r.cols === 2, detail: "menu " + (r.dir === "column" ? "latéral" : "bas") + ", " + r.cols + " colonnes" };
+      return { ok: r.dir === want && r.sw <= r.w && r.cols === 3, detail: "menu " + (r.dir === "column" ? "latéral" : "bas") + ", " + r.cols + " colonnes" };
     });
-    await step("EVERYWHERE sur " + name + " : leçon et exercice utilisables, sans défilement horizontal", async () => {
-      await page.goto(URL_EW + "#/everywhere/lecon/es-deb-1");
+    await step("LEARN sur " + name + " : leçon et exercice utilisables, sans défilement horizontal", async () => {
+      await page.goto(URL_EW + "#/learn/lecon/es-deb-1");
       await page.waitForSelector("#lxGo");
       await page.click("#lxGo");
       await page.waitForSelector("#lxEx .lx-opt");
@@ -612,7 +845,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
       await page.waitForSelector("#lxNext:not([hidden])");
       const r = await page.evaluate(() => { const v = document.querySelector(".view.active"); return { ok: v.scrollWidth <= v.clientWidth && document.documentElement.scrollWidth <= innerWidth,
         cols: getComputedStyle(document.querySelector(".lx-opts")).gridTemplateColumns.split(" ").length }; });
-      await page.screenshot({ path: path.join(OUT, name + "-everywhere-exercice.png") });
+      await page.screenshot({ path: path.join(OUT, name + "-learn-exercice.png") });
       return { ok: r.ok, detail: "espagnol, choix sur " + r.cols + " colonnes" };
     });
     await ctx.close();

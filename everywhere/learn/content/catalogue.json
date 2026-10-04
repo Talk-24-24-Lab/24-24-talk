@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "_comment": "24/24 EVERYWHERE — catalogue des cours. Ajouter une langue = une entrée ici + un fichier <id>.json (même format que en.json). Aucun code à modifier.",
+  "_comment": "24/24 LEARN — catalogue des cours. Ajouter une langue = une entrée ici + un fichier <id>.json (même format que en.json). Aucun code à modifier.",
   "base": "fr",
   "levels": [
     { "id": "debutant", "name": { "fr": "Débutant", "en": "Beginner" }, "hint": { "fr": "Premiers mots et phrases utiles", "en": "First words and useful phrases" } },

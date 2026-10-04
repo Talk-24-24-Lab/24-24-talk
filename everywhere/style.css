@@ -12,14 +12,14 @@
     --teal:#0a9e8f; --teal2:#0b6f66; --blue:#2a62e0; --ok:#12955f; --warn:#a86a00; --err:#d63355; color-scheme:light; }
 }
 /* Thème du portail (prefs.js) : fond clair et bleu principal par défaut, vert pour EVERYWHERE. */
-html.theme-light, html.theme-auto{ --on-primary:#ffffff; --green:#0f8a4c; --green-bg:#e6f6ec; }
+html.theme-light, html.theme-auto{ --on-primary:#ffffff; --green:#0f8a4c; --green-bg:#e6f6ec; --violet:#6b3fd6; --violet-bg:#efe9ff; }
 html.theme-light{ --bg:#f5f8ff; --bg2:#eaf0fb; --panel:#ffffff; --panel2:#eef3fc; --line:#d8e1f3; --text:#0d1733; --muted:#4d5b80;
   --teal:#1f5fe0; --teal2:#1749b8; --blue:#1f5fe0; --ok:#0f8a4c; --warn:#9a5b00; --err:#c62848; color-scheme:light; }
 html.theme-dark, html.theme-auto{ --on-primary:#06122b; }
 html.theme-dark{ --bg:#050913; --bg2:#0b1224; --panel:#111a30; --panel2:#18233f; --line:#25325a; --text:#eef3ff; --muted:#a9b8da;
-  --teal:#7aa7ff; --teal2:#a9c6ff; --blue:#7aa7ff; --ok:#3ddc84; --warn:#ffb020; --err:#ff6b86; --green:#3ddc84; --green-bg:#0f2a1d; color-scheme:dark; }
-html.theme-auto{ --teal:#7aa7ff; --teal2:#a9c6ff; --blue:#7aa7ff; --green:#3ddc84; --green-bg:#0f2a1d; }
-@media (prefers-color-scheme: light){ html.theme-auto{ --teal:#1f5fe0; --teal2:#1749b8; --blue:#1f5fe0; --on-primary:#ffffff; --green:#0f8a4c; --green-bg:#e6f6ec; } }
+  --teal:#7aa7ff; --teal2:#a9c6ff; --blue:#7aa7ff; --ok:#3ddc84; --warn:#ffb020; --err:#ff6b86; --green:#3ddc84; --green-bg:#0f2a1d; --violet:#b49bff; --violet-bg:#221a3d; color-scheme:dark; }
+html.theme-auto{ --teal:#7aa7ff; --teal2:#a9c6ff; --blue:#7aa7ff; --green:#3ddc84; --green-bg:#0f2a1d; --violet:#b49bff; --violet-bg:#221a3d; }
+@media (prefers-color-scheme: light){ html.theme-auto{ --teal:#1f5fe0; --teal2:#1749b8; --blue:#1f5fe0; --on-primary:#ffffff; --green:#0f8a4c; --green-bg:#e6f6ec; --violet:#6b3fd6; --violet-bg:#efe9ff; } }
 /* Contraste renforcé : texte secondaire aussi foncé que le texte principal, bordures plus marquées. */
 html.contrast-high{ --muted:var(--text); }
 html.contrast-high.theme-light{ --line:#5b6b91; --text:#000814; }
@@ -70,7 +70,7 @@ main:focus{outline:none;}
 .hero-earth::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,9,19,.1) 0%,rgba(5,9,19,.6) 50%,#050913 82%);}
 .hero-txt{position:relative;padding:22px 16px 12px;width:100%;max-width:960px;margin:0 auto;}
 .hero-logo{display:block;border-radius:18px;box-shadow:0 0 28px rgba(31,226,205,.35);margin-bottom:10px;}
-.kicker{margin:0;color:#a8efe6;font-weight:800;letter-spacing:.18em;font-size:12px;}
+.kicker{margin:0;color:#a8efe6;font-weight:800;letter-spacing:.06em;font-size:12.5px;}
 .hero h1{margin:2px 0 4px;font-size:30px;line-height:1.1;color:#fff;text-shadow:0 0 18px rgba(31,226,205,.5);letter-spacing:.01em;}
 .lead{margin:0;color:#d7f7f2;font-size:15px;}
 .h1{font-size:24px;margin:4px 0 6px;}
@@ -165,13 +165,14 @@ a.app-card:hover{border-color:var(--accent);}
 .cx-other{margin-top:16px;}
 .link-btn.sure{background:var(--err);border-color:var(--err);color:#fff;}
 
-/* ---------- Accueil 24/24 Everywhere (cahier des charges du 4 oct. 2026) : deux grandes cartes ---------- */
+/* ---------- Accueil 24/24 ONE WORLD : une application, trois interfaces (TALK, EVERYWHERE, LEARN) ---------- */
 .hero h1 span{color:#8fb6ff;}
 .duo{display:grid;grid-template-columns:1fr;gap:14px;margin-top:-6px;position:relative;z-index:2;}
 .duo-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:20px 16px 18px;border-radius:24px;color:#fff;text-decoration:none;
   min-height:180px;justify-content:center;box-shadow:0 10px 28px rgba(16,40,90,.18);border:1px solid rgba(255,255,255,.25);}
 .duo-card.talk{background:linear-gradient(160deg,#3b7bff 0%,#1f5fe0 55%,#1747b4 100%);}
 .duo-card.ew{background:linear-gradient(160deg,#2fc66f 0%,#13a05a 55%,#0c7d45 100%);}
+.duo-card.learn{background:linear-gradient(160deg,#8b63f0 0%,#6b3fd6 55%,#5228b5 100%);}
 .duo-card b{font-size:24px;letter-spacing:.04em;}
 .duo-card>span:not(.duo-ic):not(.duo-btn){font-size:15.5px;opacity:.96;}
 .duo-ic{width:62px;height:62px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;}
@@ -179,6 +180,7 @@ a.app-card:hover{border-color:var(--accent);}
 .duo-btn{margin-top:8px;min-height:44px;min-width:150px;display:inline-flex;align-items:center;justify-content:center;border-radius:999px;background:#fff;font-weight:800;font-size:16px;padding:0 22px;}
 .duo-card.talk .duo-btn{color:#1747b4;}
 .duo-card.ew .duo-btn{color:#0b6b3b;}
+.duo-card.learn .duo-btn{color:#4a22a8;}
 .duo-card:hover{filter:brightness(1.05);}
 .duo-card:focus-visible{outline:4px solid var(--text);outline-offset:3px;}
 .signature{text-align:center;color:var(--muted);font-weight:600;margin:18px 6px 4px;}
@@ -193,6 +195,6 @@ html.contrast-high .duo-card{border:3px solid var(--text);}
 @media (max-width:379px){ .row:has(.seg){flex-wrap:wrap;padding:6px 0;} }
 
 @media (min-width:640px){
-  .duo{grid-template-columns:1fr 1fr;}
+  .duo{grid-template-columns:1fr 1fr 1fr;}
   .duo-card{min-height:230px;}
 }

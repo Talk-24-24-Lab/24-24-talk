@@ -347,5 +347,5 @@
     });
   }
 
-  window.EWConnect = { render: render, deviceName: deviceName, errText: errText };
+  window.EWConnect = { render: render, deviceName: deviceName, errText: errText, client: client };
 })();

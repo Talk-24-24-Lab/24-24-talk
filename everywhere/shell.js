@@ -1,4 +1,4 @@
-/* 24/24 EVERYWHERE — coquille commune. © 2026 Sébastien Chevrier. Tous droits réservés.
+/* 24/24 ONE WORLD — coquille commune. © 2026 Sébastien Chevrier. Tous droits réservés.
    Une seule barre du haut et une seule barre du bas, partagées par toutes les pages de 24/24 ONE WORLD :
    le portail (everywhere/) et 24/24 TALK (index.html). Chaque application reste une page à part entière
    (pas de cadre) : on change de page, pas d'univers. Aucune donnée, aucune connexion au serveur ici. */
@@ -15,8 +15,8 @@
     gear: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>'
   };
   var LABELS = {
-    fr: { home: "Accueil", apps: "Applications", talk: "Talk", everywhere: "Everywhere", profile: "Profil", settings: "Paramètres", nav: "Navigation principale", brand: "24/24 EVERYWHERE, accueil" },
-    en: { home: "Home", apps: "Apps", talk: "Talk", everywhere: "Everywhere", profile: "Profile", settings: "Settings", nav: "Main navigation", brand: "24/24 EVERYWHERE, home" }
+    fr: { home: "Accueil", apps: "Applications", talk: "Talk", everywhere: "Everywhere", learn: "Learn", profile: "Profil", settings: "Paramètres", nav: "Navigation principale", brand: "24/24 ONE WORLD, accueil" },
+    en: { home: "Home", apps: "Apps", talk: "Talk", everywhere: "Everywhere", learn: "Learn", profile: "Profile", settings: "Settings", nav: "Main navigation", brand: "24/24 ONE WORLD, home" }
   };
   function svg(name) { return '<svg viewBox="0 0 24 24" aria-hidden="true">' + (ICONS[name] || "") + "</svg>"; }
   function langOf() {
@@ -26,13 +26,15 @@
     return /^fr/i.test(l) ? "fr" : "en";
   }
 
-  // Les quatre entrées de la barre du bas (cahier des charges du 4 oct. 2026 : Accueil · TALK · EVERYWHERE · Profil). root = chemin vers la racine du site ; inPortal = liens internes du portail (#/…).
+  // Les cinq entrées de la barre du bas (une application, trois interfaces) : Accueil · Everywhere · Learn · Talk · Profil.
+  // root = chemin vers la racine du site ; inPortal = liens internes du portail (#/…).
   function items(root, inPortal) {
     var ew = inPortal ? "" : root + "everywhere/";
     return [
       { id: "accueil", href: ew + "#/accueil", icon: "home", key: "home" },
+      { id: "everywhere", href: ew + "#/everywhere", icon: "globe", key: "everywhere" },
+      { id: "learn", href: ew + "#/learn", icon: "learn", key: "learn" },
       { id: "talk", href: root + "index.html?ew=1", icon: "mic", key: "talk" },
-      { id: "everywhere", href: ew + "#/everywhere", icon: "learn", key: "everywhere" },
       { id: "profil", href: ew + "#/profil", icon: "profile", key: "profile" }
     ];
   }

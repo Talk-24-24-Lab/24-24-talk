@@ -1,13 +1,14 @@
-/* 24/24 EVERYWHERE — module « apprendre et découvrir ». © 2026 Sébastien Chevrier. Tous droits réservés.
+/* 24/24 LEARN — apprendre une langue (interface LEARN de 24/24 ONE WORLD). Prototype construit le 4 oct. 2026 sous le nom
+   « EVERYWHERE 0.4.0 », isolé et renommé LEARN le même jour (rectification de Sébastien). Progression conservée (clé ew_learn_v1). © 2026 Sébastien Chevrier. Tous droits réservés.
    Écrans (routes du portail) :
-     #/everywhere                 tableau de bord
-     #/everywhere/apprendre       choix de la langue, du niveau, liste des leçons
-     #/everywhere/lecon/<id>      leçon : vocabulaire, expressions, exercices, résultat
-     #/everywhere/reviser         révision (mots ratés et leçons terminées)
-     #/everywhere/defi            défi rapide
-     #/everywhere/progression     suivi de progression
-     #/everywhere/conversation    conversation avec l'IA (à venir, besoin identifié)
-     #/everywhere/cultures        cultures du monde (à venir)
+     #/learn                 tableau de bord
+     #/learn/apprendre       choix de la langue, du niveau, liste des leçons
+     #/learn/lecon/<id>      leçon : vocabulaire, expressions, exercices, résultat
+     #/learn/reviser         révision (mots ratés et leçons terminées)
+     #/learn/defi            défi rapide
+     #/learn/progression     suivi de progression
+     #/learn/conversation    conversation avec l'IA (à venir, besoin identifié)
+     #/learn/cultures        cultures du monde (à venir)
    Contenus : learn/content/catalogue.json + un fichier par langue. Progression : learn/progress.js. Exercices : learn/exercises.js. */
 (function () {
   "use strict";
@@ -20,7 +21,7 @@
 
   var STR = {
     fr: {
-      title: "EVERYWHERE", sub: "Accéder au monde sans limites.", loading: "Chargement…", load_err: "Le contenu n'a pas pu être chargé.", retry: "Réessayer",
+      title: "LEARN", sub: "Apprendre sans limites.", loading: "Chargement…", load_err: "Le contenu n'a pas pu être chargé.", retry: "Réessayer",
       start_title: "Quelle langue voulez-vous apprendre ?", start_txt: "Choisissez une langue et un niveau : votre première leçon vous attend.", choose_lang: "Choisir une langue",
       continue: "Continuer", start: "Commencer", next_lesson: "Prochaine leçon", all_done: "Toutes les leçons de ce niveau sont terminées. Bravo !",
       today: "Objectif du jour", streak_1: "{n} jour d'affilée", streak_n: "{n} jours d'affilée", xp: "{n} XP",
@@ -52,7 +53,7 @@
       no_voice: "La lecture vocale n'est pas disponible sur cet appareil. Le texte à entendre :", unknown: "Leçon introuvable.", progress_lbl: "Progression"
     },
     en: {
-      title: "EVERYWHERE", sub: "Access the world without limits.", loading: "Loading…", load_err: "The content could not be loaded.", retry: "Try again",
+      title: "LEARN", sub: "Learn without limits.", loading: "Loading…", load_err: "The content could not be loaded.", retry: "Try again",
       start_title: "Which language do you want to learn?", start_txt: "Pick a language and a level: your first lesson is waiting.", choose_lang: "Choose a language",
       continue: "Continue", start: "Start", next_lesson: "Next lesson", all_done: "All lessons at this level are done. Well done!",
       today: "Today's goal", streak_1: "{n} day in a row", streak_n: "{n} days in a row", xp: "{n} XP",
@@ -152,12 +153,12 @@
       var done = function (html) {
         if (my !== token) return;
         var mods = [
-          ["learn", "#/everywhere/apprendre", "m_learn", "m_learn_d", true],
-          ["ex", "#/everywhere/defi", "m_ex", "m_ex_d", true],
-          ["rev", "#/everywhere/reviser", "m_rev", "m_rev_d", true],
-          ["ai", "#/everywhere/conversation", "m_ai", "m_ai_d", false],
-          ["cult", "#/everywhere/cultures", "m_cult", "m_cult_d", false],
-          ["prog", "#/everywhere/progression", "m_prog", "m_prog_d", true]
+          ["learn", "#/learn/apprendre", "m_learn", "m_learn_d", true],
+          ["ex", "#/learn/defi", "m_ex", "m_ex_d", true],
+          ["rev", "#/learn/reviser", "m_rev", "m_rev_d", true],
+          ["ai", "#/learn/conversation", "m_ai", "m_ai_d", false],
+          ["cult", "#/learn/cultures", "m_cult", "m_cult_d", false],
+          ["prog", "#/learn/progression", "m_prog", "m_prog_d", true]
         ];
         root.innerHTML = '<div class="lx-head"><span class="lx-logo" aria-hidden="true">' + '<svg viewBox="0 0 24 24">' + window.EWShell.icons.globe + "</svg></span>" +
           '<div><h1 id="h-ew">' + esc(t("title")) + '</h1><p class="muted">' + esc(t("sub")) + "</p></div></div>" + html +
@@ -168,7 +169,7 @@
           }).join("") + "</div>" + '<p class="note">' + esc(t("local_note")) + "</p>";
       };
       if (!L) {
-        hero = '<div class="lx-hero"><h2>' + esc(t("start_title")) + "</h2><p>" + esc(t("start_txt")) + '</p><a class="btn primary wide" id="lxStart" href="#/everywhere/apprendre">' + esc(t("choose_lang")) + "</a></div>";
+        hero = '<div class="lx-hero"><h2>' + esc(t("start_title")) + "</h2><p>" + esc(t("start_txt")) + '</p><a class="btn primary wide" id="lxStart" href="#/learn/apprendre">' + esc(t("choose_lang")) + "</a></div>";
         done(hero);
         return;
       }
@@ -178,9 +179,9 @@
         var st = P.streak();
         var today = P.todayXp();
         hero = '<div class="lx-hero"><p class="lx-hero-k"><span aria-hidden="true">' + L.flag + "</span> " + esc(loc(L.name)) + " · " + esc(loc(lvl.name)) + "</p>" +
-          (nx ? "<h2>" + esc(t("next_lesson")) + " : " + esc(nx.title) + '</h2><p>' + esc(nx.goal) + '</p><a class="btn primary wide" id="lxContinue" href="#/everywhere/lecon/' + esc(nx.id) + '">' +
+          (nx ? "<h2>" + esc(t("next_lesson")) + " : " + esc(nx.title) + '</h2><p>' + esc(nx.goal) + '</p><a class="btn primary wide" id="lxContinue" href="#/learn/lecon/' + esc(nx.id) + '">' +
             esc(P.doneIn(L.id).length ? t("continue") : t("start")) + "</a>"
-            : "<h2>" + esc(t("all_done")) + '</h2><a class="btn primary wide" href="#/everywhere/apprendre">' + esc(t("m_learn")) + "</a>") +
+            : "<h2>" + esc(t("all_done")) + '</h2><a class="btn primary wide" href="#/learn/apprendre">' + esc(t("m_learn")) + "</a>") +
           '<div class="lx-today"><span>' + esc(t("today")) + " · " + esc(t("goal_txt", { d: today, g: p.goal })) + "</span>" + bar(today, p.goal, t("today")) +
           (st ? '<span class="lx-streak">🔥 ' + esc(t(st > 1 ? "streak_n" : "streak_1", { n: st })) + "</span>" : "") + "</div></div>";
         done(hero);
@@ -192,7 +193,7 @@
     loadCat().then(function () {
       var p = P.get();
       var cur = p.lang && langMeta(p.lang) && langMeta(p.lang).status === "available" ? p.lang : null;
-      var head = backLink("#/everywhere") + '<h1 id="h-ew">' + esc(t("learn_h")) + "</h1>" +
+      var head = backLink("#/learn") + '<h1 id="h-ew">' + esc(t("learn_h")) + "</h1>" +
         '<h2 class="h2" id="lxLangH">' + esc(t("lang_h")) + '</h2><div class="lx-langs seg-grid" role="radiogroup" aria-labelledby="lxLangH">' +
         cat.languages.map(function (l) {
           var on = l.id === cur, ok = l.status === "available";
@@ -221,7 +222,7 @@
       var done = p.lessons;
       box.innerHTML = list.length ? '<div class="lx-lessons">' + list.map(function (l) {
         var r = done[l.id];
-        return '<a class="lx-lesson" href="#/everywhere/lecon/' + esc(l.id) + '"><span class="lx-l-ic" aria-hidden="true">' + l.icon + "</span>" +
+        return '<a class="lx-lesson" href="#/learn/lecon/' + esc(l.id) + '"><span class="lx-l-ic" aria-hidden="true">' + l.icon + "</span>" +
           "<span><small>" + esc(l.theme) + "</small><b>" + esc(l.title) + "</b><small>" + esc(t("ex_count", { n: l.exercises.length })) + "</small></span>" +
           '<span class="badge' + (r && r.done ? " ok" : "") + '">' + esc(r && r.done ? "✓ " + t("done_badge", { s: r.best, t: r.total }) : t("new_badge")) + "</span></a>";
       }).join("") + "</div>" : '<p class="muted">' + esc(t("no_lesson")) + "</p>";
@@ -234,14 +235,14 @@
     root.innerHTML = loadingHtml();
     findLesson(id).then(function (r) {
       if (my !== token) return;
-      if (!r.lesson) { root.innerHTML = backLink("#/everywhere/apprendre") + '<h1 id="h-ew">' + esc(t("unknown")) + "</h1>"; return; }
+      if (!r.lesson) { root.innerHTML = backLink("#/learn/apprendre") + '<h1 id="h-ew">' + esc(t("unknown")) + "</h1>"; return; }
       var L = langMeta(r.lang), les = r.lesson;
       if (P.get().lang !== r.lang) P.setLang(r.lang);
       root.setAttribute("data-voice", L.voice);
       var item = function (v) {
         return '<li class="lx-word"><span><b lang="' + esc(r.lang) + '">' + esc(v.w) + "</b><small>" + esc(v.t) + "</small></span>" + X.speakBtn(v.w, t("listen") + " : " + v.w) + "</li>";
       };
-      root.innerHTML = backLink("#/everywhere/apprendre") +
+      root.innerHTML = backLink("#/learn/apprendre") +
         '<p class="lx-hero-k"><span aria-hidden="true">' + L.flag + "</span> " + esc(loc(L.name)) + " · " + esc(loc(cat.levels[levelIdx(les.level)].name)) + " · " + esc(les.theme) + "</p>" +
         '<h1 id="h-ew"><span aria-hidden="true">' + les.icon + "</span> " + esc(les.title) + '</h1><p class="muted">' + esc(les.goal) + "</p>" +
         '<h2 class="h2">' + esc(t("vocab_h")) + '</h2><ul class="lx-words">' + les.vocab.map(item).join("") + "</ul>" +
@@ -265,7 +266,7 @@
   }
   function showItem() {
     var r = run, root = r.root, ex = r.items[r.i];
-    root.innerHTML = '<div class="lx-run-top"><a class="lx-back" href="' + (r.kind === "lesson" ? "#/everywhere/apprendre" : "#/everywhere") + '">✕ ' + esc(t("quit")) + "</a>" +
+    root.innerHTML = '<div class="lx-run-top"><a class="lx-back" href="' + (r.kind === "lesson" ? "#/learn/apprendre" : "#/learn") + '">✕ ' + esc(t("quit")) + "</a>" +
       '<span class="lx-count">' + esc(t("ex_of", { i: r.i + 1, n: r.items.length })) + "</span></div>" + bar(r.i, r.items.length, t("progress_lbl")) +
       '<div class="lx-ex" id="lxEx"></div><div class="lx-fb" id="lxFb" role="status" aria-live="polite"></div>' +
       '<button type="button" class="btn primary wide" id="lxNext" hidden>' + esc(r.i + 1 < r.items.length ? t("next") : t("see_result")) + "</button>";
@@ -318,10 +319,10 @@
         return '<li class="lx-word"><span><b>' + esc(w.q) + "</b><small>→ " + esc(w.a) + "</small></span></li>";
       }).join("") + "</ul>" : "") +
       '<div class="lx-actions">' +
-      (nxt ? '<a class="btn primary" id="lxNextLesson" href="#/everywhere/lecon/' + esc(nxt.id) + '">' + esc(t("lesson_next")) + "</a>" : "") +
+      (nxt ? '<a class="btn primary" id="lxNextLesson" href="#/learn/lecon/' + esc(nxt.id) + '">' + esc(t("lesson_next")) + "</a>" : "") +
       '<button type="button" class="btn' + (nxt ? "" : " primary") + '" id="lxAgain">' + esc(t("again")) + "</button>" +
-      '<a class="btn" href="#/everywhere/progression">' + esc(t("see_prog")) + "</a>" +
-      '<a class="btn" href="#/everywhere">' + esc(t("home")) + "</a></div>";
+      '<a class="btn" href="#/learn/progression">' + esc(t("see_prog")) + "</a>" +
+      '<a class="btn" href="#/learn">' + esc(t("home")) + "</a></div>";
     var o = { kind: r.kind, lang: r.lang, voice: r.voice, lesson: r.lesson, all: r.all, items: r.kind === "lesson" ? r.items : null };
     root.querySelector("#lxAgain").addEventListener("click", function () {
       if (o.kind === "lesson") startRun(root, o);
@@ -361,14 +362,14 @@
         src.forEach(function (l) { pool = pool.concat(l.vocab); });
         var h = kind === "review" ? t("rev_h") : t("def_h");
         if (pool.length < 4) {
-          root.innerHTML = backLink("#/everywhere") + '<h1 id="h-ew">' + esc(h) + '</h1><p class="muted">' + esc(t("rev_empty")) + '</p><a class="btn primary wide" href="#/everywhere/apprendre">' + esc(t("m_learn")) + "</a>";
+          root.innerHTML = backLink("#/learn") + '<h1 id="h-ew">' + esc(h) + '</h1><p class="muted">' + esc(t("rev_empty")) + '</p><a class="btn primary wide" href="#/learn/apprendre">' + esc(t("m_learn")) + "</a>";
           focusH1(root);
           return;
         }
         var miss = P.mistakes(code), weights = {};
         Object.keys(miss).forEach(function (w) { weights[w] = miss[w].n; });
         var items = makeQuestions(pool, code, kind === "review" ? 6 : 8, kind === "review" ? weights : {});
-        root.innerHTML = backLink("#/everywhere") + '<p class="lx-hero-k"><span aria-hidden="true">' + L.flag + "</span> " + esc(loc(L.name)) + "</p>" +
+        root.innerHTML = backLink("#/learn") + '<p class="lx-hero-k"><span aria-hidden="true">' + L.flag + "</span> " + esc(loc(L.name)) + "</p>" +
           '<h1 id="h-ew">' + esc(h) + '</h1><p class="muted">' + esc(kind === "review" ? t("rev_txt") : t("def_txt")) + "</p>" +
           '<button type="button" class="btn primary wide" id="lxGo">' + esc(t("start")) + "</button>";
         root.querySelector("#lxGo").addEventListener("click", function () {
@@ -391,7 +392,7 @@
         var tile = function (v, k, id) { return '<div class="lx-stat"' + (id ? ' id="' + id + '"' : "") + "><b>" + esc(v) + "</b><small>" + esc(t(k)) + "</small></div>"; };
         var kinds = { lesson: t("k_lesson"), review: t("k_review"), challenge: t("k_challenge") };
         var fmt = function (ts) { try { return new Date(ts).toLocaleString(lang === "fr" ? "fr-FR" : "en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }); } catch (e) { return ""; } };
-        root.innerHTML = backLink("#/everywhere") + '<h1 id="h-ew">' + esc(t("prog_h")) + "</h1>" +
+        root.innerHTML = backLink("#/learn") + '<h1 id="h-ew">' + esc(t("prog_h")) + "</h1>" +
           '<div class="lx-stats">' + tile(p.xp, "st_xp", "lxStXp") + tile(nDone, "st_lessons", "lxStLessons") + tile(p.ex.done, "st_ex", "lxStEx") + tile(rate, "st_rate") +
           tile(st ? (st > 1 ? t("streak_n", { n: st }) : t("streak_1", { n: st })) : "—", "st_streak") + "</div>" +
           '<div class="card"><h2 class="cx-h" id="lxGoalH">' + esc(t("goal_h")) + "</h2><p>" + esc(t("goal_txt", { d: today, g: p.goal })) + "</p>" + bar(today, p.goal, t("goal_h")) +
@@ -423,9 +424,9 @@
   }
 
   function infoScreen(root, h, p1, p2, icon) {
-    root.innerHTML = backLink("#/everywhere") + '<div class="lx-soon"><span class="lx-soon-ic" aria-hidden="true">' + icon + '</span><h1 id="h-ew">' + esc(t(h)) + '</h1><span class="badge">' + esc(t("soon")) + "</span>" +
+    root.innerHTML = backLink("#/learn") + '<div class="lx-soon"><span class="lx-soon-ic" aria-hidden="true">' + icon + '</span><h1 id="h-ew">' + esc(t(h)) + '</h1><span class="badge">' + esc(t("soon")) + "</span>" +
       "<p>" + esc(t(p1)) + '</p><p class="muted">' + esc(t(p2)) + "</p></div>" +
-      '<a class="btn primary wide" href="#/everywhere/apprendre">' + esc(t("m_learn")) + "</a>";
+      '<a class="btn primary wide" href="#/learn/apprendre">' + esc(t("m_learn")) + "</a>";
   }
 
   // ---------- Point d'entrée (appelé par app.js à chaque changement d'adresse) ----------
@@ -449,7 +450,7 @@
     if (s === "progression") { progressScreen(root, my); return t("prog_h"); }
     if (s === "conversation") { infoScreen(root, "ai_h", "ai_p1", "ai_p2", ICON.ai); return t("ai_h"); }
     if (s === "cultures") { infoScreen(root, "cult_h", "cult_p1", "cult_p2", ICON.cult); return t("cult_h"); }
-    root.innerHTML = backLink("#/everywhere") + '<h1 id="h-ew">' + esc(t("unknown")) + "</h1>";
+    root.innerHTML = backLink("#/learn") + '<h1 id="h-ew">' + esc(t("unknown")) + "</h1>";
     return t("title");
   }
 

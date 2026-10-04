@@ -1,4 +1,4 @@
-/* 24/24 EVERYWHERE — moteur d'exercices interactifs. © 2026 Sébastien Chevrier. Tous droits réservés.
+/* 24/24 LEARN — moteur d'exercices interactifs. © 2026 Sébastien Chevrier. Tous droits réservés.
    Types : choice (choix de la bonne réponse, aussi « comprendre une expression »), match (associer mot ↔ traduction),
    complete (compléter une phrase), listen (écoute). Un nouveau type = une fonction de plus dans TYPES.
    Voix : synthèse vocale intégrée au navigateur (gratuite, sur l'appareil, rien n'est envoyé). */

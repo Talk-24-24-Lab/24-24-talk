@@ -1,4 +1,4 @@
-/* 24/24 EVERYWHERE — registre des applications. © 2026 Sébastien Chevrier.
+/* 24/24 ONE WORLD — registre des interfaces (une application, un compte, trois interfaces : TALK, EVERYWHERE, LEARN). © 2026 Sébastien Chevrier.
    Ajouter une application = ajouter une entrée ici (et son dossier). Le portail crée tout seul
    sa carte, sa route (#/app/<id>) et son cadre ; rien d'autre à modifier.
 
@@ -25,10 +25,19 @@ window.EW_APPS = [
   {
     id: "everywhere",
     name: "24/24 EVERYWHERE",
-    tagline: { fr: "Accéder au monde sans limites : langues, exercices, progression.", en: "Access the world without limits: languages, exercises, progress." },
+    tagline: { fr: "Traduire et connecter partout : conversation côte à côte, appel traduit avec un contact TALK.", en: "Translate and connect everywhere: side-by-side conversation, translated call with a TALK contact." },
     status: "available",
     route: "#/everywhere",
     accent: "#13a05a",
+    icon: "globe"
+  },
+  {
+    id: "learn",
+    name: "24/24 LEARN",
+    tagline: { fr: "Apprendre sans limites : leçons, exercices, progression.", en: "Learn without limits: lessons, exercises, progress." },
+    status: "available",
+    route: "#/learn",
+    accent: "#6b3fd6",
     icon: "learn"
   }
 ];

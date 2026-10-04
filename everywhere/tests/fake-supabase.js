@@ -15,11 +15,25 @@
   function save(s) { try { localStorage.setItem("fake_sb", JSON.stringify(s)); localStorage.setItem("lc_net_auth", s.session ? "fake" : ""); } catch (e) {} }
   function user(s) { return { id: PROFILE.id, email: s.email, new_email: s.new_email, is_anonymous: s.anon }; }
   function err(message, code, status) { return { data: null, error: { message: message, code: code, status: status || 400 } }; }
+  // EVERYWHERE (appeler sur TALK) : avec localStorage « fake_contacts » = "1", deux contacts déjà en discussion (@kenji, @maria).
+  var KENJI = { id: "00000000-0000-4000-8000-0000000000b1", pseudo: "kenji", lang: "ja" };
+  var MARIA = { id: "00000000-0000-4000-8000-0000000000b2", pseudo: "maria", lang: "es" };
+  var C1 = "aaaaaaaa-0000-4000-8000-000000000001", C2 = "aaaaaaaa-0000-4000-8000-000000000002";
+  function contactsOn() { try { return localStorage.getItem("fake_contacts") === "1"; } catch (e) { return false; } }
+  function rows(table) {
+    if (!contactsOn()) return [];
+    var t0 = new Date(Date.now() - 36e5).toISOString();
+    if (table === "members") return [
+      { conversation_id: C1, user_id: PROFILE.id, last_read: t0, cleared_at: null }, { conversation_id: C1, user_id: KENJI.id, last_read: t0, cleared_at: null },
+      { conversation_id: C2, user_id: PROFILE.id, last_read: t0, cleared_at: null }, { conversation_id: C2, user_id: MARIA.id, last_read: t0, cleared_at: null }];
+    if (table === "profiles") return [KENJI, MARIA];
+    return [];
+  }
   function builder(table) {
     var single = false;
     var b = {
       then: function (ok, ko) {
-        var data = table === "profiles" && single ? (load().session ? PROFILE : null) : [];
+        var data = table === "profiles" && single ? (load().session ? PROFILE : null) : rows(table);
         return Promise.resolve({ data: data, error: null }).then(ok, ko);
       },
       maybeSingle: function () { single = true; return b; },

@@ -1,7 +1,11 @@
-# 24/24 EVERYWHERE
+# 24/24 ONE WORLD (dossier `everywhere/`)
 
-Portail de **24/24 ONE WORLD** : un seul site, une interface commune, plusieurs applications.
-Première application intégrée : **24/24 TALK**. Un deuxième emplacement est réservé.
+**24/24 ONE WORLD** : une seule application, trois interfaces (**TALK**, **EVERYWHERE**, **LEARN**), un seul compte.
+Le dossier garde le nom `everywhere/` pour ne pas casser les adresses déjà utilisées (site de test, raccourcis installés).
+
+> Mentions : © 2026 Sébastien Chevrier. Titularité revendiquée par Sébastien Chevrier, sous réserve des droits des tiers
+> (Supabase JS, service MyMemory, voix et reconnaissance vocale du navigateur, image Terre dont les droits restent à vérifier)
+> et des contributions dont le transfert reste à formaliser. Les licences des dépendances s'appliquent.
 
 > Statut : **PROTOTYPE fonctionnel, laboratoire uniquement** (dépôt `Talk-24-24-Lab/24-24-talk`, base Supabase `24-24-talk-test`).
 > Rien n'est publié en production. © 2026 Sébastien Chevrier. Tous droits réservés.
@@ -115,7 +119,43 @@ retour arrière complet dans `09-connect-retour-arriere.sql`. Ce qui suit un com
 pseudo, contacts, conversations, messages des 90 derniers jours. Ce qui reste sur l'appareil : historique de
 traduction, favoris, réglages. Tests : 38 tests automatiques (faux serveur, code 123456).
 
-## EVERYWHERE : apprendre et découvrir (0.4.0, site de test uniquement)
+## Version 0.5.0 (4 oct. 2026, ordre OW-MASTER-001, missions C et D, site de test uniquement)
+
+Rectification de Sébastien : **LEARN = apprendre une langue**, **EVERYWHERE = parler avec quelqu'un qui ne parle pas
+ma langue**, **TALK = appeler**. Aucune fonction ne passe de l'une à l'autre.
+
+- **Accueil** : « 24/24 One World », trois cartes TALK (bleu), EVERYWHERE (vert), LEARN (violet).
+  Barre du bas commune (portail et TALK) : Accueil · Everywhere · Learn · Talk · Profil.
+- **LEARN (mission D)** : le module 0.4.0 est isolé tel quel sous `#/learn/…` (dossier `learn/`, couleur violette).
+  Fonctions, contenus et tests conservés ; la progression déjà enregistrée garde sa clé `ew_learn_v1` (rien n'est perdu).
+- **EVERYWHERE (mission C)**, dossier `traduction/`, écrans `#/everywhere/…` :
+
+| Fichier | Rôle |
+|---|---|
+| `traduction/langues.js` | copie exacte de la liste des 112 langues de TALK (codes de traduction et de voix) |
+| `traduction/moteur.js` | traduction MyMemory (gratuit, sans clé, comme TALK), écoute et voix du navigateur |
+| `traduction/everywhere.js` | accueil, côte à côte (mode A), appeler sur TALK (mode B), mes langues, configurations |
+| `traduction/everywhere.css` | styles |
+
+  - **Mode A, côte à côte** (`#/everywhere/face`) : écran coupé en deux, personne 2 en haut, personne 1 en bas,
+    **même sens de lecture** ; un micro et un clavier par personne ; chaque moitié lit la conversation dans sa langue
+    (en grand) avec l'autre langue en petit ; traduction lue à voix haute (son, volume) ; taille du texte ; inverser.
+    Un seul micro à la fois (limite du téléphone). Conversation gardée en mémoire seulement, jamais enregistrée.
+  - **Mode B, appeler sur TALK** (`#/everywhere/appel`) : contacts TALK déjà en discussion (lus avec la session de
+    TALK, contacts bloqués exclus), recherche, **Inviter un contact** (même lien que « Inviter un ami » de TALK,
+    `…/?ajouter=<pseudo>`, par le partage du téléphone), langues « je parle / je lis » réglées avant l'appel
+    (même réglage que TALK, clé `lc_convlang_<discussion>`), puis **l'appel traduit de TALK** :
+    `index.html?ew=1&ew_appel=<discussion>`. À la fin de l'appel, retour dans EVERYWHERE.
+  - Réglages sur l'appareil : clé `ew_tr_v1` (langues, son, volume, taille).
+- **Changement dans TALK** (`index.html`, ~25 lignes) : lecture de `?ew_appel=` (ouvre la discussion et lance
+  `startCall()` existant), retour vers EVERYWHERE en fin d'appel. Rien d'autre ne change dans TALK.
+- **Non fait (prochaines étapes proposées)** : réglages pendant l'appel (taille des sous-titres, audio traduit
+  marche/arrêt, changer de langue en appel), fichier commun TALK/EVERYWHERE pour le moteur (dictionnaire hors ligne
+  de TALK compris), synchronisation des réglages avec le compte.
+
+## LEARN (anciennement « EVERYWHERE : apprendre et découvrir », 0.4.0, site de test uniquement)
+
+> Depuis la 0.5.0, ce module est LEARN : les adresses `#/everywhere/…` ci-dessous sont devenues `#/learn/…`.
 
 Cahier des charges du 4 octobre 2026 : **une seule plateforme, deux applications** (TALK pour communiquer,
 EVERYWHERE pour apprendre et découvrir). Phase 1 (socle) et MVP de la phase 2 réalisés.
@@ -145,5 +185,10 @@ auto, contraste renforcé (`prefs.js`, gardés sur l'appareil, clé `ew_prefs`).
   (Supabase Edge Function) qui garde la clé secrète et appelle un modèle d'IA. Aucun service activé, aucune clé dans le site.
 - **Cultures du monde (phase 3)** : écran « Bientôt », contenus prévus comme les leçons (un fichier par thème).
 
-Tests : 60 tests automatiques (`node everywhere/tests/e2e.js`), dont 18 pour EVERYWHERE (contenus, leçon complète,
+Tests (0.4.0) : 60 tests automatiques (`node everywhere/tests/e2e.js`), dont 18 pour ce module (contenus, leçon complète,
 mauvaise réponse, résultat, progression gardée, révision, défi, clavier, accessibilité, tablette, ordinateur).
+
+Tests (0.5.0) : **79 tests automatiques**, dont 20 pour EVERYWHERE (côte à côte, voix, un micro à la fois, clavier,
+son, taille, langues, panne de traduction, navigateur sans micro, contacts, invitation, langues avant l'appel,
+appel ouvert dans TALK, retour dans EVERYWHERE, absence de fonctions LEARN et de clé). Micro, voix et traduction
+sont simulés dans les tests : un essai sur un vrai téléphone reste nécessaire.
