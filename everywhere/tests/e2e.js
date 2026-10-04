@@ -156,12 +156,12 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   await page.waitForSelector("#view-accueil.active");
   await step("Profil sans compte : invitation à créer son profil dans TALK", async () => {
     await page.click('#mainnav a[href="#/profil"]');
-    await page.waitForSelector("#profileCard [data-open-talk='net']", { timeout: 20000 });
+    await page.waitForSelector("#profileCard #cxCreate", { timeout: 20000 });
     const txt = await page.textContent("#profileCard");
     return { ok: /pas encore de profil/.test(txt), detail: txt.trim().slice(0, 60) };
   });
   await step("« Créer mon profil » ouvre la messagerie de TALK", async () => {
-    await page.click("#profileCard [data-open-talk='net']");
+    await page.click("#profileCard #cxCreate");
     await page.waitForURL((u) => /\/index\.html$/.test(u.pathname), { timeout: 10000 });
     await page.goto(URL_EW + "#/accueil");
     return { ok: true };
@@ -219,7 +219,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.goto(URL_EW);
     await page.evaluate(() => navigator.serviceWorker.ready);
     await sleep(500);
-    const keys = await page.evaluate(async () => { const c = await caches.open("ew-shell-v5"); return (await c.keys()).map((r) => new URL(r.url).pathname); });
+    const keys = await page.evaluate(async () => { const c = await caches.open("ew-shell-v6"); return (await c.keys()).map((r) => new URL(r.url).pathname); });
     const priv = keys.filter((k) => !/everywhere\/|terre-tech/.test(k));
     return { ok: keys.length >= 10 && !priv.length, detail: keys.length + " fichiers publics en cache, aucun hors du portail" };
   });
@@ -245,7 +245,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
   // ---------- Compte connecté (faux client Supabase, aucune donnée réelle) ----------
   ctx = await newCtx({}, true);
-  await ctx.addInitScript(() => { try { localStorage.setItem("lc_net_joined", "1"); } catch (e) {} });
+  await ctx.addInitScript(() => { try { localStorage.setItem("lc_net_joined", "1"); if (localStorage.getItem("lc_net_auth") === null) localStorage.setItem("lc_net_auth", "fake"); } catch (e) {} });
   page = await openPortal(ctx, "#/profil");
   await step("Profil connecté : pseudo et langue lus dans TALK (pas de copie)", async () => {
     await page.waitForFunction(() => /@sebtest/.test(document.querySelector("#profileCard").textContent), null, { timeout: 25000 });
@@ -255,6 +255,83 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     return { ok: /Français/.test(txt) && !copies.length, detail: txt.replace(/\s+/g, " ").slice(0, 70) + " · aucune donnée recopiée par le portail" };
   });
   await page.screenshot({ path: path.join(OUT, "telephone-profil.png") });
+
+  // ---------- CONNECT (faux serveur : le bon code est 123456) ----------
+  const card = (p) => p.textContent("#profileCard");
+  await step("CONNECT : compte sans e-mail signalé honnêtement, appareils listés", async () => {
+    await page.waitForSelector("#cxDevices .cx-dev", { timeout: 15000 });
+    const txt = await card(page);
+    const devs = await page.$$eval("#cxDevices .cx-dev", (n) => n.map((d) => d.textContent.replace(/\s+/g, " ").trim()));
+    const honest = /n'est relié à aucune adresse e-mail/.test(txt) && /ne pourra pas être retrouvé/.test(txt) && !/entièrement récupérable/.test(txt);
+    return { ok: honest && devs.length === 2 && /Cet appareil/.test(devs[0]) && /Windows · Chrome/.test(devs[1]) && /restent sur cet appareil/.test(txt), detail: devs.join(" | ") };
+  });
+  await step("CONNECT : « Sécuriser mon compte » refuse une adresse invalide et une adresse déjà prise", async () => {
+    await page.click("#cxSecure");
+    await page.fill("#cxEmail", "pas-une-adresse");
+    await page.click("#cxSend");
+    const a = await page.textContent("#cxMsg");
+    await page.fill("#cxEmail", "pris@exemple.fr");
+    await page.click("#cxSend");
+    await page.waitForFunction(() => /déjà reliée/.test(document.querySelector("#cxMsg").textContent));
+    return { ok: /invalide/.test(a), detail: (await page.textContent("#cxMsg")).trim().slice(0, 60) };
+  });
+  await step("CONNECT : code faux refusé, bon code accepté, compte sécurisé", async () => {
+    await page.fill("#cxEmail", "sebastien@exemple.fr");
+    await page.click("#cxSend");
+    await page.waitForSelector("#cxCode");
+    await page.fill("#cxCode", "000000");
+    await page.click("#cxVerify");
+    await page.waitForFunction(() => /incorrect ou expiré/.test(document.querySelector("#cxMsg").textContent));
+    await page.fill("#cxCode", "123456");
+    await page.click("#cxVerify");
+    await page.waitForSelector("#profileCard .cx-ok", { timeout: 10000 });
+    const txt = await card(page);
+    return { ok: /relié à se•••@exemple\.fr/.test(txt) && /Compte sécurisé/.test(txt) && !(await page.$("#cxSecure")), detail: (await page.textContent("#profileCard .cx-ok")).trim() };
+  });
+  await page.screenshot({ path: path.join(OUT, "connect-securise.png") });
+  await step("CONNECT : déconnecter l'autre appareil (deux appuis)", async () => {
+    await page.waitForSelector("#cxDevices [data-out]");
+    await page.click("#cxDevices [data-out]");
+    const sure = await page.textContent("#cxDevices [data-out]");
+    await page.click("#cxDevices [data-out]");
+    await page.waitForFunction(() => /Aucun autre appareil/.test(document.querySelector("#cxDevices").textContent));
+    const n = await page.$$eval("#cxDevices .cx-dev", (x) => x.length);
+    return { ok: /Confirmer/.test(sure) && n === 1, detail: (await page.textContent("#cxDevices .cx-msg")).trim().slice(0, 70) };
+  });
+  await step("CONNECT : aucune erreur JavaScript dans le portail", async () => ({ ok: !page._errors.length, detail: page._errors.join(" | ").slice(0, 160) || "aucune" }));
+  await ctx.close();
+
+  // ---------- CONNECT : nouvel appareil (aucune session enregistrée) ----------
+  ctx = await newCtx({}, true);
+  page = await openPortal(ctx, "#/profil");
+  await step("Nouvel appareil : invitation affichée sans attendre le serveur", async () => {
+    await page.waitForSelector("#cxHave", { timeout: 5000 });
+    return { ok: /pas encore de profil/.test(await card(page)) };
+  });
+  await step("Nouvel appareil : adresse inconnue refusée, adresse reliée + code → compte retrouvé", async () => {
+    await page.click("#cxHave");
+    await page.fill("#cxEmail", "inconnu@exemple.fr");
+    await page.click("#cxSend");
+    await page.waitForFunction(() => /Aucun compte/.test(document.querySelector("#cxMsg").textContent));
+    await page.fill("#cxEmail", "connu@exemple.fr");
+    await page.click("#cxSend");
+    await page.waitForSelector("#cxCode");
+    await page.fill("#cxCode", "123456");
+    await page.click("#cxVerify");
+    await page.waitForFunction(() => /Connecté : bienvenue @sebtest/.test(document.querySelector("#profileCard").textContent), null, { timeout: 10000 });
+    const joined = await page.evaluate(() => localStorage.getItem("lc_net_joined"));
+    return { ok: joined === "1" && /Compte sécurisé/.test(await card(page)), detail: "TALK se reconnectera à ce compte" };
+  });
+  await page.screenshot({ path: path.join(OUT, "connect-nouvel-appareil.png") });
+  await step("Lien « J'ai déjà un compte » de TALK : ouvre directement la connexion", async () => {
+    await page.evaluate(() => { localStorage.removeItem("fake_sb"); localStorage.removeItem("lc_net_auth"); sessionStorage.setItem("ew_connect_login", "1"); });
+    await page.goto(URL_EW + "#/accueil");
+    await page.goto(URL_EW + "#/profil");
+    await page.waitForSelector("#cxEmail", { timeout: 5000 });
+    const left = await page.evaluate(() => sessionStorage.getItem("ew_connect_login"));
+    const src = fs.readFileSync(path.join(SITE, "index.html"), "utf8");
+    return { ok: left === null && /id="netHaveAccount"/.test(src) && /ew_connect_login/.test(src) };
+  });
   await ctx.close();
 
   // ---------- Anglais ----------

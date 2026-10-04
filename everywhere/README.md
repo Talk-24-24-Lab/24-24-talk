@@ -105,3 +105,12 @@ Les captures et `resultats.json` sont écrits dans `everywhere/tests/resultats/`
 - Une notification d'appel touchée quand rien n'est ouvert ouvre TALK seul (pas le portail).
 - Sur iPhone, l'installation passe par Partager → « Sur l'écran d'accueil » ; les notifications n'y marchent qu'une fois l'appli installée.
 - Tests exécutés dans Chromium (moteur de Chrome et d'Android). Safari/iPhone et un vrai téléphone n'ont pas été testés par Claude.
+
+## CONNECT (0.3.0, site de test uniquement)
+
+Écran **Profil** : sécuriser son compte en le reliant à un e-mail (code à 6 chiffres), retrouver son compte
+sur un autre appareil (« J'ai déjà un compte »), voir ses appareils et en déconnecter un (coupure immédiate).
+Serveur : scripts `analyse/mission-6/connect/` (partie A appliquée sur la base de test, partie B à coller),
+retour arrière complet dans `09-connect-retour-arriere.sql`. Ce qui suit un compte sur un autre appareil :
+pseudo, contacts, conversations, messages des 90 derniers jours. Ce qui reste sur l'appareil : historique de
+traduction, favoris, réglages. Tests : 38 tests automatiques (faux serveur, code 123456).

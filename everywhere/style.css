@@ -125,3 +125,24 @@ a.app-card:hover{border-color:var(--accent);}
 @media (prefers-reduced-motion: reduce){ *{animation:none !important;transition:none !important;} }
 /* Mode installé (standalone) : pas de bouton d'installation. */
 @media (display-mode: standalone){ #installCard{display:none;} }
+
+/* CONNECT (profil : sécurité du compte, appareils) */
+.cx-h{font-size:17px;margin:18px 0 6px;}
+.cx-sec{border-top:1px solid var(--line);margin-top:14px;padding-top:4px;}
+.cx-ok{color:var(--ok);font-weight:700;margin:6px 0;}
+.cx-warn{border-left:4px solid var(--warn);background:var(--panel2);border-radius:10px;padding:10px 12px;margin:8px 0;}
+.cx-msg{border-radius:10px;padding:10px 12px;margin:8px 0;font-weight:600;}
+.cx-msg.ok{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--text);}
+.cx-msg.err{background:color-mix(in srgb,var(--err) 18%,transparent);color:var(--text);}
+.cx-form{display:flex;flex-direction:column;gap:8px;margin-top:10px;}
+.cx-lbl{font-weight:700;font-size:15px;}
+.cx-input{min-height:48px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);color:var(--text);padding:0 14px;font-size:17px;width:100%;box-sizing:border-box;}
+.cx-input:focus{outline:2px solid var(--teal);outline-offset:1px;}
+.cx-code{letter-spacing:.4em;font-size:24px;text-align:center;font-variant-numeric:tabular-nums;}
+.cx-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;}
+.cx-actions .btn{flex:1 1 140px;}
+.cx-devs{list-style:none;margin:6px 0;padding:0;}
+.cx-dev{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);}
+.cx-dev small{display:block;color:var(--muted);}
+.cx-other{margin-top:16px;}
+.link-btn.sure{background:var(--err);border-color:var(--err);color:#fff;}
