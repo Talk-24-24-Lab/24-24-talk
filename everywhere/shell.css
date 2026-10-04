@@ -9,8 +9,9 @@
   --ews-sal:env(safe-area-inset-left,0px); --ews-sar:env(safe-area-inset-right,0px);
 }
 @media (prefers-color-scheme: light){
-  :root{ --ews-bg:#f3f6fc; --ews-bg2:#e8eef9; --ews-panel:#ffffff; --ews-line:#d6deef; --ews-text:#0f1730; --ews-muted:#55628a;
-    --ews-teal:#0a9e8f; --ews-teal2:#0b6f66; }
+  /* Clair sans réglage du portail (TALK seul) : mêmes couleurs que le thème clair du portail (contraste AA de l'onglet actif). */
+  :root{ --ews-bg:#f5f8ff; --ews-bg2:#ffffff; --ews-panel:#ffffff; --ews-line:#d8e1f3; --ews-text:#0d1733; --ews-muted:#4d5b80;
+    --ews-teal:#1f5fe0; --ews-teal2:#1749b8; }
 }
 
 /* Portail : thème choisi dans Paramètres (prefs.js). Fond clair et bleu par défaut ; vert réservé à EVERYWHERE.

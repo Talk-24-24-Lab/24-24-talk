@@ -6,7 +6,8 @@
    - id       : identifiant court, utilisé dans l'adresse (#/app/talk)
    - name     : nom affiché
    - tagline  : une phrase, { fr, en }
-   - status   : "available" (ouvrable) ou "reserved" (emplacement réservé, rien n'est simulé)
+   - status   : "available" (ouvrable), "soon" (annoncé « Bientôt », page d'information seulement)
+                ou "reserved" (emplacement réservé) ; rien n'est simulé
    - src      : page de l'application, relative à EW_CONFIG.basePath (application ouverte en pleine page)
    - route    : OU écran interne du portail (#/…), pour un module construit dans le portail lui-même
    - accent   : couleur de la carte
@@ -39,5 +40,14 @@ window.EW_APPS = [
     route: "#/learn",
     accent: "#6b3fd6",
     icon: "learn"
+  },
+  {
+    id: "ailab",
+    name: "24/24 AI LAB",
+    tagline: { fr: "Innover avec l'IA : espace d'expérimentation, bientôt disponible.", en: "Innovating with AI: an experimentation space, coming soon." },
+    status: "soon",
+    route: "#/ailab",
+    accent: "#b4570f",
+    icon: "lab"
   }
 ];

@@ -143,6 +143,7 @@ a.app-card:hover{border-color:var(--accent);}
   .app-list{grid-template-columns:1fr 1fr;}
 }
 @media (prefers-reduced-motion: reduce){ *{animation:none !important;transition:none !important;} }
+html.reduce-motion *{animation:none !important;transition:none !important;}
 /* Mode installé (standalone) : pas de bouton d'installation. */
 @media (display-mode: standalone){ #installCard{display:none;} }
 
@@ -173,7 +174,10 @@ a.app-card:hover{border-color:var(--accent);}
 .duo-card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;padding:20px 16px 18px;border-radius:24px;color:#fff;text-decoration:none;
   min-height:180px;justify-content:center;box-shadow:0 10px 28px rgba(16,40,90,.18);border:1px solid rgba(255,255,255,.25);}
 .duo-card.talk{background:linear-gradient(160deg,#3b7bff 0%,#1f5fe0 55%,#1747b4 100%);}
-.duo-card.ew{background:linear-gradient(160deg,#2fc66f 0%,#13a05a 55%,#0c7d45 100%);}
+/* Vert foncé là où se trouve le texte blanc : contraste ≥ 4,5:1 (l'ancien dégradé descendait à 3,4:1). */
+.duo-card.ew{background:linear-gradient(160deg,#1fae62 0%,#0c7d45 50%,#0a6a3a 100%);}
+.duo-card.ailab{background:linear-gradient(160deg,#b4570f 0%,#8a3f08 55%,#6b3005 100%);}
+.duo-btn.soon{background:transparent;border:2px solid #fff;color:#fff !important;}
 .duo-card.learn{background:linear-gradient(160deg,#8b63f0 0%,#6b3fd6 55%,#5228b5 100%);}
 .duo-card b{font-size:24px;letter-spacing:.04em;}
 .duo-card>span:not(.duo-ic):not(.duo-btn){font-size:15.5px;opacity:.96;}
@@ -196,7 +200,20 @@ html.contrast-high .duo-card{border:3px solid var(--text);}
 .seg .ts1{font-size:19px;} .seg .ts2{font-size:23px;}
 @media (max-width:379px){ .row:has(.seg){flex-wrap:wrap;padding:6px 0;} }
 
+/* Quatre espaces : une colonne sur téléphone, 2 × 2 sur tablette, 4 colonnes sur grand écran. */
 @media (min-width:640px){
-  .duo{grid-template-columns:1fr 1fr 1fr;}
+  .duo{grid-template-columns:1fr 1fr;}
   .duo-card{min-height:230px;}
 }
+@media (min-width:1200px){
+  .duo{grid-template-columns:1fr 1fr 1fr 1fr;}
+}
+
+/* AI LAB (« Bientôt ») */
+.ai-head{display:flex;align-items:center;gap:14px;margin:4px 0 6px;}
+.ai-head h1{margin:0;font-size:26px;letter-spacing:.03em;}
+.ai-logo{width:56px;height:56px;border-radius:50%;background:#8a3f08;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ai-logo svg{width:30px;height:30px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.ai-badge{vertical-align:middle;margin:0 0 0 6px;background:#8a3f08;color:#fff;}
+.ai-list{margin:4px 0;padding-left:20px;}
+.ai-list li{margin:6px 0;}

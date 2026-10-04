@@ -64,22 +64,23 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   // ---------- Téléphone ----------
   let ctx = await newCtx();
   let page = await openPortal(ctx);
-  await step("Accueil : « 24/24 One World », « Un monde sans barrières. », trois cartes TALK, EVERYWHERE et LEARN avec bouton Ouvrir", async () => {
+  await step("Accueil : « 24/24 One World », « Un monde sans barrières. », cartes TALK, EVERYWHERE et LEARN avec bouton Ouvrir, AI LAB « Bientôt »", async () => {
     await page.waitForSelector("#view-accueil.active");
     const h1 = (await page.textContent("#h-accueil")).trim();
     const lead = (await page.textContent("#view-accueil .lead")).trim();
     const cards = await page.$$eval("#homeDuo .duo-card", (n) => n.map((x) => ({ t: x.querySelector("b").textContent, d: x.textContent, href: x.getAttribute("href"), w: x.getBoundingClientRect().width, h: x.getBoundingClientRect().height })));
     const kick = (await page.textContent("#view-accueil .kicker")).trim();
-    const ok = h1 === "24/24 One World" && lead === "Un monde sans barrières." && kick === "Une seule application. Trois interfaces. Un seul compte." && cards.length === 3 &&
+    const ok = h1 === "24/24 One World" && lead === "Un monde sans barrières." && kick === "Une seule application. Trois interfaces. Un seul compte." && cards.length === 4 &&
       cards[0].t === "TALK" && /Communiquer sans barrières/.test(cards[0].d) && cards[1].t === "EVERYWHERE" && /Traduire et connecter partout/.test(cards[1].d) &&
-      cards[2].t === "LEARN" && /Apprendre sans limites/.test(cards[2].d) && cards.every((c) => /Ouvrir/.test(c.d) && c.w >= 330 && c.h >= 150);
+      cards[2].t === "LEARN" && /Apprendre sans limites/.test(cards[2].d) && cards.slice(0, 3).every((c) => /Ouvrir/.test(c.d)) &&
+      cards[3].t === "AI LAB" && /Bientôt/.test(cards[3].d) && !/Ouvrir/.test(cards[3].d) && cards[3].href === "#/ailab" && cards.every((c) => c.w >= 330 && c.h >= 150);
     return { ok, detail: cards.map((c) => c.t + " → " + c.href + " (" + Math.round(c.w) + "×" + Math.round(c.h) + " px)").join(" · ") };
   });
-  await step("Fond clair, bleu (TALK), vert (EVERYWHERE), violet (LEARN)", async () => {
+  await step("Fond clair, bleu (TALK), vert foncé (EVERYWHERE, contraste AA), violet (LEARN)", async () => {
     const c = await page.evaluate(() => ({ bg: getComputedStyle(document.body).backgroundColor, talk: getComputedStyle(document.getElementById("cardTalk")).backgroundImage,
       ew: getComputedStyle(document.getElementById("cardEverywhere")).backgroundImage, learn: getComputedStyle(document.getElementById("cardLearn")).backgroundImage }));
     const light = /rgb\((24[0-9]|25[0-5]), (24[0-9]|25[0-5]), 255\)/.test(c.bg);
-    return { ok: light && /31, 95, 224/.test(c.talk) && /19, 160, 90/.test(c.ew) && /107, 63, 214/.test(c.learn), detail: "fond " + c.bg };
+    return { ok: light && /31, 95, 224/.test(c.talk) && /12, 125, 69/.test(c.ew) && /107, 63, 214/.test(c.learn), detail: "fond " + c.bg };
   });
   await step("Barre basse commune : Accueil, Everywhere, Learn, Talk, Profil", async () => {
     const labels = await page.$$eval("#mainnav a", (n) => n.map((a) => a.textContent.trim()));
@@ -913,7 +914,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
         cols: getComputedStyle(document.getElementById("homeDuo")).gridTemplateColumns.split(" ").length }));
       await page.screenshot({ path: path.join(OUT, name + "-accueil.png") });
       const want = name === "ordinateur" ? "column" : "row";
-      return { ok: r.dir === want && r.sw <= r.w && r.cols === 3, detail: "menu " + (r.dir === "column" ? "latéral" : "bas") + ", " + r.cols + " colonnes" };
+      return { ok: r.dir === want && r.sw <= r.w && r.cols === (name === "ordinateur" ? 4 : 2), detail: "menu " + (r.dir === "column" ? "latéral" : "bas") + ", " + r.cols + " colonnes" };
     });
     await step("LEARN sur " + name + " : leçon et exercice utilisables, sans défilement horizontal", async () => {
       await page.goto(URL_EW + "#/learn/lecon/es-deb-1");
