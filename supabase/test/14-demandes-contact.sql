@@ -145,6 +145,7 @@ revoke all on function public.start_conversation(text, text) from public, anon;
 grant execute on function public.start_conversation(text, text) to authenticated;
 
 -- ===== mes demandes (reçues et envoyées, en attente, 30 jours au plus) =====
+-- Une demande envoyée puis refusée reste affichée « en attente » chez celui qui l'a envoyée : le refus n'est jamais révélé.
 create or replace function public.contact_requests_list()
 returns table (direction text, other_id uuid, pseudo text, lang text, created_at timestamptz)
 language sql
@@ -160,7 +161,7 @@ as $$
   union all
   select 'out', r.to_id, p.pseudo, p.lang, r.created_at
     from private.contact_requests r join public.profiles p on p.id = r.to_id
-   where r.from_id = auth.uid() and r.status = 'pending' and r.created_at > now() - interval '30 days'
+   where r.from_id = auth.uid() and r.status in ('pending', 'declined') and r.created_at > now() - interval '30 days'
      and private.session_active()
   order by 5 desc;
 $$;
@@ -204,6 +205,7 @@ revoke all on function public.answer_contact_request(uuid, boolean) from public,
 grant execute on function public.answer_contact_request(uuid, boolean) to authenticated;
 
 -- ===== annuler une demande que j'ai envoyée =====
+-- Une demande déjà refusée n'est pas touchée (sinon l'annuler permettrait de redemander tout de suite) ; la réponse est la même.
 create or replace function public.cancel_contact_request(p_to uuid)
 returns boolean
 language plpgsql
@@ -214,7 +216,7 @@ begin
   if auth.uid() is null or not private.session_active() then raise exception 'NOT_SIGNED_IN'; end if;
   update private.contact_requests set status = 'cancelled', decided_at = now()
    where from_id = auth.uid() and to_id = p_to and status = 'pending';
-  return found;
+  return true;
 end;
 $$;
 revoke all on function public.cancel_contact_request(uuid) from public, anon;

@@ -3,6 +3,7 @@
 -- Matrice acteur × action × cible × contexte, plus essais d'ÉQUIVALENCE : pour chaque couple de comptes, la réponse du
 -- moteur doit être exactement celle des anciennes règles (sonnerie, ouverture de discussion, lecture de profil).
 -- Tout est annulé par l'exception finale.
+-- Mis à jour au lot 3 : le blocage compte dans les deux sens, et ow_permissions ajoute « request_contact ».
 do $t$
 declare
   ids uuid[] := array[gen_random_uuid(), gen_random_uuid(), gen_random_uuid(), gen_random_uuid(), gen_random_uuid()];
@@ -38,9 +39,9 @@ begin
   perform set_config('request.jwt.claims', json_build_object('sub', a, 'role', 'authenticated', 'session_id', sids[1])::text, true);
   set local role authenticated;
   j1 := public.ow_permissions(b);
-  r := r || '01 A -> B (contact): ' || case when j1 = '{"context":"personal","read_profile":true,"message":true,"call":true,"start_conversation":true,"block":true,"report":true}'::jsonb then 'OK tout permis' else 'ECHEC ' || j1::text end || E'\n';
+  r := r || '01 A -> B (contact): ' || case when j1 @> '{"context":"personal","read_profile":true,"message":true,"call":true,"start_conversation":true,"block":true,"report":true}'::jsonb then 'OK tout permis' else 'ECHEC ' || j1::text end || E'\n';
   j1 := public.ow_permissions(c);
-  r := r || '02 A -> C (inconnu): ' || case when j1 = '{"context":"personal","read_profile":false,"message":false,"call":false,"start_conversation":true,"block":true,"report":true}'::jsonb then 'OK ni lecture, ni message, ni appel ; ouvrir une discussion, bloquer, signaler possibles' else 'ECHEC ' || j1::text end || E'\n';
+  r := r || '02 A -> C (inconnu): ' || case when j1 @> '{"context":"personal","read_profile":false,"message":false,"call":false,"start_conversation":false,"block":true,"report":true}'::jsonb and (j1->>'request_contact')::boolean then 'OK ni lecture, ni message, ni appel ; bloquer, signaler possibles ; ouvrir seulement par demande (lot 3)' else 'ECHEC ' || j1::text end || E'\n';
   j1 := public.ow_permissions(d);
   r := r || '03 A -> D (D a bloque A): ' || case when (j1->>'message')::boolean = false and (j1->>'call')::boolean = false and (j1->>'start_conversation')::boolean = false and (j1->>'report')::boolean then 'OK ni message, ni appel, ni nouvelle discussion ; signaler possible' else 'ECHEC ' || j1::text end || E'\n';
   j1 := public.ow_permissions(e);
@@ -60,7 +61,7 @@ begin
   perform set_config('request.jwt.claims', json_build_object('sub', d, 'role', 'authenticated', 'session_id', sids[4])::text, true);
   set local role authenticated;
   j1 := public.ow_permissions(a);
-  r := r || '09 D -> A (D a bloque A): ' || case when (j1->>'call')::boolean and (j1->>'message')::boolean and not (j1->>'start_conversation')::boolean then 'OK comme avant : D peut ecrire et appeler A, pas de nouvelle discussion' else 'ECHEC ' || j1::text end || E'\n';
+  r := r || '09 D -> A (D a bloque A): ' || case when not (j1->>'call')::boolean and not (j1->>'message')::boolean and not (j1->>'start_conversation')::boolean then 'OK (lot 3) celui qui bloque ne peut plus ecrire ni appeler' else 'ECHEC ' || j1::text end || E'\n';
   reset role;
 
   perform set_config('request.jwt.claims', json_build_object('sub', a, 'role', 'authenticated', 'session_id', gen_random_uuid())::text, true);
@@ -82,8 +83,8 @@ begin
       continue when i = j;
       pairs := pairs + 1;
       perform set_config('request.jwt.claims', json_build_object('sub', ids[i], 'role', 'authenticated', 'session_id', sids[i])::text, true);
-      -- sonnerie : ancienne règle de can_signal, recalculée ici avec les mêmes droits qu'elle (sans RLS)
-      old_ok := not exists (select 1 from public.blocks where blocker = ids[j] and blocked = ids[i])
+      -- sonnerie : règle de can_signal (lot 3 : blocage dans les deux sens), recalculée ici sans RLS
+      old_ok := not exists (select 1 from public.blocks where (blocker = ids[j] and blocked = ids[i]) or (blocker = ids[i] and blocked = ids[j]))
                 and exists (select 1 from public.members m1 join public.members m2 on m2.conversation_id = m1.conversation_id
                              where m1.user_id = ids[i] and m2.user_id = ids[j]);
       set local role authenticated;
@@ -91,8 +92,9 @@ begin
       if old_ok is distinct from new_ok then mism_call := mism_call + 1; r := r || '   ecart appel ' || nm[i] || '->' || nm[j] || E'\n'; end if;
       -- ouverture de discussion : on essaie vraiment start_conversation(), puis on annule
       begin
-        perform public.start_conversation(ps[j]);
-        raise exception 'zt_ok';
+        -- lot 3 : NULL = simple demande envoyée, la discussion ne s'ouvre pas
+        if public.start_conversation(ps[j]) is not null then raise exception 'zt_ok'; end if;
+        raise exception 'zt_demande';
       exception when others then old_ok := (sqlerrm = 'zt_ok'); end;
       new_ok := (public.ow_permissions(ids[j])->>'start_conversation')::boolean;
       if old_ok is distinct from new_ok then mism_start := mism_start + 1; r := r || '   ecart discussion ' || nm[i] || '->' || nm[j] || E'\n'; end if;
