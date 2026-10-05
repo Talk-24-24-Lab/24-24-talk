@@ -50,7 +50,8 @@
       back: "Retour", k_expr: "Comprendre une expression", k_complete: "Compléter une phrase", k_listen: "Écoute", k_match: "Associer",
       choose: "Choisissez la bonne réponse.", right_answer: "bonne réponse", your_answer: "votre réponse", blank: "mot manquant", col_word: "Mots", col_tr: "Traductions",
       match_how: "Touchez un mot, puis sa traduction.", pair_ok: "Paire trouvée.", pair_bad: "Ce n'est pas la bonne paire.",
-      no_voice: "La lecture vocale n'est pas disponible sur cet appareil. Le texte à entendre :", unknown: "Leçon introuvable.", progress_lbl: "Progression"
+      no_voice: "La lecture vocale n'est pas disponible sur cet appareil. Le texte à entendre :", unknown: "Leçon introuvable.", progress_lbl: "Progression",
+      real: "Parler pour de vrai", real_d: "WORLD BRIDGE : utilisez vos mots avec une vraie personne, la traduction vous aide."
     },
     en: {
       title: "LEARN", sub: "Learn without limits.", loading: "Loading…", load_err: "The content could not be loaded.", retry: "Try again",
@@ -82,7 +83,8 @@
       back: "Back", k_expr: "Understand a phrase", k_complete: "Fill in the blank", k_listen: "Listening", k_match: "Match",
       choose: "Choose the right answer.", right_answer: "right answer", your_answer: "your answer", blank: "missing word", col_word: "Words", col_tr: "Translations",
       match_how: "Tap a word, then its translation.", pair_ok: "Pair found.", pair_bad: "That's not the right pair.",
-      no_voice: "Speech is not available on this device. The text to hear:", unknown: "Lesson not found.", progress_lbl: "Progress"
+      no_voice: "Speech is not available on this device. The text to hear:", unknown: "Lesson not found.", progress_lbl: "Progress",
+      real: "Talk for real", real_d: "WORLD BRIDGE: use your words with a real person, the translation helps you."
     }
   };
   function t(k, v) {
@@ -166,7 +168,11 @@
           '<div class="lx-mods">' + mods.map(function (m) {
             return '<a class="lx-mod' + (m[4] ? "" : " soon") + '" href="' + m[1] + '"><span class="lx-mod-ic" aria-hidden="true">' + ICON[m[0]] + "</span>" +
               "<span><b>" + esc(t(m[2])) + "</b><small>" + esc(t(m[3])) + "</small></span>" + (m[4] ? "" : '<span class="badge">' + esc(t("soon")) + "</span>") + "</a>";
-          }).join("") + "</div>" + '<p class="note">' + esc(t("local_note")) + "</p>";
+          }).join("") + "</div>" +
+          // COMMUNIQUER → APPRENDRE → RECOMMUNIQUER : retour vers une vraie conversation (WORLD BRIDGE).
+          '<a class="lx-real" id="lxReal" href="#/bridge' + (p.lang ? "/" + esc(p.lang) : "") + '"><span class="lx-mod-ic" aria-hidden="true">' + ICON.ai + "</span>" +
+          "<span><b>" + esc(t("real")) + "</b><small>" + esc(t("real_d")) + "</small></span></a>" +
+          '<p class="note">' + esc(t("local_note")) + "</p>";
       };
       if (!L) {
         hero = '<div class="lx-hero"><h2>' + esc(t("start_title")) + "</h2><p>" + esc(t("start_txt")) + '</p><a class="btn primary wide" id="lxStart" href="#/learn/apprendre">' + esc(t("choose_lang")) + "</a></div>";
@@ -322,7 +328,8 @@
       (nxt ? '<a class="btn primary" id="lxNextLesson" href="#/learn/lecon/' + esc(nxt.id) + '">' + esc(t("lesson_next")) + "</a>" : "") +
       '<button type="button" class="btn' + (nxt ? "" : " primary") + '" id="lxAgain">' + esc(t("again")) + "</button>" +
       '<a class="btn" href="#/learn/progression">' + esc(t("see_prog")) + "</a>" +
-      '<a class="btn" href="#/learn">' + esc(t("home")) + "</a></div>";
+      '<a class="btn" href="#/learn">' + esc(t("home")) + "</a>" +
+      '<a class="btn" id="lxRealRes" href="#/bridge/' + esc(r.lang) + '">' + esc(t("real")) + "</a></div>";
     var o = { kind: r.kind, lang: r.lang, voice: r.voice, lesson: r.lesson, all: r.all, items: r.kind === "lesson" ? r.items : null };
     root.querySelector("#lxAgain").addEventListener("click", function () {
       if (o.kind === "lesson") startRun(root, o);

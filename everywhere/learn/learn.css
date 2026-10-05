@@ -17,10 +17,10 @@
 .lx-bar{height:12px;border-radius:999px;background:var(--line);overflow:hidden;margin:6px 0;}
 .lx-bar span{display:block;height:100%;background:var(--g);border-radius:999px;transition:width .3s;}
 .lx-mods{display:grid;grid-template-columns:1fr;gap:10px;}
-.lx-mod{display:flex;align-items:center;gap:12px;padding:12px 14px;min-height:72px;border-radius:16px;border:1px solid var(--line);background:var(--panel);color:var(--text);text-decoration:none;}
-.lx-mod:hover{border-color:var(--g);}
-.lx-mod b{display:block;font-size:16.5px;}
-.lx-mod small{display:block;color:var(--muted);font-size:14px;}
+.lx-mod,.lx-real{display:flex;align-items:center;gap:12px;padding:12px 14px;min-height:72px;border-radius:16px;border:1px solid var(--line);background:var(--panel);color:var(--text);text-decoration:none;}
+.lx-mod:hover,.lx-real:hover{border-color:var(--g);}
+.lx-mod b,.lx-real b{display:block;font-size:16.5px;}
+.lx-mod small,.lx-real small{display:block;color:var(--muted);font-size:14px;}
 .lx-mod .badge{margin:0 0 0 auto;}
 .lx-mod.soon{opacity:.85;border-style:dashed;}
 .lx-mod-ic{width:46px;height:46px;border-radius:14px;background:var(--gbg);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
@@ -124,3 +124,5 @@
   .lx-opts{display:grid;grid-template-columns:1fr 1fr;}
 }
 @media (min-width:960px){ .lx-mods{grid-template-columns:repeat(3,1fr);} }
+/* Retour vers une vraie conversation (WORLD BRIDGE) : COMMUNIQUER → APPRENDRE → RECOMMUNIQUER. */
+.lx-real{margin-top:10px;border:2px solid var(--teal);}
