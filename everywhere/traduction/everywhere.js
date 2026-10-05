@@ -398,6 +398,7 @@
   // Contacts lus sur le serveur avec la session de TALK (même compte, même site), comme le fait TALK :
   // seules les personnes déjà en discussion avec moi (contacts autorisés). L'appel lui-même est celui de TALK.
   var callState = null; // { me, pseudo, plang, contacts:[{convId, id, pseudo, lang}] }
+  var inviteTok = null; // jeton du lien d'invitation signé (lot 3), demandé une fois ; absent sur une base sans cette fonction
   function talkUrl(q) { return CFG.basePath + "index.html" + (q || ""); }
   function callScreen(root, my) {
     root.innerHTML = backLink() + '<h1 id="h-tr">' + esc(t("call")) + '</h1><div id="trCallBody"><div class="state"><div class="spinner" aria-hidden="true"></div><p>' + esc(t("c_loading")) + "</p></div></div>";
@@ -440,6 +441,12 @@
               return Promise.all(contacts.map(function (c) {
                 return window.OWCom.permissions(sb, c.id, "personal").then(function (p) { c.perms = p.perms; });
               }));
+            }).then(function () {
+              // Lien d'invitation signé (demandes de contact, lot 3) : un jeton par visite, pas à chaque affichage.
+              if (inviteTok) return;
+              return Promise.resolve(sb.rpc("create_invite")).then(function (r) {
+                if (r && !r.error && typeof r.data === "string" && /^[0-9a-f]{64}$/.test(r.data)) inviteTok = r.data;
+              }, function () { /* lien sans jeton */ });
             }).then(function () {
               return { me: me, pseudo: prof.pseudo, plang: prof.lang, contacts: contacts };
             });
@@ -534,10 +541,10 @@
     d.addEventListener("click", function (e) { if (e.target === d) close(); });
     d.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
   }
-  // Invitation : le même lien que « Inviter un ami » de TALK (…/?ajouter=<mon pseudo>), envoyé avec le partage du téléphone.
+  // Invitation : le même lien que « Inviter un ami » de TALK (…/?ajouter=<mon pseudo>&jeton=…), envoyé avec le partage du téléphone.
   function invite() {
     var out = document.getElementById("trInviteMsg");
-    var url = new URL(CFG.basePath, location.href).href + "?ajouter=" + encodeURIComponent(callState.pseudo) + "&i=5";
+    var url = new URL(CFG.basePath, location.href).href + "?ajouter=" + encodeURIComponent(callState.pseudo) + (inviteTok ? "&jeton=" + inviteTok : "") + "&i=5";
     var copy = function () {
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(url).then(function () { out.textContent = t("c_link_copied"); }, function () { out.textContent = t("c_link_txt", { u: url }); });
