@@ -164,6 +164,12 @@ footer{color:var(--muted);font-size:12px;text-align:center;margin-top:22px;line-
       <div class="chart" id="chart"><div class="tip" id="tip" hidden></div></div>
     </div>
 
+    <div class="card" id="paysCard" hidden>
+      <h2>D'où viennent les visiteurs <span>(30 jours)</span></h2>
+      <div class="totals" id="pays"></div>
+      <p class="note">Pays déduit par le serveur au moment de la visite ; l'adresse IP n'est jamais enregistrée. Vos propres appareils ne sont pas comptés.</p>
+    </div>
+
     <div class="card">
       <h2>Depuis le début</h2>
       <div class="totals" id="totals"></div>
@@ -345,6 +351,32 @@ footer{color:var(--muted);font-size:12px;text-align:center;margin-top:22px;line-
     drawReports();
     drawUsers();
   }
+  // Pays des visiteurs (30 jours). L'écran reste caché tant que le code SQL « pays » n'est pas installé.
+  var PAYS = { RE: "La Réunion", FR: "France", MU: "Maurice", MG: "Madagascar", YT: "Mayotte", KM: "Comores", SC: "Seychelles", BE: "Belgique", CH: "Suisse", CA: "Canada", US: "États-Unis", GB: "Royaume-Uni", DE: "Allemagne", ES: "Espagne", IT: "Italie", PT: "Portugal", NL: "Pays-Bas", IE: "Irlande", IN: "Inde", CN: "Chine", JP: "Japon", ZA: "Afrique du Sud", MA: "Maroc", DZ: "Algérie", TN: "Tunisie", SN: "Sénégal", CI: "Côte d'Ivoire", HT: "Haïti", BR: "Brésil", RU: "Russie" };
+  function flag(c) { return /^[A-Z]{2}$/.test(c) ? String.fromCodePoint(127397 + c.charCodeAt(0), 127397 + c.charCodeAt(1)) + " " : "🌐 "; }
+  async function loadPays() {
+    if (!sb) return;
+    var res;
+    try { res = await sb.rpc("admin_pays"); } catch (e) { return; }
+    if (res.error || !res.data) return;
+    var list = res.data.trente_jours || [];
+    $("paysCard").hidden = false;
+    $("pays").innerHTML = list.length ? list.map(function (x) {
+      var nom = x.pays === "?" ? "Inconnu" : (PAYS[x.pays] || x.pays);
+      return "<div><span>" + flag(x.pays) + esc(nom) + "</span><b>" + fmt(x.n) + "</b></div>";
+    }).join("") : "<div><span>Aucune visite pour l'instant.</span><b></b></div>";
+  }
+  // Cet appareil est celui de l'administrateur : il n'est plus compté dans les statistiques.
+  var appareilDeclare = false;
+  function declarerAppareil() {
+    if (appareilDeclare || !sb) return;
+    appareilDeclare = true;
+    var o = null;
+    try { o = JSON.parse(localStorage.getItem("lc_aud") || "null"); } catch (e) {}
+    if (!o || !o.id) return;
+    sb.rpc("admin_appareil", { sid: o.id }).then(function () {}, function () {});
+  }
+
   // Suspendre / rétablir : demande une confirmation (2e appui), puis met à jour le serveur.
   document.addEventListener("click", async function (e) {
     var b = e.target.closest && e.target.closest("button[data-ban]");
@@ -460,7 +492,9 @@ footer{color:var(--muted);font-size:12px;text-align:center;margin-top:22px;line-
       return;
     }
     render(res.data || {});
+    declarerAppareil();
     loadModo();
+    loadPays();
     setLive(true, "En direct");
     $("upd").textContent = "Mis à jour à " + new Date().toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit", second: "2-digit", timeZone: "Indian/Reunion" });
   }
