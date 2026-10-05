@@ -14,6 +14,9 @@
 - **C2** Pseudo : un changement au plus tous les 30 jours ; un pseudo libéré (changé ou compte supprimé) reste réservé
   30 jours à son ancien titulaire. TALK affiche alors « pseudo déjà pris » (code 23505).
 - Migration `supabase/test/12-socle-confiance.sql` + retour arrière + 29 essais d'attaque rejouables.
+- **Moteur de permissions** (lot 2) : `private.can(action, cible, contexte)` et `public.ow_permissions()` ; la sonnerie
+  des appels passe par le moteur, à l'identique (équivalence vérifiée sur 20 couples de comptes). Migration
+  `supabase/test/13-moteur-permissions.sql` + retour arrière + 16 essais.
 - Tests : nouveau test « kit Supabase figé » ; le test « aucune clé secrète » cherche désormais une vraie clé
   (`sb_secret_` suivi d'au moins 20 caractères) au lieu du simple mot, qui apparaît dans la bibliothèque et l'audit.
 
