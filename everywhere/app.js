@@ -4,8 +4,8 @@
   "use strict";
   var CFG = window.EW_CONFIG || { env: "test", basePath: "../", talkReadyTimeoutMs: 15000 };
   var APPS = window.EW_APPS || [];
-  var VERSION = "0.7.0 (prototype)";
-  var VERSION_TAG = "0.7.0";
+  var VERSION = "0.8.0 (prototype)";
+  var VERSION_TAG = "0.8.0";
 
   // ---------- Stockage (peut être indisponible : navigation privée stricte, etc.) ----------
   var store = {
@@ -48,6 +48,7 @@
       prof_create: "Créer mon profil dans TALK", prof_lang: "Langue parlée : {l}", prof_chats: "Ouvrir mes discussions",
       prof_off: "La messagerie de TALK n'est pas activée sur ce site.",
       env_test: "24/24 ONE WORLD · SITE DE TEST · données fictives · ne pas partager",
+      spaces: "Les espaces de ONE WORLD", connect_q: "CONNECT · Profil", bridge: "WORLD BRIDGE", connect: "CONNECT",
       title_app: "{app}"
     },
     en: {
@@ -79,6 +80,7 @@
       prof_create: "Create my profile in TALK", prof_lang: "Spoken language: {l}", prof_chats: "Open my chats",
       prof_off: "TALK messaging is not enabled on this site.",
       env_test: "24/24 ONE WORLD · TEST SITE · fake data · do not share",
+      spaces: "The ONE WORLD spaces", connect_q: "CONNECT · Profile", bridge: "WORLD BRIDGE", connect: "CONNECT",
       title_app: "{app}"
     }
   };
@@ -328,6 +330,9 @@
     else location.hash = "#/parametres";
   });
 
+  // ---------- WORLD BRIDGE : la porte, posée une seule fois sur l'accueil (oneworld/bridge.js) ----------
+  if (window.OWBridge) window.OWBridge.mount($("bridge"), lang);
+
   // ---------- Routes internes (#/accueil, #/applications, #/everywhere/…, #/app/<id>, #/profil, #/parametres) ----------
   var TITLES = { accueil: "", applications: t("apps"), profil: t("profile"), parametres: t("settings"), everywhere: t("everywhere"), learn: t("learn"), ailab: t("ailab"), "404": "" };
   var first = true;
@@ -335,6 +340,10 @@
     var h = (location.hash || "").replace(/^#\/?/, "");
     if (!h) h = "accueil";
     var parts = h.split("/");
+    // Alias : #/bridge = la porte (accueil), #/connect = CONNECT (profil, appareils, sécurité).
+    var bridge = parts[0] === "bridge";
+    if (bridge) parts = ["accueil"].concat(parts.slice(1));
+    if (parts[0] === "connect") parts = ["profil"].concat(parts.slice(1));
     var view = parts[0], appId = parts[1];
     var target = view;
     if (view === "app") {
@@ -348,6 +357,7 @@
       }
     } else if (["accueil", "applications", "profil", "parametres", "everywhere", "learn", "ailab"].indexOf(view) === -1) target = "404";
     else if (view === "profil" && appId && appId !== "linguistique") target = "404";
+    if (target !== "accueil" && window.OWBridge) window.OWBridge.leave(); // micro et voix coupés en quittant la porte
     document.querySelectorAll(".view").forEach(function (v) {
       var on = v.getAttribute("data-route") === target;
       v.classList.toggle("active", on);
@@ -378,6 +388,7 @@
     document.title = (title ? title + " · " : "") + "24/24 ONE WORLD";
     if (target === "profil") renderProfile(appId);
     if (target === "parametres") { paintStats(); paintPush(); paintInstall(); paintA11y(); }
+    if (bridge && window.OWBridge) { window.OWBridge.focus(parts.slice(1)); first = false; return; }
     if (!first) {
       var active = document.querySelector(".view.active");
       var h1 = active && active.querySelector("h1");

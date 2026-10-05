@@ -1,7 +1,7 @@
 {
   "name": "24/24 ONE WORLD (TEST)",
   "short_name": "ONE WORLD",
-  "description": "24/24 ONE WORLD : une seule application, trois interfaces (TALK, EVERYWHERE, LEARN), un seul compte.",
+  "description": "24/24 ONE WORLD : vous ne parlez pas la même langue ? Parlez quand même. WORLD BRIDGE, TALK, CONNECT, EVERYWHERE, LEARN, un seul compte.",
   "id": "./",
   "start_url": "./#/accueil",
   "scope": "../",
@@ -42,6 +42,17 @@
     }
   ],
   "shortcuts": [
+    {
+      "name": "WORLD BRIDGE",
+      "short_name": "BRIDGE",
+      "url": "./#/bridge",
+      "icons": [
+        {
+          "src": "icons/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
     {
       "name": "24/24 TALK",
       "url": "../index.html?ew=1",
