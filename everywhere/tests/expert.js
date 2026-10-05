@@ -56,6 +56,9 @@ const DICT = { "fr|en": { "Bonjour": "Hello", "Où est la gare ?": "Where is the
     opts = opts || {};
     const ctx = await browser.newContext(Object.assign(PHONE(393, 851), opts.ctx || {}));
     const fakeSrc = opts.fakeSrc || FAKE;
+    // Copie locale figée du kit Supabase (vendor/) : faux client si demandé, sinon rien.
+    await ctx.route(/\/vendor\/supabase-js-[\d.]+\.js$/, (r) => opts.fake
+      ? r.fulfill({ status: 200, contentType: "text/javascript", body: fakeSrc }) : r.abort());
     await ctx.route(/^https?:\/\/(?!localhost)/, (r) => {
       const url = r.request().url();
       if (opts.fake && /supabase-js/.test(url)) return r.fulfill({ status: 200, contentType: "text/javascript", body: fakeSrc });
@@ -428,10 +431,19 @@ const DICT = { "fr|en": { "Bonjour": "Hello", "Où est la gare ?": "Where is the
   await ctx.close();
 
   // =============== 7. Code source ===============
+  await step("Kit Supabase figé : aucune page ne le charge depuis Internet ; la copie locale a l'empreinte attendue", async () => {
+    const pages = ["index.html", "everywhere/config.js", "everywhere/connect.js", "gestion/index.html"];
+    const cdn = pages.filter((f) => /cdn\.jsdelivr\.net\/npm\/@supabase|unpkg\.com\/@supabase|esm\.sh\/@supabase/.test(fs.readFileSync(path.join(SITE, f), "utf8")));
+    const lib = fs.readFileSync(path.join(SITE, "vendor/supabase-js-2.117.2.js"));
+    const sri = "sha384-" + require("crypto").createHash("sha384").update(lib).digest("base64");
+    const expected = (/sha384-[A-Za-z0-9+/=]+/.exec(fs.readFileSync(path.join(SITE, "vendor/README.md"), "utf8")) || [""])[0];
+    return { ok: !cdn.length && sri === expected, detail: cdn.length ? "chargé depuis Internet : " + cdn.join(", ") : sri === expected ? "copie locale 2.117.2, " + sri.slice(0, 20) + "…" : "empreinte différente : " + sri };
+  });
+
   await step("Code : aucune clé secrète dans tout le site (seule la clé publique Supabase est autorisée)", async () => {
     const files = [];
     (function walk(d) { for (const f of fs.readdirSync(d)) { const p = path.join(d, f); if (/node_modules|\.git$|resultats/.test(p)) continue; if (fs.statSync(p).isDirectory()) walk(p); else if (/\.(js|html|json|css|md)$/.test(f)) files.push(p); } })(SITE);
-    const hits = files.filter((f) => !/tests\//.test(f)).filter((f) => /sk-ant-|sk-[A-Za-z0-9]{24}|service_role\s*[:=]|sb_secret_|eyJhbGciOi[\w-]{20,}\.[\w-]{40,}\.[\w-]{20,}|-----BEGIN [A-Z ]*PRIVATE KEY/.test(fs.readFileSync(f, "utf8")));
+    const hits = files.filter((f) => !/tests\//.test(f)).filter((f) => /sk-ant-|sk-[A-Za-z0-9]{24}|service_role\s*[:=]|sb_secret_[A-Za-z0-9_-]{20,}|eyJhbGciOi[\w-]{20,}\.[\w-]{40,}\.[\w-]{20,}|-----BEGIN [A-Z ]*PRIVATE KEY/.test(fs.readFileSync(f, "utf8")));
     return { ok: !hits.length, detail: hits.map((h) => path.relative(SITE, h)).join(", ") || files.length + " fichiers vérifiés" };
   });
 

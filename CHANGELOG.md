@@ -2,6 +2,33 @@
 
 > © 2026 Sébastien Chevrier. Tous droits réservés. La production n'est concernée par aucune de ces versions.
 
+## 0.7.1 (lot 1 « socle de confiance », 5 octobre 2026) — base de TEST, brouillon, non publié
+
+### Sécurité
+- **C1** Bibliothèque Supabase figée : copie locale `vendor/supabase-js-2.117.2.js` (empreinte dans `vendor/README.md`)
+  au lieu de « la dernière 2.x » chargée depuis jsDelivr par TALK, ONE WORLD et `gestion/`.
+- **E1** La date de création d'un profil est imposée par le serveur (le téléphone ne peut plus l'antidater).
+- **E2** Temps réel (sonnerie des appels) : un appareil déconnecté ne peut plus écouter ni faire sonner.
+- **R1** `blocks` et `reports` : règle « session active ».
+- **R2** 19 anciennes fonctions TALK passées en `search_path` vide.
+- **C2** Pseudo : un changement au plus tous les 30 jours ; un pseudo libéré (changé ou compte supprimé) reste réservé
+  30 jours à son ancien titulaire. TALK affiche alors « pseudo déjà pris » (code 23505).
+- Migration `supabase/test/12-socle-confiance.sql` + retour arrière + 29 essais d'attaque rejouables.
+- **Moteur de permissions** (lot 2) : `private.can(action, cible, contexte)` et `public.ow_permissions()` ; la sonnerie
+  des appels passe par le moteur, à l'identique (équivalence vérifiée sur 20 couples de comptes). Migration
+  `supabase/test/13-moteur-permissions.sql` + retour arrière + 16 essais.
+- Tests : nouveau test « kit Supabase figé » ; le test « aucune clé secrète » cherche désormais une vraie clé
+  (`sb_secret_` suivi d'au moins 20 caractères) au lieu du simple mot, qui apparaît dans la bibliothèque et l'audit.
+
+### Ajouté (lot 4 « Communiquer »)
+- `everywhere/core/communiquer.js` : point d'entrée unique `OWCom.resolve(personne, contexte, permissions, capacités)`.
+  Les permissions viennent du serveur (`ow_permissions`), les capacités du canal TALK réel et du téléphone
+  (pas de micro ou de WebRTC = pas d'appel ; vidéo, fichiers, réactions : « pas encore »).
+- EVERYWHERE, liste des contacts : bouton **Écrire** (ouvre la discussion TALK, lien `?ew_ecrire=`) à côté
+  d'**Appeler**, avec la raison affichée quand un moyen n'est pas possible. Base sans moteur : ancien comportement.
+- Accessibilité : les deux journaux du mode côte à côte sont atteignables au clavier et nommés (axe : 0 défaut).
+- Tests : `everywhere/tests/communiquer.js` (11 tests unitaires) ; 4 nouvelles étapes dans `e2e.js` (88 au total).
+
 ## 0.7.0 (prototype, 4 octobre 2026) — PR n° 17, brouillon, non fusionnée, non publiée
 
 ### Ajouté

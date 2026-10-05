@@ -121,6 +121,42 @@
             s.session = false; s.deleted = true; s.email = ""; s.devices = []; localStorage.removeItem("fake_lp"); save(s);
             return R({ data: null, error: null });
           }
+          // Moteur de permissions (lot 2) : un contact peut tout ; localStorage « fake_perm » = {"<id>": {"call": false}} pour
+          // simuler un refus ; « fake_perm » = "absent" pour une base sans moteur (comme la production actuelle).
+          if (name === "ow_permissions") {
+            var fp = localStorage.getItem("fake_perm");
+            if (fp === "absent") return R({ data: null, error: { message: "Could not find the function", code: "PGRST202" } });
+            var isC = [KENJI.id, MARIA.id].indexOf(args.p_other) !== -1 && contactsOn();
+            var p = { context: args.p_context || "personal", read_profile: isC, message: isC, call: isC, start_conversation: true, block: true, report: true };
+            try { var o = JSON.parse(fp || "{}")[args.p_other] || {}; for (var k in o) p[k] = o[k]; } catch (e) {}
+            return R({ data: p, error: null });
+          }
+          // Demandes de contact (lot 3). localStorage « fake_reqs » = liste [{direction, other_id, pseudo, lang}] ;
+          // chaque appel est noté dans « fake_req_log ». Avec « fake_perm » = "absent", ces fonctions n'existent pas (production actuelle).
+          var reqLog = function (o) { try { var l = JSON.parse(localStorage.getItem("fake_req_log") || "[]"); l.push(o); localStorage.setItem("fake_req_log", JSON.stringify(l)); } catch (e) {} };
+          var reqs = function (v) { if (v) localStorage.setItem("fake_reqs", JSON.stringify(v)); try { return JSON.parse(localStorage.getItem("fake_reqs") || "[]"); } catch (e) { return []; } };
+          var absent = localStorage.getItem("fake_perm") === "absent";
+          var noFn = R({ data: null, error: { message: "Could not find the function", code: "PGRST202" } });
+          if (name === "start_conversation") {
+            reqLog({ fn: name, args: args });
+            if (absent && args.invite) return noFn;
+            var known = { kenji: C1, maria: C2 }[args.other_pseudo];
+            if (known && contactsOn()) return R({ data: known, error: null });
+            if (args.other_pseudo === "inconnu") return R({ data: null, error: { message: "NOT_FOUND", code: "P0001" } });
+            if (args.invite === "ab".repeat(32)) return R({ data: C1, error: null });
+            if (!absent) reqs(reqs().concat([{ direction: "out", other_id: "00000000-0000-4000-8000-0000000000c" + reqs().length, pseudo: args.other_pseudo, lang: "en" }]));
+            return R({ data: null, error: null });
+          }
+          if (name === "contact_requests_list") return absent ? noFn : R({ data: reqs(), error: null });
+          if (name === "answer_contact_request" || name === "cancel_contact_request") {
+            if (absent) return noFn;
+            reqLog({ fn: name, args: args });
+            var id = args.p_from || args.p_to;
+            reqs(reqs().filter(function (r) { return r.other_id !== id; }));
+            if (name === "answer_contact_request" && args.p_accept) { try { localStorage.setItem("fake_contacts", "1"); } catch (e) {} return R({ data: C1, error: null }); }
+            return R({ data: name === "cancel_contact_request" ? true : null, error: null });
+          }
+          if (name === "create_invite") return absent ? noFn : R({ data: "ab".repeat(32), error: null });
           // @maria a choisi « visible par mes contacts » (langues parlées : français, anglais) ; @kenji est resté privé.
           if (name === "langues_de_mes_contacts") return R({ data: contactsOn() ? [{ user_id: MARIA.id, display_name: "Maria", native_lang: "es", spoken: [{ code: "fr", level: "B2" }, { code: "en", level: "C1" }] }] : [], error: null });
           return R({ data: null, error: null });

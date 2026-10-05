@@ -46,6 +46,9 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     // Rien ne sort vers Internet ; le kit Supabase est remplacé par le faux client si demandé.
     await ctx.route(/^https?:\/\/(?!localhost)/, (r) => (fake && /supabase-js/.test(r.request().url()))
       ? r.fulfill({ status: 200, contentType: "text/javascript", body: FAKE }) : r.abort());
+    // Copie locale figée du kit Supabase (vendor/) : même règle, faux client ou rien.
+    await ctx.route(/\/vendor\/supabase-js-[\d.]+\.js$/, (r) => fake
+      ? r.fulfill({ status: 200, contentType: "text/javascript", body: FAKE }) : r.abort());
     return ctx;
   }
   async function openPortal(ctx, hash) {
@@ -855,12 +858,13 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.fill("#trSearch", "");
     return { ok: names.join() === "@kenji,@maria" && filtered.join() === "@maria", detail: names.join(", ") + " ; recherche « mar » → " + filtered.join(", ") };
   });
-  await step("Inviter un contact : le lien TALK (?ajouter=<mon pseudo>) part par le partage du téléphone", async () => {
+  await step("Inviter un contact : le lien TALK signé (?ajouter=<mon pseudo>&jeton=…) part par le partage du téléphone", async () => {
     await page.tap("#trInvite");
     await page.waitForFunction(() => !!window.__shared, null, { timeout: 3000 });
     const u = await page.evaluate(() => window.__shared.url);
     const talkLink = new URL(u);
-    return { ok: talkLink.pathname === BASE && talkLink.searchParams.get("ajouter") === "sebtest" && talkLink.searchParams.get("i") === "5", detail: talkLink.pathname + talkLink.search };
+    return { ok: talkLink.pathname === BASE && talkLink.searchParams.get("ajouter") === "sebtest" && talkLink.searchParams.get("jeton") === "ab".repeat(32) && talkLink.searchParams.get("i") === "5",
+      detail: talkLink.pathname + talkLink.search.replace(/[0-9a-f]{64}/, "<jeton>") };
   });
   await step("Avant l'appel : langues réglables, enregistrées pour TALK (même réglage que dans TALK)", async () => {
     await page.tap('[data-call="aaaaaaaa-0000-4000-8000-000000000001"]');
@@ -886,6 +890,36 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.waitForURL((u) => /\/everywhere\/$/.test(u.pathname) && u.hash === "#/everywhere/appel", { timeout: 10000 });
     await page.waitForSelector(".tr-ct", { timeout: 10000 });
     return { ok: true };
+  });
+  await step("Communiquer (lot 4) : chaque contact propose Écrire et Appeler, décidés par le serveur (ow_permissions)", async () => {
+    const rows = await page.$$eval(".tr-ct", (n) => n.map((li) => ({ w: !!li.querySelector("[data-write]"), c: !!li.querySelector("[data-call]"), href: (li.querySelector("[data-write]") || {}).getAttribute ? li.querySelector("[data-write]").getAttribute("href") : "" })));
+    return { ok: rows.length === 2 && rows.every((r) => r.w && r.c && /index\.html\?ew=1&ew_ecrire=aaaaaaaa-/.test(r.href)), detail: rows.map((r) => r.href).join(" ; ") };
+  });
+  await step("Écrire : TALK ouvre directement la discussion avec @kenji, adresse nettoyée", async () => {
+    await page.tap('[data-write="aaaaaaaa-0000-4000-8000-000000000001"]');
+    await page.waitForURL((u) => /\/index\.html$/.test(u.pathname), { timeout: 10000 });
+    await page.waitForSelector("#netInput", { timeout: 15000 });
+    const txt = (await page.textContent("body")).replace(/\s+/g, " ");
+    const url = page.url();
+    return { ok: /@kenji/.test(txt) && !/ew_ecrire/.test(url), detail: "discussion @kenji ouverte, " + new URL(url).search };
+  });
+  await step("Permission refusée par le serveur : le bouton Appeler disparaît pour ce contact seulement", async () => {
+    await page.evaluate(() => localStorage.setItem("fake_perm", JSON.stringify({ "00000000-0000-4000-8000-0000000000b1": { call: false } })));
+    await page.goto(URL_EW + "#/everywhere/appel");
+    await page.waitForSelector(".tr-ct [data-write]", { timeout: 10000 });
+    const rows = await page.$$eval(".tr-ct", (n) => n.map((li) => ({ p: li.querySelector("b").textContent, c: !!li.querySelector("[data-call]"), w: !!li.querySelector("[data-write]") })));
+    const k = rows.find((r) => r.p === "@kenji"), m = rows.find((r) => r.p === "@maria");
+    return { ok: k && !k.c && k.w && m && m.c && m.w, detail: rows.map((r) => r.p + (r.w ? " écrire" : "") + (r.c ? " appeler" : "")).join(" ; ") };
+  });
+  await step("Base sans moteur de permissions (comme la production actuelle) : même boutons qu'avant", async () => {
+    await page.evaluate(() => localStorage.setItem("fake_perm", "absent"));
+    await page.goto(URL_EW + "#/everywhere/appel");
+    await page.reload();
+    await page.waitForSelector(".tr-ct [data-call]", { timeout: 10000 });
+    await page.waitForFunction(() => document.querySelectorAll(".tr-ct").length === 2, null, { timeout: 10000 });
+    const n = await page.$$eval(".tr-ct [data-call]", (x) => x.length);
+    await page.evaluate(() => localStorage.removeItem("fake_perm"));
+    return { ok: n === 2, detail: n + " boutons Appeler" };
   });
   await step("EVERYWHERE : aucune erreur JavaScript, aucune fonction de LEARN, aucune clé secrète dans le code", async () => {
     const src = ["traduction/everywhere.js", "traduction/moteur.js"].map((f) => fs.readFileSync(path.join(__dirname, "..", f), "utf8")).join("\n");
@@ -930,6 +964,80 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     });
     await ctx.close();
   }
+
+  // ---------- Demandes de contact (lot 3, décision D6 « Oui, avec lien ») ----------
+  ctx = await ewCtx(null, true);
+  await ctx.addInitScript(() => {
+    localStorage.setItem("fake_contacts", "1"); localStorage.setItem("lc_net_joined", "1");
+    if (!localStorage.getItem("fake_reqs")) localStorage.setItem("fake_reqs", JSON.stringify([{ direction: "in", other_id: "00000000-0000-4000-8000-0000000000d1", pseudo: "lucia", lang: "it" }]));
+    window.__shared = null;
+    navigator.share = function (d) { window.__shared = d; return Promise.resolve(); };
+  });
+  page = await ctx.newPage();
+  page._errors = [];
+  page.on("pageerror", (e) => page._errors.push(String(e)));
+  const reqLog = () => page.evaluate(() => JSON.parse(localStorage.getItem("fake_req_log") || "[]"));
+  const T64 = "ab".repeat(32);
+  await step("Lien sans jeton vers un inconnu : une demande part, aucune discussion ne s'ouvre", async () => {
+    await page.goto(ORIGIN + BASE + "?ajouter=nouveau1");
+    await page.waitForSelector(".net-reqs", { timeout: 15000 });
+    const txt = (await page.textContent("body")).replace(/\s+/g, " ");
+    const last = (await reqLog()).filter((x) => x.fn === "start_conversation").pop();
+    await page.screenshot({ path: path.join(OUT, "talk-demandes-contact.png") });
+    return { ok: /Demande envoyée à @nouveau1/.test(txt) && /@nouveau1\s*demande envoyée, en attente/.test(txt) && last && !last.args.invite && !(await page.$("#netInput")),
+      detail: "« Demande envoyée à @nouveau1 », listée en attente" };
+  });
+  await step("Demande reçue de @lucia : Accepter / Refuser affichés ; Accepter ouvre la discussion", async () => {
+    const shown = await page.$$eval("[data-req-yes], [data-req-no]", (b) => b.map((x) => x.getAttribute("aria-label")));
+    await page.tap('[data-req-yes="00000000-0000-4000-8000-0000000000d1"]');
+    await page.waitForSelector("#netInput", { timeout: 15000 });
+    const last = (await reqLog()).pop();
+    return { ok: shown.join() === "Accepter @lucia,Refuser @lucia" && last.fn === "answer_contact_request" && last.args.p_accept === true,
+      detail: shown.join(" ; ") + " → discussion ouverte" };
+  });
+  await step("Refuser une demande : elle disparaît, la personne n'en est pas prévenue", async () => {
+    await page.evaluate(() => { const r = JSON.parse(localStorage.getItem("fake_reqs") || "[]"); r.push({ direction: "in", other_id: "00000000-0000-4000-8000-0000000000d2", pseudo: "omar", lang: "ar" }); localStorage.setItem("fake_reqs", JSON.stringify(r)); });
+    await page.goto(ORIGIN + BASE + "?ajouter=nouveau2");
+    await page.waitForSelector('[data-req-no="00000000-0000-4000-8000-0000000000d2"]', { timeout: 15000 });
+    await page.tap('[data-req-no="00000000-0000-4000-8000-0000000000d2"]');
+    await page.waitForFunction(() => /refusée/.test(document.body.textContent), null, { timeout: 10000 });
+    const last = (await reqLog()).pop();
+    const still = await page.$('[data-req-no="00000000-0000-4000-8000-0000000000d2"]');
+    return { ok: last.fn === "answer_contact_request" && last.args.p_accept === false && !still, detail: "Refuser @omar → p_accept=false, ligne retirée" };
+  });
+  await step("Annuler une demande envoyée", async () => {
+    const id = await page.$eval("[data-req-cancel]", (b) => b.getAttribute("data-req-cancel"));
+    const before = await page.$$eval("[data-req-cancel]", (b) => b.length);
+    await page.tap('[data-req-cancel="' + id + '"]');
+    await page.waitForFunction((n) => document.querySelectorAll("[data-req-cancel]").length === n - 1, before, { timeout: 10000 });
+    const last = (await reqLog()).pop();
+    return { ok: last.fn === "cancel_contact_request" && last.args.p_to === id, detail: before + " → " + (before - 1) + " demande(s) envoyée(s)" };
+  });
+  await step("Mon lien « Inviter un ami » est signé (jeton de 64 caractères)", async () => {
+    await page.evaluate(() => { window.__shared = null; });
+    await page.tap("#netInvite");
+    await page.waitForFunction(() => !!window.__shared, null, { timeout: 5000 });
+    const u = new URL(await page.evaluate(() => window.__shared.url));
+    return { ok: u.searchParams.get("ajouter") === "sebtest" && u.searchParams.get("jeton") === T64, detail: u.search.replace(/[0-9a-f]{64}/, "<jeton>") };
+  });
+  await step("Lien signé reçu : le jeton est transmis au serveur et la discussion s'ouvre directement", async () => {
+    await page.goto(ORIGIN + BASE + "?ajouter=kenjix&jeton=" + T64);
+    await page.waitForSelector("#netInput", { timeout: 15000 });
+    const last = (await reqLog()).filter((x) => x.fn === "start_conversation").pop();
+    const stored = await page.evaluate(() => localStorage.getItem("lc_net_pending"));
+    return { ok: last.args.other_pseudo === "kenjix" && last.args.invite === T64 && !stored && !/jeton=/.test(page.url()), detail: "invite transmis, adresse nettoyée" };
+  });
+  await step("Base sans demandes de contact (comme la production actuelle) : le lien marche comme avant", async () => {
+    await page.evaluate(() => { localStorage.setItem("fake_perm", "absent"); localStorage.setItem("fake_req_log", "[]"); });
+    await page.goto(ORIGIN + BASE + "?ajouter=maria&jeton=" + T64);
+    await page.waitForSelector("#netInput", { timeout: 15000 });
+    const calls = (await reqLog()).filter((x) => x.fn === "start_conversation");
+    const txt = (await page.textContent("body")).replace(/\s+/g, " ");
+    await page.evaluate(() => localStorage.removeItem("fake_perm"));
+    return { ok: calls.length === 2 && calls[0].args.invite === T64 && !("invite" in calls[1].args) && /@maria/.test(txt) && !page._errors.length,
+      detail: "1er essai avec jeton refusé (fonction absente), 2e sans jeton → discussion @maria ; " + (page._errors.join(" | ").slice(0, 100) || "aucune erreur") };
+  });
+  await ctx.close();
 
   // ---------- Non-régression : TALK seul, comme aujourd'hui ----------
   ctx = await newCtx();

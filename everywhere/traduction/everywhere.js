@@ -41,7 +41,7 @@
       set_sound: "Lire la traduction à voix haute", set_volume: "Volume", set_size: "Taille du texte (côte à côte)", sizes: "Normal|Grand|Très grand",
       set_note: "Ces réglages restent sur cet appareil. Thème et contraste : Paramètres de 24/24 ONE WORLD.", a11y_link: "Ouvrir les Paramètres",
       c_search: "Rechercher un contact", c_invite: "📨 Inviter un contact", c_invite_d: "Le lien TALK part par SMS, WhatsApp ou e-mail. Dès que la personne a choisi son pseudo, elle apparaît ici.",
-      c_call: "Appeler", c_loading: "Lecture de vos contacts TALK…", c_none: "Pas encore de contact. Invitez quelqu'un : il apparaîtra ici dès qu'il aura choisi son pseudo.",
+      c_call: "Appeler", c_write: "Écrire", c_no_call_dev: "Appel impossible sur cet appareil (micro ou appel internet absents)", c_no_perm: "Cette personne ne peut pas être jointe pour le moment", c_loading: "Lecture de vos contacts TALK…", c_none: "Pas encore de contact. Invitez quelqu'un : il apparaîtra ici dès qu'il aura choisi son pseudo.",
       c_nomatch: "Aucun contact ne correspond.", c_err: "Impossible de lire vos contacts pour le moment.", retry: "Réessayer",
       c_off: "La messagerie de TALK n'est pas activée sur ce site.", c_noprof: "Il faut d'abord un profil TALK (un pseudo et votre langue, sans e-mail ni numéro).",
       c_create: "Créer mon profil dans TALK", c_link_copied: "Lien copié : collez-le dans un SMS ou WhatsApp.", c_link_txt: "Copiez ce lien et envoyez-le : {u}",
@@ -81,7 +81,7 @@
       set_sound: "Read the translation aloud", set_volume: "Volume", set_size: "Text size (side by side)", sizes: "Normal|Large|Extra large",
       set_note: "These settings stay on this device. Theme and contrast: 24/24 ONE WORLD Settings.", a11y_link: "Open Settings",
       c_search: "Search a contact", c_invite: "📨 Invite a contact", c_invite_d: "The TALK link goes by SMS, WhatsApp or email. As soon as the person picks a username, they appear here.",
-      c_call: "Call", c_loading: "Reading your TALK contacts…", c_none: "No contact yet. Invite someone: they'll appear here as soon as they pick a username.",
+      c_call: "Call", c_write: "Write", c_no_call_dev: "Calls are not possible on this device (no microphone or internet calling)", c_no_perm: "This person can't be reached right now", c_loading: "Reading your TALK contacts…", c_none: "No contact yet. Invite someone: they'll appear here as soon as they pick a username.",
       c_nomatch: "No matching contact.", c_err: "Your contacts can't be read right now.", retry: "Try again",
       c_off: "TALK messaging is not enabled on this site.", c_noprof: "You need a TALK profile first (a username and your language, no email or phone number).",
       c_create: "Create my profile in TALK", c_link_copied: "Link copied: paste it in an SMS or WhatsApp.", c_link_txt: "Copy this link and send it: {u}",
@@ -203,7 +203,7 @@
     var code = halfLang(who);
     return '<section class="tr-half p' + who + '" data-who="' + who + '" aria-label="' + esc(t(who === 1 ? "p1" : "p2")) + '">' +
       '<label class="tr-who"><span>' + esc(t(who === 1 ? "p1" : "p2")) + ' · </span><select data-lang-of="' + who + '" aria-label="' + esc(t(who === 1 ? "lang_me" : "lang_other")) + '">' + langOptions(code) + "</select></label>" +
-      '<div class="tr-log" data-log="' + who + '" aria-live="polite"></div>' +
+      '<div class="tr-log" data-log="' + who + '" role="log" tabindex="0" aria-live="polite" aria-label="' + esc(t(who === 1 ? "p1" : "p2")) + '"></div>' +
       '<p class="tr-msg" data-msg="' + who + '" role="alert"></p>' +
       '<form class="tr-type" data-type="' + who + '" hidden><input type="text" data-input="' + who + '" autocomplete="off" lang="' + esc(code) + '"><button type="submit" class="btn primary">' + esc(t("send")) + "</button></form>" +
       '<div class="tr-acts"><button type="button" class="tr-mic" data-mic="' + who + '" aria-label="' + esc(t("speak_in", { l: langName(code) })) + '">' + ic("mic") + "</button>" +
@@ -398,6 +398,7 @@
   // Contacts lus sur le serveur avec la session de TALK (même compte, même site), comme le fait TALK :
   // seules les personnes déjà en discussion avec moi (contacts autorisés). L'appel lui-même est celui de TALK.
   var callState = null; // { me, pseudo, plang, contacts:[{convId, id, pseudo, lang}] }
+  var inviteTok = null; // jeton du lien d'invitation signé (lot 3), demandé une fois ; absent sur une base sans cette fonction
   function talkUrl(q) { return CFG.basePath + "index.html" + (q || ""); }
   function callScreen(root, my) {
     root.innerHTML = backLink() + '<h1 id="h-tr">' + esc(t("call")) + '</h1><div id="trCallBody"><div class="state"><div class="spinner" aria-hidden="true"></div><p>' + esc(t("c_loading")) + "</p></div></div>";
@@ -435,6 +436,18 @@
                 c.also = r && Array.isArray(r.spoken) ? r.spoken.map(function (x) { return x && typeof x.code === "string" ? x.code : null; }).filter(Boolean).slice(0, 6) : [];
               });
             }, function () { /* fonction absente : on garde la liste */ }).then(function () {
+              // Point d'entrée unique « Communiquer » : ce que le serveur permet × ce que TALK et ce téléphone savent faire.
+              if (!window.OWCom) return;
+              return Promise.all(contacts.map(function (c) {
+                return window.OWCom.permissions(sb, c.id, "personal").then(function (p) { c.perms = p.perms; });
+              }));
+            }).then(function () {
+              // Lien d'invitation signé (demandes de contact, lot 3) : un jeton par visite, pas à chaque affichage.
+              if (inviteTok) return;
+              return Promise.resolve(sb.rpc("create_invite")).then(function (r) {
+                if (r && !r.error && typeof r.data === "string" && /^[0-9a-f]{64}$/.test(r.data)) inviteTok = r.data;
+              }, function () { /* lien sans jeton */ });
+            }).then(function () {
               return { me: me, pseudo: prof.pseudo, plang: prof.lang, contacts: contacts };
             });
           });
@@ -472,8 +485,22 @@
       return '<li class="tr-ct"><span class="tr-av" aria-hidden="true">' + esc(c.pseudo.charAt(0).toUpperCase()) + "</span>" +
         "<span><b>@" + esc(c.pseudo) + "</b><small>" + esc(t("c_lang_of", { l: langName(c.lang) })) +
         (c.also && c.also.length ? " · " + esc(t("c_also", { l: c.also.map(langName).join(", ") })) : "") + "</small></span>" +
-        '<button type="button" class="btn tr-callbtn" data-call="' + esc(c.convId) + '" aria-label="' + esc(t("c_call") + " @" + c.pseudo) + '">' + esc(t("c_call")) + "</button></li>";
+        actions(c) + "</li>";
     }).join("");
+  }
+  // Boutons d'un contact, décidés par OWCom.resolve (permission du serveur × capacité réelle). Sans OWCom : comme avant.
+  function actions(c) {
+    var callBtn = '<button type="button" class="btn tr-callbtn" data-call="' + esc(c.convId) + '" aria-label="' + esc(t("c_call") + " @" + c.pseudo) + '">' + esc(t("c_call")) + "</button>";
+    if (!window.OWCom || !c.perms) return callBtn;
+    var opts = window.OWCom.resolve(c, "personal", c.perms, window.OWCom.capabilities(), talkUrl);
+    var msg = opts.filter(function (o) { return o.intent === "message"; })[0];
+    var call = opts.filter(function (o) { return o.intent === "call"; })[0];
+    var html = "";
+    if (msg.available) html += '<a class="btn tr-writebtn" data-write="' + esc(c.convId) + '" href="' + esc(msg.href) + '" aria-label="' + esc(t("c_write") + " @" + c.pseudo) + '">' + esc(t("c_write")) + "</a>";
+    if (call.available) html += callBtn;
+    if (!msg.available && !call.available) html += '<small class="tr-why" role="note">' + esc(t("c_no_perm")) + "</small>";
+    else if (!call.available && call.reason === "appareil") html += '<small class="tr-why" role="note">' + esc(t("c_no_call_dev")) + "</small>";
+    return '<span class="tr-acts">' + html + "</span>";
   }
   // Langues de la discussion, au même endroit que TALK (lc_convlang_<discussion>) : TALK les utilise pour l'appel.
   function convLangs(convId) {
@@ -514,10 +541,10 @@
     d.addEventListener("click", function (e) { if (e.target === d) close(); });
     d.addEventListener("keydown", function (e) { if (e.key === "Escape") close(); });
   }
-  // Invitation : le même lien que « Inviter un ami » de TALK (…/?ajouter=<mon pseudo>), envoyé avec le partage du téléphone.
+  // Invitation : le même lien que « Inviter un ami » de TALK (…/?ajouter=<mon pseudo>&jeton=…), envoyé avec le partage du téléphone.
   function invite() {
     var out = document.getElementById("trInviteMsg");
-    var url = new URL(CFG.basePath, location.href).href + "?ajouter=" + encodeURIComponent(callState.pseudo) + "&i=5";
+    var url = new URL(CFG.basePath, location.href).href + "?ajouter=" + encodeURIComponent(callState.pseudo) + (inviteTok ? "&jeton=" + inviteTok : "") + "&i=5";
     var copy = function () {
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(url).then(function () { out.textContent = t("c_link_copied"); }, function () { out.textContent = t("c_link_txt", { u: url }); });

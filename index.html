@@ -307,6 +307,9 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
     display:flex;align-items:center;justify-content:center;flex-shrink:0;text-transform:uppercase;}
   .net-contact-name{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;font-size:15px;}
   .net-contact-name b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .net-req{flex-wrap:wrap;margin-top:8px;}
+  .net-req-acts{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;margin-left:auto;}
+  .net-req-acts .btn{min-height:44px;padding:0 14px;}
   .net-dial{flex-shrink:0;display:flex;align-items:center;gap:6px;height:44px;padding:0 14px;border-radius:22px;border:none;
     background:var(--ok);color:#0b0e1a;font-weight:700;font-size:14px;font-family:inherit;cursor:pointer;}
   .net-dial svg{width:18px;height:18px;}
@@ -5641,7 +5644,7 @@ if (SERVICE_WORKER_FILE && "serviceWorker" in navigator) {
 const NET_CONFIG = { url: "https://tbynnefrrxzxufcptijc.supabase.co", key: "sb_publishable_zNyy7HYlbwtdNjewaxcKdA_uF_vlskR" }; // COPIE DE TEST : projet Supabase 24-24-talk-test
 // Garde-fou de la copie de test : si l'adresse de production revient ici par erreur, la messagerie est coupée.
 if (/wsgcumnaltdinchsdovs/.test(NET_CONFIG.url)) { NET_CONFIG.url = ""; NET_CONFIG.key = ""; console.error("[TEST] Adresse de production détectée : messagerie désactivée."); }
-const NET_SDK_URL = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+const NET_SDK_URL = "vendor/supabase-js-2.117.2.js"; // copie locale figée (lot 1, C1) : plus de code tiers chargé sans contrôle
 // Voix réelle (WebRTC) : la voix va directement d'un téléphone à l'autre. Les serveurs STUN aident les
 // deux téléphones à se trouver. Pour les réseaux qui bloquent le direct, ajouter ici un relais TURN,
 // ex. { urls: "turn:turn.cloudflare.com:3478", username: "…", credential: "…" }.
@@ -5709,6 +5712,15 @@ const NET_STRINGS = {
     net_not_found: "Aucun utilisateur avec ce pseudo.",
     net_self: "C'est votre propre pseudo 🙂",
     net_blocked: "Impossible : l'un de vous a bloqué l'autre.",
+    net_req_sent: "Demande envoyée à @{p}. Vous pourrez discuter dès qu'il ou elle l'aura acceptée.",
+    net_req_title: "Demandes de contact",
+    net_req_in: "veut discuter avec vous",
+    net_req_out: "demande envoyée, en attente",
+    net_req_accept: "Accepter",
+    net_req_decline: "Refuser",
+    net_req_cancel: "Annuler",
+    net_req_declined: "Demande de @{p} refusée. Cette personne n'en est pas prévenue.",
+    net_req_gone: "Cette demande n'est plus valable.",
     net_suspended: "Votre compte est suspendu. Pour en parler : schevrier.1975@gmail.com",
     net_rate_limit: "Trop d'envois d'un coup. Patientez une minute puis réessayez.",
     net_convs: "Mes discussions",
@@ -5841,6 +5853,15 @@ const NET_STRINGS = {
     net_not_found: "No user with this username.",
     net_self: "That's your own username 🙂",
     net_blocked: "Not possible: one of you has blocked the other.",
+    net_req_sent: "Request sent to @{p}. You can chat as soon as they accept it.",
+    net_req_title: "Contact requests",
+    net_req_in: "wants to chat with you",
+    net_req_out: "request sent, waiting",
+    net_req_accept: "Accept",
+    net_req_decline: "Decline",
+    net_req_cancel: "Cancel",
+    net_req_declined: "Request from @{p} declined. They are not told.",
+    net_req_gone: "This request is no longer valid.",
     net_suspended: "Your account is suspended. To discuss it: schevrier.1975@gmail.com",
     net_rate_limit: "Too many at once. Wait a minute and try again.",
     net_convs: "My chats",
@@ -7420,13 +7441,17 @@ const Reseau = (() => {
   const trCache = new Map();
   const outChannels = new Map();
   let pendingAdd = null;
+  let pendingInvite = null; // jeton du lien d'invitation signé (…&jeton=…) : la personne a choisi de partager son lien
   let inviteFromLink = false;
+  let requests = []; // demandes de contact en attente : { direction: "in"|"out", other_id, pseudo, lang }
+  let inviteTok = null; // mon jeton d'invitation (base de test, lot 3), demandé une fois par session
   // Invitation : une phrase qui dit quoi faire + le lien direct. Les messageries affichent le lien en carte
   // cliquable avec le visuel 24/24 Talk et « 👆 Touchez ici pour ouvrir 24/24 Talk » (aperçu du lien). Une image envoyée avec le lien faisait
   // disparaître le lien dans certaines messageries (Messenger).
   // Invitation : seulement le lien, que la messagerie transforme en carte à toucher
   // (visuel + « 24/24, Let's go – Clic ici pour ouvrir le lien de l'appli – C'est gratuit »).
   async function sendInvite(msgEl) {
+    if (!inviteTok) await ensureInviteToken();
     const link = inviteLink();
     if (navigator.share) {
       try {
@@ -7452,13 +7477,18 @@ const Reseau = (() => {
     const m = /[?#&](?:ajouter|add)=([a-z0-9_.]{3,20})/i.exec((location.search || "") + (location.hash || ""));
     if (m) {
       pendingAdd = m[1].toLowerCase();
+      const k = /[?#&]jeton=([0-9a-f]{64})\b/i.exec((location.search || "") + (location.hash || ""));
+      pendingInvite = k ? k[1].toLowerCase() : null;
       inviteFromLink = true;
-      safeStore.setItem("lc_net_pending", JSON.stringify({ p: pendingAdd, t: Date.now() }));
+      safeStore.setItem("lc_net_pending", JSON.stringify({ p: pendingAdd, k: pendingInvite, t: Date.now() }));
       return;
     }
     try {
       const saved = JSON.parse(safeStore.getItem("lc_net_pending") || "null");
-      if (saved && saved.p && Date.now() - saved.t < 7 * 864e5) pendingAdd = saved.p;
+      if (saved && saved.p && Date.now() - saved.t < 7 * 864e5) {
+        pendingAdd = saved.p;
+        pendingInvite = typeof saved.k === "string" && /^[0-9a-f]{64}$/.test(saved.k) ? saved.k : null;
+      }
       else safeStore.removeItem("lc_net_pending");
     } catch (e) { safeStore.removeItem("lc_net_pending"); }
   })();
@@ -7480,8 +7510,17 @@ const Reseau = (() => {
     pendingEwCall = m[1].toLowerCase();
     try { history.replaceState(null, "", location.pathname + (/[?&]ew=1\b/.test(location.search) ? "?ew=1" : "")); } catch (e) { /* ignoré */ }
   })();
+  // Arrivé depuis ONE WORLD (« Écrire ») : ?ew_ecrire=<discussion> ouvre cette discussion de TALK, rien d'autre.
+  let pendingEwChat = null;
+  (function readEwChat() {
+    const m = /[?&]ew_ecrire=([0-9a-f-]{36})/i.exec(location.search || "");
+    if (!m) return;
+    pendingEwChat = m[1].toLowerCase();
+    try { history.replaceState(null, "", location.pathname + (/[?&]ew=1\b/.test(location.search) ? "?ew=1" : "")); } catch (e) { /* ignoré */ }
+  })();
   function inviteUsed() {
     pendingAdd = null;
+    pendingInvite = null;
     safeStore.removeItem("lc_net_pending");
     if (/[?#&](?:ajouter|add)=/i.test((location.search || "") + (location.hash || ""))) {
       try { history.replaceState(null, "", location.pathname); } catch (e) { /* ignoré */ }
@@ -7490,7 +7529,22 @@ const Reseau = (() => {
 
   // « &i=2 » : nouvelle adresse pour que les messageries reprennent la dernière image d'aperçu (elles la gardent en mémoire).
   function inviteLink() {
-    return baseUrl() + "?ajouter=" + (profile ? profile.pseudo : "") + "&i=5";
+    return baseUrl() + "?ajouter=" + (profile ? profile.pseudo : "") + (inviteTok ? "&jeton=" + inviteTok : "") + "&i=5";
+  }
+  // Lien signé : sur une base qui exige une demande de contact, le jeton prouve que c'est bien moi qui ai partagé ce lien.
+  // Base sans cette fonction (production actuelle) : lien habituel, sans jeton.
+  async function ensureInviteToken() {
+    if (inviteTok || !sb) return;
+    try {
+      const { data, error } = await sb.rpc("create_invite");
+      if (!error && typeof data === "string" && /^[0-9a-f]{64}$/.test(data)) inviteTok = data;
+    } catch (e) { /* lien sans jeton */ }
+  }
+  async function loadRequests() {
+    try {
+      const { data, error } = await sb.rpc("contact_requests_list");
+      requests = !error && Array.isArray(data) ? data.filter((r) => r && (r.direction === "in" || r.direction === "out") && r.pseudo) : [];
+    } catch (e) { requests = []; }
   }
   function baseUrl() {
     return location.href.split("#")[0].split("?")[0];
@@ -7505,11 +7559,13 @@ const Reseau = (() => {
   function setFlash(text, type) {
     flash = text ? { text, type: type || "ok" } : null;
   }
+  // Le message reste affiché pendant les rendus rapprochés (ex. arrivée par un lien : la connexion redessine l'écran
+  // juste après) ; il disparaît au premier rendu qui suit de plus d'1,5 seconde.
   function flashHtml() {
     if (!flash) return "";
-    const h = `<div class="msg ${flash.type}">${flash.text}</div>`;
-    flash = null;
-    return h;
+    if (flash.shown && Date.now() - flash.shown > 1500) { flash = null; return ""; }
+    flash.shown = flash.shown || Date.now();
+    return `<div class="msg ${flash.type}">${flash.text}</div>`;
   }
   function isActiveTab() {
     const v = document.getElementById("net");
@@ -7578,13 +7634,15 @@ const Reseau = (() => {
     Stats24.setNet(true);
     if (pushState() === "on") syncPushSub(false);
     else autoPush();
-    await Promise.all([loadConversations(), loadBlocks()]);
+    await Promise.all([loadConversations(), loadBlocks(), loadRequests()]);
     await startRealtime();
     screen = "home";
+    ensureInviteToken();
     if (pendingAdd) {
       const p = pendingAdd;
+      const k = pendingInvite;
       inviteUsed();
-      if (p !== profile.pseudo) await openWith(p);
+      if (p !== profile.pseudo) await openWith(p, false, k);
     }
     if (pendingEwCall) {
       const id = pendingEwCall;
@@ -7595,6 +7653,12 @@ const Reseau = (() => {
         ewCallReturn = true;
         startCall();
       }
+    }
+    if (pendingEwChat) {
+      const id = pendingEwChat;
+      pendingEwChat = null;
+      const c = convs.find((x) => x.id === id);
+      if (c && c.other && !blockedIds.has(c.otherId)) await openChat(c);
     }
   }
 
@@ -7711,14 +7775,16 @@ const Reseau = (() => {
     }
   }
 
-  async function openWith(pseudo, stay) {
+  async function openWith(pseudo, stay, invite) {
     const clean = String(pseudo || "").trim().replace(/^@/, "").toLowerCase();
     if (!/^[a-z0-9_.]{3,20}$/.test(clean)) {
       setFlash(t("net_not_found"), "warn");
       render();
       return;
     }
-    const { data, error } = await sb.rpc("start_conversation", { other_pseudo: clean });
+    let { data, error } = await sb.rpc("start_conversation", invite ? { other_pseudo: clean, invite } : { other_pseudo: clean });
+    // Base sans lien signé (production actuelle) : on redemande sans jeton.
+    if (error && invite && (error.code === "PGRST202" || error.code === "42883")) ({ data, error } = await sb.rpc("start_conversation", { other_pseudo: clean }));
     if (error) {
       const m = String(error.message || "");
       setFlash(
@@ -7726,6 +7792,14 @@ const Reseau = (() => {
           : m.includes("SUSPENDED") ? t("net_suspended") : m.includes("RATE_LIMIT") ? t("net_rate_limit") : t("net_err_conn"),
         "warn"
       );
+      screen = "home";
+      render();
+      return;
+    }
+    if (!data) {
+      // Demande de contact enregistrée : la discussion s'ouvrira quand la personne l'acceptera.
+      await loadRequests();
+      setFlash(escapeHtml(t("net_req_sent", { p: clean })), "ok");
       screen = "home";
       render();
       return;
@@ -7739,6 +7813,32 @@ const Reseau = (() => {
       return;
     }
     if (c) await openChat(c);
+  }
+
+  async function answerRequest(b) {
+    const yes = b.getAttribute("data-req-yes");
+    const no = b.getAttribute("data-req-no");
+    const cancel = b.getAttribute("data-req-cancel");
+    const other = yes || no || cancel;
+    const r = requests.find((x) => x.other_id === other);
+    b.disabled = true;
+    const { data, error } = cancel
+      ? await sb.rpc("cancel_contact_request", { p_to: other })
+      : await sb.rpc("answer_contact_request", { p_from: other, p_accept: !!yes });
+    await loadRequests();
+    if (error) {
+      const m = String(error.message || "");
+      setFlash(escapeHtml(m.includes("BLOCKED") ? t("net_blocked") : m.includes("SUSPENDED") ? t("net_suspended") : m.includes("NOT_FOUND") ? t("net_req_gone") : t("net_err_conn")), "warn");
+      render();
+      return;
+    }
+    if (yes && data) {
+      await loadConversations();
+      const c = convs.find((x) => x.id === data);
+      if (c) { await openChat(c); return; }
+    }
+    if (no && r) setFlash(escapeHtml(t("net_req_declined", { p: r.pseudo })), "ok");
+    render();
   }
 
   async function openChat(c) {
@@ -8101,6 +8201,27 @@ const Reseau = (() => {
       : pushState() === "off" && safeStore.getItem("lc_push") !== "0"
       ? `<div class="card net-pushcard"><p>${escapeHtml(t("net_push_card"))}</p><button class="btn primary" id="netPushOn">${escapeHtml(t("net_push_btn"))}</button></div>`
       : "";
+    // Demandes de contact (lot 3) : reçues → Accepter / Refuser ; envoyées → Annuler.
+    const reqIn = requests.filter((r) => r.direction === "in");
+    const reqOut = requests.filter((r) => r.direction === "out");
+    const reqCard = !requests.length ? "" : `<div class="card net-reqs">
+        <h3 class="net-h3">${escapeHtml(t("net_req_title"))}</h3>
+        ${reqIn.map((r) => `<div class="net-contact net-req">
+            <span class="net-avatar" aria-hidden="true">${escapeHtml(r.pseudo.charAt(0))}</span>
+            <span class="net-contact-name"><b dir="ltr">@${escapeHtml(r.pseudo)}</b><span class="net-conv-lang">${escapeHtml(t("net_req_in"))}</span></span>
+            <span class="net-req-acts">
+              <button type="button" class="btn primary" data-req-yes="${escapeHtml(r.other_id)}" aria-label="${escapeHtml(t("net_req_accept") + " @" + r.pseudo)}">${escapeHtml(t("net_req_accept"))}</button>
+              <button type="button" class="btn ghost" data-req-no="${escapeHtml(r.other_id)}" aria-label="${escapeHtml(t("net_req_decline") + " @" + r.pseudo)}">${escapeHtml(t("net_req_decline"))}</button>
+            </span>
+          </div>`).join("")}
+        ${reqOut.map((r) => `<div class="net-contact net-req">
+            <span class="net-avatar" aria-hidden="true">${escapeHtml(r.pseudo.charAt(0))}</span>
+            <span class="net-contact-name"><b dir="ltr">@${escapeHtml(r.pseudo)}</b><span class="net-conv-lang">${escapeHtml(t("net_req_out"))}</span></span>
+            <span class="net-req-acts">
+              <button type="button" class="btn ghost" data-req-cancel="${escapeHtml(r.other_id)}" aria-label="${escapeHtml(t("net_req_cancel") + " @" + r.pseudo)}">${escapeHtml(t("net_req_cancel"))}</button>
+            </span>
+          </div>`).join("")}
+      </div>`;
     root.innerHTML = `${pushCard}
       <div class="card">
         <div class="net-me"><b dir="ltr">@${escapeHtml(profile.pseudo)}</b><span>${escapeHtml(langLabel(profile.lang))}</span></div>
@@ -8112,6 +8233,7 @@ const Reseau = (() => {
         </div>
         <div id="netHomeMsg">${flashHtml()}</div>
       </div>
+      ${reqCard}
       ${listCard}
       <div class="card">
         <label class="net-label" for="netMyLang">${escapeHtml(t("net_my_lang"))}</label>
@@ -8142,6 +8264,7 @@ const Reseau = (() => {
       });
     });
     root.querySelector("#netInvite").addEventListener("click", () => sendInvite(root.querySelector("#netHomeMsg")));
+    root.querySelectorAll("[data-req-yes], [data-req-no], [data-req-cancel]").forEach((b) => b.addEventListener("click", () => answerRequest(b)));
     const addInput = root.querySelector("#netAddInput");
     const doAdd = () => openWith(addInput.value, isCall);
     root.querySelector("#netAddBtn").addEventListener("click", doAdd);
@@ -9248,7 +9371,7 @@ const Reseau = (() => {
       return;
     }
     if (screen === "home" && profile) {
-      loadConversations().then(() => { if (screen === "home" && isActiveTab()) render(); }, () => {});
+      Promise.all([loadConversations(), loadRequests()]).then(() => { if (screen === "home" && isActiveTab()) render(); }, () => {});
     }
     render();
     if (screen === "chat" && currentConv) markRead();
@@ -9270,7 +9393,7 @@ const Reseau = (() => {
           if (chatVisible()) markRead();
         }, () => {});
     } else {
-      loadConversations().then(() => { if (screen === "home" && isActiveTab()) render(); }, () => {});
+      Promise.all([loadConversations(), loadRequests()]).then(() => { if (screen === "home" && isActiveTab()) render(); }, () => {});
     }
   });
   // Fermeture de l'appli pendant un appel : on prévient l'autre téléphone.
@@ -9284,7 +9407,7 @@ const Reseau = (() => {
     setTimeout(() => ensureConnected(), 600);
   }
   // Arrivé par un lien d'invitation : on ouvre directement l'onglet Réseau.
-  if ((pendingAdd && inviteFromLink) || pendingEwCall) {
+  if ((pendingAdd && inviteFromLink) || pendingEwCall || pendingEwChat) {
     setTimeout(() => goToTab(), 300);
   }
   // ---------- Pont avec 24/24 EVERYWHERE (seulement quand TALK est ouvert dans le portail, même site) ----------
