@@ -2,6 +2,19 @@
 
 > © 2026 Sébastien Chevrier. Tous droits réservés. La production n'est concernée par aucune de ces versions.
 
+## 0.8.0 (« 3e millénaire », 5 octobre 2026) — base de TEST, brouillon, non publié
+
+- WORLD BRIDGE : la porte d'entrée de ONE WORLD (`everywhere/oneworld/`). Deux langues, écrire ou dicter, traduire,
+  écouter, copier, partager, « l'autre répond », puis face à face, TALK, invitation ou LEARN.
+- Adaptateur unique de traduction `everywhere/core/traduction.js` : phrases vérifiées sur l'appareil, puis le moteur
+  en ligne EXISTANT (MyMemory) seulement après l'accord de la personne, retirable.
+- Invitation sans compte : `everywhere/oneworld/?de=…&vers=…` ; pseudo TALK ajouté seulement si coché.
+- Barre du bas : One World · Everywhere · Learn · Talk · Connect. Alias `#/bridge` et `#/connect`.
+- LEARN : « Parler pour de vrai ». AI LAB : capacités préparées, toujours « Bientôt ».
+- PWA : cache `ew-shell-v15`, raccourci WORLD BRIDGE. TALK (`index.html`), base, RLS et migrations : inchangés.
+- Tests : e2e 95, expert 33, profil-voyage 42, unitaires 11 + 17, ONE WORLD 59 ; SQL 12/12 et 29/29 (annulés).
+  Voir `docs/ONE_WORLD_3RD_MILLENNIUM.md`.
+
 ## 0.7.1 (lot 1 « socle de confiance », 5 octobre 2026) — base de TEST, brouillon, non publié
 
 ### Sécurité
