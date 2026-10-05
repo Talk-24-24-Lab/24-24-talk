@@ -59,8 +59,8 @@ Ce que cela prouve, en clair :
 | messages | oui | oui | non | + règles « compte non suspendu », « accès abonnement » |
 | hidden_messages | oui | oui | non | |
 | language_profiles | oui | oui | non | nouvelle en 0.7.0 ; privée par défaut |
-| blocks | oui | **non** | non | voir risque R1 |
-| reports | oui | **non** | non | voir risque R1 |
+| blocks | oui | oui (lot 1, 5 oct.) | non | R1 corrigé |
+| reports | oui | oui (lot 1, 5 oct.) | non | R1 corrigé ; aucune lecture possible par le site |
 | admins, stat_days, stat_devices, stat_presence | oui | — | non | aucune règle = fermées au site (accès serveur uniquement) |
 
 ## 4. Fonctions côté serveur
@@ -71,8 +71,8 @@ Ce que cela prouve, en clair :
 | deconnecter_appareil | connecté | `auth.uid()` + session active + appareil de CE compte + pas l'appareil actuel | vide |
 | mes_appareils | connecté | `auth.uid()` + session active | vide |
 | langues_de_mes_contacts | connecté | contacts réels, non bloqués, profils « contacts » seulement | vide |
-| admin_ban, admin_moderation, admin_stats, mon_acces, start_conversation | connecté | (TALK, existant) | `public` (voir R2) |
-| ping, track | tout le monde | statistiques anonymes (TALK, existant) | `public` (voir R2) |
+| admin_ban, admin_moderation, admin_stats, mon_acces, start_conversation | connecté | (TALK, existant) | vide depuis le lot 1 (R2 corrigé) |
+| ping, track | tout le monde | statistiques anonymes (TALK, existant) | vide depuis le lot 1 (R2 corrigé) |
 
 ## 5. Côté site
 
@@ -102,3 +102,8 @@ Ce que cela prouve, en clair :
 - Les réglages du tableau de bord Supabase (durée des jetons, limites d'e-mails) : non lus.
 - Les dépendances : le site charge seulement `@supabase/supabase-js@2` depuis jsDelivr (version majeure, non figée) ;
   figer la version exacte avec une empreinte d'intégrité est une PROPOSITION.
+
+## Mise à jour du 5 octobre 2026 : lot 1 « socle de confiance »
+
+R1, R2 corrigés ; E1, E2, C1, C2 ajoutés et corrigés. Détail et résultats bruts (29 cas sur 29 conformes) :
+`supabase/test/12-socle-confiance-tests.md`. Retour arrière : `supabase/test/12-socle-confiance-retour.sql`.

@@ -2,6 +2,21 @@
 
 > © 2026 Sébastien Chevrier. Tous droits réservés. La production n'est concernée par aucune de ces versions.
 
+## 0.7.1 (lot 1 « socle de confiance », 5 octobre 2026) — base de TEST, brouillon, non publié
+
+### Sécurité
+- **C1** Bibliothèque Supabase figée : copie locale `vendor/supabase-js-2.117.2.js` (empreinte dans `vendor/README.md`)
+  au lieu de « la dernière 2.x » chargée depuis jsDelivr par TALK, ONE WORLD et `gestion/`.
+- **E1** La date de création d'un profil est imposée par le serveur (le téléphone ne peut plus l'antidater).
+- **E2** Temps réel (sonnerie des appels) : un appareil déconnecté ne peut plus écouter ni faire sonner.
+- **R1** `blocks` et `reports` : règle « session active ».
+- **R2** 19 anciennes fonctions TALK passées en `search_path` vide.
+- **C2** Pseudo : un changement au plus tous les 30 jours ; un pseudo libéré (changé ou compte supprimé) reste réservé
+  30 jours à son ancien titulaire. TALK affiche alors « pseudo déjà pris » (code 23505).
+- Migration `supabase/test/12-socle-confiance.sql` + retour arrière + 29 essais d'attaque rejouables.
+- Tests : nouveau test « kit Supabase figé » ; le test « aucune clé secrète » cherche désormais une vraie clé
+  (`sb_secret_` suivi d'au moins 20 caractères) au lieu du simple mot, qui apparaît dans la bibliothèque et l'audit.
+
 ## 0.7.0 (prototype, 4 octobre 2026) — PR n° 17, brouillon, non fusionnée, non publiée
 
 ### Ajouté

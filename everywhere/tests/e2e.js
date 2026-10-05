@@ -46,6 +46,9 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     // Rien ne sort vers Internet ; le kit Supabase est remplacé par le faux client si demandé.
     await ctx.route(/^https?:\/\/(?!localhost)/, (r) => (fake && /supabase-js/.test(r.request().url()))
       ? r.fulfill({ status: 200, contentType: "text/javascript", body: FAKE }) : r.abort());
+    // Copie locale figée du kit Supabase (vendor/) : même règle, faux client ou rien.
+    await ctx.route(/\/vendor\/supabase-js-[\d.]+\.js$/, (r) => fake
+      ? r.fulfill({ status: 200, contentType: "text/javascript", body: FAKE }) : r.abort());
     return ctx;
   }
   async function openPortal(ctx, hash) {

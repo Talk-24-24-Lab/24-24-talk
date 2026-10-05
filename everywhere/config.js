@@ -8,7 +8,7 @@ window.EW_CONFIG = {
   // Serveur du compte (le même que TALK). Clé PUBLIQUE uniquement (« publishable »), jamais de clé secrète ici.
   // COPIE DE TEST : projet Supabase 24-24-talk-test.
   supabase: { url: "https://tbynnefrrxzxufcptijc.supabase.co", key: "sb_publishable_zNyy7HYlbwtdNjewaxcKdA_uF_vlskR",
-    sdk: "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" }
+    sdk: "../vendor/supabase-js-2.117.2.js" }  // copie locale figée, voir vendor/README.md
 };
 // Garde-fou : le laboratoire ne doit jamais parler à la base de production.
 if (/wsgcumnaltdinchsdovs/.test(window.EW_CONFIG.supabase.url) && window.EW_CONFIG.env !== "production") window.EW_CONFIG.supabase = null;
