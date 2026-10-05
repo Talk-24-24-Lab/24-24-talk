@@ -890,6 +890,36 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.waitForSelector(".tr-ct", { timeout: 10000 });
     return { ok: true };
   });
+  await step("Communiquer (lot 4) : chaque contact propose Écrire et Appeler, décidés par le serveur (ow_permissions)", async () => {
+    const rows = await page.$$eval(".tr-ct", (n) => n.map((li) => ({ w: !!li.querySelector("[data-write]"), c: !!li.querySelector("[data-call]"), href: (li.querySelector("[data-write]") || {}).getAttribute ? li.querySelector("[data-write]").getAttribute("href") : "" })));
+    return { ok: rows.length === 2 && rows.every((r) => r.w && r.c && /index\.html\?ew=1&ew_ecrire=aaaaaaaa-/.test(r.href)), detail: rows.map((r) => r.href).join(" ; ") };
+  });
+  await step("Écrire : TALK ouvre directement la discussion avec @kenji, adresse nettoyée", async () => {
+    await page.tap('[data-write="aaaaaaaa-0000-4000-8000-000000000001"]');
+    await page.waitForURL((u) => /\/index\.html$/.test(u.pathname), { timeout: 10000 });
+    await page.waitForSelector("#netInput", { timeout: 15000 });
+    const txt = (await page.textContent("body")).replace(/\s+/g, " ");
+    const url = page.url();
+    return { ok: /@kenji/.test(txt) && !/ew_ecrire/.test(url), detail: "discussion @kenji ouverte, " + new URL(url).search };
+  });
+  await step("Permission refusée par le serveur : le bouton Appeler disparaît pour ce contact seulement", async () => {
+    await page.evaluate(() => localStorage.setItem("fake_perm", JSON.stringify({ "00000000-0000-4000-8000-0000000000b1": { call: false } })));
+    await page.goto(URL_EW + "#/everywhere/appel");
+    await page.waitForSelector(".tr-ct [data-write]", { timeout: 10000 });
+    const rows = await page.$$eval(".tr-ct", (n) => n.map((li) => ({ p: li.querySelector("b").textContent, c: !!li.querySelector("[data-call]"), w: !!li.querySelector("[data-write]") })));
+    const k = rows.find((r) => r.p === "@kenji"), m = rows.find((r) => r.p === "@maria");
+    return { ok: k && !k.c && k.w && m && m.c && m.w, detail: rows.map((r) => r.p + (r.w ? " écrire" : "") + (r.c ? " appeler" : "")).join(" ; ") };
+  });
+  await step("Base sans moteur de permissions (comme la production actuelle) : même boutons qu'avant", async () => {
+    await page.evaluate(() => localStorage.setItem("fake_perm", "absent"));
+    await page.goto(URL_EW + "#/everywhere/appel");
+    await page.reload();
+    await page.waitForSelector(".tr-ct [data-call]", { timeout: 10000 });
+    await page.waitForFunction(() => document.querySelectorAll(".tr-ct").length === 2, null, { timeout: 10000 });
+    const n = await page.$$eval(".tr-ct [data-call]", (x) => x.length);
+    await page.evaluate(() => localStorage.removeItem("fake_perm"));
+    return { ok: n === 2, detail: n + " boutons Appeler" };
+  });
   await step("EVERYWHERE : aucune erreur JavaScript, aucune fonction de LEARN, aucune clé secrète dans le code", async () => {
     const src = ["traduction/everywhere.js", "traduction/moteur.js"].map((f) => fs.readFileSync(path.join(__dirname, "..", f), "utf8")).join("\n");
     const learn = /EWLearn|EWProgress|EWExercises|ew_learn_v1/.test(src);

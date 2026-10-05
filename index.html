@@ -7480,6 +7480,14 @@ const Reseau = (() => {
     pendingEwCall = m[1].toLowerCase();
     try { history.replaceState(null, "", location.pathname + (/[?&]ew=1\b/.test(location.search) ? "?ew=1" : "")); } catch (e) { /* ignoré */ }
   })();
+  // Arrivé depuis ONE WORLD (« Écrire ») : ?ew_ecrire=<discussion> ouvre cette discussion de TALK, rien d'autre.
+  let pendingEwChat = null;
+  (function readEwChat() {
+    const m = /[?&]ew_ecrire=([0-9a-f-]{36})/i.exec(location.search || "");
+    if (!m) return;
+    pendingEwChat = m[1].toLowerCase();
+    try { history.replaceState(null, "", location.pathname + (/[?&]ew=1\b/.test(location.search) ? "?ew=1" : "")); } catch (e) { /* ignoré */ }
+  })();
   function inviteUsed() {
     pendingAdd = null;
     safeStore.removeItem("lc_net_pending");
@@ -7595,6 +7603,12 @@ const Reseau = (() => {
         ewCallReturn = true;
         startCall();
       }
+    }
+    if (pendingEwChat) {
+      const id = pendingEwChat;
+      pendingEwChat = null;
+      const c = convs.find((x) => x.id === id);
+      if (c && c.other && !blockedIds.has(c.otherId)) await openChat(c);
     }
   }
 
@@ -9284,7 +9298,7 @@ const Reseau = (() => {
     setTimeout(() => ensureConnected(), 600);
   }
   // Arrivé par un lien d'invitation : on ouvre directement l'onglet Réseau.
-  if ((pendingAdd && inviteFromLink) || pendingEwCall) {
+  if ((pendingAdd && inviteFromLink) || pendingEwCall || pendingEwChat) {
     setTimeout(() => goToTab(), 300);
   }
   // ---------- Pont avec 24/24 EVERYWHERE (seulement quand TALK est ouvert dans le portail, même site) ----------

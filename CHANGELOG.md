@@ -20,6 +20,15 @@
 - Tests : nouveau test « kit Supabase figé » ; le test « aucune clé secrète » cherche désormais une vraie clé
   (`sb_secret_` suivi d'au moins 20 caractères) au lieu du simple mot, qui apparaît dans la bibliothèque et l'audit.
 
+### Ajouté (lot 4 « Communiquer »)
+- `everywhere/core/communiquer.js` : point d'entrée unique `OWCom.resolve(personne, contexte, permissions, capacités)`.
+  Les permissions viennent du serveur (`ow_permissions`), les capacités du canal TALK réel et du téléphone
+  (pas de micro ou de WebRTC = pas d'appel ; vidéo, fichiers, réactions : « pas encore »).
+- EVERYWHERE, liste des contacts : bouton **Écrire** (ouvre la discussion TALK, lien `?ew_ecrire=`) à côté
+  d'**Appeler**, avec la raison affichée quand un moyen n'est pas possible. Base sans moteur : ancien comportement.
+- Accessibilité : les deux journaux du mode côte à côte sont atteignables au clavier et nommés (axe : 0 défaut).
+- Tests : `everywhere/tests/communiquer.js` (11 tests unitaires) ; 4 nouvelles étapes dans `e2e.js` (88 au total).
+
 ## 0.7.0 (prototype, 4 octobre 2026) — PR n° 17, brouillon, non fusionnée, non publiée
 
 ### Ajouté

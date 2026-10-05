@@ -121,6 +121,16 @@
             s.session = false; s.deleted = true; s.email = ""; s.devices = []; localStorage.removeItem("fake_lp"); save(s);
             return R({ data: null, error: null });
           }
+          // Moteur de permissions (lot 2) : un contact peut tout ; localStorage « fake_perm » = {"<id>": {"call": false}} pour
+          // simuler un refus ; « fake_perm » = "absent" pour une base sans moteur (comme la production actuelle).
+          if (name === "ow_permissions") {
+            var fp = localStorage.getItem("fake_perm");
+            if (fp === "absent") return R({ data: null, error: { message: "Could not find the function", code: "PGRST202" } });
+            var isC = [KENJI.id, MARIA.id].indexOf(args.p_other) !== -1 && contactsOn();
+            var p = { context: args.p_context || "personal", read_profile: isC, message: isC, call: isC, start_conversation: true, block: true, report: true };
+            try { var o = JSON.parse(fp || "{}")[args.p_other] || {}; for (var k in o) p[k] = o[k]; } catch (e) {}
+            return R({ data: p, error: null });
+          }
           // @maria a choisi « visible par mes contacts » (langues parlées : français, anglais) ; @kenji est resté privé.
           if (name === "langues_de_mes_contacts") return R({ data: contactsOn() ? [{ user_id: MARIA.id, display_name: "Maria", native_lang: "es", spoken: [{ code: "fr", level: "B2" }, { code: "en", level: "C1" }] }] : [], error: null });
           return R({ data: null, error: null });
