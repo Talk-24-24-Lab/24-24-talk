@@ -7,7 +7,7 @@ var SHELL = ["./", "index.html", "shell.css", "style.css", "prefs.js", "shell.js
   "learn/learn.css", "learn/progress.js", "learn/exercises.js", "learn/learn.js",
   "learn/content/catalogue.json", "learn/content/en.json", "learn/content/es.json",
   "traduction/everywhere.css", "traduction/langues.js", "traduction/moteur.js", "traduction/everywhere.js",
-  "icons/icon-192.png", "icons/icon-512.png", "icons/maskable-512.png", "icons/apple-touch-icon.png", "../terre-tech.jpg"];
+  "icons/icon-192.png", "icons/icon-512.png", "icons/maskable-512.png", "icons/apple-touch-icon.png"];
 
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(SHELL); }).then(function () { return self.skipWaiting(); }));
@@ -25,7 +25,7 @@ self.addEventListener("fetch", function (e) {
   var url = new URL(req.url);
   if (url.origin !== self.location.origin) return;            // Supabase, CDN… : jamais mis en cache ici
   var scope = new URL(self.registration.scope);
-  var isShell = url.pathname.indexOf(scope.pathname) === 0 || /\/terre-tech\.jpg$/.test(url.pathname);
+  var isShell = url.pathname.indexOf(scope.pathname) === 0;
   if (!isShell) return;
   e.respondWith(
     fetch(req).then(function (res) {
