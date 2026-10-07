@@ -339,6 +339,15 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .net-av{width:52px;height:52px;border-radius:50%;color:#0b0e1a;font-weight:800;font-size:21px;display:flex;align-items:center;justify-content:center;
     flex-shrink:0;text-transform:uppercase;}
   .net-contact .net-av{width:44px;height:44px;font-size:18px;}
+  img.net-av{object-fit:cover;background:var(--panel2);}
+  .net-me-row{display:flex;align-items:center;gap:14px;}
+  .net-me-row .net-me{flex:1;min-width:0;}
+  .net-photo-btn{position:relative;flex-shrink:0;padding:0;border:0;background:none;cursor:pointer;border-radius:50%;}
+  .net-photo-btn .net-av{width:64px;height:64px;font-size:26px;}
+  .net-photo-cam{position:absolute;right:-3px;bottom:-3px;width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;
+    display:flex;align-items:center;justify-content:center;border:2px solid var(--panel);box-sizing:border-box;}
+  .net-photo-cam svg{width:14px;height:14px;}
+  .net-photo-btn[aria-busy="true"]{opacity:.55;}
   .net-conv.net-row{flex-direction:row;align-items:center;gap:12px;background:transparent;border:0;border-radius:14px;padding:8px 6px;}
   .net-conv.net-row:hover,.net-conv.net-row:focus-visible{background:var(--panel2);}
   .net-conv.net-row.unread b::after{display:none;}
@@ -5792,6 +5801,16 @@ const NET_STRINGS = {
     net_report: "⚠️ Signaler",
     net_report_confirm: "Appuyez encore pour signaler",
     net_report_done: "Merci, le signalement a été envoyé.",
+    net_photo_add: "Ajouter une photo",
+    net_photo_change: "Changer la photo",
+    net_photo_remove: "Retirer la photo",
+    net_photo_remove_confirm: "Appuyez encore pour retirer la photo",
+    net_photo_saved: "Photo enregistrée.",
+    net_photo_removed: "Photo retirée.",
+    net_photo_err: "Cette image ne peut pas être utilisée. Essayez une autre photo.",
+    net_photo_report: "⚠️ Signaler la photo",
+    net_photo_report_confirm: "Appuyez encore pour signaler la photo",
+    net_photo_hint: "photo visible par vos contacts",
     net_delete: "Supprimer mon compte réseau",
     net_delete_confirm: "Appuyez encore : profil et messages supprimés",
     net_deleted: "Votre compte réseau a été supprimé.",
@@ -5931,6 +5950,16 @@ const NET_STRINGS = {
     net_report: "⚠️ Report",
     net_report_confirm: "Tap again to report",
     net_report_done: "Thank you, the report has been sent.",
+    net_photo_add: "Add a photo",
+    net_photo_change: "Change photo",
+    net_photo_remove: "Remove photo",
+    net_photo_remove_confirm: "Tap again to remove the photo",
+    net_photo_saved: "Photo saved.",
+    net_photo_removed: "Photo removed.",
+    net_photo_err: "This image can't be used. Try another photo.",
+    net_photo_report: "⚠️ Report photo",
+    net_photo_report_confirm: "Tap again to report the photo",
+    net_photo_hint: "photo seen by your contacts",
     net_delete: "Delete my network account",
     net_delete_confirm: "Tap again: profile and messages deleted",
     net_deleted: "Your network account has been deleted.",
@@ -6067,6 +6096,16 @@ const NET_STRINGS = {
     net_report: "⚠️ Denunciar",
     net_report_confirm: "Pulsa otra vez para denunciar",
     net_report_done: "Gracias, la denuncia se ha enviado.",
+    net_photo_add: "Añadir una foto",
+    net_photo_change: "Cambiar la foto",
+    net_photo_remove: "Quitar la foto",
+    net_photo_remove_confirm: "Pulsa otra vez para quitar la foto",
+    net_photo_saved: "Foto guardada.",
+    net_photo_removed: "Foto quitada.",
+    net_photo_err: "No se puede usar esta imagen. Prueba otra foto.",
+    net_photo_report: "⚠️ Denunciar la foto",
+    net_photo_report_confirm: "Pulsa otra vez para denunciar la foto",
+    net_photo_hint: "foto visible para tus contactos",
     net_delete: "Eliminar mi cuenta de la red",
     net_delete_confirm: "Pulsa otra vez: perfil y mensajes eliminados",
     net_deleted: "Tu cuenta de la red se ha eliminado.",
@@ -6203,6 +6242,16 @@ const NET_STRINGS = {
     net_report: "⚠️ Denunciar",
     net_report_confirm: "Toque outra vez para denunciar",
     net_report_done: "Obrigado, a denúncia foi enviada.",
+    net_photo_add: "Adicionar uma foto",
+    net_photo_change: "Trocar a foto",
+    net_photo_remove: "Remover a foto",
+    net_photo_remove_confirm: "Toque outra vez para remover a foto",
+    net_photo_saved: "Foto salva.",
+    net_photo_removed: "Foto removida.",
+    net_photo_err: "Esta imagem não pode ser usada. Tente outra foto.",
+    net_photo_report: "⚠️ Denunciar a foto",
+    net_photo_report_confirm: "Toque outra vez para denunciar a foto",
+    net_photo_hint: "foto visível para seus contatos",
     net_delete: "Eliminar a minha conta da rede",
     net_delete_confirm: "Toque outra vez: perfil e mensagens eliminados",
     net_deleted: "A sua conta da rede foi eliminada.",
@@ -6339,6 +6388,16 @@ const NET_STRINGS = {
     net_report: "⚠️ Melden",
     net_report_confirm: "Nochmal tippen zum Melden",
     net_report_done: "Danke, die Meldung wurde gesendet.",
+    net_photo_add: "Foto hinzufügen",
+    net_photo_change: "Foto ändern",
+    net_photo_remove: "Foto entfernen",
+    net_photo_remove_confirm: "Nochmal tippen zum Entfernen",
+    net_photo_saved: "Foto gespeichert.",
+    net_photo_removed: "Foto entfernt.",
+    net_photo_err: "Dieses Bild geht nicht. Versuchen Sie ein anderes Foto.",
+    net_photo_report: "⚠️ Foto melden",
+    net_photo_report_confirm: "Nochmal tippen, um das Foto zu melden",
+    net_photo_hint: "Foto für Ihre Kontakte sichtbar",
     net_delete: "Mein Netzwerkkonto löschen",
     net_delete_confirm: "Nochmal tippen: Profil und Nachrichten gelöscht",
     net_deleted: "Dein Netzwerkkonto wurde gelöscht.",
@@ -6475,6 +6534,16 @@ const NET_STRINGS = {
     net_report: "⚠️ Segnala",
     net_report_confirm: "Tocca di nuovo per segnalare",
     net_report_done: "Grazie, la segnalazione è stata inviata.",
+    net_photo_add: "Aggiungi una foto",
+    net_photo_change: "Cambia foto",
+    net_photo_remove: "Rimuovi foto",
+    net_photo_remove_confirm: "Tocca di nuovo per rimuovere la foto",
+    net_photo_saved: "Foto salvata.",
+    net_photo_removed: "Foto rimossa.",
+    net_photo_err: "Questa immagine non si può usare. Prova un'altra foto.",
+    net_photo_report: "⚠️ Segnala la foto",
+    net_photo_report_confirm: "Tocca di nuovo per segnalare la foto",
+    net_photo_hint: "foto visibile ai tuoi contatti",
     net_delete: "Elimina il mio account di rete",
     net_delete_confirm: "Tocca di nuovo: profilo e messaggi eliminati",
     net_deleted: "Il tuo account di rete è stato eliminato.",
@@ -6611,6 +6680,16 @@ const NET_STRINGS = {
     net_report: "⚠️ 举报",
     net_report_confirm: "再点一次以举报",
     net_report_done: "谢谢，举报已发送。",
+    net_photo_add: "添加照片",
+    net_photo_change: "更换照片",
+    net_photo_remove: "移除照片",
+    net_photo_remove_confirm: "再点一次以移除照片",
+    net_photo_saved: "照片已保存。",
+    net_photo_removed: "照片已移除。",
+    net_photo_err: "无法使用此图片，请换一张。",
+    net_photo_report: "⚠️ 举报照片",
+    net_photo_report_confirm: "再点一次以举报照片",
+    net_photo_hint: "仅联系人可见",
     net_delete: "删除我的社交账户",
     net_delete_confirm: "再点一次：资料和消息将被删除",
     net_deleted: "你的社交账户已删除。",
@@ -6747,6 +6826,16 @@ const NET_STRINGS = {
     net_report: "⚠️ 報告",
     net_report_confirm: "もう一度タップで報告",
     net_report_done: "ありがとうございます。報告を送信しました。",
+    net_photo_add: "写真を追加",
+    net_photo_change: "写真を変更",
+    net_photo_remove: "写真を削除",
+    net_photo_remove_confirm: "もう一度タップで写真を削除",
+    net_photo_saved: "写真を保存しました。",
+    net_photo_removed: "写真を削除しました。",
+    net_photo_err: "この画像は使えません。別の写真をお試しください。",
+    net_photo_report: "⚠️ 写真を報告",
+    net_photo_report_confirm: "もう一度タップで写真を報告",
+    net_photo_hint: "連絡先にのみ表示",
     net_delete: "ネットワークのアカウントを削除",
     net_delete_confirm: "もう一度タップ：プロフィールとメッセージを削除",
     net_deleted: "ネットワークのアカウントを削除しました。",
@@ -6883,6 +6972,16 @@ const NET_STRINGS = {
     net_report: "⚠️ إبلاغ",
     net_report_confirm: "اضغط مرة أخرى للإبلاغ",
     net_report_done: "شكرًا، تم إرسال البلاغ.",
+    net_photo_add: "إضافة صورة",
+    net_photo_change: "تغيير الصورة",
+    net_photo_remove: "إزالة الصورة",
+    net_photo_remove_confirm: "اضغط مرة أخرى لإزالة الصورة",
+    net_photo_saved: "تم حفظ الصورة.",
+    net_photo_removed: "تمت إزالة الصورة.",
+    net_photo_err: "لا يمكن استخدام هذه الصورة. جرّب صورة أخرى.",
+    net_photo_report: "⚠️ الإبلاغ عن الصورة",
+    net_photo_report_confirm: "اضغط مرة أخرى للإبلاغ عن الصورة",
+    net_photo_hint: "الصورة مرئية لجهات اتصالك",
     net_delete: "حذف حسابي في الشبكة",
     net_delete_confirm: "اضغط مرة أخرى: سيُحذف الملف والرسائل",
     net_deleted: "تم حذف حسابك في الشبكة.",
@@ -7019,6 +7118,16 @@ const NET_STRINGS = {
     net_report: "⚠️ Пожаловаться",
     net_report_confirm: "Нажмите ещё раз, чтобы пожаловаться",
     net_report_done: "Спасибо, жалоба отправлена.",
+    net_photo_add: "Добавить фото",
+    net_photo_change: "Сменить фото",
+    net_photo_remove: "Удалить фото",
+    net_photo_remove_confirm: "Нажмите ещё раз, чтобы удалить фото",
+    net_photo_saved: "Фото сохранено.",
+    net_photo_removed: "Фото удалено.",
+    net_photo_err: "Это изображение нельзя использовать. Попробуйте другое фото.",
+    net_photo_report: "⚠️ Пожаловаться на фото",
+    net_photo_report_confirm: "Нажмите ещё раз, чтобы пожаловаться на фото",
+    net_photo_hint: "фото видят ваши контакты",
     net_delete: "Удалить мой аккаунт в сети",
     net_delete_confirm: "Нажмите ещё раз: профиль и сообщения будут удалены",
     net_deleted: "Ваш аккаунт в сети удалён.",
@@ -7155,6 +7264,16 @@ const NET_STRINGS = {
     net_report: "⚠️ Hitatitra",
     net_report_confirm: "Tsindrio indray hitaterana",
     net_report_done: "Misaotra, lasa ny tatitra.",
+    net_photo_add: "Hampiditra sary",
+    net_photo_change: "Hanova ny sary",
+    net_photo_remove: "Hanala ny sary",
+    net_photo_remove_confirm: "Tsindrio indray hanalana ny sary",
+    net_photo_saved: "Voatahiry ny sary.",
+    net_photo_removed: "Nesorina ny sary.",
+    net_photo_err: "Tsy azo ampiasaina ity sary ity. Andramo sary hafa.",
+    net_photo_report: "⚠️ Hitatitra ny sary",
+    net_photo_report_confirm: "Tsindrio indray hitaterana ny sary",
+    net_photo_hint: "hitan'ny mpifandray aminao ny sary",
     net_delete: "Hamafa ny kaontiko amin'ny tambajotra",
     net_delete_confirm: "Tsindrio indray: ho voafafa ny kaonty sy ny hafatra",
     net_deleted: "Voafafa ny kaontinao amin'ny tambajotra.",
@@ -7731,6 +7850,7 @@ const Reseau = (() => {
     await Promise.all([loadConversations(), loadBlocks()]);
     await startRealtime();
     startPresence();
+    startPhotos();
     screen = "home";
     if (pendingAdd) {
       const p = pendingAdd;
@@ -8121,12 +8241,136 @@ const Reseau = (() => {
   // ---------- Rendu ----------
   // ---------- Liste façon messagerie : rond coloré, heure du dernier message, recherche ----------
   const AV_COLORS = ["#3d7bff", "#2ecf8e", "#ffb020", "#ff7aa8", "#9d7bff", "#4fc3f7", "#e8b46a", "#ff8a5c"];
-  function avatarHtml(pseudo, uid) {
+  function avatarCore(pseudo, uid) {
+    const img = photoOf(uid);
+    if (img) return `<img class="net-av" src="${img}" alt="" aria-hidden="true" decoding="async" />`;
     const p = String(pseudo || "?");
     let h = 0;
     for (let i = 0; i < p.length; i++) h = (h * 31 + p.charCodeAt(i)) >>> 0;
-    const av = `<span class="net-av" aria-hidden="true" style="background:${AV_COLORS[h % AV_COLORS.length]}">${escapeHtml(p.charAt(0))}</span>`;
-    return uid ? `<span class="net-avwrap" data-uid="${escapeHtml(uid)}">${av}${presenceBadge(uid)}</span>` : av;
+    return `<span class="net-av" aria-hidden="true" style="background:${AV_COLORS[h % AV_COLORS.length]}">${escapeHtml(p.charAt(0))}</span>`;
+  }
+  function avatarHtml(pseudo, uid) {
+    const av = avatarCore(pseudo, uid);
+    return uid ? `<span class="net-avwrap" data-uid="${escapeHtml(uid)}" data-p="${escapeHtml(String(pseudo || "?"))}">${av}${presenceBadge(uid)}</span>` : av;
+  }
+
+  // ---------- Photos de profil (visibles seulement par soi et ses contacts, voir photos-de-profil-TEST.sql) ----------
+  // Image carrée 256 px réduite sur le téléphone (~20 Ko), gardée en cache local ; seules les photos changées sont retéléchargées.
+  // Si la base n'a pas ces fonctions, tout reste silencieux : ronds colorés comme avant.
+  const PHOTO_RE = /^data:image\/(jpeg|webp);base64,[A-Za-z0-9+/]+=*$/;
+  const PHOTO_MAX = 58000;
+  let photos = {};
+  try {
+    const c = JSON.parse(safeStore.getItem("lc_photos_v1") || "{}");
+    Object.keys(c).forEach((k) => { if (c[k] && PHOTO_RE.test(c[k].img || "")) photos[k] = c[k]; });
+  } catch (e) { photos = {}; }
+  let photosOk = true;
+  let photoTimer = null;
+  let photoLast = 0;
+  function photoOf(uid) {
+    const p = uid && photos[uid];
+    return p && PHOTO_RE.test(p.img || "") ? p.img : "";
+  }
+  function savePhotos() {
+    try { safeStore.setItem("lc_photos_v1", JSON.stringify(photos)); } catch (e) { /* stockage plein : sans cache */ }
+  }
+  function paintPhotos() {
+    root.querySelectorAll(".net-avwrap[data-uid]").forEach((w) => {
+      const old = w.querySelector(".net-av");
+      if (old) old.outerHTML = avatarCore(w.dataset.p, w.dataset.uid);
+    });
+    const mine = root.querySelector("#netPhotoBtn .net-av");
+    if (mine && profile) mine.outerHTML = avatarCore(profile.pseudo, me);
+  }
+  async function photosTick(force) {
+    if (!sb || !profile || !photosOk) return;
+    if (!force && (document.visibilityState === "hidden" || Date.now() - photoLast < 60000)) return;
+    photoLast = Date.now();
+    try {
+      const l = await sb.rpc("photos_de_mes_contacts");
+      if (l.error) { if (/photos_de_mes_contacts|function|schema cache/i.test(l.error.message || "")) { photosOk = false; if (isActiveTab()) render(); } return; }
+      const next = {};
+      const need = [];
+      (l.data || []).forEach((r) => {
+        const old = photos[r.user_id];
+        if (old && old.at === r.updated_at) next[r.user_id] = old; else need.push(r.user_id);
+      });
+      for (let i = 0; i < need.length; i += 50) {
+        const g = await sb.rpc("photos", { ids: need.slice(i, i + 50) });
+        if (g.error) break;
+        (g.data || []).forEach((r) => { if (PHOTO_RE.test(r.img || "")) next[r.user_id] = { img: r.img, at: r.updated_at }; });
+      }
+      const sig = (o) => Object.keys(o).sort().map((k) => k + "@" + o[k].at).join("|");
+      const changed = sig(next) !== sig(photos);
+      photos = next;
+      if (changed) { savePhotos(); if (isActiveTab()) paintPhotos(); }
+    } catch (e) { /* hors ligne : on réessaiera */ }
+  }
+  function startPhotos() {
+    if (photoTimer) return;
+    photosTick(true);
+    photoTimer = setInterval(() => photosTick(false), 300000);
+    document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") photosTick(false); });
+  }
+  // Recadre au centre en carré 256 px, fond blanc (images transparentes), WebP sinon JPEG, qualité baissée jusqu'à tenir dans la limite.
+  async function photoFromFile(file) {
+    if (!file || !/^image\//.test(file.type || "") || file.size > 20e6) throw new Error("type");
+    let src = null;
+    let url = "";
+    try { src = await createImageBitmap(file); }
+    catch (e) {
+      url = URL.createObjectURL(file);
+      src = await new Promise((ok, ko) => { const i = new Image(); i.onload = () => ok(i); i.onerror = ko; i.src = url; });
+    }
+    try {
+      const w = src.width, h = src.height, side = Math.min(w, h);
+      if (!side) throw new Error("vide");
+      const S = 256;
+      const cv = document.createElement("canvas");
+      cv.width = S; cv.height = S;
+      const cx = cv.getContext("2d");
+      cx.fillStyle = "#ffffff";
+      cx.fillRect(0, 0, S, S);
+      cx.imageSmoothingQuality = "high";
+      cx.drawImage(src, (w - side) / 2, (h - side) / 2, side, side, 0, 0, S, S);
+      for (const q of [0.82, 0.7, 0.58, 0.46, 0.34]) {
+        let d = cv.toDataURL("image/webp", q);
+        if (!/^data:image\/webp/.test(d)) d = cv.toDataURL("image/jpeg", q);
+        if (d.length <= PHOTO_MAX && PHOTO_RE.test(d)) return d;
+      }
+      throw new Error("taille");
+    } finally {
+      if (url) URL.revokeObjectURL(url);
+      if (src && src.close) src.close();
+    }
+  }
+  async function setMyPhoto(file, btn, msgEl) {
+    if (btn) btn.setAttribute("aria-busy", "true");
+    try {
+      const img = await photoFromFile(file);
+      const r = await sb.rpc("mettre_ma_photo", { img });
+      if (r.error) {
+        const rl = String(r.error.message || "").includes("RATE_LIMIT");
+        showMsg(msgEl, escapeHtml(t(rl ? "net_rate_limit" : "net_err_conn")), "err");
+        return;
+      }
+      photos[me] = { img, at: r.data };
+      savePhotos();
+      setFlash(escapeHtml(t("net_photo_saved")), "ok");
+      render();
+    } catch (e) {
+      showMsg(msgEl, escapeHtml(t("net_photo_err")), "err");
+    } finally {
+      if (btn && btn.isConnected) btn.removeAttribute("aria-busy");
+    }
+  }
+  async function removeMyPhoto(msgEl) {
+    const r = await sb.rpc("retirer_ma_photo");
+    if (r.error) { showMsg(msgEl, escapeHtml(t("net_err_conn")), "err"); return; }
+    delete photos[me];
+    savePhotos();
+    setFlash(escapeHtml(t("net_photo_removed")), "ok");
+    render();
   }
 
   // ---------- Présence « en ligne / vu il y a » (seulement entre contacts, réciproque, désactivable) ----------
@@ -8472,7 +8716,11 @@ const Reseau = (() => {
     root.innerHTML = `${pushCard}
       ${listFirst ? listCard : ""}
       <div class="card">
-        <div class="net-me"><b dir="ltr">@${escapeHtml(profile.pseudo)}</b><span>${escapeHtml(langLabel(profile.lang))}</span></div>
+        ${photosOk ? `<div class="net-me-row">
+          <button type="button" class="net-photo-btn" id="netPhotoBtn" aria-label="${escapeHtml(t(photoOf(me) ? "net_photo_change" : "net_photo_add"))}">${avatarCore(profile.pseudo, me)}<span class="net-photo-cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span></button>
+          <div class="net-me"><b dir="ltr">@${escapeHtml(profile.pseudo)}</b><span>${escapeHtml(langLabel(profile.lang))} · ${escapeHtml(t("net_photo_hint"))}</span></div>
+        </div>
+        <input type="file" id="netPhotoFile" accept="image/*" hidden />` : `<div class="net-me"><b dir="ltr">@${escapeHtml(profile.pseudo)}</b><span>${escapeHtml(langLabel(profile.lang))}</span></div>`}
         <div class="row"><button class="btn primary" id="netInvite">${escapeHtml(t("net_invite"))}</button></div>
         <div class="row net-add">
           <input type="text" id="netAddInput" class="net-input" maxlength="21" autocomplete="off" autocapitalize="none" spellcheck="false"
@@ -8490,6 +8738,23 @@ const Reseau = (() => {
         <div class="row"><button class="btn ghost" id="netDelete" style="flex:1;">${escapeHtml(t("net_delete"))}</button></div>
       </div>`;
     bindSearch();
+    const photoBtn = root.querySelector("#netPhotoBtn");
+    const photoFile = root.querySelector("#netPhotoFile");
+    if (photoBtn && photoFile) {
+      const homeMsg = root.querySelector("#netHomeMsg");
+      photoFile.addEventListener("change", () => {
+        const f = photoFile.files && photoFile.files[0];
+        photoFile.value = "";
+        if (f) setMyPhoto(f, photoBtn, homeMsg);
+      });
+      photoBtn.addEventListener("click", () => {
+        if (!photoOf(me)) { photoFile.click(); return; }
+        actionSheet([
+          { label: t("net_photo_change"), run: () => photoFile.click() },
+          { label: t("net_photo_remove"), danger: true, confirm: t("net_photo_remove_confirm"), run: () => removeMyPhoto(homeMsg) }
+        ]);
+      });
+    }
     const presTg = root.querySelector("#netPresToggle");
     if (presTg) presTg.addEventListener("click", () => {
       presHidden = !presHidden;
@@ -8667,6 +8932,11 @@ const Reseau = (() => {
       const rl = error && String(error.message || "").includes("RATE_LIMIT");
       showMsg(root.querySelector("#netChatMsg"), escapeHtml(rl ? t("net_rate_limit") : error ? t("net_err_conn") : t("net_report_done")), error ? "err" : "ok");
     };
+    const doReportPhoto = async () => {
+      const { error } = await sb.from("reports").insert({ reported: c.otherId, body_copy: "[photo de profil]", reason: "photo" });
+      const rl = error && String(error.message || "").includes("RATE_LIMIT");
+      showMsg(root.querySelector("#netChatMsg"), escapeHtml(rl ? t("net_rate_limit") : error ? t("net_err_conn") : t("net_report_done")), error ? "err" : "ok");
+    };
     const doClear = () => {
       safeStore.setItem("lc_cleared_" + c.id, String(Date.now()));
       serverCleared[c.id] = Date.now();
@@ -8680,6 +8950,7 @@ const Reseau = (() => {
       const items = [];
       if (c.otherId && !isBlocked) items.push({ label: t("net_block"), danger: true, confirm: t("net_block_confirm"), run: doBlock });
       if (c.otherId) items.push({ label: t("net_report"), danger: true, confirm: t("net_report_confirm"), run: doReport });
+      if (c.otherId && photoOf(c.otherId)) items.push({ label: t("net_photo_report"), danger: true, confirm: t("net_photo_report_confirm"), run: doReportPhoto });
       items.push({ label: t("net_clear"), danger: true, confirm: t("net_clear_confirm"), run: doClear });
       actionSheet(items);
     });
