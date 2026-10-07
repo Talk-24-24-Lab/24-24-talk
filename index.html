@@ -375,6 +375,20 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .bbar .bbar-n{position:absolute;top:0;left:calc(50% + 6px);min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;border-radius:9px;
     background:var(--err);color:#fff;font-size:10.5px;font-weight:800;display:flex;align-items:center;justify-content:center;border:2px solid var(--bg);}
   body.has-bbar main{padding-bottom:92px;}
+  /* Messagerie et Téléphone en plein écran, comme une appli de messagerie : sans le grand bandeau d'accueil. */
+  .net-topbar .net-tb-actions{display:none;}
+  body.net-full header.hero-earth, body.net-full .promo-banner, body.net-full .trust-line, body.net-full .install-top,
+  body.net-full .inapp-banner, body.net-full .site-footer, body.net-full #netHomeBtn{display:none !important;}
+  body.net-full main{padding-top:10px;}
+  body.net-full .net-topbar{justify-content:space-between;margin:4px 0 12px;}
+  body.net-full .net-topbar-title{font-size:28px;font-weight:800;letter-spacing:-.4px;}
+  body.net-full .net-topbar .net-tb-actions{display:flex;gap:8px;}
+  .net-tb-btn{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--panel2);color:var(--text);
+    display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;}
+  .net-tb-btn svg{width:20px;height:20px;}
+  body.net-full #netRoot .card.net-listcard{background:transparent;border:0;box-shadow:none;padding:0;}
+  body.net-full #netRoot .card.net-listcard > .net-h3{display:none;}
+  body.net-full #netRoot .net-listcard .net-contact{background:transparent;border:0;padding:8px 6px;}
   .net-chat-head{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
   .net-chat-title{display:flex;flex-direction:column;min-width:0;}
   .net-chat-title b{font-size:16px;}
@@ -7399,8 +7413,23 @@ const Reseau = (() => {
   // Barre du haut de l'écran réseau : retour à l'accueil + nom de la touche choisie.
   const topbar = document.createElement("div");
   topbar.className = "net-topbar";
-  topbar.innerHTML = `<button type="button" class="iconbtn" id="netHomeBtn">${escapeHtml(t("net_home_back"))}</button><span class="net-topbar-title" id="netTopTitle"></span>`;
+  topbar.innerHTML = `<button type="button" class="iconbtn" id="netHomeBtn">${escapeHtml(t("net_home_back"))}</button><span class="net-topbar-title" id="netTopTitle"></span>
+    <span class="net-tb-actions">
+      <button type="button" class="net-tb-btn" id="netNewBtn" aria-label="${escapeHtml(t("net_add_ph"))}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>
+      <button type="button" class="net-tb-btn" id="netGearBtn" aria-label="${escapeHtml(t("tab_settings"))}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg></button>
+    </span>`;
   root.parentNode.insertBefore(topbar, root);
+  topbar.querySelector("#netGearBtn").addEventListener("click", () => {
+    const sbtn = document.getElementById("settingsBtn");
+    if (sbtn) sbtn.click();
+  });
+  // Crayon : aller au champ « @pseudo de votre contact » (ou au pseudo à créer).
+  topbar.querySelector("#netNewBtn").addEventListener("click", () => {
+    const inp = root.querySelector("#netAddInput") || root.querySelector("#netPseudo");
+    if (!inp) return;
+    try { inp.scrollIntoView({ block: "center" }); } catch (e) { /* ignoré */ }
+    inp.focus();
+  });
   topbar.querySelector("#netHomeBtn").addEventListener("click", () => {
     if (homeTabBtn) homeTabBtn.click();
     try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (e) { /* ignoré */ }
@@ -7519,7 +7548,8 @@ const Reseau = (() => {
 
   function updateTopbar() {
     topbar.hidden = screen === "chat" || screen === "call";
-    topbar.querySelector("#netTopTitle").textContent = mode === "call" ? "📞 " + t("home_phone") : "💬 " + t("home_msg");
+    const full = document.body.classList.contains("net-full");
+    topbar.querySelector("#netTopTitle").textContent = mode === "call" ? (full ? "" : "📞 ") + t("home_phone") : (full ? "" : "💬 ") + t("home_msg");
   }
 
   const configured = IS_OFFICIAL_SITE && !!(NET_CONFIG.url && NET_CONFIG.key);
@@ -8244,7 +8274,7 @@ const Reseau = (() => {
   let scrollAfterRender = false;
   function barScrollTo(target) {
     try {
-      const y = target ? Math.max(0, target.getBoundingClientRect().top + window.scrollY - 6) : 0;
+      const y = target && !document.body.classList.contains("net-full") ? Math.max(0, target.getBoundingClientRect().top + window.scrollY - 6) : 0;
       window.scrollTo({ top: y });
     } catch (err) { /* ignoré */ }
   }
@@ -8260,6 +8290,12 @@ const Reseau = (() => {
     // Comme dans les messageries : la barre s'efface dans une discussion ouverte et pendant un appel.
     const hide = id === "net" && (screen === "chat" || screen === "call");
     bar.hidden = hide;
+    const full = id === "net" && !EMBEDDED;
+    if (document.body.classList.contains("net-full") !== full) {
+      document.body.classList.toggle("net-full", full);
+      updateTopbar();
+      if (full) { try { window.scrollTo(0, 0); } catch (e) { /* ignoré */ } }
+    }
     document.body.classList.toggle("has-bbar", !hide && !EMBEDDED);
     const n = convs.filter((c) => c.unread).length;
     const nb = bar.querySelector("#bbarN");
@@ -8393,7 +8429,7 @@ const Reseau = (() => {
               </div>`;
           }).join("")
         : `<div class="empty">${escapeHtml(t("net_no_contacts", { b: t("net_invite") }))}</div>`;
-      listCard = `<div class="card">
+      listCard = `<div class="card net-listcard">
         <h3 class="net-h3">${escapeHtml(t("net_contacts"))}</h3>
         ${contacts.length ? searchHtml() : ""}
         <div class="net-convs">${rows}</div>
@@ -8421,7 +8457,7 @@ const Reseau = (() => {
               </button>`;
           }).join("")
         : `<div class="empty">${escapeHtml(t("net_no_convs"))}</div>`;
-      listCard = `<div class="card">
+      listCard = `<div class="card net-listcard">
         <h3 class="net-h3">${escapeHtml(t("net_convs"))}</h3>
         ${list.length ? searchHtml() : ""}
         <div class="net-convs">${items}</div>
