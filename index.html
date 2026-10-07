@@ -331,6 +331,41 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .net-conv-top{display:flex;justify-content:space-between;gap:8px;font-size:15px;min-width:0;}
   .net-conv-lang{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .net-conv-prev{font-size:13px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  /* Liste façon messagerie : rond, nom, heure, aperçu, compteur */
+  .net-search{display:flex;align-items:center;gap:9px;background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:0 14px;margin:0 0 10px;}
+  .net-search svg{width:18px;height:18px;flex:none;color:var(--muted);}
+  .net-search input{flex:1;min-width:0;background:transparent;border:0;color:var(--text);font-family:inherit;font-size:16px;padding:11px 0;outline:none;}
+  .net-search:focus-within{border-color:var(--blue);}
+  .net-av{width:52px;height:52px;border-radius:50%;color:#0b0e1a;font-weight:800;font-size:21px;display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;text-transform:uppercase;}
+  .net-contact .net-av{width:44px;height:44px;font-size:18px;}
+  .net-conv.net-row{flex-direction:row;align-items:center;gap:12px;background:transparent;border:0;border-radius:14px;padding:8px 6px;}
+  .net-conv.net-row:hover,.net-conv.net-row:focus-visible{background:var(--panel2);}
+  .net-conv.net-row.unread b::after{display:none;}
+  .net-row-mid{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;}
+  .net-row-l1{display:flex;align-items:baseline;justify-content:space-between;gap:8px;min-width:0;}
+  .net-row-l1 b{font-size:16px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .net-row-when{flex:none;font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;}
+  .net-row-l2{display:flex;align-items:center;gap:6px;min-width:0;}
+  .net-row-l2 .net-conv-prev{flex:1;min-width:0;font-size:14px;}
+  .net-row-flag{flex:none;font-size:14px;line-height:1;}
+  .net-row-count{flex:none;min-width:20px;height:20px;padding:0 6px;box-sizing:border-box;border-radius:10px;background:var(--blue);color:#fff;
+    font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+  .net-row.unread .net-row-l1 b,.net-row.unread .net-conv-prev{color:var(--text);font-weight:700;}
+  .net-row.unread .net-row-when{color:var(--blue);font-weight:700;}
+  .net-nomatch{color:var(--muted);text-align:center;padding:18px 10px;font-size:14px;}
+  /* Barre d'onglets en bas */
+  .bbar{position:fixed;left:0;right:0;bottom:0;z-index:40;display:grid;grid-template-columns:repeat(4,1fr);background:var(--bg);
+    border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));}
+  .bbar[hidden]{display:none;}
+  .bbar button{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;background:transparent;border:0;color:var(--muted);
+    font-family:inherit;font-size:12px;font-weight:600;padding:5px 2px;cursor:pointer;-webkit-tap-highlight-color:transparent;min-width:0;}
+  .bbar button span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .bbar button svg{width:24px;height:24px;}
+  .bbar button.on{color:var(--blue);font-weight:800;}
+  .bbar .bbar-n{position:absolute;top:0;left:calc(50% + 6px);min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;border-radius:9px;
+    background:var(--err);color:#fff;font-size:10.5px;font-weight:800;display:flex;align-items:center;justify-content:center;border:2px solid var(--bg);}
+  body.has-bbar main{padding-bottom:92px;}
   .net-chat-head{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
   .net-chat-title{display:flex;flex-direction:column;min-width:0;}
   .net-chat-title b{font-size:16px;}
@@ -5711,6 +5746,9 @@ const NET_STRINGS = {
     net_suspended: "Votre compte est suspendu. Pour en parler : schevrier.1975@gmail.com",
     net_rate_limit: "Trop d'envois d'un coup. Patientez une minute puis réessayez.",
     net_convs: "Mes discussions",
+    net_search_ph: "Rechercher",
+    net_nomatch: "Aucun résultat.",
+    net_tabs: "Onglets",
     net_no_convs: "Pas encore de discussion. Appuyez sur « 📨 Inviter un ami » : dès qu'il aura choisi son pseudo, votre discussion apparaîtra ici. Ouvrez-la ensuite pour écrire, envoyer un message vocal 🎤 ou lancer un 📞 appel traduit.",
     net_back: "← Retour",
     net_msg_ph: "Votre message…",
@@ -5843,6 +5881,9 @@ const NET_STRINGS = {
     net_suspended: "Your account is suspended. To discuss it: schevrier.1975@gmail.com",
     net_rate_limit: "Too many at once. Wait a minute and try again.",
     net_convs: "My chats",
+    net_search_ph: "Search",
+    net_nomatch: "No results.",
+    net_tabs: "Tabs",
     net_no_convs: "No chats yet. Tap “📨 Invite a friend”: as soon as they choose a username, your chat will appear here. Open it to write, send a voice message 🎤 or start a 📞 translated call.",
     net_back: "← Back",
     net_msg_ph: "Your message…",
@@ -5972,6 +6013,9 @@ const NET_STRINGS = {
     net_self: "Es tu propio usuario 🙂",
     net_blocked: "Imposible: uno de los dos ha bloqueado al otro.",
     net_convs: "Mis chats",
+    net_search_ph: "Buscar",
+    net_nomatch: "Sin resultados.",
+    net_tabs: "Pestañas",
     net_no_convs: "Todavía no hay chats. Pulsa «📨 Invitar a un amigo»: en cuanto elija su usuario, vuestro chat aparecerá aquí. Ábrelo para escribir, enviar un mensaje de voz 🎤 o iniciar una 📞 llamada traducida.",
     net_back: "← Volver",
     net_msg_ph: "Tu mensaje…",
@@ -6101,6 +6145,9 @@ const NET_STRINGS = {
     net_self: "É o seu próprio nome 🙂",
     net_blocked: "Impossível: um de vocês bloqueou o outro.",
     net_convs: "As minhas conversas",
+    net_search_ph: "Pesquisar",
+    net_nomatch: "Sem resultados.",
+    net_tabs: "Separadores",
     net_no_convs: "Ainda não há conversas. Toque em «📨 Convidar um amigo»: assim que ele escolher o nome, a vossa conversa aparece aqui. Abra-a para escrever, enviar uma mensagem de voz 🎤 ou fazer uma 📞 chamada traduzida.",
     net_back: "← Voltar",
     net_msg_ph: "A sua mensagem…",
@@ -6230,6 +6277,9 @@ const NET_STRINGS = {
     net_self: "Das ist dein eigener Benutzername 🙂",
     net_blocked: "Nicht möglich: Einer von euch hat den anderen blockiert.",
     net_convs: "Meine Chats",
+    net_search_ph: "Suchen",
+    net_nomatch: "Keine Treffer.",
+    net_tabs: "Tabs",
     net_no_convs: "Noch keine Chats. Tippe auf „📨 Freund einladen“: Sobald er seinen Benutzernamen gewählt hat, erscheint euer Chat hier. Öffne ihn, um zu schreiben, eine Sprachnachricht 🎤 zu senden oder einen 📞 übersetzten Anruf zu starten.",
     net_back: "← Zurück",
     net_msg_ph: "Deine Nachricht…",
@@ -6359,6 +6409,9 @@ const NET_STRINGS = {
     net_self: "È il tuo nome utente 🙂",
     net_blocked: "Impossibile: uno di voi ha bloccato l'altro.",
     net_convs: "Le mie chat",
+    net_search_ph: "Cerca",
+    net_nomatch: "Nessun risultato.",
+    net_tabs: "Schede",
     net_no_convs: "Ancora nessuna chat. Tocca «📨 Invita un amico»: appena avrà scelto il suo nome, la vostra chat apparirà qui. Aprila per scrivere, inviare un messaggio vocale 🎤 o avviare una 📞 chiamata tradotta.",
     net_back: "← Indietro",
     net_msg_ph: "Il tuo messaggio…",
@@ -6488,6 +6541,9 @@ const NET_STRINGS = {
     net_self: "这是你自己的用户名 🙂",
     net_blocked: "无法操作：你们其中一方已屏蔽对方。",
     net_convs: "我的聊天",
+    net_search_ph: "搜索",
+    net_nomatch: "没有结果。",
+    net_tabs: "标签",
     net_no_convs: "还没有聊天。点按“📨 邀请朋友”：他选好用户名后，你们的聊天就会出现在这里。打开它即可发消息、发送语音 🎤 或发起 📞 翻译通话。",
     net_back: "← 返回",
     net_msg_ph: "你的消息…",
@@ -6617,6 +6673,9 @@ const NET_STRINGS = {
     net_self: "あなた自身のユーザー名です 🙂",
     net_blocked: "できません：どちらかが相手をブロックしています。",
     net_convs: "チャット一覧",
+    net_search_ph: "検索",
+    net_nomatch: "見つかりません。",
+    net_tabs: "タブ",
     net_no_convs: "まだチャットはありません。「📨 友だちを招待」をタップ：相手がユーザー名を選ぶと、ここにチャットが表示されます。開いてメッセージ、音声メッセージ 🎤、📞 翻訳通話ができます。",
     net_back: "← 戻る",
     net_msg_ph: "メッセージ…",
@@ -6746,6 +6805,9 @@ const NET_STRINGS = {
     net_self: "هذا اسم المستخدم الخاص بك 🙂",
     net_blocked: "غير ممكن: أحدكما حظر الآخر.",
     net_convs: "محادثاتي",
+    net_search_ph: "بحث",
+    net_nomatch: "لا توجد نتائج.",
+    net_tabs: "علامات التبويب",
     net_no_convs: "لا توجد محادثات بعد. اضغط «📨 ادعُ صديقًا»: بمجرد أن يختار اسمه ستظهر محادثتكما هنا. افتحها للكتابة أو إرسال رسالة صوتية 🎤 أو بدء 📞 مكالمة مترجمة.",
     net_back: "→ رجوع",
     net_msg_ph: "رسالتك…",
@@ -6875,6 +6937,9 @@ const NET_STRINGS = {
     net_self: "Это ваше собственное имя 🙂",
     net_blocked: "Невозможно: один из вас заблокировал другого.",
     net_convs: "Мои чаты",
+    net_search_ph: "Поиск",
+    net_nomatch: "Ничего не найдено.",
+    net_tabs: "Вкладки",
     net_no_convs: "Чатов пока нет. Нажмите «📨 Пригласить друга»: как только он выберет имя, ваш чат появится здесь. Откройте его, чтобы писать, отправить голосовое сообщение 🎤 или начать 📞 звонок с переводом.",
     net_back: "← Назад",
     net_msg_ph: "Ваше сообщение…",
@@ -7004,6 +7069,9 @@ const NET_STRINGS = {
     net_self: "Ny pseudo-nao ihany io 🙂",
     net_blocked: "Tsy azo atao: nisy nanakana ny iray taminareo.",
     net_convs: "Ny resadresako",
+    net_search_ph: "Hitady",
+    net_nomatch: "Tsy misy valiny.",
+    net_tabs: "Tabilao",
     net_no_convs: "Mbola tsy misy resaka. Tsindrio « 📨 Hanasa namana »: raha vantany vao misafidy ny pseudo-ny ny namanao, hiseho eto ny resakareo. Sokafy avy eo hanoratana, handefasana hafatra feo 🎤 na hiantsoana 📞 voadika.",
     net_back: "← Hiverina",
     net_msg_ph: "Ny hafatrao…",
@@ -7691,10 +7759,20 @@ const Reseau = (() => {
         otherRead: o ? o.last_read : null,
         last,
         unread: !!(last && last.sender_id !== me && new Date(last.created_at) > new Date(r.last_read)),
+        unreadN: 0,
       };
     });
     sortConvs();
     updateBadge();
+    // Nombre de messages non lus par discussion (seulement pour celles qui en ont), sans bloquer l'affichage.
+    const todo = convs.filter((c) => c.unread);
+    if (todo.length) {
+      Promise.all(todo.map((c) =>
+        sb.from("messages").select("id", { count: "exact", head: true })
+          .eq("conversation_id", c.id).neq("sender_id", me).gt("created_at", c.lastRead || "1970-01-01")
+          .then((r) => { if (!r.error && c.unread && typeof r.count === "number") c.unreadN = Math.max(c.unreadN || 0, r.count); }, () => {})
+      )).then(() => { updateBadge(); if (screen === "home" && isActiveTab()) render(); });
+    }
   }
   function sortConvs() {
     convs.sort((a, b) => new Date(b.last ? b.last.created_at : 0) - new Date(a.last ? a.last.created_at : 0));
@@ -7708,6 +7786,7 @@ const Reseau = (() => {
       tileBadge.textContent = n > 9 ? "9+" : String(n);
       tileBadge.setAttribute("aria-label", t("net_unread", { n }));
     }
+    syncBar();
   }
 
   async function openWith(pseudo, stay) {
@@ -7757,6 +7836,7 @@ const Reseau = (() => {
     }, () => {});
     chatLoading = false;
     c.unread = false;
+    c.unreadN = 0;
     updateBadge();
     markRead();
     render();
@@ -7772,6 +7852,7 @@ const Reseau = (() => {
     const stamp = newest || new Date().toISOString();
     currentConv.lastRead = stamp;
     currentConv.unread = false;
+    currentConv.unreadN = 0;
     updateBadge();
     sb.from("members").update({ last_read: stamp }).eq("conversation_id", currentConv.id).eq("user_id", me).then(() => {}, () => {});
     const c = currentConv;
@@ -7906,6 +7987,7 @@ const Reseau = (() => {
       if (chatVisible()) markRead();
       else if (m.sender_id !== me) {
         c.unread = true;
+        c.unreadN = (c.unreadN || 0) + 1;
         updateBadge();
         beep("msg");
       }
@@ -7916,6 +7998,7 @@ const Reseau = (() => {
       }
     } else if (m.sender_id !== me) {
       c.unread = true;
+      c.unreadN = (c.unreadN || 0) + 1;
       updateBadge();
       beep("msg");
       if (screen === "home") render();
@@ -7952,7 +8035,123 @@ const Reseau = (() => {
   }
 
   // ---------- Rendu ----------
+  // ---------- Liste façon messagerie : rond coloré, heure du dernier message, recherche ----------
+  const AV_COLORS = ["#3d7bff", "#2ecf8e", "#ffb020", "#ff7aa8", "#9d7bff", "#4fc3f7", "#e8b46a", "#ff8a5c"];
+  function avatarHtml(pseudo) {
+    const p = String(pseudo || "?");
+    let h = 0;
+    for (let i = 0; i < p.length; i++) h = (h * 31 + p.charCodeAt(i)) >>> 0;
+    return `<span class="net-av" aria-hidden="true" style="background:${AV_COLORS[h % AV_COLORS.length]}">${escapeHtml(p.charAt(0))}</span>`;
+  }
+  function whenLabel(iso) {
+    const d = new Date(iso);
+    if (isNaN(d)) return "";
+    const now = new Date();
+    const day = (x) => new Date(x.getFullYear(), x.getMonth(), x.getDate()).getTime();
+    const diff = Math.round((day(now) - day(d)) / 86400000);
+    try {
+      if (diff <= 0) return d.toLocaleTimeString(UI_LANG, { hour: "2-digit", minute: "2-digit" });
+      if (diff === 1 && Intl.RelativeTimeFormat) return new Intl.RelativeTimeFormat(UI_LANG, { numeric: "auto" }).format(-1, "day");
+      if (diff < 7) return d.toLocaleDateString(UI_LANG, { weekday: "short" });
+      return d.toLocaleDateString(UI_LANG, { day: "numeric", month: "short" });
+    } catch (e) {
+      return d.toLocaleDateString();
+    }
+  }
+  let netQuery = "";
+  const ICON_SEARCH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
+  function searchHtml() {
+    return `<label class="net-search" for="netSearch">${ICON_SEARCH}<input type="search" id="netSearch" autocomplete="off" spellcheck="false"
+        placeholder="${escapeHtml(t("net_search_ph"))}" aria-label="${escapeHtml(t("net_search_ph"))}" value="${escapeHtml(netQuery)}" /></label>
+      <div class="net-nomatch" id="netNoMatch" hidden>${escapeHtml(t("net_nomatch"))}</div>`;
+  }
+  function applySearch() {
+    const q = netQuery.trim().toLowerCase();
+    let shown = 0, total = 0;
+    root.querySelectorAll(".net-convs [data-q]").forEach((el) => {
+      total++;
+      const ok = !q || el.dataset.q.indexOf(q) !== -1;
+      el.hidden = !ok;
+      if (ok) shown++;
+    });
+    const nm = root.querySelector("#netNoMatch");
+    if (nm) nm.hidden = !(total && !shown);
+  }
+  function bindSearch() {
+    const inp = root.querySelector("#netSearch");
+    if (!inp) return;
+    inp.addEventListener("input", () => { netQuery = inp.value; applySearch(); });
+    applySearch();
+  }
+
+  // ---------- Barre d'onglets en bas : Accueil, Messagerie, Téléphone, Traduire ----------
+  const ICON_HOME = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/></svg>';
+  const bar = document.createElement("nav");
+  bar.className = "bbar";
+  bar.setAttribute("aria-label", t("net_tabs"));
+  const trLabel = String(t("tab_tr")).replace(/^[^\p{L}]+/u, "");
+  bar.innerHTML = `
+    <button type="button" data-b="home">${ICON_HOME}<span>${escapeHtml(t("tab_home"))}</span></button>
+    <button type="button" data-b="msg">${ICON_MSG}<span>${escapeHtml(t("home_msg"))}</span><em class="bbar-n" id="bbarN" hidden></em></button>
+    <button type="button" data-b="call">${ICON_PHONE}<span>${escapeHtml(t("home_phone"))}</span></button>
+    <button type="button" data-b="tr">${ICON_GLOBE}<span>${escapeHtml(trLabel)}</span></button>`;
+  // Dans le portail ONE WORLD (TALK affiché dans un cadre), le portail a déjà sa propre barre.
+  if (!EMBEDDED) {
+    document.body.appendChild(bar);
+    document.body.classList.add("has-bbar");
+  }
+  bar.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-b]");
+    if (!b) return;
+    const k = b.dataset.b;
+    if (k === "home") {
+      if (homeTabBtn) homeTabBtn.click();
+    } else if (k === "tr") {
+      const trBtn = document.querySelector('nav.tabs button[data-view="tr"]');
+      if (trBtn) trBtn.click();
+    } else {
+      mode = k;
+      scrollAfterRender = true;
+      if (screen === "chat" && !call) { currentConv = null; screen = "home"; }
+      if (isActiveTab()) open();
+      else tabBtn.click();
+    }
+    // Comme les grandes touches de l'accueil : on fait défiler jusqu'au début de l'écran choisi (la liste), pas tout en haut.
+    // La liste peut arriver un peu après (chargement) : on refait le défilement quand elle s'affiche.
+    barScrollTo(k === "home" ? null : k === "tr" ? document.getElementById("tr") : topbar);
+    syncBar();
+  });
+  let scrollAfterRender = false;
+  function barScrollTo(target) {
+    try {
+      const y = target ? Math.max(0, target.getBoundingClientRect().top + window.scrollY - 6) : 0;
+      window.scrollTo({ top: y });
+    } catch (err) { /* ignoré */ }
+  }
+  function syncBar() {
+    const v = document.querySelector("main .view.active");
+    const id = v ? v.id : "";
+    const k = id === "net" ? mode : id === "home" ? "home" : id === "tr" ? "tr" : "";
+    if (id !== "net") scrollAfterRender = false;
+    bar.querySelectorAll("button[data-b]").forEach((b) => {
+      b.classList.toggle("on", b.dataset.b === k);
+      if (b.dataset.b === k) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
+    });
+    // Comme dans les messageries : la barre s'efface dans une discussion ouverte et pendant un appel.
+    const hide = id === "net" && (screen === "chat" || screen === "call");
+    bar.hidden = hide;
+    document.body.classList.toggle("has-bbar", !hide && !EMBEDDED);
+    const n = convs.filter((c) => c.unread).length;
+    const nb = bar.querySelector("#bbarN");
+    nb.hidden = n === 0;
+    nb.textContent = n > 9 ? "9+" : String(n);
+  }
+  try {
+    new MutationObserver(syncBar).observe(document.querySelector("main"), { subtree: true, attributes: true, attributeFilter: ["class"] });
+  } catch (e) { /* ignoré */ }
+
   function render() {
+    syncBar();
     updateTopbar();
     if (screen === "off") {
       root.innerHTML = `<div class="card"><p class="net-lead">${escapeHtml(t("net_off"))}</p></div>`;
@@ -7969,7 +8168,11 @@ const Reseau = (() => {
       return;
     }
     if (screen === "setup") return renderSetup();
-    if (screen === "home") return renderHome();
+    if (screen === "home") {
+      renderHome();
+      if (scrollAfterRender && isActiveTab()) { scrollAfterRender = false; barScrollTo(topbar); }
+      return;
+    }
     if (screen === "chat") return renderChat();
     if (screen === "call") return renderCall();
   }
@@ -8062,8 +8265,8 @@ const Reseau = (() => {
         ? contacts.map((c) => {
             const p = c.other.pseudo;
             const blocked = c.otherId && blockedIds.has(c.otherId);
-            return `<div class="net-contact">
-                <span class="net-avatar" aria-hidden="true">${escapeHtml(p.charAt(0))}</span>
+            return `<div class="net-contact" data-q="${escapeHtml(p.toLowerCase())}">
+                ${avatarHtml(p)}
                 <span class="net-contact-name"><b dir="ltr">@${escapeHtml(p)}</b><span class="net-conv-lang">${escapeHtml(langLabel(c.other.lang))}</span>
                   <button type="button" class="net-cl-chip${convLangs(c.id).speak !== profile.lang || convLangs(c.id).read !== profile.lang ? " custom" : ""}" data-cl="${escapeHtml(c.id)}">🗣 ${escapeHtml(langLabel(convLangs(c.id).speak))} · 🌐 ${escapeHtml(langLabel(convLangs(c.id).read))} ✎</button></span>
                 ${blocked ? "🚫" : `<button type="button" class="net-dial" data-id="${escapeHtml(c.id)}" aria-label="${escapeHtml(t("net_call_btn") + " @" + p)}">${ICON_PHONE}<span>${escapeHtml(t("net_call_btn"))}</span></button>`}
@@ -8072,6 +8275,7 @@ const Reseau = (() => {
         : `<div class="empty">${escapeHtml(t("net_no_contacts", { b: t("net_invite") }))}</div>`;
       listCard = `<div class="card">
         <h3 class="net-h3">${escapeHtml(t("net_contacts"))}</h3>
+        ${contacts.length ? searchHtml() : ""}
         <div class="net-convs">${rows}</div>
       </div>
       ${callLogHtml()}`;
@@ -8084,14 +8288,22 @@ const Reseau = (() => {
             const prev = !(c.last && visibleForMe(c.last)) ? ""
               : c.last.kind === "call" ? callRecTitle(parseCallMsg(c.last))
               : (c.last.kind === "voice" ? "🎙 " : "") + c.last.body;
-            return `<button class="net-conv${c.unread ? " unread" : ""}" data-id="${escapeHtml(c.id)}">
-                <span class="net-conv-top"><b dir="ltr">${escapeHtml(name)}</b>${blocked}<span class="net-conv-lang">${escapeHtml(lang)}</span></span>
-                <span class="net-conv-prev" dir="auto">${escapeHtml(prev.length > 70 ? prev.slice(0, 70) + "…" : prev)}</span>
+            const l = c.other && typeof langByCode === "function" ? langByCode(c.other.lang) : null;
+            const flag = l && l.flag ? `<span class="net-row-flag" title="${escapeHtml(lang)}" aria-label="${escapeHtml(lang)}">${l.flag}</span>` : "";
+            const n = c.unread ? Math.max(1, c.unreadN || 0) : 0;
+            const when = c.last && visibleForMe(c.last) ? whenLabel(c.last.created_at) : "";
+            return `<button class="net-conv net-row${c.unread ? " unread" : ""}" data-id="${escapeHtml(c.id)}" data-q="${escapeHtml((name + " " + prev).toLowerCase())}">
+                ${avatarHtml(c.other ? c.other.pseudo : "?")}
+                <span class="net-row-mid">
+                  <span class="net-row-l1"><b dir="ltr">${escapeHtml(name)}${blocked}</b><span class="net-row-when">${escapeHtml(when)}</span></span>
+                  <span class="net-row-l2">${flag}<span class="net-conv-prev" dir="auto">${escapeHtml(prev.length > 70 ? prev.slice(0, 70) + "…" : prev)}</span>${n ? `<span class="net-row-count" aria-label="${escapeHtml(t("net_unread", { n }))}">${n > 99 ? "99+" : n}</span>` : ""}</span>
+                </span>
               </button>`;
           }).join("")
         : `<div class="empty">${escapeHtml(t("net_no_convs"))}</div>`;
       listCard = `<div class="card">
         <h3 class="net-h3">${escapeHtml(t("net_convs"))}</h3>
+        ${list.length ? searchHtml() : ""}
         <div class="net-convs">${items}</div>
       </div>`;
     }
@@ -8100,7 +8312,9 @@ const Reseau = (() => {
       : pushState() === "off" && safeStore.getItem("lc_push") !== "0"
       ? `<div class="card net-pushcard"><p>${escapeHtml(t("net_push_card"))}</p><button class="btn primary" id="netPushOn">${escapeHtml(t("net_push_btn"))}</button></div>`
       : "";
+    const listFirst = isCall ? list.some((c) => c.other) : list.length > 0;
     root.innerHTML = `${pushCard}
+      ${listFirst ? listCard : ""}
       <div class="card">
         <div class="net-me"><b dir="ltr">@${escapeHtml(profile.pseudo)}</b><span>${escapeHtml(langLabel(profile.lang))}</span></div>
         <div class="row"><button class="btn primary" id="netInvite">${escapeHtml(t("net_invite"))}</button></div>
@@ -8111,12 +8325,13 @@ const Reseau = (() => {
         </div>
         <div id="netHomeMsg">${flashHtml()}</div>
       </div>
-      ${listCard}
+      ${listFirst ? "" : listCard}
       <div class="card">
         <label class="net-label" for="netMyLang">${escapeHtml(t("net_my_lang"))}</label>
         <select id="netMyLang"></select>
         <div class="row"><button class="btn ghost" id="netDelete" style="flex:1;">${escapeHtml(t("net_delete"))}</button></div>
       </div>`;
+    bindSearch();
     const iosBtn = root.querySelector("#netIosHow");
     if (iosBtn) iosBtn.addEventListener("click", showIosGuide);
     const pushBtn = root.querySelector("#netPushOn");
