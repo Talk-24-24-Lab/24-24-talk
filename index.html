@@ -353,6 +353,15 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
     font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center;}
   .net-row.unread .net-row-l1 b,.net-row.unread .net-conv-prev{color:var(--text);font-weight:700;}
   .net-row.unread .net-row-when{color:var(--blue);font-weight:700;}
+  .net-avwrap{position:relative;flex-shrink:0;display:inline-flex;}
+  .net-online{position:absolute;right:0;bottom:1px;width:15px;height:15px;border-radius:50%;background:var(--ok);border:3px solid var(--panel);box-sizing:border-box;}
+  .net-seen{position:absolute;right:-4px;bottom:-2px;background:var(--panel2);color:var(--ok);border:2px solid var(--panel);border-radius:999px;
+    font-size:10.5px;font-weight:800;padding:0 4px;line-height:15px;white-space:nowrap;}
+  .net-chat-title span.net-pres-on{color:var(--ok);font-weight:700;}
+  .net-chat-head .net-av{width:40px;height:40px;font-size:17px;}
+  .net-chat-head .net-online{width:13px;height:13px;border-width:2px;}
+  .net-pres-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 2px 2px;font-size:14px;line-height:1.4;}
+  .net-pres-row small{display:block;color:var(--muted);font-size:12.5px;margin-top:2px;}
   .net-nomatch{color:var(--muted);text-align:center;padding:18px 10px;font-size:14px;}
   /* Barre d'onglets en bas */
   .bbar{position:fixed;left:0;right:0;bottom:0;z-index:40;display:grid;grid-template-columns:repeat(4,1fr);background:var(--bg);
@@ -5747,6 +5756,10 @@ const NET_STRINGS = {
     net_rate_limit: "Trop d'envois d'un coup. Patientez une minute puis réessayez.",
     net_convs: "Mes discussions",
     net_search_ph: "Rechercher",
+    net_online: "En ligne",
+    net_seen: "Vu {t}",
+    net_pres_show: "Montrer à mes contacts quand je suis en ligne",
+    net_pres_hint: "Si vous le désactivez, vous ne voyez plus non plus celle des autres.",
     net_nomatch: "Aucun résultat.",
     net_tabs: "Onglets",
     net_no_convs: "Pas encore de discussion. Appuyez sur « 📨 Inviter un ami » : dès qu'il aura choisi son pseudo, votre discussion apparaîtra ici. Ouvrez-la ensuite pour écrire, envoyer un message vocal 🎤 ou lancer un 📞 appel traduit.",
@@ -5882,6 +5895,10 @@ const NET_STRINGS = {
     net_rate_limit: "Too many at once. Wait a minute and try again.",
     net_convs: "My chats",
     net_search_ph: "Search",
+    net_online: "Online",
+    net_seen: "Seen {t}",
+    net_pres_show: "Show my contacts when I'm online",
+    net_pres_hint: "If you turn it off, you no longer see theirs either.",
     net_nomatch: "No results.",
     net_tabs: "Tabs",
     net_no_convs: "No chats yet. Tap “📨 Invite a friend”: as soon as they choose a username, your chat will appear here. Open it to write, send a voice message 🎤 or start a 📞 translated call.",
@@ -6014,6 +6031,10 @@ const NET_STRINGS = {
     net_blocked: "Imposible: uno de los dos ha bloqueado al otro.",
     net_convs: "Mis chats",
     net_search_ph: "Buscar",
+    net_online: "En línea",
+    net_seen: "Visto {t}",
+    net_pres_show: "Mostrar a mis contactos cuándo estoy en línea",
+    net_pres_hint: "Si lo desactivas, tampoco verás la de los demás.",
     net_nomatch: "Sin resultados.",
     net_tabs: "Pestañas",
     net_no_convs: "Todavía no hay chats. Pulsa «📨 Invitar a un amigo»: en cuanto elija su usuario, vuestro chat aparecerá aquí. Ábrelo para escribir, enviar un mensaje de voz 🎤 o iniciar una 📞 llamada traducida.",
@@ -6146,6 +6167,10 @@ const NET_STRINGS = {
     net_blocked: "Impossível: um de vocês bloqueou o outro.",
     net_convs: "As minhas conversas",
     net_search_ph: "Pesquisar",
+    net_online: "Online",
+    net_seen: "Visto {t}",
+    net_pres_show: "Mostrar aos meus contactos quando estou online",
+    net_pres_hint: "Se desativar, também deixa de ver a dos outros.",
     net_nomatch: "Sem resultados.",
     net_tabs: "Separadores",
     net_no_convs: "Ainda não há conversas. Toque em «📨 Convidar um amigo»: assim que ele escolher o nome, a vossa conversa aparece aqui. Abra-a para escrever, enviar uma mensagem de voz 🎤 ou fazer uma 📞 chamada traduzida.",
@@ -6278,6 +6303,10 @@ const NET_STRINGS = {
     net_blocked: "Nicht möglich: Einer von euch hat den anderen blockiert.",
     net_convs: "Meine Chats",
     net_search_ph: "Suchen",
+    net_online: "Online",
+    net_seen: "Zuletzt {t}",
+    net_pres_show: "Meinen Kontakten zeigen, wann ich online bin",
+    net_pres_hint: "Wenn du es ausschaltest, siehst du auch den Status der anderen nicht mehr.",
     net_nomatch: "Keine Treffer.",
     net_tabs: "Tabs",
     net_no_convs: "Noch keine Chats. Tippe auf „📨 Freund einladen“: Sobald er seinen Benutzernamen gewählt hat, erscheint euer Chat hier. Öffne ihn, um zu schreiben, eine Sprachnachricht 🎤 zu senden oder einen 📞 übersetzten Anruf zu starten.",
@@ -6410,6 +6439,10 @@ const NET_STRINGS = {
     net_blocked: "Impossibile: uno di voi ha bloccato l'altro.",
     net_convs: "Le mie chat",
     net_search_ph: "Cerca",
+    net_online: "Online",
+    net_seen: "Visto {t}",
+    net_pres_show: "Mostra ai miei contatti quando sono online",
+    net_pres_hint: "Se lo disattivi, non vedi più nemmeno quello degli altri.",
     net_nomatch: "Nessun risultato.",
     net_tabs: "Schede",
     net_no_convs: "Ancora nessuna chat. Tocca «📨 Invita un amico»: appena avrà scelto il suo nome, la vostra chat apparirà qui. Aprila per scrivere, inviare un messaggio vocale 🎤 o avviare una 📞 chiamata tradotta.",
@@ -6542,6 +6575,10 @@ const NET_STRINGS = {
     net_blocked: "无法操作：你们其中一方已屏蔽对方。",
     net_convs: "我的聊天",
     net_search_ph: "搜索",
+    net_online: "在线",
+    net_seen: "{t}在线",
+    net_pres_show: "让联系人看到我是否在线",
+    net_pres_hint: "关闭后，你也看不到别人的在线状态。",
     net_nomatch: "没有结果。",
     net_tabs: "标签",
     net_no_convs: "还没有聊天。点按“📨 邀请朋友”：他选好用户名后，你们的聊天就会出现在这里。打开它即可发消息、发送语音 🎤 或发起 📞 翻译通话。",
@@ -6674,6 +6711,10 @@ const NET_STRINGS = {
     net_blocked: "できません：どちらかが相手をブロックしています。",
     net_convs: "チャット一覧",
     net_search_ph: "検索",
+    net_online: "オンライン",
+    net_seen: "{t}にオンライン",
+    net_pres_show: "オンライン状態を連絡先に表示する",
+    net_pres_hint: "オフにすると、他の人の状態も見えなくなります。",
     net_nomatch: "見つかりません。",
     net_tabs: "タブ",
     net_no_convs: "まだチャットはありません。「📨 友だちを招待」をタップ：相手がユーザー名を選ぶと、ここにチャットが表示されます。開いてメッセージ、音声メッセージ 🎤、📞 翻訳通話ができます。",
@@ -6806,6 +6847,10 @@ const NET_STRINGS = {
     net_blocked: "غير ممكن: أحدكما حظر الآخر.",
     net_convs: "محادثاتي",
     net_search_ph: "بحث",
+    net_online: "متصل الآن",
+    net_seen: "آخر ظهور {t}",
+    net_pres_show: "إظهار حالة الاتصال لجهات اتصالي",
+    net_pres_hint: "إذا أوقفته، فلن ترى حالة الآخرين أيضًا.",
     net_nomatch: "لا توجد نتائج.",
     net_tabs: "علامات التبويب",
     net_no_convs: "لا توجد محادثات بعد. اضغط «📨 ادعُ صديقًا»: بمجرد أن يختار اسمه ستظهر محادثتكما هنا. افتحها للكتابة أو إرسال رسالة صوتية 🎤 أو بدء 📞 مكالمة مترجمة.",
@@ -6938,6 +6983,10 @@ const NET_STRINGS = {
     net_blocked: "Невозможно: один из вас заблокировал другого.",
     net_convs: "Мои чаты",
     net_search_ph: "Поиск",
+    net_online: "В сети",
+    net_seen: "Был(а) {t}",
+    net_pres_show: "Показывать контактам, когда я в сети",
+    net_pres_hint: "Если выключить, вы тоже не будете видеть статус других.",
     net_nomatch: "Ничего не найдено.",
     net_tabs: "Вкладки",
     net_no_convs: "Чатов пока нет. Нажмите «📨 Пригласить друга»: как только он выберет имя, ваш чат появится здесь. Откройте его, чтобы писать, отправить голосовое сообщение 🎤 или начать 📞 звонок с переводом.",
@@ -7070,6 +7119,10 @@ const NET_STRINGS = {
     net_blocked: "Tsy azo atao: nisy nanakana ny iray taminareo.",
     net_convs: "Ny resadresako",
     net_search_ph: "Hitady",
+    net_online: "Tafiditra",
+    net_seen: "Hita {t}",
+    net_pres_show: "Asehoy amin'ny olona fantatro rehefa tafiditra aho",
+    net_pres_hint: "Raha vonoina, tsy hahita ny an'ny hafa koa ianao.",
     net_nomatch: "Tsy misy valiny.",
     net_tabs: "Tabilao",
     net_no_convs: "Mbola tsy misy resaka. Tsindrio « 📨 Hanasa namana »: raha vantany vao misafidy ny pseudo-ny ny namanao, hiseho eto ny resakareo. Sokafy avy eo hanoratana, handefasana hafatra feo 🎤 na hiantsoana 📞 voadika.",
@@ -7647,6 +7700,7 @@ const Reseau = (() => {
     else autoPush();
     await Promise.all([loadConversations(), loadBlocks()]);
     await startRealtime();
+    startPresence();
     screen = "home";
     if (pendingAdd) {
       const p = pendingAdd;
@@ -8037,11 +8091,77 @@ const Reseau = (() => {
   // ---------- Rendu ----------
   // ---------- Liste façon messagerie : rond coloré, heure du dernier message, recherche ----------
   const AV_COLORS = ["#3d7bff", "#2ecf8e", "#ffb020", "#ff7aa8", "#9d7bff", "#4fc3f7", "#e8b46a", "#ff8a5c"];
-  function avatarHtml(pseudo) {
+  function avatarHtml(pseudo, uid) {
     const p = String(pseudo || "?");
     let h = 0;
     for (let i = 0; i < p.length; i++) h = (h * 31 + p.charCodeAt(i)) >>> 0;
-    return `<span class="net-av" aria-hidden="true" style="background:${AV_COLORS[h % AV_COLORS.length]}">${escapeHtml(p.charAt(0))}</span>`;
+    const av = `<span class="net-av" aria-hidden="true" style="background:${AV_COLORS[h % AV_COLORS.length]}">${escapeHtml(p.charAt(0))}</span>`;
+    return uid ? `<span class="net-avwrap" data-uid="${escapeHtml(uid)}">${av}${presenceBadge(uid)}</span>` : av;
+  }
+
+  // ---------- Présence « en ligne / vu il y a » (seulement entre contacts, réciproque, désactivable) ----------
+  // Base : je_suis_la() toutes les minutes quand l'appli est ouverte ; presence_de_mes_contacts() pour lire.
+  // Si la base n'a pas ces fonctions (ancienne version), tout reste silencieux et rien ne s'affiche.
+  const ONLINE_MS = 150000;
+  let presence = {};
+  let presOk = true;
+  let presTimer = null;
+  let presHidden = safeStore.getItem("lc_pres_hidden") === "1";
+  function presenceBadge(uid) {
+    const at = presence[uid];
+    if (!at) return "";
+    const age = Date.now() - at;
+    if (age < ONLINE_MS) return `<span class="net-online" title="${escapeHtml(t("net_online"))}"></span>`;
+    if (age < 3600000) return `<span class="net-seen">${Math.max(1, Math.round(age / 60000))} min</span>`;
+    return "";
+  }
+  function presenceText(uid) {
+    const at = presence[uid];
+    if (!at) return "";
+    const age = Date.now() - at;
+    if (age < ONLINE_MS) return t("net_online");
+    let rel;
+    try {
+      const rtf = new Intl.RelativeTimeFormat(UI_LANG, { numeric: "auto" });
+      rel = age < 3600000 ? rtf.format(-Math.max(1, Math.round(age / 60000)), "minute")
+        : age < 86400000 ? rtf.format(-Math.round(age / 3600000), "hour")
+        : rtf.format(-Math.round(age / 86400000), "day");
+    } catch (e) { return ""; }
+    return t("net_seen", { t: rel });
+  }
+  function paintPresence() {
+    root.querySelectorAll(".net-avwrap[data-uid]").forEach((w) => {
+      const old = w.querySelector(".net-online, .net-seen");
+      if (old) old.remove();
+      w.insertAdjacentHTML("beforeend", presenceBadge(w.dataset.uid));
+    });
+    const ps = root.querySelector("#netPresText");
+    if (ps && currentConv) {
+      const txt = presenceText(currentConv.otherId);
+      const on = txt === t("net_online");
+      ps.textContent = txt || (currentConv.other ? langLabel(currentConv.other.lang) : "");
+      ps.classList.toggle("net-pres-on", on);
+    }
+  }
+  async function presenceTick() {
+    if (!sb || !profile || !presOk) return;
+    if (document.visibilityState === "hidden") return;
+    try {
+      const r = await sb.rpc("je_suis_la", { cacher: presHidden });
+      if (r.error) { if (/je_suis_la|function|schema cache/i.test(r.error.message || "")) presOk = false; return; }
+      const l = await sb.rpc("presence_de_mes_contacts");
+      if (l.error) return;
+      const next = {};
+      (l.data || []).forEach((row) => { const ms = Date.parse(row.last_seen); if (ms) next[row.user_id] = ms; });
+      presence = next;
+      if (isActiveTab()) paintPresence();
+    } catch (e) { /* hors ligne : on réessaiera */ }
+  }
+  function startPresence() {
+    if (presTimer) return;
+    presenceTick();
+    presTimer = setInterval(presenceTick, 60000);
+    document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") presenceTick(); });
   }
   function whenLabel(iso) {
     const d = new Date(iso);
@@ -8173,7 +8293,7 @@ const Reseau = (() => {
       if (scrollAfterRender && isActiveTab()) { scrollAfterRender = false; barScrollTo(topbar); }
       return;
     }
-    if (screen === "chat") return renderChat();
+    if (screen === "chat") { renderChat(); paintPresence(); return; }
     if (screen === "call") return renderCall();
   }
 
@@ -8266,7 +8386,7 @@ const Reseau = (() => {
             const p = c.other.pseudo;
             const blocked = c.otherId && blockedIds.has(c.otherId);
             return `<div class="net-contact" data-q="${escapeHtml(p.toLowerCase())}">
-                ${avatarHtml(p)}
+                ${avatarHtml(p, c.otherId)}
                 <span class="net-contact-name"><b dir="ltr">@${escapeHtml(p)}</b><span class="net-conv-lang">${escapeHtml(langLabel(c.other.lang))}</span>
                   <button type="button" class="net-cl-chip${convLangs(c.id).speak !== profile.lang || convLangs(c.id).read !== profile.lang ? " custom" : ""}" data-cl="${escapeHtml(c.id)}">🗣 ${escapeHtml(langLabel(convLangs(c.id).speak))} · 🌐 ${escapeHtml(langLabel(convLangs(c.id).read))} ✎</button></span>
                 ${blocked ? "🚫" : `<button type="button" class="net-dial" data-id="${escapeHtml(c.id)}" aria-label="${escapeHtml(t("net_call_btn") + " @" + p)}">${ICON_PHONE}<span>${escapeHtml(t("net_call_btn"))}</span></button>`}
@@ -8293,7 +8413,7 @@ const Reseau = (() => {
             const n = c.unread ? Math.max(1, c.unreadN || 0) : 0;
             const when = c.last && visibleForMe(c.last) ? whenLabel(c.last.created_at) : "";
             return `<button class="net-conv net-row${c.unread ? " unread" : ""}" data-id="${escapeHtml(c.id)}" data-q="${escapeHtml((name + " " + prev).toLowerCase())}">
-                ${avatarHtml(c.other ? c.other.pseudo : "?")}
+                ${avatarHtml(c.other ? c.other.pseudo : "?", c.other ? c.otherId : null)}
                 <span class="net-row-mid">
                   <span class="net-row-l1"><b dir="ltr">${escapeHtml(name)}${blocked}</b><span class="net-row-when">${escapeHtml(when)}</span></span>
                   <span class="net-row-l2">${flag}<span class="net-conv-prev" dir="auto">${escapeHtml(prev.length > 70 ? prev.slice(0, 70) + "…" : prev)}</span>${n ? `<span class="net-row-count" aria-label="${escapeHtml(t("net_unread", { n }))}">${n > 99 ? "99+" : n}</span>` : ""}</span>
@@ -8329,9 +8449,20 @@ const Reseau = (() => {
       <div class="card">
         <label class="net-label" for="netMyLang">${escapeHtml(t("net_my_lang"))}</label>
         <select id="netMyLang"></select>
+        ${presOk ? `<div class="net-pres-row"><span>${escapeHtml(t("net_pres_show"))}<small>${escapeHtml(t("net_pres_hint"))}</small></span>
+          <button type="button" class="toggle${presHidden ? "" : " on"}" id="netPresToggle" aria-pressed="${!presHidden}" aria-label="${escapeHtml(t("net_pres_show"))}"></button></div>` : ""}
         <div class="row"><button class="btn ghost" id="netDelete" style="flex:1;">${escapeHtml(t("net_delete"))}</button></div>
       </div>`;
     bindSearch();
+    const presTg = root.querySelector("#netPresToggle");
+    if (presTg) presTg.addEventListener("click", () => {
+      presHidden = !presHidden;
+      safeStore.setItem("lc_pres_hidden", presHidden ? "1" : "0");
+      presTg.classList.toggle("on", !presHidden);
+      presTg.setAttribute("aria-pressed", String(!presHidden));
+      if (presHidden) { presence = {}; paintPresence(); }
+      presenceTick();
+    });
     const iosBtn = root.querySelector("#netIosHow");
     if (iosBtn) iosBtn.addEventListener("click", showIosGuide);
     const pushBtn = root.querySelector("#netPushOn");
@@ -8422,7 +8553,8 @@ const Reseau = (() => {
       <div class="card net-chat">
         <div class="net-chat-head">
           <button class="iconbtn" id="netBack">${escapeHtml(t("net_back"))}</button>
-          <div class="net-chat-title"><b dir="ltr">${escapeHtml(name)}</b><span>${c.other ? escapeHtml(langLabel(c.other.lang)) : ""}</span></div>
+          ${c.other ? avatarHtml(c.other.pseudo, c.otherId) : ""}
+          <div class="net-chat-title"><b dir="ltr">${escapeHtml(name)}</b><span id="netPresText">${c.other ? escapeHtml(langLabel(c.other.lang)) : ""}</span></div>
         </div>
         ${trSwitchHtml(true)}
         <button type="button" class="net-langrow${convLangs(c.id).speak !== profile.lang || convLangs(c.id).read !== profile.lang ? " custom" : ""}" id="netConvLang">🗣 ${escapeHtml(langLabel(convLangs(c.id).speak))} · 🌐 ${escapeHtml(langLabel(convLangs(c.id).read))} <span aria-hidden="true">✎</span></button>
