@@ -20,7 +20,6 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="ONE WORLD">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="preload" href="../terre-tech.jpg" as="image">
 <script src="prefs.js"></script>
 <link rel="stylesheet" href="shell.css">
 <link rel="stylesheet" href="style.css">
@@ -53,41 +52,24 @@
   <nav class="mainnav" id="mainnav" aria-label="Navigation principale"></nav>
 
   <main id="main" tabindex="-1">
-    <!-- ACCUEIL -->
+    <!-- ACCUEIL : deux grandes tuiles, TALK (bleu) et EVERYWHERE (vert), fond bleu nuit avec la lueur de la Terre (CSS seul) -->
     <section class="view" id="view-accueil" data-route="accueil" aria-labelledby="h-accueil">
-      <div class="hero">
-        <div class="hero-earth" role="img" aria-label="La Terre vue de l'espace, de nuit"></div>
-        <div class="hero-txt">
-          <p class="kicker" data-t="kicker">Une seule application. Trois interfaces. Un seul compte.</p>
-          <h1 id="h-accueil">24/24 <span>One World</span></h1>
+      <div class="pad home">
+        <header class="home-head">
+          <h1 id="h-accueil">24/24 <span>Everywhere</span></h1>
           <p class="lead" data-t="lead">Un monde sans barrières.</p>
-        </div>
-      </div>
-      <div class="pad">
+        </header>
         <div class="duo" id="homeDuo">
-          <a class="duo-card talk" id="cardTalk" href="../index.html?ew=1" aria-labelledby="duoTalkT" aria-describedby="duoTalkD">
+          <a class="duo-card talk" id="cardTalk" href="../index.html?ew=1">
             <span class="duo-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg></span>
             <b id="duoTalkT">TALK</b>
-            <span id="duoTalkD" data-t="talk_tag">Communiquer sans barrières.</span>
-            <span class="duo-btn" aria-hidden="true" data-t="open">Ouvrir</span>
+            <span class="duo-d" id="duoTalkD" data-t="talk_tag">Communiquer sans barrières</span>
           </a>
-          <a class="duo-card ew" id="cardEverywhere" href="#/everywhere" aria-labelledby="duoEwT" aria-describedby="duoEwD">
+          <a class="duo-card ew" id="cardEverywhere" href="#/everywhere">
             <span class="duo-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.8 3 2.8 15 0 18M12 3c-2.8 3-2.8 15 0 18"/></svg></span>
             <b id="duoEwT">EVERYWHERE</b>
-            <span id="duoEwD" data-t="ew_tag">Traduire et connecter partout.</span>
-            <span class="duo-btn" aria-hidden="true" data-t="open">Ouvrir</span>
+            <span class="duo-d" id="duoEwD" data-t="ew_tag">Accéder au monde sans limites</span>
           </a>
-          <a class="duo-card learn" id="cardLearn" href="#/learn" aria-labelledby="duoLearnT" aria-describedby="duoLearnD">
-            <span class="duo-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2.5 9 2.5 12 0v-5"/><path d="M22 9v6"/></svg></span>
-            <b id="duoLearnT">LEARN</b>
-            <span id="duoLearnD" data-t="learn_tag">Apprendre sans limites.</span>
-            <span class="duo-btn" aria-hidden="true" data-t="open">Ouvrir</span>
-          </a>
-        </div>
-        <p class="signature" data-t="signature">Un monde. Une connexion. Aucune frontière linguistique.</p>
-        <div class="quick">
-          <a class="quick-btn" href="#/profil"><span aria-hidden="true">👤</span><span data-t="profile">Profil</span></a>
-          <a class="quick-btn" href="#/parametres"><span aria-hidden="true">⚙️</span><span data-t="settings">Paramètres</span></a>
         </div>
       </div>
     </section>

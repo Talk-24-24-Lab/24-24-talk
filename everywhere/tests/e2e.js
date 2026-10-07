@@ -64,33 +64,38 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   // ---------- Téléphone ----------
   let ctx = await newCtx();
   let page = await openPortal(ctx);
-  await step("Accueil : « 24/24 One World », « Un monde sans barrières. », trois cartes TALK, EVERYWHERE et LEARN avec bouton Ouvrir", async () => {
+  await step("Accueil (0.6.2) : « 24/24 Everywhere » (Everywhere en bleu), « Un monde sans barrières. », exactement deux grandes tuiles TALK et EVERYWHERE", async () => {
     await page.waitForSelector("#view-accueil.active");
     const h1 = (await page.textContent("#h-accueil")).trim();
+    const blue = await page.$eval("#h-accueil span", (e) => getComputedStyle(e).color);
     const lead = (await page.textContent("#view-accueil .lead")).trim();
-    const cards = await page.$$eval("#homeDuo .duo-card", (n) => n.map((x) => ({ t: x.querySelector("b").textContent, d: x.textContent, href: x.getAttribute("href"), w: x.getBoundingClientRect().width, h: x.getBoundingClientRect().height })));
-    const kick = (await page.textContent("#view-accueil .kicker")).trim();
-    const ok = h1 === "24/24 One World" && lead === "Un monde sans barrières." && kick === "Une seule application. Trois interfaces. Un seul compte." && cards.length === 3 &&
-      cards[0].t === "TALK" && /Communiquer sans barrières/.test(cards[0].d) && cards[1].t === "EVERYWHERE" && /Traduire et connecter partout/.test(cards[1].d) &&
-      cards[2].t === "LEARN" && /Apprendre sans limites/.test(cards[2].d) && cards.every((c) => /Ouvrir/.test(c.d) && c.w >= 330 && c.h >= 150);
+    const cards = await page.$$eval("#view-accueil a.duo-card", (n) => n.map((x) => ({ t: x.querySelector("b").textContent, d: x.textContent, href: x.getAttribute("href"), w: x.getBoundingClientRect().width, h: x.getBoundingClientRect().height })));
+    const ok = h1 === "24/24 Everywhere" && /rgb\(\d+, \d+, 255\)/.test(blue) && lead === "Un monde sans barrières." && cards.length === 2 &&
+      cards[0].t === "TALK" && /Communiquer sans barrières/.test(cards[0].d) && cards[1].t === "EVERYWHERE" && /Accéder au monde sans limites/.test(cards[1].d) &&
+      cards.every((c) => c.w >= 330 && c.h >= 180) && !(await page.$("#cardLearn"));
     return { ok, detail: cards.map((c) => c.t + " → " + c.href + " (" + Math.round(c.w) + "×" + Math.round(c.h) + " px)").join(" · ") };
   });
-  await step("Fond clair, bleu (TALK), vert (EVERYWHERE), violet (LEARN)", async () => {
-    const c = await page.evaluate(() => ({ bg: getComputedStyle(document.body).backgroundColor, talk: getComputedStyle(document.getElementById("cardTalk")).backgroundImage,
-      ew: getComputedStyle(document.getElementById("cardEverywhere")).backgroundImage, learn: getComputedStyle(document.getElementById("cardLearn")).backgroundImage }));
-    const light = /rgb\((24[0-9]|25[0-5]), (24[0-9]|25[0-5]), 255\)/.test(c.bg);
-    return { ok: light && /31, 95, 224/.test(c.talk) && /19, 160, 90/.test(c.ew) && /107, 63, 214/.test(c.learn), detail: "fond " + c.bg };
+  await step("Tuile TALK : TALK en pleine page (index.html?ew=1, pas de cadre) ; tuile EVERYWHERE : #/everywhere", async () => {
+    const r = await page.evaluate(() => ({ talk: document.getElementById("cardTalk").href, ew: document.getElementById("cardEverywhere").getAttribute("href"), frames: document.querySelectorAll("iframe").length }));
+    const u = new URL(r.talk);
+    return { ok: u.pathname === BASE + "index.html" && u.search === "?ew=1" && r.ew === "#/everywhere" && r.frames === 0, detail: u.pathname + u.search + " · " + r.ew };
   });
-  await step("Barre basse commune : Accueil, Everywhere, Learn, Talk, Profil", async () => {
+  await step("Accueil bleu nuit (lueur de la Terre en CSS, sans image) ; tuiles bleue (TALK) et verte (EVERYWHERE)", async () => {
+    const c = await page.evaluate(() => ({ home: getComputedStyle(document.getElementById("view-accueil")).backgroundImage, talk: getComputedStyle(document.getElementById("cardTalk")).backgroundImage,
+      ew: getComputedStyle(document.getElementById("cardEverywhere")).backgroundImage, nav: getComputedStyle(document.getElementById("mainnav")).backgroundColor }));
+    return { ok: /radial-gradient/.test(c.home) && /5, 11, 28/.test(c.home) && !/url\(/.test(c.home) && /31, 111, 229/.test(c.talk) && /22, 163, 74/.test(c.ew) && c.nav === "rgb(5, 11, 28)",
+      detail: "barre du bas " + c.nav };
+  });
+  await step("Barre basse commune : 4 entrées Accueil, Talk, Everywhere, Profil", async () => {
     const labels = await page.$$eval("#mainnav a", (n) => n.map((a) => a.textContent.trim()));
     const pos = await page.$eval("#mainnav", (n) => { const r = n.getBoundingClientRect(); return { bottom: Math.round(r.bottom), h: innerHeight, dir: getComputedStyle(n).flexDirection }; });
-    return { ok: labels.join(",") === "Accueil,Everywhere,Learn,Talk,Profil" && pos.bottom === pos.h && pos.dir === "row", detail: labels.join(", ") + " · collée en bas" };
+    return { ok: labels.length === 4 && labels.join(",") === "Accueil,Talk,Everywhere,Profil" && pos.bottom === pos.h && pos.dir === "row", detail: labels.join(", ") + " · collée en bas" };
   });
   await step("Zones tactiles ≥ 44 px (barre basse, roue dentée)", async () => {
     const sizes = await page.$$eval("#mainnav a, #topSettings", (n) => n.map((a) => { const r = a.getBoundingClientRect(); return Math.min(r.width, r.height); }));
     return { ok: sizes.every((s) => s >= 44), detail: "plus petite : " + Math.round(Math.min.apply(null, sizes)) + " px" };
   });
-  for (const [label, route, view] of [["Everywhere", "#/everywhere", "view-everywhere"], ["Learn", "#/learn", "view-learn"], ["Profil", "#/profil", "view-profil"], ["Accueil", "#/accueil", "view-accueil"]]) {
+  for (const [label, route, view] of [["Everywhere", "#/everywhere", "view-everywhere"], ["Profil", "#/profil", "view-profil"], ["Accueil", "#/accueil", "view-accueil"]]) {
     await step("Navigation : " + label, async () => {
       await page.click('#mainnav a[href="' + route + '"]');
       await page.waitForSelector("#" + view + ".active");
@@ -110,7 +115,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   await page.screenshot({ path: path.join(OUT, "telephone-accueil.png") });
 
   await step("Accueil → carte TALK : TALK s'ouvre en pleine page et répond au toucher", async () => {
-    await page.tap("#cardTalk .duo-btn");
+    await page.tap("#cardTalk");
     await page.waitForURL((u) => /\/index\.html$/.test(u.pathname), { timeout: 10000 });
     await page.waitForSelector("#tileMsg");
     const emb = await page.evaluate(() => document.documentElement.classList.contains("embedded"));
@@ -131,7 +136,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
         hero: getComputedStyle(document.querySelector("header.hero-earth")).display === "none",
         sizes: [...nav.querySelectorAll("a")].every((a) => a.getBoundingClientRect().height >= 44) };
     });
-    return { ok: r.shell && r.labels === "Accueil,Everywhere,Learn,Talk,Profil" && r.cur === "talk" && r.bottom && r.top && r.hero && r.sizes, detail: r.labels + " · actif : " + r.cur };
+    return { ok: r.shell && r.labels === "Accueil,Talk,Everywhere,Profil" && r.cur === "talk" && r.bottom && r.top && r.hero && r.sizes, detail: r.labels + " · actif : " + r.cur };
   });
   await step("Roue dentée de la coquille dans TALK : ouvre les réglages de TALK", async () => {
     await page.tap("#ewsSettings");
@@ -413,12 +418,14 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     for (const o of opts) if ((await o.textContent()).trim() === target) { await o.tap(); return; }
     throw new Error("option introuvable : " + target);
   }
-  await step("Carte LEARN de l'accueil → tableau de bord LEARN (modules, invitation à choisir une langue)", async () => {
-    await page.tap("#cardLearn .duo-btn");
+  await step("Hub EVERYWHERE → « Apprendre une langue » → tableau de bord LEARN (modules, invitation à choisir une langue)", async () => {
+    await page.tap("#cardEverywhere");
+    await page.waitForSelector("#view-everywhere.active #ewGoLearn");
+    await page.tap("#ewGoLearn");
     await page.waitForSelector("#view-learn.active #lxStart", { timeout: 10000 });
     const mods = await page.$$eval("#view-learn .lx-mod", (n) => n.map((m) => m.textContent.replace(/\s+/g, " ").trim()));
     const soon = mods.filter((m) => /Bientôt/.test(m));
-    const cur = await page.$eval('#mainnav a[data-nav="learn"]', (a) => a.getAttribute("aria-current"));
+    const cur = await page.$eval('#mainnav a[data-nav="everywhere"]', (a) => a.getAttribute("aria-current"));
     await page.screenshot({ path: path.join(OUT, "learn-tableau-de-bord.png") });
     return { ok: mods.length === 6 && soon.length === 2 && /Conversation avec l'IA/.test(soon[0]) && /Cultures du monde/.test(soon[1]) && cur === "page" && (await page.evaluate(() => location.hash)) === "#/learn",
       detail: "6 modules, dont 2 marqués « Bientôt » (IA, cultures)" };
@@ -637,15 +644,26 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   ctx = await ewCtx();
   page = await openPortal(ctx, "#/accueil");
   const ewLog = (p, who) => p.$$eval('[data-log="' + who + '"] .tr-line', (n) => n.map((l) => ({ big: l.querySelector(".tr-big-txt").textContent, small: (l.querySelector(".tr-small-txt") || {}).textContent || "" })));
-  await step("Carte EVERYWHERE de l'accueil → accueil EVERYWHERE : côte à côte, appeler sur TALK, mes langues, configurations (aucune leçon)", async () => {
-    await page.tap("#cardEverywhere .duo-btn");
+  await step("Tuile EVERYWHERE de l'accueil → hub EVERYWHERE : traduction (côte à côte, appeler sur TALK, mes langues, configurations) ET accès à LEARN", async () => {
+    await page.tap("#cardEverywhere");
     await page.waitForSelector("#view-everywhere.active #trGoFace");
     const txt = (await page.textContent("#view-everywhere")).replace(/\s+/g, " ");
     const cur = await page.$eval('#mainnav a[data-nav="everywhere"]', (a) => a.getAttribute("aria-current"));
     const learnBits = await page.$$eval("#view-everywhere .lx-mod, #view-everywhere .lx-lesson", (n) => n.length);
+    const links = await page.$$eval("#view-everywhere a[href]", (n) => n.map((a) => a.getAttribute("href")));
     await page.screenshot({ path: path.join(OUT, "everywhere-accueil.png") });
-    return { ok: /Conversation côte à côte/.test(txt) && /Appeler sur TALK/.test(txt) && /Mes langues/.test(txt) && /Configurations/.test(txt) && cur === "page" && learnBits === 0 && !/leçon|exercice/i.test(txt),
-      detail: "4 entrées, barre du bas sur Everywhere" };
+    return { ok: /Conversation côte à côte/.test(txt) && /Appeler sur TALK/.test(txt) && /Mes langues/.test(txt) && /Configurations/.test(txt) && /Apprendre une langue/.test(txt) && cur === "page" && learnBits === 0 &&
+      ["#/everywhere/face", "#/everywhere/appel", "#/learn"].every((h) => links.includes(h)),
+      detail: "liens : " + links.join(", ") };
+  });
+  await step("Hub EVERYWHERE : le lien LEARN disparaît dans la conversation côte à côte et revient au retour", async () => {
+    await page.goto(URL_EW + "#/everywhere/langues");
+    await page.waitForSelector("#view-everywhere.active h1");
+    const inSub = await page.$("#ewGoLearn");
+    await page.goto(URL_EW + "#/everywhere");
+    await page.waitForSelector("#view-everywhere.active #ewGoLearn");
+    const n = await page.$$eval("#ewGoLearn", (x) => x.length);
+    return { ok: !inSub && n === 1, detail: "un seul lien LEARN, seulement sur le hub" };
   });
   await step("Mode A : écran coupé en deux, personne 2 en haut, personne 1 en bas, même sens de lecture, un micro chacun", async () => {
     await page.tap("#trGoFace");
@@ -899,7 +917,8 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   page = await openPortal(ctx);
   await step("Interface en anglais selon la langue du téléphone", async () => {
     const labels = await page.$$eval("#mainnav a", (n) => n.map((a) => a.textContent.trim()));
-    return { ok: labels.join(",") === "Home,Everywhere,Learn,Talk,Profile", detail: labels.join(", ") };
+    const ew = await page.textContent("#cardEverywhere .duo-d");
+    return { ok: labels.join(",") === "Home,Talk,Everywhere,Profile" && /Access the world without limits/.test(ew), detail: labels.join(", ") + " · " + ew };
   });
   await ctx.close();
 
@@ -913,7 +932,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
         cols: getComputedStyle(document.getElementById("homeDuo")).gridTemplateColumns.split(" ").length }));
       await page.screenshot({ path: path.join(OUT, name + "-accueil.png") });
       const want = name === "ordinateur" ? "column" : "row";
-      return { ok: r.dir === want && r.sw <= r.w && r.cols === 3, detail: "menu " + (r.dir === "column" ? "latéral" : "bas") + ", " + r.cols + " colonnes" };
+      return { ok: r.dir === want && r.sw <= r.w && r.cols === 2, detail: "menu " + (r.dir === "column" ? "latéral" : "bas") + ", " + r.cols + " colonnes" };
     });
     await step("LEARN sur " + name + " : leçon et exercice utilisables, sans défilement horizontal", async () => {
       await page.goto(URL_EW + "#/learn/lecon/es-deb-1");

@@ -26,15 +26,15 @@
     return /^fr/i.test(l) ? "fr" : "en";
   }
 
-  // Les cinq entrées de la barre du bas (une application, trois interfaces) : Accueil · Everywhere · Learn · Talk · Profil.
+  // Les quatre entrées de la barre du bas : Accueil · Talk · Everywhere · Profil (image de référence, 0.6.2).
+  // LEARN n'est plus dans la barre : il s'ouvre depuis le hub EVERYWHERE (#/everywhere), son adresse #/learn reste valable.
   // root = chemin vers la racine du site ; inPortal = liens internes du portail (#/…).
   function items(root, inPortal) {
     var ew = inPortal ? "" : root + "everywhere/";
     return [
       { id: "accueil", href: ew + "#/accueil", icon: "home", key: "home" },
-      { id: "everywhere", href: ew + "#/everywhere", icon: "globe", key: "everywhere" },
-      { id: "learn", href: ew + "#/learn", icon: "learn", key: "learn" },
       { id: "talk", href: root + "index.html?ew=1", icon: "mic", key: "talk" },
+      { id: "everywhere", href: ew + "#/everywhere", icon: "globe", key: "everywhere" },
       { id: "profil", href: ew + "#/profil", icon: "profile", key: "profile" }
     ];
   }

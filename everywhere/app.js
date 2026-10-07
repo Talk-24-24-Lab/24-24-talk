@@ -4,8 +4,8 @@
   "use strict";
   var CFG = window.EW_CONFIG || { env: "test", basePath: "../", talkReadyTimeoutMs: 15000 };
   var APPS = window.EW_APPS || [];
-  var VERSION = "0.6.1 (prototype)";
-  var VERSION_TAG = "0.6.1";
+  var VERSION = "0.6.2 (prototype)";
+  var VERSION_TAG = "0.6.2";
 
   // ---------- Stockage (peut être indisponible : navigation privée stricte, etc.) ----------
   var store = {
@@ -23,7 +23,9 @@
       skip: "Aller au contenu", offline: "Hors ligne : certaines fonctions sont indisponibles.",
       home: "Accueil", apps: "Applications", profile: "Profil", settings: "Paramètres", open_full: "Ouvrir en plein écran",
       lead: "Un monde sans barrières.", your_apps: "Vos applications",
-      talk_tag: "Communiquer sans barrières.", ew_tag: "Traduire et connecter partout.", learn_tag: "Apprendre sans limites.",
+      talk_tag: "Communiquer sans barrières", ew_tag: "Accéder au monde sans limites", learn_tag: "Apprendre sans limites.",
+      hub_sub: "Traduire, connecter et apprendre partout.", hub_learn_h: "Apprendre",
+      hub_learn: "Apprendre une langue", hub_learn_d: "Leçons, exercices, révision, progression",
       kicker: "Une seule application. Trois interfaces. Un seul compte.",
       signature: "Un monde. Une connexion. Aucune frontière linguistique.", learn: "LEARN",
       a11y: "Affichage et accessibilité", text_size: "Taille du texte", contrast: "Contraste renforcé",
@@ -53,7 +55,9 @@
       skip: "Skip to content", offline: "Offline: some features are unavailable.",
       home: "Home", apps: "Apps", profile: "Profile", settings: "Settings", open_full: "Open full screen",
       lead: "A world without barriers.", your_apps: "Your apps",
-      talk_tag: "Communicate without barriers.", ew_tag: "Translate and connect everywhere.", learn_tag: "Learn without limits.",
+      talk_tag: "Communicate without barriers", ew_tag: "Access the world without limits", learn_tag: "Learn without limits.",
+      hub_sub: "Translate, connect and learn everywhere.", hub_learn_h: "Learn",
+      hub_learn: "Learn a language", hub_learn_d: "Lessons, exercises, review, progress",
       kicker: "One app. Three interfaces. One account.",
       signature: "One world. One connection. No language borders.", learn: "LEARN",
       a11y: "Display and accessibility", text_size: "Text size", contrast: "High contrast",
@@ -111,12 +115,14 @@
 
   // ---------- Navigation principale (barre basse sur téléphone, menu latéral sur ordinateur) ----------
   var talkApp = APPS.filter(function (a) { return a.bottomNav && a.status === "available"; })[0];
-  // Barre du bas commune (shell.js) : Accueil · Applications · TALK · Profil, la même dans TALK.
+  // Barre du bas commune (shell.js) : Accueil · Talk · Everywhere · Profil, la même dans TALK.
   // TALK s'ouvre en pleine page (pas dans un cadre, qui restait figé sur téléphone) mais garde cette barre.
   $("mainnav").innerHTML = window.EWShell.navHtml(CFG.basePath, true, null, lang);
 
   // Adresse de l'application seule (pleine page, hors du portail). Dans un cadre, TALK restait figé sur le téléphone de Sébastien.
   function fullHref(a) { return a.route ? a.route : CFG.basePath + a.src.replace(/([?&])embed=1\b/, "$1ew=1"); }
+  // Tuile TALK de l'accueil : TALK en pleine page (jamais dans un cadre), même adresse que la barre du bas.
+  if (talkApp) $("cardTalk").setAttribute("href", fullHref(talkApp));
 
   // ---------- Cartes d'applications (accueil et page Applications) ----------
   function appCard(a) {
@@ -315,6 +321,18 @@
 
   // ---------- Routes internes (#/accueil, #/applications, #/everywhere/…, #/app/<id>, #/profil, #/parametres) ----------
   var TITLES = { accueil: "", applications: t("apps"), profil: t("profile"), parametres: t("settings"), everywhere: t("everywhere"), learn: t("learn"), "404": "" };
+  // Hub EVERYWHERE : sous la traduction (côte à côte, appel traduit), un accès au module LEARN (#/learn), inchangé.
+  function addLearnToHub(root) {
+    if (!root || root.querySelector("#ewGoLearn")) return;
+    var sub = root.querySelector(".tr-head p");
+    if (sub) sub.textContent = t("hub_sub");
+    var box = document.createElement("div");
+    box.className = "ew-hub-learn";
+    box.innerHTML = '<h2 class="ew-hub-h" id="h-hub-learn">' + esc(t("hub_learn_h")) + "</h2>" +
+      '<a class="tr-big learn" id="ewGoLearn" href="#/learn"><span class="tr-big-ic">' + svg("learn") + "</span><span><b>" + esc(t("hub_learn")) +
+      "</b><small>" + esc(t("hub_learn_d")) + "</small></span></a>";
+    root.appendChild(box);
+  }
   var first = true;
   function route() {
     var h = (location.hash || "").replace(/^#\/?/, "");
@@ -339,8 +357,11 @@
       // cadre restait insensible au toucher après coup. visibility + pointer-events suffisent à la masquer.
       if ("inert" in v && !v.classList.contains("view-app")) v.inert = !on;
     });
+    // LEARN est présenté sous EVERYWHERE (accès depuis le hub #/everywhere) : la barre du bas allume Everywhere.
+    var navId = target === "app" ? "app/" + appId : target === "learn" ? "everywhere" : target;
+    document.documentElement.classList.toggle("ew-home", target === "accueil");
     document.querySelectorAll("[data-nav]").forEach(function (n) {
-      if (n.getAttribute("data-nav") === (target === "app" ? "app/" + appId : target)) n.setAttribute("aria-current", "page");
+      if (n.getAttribute("data-nav") === navId) n.setAttribute("aria-current", "page");
       else n.removeAttribute("aria-current");
     });
     // Bouton « ouvrir en plein écran » : l'application seule, hors du portail (solution de secours si besoin).
@@ -352,7 +373,10 @@
     if (target === "parametres") $("topSettings").setAttribute("aria-current", "page");
     else $("topSettings").removeAttribute("aria-current");
     var title = target === "app" ? loc(appById(appId).name) : TITLES[target] || "";
-    if (target === "everywhere" && window.EWEverywhere) title = window.EWEverywhere.show($("ewTr"), parts.slice(1), lang) || t("everywhere");
+    if (target === "everywhere" && window.EWEverywhere) {
+      title = window.EWEverywhere.show($("ewTr"), parts.slice(1), lang) || t("everywhere");
+      if (!parts[1]) addLearnToHub($("ewTr"));
+    }
     else if (window.EWEverywhere && $("ewTr").innerHTML) { window.EWEverywhere.show($("ewTr"), [], lang); } // quitte la conversation : micro et voix coupés
     if (target === "learn" && window.EWLearn) title = window.EWLearn.show($("ewLearn"), parts.slice(1), lang) || t("learn");
     $("topTitle").textContent = title;
