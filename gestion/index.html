@@ -102,6 +102,8 @@ h2 span{color:var(--muted);font-weight:600}
 .rep:last-child{border-bottom:none}
 .rep .row1{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .rep q{display:block;margin-top:8px;padding:8px 10px;border-radius:10px;background:var(--panel2);font-size:14px;quotes:none;overflow-wrap:anywhere}
+.rep .photo-row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.rep .photo-prev img{display:block;width:96px;height:96px;border-radius:50%;object-fit:cover;margin-top:8px;border:1px solid var(--line)}
 .rep small{display:block;color:var(--muted);font-size:12.5px;margin-top:3px}
 .tabs button.on{background:var(--panel2);color:var(--text);box-shadow:inset 0 0 0 1px var(--line)}
 .search{width:100%;min-height:46px;margin-bottom:6px;padding:0 14px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font:600 15.5px var(--font)}
@@ -328,7 +330,9 @@ footer{color:var(--muted);font-size:12px;text-align:center;margin-top:22px;line-
         "<small>signalé par " + (r.par ? "@" + esc(r.par) : "compte supprimé") + " · " + dateFr(r.cree, true) + "</small></div>" +
         (r.cible && r.cible !== ME ? banBtn(r.cible, r.suspendu) : "") + "</div>" +
         (r.motif ? "<small>Motif : " + esc(r.motif) + "</small>" : "") +
-        (r.message ? "<q>« " + esc(r.message) + " »</q>" : "") + "</div>";
+        (r.message && r.motif !== "photo" ? "<q>« " + esc(r.message) + " »</q>" : "") +
+        (r.motif === "photo" && r.cible ? '<div class="photo-row"><button type="button" class="ban" data-photo-see="' + esc(r.cible) + '">Voir la photo</button>' +
+          '<button type="button" class="ban" data-photo-del="' + esc(r.cible) + '">Retirer la photo</button></div><div class="photo-prev"></div>' : "") + "</div>";
     }).join("") : '<p class="note" style="margin:0">Aucun signalement pour l\'instant. 👍</p>';
   }
   async function loadModo() {
@@ -346,6 +350,36 @@ footer{color:var(--muted);font-size:12px;text-align:center;margin-top:22px;line-
     drawReports();
     drawUsers();
   }
+  // Photo signalée : la voir (admin seulement), puis la retirer après confirmation (2e appui).
+  var PHOTO_RE = /^data:image\/(jpeg|webp);base64,[A-Za-z0-9+/]+=*$/;
+  document.addEventListener("click", async function (e) {
+    var see = e.target.closest && e.target.closest("button[data-photo-see]");
+    var del = e.target.closest && e.target.closest("button[data-photo-del]");
+    if ((!see && !del) || !sb) return;
+    var b = see || del, box = b.closest(".rep").querySelector(".photo-prev");
+    if (see) {
+      b.disabled = true;
+      var r1;
+      try { r1 = await sb.rpc("admin_photo", { target_pseudo: b.dataset.photoSee }); } catch (err) { r1 = { error: err }; }
+      b.disabled = false;
+      box.innerHTML = r1.error ? "<small>Erreur, réessayer</small>" : r1.data && PHOTO_RE.test(r1.data) ? '<img alt="Photo signalée" src="' + r1.data + '">' : "<small>Plus de photo sur ce compte.</small>";
+      return;
+    }
+    if (!b.dataset.confirm) {
+      b.dataset.confirm = "1";
+      b.textContent = "Confirmer ?";
+      setTimeout(function () { if (b.isConnected && b.dataset.confirm) { delete b.dataset.confirm; b.textContent = "Retirer la photo"; } }, 4000);
+      return;
+    }
+    b.disabled = true;
+    b.textContent = "…";
+    var r2;
+    try { r2 = await sb.rpc("admin_retirer_photo", { target_pseudo: b.dataset.photoDel }); } catch (err) { r2 = { error: err }; }
+    delete b.dataset.confirm;
+    b.disabled = false;
+    b.textContent = r2.error ? "Erreur, réessayer" : "Photo retirée";
+    if (!r2.error) box.innerHTML = "";
+  });
   // Suspendre / rétablir : demande une confirmation (2e appui), puis met à jour le serveur.
   document.addEventListener("click", async function (e) {
     var b = e.target.closest && e.target.closest("button[data-ban]");
