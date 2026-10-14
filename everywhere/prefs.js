@@ -23,6 +23,7 @@
     h.classList.toggle("contrast-high", !!p.contrast);
     h.classList.toggle("motion-off", !!p.motion);
     h.setAttribute("data-ts", String(p.text));
+    h.classList.toggle("reduce-motion", !!p.motion);
   }
   function set(k, v) {
     var p = read(), raw = {};

@@ -193,13 +193,13 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.waitForSelector("#view-404.active");
     return { ok: true };
   });
-  await step("Page Applications : TALK, EVERYWHERE et LEARN ; #/app/everywhere mène à EVERYWHERE", async () => {
+  await step("Page Applications : TALK, EVERYWHERE, LEARN et AI LAB ; #/app/everywhere mène à EVERYWHERE", async () => {
     await page.goto(URL_EW + "#/applications");
     await page.waitForSelector("#view-applications.active");
     const names = await page.$$eval("#appList .app-card b", (n) => n.map((b) => b.textContent));
     await page.goto(URL_EW + "#/app/everywhere");
     await page.waitForSelector("#view-everywhere.active");
-    return { ok: names.join(",") === "24/24 TALK,24/24 EVERYWHERE,24/24 LEARN" && (await page.evaluate(() => location.hash)) === "#/everywhere", detail: names.join(", ") };
+    return { ok: names.join(",") === "24/24 TALK,24/24 EVERYWHERE,24/24 LEARN,24/24 AI LAB" && (await page.evaluate(() => location.hash)) === "#/everywhere", detail: names.join(", ") };
   });
   await step("Pas de défilement horizontal (téléphone, tous les écrans)", async () => {
     const bad = [];
@@ -932,7 +932,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
         cols: getComputedStyle(document.getElementById("homeDuo")).gridTemplateColumns.split(" ").length }));
       await page.screenshot({ path: path.join(OUT, name + "-accueil.png") });
       const want = name === "ordinateur" ? "column" : "row";
-      return { ok: r.dir === want && r.sw <= r.w && r.cols === 2, detail: "menu " + (r.dir === "column" ? "latéral" : "bas") + ", " + r.cols + " colonnes" };
+      return { ok: r.dir === want && r.sw <= r.w && r.cols === (name === "ordinateur" ? 4 : 2), detail: "menu " + (r.dir === "column" ? "latéral" : "bas") + ", " + r.cols + " colonnes" };
     });
     await step("LEARN sur " + name + " : leçon et exercice utilisables, sans défilement horizontal", async () => {
       await page.goto(URL_EW + "#/learn/lecon/es-deb-1");
