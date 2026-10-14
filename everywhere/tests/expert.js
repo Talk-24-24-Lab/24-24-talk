@@ -246,15 +246,17 @@ const DICT = { "fr|en": { "Bonjour": "Hello", "Où est la gare ?": "Where is the
     const r = await page.evaluate(() => ({ sr: window.__srLangs.length, act: window.__srActive }));
     return { ok: r.sr === 1 && r.act <= 0 && !page._errors.length, detail: r.sr + " écoute en tout" };
   });
-  await step("Mains libres : rien entendu → pause annoncée, pas de relance en boucle", async () => {
+  await step("Mains libres : rien entendu → réécoute silencieuse limitée (20 s, ici 1,5 s), puis pause annoncée, pas de relance en boucle", async () => {
     await page.goto(URL_EW + "#/everywhere/face");
     await page.waitForSelector("#trFace");
-    const n0 = await page.evaluate(() => { window.__sayQ = ["Bonjour", "__nospeech"]; return window.__srLangs.length; });
+    const n0 = await page.evaluate(() => { window.EW_STT_RETRY_MS = 1500; window.__sayQ = ["Bonjour", "__nospeech", "__nospeech", "__nospeech", "__nospeech", "__nospeech", "__nospeech", "__nospeech", "__nospeech"]; return window.__srLangs.length; });
     await page.tap('[data-mic="1"]');
-    await page.waitForFunction(() => /pause/.test((document.querySelector('[data-msg="2"]') || {}).textContent || ""), null, { timeout: 5000 });
+    await page.waitForFunction(() => /pause/.test((document.querySelector('[data-msg="2"]') || {}).textContent || ""), null, { timeout: 6000 });
+    const n1 = await page.evaluate((k) => window.__srLangs.length - k, n0);
     await sleep(1200);
     const n = await page.evaluate((k) => window.__srLangs.length - k, n0);
-    return { ok: n === 2, detail: n + " écoutes, puis pause" };
+    await page.evaluate(() => { delete window.EW_STT_RETRY_MS; });
+    return { ok: n >= 3 && n === n1, detail: n + " écoutes (1 + réécoutes silencieuses), puis pause, plus rien ensuite" };
   });
   await step("Mains libres : toucher le micro allumé arrête l'enchaînement", async () => {
     const n0 = await page.evaluate(() => { window.__srDelay = 1500; window.__sayQ = ["Bonjour", "It's straight ahead."]; return window.__srLangs.length; });

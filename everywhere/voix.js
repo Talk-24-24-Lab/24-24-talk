@@ -147,8 +147,10 @@
     setBtn(false);
   }
 
-  function listen() {
-    if (rec) { stopListening(); hideBar(); return; }
+  var listenT0 = 0;
+  function listen(retry) {
+    if (rec && retry !== true) { stopListening(); hideBar(); return; }
+    if (retry !== true) listenT0 = Date.now();
     if (!SR) return;
     try { if (window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) { /* rien à couper */ }
     var r;
@@ -177,6 +179,8 @@
       stopListening();
       var code = e && e.error;
       if (code === "aborted") { hideBar(); return; }
+      // Rien entendu (parlé trop tôt ou trop bas) : on réécoute tout seul, 8 secondes au plus.
+      if ((code === "no-speech" || code === "audio-capture") && Date.now() - listenT0 < 8000) { setTimeout(function () { listen(true); }, 150); return; }
       showBar(code === "not-allowed" || code === "service-not-allowed" ? L().denied : code === "network" ? L().network
         : code === "audio-capture" ? L().busy : L().no_speech, false, 8000);
     };

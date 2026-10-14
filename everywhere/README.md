@@ -275,3 +275,9 @@ la traduction part en avance dès que la phrase est stable 0,25 s ; chaque tradu
 sans nouvel appel ; connexion au service ouverte d'avance ; en mains libres, le micro suivant s'ouvre 0,12 s après la lecture.
 Mesuré en test (service répondant en 0,8 s) : 1,52 s → 1,07 s après la dernière parole ; phrase déjà dite : 0,55 s.
 Le reste du délai dépend du service gratuit MyMemory et de la reconnaissance vocale du téléphone.
+
+## 0.6.8 — Captation de la voix plus tolérante
+Demande de Sébastien (« la voix a du mal à être détectée »). Conversation côte à côte : si le téléphone n'entend rien
+(parlé trop tôt, trop bas, coupure d'Android), l'écoute repart toute seule pendant 20 s au plus, sans message d'erreur ;
+la fin de phrase attend 0,9 s de calme quand la phrase fait moins de 3 mots (0,6 s sinon) ; en mains libres, le micro
+suivant s'ouvre 0,35 s après la lecture (laisse Android rendre le micro). Commandes vocales : réécoute automatique 8 s au plus.
