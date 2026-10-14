@@ -4,8 +4,8 @@
   "use strict";
   var CFG = window.EW_CONFIG || { env: "test", basePath: "../", talkReadyTimeoutMs: 15000 };
   var APPS = window.EW_APPS || [];
-  var VERSION = "0.8.1 (prototype)";
-  var VERSION_TAG = "0.8.1";
+  var VERSION = "0.8.2 (prototype)";
+  var VERSION_TAG = "0.8.2";
 
   // ---------- Stockage (peut être indisponible : navigation privée stricte, etc.) ----------
   var store = {
@@ -13,11 +13,15 @@
     set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) { /* ignoré */ } }
   };
 
-  // ---------- Langue : même réglage que 24/24 TALK (clé lc_uilang) ; le portail existe en français et en anglais ----------
+  // ---------- Langue : même réglage que 24/24 TALK (clé lc_uilang) ----------
   var pref = store.get("lc_uilang") || "auto";
   var lang = (pref !== "auto" ? pref : (navigator.language || "fr")).slice(0, 2).toLowerCase() === "fr" ? "fr" : "en";
   if (pref === "auto" && /^fr/i.test(navigator.language || "")) lang = "fr";
-  document.documentElement.lang = lang;
+  // ui : langue de l'accueil, des barres et des paramètres (11 langues, 0.8.2). lang (« fr » ou « en ») reste celle
+  // des modules EVERYWHERE, Voyage, Apprendre et Profil, qui n'existent encore qu'en français et en anglais.
+  var ui = window.EWShell && window.EWShell.uiLang ? window.EWShell.uiLang() : lang;
+  document.documentElement.lang = ui;
+  document.documentElement.dir = ui === "ar" ? "rtl" : "ltr";
   var STR = {
     fr: {
       skip: "Aller au contenu", offline: "Hors ligne : certaines fonctions sont indisponibles.",
@@ -92,12 +96,13 @@
       title_app: "{app}"
     }
   };
+  Object.keys(window.EW_PORTAL_STR || {}).forEach(function (l) { STR[l] = window.EW_PORTAL_STR[l]; });
   function t(k, vars) {
-    var s = (STR[lang] && STR[lang][k]) || STR.fr[k] || k;
+    var s = (STR[ui] && STR[ui][k]) || (STR[lang] && STR[lang][k]) || STR.en[k] || STR.fr[k] || k;
     if (vars) Object.keys(vars).forEach(function (v) { s = s.split("{" + v + "}").join(vars[v]); });
     return s;
   }
-  function loc(v) { return v && typeof v === "object" ? (v[lang] || v.fr || "") : (v || ""); }
+  function loc(v) { return v && typeof v === "object" ? (v[ui] || v[lang] || v.fr || "") : (v || ""); }
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
   function $(id) { return document.getElementById(id); }
 
@@ -126,7 +131,7 @@
   var talkApp = APPS.filter(function (a) { return a.bottomNav && a.status === "available"; })[0];
   // Barre du bas commune (shell.js) : Accueil · Talk · Everywhere · Profil, la même dans TALK.
   // TALK s'ouvre en pleine page (pas dans un cadre, qui restait figé sur téléphone) mais garde cette barre.
-  $("mainnav").innerHTML = window.EWShell.navHtml(CFG.basePath, true, null, lang);
+  $("mainnav").innerHTML = window.EWShell.navHtml(CFG.basePath, true, null, ui);
 
   // Adresse de l'application seule (pleine page, hors du portail). Dans un cadre, TALK restait figé sur le téléphone de Sébastien.
   function fullHref(a) { return a.route ? a.route : CFG.basePath + a.src.replace(/([?&])embed=1\b/, "$1ew=1"); }

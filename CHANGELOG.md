@@ -2,6 +2,15 @@
 
 > © 2026 Sébastien Chevrier. Tous droits réservés. La production n'est concernée par aucune de ces versions.
 
+## 0.8.2 (prototype, 14 octobre 2026) — accueil dans les langues de TALK, site de test seulement
+
+### Ajouté
+- **Accueil, barres du haut et du bas, Paramètres, profil et compte à rebours** traduits dans les 11 langues de TALK :
+  français, anglais, espagnol, portugais, allemand, italien, chinois, japonais, arabe (de droite à gauche), russe et
+  malgache. Les autres langues voient l'anglais. « One world. Every voice. » reste en anglais (signature de la marque).
+- Les écrans EVERYWHERE, Voyage, Apprendre et Profil linguistique restent en français ou en anglais pour l'instant.
+- Cache hors connexion `ew-shell-v26`.
+
 ## 0.8.1 (prototype, 14 octobre 2026) — TALK au même look, site de test seulement
 
 ### Modifié

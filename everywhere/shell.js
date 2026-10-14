@@ -16,15 +16,35 @@
   };
   var LABELS = {
     fr: { home: "Accueil", apps: "Applications", talk: "Talk", everywhere: "Everywhere", learn: "Learn", profile: "Profil", settings: "Paramètres", nav: "Navigation principale", brand: "24/24 TALK, accueil de 24/24 ONE WORLD" },
-    en: { home: "Home", apps: "Apps", talk: "Talk", everywhere: "Everywhere", learn: "Learn", profile: "Profile", settings: "Settings", nav: "Main navigation", brand: "24/24 TALK, 24/24 ONE WORLD home" }
+    en: { home: "Home", apps: "Apps", talk: "Talk", everywhere: "Everywhere", learn: "Learn", profile: "Profile", settings: "Settings", nav: "Main navigation", brand: "24/24 TALK, 24/24 ONE WORLD home" },
+    es: {"home": "Inicio", "apps": "Aplicaciones", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "Perfil", "settings": "Ajustes", "nav": "Navegación principal", "brand": "24/24 TALK, inicio de 24/24 ONE WORLD"},
+    pt: {"home": "Início", "apps": "Aplicações", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "Perfil", "settings": "Definições", "nav": "Navegação principal", "brand": "24/24 TALK, início da 24/24 ONE WORLD"},
+    de: {"home": "Start", "apps": "Apps", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "Profil", "settings": "Einstellungen", "nav": "Hauptnavigation", "brand": "24/24 TALK, Startseite von 24/24 ONE WORLD"},
+    it: {"home": "Home", "apps": "App", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "Profilo", "settings": "Impostazioni", "nav": "Navigazione principale", "brand": "24/24 TALK, home di 24/24 ONE WORLD"},
+    zh: {"home": "首页", "apps": "应用", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "我的", "settings": "设置", "nav": "主导航", "brand": "24/24 TALK，24/24 ONE WORLD 首页"},
+    ja: {"home": "ホーム", "apps": "アプリ", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "プロフィール", "settings": "設定", "nav": "メインナビゲーション", "brand": "24/24 TALK、24/24 ONE WORLD のホーム"},
+    ar: {"home": "الرئيسية", "apps": "التطبيقات", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "ملفي", "settings": "الإعدادات", "nav": "التنقل الرئيسي", "brand": "24/24 TALK، الصفحة الرئيسية لـ 24/24 ONE WORLD"},
+    ru: {"home": "Главная", "apps": "Приложения", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "Профиль", "settings": "Настройки", "nav": "Основная навигация", "brand": "24/24 TALK, главная 24/24 ONE WORLD"},
+    mg: {"home": "Fandraisana", "apps": "Rindranasa", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "Momba ahy", "settings": "Fikirakirana", "nav": "Fitetezana lehibe", "brand": "24/24 TALK, fandraisana 24/24 ONE WORLD"}
   };
-  var VER = "0.8.1";
+  var VER = "0.8.2";
   function svg(name) { return '<svg viewBox="0 0 24 24" aria-hidden="true">' + (ICONS[name] || "") + "</svg>"; }
   function langOf() {
     var p = null;
     try { p = localStorage.getItem("lc_uilang"); } catch (e) { p = null; }
     var l = p && p !== "auto" ? p : (navigator.language || "fr");
     return /^fr/i.test(l) ? "fr" : "en";
+  }
+  // Langue de l'écran (0.8.2) : les 11 langues incluses dans TALK ; les autres passent en anglais.
+  // langOf() reste « fr » ou « en » pour les modules qui n'existent que dans ces deux langues.
+  var UI_LANGS = ["fr", "en", "es", "pt", "de", "it", "zh", "ja", "ar", "ru", "mg"];
+  function uiLangOf() {
+    var p = null;
+    try { p = localStorage.getItem("lc_uilang"); } catch (e) { p = null; }
+    var l = String(p && p !== "auto" ? p : (navigator.language || "fr")).toLowerCase();
+    if (/^zh-(tw|hk|mo|hant)/.test(l)) return "en"; // chinois traditionnel : pas encore traduit ici
+    l = l.slice(0, 2);
+    return UI_LANGS.indexOf(l) !== -1 ? l : "en";
   }
 
   // Les quatre entrées de la barre du bas : Accueil · Talk · Everywhere · Profil (image de référence, 0.6.2).
@@ -40,7 +60,7 @@
     ];
   }
   function navHtml(root, inPortal, active, lang) {
-    var L = LABELS[lang || langOf()];
+    var L = LABELS[lang] || LABELS[uiLangOf()] || LABELS.en;
     return items(root, inPortal).map(function (n) {
       return '<a href="' + n.href + '" data-nav="' + n.id + '"' + (n.id === active ? ' aria-current="page"' : "") + ">" +
         svg(n.icon) + "<span>" + L[n.key] + "</span></a>";
@@ -51,7 +71,7 @@
   function mountTalk() {
     if (document.getElementById("ewsTop")) return;
     var root = "./";
-    var lang = langOf(), L = LABELS[lang];
+    var lang = uiLangOf(), L = LABELS[lang] || LABELS.en;
     var top = document.createElement("header");
     top.className = "topbar ews-top";
     top.id = "ewsTop";
@@ -91,7 +111,7 @@
     }
   }
 
-  window.EWShell = { navHtml: navHtml, items: items, mountTalk: mountTalk, icons: ICONS, lang: langOf };
+  window.EWShell = { navHtml: navHtml, items: items, mountTalk: mountTalk, icons: ICONS, lang: langOf, uiLang: uiLangOf };
   if (document.documentElement.classList.contains("ew-shell")) {
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mountTalk);
     else mountTalk();
