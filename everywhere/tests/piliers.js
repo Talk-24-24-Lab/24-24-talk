@@ -573,6 +573,123 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     return { ok: /Japonais/.test(a[0]) && t.n >= 4, detail: JSON.stringify({ a, t }) };
   });
   await ctx.close();
+
+  // ================= PANNES DE TRADUCTION (0.7.2) — MyMemory simulé, aucun appel réel =================
+  const mmLog = [];
+  const mmRoute = async (r) => {
+    const q = new URL(r.request().url()).searchParams.get("q") || "";
+    mmLog.push(q);
+    const J = (o) => r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(o) }).catch(() => {});
+    if (q === "cas429") return r.fulfill({ status: 429, body: "Too Many Requests" });
+    if (q === "cas500") return r.fulfill({ status: 500, body: "erreur" });
+    if (q === "casavert") return J({ responseData: { translatedText: "MYMEMORY WARNING: YOU USED ALL AVAILABLE FREE TRANSLATIONS FOR TODAY. NEXT AVAILABLE IN 10 HOURS" }, responseStatus: 429 });
+    if (q === "casavert2") return J({ responseData: { translatedText: "MYMEMORY WARNING: YOU USED ALL AVAILABLE FREE TRANSLATIONS FOR TODAY." }, responseStatus: 200 });
+    if (q === "caslangue") return J({ responseData: { translatedText: "INVALID LANGUAGE PAIR SPECIFIED" }, responseStatus: "403" });
+    if (q === "casillisible") return r.fulfill({ status: 200, contentType: "text/html", body: "<html>panne</html>" });
+    if (q === "casentite") return J({ responseData: { translatedText: "l&#39;hôtel &amp; la gare" }, responseStatus: 200 });
+    if (q === "caslent") { await sleep(9000); return J({ responseData: { translatedText: "trop tard" } }); }
+    if (q === "casattente") { await sleep(1500); return J({ responseData: { translatedText: "slow answer" }, responseStatus: 200 }); }
+    return J({ responseData: { translatedText: "[" + q + "]" }, responseStatus: 200 });
+  };
+  const CASES = { cas429: "ERR:QUOTA_PROVIDER", cas500: "ERR:SERVER", casavert: "ERR:QUOTA_PROVIDER", casavert2: "ERR:QUOTA_PROVIDER",
+    caslangue: "ERR:SERVER", casillisible: "ERR:SERVER", casentite: "OK:l'hôtel & la gare" };
+  const runCases = (pg, fnSrc) => pg.evaluate(async ({ fnSrc, list }) => {
+    const f = eval(fnSrc), out = {};
+    for (const c of list) { try { out[c] = "OK:" + await f(c); } catch (e) { out[c] = "ERR:" + (e && e.message); } }
+    return out;
+  }, { fnSrc, list: Object.keys(CASES) });
+  const LONG = "Bonjour, je voudrais réserver une chambre pour deux nuits. ".repeat(15).trim();
+  const APPS = [["ONE WORLD", URL_EW, "(q) => window.EWMoteur.translate(q, 'fr', 'en')"],
+    ["TALK", URL_TALK, "(q) => TranslationProvider.translate(q, 'fr', 'en').then((r) => r.text)"]];
+  for (const [nom, url, fnSrc] of APPS) {
+    ctx = await newCtx({}, false);
+    await ctx.route(/api\.mymemory\.translated\.net/, mmRoute);
+    page = await open(ctx, url);
+    await page.waitForFunction((src) => { try { return !!eval(src); } catch (e) { return false; } }, fnSrc.indexOf("EWMoteur") > 0 ? "window.EWMoteur" : "TranslationProvider", { timeout: 10000 });
+    await step("Pannes de traduction (" + nom + ") : quota (429, avertissement MyMemory), erreur serveur, langue refusée, réponse illisible → message d'erreur, jamais un faux texte ; « &#39; » décodé", async () => {
+      const r = await runCases(page, fnSrc);
+      const bad = Object.keys(CASES).filter((k) => r[k] !== CASES[k]);
+      return { ok: !bad.length, detail: bad.length ? JSON.stringify(bad.map((k) => [k, r[k]])) : "7 cas sur 7" };
+    });
+    await step("Pannes de traduction (" + nom + ") : texte de " + Buffer.byteLength(LONG) + " octets découpé en morceaux de 450 octets au plus, puis recollé", async () => {
+      const n0 = mmLog.length;
+      const r = await page.evaluate(async ({ fnSrc, LONG }) => { try { return await eval(fnSrc)(LONG); } catch (e) { return "ERR:" + e.message; } }, { fnSrc, LONG });
+      const sent = mmLog.slice(n0);
+      const sizes = sent.map((q) => Buffer.byteLength(q));
+      return { ok: sent.length >= 2 && sizes.every((b) => b <= 450) && sent.join(" ") === LONG && r === sent.map((q) => "[" + q + "]").join(" "), detail: sent.length + " morceaux : " + sizes.join(", ") + " octets" };
+    });
+    await step("Pannes de traduction (" + nom + ") : téléphone hors ligne → OFFLINE, aucun appel", async () => {
+      const n0 = mmLog.length;
+      await ctx.setOffline(true);
+      const r = await page.evaluate(async (fnSrc) => { try { return "OK:" + await eval(fnSrc)("hors ligne"); } catch (e) { return "ERR:" + e.message; } }, fnSrc);
+      await ctx.setOffline(false);
+      return { ok: r === "ERR:OFFLINE" && mmLog.length === n0, detail: r };
+    });
+    if (nom === "ONE WORLD") await step("Pannes de traduction (ONE WORLD) : service muet → abandon après 8 s avec NETWORK (pas d'attente sans fin)", async () => {
+      const t0 = Date.now();
+      const r = await page.evaluate(async (fnSrc) => { try { return "OK:" + await eval(fnSrc)("caslent"); } catch (e) { return "ERR:" + e.message; } }, fnSrc);
+      const ms = Date.now() - t0;
+      return { ok: r === "ERR:NETWORK" && ms >= 7500 && ms < 9500, detail: r + " après " + ms + " ms" };
+    });
+    await ctx.close();
+  }
+
+  // Côte à côte : quota épuisé → message clair, rien n'est lu à voix haute ; « Traduction… » visible pendant l'attente ; réécoute coupe le micro.
+  ctx = await newCtx({}, false, FAKE_SR);
+  await ctx.route(/api\.mymemory\.translated\.net/, mmRoute);
+  page = await open(ctx, URL_EW + "#/everywhere/face");
+  await page.waitForSelector('[data-mic="1"]');
+  await step("Côte à côte, quota épuisé (avertissement MyMemory) : message « Limite quotidienne… », l'avertissement n'est ni affiché ni lu", async () => {
+    await page.evaluate(() => { window.__spoken.length = 0; });
+    await say(page, [{ text: "casavert" }]);
+    await page.tap('[data-mic="1"]');
+    await page.waitForFunction(() => /Limite quotidienne/.test(document.querySelector("#trFace").textContent), null, { timeout: 6000 });
+    await page.waitForTimeout(300);
+    const r = await page.evaluate(() => ({ txt: document.querySelector("#trFace").textContent, spoken: window.__spoken.slice() }));
+    return { ok: !/MYMEMORY/.test(r.txt) && !r.spoken.some((x) => /MYMEMORY/.test(x)), detail: "lu à voix haute : " + JSON.stringify(r.spoken) };
+  });
+  await step("Côte à côte : pendant la traduction, « Traduction… » s'affiche en italique (distinct de l'écoute et de la lecture), puis la traduction le remplace", async () => {
+    await say(page, [{ text: "casattente" }]);
+    await page.tap('[data-mic="1"]');
+    await page.waitForSelector(".tr-line.wait", { timeout: 5000 });
+    const w = await page.evaluate(() => { const l = [...document.querySelectorAll('[data-log="2"] .tr-line.wait .tr-big-txt')].pop(); return l ? { t: l.textContent, st: getComputedStyle(l).fontStyle } : null; });
+    await page.screenshot({ path: path.join(OUT, "traduction-en-cours.png") });
+    await page.waitForFunction(() => /slow answer/.test(document.querySelector("#trFace").textContent) && !document.querySelector(".tr-line.wait"), null, { timeout: 6000 });
+    return { ok: !!w && w.t === "Traduction…" && w.st === "italic", detail: JSON.stringify(w) };
+  });
+  await step("Côte à côte : « Répéter » pendant que le micro écoute → le micro se coupe d'abord (le téléphone ne s'entend pas lui-même)", async () => {
+    await page.waitForTimeout(500);
+    await say(page, [{ text: "rien", noFinal: true }]);
+    await page.tap('[data-mic="2"]');
+    await page.waitForFunction(() => document.querySelector('[data-mic="2"]').classList.contains("on"), null, { timeout: 3000 });
+    await page.evaluate(() => { window.__spoken.length = 0; });
+    await page.tap('[data-replay="2"]');
+    await page.waitForFunction(() => !document.querySelector('[data-mic="2"]').classList.contains("on"), null, { timeout: 3000 });
+    const r = await page.evaluate(() => window.__spoken.slice());
+    return { ok: r.length === 1 && /slow answer/.test(r[0]), detail: "micro coupé, relu : " + JSON.stringify(r) };
+  });
+  await ctx.close();
+
+  // TALK : suppression du compte réseau — repli « profil seul » seulement si la fonction n'existe pas sur le serveur.
+  for (const [f, attendu] of [["auth", "refus"], ["missing", "repli"]]) {
+    ctx = await newCtx({}, true);
+    await ctx.addInitScript((f) => { localStorage.setItem("lc_net_joined", "1"); if (localStorage.getItem("lc_net_auth") === null) localStorage.setItem("lc_net_auth", "fake");
+      localStorage.setItem("fake_del_fail", f); localStorage.removeItem("fake_prof_del"); }, f);
+    page = await open(ctx, URL_TALK);
+    await step("TALK, supprimer mon compte réseau, " + (f === "auth" ? "le serveur refuse : rien n'est effacé, message d'erreur" : "fonction absente (ancien serveur) : ancien effacement du profil"), async () => {
+      await page.waitForSelector('.bbar button[data-b="msg"]', { timeout: 15000, state: "attached" });
+      await page.evaluate(() => document.querySelector('.bbar button[data-b="msg"]').click());
+      await page.waitForSelector("#netDelete", { timeout: 15000 });
+      await page.evaluate(() => document.querySelector("#netDelete").click());
+      await page.waitForTimeout(150);
+      await page.evaluate(() => document.querySelector("#netDelete").click());
+      await page.waitForTimeout(1200);
+      const r = await page.evaluate(() => ({ prof: localStorage.getItem("fake_prof_del"), joined: localStorage.getItem("lc_net_joined"), del: !!document.querySelector("#netDelete") }));
+      const ok = attendu === "refus" ? (!r.prof && r.joined === "1" && r.del) : (r.prof === "1" && !r.joined);
+      return { ok, detail: JSON.stringify(r) };
+    });
+    await ctx.close();
+  }
 //@@NEXT@@
 
   await browser.close();

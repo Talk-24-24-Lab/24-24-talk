@@ -45,7 +45,8 @@
           if (op === "upsert") { localStorage.setItem("fake_lp", JSON.stringify(Object.assign({ updated_at: new Date().toISOString() }, payload))); lpLog("upsert", payload); data = null; }
           else if (op === "delete") { localStorage.removeItem("fake_lp"); lpLog("delete"); data = null; }
           else data = single ? lpGet() : (lpGet() ? [lpGet()] : []);
-        } else data = table === "profiles" && single ? (load().session ? PROFILE : null) : rows(table);
+        } else if (table === "profiles" && op === "delete") { localStorage.setItem("fake_prof_del", "1"); data = null; }
+        else data = table === "profiles" && single ? (load().session ? PROFILE : null) : rows(table);
         return Promise.resolve({ data: data, error: null }).then(ok, ko);
       },
       upsert: function (p) { op = "upsert"; payload = p; return b; },
@@ -118,10 +119,12 @@
             s.devices = s.devices.filter(function (d) { return d.id !== args.sid || d.actuel; }); save(s); return R({ data: had, error: null });
           }
           if (name === "supprimer_mon_compte") {
-            // localStorage « fake_del_fail » : "net" = coupure réseau, "auth" = session révoquée (le serveur refuse, rien n'est effacé).
+            // localStorage « fake_del_fail » : "net" = coupure réseau, "auth" = session révoquée (le serveur refuse, rien n'est effacé),
+            // "missing" = ancien serveur sans cette fonction (TALK se replie alors sur l'effacement du profil, noté dans « fake_prof_del »).
             var f = localStorage.getItem("fake_del_fail");
             if (f === "net") return Promise.reject(new TypeError("Failed to fetch"));
             if (f === "auth") return R({ data: null, error: { message: "AUTH", code: "P0001" } });
+            if (f === "missing") return R({ data: null, error: { message: "Could not find the function public.supprimer_mon_compte without parameters in the schema cache", code: "PGRST202" } });
             if (!s.session) return R({ data: null, error: { message: "AUTH", code: "P0001" } });
             s.session = false; s.deleted = true; s.email = ""; s.devices = []; localStorage.removeItem("fake_lp"); save(s);
             return R({ data: null, error: null });

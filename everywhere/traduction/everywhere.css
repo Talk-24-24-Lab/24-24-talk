@@ -37,6 +37,7 @@ html.contrast-high .tr-big{border:3px solid var(--text);}
 .tr-big-txt{margin:0;font-size:22px;font-weight:800;line-height:1.25;color:var(--text);}
 .tr-small-txt{margin:2px 0 0;font-size:15px;color:var(--muted);}
 .tr-line.mine .tr-big-txt{font-weight:600;}
+.tr-line.wait:not(.mine) .tr-big-txt,.tr-line.wait.mine .tr-small-txt{font-style:italic;font-weight:600;color:var(--muted);}
 .tr-err{margin:4px 0 0;color:var(--err);font-weight:700;font-size:14px;}
 .tr-empty{color:var(--muted);font-size:15px;margin:6px 0;}
 .tr-face[data-size="1"] .tr-big-txt{font-size:27px;} .tr-face[data-size="1"] .tr-small-txt{font-size:17px;}

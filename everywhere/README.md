@@ -303,3 +303,18 @@ linguistique privé par défaut, Voyage avec recherche et phrases favorites, « 
 est fusionné avec la version actuelle. L'accueil garde ses deux grandes tuiles (TALK, EVERYWHERE) ; AI LAB se trouve dans
 Applications. Corrigé aussi : deux textes bleus trop pâles dans TALK (onglet actif, heure d'un message non lu).
 Tests : e2e 85/85, expert 32/32, piliers 40/40, profil-voyage 42/42.
+
+## 0.7.2 — Corrections de l'audit du 14 octobre 2026 (site de test uniquement)
+Demande de Sébastien (audit technique, puis « Ok » pour corriger sur TEST seulement).
+- Traduction (ONE WORLD et TALK) : le quota épuisé de MyMemory (code 429, ou texte « MYMEMORY WARNING… ») donne le
+  message « Limite quotidienne… » et n'est plus jamais affiché ni lu comme une traduction ; une réponse illisible ou un
+  code d'erreur donne une erreur claire ; les textes de plus de 450 octets sont découpés puis recollés ; « &#39; » et
+  les autres entités sont décodés. Au plus 2 traductions demandées en avance par phrase (quota économisé).
+- Côte à côte : « Traduction… » s'affiche en italique pendant l'attente ; « Répéter » coupe d'abord le micro ouvert.
+- TALK, « Supprimer mon compte réseau » : l'ancien effacement (profil seul) n'est utilisé que si la fonction
+  `supprimer_mon_compte` n'existe pas ; toute autre erreur est affichée et rien n'est effacé.
+- Retrait d'une photo par l'administrateur : correction SQL à coller sur la base TEST
+  (`/mnt/project-files/audit-0.7.1/correction-1-retrait-photo-TEST.sql`, retour arrière fourni), prouvée sur une base locale.
+- Non fait (bloqué par une protection, attend l'accord explicite de Sébastien) : version figée de supabase-js avec
+  empreinte, garde-fou production dans `gestion/`.
+Tests : e2e 85/85, expert 32/32, piliers 52/52 (12 nouveaux tests de pannes), profil-voyage 42/42.
