@@ -252,7 +252,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   });
   await step("Liens et ressources du portail : tous accessibles", async () => {
     await page.goto(URL_EW);
-    const urls = await page.evaluate(() => [...document.querySelectorAll("a[href], img[src], link[href], script[src]")]
+    const urls = await page.evaluate(() => [...document.querySelectorAll("a[href], img[src], link[href]:not([rel=preconnect]), script[src]")]
       .map((e) => e.href || e.src).filter((u) => u && !u.includes("#")));
     const bad = [];
     for (const u of [...new Set(urls)]) { const r = await page.request.get(u); if (r.status() !== 200) bad.push(r.status() + " " + u); }

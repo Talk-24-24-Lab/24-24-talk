@@ -148,8 +148,9 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
         setTimeout(() => {
           if (!n) return;
           if (n.error) { this.onerror && this.onerror({ error: n.error }); this.onend && this.onend(); return; }
-          const mk = (t, fin) => { const a = (Array.isArray(t) ? t : [t]).map((x) => ({ transcript: x, confidence: 0.9 })); a.isFinal = fin; return { results: [a] }; };
+          const mk = (t, fin) => { const a = (Array.isArray(t) ? t : [t]).map((x) => ({ transcript: x, confidence: 0.9 })); a.isFinal = fin; return { resultIndex: 0, results: [a] }; };
           this.onresult && this.onresult(mk(n.text, false));
+          if (n.noFinal) return; // comme Android : la phrase reste « en cours », sans résultat final
           setTimeout(() => { this.onresult && this.onresult(mk(n.text, true)); this.onend && this.onend(); }, 40);
         }, 40);
       }
@@ -157,6 +158,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
       stop() {}
     }
     window.SpeechRecognition = FakeSR; window.webkitSpeechRecognition = FakeSR;
+    try { navigator.mediaDevices.getUserMedia = () => Promise.resolve({ getTracks: () => [] }); } catch (e) {}
   };
   const say = (pg, list) => pg.evaluate((l) => { window.__srQueue.push(...l); sessionStorage.setItem("__srq", JSON.stringify(window.__srQueue)); }, list);
 
@@ -425,6 +427,38 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
       return out;
     });
     return { ok: !small.length, detail: small.join(", ") || "toutes ≥ 44 px" };
+  });
+  await ctx.close();
+
+  // ================= RAPIDITÉ (conversation côte à côte) =================
+  ctx = await newCtx({}, false, FAKE_SR);
+  let mmCalls = [];
+  await ctx.route(/api\.mymemory\.translated\.net/, (r) => {
+    const q = new URL(r.request().url()).searchParams.get("q");
+    mmCalls.push({ q, t: Date.now() });
+    setTimeout(() => r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify({ responseData: { translatedText: q === "oui bonjour" ? "yes hello" : "[" + q + "]" } }) }), 800);
+  });
+  page = await open(ctx, URL_EW + "#/everywhere/face");
+  await step("Rapidité : traduction affichée environ 1 s après la fin de la phrase (service à 0,8 s), au lieu d'environ 1,5 s", async () => {
+    await page.waitForSelector('[data-mic="1"]');
+    await say(page, [{ text: "oui bonjour", noFinal: true }]);
+    await page.tap('[data-mic="1"]');
+    await page.waitForFunction(() => /oui bonjour/.test(document.querySelector('[data-msg="1"]').textContent), null, { timeout: 5000 });
+    const t0 = Date.now();
+    await page.waitForFunction(() => /yes hello/.test(document.querySelector("#trFace").textContent), null, { timeout: 5000 });
+    const ms = Date.now() - t0;
+    await page.screenshot({ path: path.join(OUT, "rapidite-cote-a-cote.png") });
+    return { ok: ms < 1250 && mmCalls.length === 1, detail: ms + " ms après la dernière parole, " + mmCalls.length + " appel au service" };
+  });
+  await step("Rapidité : une phrase déjà traduite est réutilisée tout de suite (aucun nouvel appel au service)", async () => {
+    await page.waitForTimeout(400);
+    await say(page, [{ text: "oui bonjour", noFinal: true }]);
+    await page.tap('[data-mic="1"]');
+    await page.waitForFunction(() => /oui bonjour/.test(document.querySelector('[data-msg="1"]').textContent), null, { timeout: 5000 });
+    const t0 = Date.now();
+    await page.waitForFunction(() => (document.querySelector("#trFace").textContent.match(/yes hello/g) || []).length >= 4, null, { timeout: 5000 });
+    const ms = Date.now() - t0;
+    return { ok: ms < 800 && mmCalls.length === 1, detail: ms + " ms, appels au service : " + mmCalls.length };
   });
   await ctx.close();
 //@@NEXT@@

@@ -268,3 +268,10 @@ Tests : `node everywhere/tests/piliers.js` (6 tests écoute).
 - En-tête de discussion : boutons portés à 44 px de haut. Aucun geste caché indispensable : chaque geste a un bouton.
 - Pas de glissement horizontal entre espaces (conflit avec le geste retour d'Android), comme prévu.
 Tests : `node everywhere/tests/piliers.js` (5 tests gestes ; 30 tests au total pour les 4 piliers).
+
+## 0.6.7 — Conversation côte à côte plus rapide
+Demande de Sébastien (« temps de réaction trop long »). La phrase est considérée finie après 0,55 s de silence (au lieu de 0,7 s) ;
+la traduction part en avance dès que la phrase est stable 0,25 s ; chaque traduction est gardée (200 dernières) et réutilisée
+sans nouvel appel ; connexion au service ouverte d'avance ; en mains libres, le micro suivant s'ouvre 0,12 s après la lecture.
+Mesuré en test (service répondant en 0,8 s) : 1,52 s → 1,07 s après la dernière parole ; phrase déjà dite : 0,55 s.
+Le reste du délai dépend du service gratuit MyMemory et de la reconnaissance vocale du téléphone.
