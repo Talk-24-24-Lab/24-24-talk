@@ -281,3 +281,10 @@ Demande de Sébastien (« la voix a du mal à être détectée »). Conversation
 (parlé trop tôt, trop bas, coupure d'Android), l'écoute repart toute seule pendant 20 s au plus, sans message d'erreur ;
 la fin de phrase attend 0,9 s de calme quand la phrase fait moins de 3 mots (0,6 s sinon) ; en mains libres, le micro
 suivant s'ouvre 0,35 s après la lecture (laisse Android rendre le micro). Commandes vocales : réécoute automatique 8 s au plus.
+
+## 0.6.9 — Micro : on voit quand il écoute et quand il entend
+Demande de Sébastien (« le bouton micro, pas de différence entre activité et non activité »). Tous les boutons micro
+(conversation côte à côte, commande vocale du haut, dictée de TALK et de la messagerie) : éteint = couleur normale ;
+écoute = rouge avec une onde lente qui s'élargit ; voix captée = bouton grossi et onde rapide (événements
+« son / parole détectés » de la reconnaissance vocale, ou premier mot reconnu). « Réduire les animations » : anneau fixe,
+plus épais quand une voix est captée.

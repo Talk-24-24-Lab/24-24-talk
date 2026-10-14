@@ -47,9 +47,13 @@ html.contrast-high .tr-big{border:3px solid var(--text);}
 .p1 .tr-mic{background:var(--g);}
 .p2 .tr-mic{background:var(--blue);}
 .tr-mic svg{width:32px;height:32px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
-.tr-mic.on{background:var(--err);animation:trpulse 1.2s ease-in-out infinite;}
-@keyframes trpulse{50%{box-shadow:0 0 0 10px color-mix(in srgb,var(--err) 25%,transparent);}}
-@media (prefers-reduced-motion:reduce){ .tr-mic.on{animation:none;} }
+/* Micro : rouge + onde qui s'élargit = il écoute ; onde rapide et bouton grossi = il entend une voix. */
+.tr-mic.on{background:var(--err);box-shadow:0 0 0 7px color-mix(in srgb,var(--err) 30%,transparent);animation:trWait 1.6s ease-out infinite;}
+.tr-mic.on.hear{transform:scale(1.1);box-shadow:0 0 0 12px color-mix(in srgb,var(--err) 55%,transparent);animation:trHear .6s ease-out infinite;}
+@keyframes trWait{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--err) 60%,transparent);}100%{box-shadow:0 0 0 20px transparent;}}
+@keyframes trHear{0%{box-shadow:0 0 0 3px color-mix(in srgb,var(--err) 80%,transparent);}100%{box-shadow:0 0 0 26px transparent;}}
+@media (prefers-reduced-motion:reduce){ .tr-mic.on,.tr-mic.on.hear{animation:none;} }
+html.motion-off .tr-mic.on,html.motion-off .tr-mic.on.hear{animation:none;}
 .tr-kb{width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:var(--panel);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--text);}
 .tr-kb svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 .tr-type{display:flex;gap:8px;margin:6px 0;}

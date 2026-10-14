@@ -136,8 +136,12 @@
       r.interimResults = true;
       r.continuous = false;
       var heard = false;
+      // cb.sound(true/false) : une voix est captée ou non (le bouton micro réagit).
+      r.onsoundstart = r.onspeechstart = function () { if (!done && cur === r && cb.sound) cb.sound(true); };
+      r.onsoundend = r.onspeechend = function () { if (!done && cur === r && cb.sound) cb.sound(false); };
       r.onresult = function (ev) {
         if (done || cur !== r) return;
+        if (cb.sound) cb.sound(true);
         var fin = "", inter = "";
         for (var i = ev.resultIndex || 0; i < ev.results.length; i++) {
           if (ev.results[i].isFinal) fin += ev.results[i][0].transcript; else inter += ev.results[i][0].transcript;

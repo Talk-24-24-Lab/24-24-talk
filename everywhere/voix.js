@@ -139,9 +139,10 @@
   function hideBar() { var b = document.getElementById("ewvBar"); if (b) b.hidden = true; }
   function setBtn(on) {
     var btn = document.getElementById("ewvBtn");
-    if (btn) { btn.setAttribute("aria-pressed", String(!!on)); btn.classList.toggle("on", !!on); }
+    if (btn) { btn.setAttribute("aria-pressed", String(!!on)); btn.classList.toggle("on", !!on); if (!on) btn.classList.remove("hear"); }
     document.documentElement.classList.toggle("ew-mic-on", !!on);
   }
+  function setHear(on) { var btn = document.getElementById("ewvBtn"); if (btn) btn.classList.toggle("hear", !!on && btn.classList.contains("on")); }
   function stopListening() {
     if (rec) { var r = rec; rec = null; try { r.abort(); } catch (e) { /* déjà arrêté */ } }
     setBtn(false);
@@ -163,8 +164,11 @@
     var done = false;
     setBtn(true);
     showBar(L().listening, true);
+    r.onsoundstart = r.onspeechstart = function () { if (rec === r) setHear(true); };
+    r.onsoundend = r.onspeechend = function () { if (rec === r) setHear(false); };
     r.onresult = function (e) {
       if (rec !== r) return;
+      setHear(true);
       var res = e.results[e.results.length - 1];
       if (!res.isFinal) { showBar("🎤 " + res[0].transcript, true); return; }
       done = true;
