@@ -106,48 +106,77 @@
       return true; // autre souci : la reconnaissance vocale tente sa chance
     });
   }
-  // cb : { interim(text), final(text), error(code), end() } ; codes : DENIED, NETWORK, NO_SPEECH, FAIL.
+  // cb : { interim(text), final(text), error(code), end(), stable(text) } ; codes : DENIED, NETWORK, NO_SPEECH, FAIL.
   // Renvoie un objet { stop() } ou null si l'écoute n'a pas pu démarrer.
+  // Captation plus tolérante : si le téléphone n'a rien entendu (on a parlé trop tôt, trop bas, ou Android a coupé),
+  // l'écoute repart toute seule, sans rien afficher, pendant 20 secondes au plus. La fin de phrase attend un peu plus
+  // longtemps quand la phrase est encore courte (moins de 3 mots), pour ne pas couper « oui… bonjour ».
+  var RETRY_MS = 20000;
   function listen(code, cb) {
     if (!SR) return null;
-    var r = new SR();
-    r.lang = lang(code).speech;
-    r.interimResults = true;
-    r.continuous = false;
-    var done = false, settle = null, early = null, shown = "";
+    var done = false, stopped = false, settle = null, early = null, shown = "", cur = null, t0 = Date.now();
     function deliver(txt) {
       if (done || !txt) return;
       done = true;
-      clearTimeout(settle);
-      try { r.abort(); } catch (e) { /* déjà arrêté */ }
+      clearTimeout(settle); clearTimeout(early);
+      try { cur.abort(); } catch (e) { /* déjà arrêté */ }
       cb.final(txt);
     }
-    r.onresult = function (ev) {
+    function finish(errCode) {
       if (done) return;
-      var fin = "", inter = "";
-      for (var i = ev.resultIndex; i < ev.results.length; i++) {
-        if (ev.results[i].isFinal) fin += ev.results[i][0].transcript; else inter += ev.results[i][0].transcript;
-      }
-      shown = (fin || inter).trim();
-      if (cb.interim) cb.interim(shown);
-      clearTimeout(settle);
-      clearTimeout(early);
-      if (fin) deliver(fin.trim());
-      else if (shown) {
-        // Phrase stable 250 ms : la traduction part en avance (cb.stable) ; stable 550 ms : la phrase est terminée.
-        var s = shown;
-        if (cb.stable) early = setTimeout(function () { if (!done) cb.stable(s); }, 250);
-        settle = setTimeout(function () { deliver(shown); }, 550);
-      }
-    };
-    r.onerror = function (ev) {
-      if (done || ev.error === "aborted") return;
       done = true;
-      cb.error(ev.error === "not-allowed" || ev.error === "service-not-allowed" ? "DENIED" : ev.error === "network" ? "NETWORK" : ev.error === "no-speech" ? "NO_SPEECH" : "FAIL");
-    };
-    r.onend = function () { clearTimeout(settle); clearTimeout(early); if (!done && shown) deliver(shown); done = true; if (cb.end) cb.end(); };
-    try { r.start(); } catch (e) { return null; }
-    return { stop: function () { try { r.stop(); } catch (e) { /* déjà arrêté */ } } };
+      clearTimeout(settle); clearTimeout(early);
+      if (errCode) cb.error(errCode);
+      if (cb.end) cb.end();
+    }
+    function startOne() {
+      var r = new SR();
+      cur = r;
+      r.lang = lang(code).speech;
+      r.interimResults = true;
+      r.continuous = false;
+      var heard = false;
+      r.onresult = function (ev) {
+        if (done || cur !== r) return;
+        var fin = "", inter = "";
+        for (var i = ev.resultIndex || 0; i < ev.results.length; i++) {
+          if (ev.results[i].isFinal) fin += ev.results[i][0].transcript; else inter += ev.results[i][0].transcript;
+        }
+        shown = (fin || inter).trim();
+        if (shown) heard = true;
+        if (cb.interim) cb.interim(shown);
+        clearTimeout(settle);
+        clearTimeout(early);
+        if (fin) deliver(fin.trim());
+        else if (shown) {
+          // Phrase stable 250 ms : la traduction part en avance (cb.stable). Fin de phrase : 600 ms de calme, 900 ms si moins de 3 mots.
+          var s = shown, wait = s.split(/\s+/).length < 3 ? 900 : 600;
+          if (cb.stable) early = setTimeout(function () { if (!done) cb.stable(s); }, 250);
+          settle = setTimeout(function () { deliver(shown); }, wait);
+        }
+      };
+      var again = function () { return !stopped && !heard && !shown && Date.now() - t0 < (window.EW_STT_RETRY_MS || RETRY_MS); }; // EW_STT_RETRY_MS : tests automatiques seulement
+      r.onerror = function (ev) {
+        if (done || cur !== r || ev.error === "aborted") return;
+        if ((ev.error === "no-speech" || ev.error === "audio-capture") && again()) { r._retry = true; return; } // onend relance
+        r._fail = ev.error === "not-allowed" || ev.error === "service-not-allowed" ? "DENIED" : ev.error === "network" ? "NETWORK" : ev.error === "no-speech" ? "NO_SPEECH" : "FAIL";
+      };
+      r.onend = function () {
+        if (done || cur !== r) return;
+        if (shown) { deliver(shown); return; }
+        if (r._fail) { finish(r._fail); return; }
+        if ((r._retry || !heard) && again()) { setTimeout(function () { if (!done && !stopped) { try { startOne(); } catch (e) { finish("FAIL"); } } }, 150); return; }
+        finish(heard ? null : "NO_SPEECH");
+      };
+      r.start();
+    }
+    try { startOne(); } catch (e) { return null; }
+    return { stop: function () {
+      stopped = true;
+      if (shown) { deliver(shown); return; }
+      try { cur.stop(); } catch (e) { /* déjà arrêté */ }
+      setTimeout(function () { finish(null); }, 400); // certains Android n'annoncent pas la fin après stop()
+    } };
   }
 
   window.EWMoteur = { lang: lang, langs: LANGS, translate: translate, speak: speak, stopSpeaking: stopSpeaking, canSpeak: canSpeak, voicesFor: voicesFor, pickVoice: pickVoice,

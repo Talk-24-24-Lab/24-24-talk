@@ -254,7 +254,7 @@
       // Haut-parleur : tout est lu. Écouteurs (portés par la personne 1) : seul ce qui est dit à la personne 1 est lu.
       var aloud = p.sound && (p.out === "speaker" || next === 1);
       var chain = function () { if (face === f && f.seq === my && prefs().hands && !f.listening && !f.paused) startMic(next); };
-      if (aloud) M.speak(tr, to, p.volume, { rate: p.rate, voice: p.voices[to], done: function () { setTimeout(chain, 120); } });
+      if (aloud) M.speak(tr, to, p.volume, { rate: p.rate, voice: p.voices[to], done: function () { setTimeout(chain, 350); } });
       else setTimeout(chain, 150);
     }, function (e) {
       line.err = errText(e && e.message);

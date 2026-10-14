@@ -458,7 +458,21 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const t0 = Date.now();
     await page.waitForFunction(() => (document.querySelector("#trFace").textContent.match(/yes hello/g) || []).length >= 4, null, { timeout: 5000 });
     const ms = Date.now() - t0;
-    return { ok: ms < 800 && mmCalls.length === 1, detail: ms + " ms, appels au service : " + mmCalls.length };
+    return { ok: ms < 1050 && mmCalls.length === 1, detail: ms + " ms (phrase courte : 0,9 s de calme attendu), appels au service : " + mmCalls.length };
+  });
+  await step("Captation : le téléphone n'entend rien 2 fois (parlé trop tôt) → l'écoute repart seule, sans message d'erreur, et la phrase est traduite", async () => {
+    await say(page, [{ error: "no-speech" }, { error: "no-speech" }, { text: "oui bonjour" }]);
+    const before = await page.evaluate(() => window.__srStarted || 0);
+    await page.tap('[data-mic="2"]');
+    await page.waitForFunction(() => (document.querySelector("#trFace").textContent.match(/oui bonjour/g) || []).length >= 5, null, { timeout: 6000 });
+    const r = await page.evaluate(() => ({ starts: window.__srStarted, m: document.querySelector('[data-msg="2"]').textContent }));
+    return { ok: r.starts - before === 3 && !/rien entendu/.test(r.m), detail: (r.starts - before) + " écoutes, message : « " + r.m + " »" };
+  });
+  await step("Captation : toujours rien après 20 s → message clair (pas d'écoute sans fin)", async () => {
+    await page.evaluate(() => { window.__srQueue.length = 0; for (let i = 0; i < 400; i++) window.__srQueue.push({ error: "no-speech" }); });
+    await page.tap('[data-mic="1"]');
+    await page.waitForFunction(() => /rien entendu/.test(document.querySelector('[data-msg="1"]').textContent), null, { timeout: 30000 });
+    return { ok: true };
   });
   await ctx.close();
 //@@NEXT@@
