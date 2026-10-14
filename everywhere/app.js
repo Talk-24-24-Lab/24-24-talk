@@ -4,8 +4,8 @@
   "use strict";
   var CFG = window.EW_CONFIG || { env: "test", basePath: "../", talkReadyTimeoutMs: 15000 };
   var APPS = window.EW_APPS || [];
-  var VERSION = "0.6.2 (prototype)";
-  var VERSION_TAG = "0.6.2";
+  var VERSION = "0.6.3 (prototype)";
+  var VERSION_TAG = "0.6.3";
 
   // ---------- Stockage (peut être indisponible : navigation privée stricte, etc.) ----------
   var store = {
@@ -28,7 +28,7 @@
       hub_learn: "Apprendre une langue", hub_learn_d: "Leçons, exercices, révision, progression",
       kicker: "Une seule application. Trois interfaces. Un seul compte.",
       signature: "Un monde. Une connexion. Aucune frontière linguistique.", learn: "LEARN",
-      a11y: "Affichage et accessibilité", text_size: "Taille du texte", contrast: "Contraste renforcé",
+      a11y: "Affichage et accessibilité", text_size: "Taille du texte", contrast: "Contraste renforcé", motion: "Réduire les animations",
       th_light: "Clair", th_dark: "Sombre", th_auto: "Auto", ts_names: "Normal|Grand|Très grand", everywhere: "EVERYWHERE",
       apps_lead: "TALK, EVERYWHERE et LEARN : une seule application, un seul compte.",
       open: "Ouvrir", reserved: "Disponible ultérieurement", reserved_badge: "EMPLACEMENT RÉSERVÉ",
@@ -60,7 +60,7 @@
       hub_learn: "Learn a language", hub_learn_d: "Lessons, exercises, review, progress",
       kicker: "One app. Three interfaces. One account.",
       signature: "One world. One connection. No language borders.", learn: "LEARN",
-      a11y: "Display and accessibility", text_size: "Text size", contrast: "High contrast",
+      a11y: "Display and accessibility", text_size: "Text size", contrast: "High contrast", motion: "Reduce motion",
       th_light: "Light", th_dark: "Dark", th_auto: "Auto", ts_names: "Normal|Large|Extra large", everywhere: "EVERYWHERE",
       apps_lead: "TALK, EVERYWHERE and LEARN: one app, one account.",
       open: "Open", reserved: "Available later", reserved_badge: "RESERVED SLOT",
@@ -287,17 +287,19 @@
   // Seulement les boutons : <html> porte aussi data-ts (prefs.js) et décalait les noms lus par le lecteur d'écran.
   document.querySelectorAll("button[data-ts]").forEach(function (b) { b.setAttribute("aria-label", TS_NAMES[+b.getAttribute("data-ts")] || ""); });
   function paintA11y() {
-    var p = window.EWPrefs ? window.EWPrefs.read() : { theme: "light", contrast: false, text: 0 };
+    var p = window.EWPrefs ? window.EWPrefs.read() : { theme: "light", contrast: false, text: 0, motion: false };
     document.querySelectorAll("button[data-ts]").forEach(function (b) { b.setAttribute("aria-checked", String(+b.getAttribute("data-ts") === p.text)); });
     document.querySelectorAll("button[data-theme]").forEach(function (b) { b.setAttribute("aria-checked", String(b.getAttribute("data-theme") === p.theme)); });
     $("contrastToggle").setAttribute("aria-checked", String(!!p.contrast));
+    $("motionToggle").setAttribute("aria-checked", String(!!p.motion));
   }
   document.addEventListener("click", function (e) {
     if (!window.EWPrefs || !e.target.closest) return;
-    var b = e.target.closest("button[data-ts], button[data-theme], #contrastToggle");
+    var b = e.target.closest("button[data-ts], button[data-theme], #contrastToggle, #motionToggle");
     if (!b) return;
     if (b.hasAttribute("data-ts")) window.EWPrefs.set("text", +b.getAttribute("data-ts"));
     else if (b.hasAttribute("data-theme")) window.EWPrefs.set("theme", b.getAttribute("data-theme"));
+    else if (b.id === "motionToggle") window.EWPrefs.set("motion", !window.EWPrefs.read().motion);
     else window.EWPrefs.set("contrast", !window.EWPrefs.read().contrast);
     paintA11y();
   });

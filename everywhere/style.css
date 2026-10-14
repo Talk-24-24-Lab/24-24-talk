@@ -127,6 +127,7 @@ a.app-card:hover{border-color:var(--accent);}
   .app-list{grid-template-columns:1fr 1fr;}
 }
 @media (prefers-reduced-motion: reduce){ *{animation:none !important;transition:none !important;} }
+html.motion-off *, html.motion-off *::before, html.motion-off *::after{animation:none !important;transition:none !important;scroll-behavior:auto !important;}
 /* Mode installé (standalone) : pas de bouton d'installation. */
 @media (display-mode: standalone){ #installCard{display:none;} }
 

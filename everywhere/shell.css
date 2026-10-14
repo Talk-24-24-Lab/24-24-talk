@@ -27,6 +27,7 @@ html.contrast-high .mainnav, html.contrast-high .topbar{ border-width:2px; }
 @view-transition{ navigation:auto; }
 .topbar{view-transition-name:ews-top;}
 .mainnav{view-transition-name:ews-nav;}
+html.motion-off ::view-transition-group(*), html.motion-off ::view-transition-old(*), html.motion-off ::view-transition-new(*){animation:none !important;}
 @media (prefers-reduced-motion:reduce){ ::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none !important;} }
 
 .topbar{display:flex;align-items:center;gap:10px;min-height:var(--ews-top-h);
