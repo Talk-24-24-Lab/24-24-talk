@@ -124,7 +124,7 @@ const DICT = { "fr|en": { "Bonjour": "Hello", "Où est la gare ?": "Where is the
       }).slice(0, 3).map((e) => e.tagName.toLowerCase() + (e.id ? "#" + e.id : e.className ? "." + String(e.className).split(" ")[0] : ""));
       const ids = [...document.querySelectorAll("[id]")].map((e) => e.id); const dup = ids.filter((x, i) => ids.indexOf(x) !== i);
       const small = [...document.querySelectorAll(".view.active button, .view.active a, .view.active select, .view.active input:not([type=hidden]), #mainnav a, #topSettings")]
-        .filter((e) => { const r = e.getBoundingClientRect(); if (!r.width || !r.height) return false; if (e.closest("p, li small")) return false; return Math.min(r.width, r.height) < 40 && !(e.tagName === "INPUT" && /radio|checkbox/.test(e.type)); })
+        .filter((e) => { const r = e.getBoundingClientRect(); if (!r.width || !r.height) return false; if (e.closest("p, li small, [aria-hidden=\"true\"]")) return false; return Math.min(r.width, r.height) < 40 && !(e.tagName === "INPUT" && /radio|checkbox/.test(e.type)); })
         .map((e) => (e.id || e.textContent.trim().slice(0, 18) || e.tagName) + " " + Math.round(e.getBoundingClientRect().width) + "×" + Math.round(e.getBoundingClientRect().height));
       return { over, wide, dup: [...new Set(dup)], small: small.slice(0, 6), view: v && v.id };
     });

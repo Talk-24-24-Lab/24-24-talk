@@ -167,7 +167,7 @@
     face = { lines: [], listening: 0, rec: null, root: root, typing: 0, seq: 0 };
     root.innerHTML = '<h1 class="sr" id="h-tr">' + esc(t("face")) + "</h1>" +
       '<div class="tr-face" id="trFace" data-size="' + p.size + '" data-out="' + p.out + '">' +
-        halfHtml(2) +
+        halfHtml(1) +
         '<div class="tr-mid" role="toolbar" aria-label="' + esc(t("face")) + '">' +
           '<button type="button" class="tr-tool" id="trSwap" aria-label="' + esc(t("swap")) + '">⇅ ' + esc(t("langs_btn")) + "</button>" +
           '<button type="button" class="tr-tool" id="trSound" role="switch" aria-checked="' + p.sound + '">' + (p.sound ? "🔊" : "🔇") + " " + esc(t("sound_btn")) + "</button>" +
@@ -176,7 +176,7 @@
           '<button type="button" class="tr-tool" id="trSize">A+ ' + esc(t("text_btn")) + "</button>" +
           '<a class="tr-tool" href="#/everywhere/reglages" aria-label="' + esc(t("settings")) + '">⚙</a>' +
         "</div>" +
-        halfHtml(1) +
+        halfHtml(2) +
       "</div>" +
       '<p class="sr" role="status" id="trFaceSr"></p>';
     paintFace();
@@ -197,7 +197,7 @@
     var code = halfLang(who);
     return '<section class="tr-half p' + who + '" data-who="' + who + '" aria-label="' + esc(t(who === 1 ? "p1" : "p2")) + '">' +
       '<label class="tr-who"><span>' + esc(t(who === 1 ? "p1" : "p2")) + ' · </span><select data-lang-of="' + who + '" aria-label="' + esc(t(who === 1 ? "lang_me" : "lang_other")) + '">' + langOptions(code) + "</select></label>" +
-      '<div class="tr-log" data-log="' + who + '" aria-live="polite"></div>' +
+      '<div class="tr-log" data-log="' + who + '" aria-live="polite" tabindex="0"></div>' +
       '<p class="tr-msg" data-msg="' + who + '" role="alert"></p>' +
       '<form class="tr-type" data-type="' + who + '" hidden><input type="text" data-input="' + who + '" autocomplete="off" lang="' + esc(code) + '"><button type="submit" class="btn primary">' + esc(t("send")) + "</button></form>" +
       '<div class="tr-acts"><button type="button" class="tr-mic" data-mic="' + who + '" aria-label="' + esc(t("speak_in", { l: langName(code) })) + '">' + ic("mic") + "</button>" +

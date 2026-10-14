@@ -288,3 +288,11 @@ Demande de Sébastien (« le bouton micro, pas de différence entre activité et
 écoute = rouge avec une onde lente qui s'élargit ; voix captée = bouton grossi et onde rapide (événements
 « son / parole détectés » de la reconnaissance vocale, ou premier mot reconnu). « Réduire les animations » : anneau fixe,
 plus épais quand une voix est captée.
+
+## 0.7.0 — Personne 1 en haut, choix des langues avec recherche
+Demande de Sébastien. Conversation côte à côte : Personne 1 en haut, Personne 2 en bas. Partout (portail et TALK), chaque
+liste de langues (20 choix ou plus) s'ouvre dans une fenêtre avec une barre de recherche (sans accents ni majuscules, sur le
+nom ou le code ; Entrée choisit la première) : « Vos langues » (choisie + 5 récentes) puis toutes les langues de A à Z
+(`everywhere/choixlangue.js`). Le menu d'origine reste caché dans la page et reçoit « change » comme avant.
+Corrigé aussi : l'écran côte à côte était plus large que le téléphone (titre long dans la barre du haut), ce qui coupait
+le bouton ⚙ et la barre du bas à droite.
