@@ -55,6 +55,8 @@ const DICT = { "fr|en": { "Bonjour": "Hello", "Où est la gare ?": "Where is the
   async function ctxFor(opts) {
     opts = opts || {};
     const ctx = await browser.newContext(Object.assign(PHONE(393, 851), opts.ctx || {}));
+    // Le faux serveur remplace la vraie bibliothèque Supabase : son empreinte (SRI) ne peut pas correspondre.
+    await ctx.addInitScript(() => { window.__EW_NO_SRI = true; });
     const fakeSrc = opts.fakeSrc || FAKE;
     await ctx.route(/^https?:\/\/(?!localhost)/, (r) => {
       const url = r.request().url();

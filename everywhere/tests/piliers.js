@@ -43,6 +43,8 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const MOBILE = { viewport: { width: 393, height: 851 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, locale: "fr-FR" };
   async function newCtx(opts, fake, init) {
     const ctx = await browser.newContext(Object.assign({}, MOBILE, opts || {}));
+    // Le faux serveur remplace la vraie bibliothèque Supabase : son empreinte (SRI) ne peut pas correspondre.
+    await ctx.addInitScript(() => { window.__EW_NO_SRI = true; });
     await ctx.route(/^https?:\/\/(?!localhost)/, (r) => (fake && /supabase-js/.test(r.request().url()))
       ? r.fulfill({ status: 200, contentType: "text/javascript", body: FAKE }) : r.abort());
     if (init) await ctx.addInitScript(init);

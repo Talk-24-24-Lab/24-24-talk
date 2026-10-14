@@ -116,6 +116,7 @@
       if (window.supabase && window.supabase.createClient) return ok(window.supabase);
       var s = document.createElement("script");
       s.src = CFG.supabase.sdk;
+      if (CFG.supabase.sri && !window.__EW_NO_SRI) { s.integrity = CFG.supabase.sri; s.crossOrigin = "anonymous"; } // __EW_NO_SRI : tests seulement
       s.async = true;
       s.onload = function () { window.supabase && window.supabase.createClient ? ok(window.supabase) : ko(new Error("SDK")); };
       s.onerror = function () { sdkP = null; ko(new Error("NETWORK")); };

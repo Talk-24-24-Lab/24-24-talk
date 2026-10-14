@@ -5812,7 +5812,9 @@ if (SERVICE_WORKER_FILE && "serviceWorker" in navigator) {
 const NET_CONFIG = { url: "https://tbynnefrrxzxufcptijc.supabase.co", key: "sb_publishable_zNyy7HYlbwtdNjewaxcKdA_uF_vlskR" }; // COPIE DE TEST : projet Supabase 24-24-talk-test
 // Garde-fou de la copie de test : si l'adresse de production revient ici par erreur, la messagerie est coupée.
 if (/wsgcumnaltdinchsdovs/.test(NET_CONFIG.url)) { NET_CONFIG.url = ""; NET_CONFIG.key = ""; console.error("[TEST] Adresse de production détectée : messagerie désactivée."); }
-const NET_SDK_URL = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+// Version figée + empreinte (SRI) du fichier officiel npm : le navigateur refuse tout fichier différent.
+const NET_SDK_URL = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js";
+const NET_SDK_SRI = "sha384-Rj26LVGvoeRVR6+mwQmFfcR3QOBEwT+ZmuCWpuiqeTzJpCs0ER4ITAWGb4Hiy3Ok";
 // Voix réelle (WebRTC) : la voix va directement d'un téléphone à l'autre. Les serveurs STUN aident les
 // deux téléphones à se trouver. Pour les réseaux qui bloquent le direct, ajouter ici un relais TURN,
 // ex. { urls: "turn:turn.cloudflare.com:3478", username: "…", credential: "…" }.
@@ -8039,6 +8041,7 @@ const Reseau = (() => {
       if (window.supabase && typeof window.supabase.createClient === "function") return resolve(window.supabase);
       const s = document.createElement("script");
       s.src = NET_SDK_URL;
+      if (!window.__EW_NO_SRI) { s.integrity = NET_SDK_SRI; s.crossOrigin = "anonymous"; } // __EW_NO_SRI : tests automatiques seulement (faux serveur)
       s.async = true;
       s.onload = () => (window.supabase && window.supabase.createClient ? resolve(window.supabase) : reject(new Error("SDK")));
       s.onerror = () => reject(new Error("NETWORK"));

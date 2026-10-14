@@ -43,6 +43,8 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
   async function newCtx(opts, fake) {
     const ctx = await browser.newContext(Object.assign({}, MOBILE, opts || {}));
+    // Le faux serveur remplace la vraie bibliothèque Supabase : son empreinte (SRI) ne peut pas correspondre.
+    await ctx.addInitScript(() => { window.__EW_NO_SRI = true; });
     // Rien ne sort vers Internet ; le kit Supabase est remplacé par le faux client si demandé.
     await ctx.route(/^https?:\/\/(?!localhost)/, (r) => (fake && /supabase-js/.test(r.request().url()))
       ? r.fulfill({ status: 200, contentType: "text/javascript", body: FAKE }) : r.abort());

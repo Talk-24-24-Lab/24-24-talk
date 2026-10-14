@@ -46,6 +46,8 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   async function ctxFor(o) {
     o = o || {};
     const ctx = await browser.newContext(Object.assign({}, PHONE, o.ctx || {}));
+    // Le faux serveur remplace la vraie bibliothèque Supabase : son empreinte (SRI) ne peut pas correspondre.
+    await ctx.addInitScript(() => { window.__EW_NO_SRI = true; });
     ctx._mm = { mode: o.mm || "ok", n: 0, calls: [] };
     await ctx.route(/^https?:\/\/(?!localhost)/, (r) => {
       const url = r.request().url();
