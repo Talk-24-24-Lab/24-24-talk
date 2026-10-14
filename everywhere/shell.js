@@ -18,6 +18,7 @@
     fr: { home: "Accueil", apps: "Applications", talk: "Talk", everywhere: "Everywhere", learn: "Learn", profile: "Profil", settings: "Paramètres", nav: "Navigation principale", brand: "24/24 ONE WORLD, accueil" },
     en: { home: "Home", apps: "Apps", talk: "Talk", everywhere: "Everywhere", learn: "Learn", profile: "Profile", settings: "Settings", nav: "Main navigation", brand: "24/24 ONE WORLD, home" }
   };
+  var VER = "0.6.4";
   function svg(name) { return '<svg viewBox="0 0 24 24" aria-hidden="true">' + (ICONS[name] || "") + "</svg>"; }
   function langOf() {
     var p = null;
@@ -79,6 +80,13 @@
       try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (err) { window.scrollTo(0, 0); }
     });
     document.body.appendChild(nav);
+    // VOICE : le même bouton micro que dans le portail (chargé seulement si le navigateur sait reconnaître la voix).
+    if (window.SpeechRecognition || window.webkitSpeechRecognition) {
+      var vs = document.createElement("script");
+      vs.src = root + "everywhere/voix.js?v=" + VER;
+      vs.onload = function () { if (window.EWVoix) window.EWVoix.mount({ root: root, portal: false, lang: lang, before: top.querySelector("#ewsSettings") }); };
+      document.head.appendChild(vs);
+    }
   }
 
   window.EWShell = { navHtml: navHtml, items: items, mountTalk: mountTalk, icons: ICONS, lang: langOf };

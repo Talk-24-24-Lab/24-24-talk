@@ -118,6 +118,163 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     return { ok: r.sw <= r.w && r.lbl === "High contrast", detail: r.sw + "/" + r.w + " " + r.lbl };
   });
   await ctx.close();
+
+  // ================= VOICE =================
+  // Fausse reconnaissance vocale : chaque appui sur le micro « entend » la phrase suivante de window.__srQueue.
+  const FAKE_SR = () => {
+    window.__srQueue = JSON.parse(sessionStorage.getItem("__srq") || "[]");
+    window.__spoken = [];
+    try { speechSynthesis.speak = (u) => { window.__spoken.push(u.text); setTimeout(() => u.onend && u.onend(), 10); }; } catch (e) {}
+    class FakeSR {
+      start() {
+        window.__srStarted = (window.__srStarted || 0) + 1; window.__srLang = this.lang;
+        const n = window.__srQueue.shift();
+        sessionStorage.setItem("__srq", JSON.stringify(window.__srQueue));
+        setTimeout(() => {
+          if (!n) return;
+          if (n.error) { this.onerror && this.onerror({ error: n.error }); this.onend && this.onend(); return; }
+          const mk = (t, fin) => { const a = (Array.isArray(t) ? t : [t]).map((x) => ({ transcript: x, confidence: 0.9 })); a.isFinal = fin; return { results: [a] }; };
+          this.onresult && this.onresult(mk(n.text, false));
+          setTimeout(() => { this.onresult && this.onresult(mk(n.text, true)); this.onend && this.onend(); }, 40);
+        }, 40);
+      }
+      abort() { window.__srAborted = (window.__srAborted || 0) + 1; }
+      stop() {}
+    }
+    window.SpeechRecognition = FakeSR; window.webkitSpeechRecognition = FakeSR;
+  };
+  const say = (pg, list) => pg.evaluate((l) => { window.__srQueue.push(...l); sessionStorage.setItem("__srq", JSON.stringify(window.__srQueue)); }, list);
+
+  ctx = await newCtx({}, false, FAKE_SR);
+  page = await open(ctx, URL_EW + "#/accueil");
+  await step("Voice : compréhension de 34 phrases écrites (français et anglais, politesse, accents, fautes de la dictée)", async () => {
+    await page.waitForSelector("#ewvBtn");
+    const cases = [
+      ["Ouvre TALK", "open:talk"], ["ouvre talk s'il te plaît", "open:talk"], ["Ouvre la messagerie", "open:msg"], ["va dans mes messages", "open:msg"],
+      ["Ouvre EVERYWHERE", "open:everywhere"], ["ouvre every where", "open:everywhere"], ["Ouvre mon profil", "open:profil"], ["Ouvre les réglages", "open:parametres"],
+      ["accueil", "open:accueil"], ["Peux-tu ouvrir Learn", "open:learn"], ["affiche la conversation côte à côte", "open:face"], ["ouvre mes langues", "open:langues"],
+      ["Traduis en anglais", "translate:en"], ["traduis vers l'espagnol", "translate:es"], ["Traduire en japonais s'il vous plaît", "translate:ja"], ["traduis en malgache", "translate:mg"],
+      ["traduis du français en allemand", "translate:de"], ["Translate to Spanish", "translate:es"], ["translate into Chinese", "translate:zh"], ["traduis en klingon", "unknown_lang"],
+      ["Appelle Maria", "call:maria"], ["appelle arobase kenji", "call:kenji"], ["Call Kenji please", "call:kenji"], ["téléphone à seb 1975", "call:seb1975"],
+      ["Arrête", "stop"], ["stop", "stop"], ["Lis mon dernier message", "read"], ["read my last message", "read"], ["Aide", "help"], ["what can I say", "help"],
+      ["Open my profile", "open:profil"], ["go to settings", "open:parametres"], ["quelle heure est-il", "none"], ["", "none"]
+    ];
+    const got = await page.evaluate((c) => c.map(([t]) => { const r = EWVoix.parse(t); return r.act + (r.target ? ":" + r.target : r.lang ? ":" + r.lang : r.who ? ":" + r.who : ""); }), cases);
+    const bad = cases.filter((c, i) => got[i] !== c[1]).map((c, i) => c[0] + " → " + got[cases.indexOf(c)]);
+    return { ok: !bad.length, detail: bad.length ? bad.join(" | ") : cases.length + " phrases" };
+  });
+  await step("Voice : bouton micro dans la barre du haut (44 px, nommé), bandeau « Je vous écoute… » et texte entendu en direct", async () => {
+    const r0 = await page.$eval("#ewvBtn", (b) => ({ l: b.getAttribute("aria-label"), w: b.getBoundingClientRect().width, h: b.getBoundingClientRect().height, next: b.nextElementSibling.id }));
+    await say(page, [{ text: "ouvre mon profil" }]);
+    await page.tap("#ewvBtn");
+    const live = await page.evaluate(() => ({ t: document.getElementById("ewvTxt").textContent, on: document.getElementById("ewvBtn").getAttribute("aria-pressed"), lang: window.__srLang }));
+    await page.waitForFunction(() => /🎤 ouvre mon profil/.test(document.getElementById("ewvTxt").textContent));
+    await page.screenshot({ path: path.join(OUT, "voice-ecoute.png") });
+    return { ok: r0.l === "Commande vocale" && r0.w >= 44 && r0.h >= 44 && r0.next === "topSettings" && live.t === "Je vous écoute…" && live.on === "true" && live.lang === "fr-FR", detail: JSON.stringify(live) };
+  });
+  await step("Voice : « Ouvre mon profil » → action annoncée puis écran Profil ; micro coupé tout seul", async () => {
+    await page.waitForFunction(() => location.hash === "#/profil", null, { timeout: 5000 });
+    const r = await page.evaluate(() => ({ t: document.getElementById("ewvTxt").textContent, on: document.getElementById("ewvBtn").getAttribute("aria-pressed"), mic: document.documentElement.classList.contains("ew-mic-on") }));
+    return { ok: r.t === "J'ouvre votre profil" && r.on === "false" && !r.mic, detail: r.t };
+  });
+  await step("Voice : « Traduis en espagnol » → conversation côte à côte, autre langue = espagnol (gardée)", async () => {
+    await say(page, [{ text: "traduis en espagnol" }]);
+    await page.tap("#ewvBtn");
+    await page.waitForFunction(() => location.hash === "#/everywhere/face", null, { timeout: 5000 });
+    const p = await page.evaluate(() => JSON.parse(localStorage.getItem("ew_tr_v1") || "{}"));
+    await page.screenshot({ path: path.join(OUT, "voice-traduis-espagnol.png") });
+    return { ok: p.other === "es" && p.me === "fr", detail: JSON.stringify({ me: p.me, other: p.other }) };
+  });
+  await step("Voice : phrase non comprise → « Je n'ai pas compris » avec trois exemples ; aucune action", async () => {
+    const before = await page.evaluate(() => location.hash);
+    await say(page, [{ text: ["quelle heure est-il", "quel air est-il"] }]);
+    await page.tap("#ewvBtn");
+    await page.waitForFunction(() => /pas compris/.test(document.getElementById("ewvTxt").textContent));
+    await sleep(1100);
+    const r = await page.evaluate(() => ({ t: document.getElementById("ewvTxt").textContent, h: location.hash }));
+    return { ok: /« quelle heure est-il ».*Ouvre TALK.*Traduis en anglais.*Appelle maria/.test(r.t) && r.h === before, detail: r.t.slice(0, 90) };
+  });
+  await step("Voice : 2e alternative de la dictée utilisée si la 1re ne veut rien dire (« ouvre tolk » / « ouvre talk »)", async () => {
+    await say(page, [{ text: ["ouvre le tolkien", "ouvre talk"] }]);
+    await page.tap("#ewvBtn");
+    await page.waitForURL((u) => /\/index\.html$/.test(u.pathname), { timeout: 6000 });
+    return { ok: /\?ew=1$/.test(page.url()), detail: new URL(page.url()).pathname + new URL(page.url()).search };
+  });
+  await step("Voice : dans TALK (coquille), même bouton micro ; « Ouvre la messagerie » ouvre la messagerie de TALK", async () => {
+    await page.waitForSelector("#ewvBtn", { timeout: 8000 });
+    const pos = await page.$eval("#ewvBtn", (b) => b.nextElementSibling.id);
+    await say(page, [{ text: "ouvre la messagerie" }]);
+    await page.tap("#ewvBtn");
+    await page.waitForFunction(() => /J'ouvre la messagerie/.test(document.getElementById("ewvTxt").textContent), null, { timeout: 5000 });
+    await sleep(400);
+    const on = await page.evaluate(() => { const b = document.querySelector('.bbar button[data-b="msg"]'); return b && b.classList.contains("on"); });
+    return { ok: pos === "ewsSettings" && on, detail: "bouton avant " + pos };
+  });
+  await step("Voice : micro refusé → explication pour l'autoriser dans Chrome ; pas de réseau → message clair", async () => {
+    await say(page, [{ error: "not-allowed" }]);
+    await page.tap("#ewvBtn");
+    await page.waitForFunction(() => /micro est bloqué/.test(document.getElementById("ewvTxt").textContent));
+    await say(page, [{ error: "network" }]);
+    await page.tap("#ewvBtn");
+    await page.waitForFunction(() => /besoin d'Internet/.test(document.getElementById("ewvTxt").textContent));
+    return { ok: !page._errors.length, detail: page._errors.join("|").slice(0, 120) || "aucune erreur" };
+  });
+  await step("Voice : ✕ Arrêter coupe le micro tout de suite (rien n'est fait ensuite)", async () => {
+    await say(page, [{ text: "ouvre mon profil" }]);
+    await page.tap("#ewvBtn");
+    await page.tap("#ewvStop");
+    await sleep(600);
+    const r = await page.evaluate(() => ({ ab: window.__srAborted || 0, hid: document.getElementById("ewvBar").hidden, p: location.pathname }));
+    return { ok: r.ab >= 1 && r.hid && /index\.html$/.test(r.p), detail: JSON.stringify(r) };
+  });
+  await ctx.close();
+
+  ctx = await newCtx({}, true, FAKE_SR);
+  await ctx.addInitScript(() => { localStorage.setItem("fake_contacts", "1"); localStorage.setItem("lc_net_joined", "1"); if (localStorage.getItem("lc_net_auth") === null) localStorage.setItem("lc_net_auth", "fake"); });
+  page = await open(ctx, URL_EW + "#/accueil");
+  await step("Voice : « Appelle Kenji » → Appeler sur TALK, recherche « kenji », fiche d'appel ouverte : rien n'appelle sans toucher « Appeler »", async () => {
+    await page.waitForSelector("#ewvBtn");
+    await say(page, [{ text: "appelle Kenji" }]);
+    await page.tap("#ewvBtn");
+    await page.waitForSelector("#trSheet", { timeout: 10000 });
+    const r = await page.evaluate(() => ({ q: document.getElementById("trSearch").value, h: location.hash, href: document.getElementById("trCGo").getAttribute("href"), p: location.pathname }));
+    await page.screenshot({ path: path.join(OUT, "voice-appelle-kenji.png") });
+    return { ok: r.q === "kenji" && r.h === "#/everywhere/appel" && /ew_appel=aaaaaaaa-0000-4000-8000-000000000001/.test(r.href) && /everywhere\/$/.test(r.p), detail: JSON.stringify({ q: r.q, h: r.h }) };
+  });
+  await step("Voice : « Ouvre la messagerie » depuis le portail → TALK s'ouvre directement sur la messagerie", async () => {
+    await page.goto(URL_EW + "#/accueil");
+    await page.waitForSelector("#ewvBtn");
+    await say(page, [{ text: "ouvre la messagerie" }]);
+    await page.tap("#ewvBtn");
+    await page.waitForURL((u) => /\/index\.html$/.test(u.pathname), { timeout: 6000 });
+    await page.waitForFunction(() => { const b = document.querySelector('.bbar button[data-b="msg"]'); return b && b.classList.contains("on"); }, null, { timeout: 10000 });
+    return { ok: true };
+  });
+  await step("Voice : « Lis mon dernier message » dans une discussion → le message reçu de @kenji est lu à voix haute", async () => {
+    await page.waitForSelector(".net-row", { timeout: 10000 });
+    await page.click(".net-row");
+    await page.waitForSelector("#netLog .bubble.them", { timeout: 10000 });
+    await page.waitForSelector("#ewvBtn");
+    await say(page, [{ text: "lis mon dernier message" }]);
+    await page.tap("#ewvBtn");
+    await page.waitForFunction(() => window.__spoken.length > 0, null, { timeout: 5000 });
+    const r = await page.evaluate(() => ({ s: window.__spoken, t: document.getElementById("ewvTxt").textContent }));
+    return { ok: r.s[0] === "Bonjour depuis Tokyo" && r.t === "Je lis le dernier message.", detail: JSON.stringify(r) };
+  });
+  await ctx.close();
+
+  ctx = await newCtx({}, false, () => { delete window.SpeechRecognition; delete window.webkitSpeechRecognition; });
+  page = await open(ctx, URL_EW + "#/accueil");
+  await step("Voice : navigateur sans reconnaissance vocale → pas de bouton micro, rien ne casse (portail et TALK)", async () => {
+    await page.waitForSelector("#view-accueil.active");
+    const a = await page.$("#ewvBtn");
+    await page.goto(URL_TALK + "?ew=1");
+    await page.waitForSelector("#ewsSettings");
+    await sleep(500);
+    const b = await page.$("#ewvBtn");
+    return { ok: !a && !b && !page._errors.length, detail: page._errors.join("|").slice(0, 100) || "aucune erreur" };
+  });
+  await ctx.close();
 //@@NEXT@@
 
   await browser.close();

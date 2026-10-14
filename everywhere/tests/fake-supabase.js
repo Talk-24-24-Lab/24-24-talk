@@ -27,6 +27,9 @@
       { conversation_id: C1, user_id: PROFILE.id, last_read: t0, cleared_at: null }, { conversation_id: C1, user_id: KENJI.id, last_read: t0, cleared_at: null },
       { conversation_id: C2, user_id: PROFILE.id, last_read: t0, cleared_at: null }, { conversation_id: C2, user_id: MARIA.id, last_read: t0, cleared_at: null }];
     if (table === "profiles") return [KENJI, MARIA];
+    // Un message reçu de @kenji (en français, pour ne pas dépendre du service de traduction).
+    if (table === "messages") return [{ id: "bbbbbbbb-0000-4000-8000-000000000001", conversation_id: C1, sender_id: KENJI.id, body: "Bonjour depuis Tokyo",
+      lang: "fr", kind: "text", created_at: new Date(Date.now() - 6e5).toISOString() }];
     return [];
   }
   function builder(table) {

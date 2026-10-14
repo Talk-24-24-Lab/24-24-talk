@@ -4,8 +4,8 @@
   "use strict";
   var CFG = window.EW_CONFIG || { env: "test", basePath: "../", talkReadyTimeoutMs: 15000 };
   var APPS = window.EW_APPS || [];
-  var VERSION = "0.6.3 (prototype)";
-  var VERSION_TAG = "0.6.3";
+  var VERSION = "0.6.4 (prototype)";
+  var VERSION_TAG = "0.6.4";
 
   // ---------- Stockage (peut être indisponible : navigation privée stricte, etc.) ----------
   var store = {
@@ -314,6 +314,8 @@
   });
 
   // Roue dentée : dans une application, ouvre ses propres réglages ; ailleurs, les paramètres du portail.
+  // VOICE : bouton micro de la barre du haut (voix.js), absent si le navigateur ne reconnaît pas la voix.
+  if (window.EWVoix) window.EWVoix.mount({ root: "../", portal: true, lang: lang, before: $("topSettings") });
   $("topSettings").addEventListener("click", function () {
     var m = /^#\/app\/([^/]+)/.exec(location.hash || "");
     var a = m && appById(m[1]);

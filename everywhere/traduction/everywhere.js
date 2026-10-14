@@ -420,7 +420,15 @@
       body.innerHTML = '<input type="search" class="cx-input tr-search" id="trSearch" placeholder="' + esc(t("c_search")) + '" aria-label="' + esc(t("c_search")) + '">' +
         '<button type="button" class="tr-invite" id="trInvite">' + esc(t("c_invite")) + '</button><p class="note">' + esc(t("c_invite_d")) + '</p><p class="tr-ok" id="trInviteMsg" role="status"></p>' +
         '<ul class="tr-contacts" id="trContacts"></ul>';
-      paintContacts("");
+      // VOICE : « Appelle maria » → recherche remplie ; un seul contact trouvé → sa fiche d'appel s'ouvre (on confirme avec « Appeler »).
+      var vq = null;
+      try { vq = sessionStorage.getItem("ew_voice_call"); sessionStorage.removeItem("ew_voice_call"); } catch (e) { vq = null; }
+      body.querySelector("#trSearch").value = vq || "";
+      paintContacts(vq || "");
+      if (vq) {
+        var hits = callState.contacts.filter(function (c) { return c.pseudo.indexOf(String(vq).toLowerCase()) !== -1; });
+        if (hits.length === 1) callSheet(hits[0].convId);
+      }
       body.querySelector("#trSearch").addEventListener("input", function (e) { paintContacts(e.target.value); });
       body.querySelector("#trInvite").addEventListener("click", invite);
     }, function (e) {
@@ -575,5 +583,14 @@
     home(root);
     return t("title");
   }
-  window.EWEverywhere = { show: show, _strings: STR, prefs: prefs };
+  // VOICE : « Traduis en … » choisit l'autre langue de la conversation côte à côte.
+  function setOther(code) {
+    var p = prefs();
+    if (M.lang(code).name === code) return false;
+    if (p.me === code) p.me = p.other;
+    p.other = code;
+    savePrefs();
+    return true;
+  }
+  window.EWEverywhere = { show: show, _strings: STR, prefs: prefs, setOther: setOther };
 })();
