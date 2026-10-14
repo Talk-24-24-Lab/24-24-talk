@@ -27,12 +27,24 @@
   document.documentElement.classList.add("ew-shell");
   var l = document.createElement("link");
   l.rel = "stylesheet";
-  l.href = "everywhere/shell.css?v=0.6.2";
+  l.href = "everywhere/shell.css?v=0.6.3";
   document.head.appendChild(l);
   var sc = document.createElement("script");
-  sc.src = "everywhere/shell.js?v=0.6.2";
+  sc.src = "everywhere/shell.js?v=0.6.3";
   sc.defer = true;
   document.head.appendChild(sc);
+})();
+</script>
+<script>
+/* Accessibilité commune à TALK et au portail (clé ew_prefs, gardée sur cet appareil) : taille du texte,
+   contraste renforcé, animations réduites. Appliquée avant l'affichage, que TALK soit ouvert seul ou dans la coquille. */
+(function () {
+  try {
+    var p = JSON.parse(localStorage.getItem("ew_prefs") || "{}") || {}, h = document.documentElement;
+    if (p.text === 1 || p.text === 2) h.setAttribute("data-ts", String(p.text));
+    if (p.contrast === true) h.classList.add("contrast-high");
+    if (p.motion === true) h.classList.add("motion-off");
+  } catch (e) { /* stockage indisponible : affichage normal */ }
 })();
 </script>
 <meta name="theme-color" content="#101426" />
@@ -124,6 +136,18 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   :root[data-theme="light"]{ --bg:#f4f6fb; --panel:#ffffff; --panel2:#eef1fb; --text:#131a2e;
     --muted:#5a6485; --line:#dbe1f2; --ok:#12955f; --warn:#a86a00; --err:#d63355; color-scheme: light; }
   *{box-sizing:border-box;}
+  /* Accessibilité (ew_prefs) : texte agrandi (contenu seulement, les barres fixes gardent leur taille), contraste, animations. */
+  html[data-ts="1"] main{zoom:1.15;}
+  html[data-ts="2"] main{zoom:1.3;}
+  :root.contrast-high{ --muted:var(--text); --line:#8fa3cf; }
+  :root.contrast-high[data-theme="light"]{ --line:#5b6b91; }
+  :root.contrast-high .card, :root.contrast-high .btn, :root.contrast-high input, :root.contrast-high textarea, :root.contrast-high select{border-width:2px;}
+  :root.contrast-high :focus-visible{outline:3px solid var(--blue2) !important;outline-offset:2px;}
+  html.motion-off *, html.motion-off *::before, html.motion-off *::after{animation:none !important;transition:none !important;scroll-behavior:auto !important;}
+  .a11y-seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;}
+  .a11y-seg button{min-width:44px;min-height:44px;border:none;background:transparent;color:var(--text);font-weight:700;cursor:pointer;}
+  .a11y-seg button[aria-checked="true"]{background:var(--blue);color:#fff;}
+  .a11y-seg button.ts1{font-size:17px;} .a11y-seg button.ts2{font-size:21px;}
   body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
   header{padding:18px 16px 8px;text-align:center;position:relative;}
   .settings-btn{position:absolute;top:12px;right:12px;width:46px;height:46px;border-radius:14px;border:1px solid var(--line);background:var(--panel);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;}
@@ -677,6 +701,20 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
       <div class="settings-row">
         <span data-i18n="stats_opt">Statistiques de visite anonymes</span>
         <button class="toggle" id="statsToggle" aria-pressed="true"></button>
+      </div>
+      <div class="settings-row">
+        <span id="a11yTsLbl" data-i18n="a11y_ts">Taille du texte</span>
+        <span class="a11y-seg" role="radiogroup" aria-labelledby="a11yTsLbl">
+          <button type="button" role="radio" data-a11y-ts="0" aria-checked="true">A</button><button type="button" role="radio" data-a11y-ts="1" class="ts1" aria-checked="false">A</button><button type="button" role="radio" data-a11y-ts="2" class="ts2" aria-checked="false">A</button>
+        </span>
+      </div>
+      <div class="settings-row">
+        <span id="a11yContrastLbl" data-i18n="a11y_contrast">Contraste renforcé</span>
+        <button class="toggle" id="a11yContrast" role="switch" aria-checked="false" aria-labelledby="a11yContrastLbl"></button>
+      </div>
+      <div class="settings-row">
+        <span id="a11yMotionLbl" data-i18n="a11y_motion">Réduire les animations</span>
+        <button class="toggle" id="a11yMotion" role="switch" aria-checked="false" aria-labelledby="a11yMotionLbl"></button>
       </div>
       <div class="settings-row">
         <label for="uiLangSelect" data-i18n="ui_lang">Langue de l'interface</label>
@@ -5803,6 +5841,10 @@ const NET_STRINGS = {
     net_report_done: "Merci, le signalement a été envoyé.",
     net_photo_add: "Ajouter une photo",
     net_photo_change: "Changer la photo",
+    a11y_ts: "Taille du texte",
+    a11y_ts_names: "Normal|Grand|Très grand",
+    a11y_contrast: "Contraste renforcé",
+    a11y_motion: "Réduire les animations",
     net_photo_remove: "Retirer la photo",
     net_photo_remove_confirm: "Appuyez encore pour retirer la photo",
     net_photo_saved: "Photo enregistrée.",
@@ -5952,6 +5994,10 @@ const NET_STRINGS = {
     net_report_done: "Thank you, the report has been sent.",
     net_photo_add: "Add a photo",
     net_photo_change: "Change photo",
+    a11y_ts: "Text size",
+    a11y_ts_names: "Normal|Large|Extra large",
+    a11y_contrast: "High contrast",
+    a11y_motion: "Reduce motion",
     net_photo_remove: "Remove photo",
     net_photo_remove_confirm: "Tap again to remove the photo",
     net_photo_saved: "Photo saved.",
@@ -6098,6 +6144,10 @@ const NET_STRINGS = {
     net_report_done: "Gracias, la denuncia se ha enviado.",
     net_photo_add: "Añadir una foto",
     net_photo_change: "Cambiar la foto",
+    a11y_ts: "Tamaño del texto",
+    a11y_ts_names: "Normal|Grande|Muy grande",
+    a11y_contrast: "Contraste alto",
+    a11y_motion: "Reducir animaciones",
     net_photo_remove: "Quitar la foto",
     net_photo_remove_confirm: "Pulsa otra vez para quitar la foto",
     net_photo_saved: "Foto guardada.",
@@ -6244,6 +6294,10 @@ const NET_STRINGS = {
     net_report_done: "Obrigado, a denúncia foi enviada.",
     net_photo_add: "Adicionar uma foto",
     net_photo_change: "Trocar a foto",
+    a11y_ts: "Tamanho do texto",
+    a11y_ts_names: "Normal|Grande|Muito grande",
+    a11y_contrast: "Alto contraste",
+    a11y_motion: "Reduzir animações",
     net_photo_remove: "Remover a foto",
     net_photo_remove_confirm: "Toque outra vez para remover a foto",
     net_photo_saved: "Foto salva.",
@@ -6390,6 +6444,10 @@ const NET_STRINGS = {
     net_report_done: "Danke, die Meldung wurde gesendet.",
     net_photo_add: "Foto hinzufügen",
     net_photo_change: "Foto ändern",
+    a11y_ts: "Textgröße",
+    a11y_ts_names: "Normal|Groß|Sehr groß",
+    a11y_contrast: "Hoher Kontrast",
+    a11y_motion: "Animationen reduzieren",
     net_photo_remove: "Foto entfernen",
     net_photo_remove_confirm: "Nochmal tippen zum Entfernen",
     net_photo_saved: "Foto gespeichert.",
@@ -6536,6 +6594,10 @@ const NET_STRINGS = {
     net_report_done: "Grazie, la segnalazione è stata inviata.",
     net_photo_add: "Aggiungi una foto",
     net_photo_change: "Cambia foto",
+    a11y_ts: "Dimensione del testo",
+    a11y_ts_names: "Normale|Grande|Molto grande",
+    a11y_contrast: "Contrasto elevato",
+    a11y_motion: "Riduci animazioni",
     net_photo_remove: "Rimuovi foto",
     net_photo_remove_confirm: "Tocca di nuovo per rimuovere la foto",
     net_photo_saved: "Foto salvata.",
@@ -6682,6 +6744,10 @@ const NET_STRINGS = {
     net_report_done: "谢谢，举报已发送。",
     net_photo_add: "添加照片",
     net_photo_change: "更换照片",
+    a11y_ts: "文字大小",
+    a11y_ts_names: "正常|大|特大",
+    a11y_contrast: "高对比度",
+    a11y_motion: "减少动画",
     net_photo_remove: "移除照片",
     net_photo_remove_confirm: "再点一次以移除照片",
     net_photo_saved: "照片已保存。",
@@ -6828,6 +6894,10 @@ const NET_STRINGS = {
     net_report_done: "ありがとうございます。報告を送信しました。",
     net_photo_add: "写真を追加",
     net_photo_change: "写真を変更",
+    a11y_ts: "文字サイズ",
+    a11y_ts_names: "標準|大|特大",
+    a11y_contrast: "ハイコントラスト",
+    a11y_motion: "アニメーションを減らす",
     net_photo_remove: "写真を削除",
     net_photo_remove_confirm: "もう一度タップで写真を削除",
     net_photo_saved: "写真を保存しました。",
@@ -6974,6 +7044,10 @@ const NET_STRINGS = {
     net_report_done: "شكرًا، تم إرسال البلاغ.",
     net_photo_add: "إضافة صورة",
     net_photo_change: "تغيير الصورة",
+    a11y_ts: "حجم النص",
+    a11y_ts_names: "عادي|كبير|كبير جدًا",
+    a11y_contrast: "تباين عالٍ",
+    a11y_motion: "تقليل الحركة",
     net_photo_remove: "إزالة الصورة",
     net_photo_remove_confirm: "اضغط مرة أخرى لإزالة الصورة",
     net_photo_saved: "تم حفظ الصورة.",
@@ -7120,6 +7194,10 @@ const NET_STRINGS = {
     net_report_done: "Спасибо, жалоба отправлена.",
     net_photo_add: "Добавить фото",
     net_photo_change: "Сменить фото",
+    a11y_ts: "Размер текста",
+    a11y_ts_names: "Обычный|Крупный|Очень крупный",
+    a11y_contrast: "Высокий контраст",
+    a11y_motion: "Меньше анимации",
     net_photo_remove: "Удалить фото",
     net_photo_remove_confirm: "Нажмите ещё раз, чтобы удалить фото",
     net_photo_saved: "Фото сохранено.",
@@ -7266,6 +7344,10 @@ const NET_STRINGS = {
     net_report_done: "Misaotra, lasa ny tatitra.",
     net_photo_add: "Hampiditra sary",
     net_photo_change: "Hanova ny sary",
+    a11y_ts: "Haben'ny soratra",
+    a11y_ts_names: "Mahazatra|Lehibe|Lehibe dia lehibe",
+    a11y_contrast: "Fifanoherana mafy",
+    a11y_motion: "Ahenoy ny hetsika",
     net_photo_remove: "Hanala ny sary",
     net_photo_remove_confirm: "Tsindrio indray hanalana ny sary",
     net_photo_saved: "Voatahiry ny sary.",
@@ -7331,6 +7413,49 @@ const NET_STRINGS = {
 Object.keys(NET_STRINGS).forEach((l) => {
   UI_STRINGS[l] = Object.assign(UI_STRINGS[l] || {}, NET_STRINGS[l]);
 });
+
+// ---------- Accessibilité (commune avec le portail : clé ew_prefs) ----------
+// Taille du texte, contraste renforcé, animations réduites. Le thème du portail n'est pas repris ici (TALK suit l'appareil).
+const A11y = (() => {
+  const KEY = "ew_prefs";
+  function read() {
+    let p = {};
+    try { p = JSON.parse(safeStore.getItem(KEY) || "{}") || {}; } catch (e) { p = {}; }
+    return p && typeof p === "object" ? p : {};
+  }
+  function apply(p) {
+    const h = document.documentElement;
+    if (p.text === 1 || p.text === 2) h.setAttribute("data-ts", String(p.text)); else h.removeAttribute("data-ts");
+    h.classList.toggle("contrast-high", p.contrast === true);
+    h.classList.toggle("motion-off", p.motion === true);
+  }
+  function set(k, v) { const p = read(); p[k] = v; safeStore.setItem(KEY, JSON.stringify(p)); apply(p); paint(); }
+  function paint() {
+    const p = read(), ts = p.text === 1 || p.text === 2 ? p.text : 0, names = t("a11y_ts_names").split("|");
+    document.querySelectorAll("[data-a11y-ts]").forEach((b) => {
+      const n = +b.getAttribute("data-a11y-ts");
+      b.setAttribute("aria-checked", String(n === ts));
+      b.setAttribute("aria-label", names[n] || "");
+    });
+    [["a11yContrast", p.contrast === true], ["a11yMotion", p.motion === true]].forEach(([id, on]) => {
+      const el = document.getElementById(id);
+      if (el) { el.classList.toggle("on", on); el.setAttribute("aria-checked", String(on)); }
+    });
+    document.querySelectorAll('[data-i18n^="a11y_"]').forEach((el) => { el.textContent = t(el.dataset.i18n); });
+  }
+  document.addEventListener("click", (e) => {
+    const b = e.target.closest && e.target.closest("[data-a11y-ts], #a11yContrast, #a11yMotion");
+    if (!b) return;
+    if (b.hasAttribute("data-a11y-ts")) set("text", +b.getAttribute("data-a11y-ts"));
+    else if (b.id === "a11yContrast") set("contrast", read().contrast !== true);
+    else set("motion", read().motion !== true);
+  });
+  // Réglé dans le portail pendant que TALK est ouvert dans un autre onglet : suivre tout de suite.
+  window.addEventListener("storage", (e) => { if (e.key === KEY) { apply(read()); paint(); } });
+  apply(read());
+  paint();
+  return { read, set, paint };
+})();
 
 // ---------- Statistiques de visite anonymes ----------
 // Uniquement sur le site officiel. Aucune donnée personnelle : un identifiant tiré au hasard sur ce

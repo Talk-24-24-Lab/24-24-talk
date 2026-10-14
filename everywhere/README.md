@@ -231,3 +231,10 @@ Défauts trouvés et corrigés :
 
 Constaté dans TALK, NON corrigé (fichier de TALK, apparence à décider) : 2 contrastes insuffisants
 (lien « CGV » du bandeau, bouton de traduction `data-tr`).
+
+## 0.6.3 — ACCESSIBILITY (pilier 3)
+Les réglages d'affichage sont communs au portail et à TALK (clé `ew_prefs`, gardée sur l'appareil, rien n'est envoyé) :
+taille du texte (Normal, Grand, Très grand), contraste renforcé, et nouveau réglage **Réduire les animations**.
+TALK les applique avant l'affichage, ouvert seul ou dans la coquille, et les propose dans ses Paramètres (11 langues).
+Le thème clair/sombre du portail n'est pas repris dans TALK (TALK suit l'appareil).
+Tests : `node everywhere/tests/piliers.js` (6 tests accessibilité).
