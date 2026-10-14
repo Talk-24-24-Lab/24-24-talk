@@ -665,21 +665,21 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const n = await page.$$eval("#ewGoLearn", (x) => x.length);
     return { ok: !inSub && n === 1, detail: "un seul lien LEARN, seulement sur le hub" };
   });
-  await step("Mode A : écran coupé en deux, personne 2 en haut, personne 1 en bas, même sens de lecture, un micro chacun", async () => {
+  await step("Mode A : écran coupé en deux, personne 1 en haut, personne 2 en bas, même sens de lecture, un micro chacun", async () => {
     await page.tap("#trGoFace");
     await page.waitForSelector("#trFace");
     const r = await page.evaluate(() => {
-      const h2 = document.querySelector(".tr-half.p2"), h1 = document.querySelector(".tr-half.p1"), a = h2.getBoundingClientRect(), b = h1.getBoundingClientRect();
+      const h2 = document.querySelector(".tr-half.p2"), h1 = document.querySelector(".tr-half.p1"), a = h1.getBoundingClientRect(), b = h2.getBoundingClientRect();
       const tr = [h2, h1, document.getElementById("trFace")].map((x) => getComputedStyle(x).transform);
       return { top: a.top < b.top, sameW: Math.abs(a.width - b.width) < 1, halfH: [Math.round(a.height), Math.round(b.height)], rot: tr.filter((x) => x !== "none").length,
         mics: document.querySelectorAll(".tr-half [data-mic]").length, l2: h2.querySelector("select").value, l1: h1.querySelector("select").value,
-        who: [h2.querySelector(".tr-who").textContent, h1.querySelector(".tr-who").textContent], vh: innerHeight, sw: document.documentElement.scrollWidth <= innerWidth };
+        who: [h1.querySelector(".tr-who").textContent, h2.querySelector(".tr-who").textContent], vh: innerHeight, sw: document.documentElement.scrollWidth <= innerWidth };
     });
     await page.screenshot({ path: path.join(OUT, "everywhere-cote-a-cote.png") });
-    return { ok: r.top && r.sameW && r.rot === 0 && r.mics === 2 && r.l1 === "fr" && r.l2 === "en" && /Personne 2/.test(r.who[0]) && /Personne 1/.test(r.who[1]) && r.halfH[0] > 150 && r.halfH[1] > 150 && r.sw,
-      detail: "haut " + r.halfH[0] + " px, bas " + r.halfH[1] + " px, aucune rotation, français en bas, anglais en haut" };
+    return { ok: r.top && r.sameW && r.rot === 0 && r.mics === 2 && r.l1 === "fr" && r.l2 === "en" && /Personne 1/.test(r.who[0]) && /Personne 2/.test(r.who[1]) && r.halfH[0] > 150 && r.halfH[1] > 150 && r.sw,
+      detail: "haut " + r.halfH[0] + " px, bas " + r.halfH[1] + " px, aucune rotation, français en haut, anglais en bas" };
   });
-  await step("Mode A : la personne 1 parle français → traduit en anglais en haut, lu à voix haute en anglais", async () => {
+  await step("Mode A : la personne 1 parle français → traduit en anglais en bas, lu à voix haute en anglais", async () => {
     await page.evaluate(() => { window.__say = "Où est la gare ?"; });
     await page.tap('[data-mic="1"]');
     await page.waitForFunction(() => window.__spoken.length === 1, null, { timeout: 5000 });

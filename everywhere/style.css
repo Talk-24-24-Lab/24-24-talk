@@ -51,6 +51,7 @@ button{font:inherit;color:inherit;}
 .shell>.mainnav{grid-area:nav;}
 body.no-banner .topbar{padding-top:calc(6px + var(--sat));}
 .shell{flex:1;min-height:0;display:grid;grid-template-rows:auto 1fr auto;grid-template-areas:"top" "main" "nav";}
+.shell>*{min-width:0;} /* un titre long ne doit jamais élargir la page */
 
 
 main{grid-area:main;position:relative;overflow:hidden;min-height:0;}

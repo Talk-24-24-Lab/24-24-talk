@@ -36,7 +36,7 @@ html.motion-off ::view-transition-group(*), html.motion-off ::view-transition-ol
 .brand img{border-radius:10px;}
 .brand-txt{font-size:15px;letter-spacing:.04em;}
 .brand-txt span{color:var(--ews-teal2);font-weight:700;}
-.topbar-title{flex:1;text-align:center;font-weight:800;font-size:15px;color:var(--ews-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.topbar-title{flex:1;min-width:0;text-align:center;font-weight:800;font-size:15px;color:var(--ews-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 @media (max-width:479px){ .topbar-title{visibility:hidden;} }
 .icon-btn{width:44px;height:44px;border-radius:12px;border:1px solid var(--ews-line);background:var(--ews-panel);color:var(--ews-text);
   display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;padding:0;}

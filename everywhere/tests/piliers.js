@@ -528,6 +528,51 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     return { ok, detail: [off.anim, on.anim, hear.anim, after.cls, tOn.anim, tHear.anim, tAfter.cls].join(" · ") };
   });
   await ctx.close();
+
+  // ================= CHOIX DES LANGUES =================
+  ctx = await newCtx({ viewport: { width: 360, height: 780 } });
+  page = await open(ctx, URL_EW + "#/everywhere/face");
+  await step("Côte à côte : Personne 1 en haut, Personne 2 en bas ; rien ne dépasse à droite (360 px)", async () => {
+    await page.waitForSelector("#trFace .ewl-btn");
+    const r = await page.evaluate(() => ({ order: [...document.querySelectorAll("#trFace .tr-half")].map((h) => h.dataset.who).join(","), sw: document.documentElement.scrollWidth, w: innerWidth }));
+    return { ok: r.order === "1,2" && r.sw <= 360 && r.w === 360, detail: JSON.stringify(r) };
+  });
+  await step("Langues : bouton → fenêtre avec recherche, « Vos langues » puis toutes les langues de A à Z", async () => {
+    await page.tap('[data-who="2"] .ewl-btn');
+    await page.waitForSelector("#ewlSheet");
+    const r = await page.evaluate(() => {
+      const heads = [...document.querySelectorAll(".ewl-h")].map((h) => h.textContent);
+      const names = [...document.querySelectorAll(".ewl-h ~ .ewl-it")].map((b) => b.querySelector(".n").textContent);
+      const all = names.slice(names.length - document.querySelector('[data-lang-of="2"]').options.length);
+      const sorted = all.slice().sort((a, b) => a.localeCompare(b, "fr", { sensitivity: "base" }));
+      return { heads, first: all.slice(0, 3), sorted: all.join("|") === sorted.join("|"), focus: document.activeElement.id };
+    });
+    await page.screenshot({ path: path.join(OUT, "langues-liste.png") });
+    return { ok: r.heads[0] === "Vos langues" && /A → Z/.test(r.heads[1]) && r.sorted && r.first[0] === "Afrikaans" && r.focus === "ewlQ", detail: JSON.stringify(r) };
+  });
+  await step("Langues : « japon » sans accent ni majuscule trouve Japonais ; Entrée le choisit, la conversation suit", async () => {
+    await page.fill("#ewlQ", "japon");
+    const hits = await page.$$eval(".ewl-it", (b) => b.map((x) => x.textContent));
+    await page.press("#ewlQ", "Enter");
+    await page.waitForFunction(() => !document.querySelector("#ewlSheet"));
+    const r = await page.evaluate(() => ({ v: document.querySelector('[data-lang-of="2"]').value, b: document.querySelector('[data-who="2"] .ewl-btn').textContent,
+      saved: JSON.parse(localStorage.getItem("ew_tr_v1") || "{}").other }));
+    await page.tap('[data-who="1"] .ewl-btn');
+    await page.fill("#ewlQ", "zzz");
+    const none = await page.textContent("#ewlList");
+    await page.tap("#ewlClose");
+    return { ok: hits.length === 1 && r.v === "ja" && /Japonais/.test(r.b) && /Aucune langue/.test(none) && !(await page.$("#ewlSheet")), detail: JSON.stringify({ hits, r }) };
+  });
+  await step("Langues : ⇅ inverse les langues et les boutons suivent ; dans TALK, mêmes listes avec recherche", async () => {
+    await page.tap("#trSwap");
+    await page.waitForTimeout(200);
+    const a = await page.evaluate(() => [1, 2].map((w) => document.querySelector('[data-who="' + w + '"] .ewl-btn').textContent));
+    await page.goto(URL_TALK);
+    await page.waitForSelector("#tgtLangPick", { state: "attached" });
+    const t = await page.evaluate(() => ({ n: document.querySelectorAll(".ewl-btn").length, tgt: document.querySelector("#tgtLang").value }));
+    return { ok: /Japonais/.test(a[0]) && t.n >= 4, detail: JSON.stringify({ a, t }) };
+  });
+  await ctx.close();
 //@@NEXT@@
 
   await browser.close();
