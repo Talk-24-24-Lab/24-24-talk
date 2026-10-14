@@ -323,6 +323,9 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
     justify-content:center;border:2px solid var(--panel);}
   .home-tile-badge[hidden]{display:none;}
   .home-tr{margin:-2px 0 14px;}
+  /* Avant que le script ne dessine les deux touches et l'interrupteur de traduction : leur place est réservée
+     (touches 200 px + interrupteur environ 86 px) pour que le texte et le pied de page ne sautent pas. */
+  .home-tiles:empty{min-height:200px;margin-bottom:100px;}
   .tr-switch{display:flex;gap:4px;padding:4px;background:var(--panel);border:1px solid var(--line);border-radius:999px;}
   .tr-switch button{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:6px;border:none;background:transparent;
     color:var(--muted);font-family:inherit;font-weight:700;font-size:14.5px;padding:11px 8px;border-radius:999px;cursor:pointer;
@@ -558,9 +561,14 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   /* Dans 24/24 EVERYWHERE : pas de grand en-tête, ni de bandeau ou de bouton d'installation en double. */
   html.embedded header.hero-earth, html.embedded .install-top, html.embedded .test-banner, html.embedded #installCard{display:none !important;}
   html.embedded main{padding-top:6px;}
+  /* Coquille ONE WORLD : place de la barre du haut réservée dès le premier affichage (pas de saut quand elle arrive). */
+  #ewsTopSlot{display:none;}
+  html.ew-shell #ewsTopSlot{display:block;height:57px;}
 </style>
 </head>
 <body>
+<div class="test-banner" role="status">SITE DE TEST · données fictives · ne pas partager</div>
+<div id="ewsTopSlot" aria-hidden="true"></div>
 
 <header class="hero-earth">
   <svg class="logo" viewBox="0 0 512 512" role="img" aria-label="24/24 Talk">
@@ -4563,14 +4571,7 @@ const IS_OFFICIAL_SITE = ["sebastienchevrier.github.io", "talk-24-24-lab.github.
 // Ouvert dans le portail 24/24 EVERYWHERE (même site) : le portail affiche déjà le logo, le bandeau et l'installation.
 const EMBEDDED = (() => { try { return window.parent !== window && /[?&]embed=1\b/.test(location.search) && window.parent.location.origin === location.origin; } catch (e) { return false; } })();
 if (EMBEDDED) document.documentElement.classList.add("embedded");
-// COPIE DE TEST : bandeau permanent pour ne jamais la confondre avec le vrai site.
-document.addEventListener("DOMContentLoaded", () => {
-  const t = document.createElement("div");
-  t.className = "test-banner";
-  t.setAttribute("role", "status");
-  t.textContent = "SITE DE TEST · données fictives · ne pas partager";
-  document.body.insertBefore(t, document.body.firstChild);
-});
+// COPIE DE TEST : bandeau permanent (écrit directement en haut de <body>) pour ne jamais la confondre avec le vrai site.
 if (!IS_OFFICIAL_SITE) {
   const bar = document.createElement("div");
   bar.className = "unofficial";
