@@ -5,7 +5,7 @@
 (function () {
   "use strict";
   var KEY = "ew_prefs";
-  var DEF = { theme: "light", contrast: false, text: 0, motion: false }; // fond clair par défaut (cahier des charges)
+  var DEF = { theme: "dark", contrast: false, text: 0, motion: false }; // bleu nuit par défaut depuis 0.8.0 (maquette validée par Sébastien)
   function read() {
     var p = {};
     try { p = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { p = {}; }

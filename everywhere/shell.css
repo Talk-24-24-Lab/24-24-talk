@@ -2,8 +2,8 @@
    Chargée par le portail (everywhere/) ET par 24/24 TALK : même apparence partout, identité Terre.
    Jetons préfixés --ews- pour ne jamais entrer en conflit avec les styles de TALK. */
 :root{
-  --ews-bg:#050913; --ews-bg2:#0b1224; --ews-panel:#111a30; --ews-line:#25325a;
-  --ews-text:#eef3ff; --ews-muted:#9fb0d4; --ews-teal:#1fe2cd; --ews-teal2:#a8efe6;
+  --ews-bg:#050b18; --ews-bg2:#0b1526; --ews-panel:#111c2e; --ews-line:#1d2b45;
+  --ews-text:#f4f7fa; --ews-muted:#a8b5c8; --ews-teal:#21d4fd; --ews-teal2:#21d4fd;
   --ews-nav-h:64px; --ews-top-h:56px;
   --ews-sat:env(safe-area-inset-top,0px); --ews-sab:env(safe-area-inset-bottom,0px);
   --ews-sal:env(safe-area-inset-left,0px); --ews-sar:env(safe-area-inset-right,0px);
@@ -18,8 +18,8 @@
    TALK seul (sans classe theme-*) garde son apparence actuelle. */
 html.theme-light, html.theme-auto{ --ews-teal:#1f5fe0; --ews-teal2:#1749b8; }
 html.theme-light{ --ews-bg:#f5f8ff; --ews-bg2:#ffffff; --ews-panel:#ffffff; --ews-line:#d8e1f3; --ews-text:#0d1733; --ews-muted:#4d5b80; }
-html.theme-dark{ --ews-bg:#050913; --ews-bg2:#0b1224; --ews-panel:#111a30; --ews-line:#25325a; --ews-text:#eef3ff; --ews-muted:#9fb0d4;
-  --ews-teal:#7aa7ff; --ews-teal2:#a9c6ff; }
+html.theme-dark{ --ews-bg:#050b18; --ews-bg2:#0b1526; --ews-panel:#111c2e; --ews-line:#1d2b45; --ews-text:#f4f7fa; --ews-muted:#a8b5c8;
+  --ews-teal:#21d4fd; --ews-teal2:#21d4fd; }
 @media (prefers-color-scheme: dark){ html.theme-auto{ --ews-teal:#7aa7ff; --ews-teal2:#a9c6ff; } }
 html.contrast-high{ --ews-muted:var(--ews-text); }
 html.contrast-high .mainnav, html.contrast-high .topbar{ border-width:2px; }
