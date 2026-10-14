@@ -27,10 +27,10 @@
   document.documentElement.classList.add("ew-shell");
   var l = document.createElement("link");
   l.rel = "stylesheet";
-  l.href = "everywhere/shell.css?v=0.6.4";
+  l.href = "everywhere/shell.css?v=0.6.5";
   document.head.appendChild(l);
   var sc = document.createElement("script");
-  sc.src = "everywhere/shell.js?v=0.6.4";
+  sc.src = "everywhere/shell.js?v=0.6.5";
   sc.defer = true;
   document.head.appendChild(sc);
 })();
@@ -47,6 +47,7 @@
   } catch (e) { /* stockage indisponible : affichage normal */ }
 })();
 </script>
+<script src="everywhere/ecoute.js?v=0.6.5" defer></script>
 <meta name="theme-color" content="#101426" />
 <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAGYktHRAD/AP8A/6C9p5MAAAAHdElNRQfqCR4JKQ3z+whAAAAEU0lEQVRIx7XVy49URRQG8O+cW/2a6Z5uhhnkMZKBCGhmFAiJMZgoE01cGIzvuNENC407F8ad+ge4xxjdGZWFC8PCxADxgYkhYwJGwJAhghCR1zz7fW+dz8XtZm4/gME4d9GLutW/U/fUqVOydsPDaD1s/5C3Rrj8ih0jyalE5/zkJF1VHaRbqc7E31asx1+wsrX/J72dolXIzK137s66QCABpG3Qk1y5DsD11WNaRHyz4qM6IDEapAbUZWi+U8ftdBDudjrpo3q5uGHnyNZ9uTXj5qOla6evzxytzV9w2SLYnq9AZFDpqwOU4fUTXZkBxCwS0Qef/mBs16tBWmgwgJT6UuX8Tx9dnv4kSOcBQsQqDS3l2Ij66gCCXH60UwcBmN/94seb9+wPGxY1LQrpQ0ahqUuve2jKhzp74ZgGOT9fzT8/6TaXwtP/SMaB3ToA7a4ZCcLawvijBzZOTlUXmqRCHCSgBBDnPRoVP77vneJ9j/vG0vB7TxXf3tv87QoCBdmrA4mDFo/RwvTA8Niu15o1QB0BknF+SFLBCFrHxmdfz0yuzT+5c+GL6fDinObT9Nark3DJehdoFNaLG3dki+M+IiAkbukGSlOjbHmxdK7+xN/Z/LjNVZtnr7LWxEAKIjDrqCciLtPESRCQlsoOicIiAmIQxg8okc7fPz275YhPL6Dh5KZ61yi8sScYG1r87ATM4kQldYCaLGWCIhrWFrwHIQbEtoEIdW7L8esTX9M1gzCvmoJTGCSQwsuPrHl3H8heHa1elEiaukz55vnq3J8SCK2lS6S14Uuz248GYUEQMDCIiAhUIOJvVHNTDww+N2nlBlTYWZOaOIgEKOrC2uzlk18FaXgfxZVBw+LmX6EmolCIiChaMUQkpayFA8/s0KEsvUE6TnfHfUCC5l1m6NL0p1dOH0sX0gajV5/yzeIVZQrCGEUyhioic+sLbqzIRgRJLpja0yMJCCBnvnnrr1++JCFAJHVzDYjGOekTA5C000JmuZDapPbpwDRRB5Gzh9+8+MOHgwPIuUxKhwATEQh6YkBUEFm8B61Ftndcu/XWkTARDdKDpU17gjwWzp2qnprRgRzI3hiASNpF18rhX/OSDkAmO7T2vT0gEjUr+ZEd6yb2z/x46OShF258/p3AxV2zIwYEZlrIVL49Y4u1ds9YXmuQHVzbpcenwcLKuomXbs58P3P0fZcvRJeWYH5wahtDj8jiDSQJgRvJV4+cmzv4s2ZTXToIKY1u79Lb8URdtlm55jJDoFHISrPwyu7SgcfcyCBJGAlYuVE+/PvcweM0k0DbfuI+KI1uv93NR3rRFOnblQVbrLtNxYG9W1JbRxBIdHm+duJi44+rmktBpVcHIKXRbXe9V5f7oQqbkdXC5QykA8mlYOyrA3D3oAMwExcExWB5yAzeuvKe7NDuHvTWDhI+CfIOOgi9Rz15Hu+uI9GLVkUHqKuqt7/gf9LRowP4FwGVbHLkBjopAAAAAElFTkSuQmCC" />
 <link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,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" />
@@ -144,6 +145,9 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   :root.contrast-high .card, :root.contrast-high .btn, :root.contrast-high input, :root.contrast-high textarea, :root.contrast-high select{border-width:2px;}
   :root.contrast-high :focus-visible{outline:3px solid var(--blue2) !important;outline-offset:2px;}
   html.motion-off *, html.motion-off *::before, html.motion-off *::after{animation:none !important;transition:none !important;scroll-behavior:auto !important;}
+  .bubble.has-say{position:relative;padding-right:46px;}
+  .net-say{position:absolute;right:2px;top:50%;transform:translateY(-50%);width:44px;height:44px;border:0;border-radius:50%;background:transparent;font-size:18px;cursor:pointer;line-height:1;}
+  .net-say:active{background:rgba(127,127,127,.18);}
   .a11y-seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;}
   .a11y-seg button{min-width:44px;min-height:44px;border:none;background:transparent;color:var(--text);font-weight:700;cursor:pointer;}
   .a11y-seg button[aria-checked="true"]{background:var(--blue);color:#fff;}
@@ -701,6 +705,10 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
       <div class="settings-row">
         <span data-i18n="stats_opt">Statistiques de visite anonymes</span>
         <button class="toggle" id="statsToggle" aria-pressed="true"></button>
+      </div>
+      <div class="settings-row">
+        <span id="autoReadLbl" data-i18n="net_autoread">Lire à voix haute les messages reçus</span>
+        <button class="toggle" id="autoReadToggle" role="switch" aria-checked="false" aria-labelledby="autoReadLbl"></button>
       </div>
       <div class="settings-row">
         <span id="a11yTsLbl" data-i18n="a11y_ts">Taille du texte</span>
@@ -5228,6 +5236,11 @@ function setVoiceMode(on) {
   voiceModeBtn.setAttribute("aria-pressed", on ? "true" : "false");
   voiceModeBtn.textContent = on ? t("voice_stop") : t("voice_mode");
   clearTimeout(voiceDebounce);
+  // LISTEN : l'écran reste allumé pendant le Mode vocal ; arrêt tout seul après 2 minutes sans parole.
+  if (window.EWEcoute) {
+    if (on) window.EWEcoute.keepAwake("talk-voice", () => { if (voiceModeOn) { setVoiceMode(false); showMsg(homeMsg, escapeHtml(t("voice_idle")), "ok"); } });
+    else window.EWEcoute.release("talk-voice");
+  }
   if (!on) {
     voiceHint.hidden = true;
     voiceListeningPaused = false;
@@ -5269,6 +5282,7 @@ function startLiveListening() {
     if (t === lastLiveFinal && now - lastLiveFinalAt < 4000) return;
     lastLiveFinal = t;
     lastLiveFinalAt = now;
+    if (window.EWEcoute) window.EWEcoute.activity();
     pauseLiveListening(true);
     doTranslate();
   };
@@ -5845,6 +5859,9 @@ const NET_STRINGS = {
     a11y_ts_names: "Normal|Grand|Très grand",
     a11y_contrast: "Contraste renforcé",
     a11y_motion: "Réduire les animations",
+    net_say: "Écouter ce message",
+    net_autoread: "Lire à voix haute les messages reçus",
+    voice_idle: "Mode vocal arrêté après 2 minutes sans parole : l'écran peut de nouveau s'éteindre.",
     net_photo_remove: "Retirer la photo",
     net_photo_remove_confirm: "Appuyez encore pour retirer la photo",
     net_photo_saved: "Photo enregistrée.",
@@ -5998,6 +6015,9 @@ const NET_STRINGS = {
     a11y_ts_names: "Normal|Large|Extra large",
     a11y_contrast: "High contrast",
     a11y_motion: "Reduce motion",
+    net_say: "Listen to this message",
+    net_autoread: "Read received messages aloud",
+    voice_idle: "Voice mode stopped after 2 minutes without speech: the screen can turn off again.",
     net_photo_remove: "Remove photo",
     net_photo_remove_confirm: "Tap again to remove the photo",
     net_photo_saved: "Photo saved.",
@@ -6148,6 +6168,9 @@ const NET_STRINGS = {
     a11y_ts_names: "Normal|Grande|Muy grande",
     a11y_contrast: "Contraste alto",
     a11y_motion: "Reducir animaciones",
+    net_say: "Escuchar este mensaje",
+    net_autoread: "Leer en voz alta los mensajes recibidos",
+    voice_idle: "Modo de voz detenido tras 2 minutos sin hablar: la pantalla ya puede apagarse.",
     net_photo_remove: "Quitar la foto",
     net_photo_remove_confirm: "Pulsa otra vez para quitar la foto",
     net_photo_saved: "Foto guardada.",
@@ -6298,6 +6321,9 @@ const NET_STRINGS = {
     a11y_ts_names: "Normal|Grande|Muito grande",
     a11y_contrast: "Alto contraste",
     a11y_motion: "Reduzir animações",
+    net_say: "Ouvir esta mensagem",
+    net_autoread: "Ler em voz alta as mensagens recebidas",
+    voice_idle: "Modo de voz parado após 2 minutos sem fala: a tela pode desligar novamente.",
     net_photo_remove: "Remover a foto",
     net_photo_remove_confirm: "Toque outra vez para remover a foto",
     net_photo_saved: "Foto salva.",
@@ -6448,6 +6474,9 @@ const NET_STRINGS = {
     a11y_ts_names: "Normal|Groß|Sehr groß",
     a11y_contrast: "Hoher Kontrast",
     a11y_motion: "Animationen reduzieren",
+    net_say: "Diese Nachricht anhören",
+    net_autoread: "Empfangene Nachrichten vorlesen",
+    voice_idle: "Sprachmodus nach 2 Minuten ohne Sprache beendet: Der Bildschirm kann wieder ausgehen.",
     net_photo_remove: "Foto entfernen",
     net_photo_remove_confirm: "Nochmal tippen zum Entfernen",
     net_photo_saved: "Foto gespeichert.",
@@ -6598,6 +6627,9 @@ const NET_STRINGS = {
     a11y_ts_names: "Normale|Grande|Molto grande",
     a11y_contrast: "Contrasto elevato",
     a11y_motion: "Riduci animazioni",
+    net_say: "Ascolta questo messaggio",
+    net_autoread: "Leggi ad alta voce i messaggi ricevuti",
+    voice_idle: "Modalità vocale fermata dopo 2 minuti senza parlare: lo schermo può di nuovo spegnersi.",
     net_photo_remove: "Rimuovi foto",
     net_photo_remove_confirm: "Tocca di nuovo per rimuovere la foto",
     net_photo_saved: "Foto salvata.",
@@ -6748,6 +6780,9 @@ const NET_STRINGS = {
     a11y_ts_names: "正常|大|特大",
     a11y_contrast: "高对比度",
     a11y_motion: "减少动画",
+    net_say: "收听此消息",
+    net_autoread: "朗读收到的消息",
+    voice_idle: "2 分钟无语音，语音模式已停止：屏幕可以再次熄灭。",
     net_photo_remove: "移除照片",
     net_photo_remove_confirm: "再点一次以移除照片",
     net_photo_saved: "照片已保存。",
@@ -6898,6 +6933,9 @@ const NET_STRINGS = {
     a11y_ts_names: "標準|大|特大",
     a11y_contrast: "ハイコントラスト",
     a11y_motion: "アニメーションを減らす",
+    net_say: "このメッセージを聞く",
+    net_autoread: "受信したメッセージを読み上げる",
+    voice_idle: "2分間話さなかったため音声モードを停止しました。画面は再び消えます。",
     net_photo_remove: "写真を削除",
     net_photo_remove_confirm: "もう一度タップで写真を削除",
     net_photo_saved: "写真を保存しました。",
@@ -7048,6 +7086,9 @@ const NET_STRINGS = {
     a11y_ts_names: "عادي|كبير|كبير جدًا",
     a11y_contrast: "تباين عالٍ",
     a11y_motion: "تقليل الحركة",
+    net_say: "استمع إلى هذه الرسالة",
+    net_autoread: "قراءة الرسائل المستلمة بصوت عالٍ",
+    voice_idle: "توقف الوضع الصوتي بعد دقيقتين بدون كلام: يمكن للشاشة أن تنطفئ مجددًا.",
     net_photo_remove: "إزالة الصورة",
     net_photo_remove_confirm: "اضغط مرة أخرى لإزالة الصورة",
     net_photo_saved: "تم حفظ الصورة.",
@@ -7198,6 +7239,9 @@ const NET_STRINGS = {
     a11y_ts_names: "Обычный|Крупный|Очень крупный",
     a11y_contrast: "Высокий контраст",
     a11y_motion: "Меньше анимации",
+    net_say: "Прослушать сообщение",
+    net_autoread: "Читать вслух полученные сообщения",
+    voice_idle: "Голосовой режим остановлен после 2 минут тишины: экран снова может гаснуть.",
     net_photo_remove: "Удалить фото",
     net_photo_remove_confirm: "Нажмите ещё раз, чтобы удалить фото",
     net_photo_saved: "Фото сохранено.",
@@ -7348,6 +7392,9 @@ const NET_STRINGS = {
     a11y_ts_names: "Mahazatra|Lehibe|Lehibe dia lehibe",
     a11y_contrast: "Fifanoherana mafy",
     a11y_motion: "Ahenoy ny hetsika",
+    net_say: "Henoy ity hafatra ity",
+    net_autoread: "Vakio mafy ny hafatra voaray",
+    voice_idle: "Najanona ny fomba feo rehefa 2 minitra tsy nisy teny: afaka maty indray ny efijery.",
     net_photo_remove: "Hanala ny sary",
     net_photo_remove_confirm: "Tsindrio indray hanalana ny sary",
     net_photo_saved: "Voatahiry ny sary.",
@@ -7452,6 +7499,15 @@ const A11y = (() => {
   });
   // Réglé dans le portail pendant que TALK est ouvert dans un autre onglet : suivre tout de suite.
   window.addEventListener("storage", (e) => { if (e.key === KEY) { apply(read()); paint(); } });
+  // LISTEN : lecture à voix haute des messages reçus dans la discussion ouverte (gardé sur ce téléphone).
+  const ar = document.getElementById("autoReadToggle");
+  if (ar) {
+    const paintAr = () => { const on = safeStore.getItem("lc_net_autoread") === "1"; ar.classList.toggle("on", on); ar.setAttribute("aria-checked", String(on)); };
+    paintAr();
+    ar.addEventListener("click", () => { safeStore.setItem("lc_net_autoread", safeStore.getItem("lc_net_autoread") === "1" ? "0" : "1"); paintAr(); });
+    const lbl = document.getElementById("autoReadLbl");
+    if (lbl) lbl.textContent = t("net_autoread");
+  }
   apply(read());
   paint();
   return { read, set, paint };
@@ -8322,7 +8378,7 @@ const Reseau = (() => {
       }
       if (m.sender_id !== me && isActiveTab() && document.visibilityState !== "hidden") {
         const toggle = document.getElementById("autoSpeakToggle");
-        const auto = m.kind !== "call" && (m.kind === "voice" || (toggle && toggle.classList.contains("on")));
+        const auto = m.kind !== "call" && (m.kind === "voice" || (toggle && toggle.classList.contains("on")) || safeStore.getItem("lc_net_autoread") === "1");
         if (auto) translateFor(m).then((txt) => txt && speak(txt, voiceLang(m.lang, m.conversation_id)));
       }
     } else if (m.sender_id !== me) {
@@ -9165,6 +9221,22 @@ const Reseau = (() => {
       }
       if (!div.onclick && !mine && !(m.lang === rl || !trOn || showOrig[m.id])) div.onclick = () => messageMenu(m, null);
       div.style.cursor = "pointer";
+      // LISTEN : 🔊 sur chaque message reçu, lu dans la langue affichée (la traduction quand elle est affichée).
+      if (!mine) {
+        const sb = document.createElement("button");
+        sb.type = "button";
+        sb.className = "net-say";
+        sb.setAttribute("aria-label", t("net_say"));
+        sb.textContent = "🔊";
+        sb.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const tr = div.querySelector(".net-tr");
+          const shown = tr && !tr.classList.contains("net-fail") && tr.textContent !== t("net_translating") ? tr.textContent : "";
+          speak(shown || m.body, shown ? voiceLang(rl, m.conversation_id) : voiceLang(m.lang || rl, m.conversation_id));
+        });
+        div.appendChild(sb);
+        div.classList.add("has-say");
+      }
       log.appendChild(div);
     });
     // « Vu » ou « Envoyé » sous mon dernier message, comme Messenger.

@@ -248,3 +248,13 @@ Commandes : « Ouvre TALK / la messagerie / EVERYWHERE / LEARN / mon profil / le
 « Lis mon dernier message » (dans une discussion TALK), « Arrête », « Aide ». Micro refusé ou pas de réseau : explication claire.
 Navigateur sans reconnaissance vocale : pas de bouton, tout reste faisable au toucher.
 Tests : `node everywhere/tests/piliers.js` (13 tests voix, dont 34 phrases comprises).
+
+## 0.6.5 — LISTEN (pilier 5)
+- TALK : bouton 🔊 sur chaque message reçu (lu dans la langue affichée, la traduction quand elle est affichée) ;
+  nouveau réglage « Lire à voix haute les messages reçus » (discussion ouverte, gardé sur le téléphone).
+- Écran gardé allumé (`ecoute.js`, Wake Lock du navigateur, sans autorisation) pendant le Mode vocal de TALK et la
+  conversation côte à côte d'EVERYWHERE ; après 2 minutes sans parole ni lecture, l'écoute se met en pause et l'écran
+  peut de nouveau s'éteindre (message clair). Toucher un micro reprend.
+- Indicateur commun « 🔊 Lecture en cours » avec ⏸ Arrêter, partout où le téléphone lit à voix haute.
+- Limites : écran éteint ou appli en arrière-plan = l'écoute s'arrête (limite du navigateur) ; les voix dépendent du téléphone.
+Tests : `node everywhere/tests/piliers.js` (6 tests écoute).

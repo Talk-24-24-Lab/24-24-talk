@@ -4,8 +4,8 @@
   "use strict";
   var CFG = window.EW_CONFIG || { env: "test", basePath: "../", talkReadyTimeoutMs: 15000 };
   var APPS = window.EW_APPS || [];
-  var VERSION = "0.6.4 (prototype)";
-  var VERSION_TAG = "0.6.4";
+  var VERSION = "0.6.5 (prototype)";
+  var VERSION_TAG = "0.6.5";
 
   // ---------- Stockage (peut être indisponible : navigation privée stricte, etc.) ----------
   var store = {
