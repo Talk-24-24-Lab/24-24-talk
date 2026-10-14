@@ -254,8 +254,8 @@
       // Haut-parleur : tout est lu. Écouteurs (portés par la personne 1) : seul ce qui est dit à la personne 1 est lu.
       var aloud = p.sound && (p.out === "speaker" || next === 1);
       var chain = function () { if (face === f && f.seq === my && prefs().hands && !f.listening && !f.paused) startMic(next); };
-      if (aloud) M.speak(tr, to, p.volume, { rate: p.rate, voice: p.voices[to], done: function () { setTimeout(chain, 250); } });
-      else setTimeout(chain, 300);
+      if (aloud) M.speak(tr, to, p.volume, { rate: p.rate, voice: p.voices[to], done: function () { setTimeout(chain, 120); } });
+      else setTimeout(chain, 150);
     }, function (e) {
       line.err = errText(e && e.message);
       paintFace();
@@ -290,6 +290,8 @@
       var f = face;
       f.rec = M.listen(halfLang(who), {
         interim: function (txt) { if (face === f) msg(who, txt ? "🎤 " + txt : t("listening")); },
+        // Traduction demandée en avance pendant que la phrase se termine (gardée, réutilisée si la phrase ne change plus).
+        stable: function (txt) { if (face === f) M.translate(txt, halfLang(who), halfLang(who === 1 ? 2 : 1)).catch(function () {}); },
         final: function (txt) { if (face !== f) return; f.listening = 0; f.rec = null; msg(who, ""); say(who, txt); },
         error: function (code) {
           if (face !== f) return;

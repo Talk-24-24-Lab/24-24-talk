@@ -13,10 +13,23 @@
 
   // ---------- Traduction ----------
   // Résultat : texte traduit. Erreurs (message) : EMPTY, OFFLINE, NETWORK, SERVER, QUOTA_PROVIDER, EMPTY_RESULT.
+  // Rapidité : chaque traduction est gardée (200 dernières), et une traduction déjà demandée en avance
+  // (pendant que la personne finit sa phrase) est réutilisée au lieu d'être redemandée.
+  var cache = {}, cacheKeys = [];
   function translate(text, from, to) {
     text = String(text || "").trim();
     if (!text) return Promise.reject(new Error("EMPTY"));
     if (from === to) return Promise.resolve(text);
+    var key = from + "|" + to + "|" + text.toLowerCase();
+    if (cache[key]) return cache[key];
+    var p = fetchTranslation(text, from, to);
+    cache[key] = p;
+    cacheKeys.push(key);
+    if (cacheKeys.length > 200) delete cache[cacheKeys.shift()];
+    p.catch(function () { if (cache[key] === p) delete cache[key]; }); // une erreur n'est jamais gardée
+    return p;
+  }
+  function fetchTranslation(text, from, to) {
     if (navigator.onLine === false) return Promise.reject(new Error("OFFLINE"));
     var url = "https://api.mymemory.translated.net/get?q=" + encodeURIComponent(text) + "&langpair=" + encodeURIComponent(from) + "|" + encodeURIComponent(to);
     var ctrl = typeof AbortController === "function" ? new AbortController() : null;
@@ -101,7 +114,7 @@
     r.lang = lang(code).speech;
     r.interimResults = true;
     r.continuous = false;
-    var done = false, settle = null, shown = "";
+    var done = false, settle = null, early = null, shown = "";
     function deliver(txt) {
       if (done || !txt) return;
       done = true;
@@ -118,15 +131,21 @@
       shown = (fin || inter).trim();
       if (cb.interim) cb.interim(shown);
       clearTimeout(settle);
+      clearTimeout(early);
       if (fin) deliver(fin.trim());
-      else if (shown) settle = setTimeout(function () { deliver(shown); }, 700); // phrase stable : on n'attend pas le navigateur
+      else if (shown) {
+        // Phrase stable 250 ms : la traduction part en avance (cb.stable) ; stable 550 ms : la phrase est terminée.
+        var s = shown;
+        if (cb.stable) early = setTimeout(function () { if (!done) cb.stable(s); }, 250);
+        settle = setTimeout(function () { deliver(shown); }, 550);
+      }
     };
     r.onerror = function (ev) {
       if (done || ev.error === "aborted") return;
       done = true;
       cb.error(ev.error === "not-allowed" || ev.error === "service-not-allowed" ? "DENIED" : ev.error === "network" ? "NETWORK" : ev.error === "no-speech" ? "NO_SPEECH" : "FAIL");
     };
-    r.onend = function () { clearTimeout(settle); if (!done && shown) deliver(shown); done = true; if (cb.end) cb.end(); };
+    r.onend = function () { clearTimeout(settle); clearTimeout(early); if (!done && shown) deliver(shown); done = true; if (cb.end) cb.end(); };
     try { r.start(); } catch (e) { return null; }
     return { stop: function () { try { r.stop(); } catch (e) { /* déjà arrêté */ } } };
   }
