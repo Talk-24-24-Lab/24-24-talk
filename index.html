@@ -27,10 +27,10 @@
   document.documentElement.classList.add("ew-shell");
   var l = document.createElement("link");
   l.rel = "stylesheet";
-  l.href = "everywhere/shell.css?v=0.6.3";
+  l.href = "everywhere/shell.css?v=0.6.4";
   document.head.appendChild(l);
   var sc = document.createElement("script");
-  sc.src = "everywhere/shell.js?v=0.6.3";
+  sc.src = "everywhere/shell.js?v=0.6.4";
   sc.defer = true;
   document.head.appendChild(sc);
 })();
@@ -8640,6 +8640,30 @@ const Reseau = (() => {
     barScrollTo(k === "home" ? null : k === "tr" ? document.getElementById("tr") : topbar);
     syncBar();
   });
+  // VOICE (bouton micro de la coquille, everywhere/voix.js) : TALK fait lui-même « ouvre la messagerie », « ouvre TALK »
+  // et « lis mon dernier message » (dernier message reçu de la discussion ouverte, traduit s'il est affiché traduit).
+  window.addEventListener("ew:voice", (e) => {
+    const c = e.detail || {};
+    if (c.act === "open" && (c.target === "msg" || c.target === "talk")) {
+      e.preventDefault();
+      c.sayKey = "opening";
+      bar.querySelector(`button[data-b="${c.target === "msg" ? "msg" : "home"}"]`).click();
+    } else if (c.act === "read" && screen === "chat" && currentConv) {
+      e.preventDefault();
+      const m = [...chatMsgs].reverse().find((x) => x.sender_id !== me && x.kind !== "call");
+      if (!m) { c.sayKey = "no_msg"; return; }
+      c.sayKey = "reading";
+      const rl = myRead(m.conversation_id);
+      if (m.lang === rl || !trOn || showOrig[m.id]) speak(m.body, m.lang || rl);
+      else translateFor(m).then((txt) => speak(txt || m.body, txt ? rl : (m.lang || rl)), () => speak(m.body, m.lang || rl));
+    }
+  });
+  try {
+    if (sessionStorage.getItem("ew_voice_next") === "msg") {
+      sessionStorage.removeItem("ew_voice_next");
+      setTimeout(() => { const b = bar.querySelector('button[data-b="msg"]'); if (b) b.click(); }, 0);
+    }
+  } catch (e) { /* stockage indisponible : TALK reste sur son accueil */ }
   let scrollAfterRender = false;
   function barScrollTo(target) {
     try {

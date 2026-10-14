@@ -238,3 +238,13 @@ taille du texte (Normal, Grand, Très grand), contraste renforcé, et nouveau r�
 TALK les applique avant l'affichage, ouvert seul ou dans la coquille, et les propose dans ses Paramètres (11 langues).
 Le thème clair/sombre du portail n'est pas repris dans TALK (TALK suit l'appareil).
 Tests : `node everywhere/tests/piliers.js` (6 tests accessibilité).
+
+## 0.6.4 — VOICE (pilier 4)
+Bouton micro dans la barre du haut, dans le portail et dans TALK (`voix.js`). Un appui = une phrase écoutée, puis l'action
+comprise est affichée avant d'être faite. Aucune écoute permanente, aucun mot magique, aucune IA ni service payant :
+une courte liste de commandes en français et en anglais (reconnaissance vocale du téléphone, Google sur Android).
+Commandes : « Ouvre TALK / la messagerie / EVERYWHERE / LEARN / mon profil / les réglages / l'accueil / mes langues »,
+« Traduis en anglais » (112 langues du portail), « Appelle maria » (ouvre sa fiche d'appel : on confirme avec « Appeler »),
+« Lis mon dernier message » (dans une discussion TALK), « Arrête », « Aide ». Micro refusé ou pas de réseau : explication claire.
+Navigateur sans reconnaissance vocale : pas de bouton, tout reste faisable au toucher.
+Tests : `node everywhere/tests/piliers.js` (13 tests voix, dont 34 phrases comprises).
