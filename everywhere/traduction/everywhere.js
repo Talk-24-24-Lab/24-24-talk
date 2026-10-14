@@ -19,6 +19,7 @@
 
   var STR = {
     fr: {
+      idle: "Pause après 2 minutes sans parole : l'écran peut de nouveau s'éteindre. Touchez un micro pour reprendre.",
       title: "EVERYWHERE", sub: "Traduire et connecter partout.",
       face: "Conversation côte à côte", face_d: "Téléphone posé entre vous deux", call: "Appeler sur TALK", call_d: "Appel traduit avec un contact",
       my_langs: "Mes langues", settings: "Configurations", settings_d: "Son, volume, texte", back: "← EVERYWHERE",
@@ -58,6 +59,7 @@
       bt_note: "Écouteurs : n'importe quel modèle Bluetooth du commerce. Connectez-les dans les réglages Bluetooth d'Android, puis touchez « Essayer » : le son doit sortir dans les écouteurs. L'appli ne choisit pas elle-même la sortie et ne pilote pas les boutons des écouteurs. Le micro utilisé (téléphone ou écouteurs) dépend d'Android."
     },
     en: {
+      idle: "Paused after 2 minutes without speech: the screen can turn off again. Tap a microphone to resume.",
       title: "EVERYWHERE", sub: "Translate and connect everywhere.",
       face: "Side-by-side conversation", face_d: "Phone placed between you", call: "Call on TALK", call_d: "Translated call with a contact",
       my_langs: "My languages", settings: "Settings", settings_d: "Sound, volume, text", back: "← EVERYWHERE",
@@ -178,6 +180,17 @@
       "</div>" +
       '<p class="sr" role="status" id="trFaceSr"></p>';
     paintFace();
+    // LISTEN : téléphone posé entre deux personnes, l'écran reste allumé ; libéré après 2 minutes sans parole.
+    var f = face;
+    f.idle = function () {
+      if (face !== f) return;
+      f.paused = true;
+      f.seq++; // annule l'enchaînement des mains libres
+      if (f.rec) { try { f.rec.stop(); } catch (e) { /* déjà arrêté */ } }
+      M.stopSpeaking();
+      setTimeout(function () { if (face === f) { msg(1, t("idle")); msg(2, ""); } }, 300);
+    };
+    if (window.EWEcoute) window.EWEcoute.keepAwake("ew-face", f.idle);
   }
   function outLabel(out) { return out === "earbuds" ? "🎧 " + esc(t("out_btn_ea")) : "🔈 " + esc(t("out_btn_sp")); }
   function halfHtml(who) {
@@ -225,6 +238,7 @@
     return code === "QUOTA_PROVIDER" ? t("quota") : code === "OFFLINE" || code === "NETWORK" ? t("net_err") : t("tr_err", { m: code });
   }
   function say(who, text) {
+    if (window.EWEcoute) window.EWEcoute.activity();
     var from = halfLang(who), to = halfLang(who === 1 ? 2 : 1);
     var line = { from: who, orig: text, tr: "", err: "" };
     face.lines.push(line);
@@ -258,6 +272,7 @@
   }
   function startMic(who) {
     if (!face) return;
+    if (window.EWEcoute) { window.EWEcoute.activity(); window.EWEcoute.keepAwake("ew-face", face.idle); }
     face.seq++; // un micro touché annule l'enchaînement automatique en cours
     // Micro allumé touché : arrêt (en mains libres, l'enchaînement se met en pause jusqu'au prochain micro touché).
     if (face.listening === who) { face.paused = true; if (face.rec) face.rec.stop(); return; }
@@ -571,6 +586,7 @@
     token += 1;
     if (face && face.rec) face.rec.stop();
     face = null;
+    if (window.EWEcoute) window.EWEcoute.release("ew-face");
     M.stopSpeaking();
     var old = document.getElementById("trSheet");
     if (old) old.remove();

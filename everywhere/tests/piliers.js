@@ -124,7 +124,22 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const FAKE_SR = () => {
     window.__srQueue = JSON.parse(sessionStorage.getItem("__srq") || "[]");
     window.__spoken = [];
-    try { speechSynthesis.speak = (u) => { window.__spoken.push(u.text); setTimeout(() => u.onend && u.onend(), 10); }; } catch (e) {}
+    window.__speaking = false;
+    try {
+      Object.defineProperty(speechSynthesis, "speaking", { get: () => window.__speaking, configurable: true });
+      speechSynthesis.speak = (u) => { window.__spoken.push(u.text); window.__speaking = true; window.__ttsT = setTimeout(() => { window.__speaking = false; u.onend && u.onend(); }, window.__ttsMs || 10); };
+      speechSynthesis.cancel = () => { clearTimeout(window.__ttsT); window.__speaking = false; window.__cancelled = (window.__cancelled || 0) + 1; };
+    } catch (e) {}
+    // Faux maintien de l'écran allumé (Wake Lock) : on compte les demandes et les libérations.
+    window.__wl = 0; window.__wlRel = 0;
+    try {
+      Object.defineProperty(navigator, "wakeLock", { configurable: true, value: { request: () => {
+        window.__wl++; const l = new EventTarget();
+        l.release = () => { window.__wlRel++; l.dispatchEvent(new Event("release")); return Promise.resolve(); };
+        return Promise.resolve(l);
+      } } });
+    } catch (e) {}
+    if (sessionStorage.getItem("__idle")) window.EW_IDLE_MS = +sessionStorage.getItem("__idle");
     class FakeSR {
       start() {
         window.__srStarted = (window.__srStarted || 0) + 1; window.__srLang = this.lang;
@@ -273,6 +288,74 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await sleep(500);
     const b = await page.$("#ewvBtn");
     return { ok: !a && !b && !page._errors.length, detail: page._errors.join("|").slice(0, 100) || "aucune erreur" };
+  });
+  await ctx.close();
+
+  // ================= LISTEN =================
+  ctx = await newCtx({}, true, FAKE_SR);
+  await ctx.addInitScript(() => { localStorage.setItem("fake_contacts", "1"); localStorage.setItem("lc_net_joined", "1"); if (localStorage.getItem("lc_net_auth") === null) localStorage.setItem("lc_net_auth", "fake"); });
+  page = await open(ctx, URL_TALK + "?ew=1");
+  await step("Listen : 🔊 sur chaque message reçu (44 px, nommé) ; le toucher lit le message sans ouvrir le menu", async () => {
+    await page.waitForSelector('.bbar button[data-b="msg"]', { timeout: 15000, state: "attached" });
+    await page.evaluate(() => document.querySelector('.bbar button[data-b="msg"]').click()); // dans la coquille, la barre de TALK est sous celle du portail
+    await page.waitForSelector(".net-row", { timeout: 10000 });
+    await page.click(".net-row");
+    await page.waitForSelector("#netLog .bubble.them .net-say", { timeout: 10000 });
+    const b = await page.$eval("#netLog .bubble.them .net-say", (x) => ({ l: x.getAttribute("aria-label"), w: x.getBoundingClientRect().width, h: x.getBoundingClientRect().height }));
+    const mine = await page.$$eval("#netLog .bubble.me .net-say", (n) => n.length);
+    await page.evaluate(() => { window.__ttsMs = 2500; });
+    await page.tap("#netLog .bubble.them .net-say");
+    await sleep(300);
+    const r = await page.evaluate(() => ({ s: window.__spoken.slice(-1)[0], sheet: !!document.querySelector(".net-sheet") }));
+    await page.screenshot({ path: path.join(OUT, "listen-message.png") });
+    return { ok: b.l === "Écouter ce message" && b.w >= 44 && b.h >= 44 && mine === 0 && r.s === "Bonjour depuis Tokyo" && !r.sheet, detail: JSON.stringify(Object.assign(b, r)) };
+  });
+  await step("Listen : pastille commune « 🔊 Lecture en cours » pendant la lecture, ⏸ Arrêter coupe la voix", async () => {
+    await page.waitForSelector("#ewlChip:not([hidden])", { timeout: 3000 });
+    const txt = await page.textContent("#ewlChip");
+    await page.tap("#ewlStop");
+    await sleep(600);
+    const r = await page.evaluate(() => ({ hid: document.getElementById("ewlChip").hidden, sp: window.__speaking, c: window.__cancelled || 0 }));
+    return { ok: /Lecture en cours/.test(txt) && /Arrêter/.test(txt) && r.hid && !r.sp && r.c >= 1, detail: txt.trim() };
+  });
+  await step("Listen : réglage « Lire à voix haute les messages reçus » dans TALK (gardé sur le téléphone)", async () => {
+    await page.goto(URL_TALK + "?ew=1");
+    await page.click("#ewsSettings");
+    await page.waitForSelector("#autoReadToggle");
+    const a = await page.$eval("#autoReadToggle", (x) => x.getAttribute("aria-checked"));
+    await page.click("#autoReadToggle");
+    const r = await page.evaluate(() => ({ v: localStorage.getItem("lc_net_autoread"), c: document.getElementById("autoReadToggle").getAttribute("aria-checked"), l: document.getElementById("autoReadLbl").textContent }));
+    return { ok: a === "false" && r.v === "1" && r.c === "true" && r.l === "Lire à voix haute les messages reçus", detail: JSON.stringify(r) };
+  });
+  await ctx.close();
+
+  ctx = await newCtx({}, false, FAKE_SR);
+  page = await open(ctx, URL_EW + "#/everywhere");
+  await step("Listen : conversation côte à côte → l'écran reste allumé ; quitter l'écran le libère", async () => {
+    await page.goto(URL_EW + "#/everywhere/face");
+    await page.waitForSelector("#trFace");
+    await sleep(200);
+    const a = await page.evaluate(() => ({ wl: window.__wl, st: EWEcoute._state() }));
+    await page.goto(URL_EW + "#/everywhere");
+    await sleep(200);
+    const b = await page.evaluate(() => ({ rel: window.__wlRel, st: EWEcoute._state() }));
+    return { ok: a.wl === 1 && a.st.locked && b.rel === 1 && !b.st.locked && !b.st.owners.length, detail: JSON.stringify({ a, b }) };
+  });
+  await step("Listen : 2 minutes sans parole (accélérées) → écran libéré, mains libres en pause, message clair", async () => {
+    await page.evaluate(() => sessionStorage.setItem("__idle", "1500"));
+    await page.reload();
+    await page.goto(URL_EW + "#/everywhere/face");
+    await page.waitForSelector("#trFace");
+    await sleep(2600);
+    const r = await page.evaluate(() => ({ st: EWEcoute._state(), rel: window.__wlRel, m: document.querySelector('[data-msg="1"]').textContent }));
+    await page.evaluate(() => sessionStorage.removeItem("__idle"));
+    return { ok: !r.st.locked && r.rel >= 1 && /Pause après 2 minutes sans parole/.test(r.m) && !page._errors.length, detail: r.m.slice(0, 60) };
+  });
+  await step("Listen : toucher un micro après la pause redemande l'écran allumé", async () => {
+    await page.tap('[data-mic="1"]');
+    await sleep(300);
+    const r = await page.evaluate(() => ({ wl: window.__wl, st: EWEcoute._state() }));
+    return { ok: r.st.locked && r.st.owners.indexOf("ew-face") !== -1, detail: JSON.stringify(r) };
   });
   await ctx.close();
 //@@NEXT@@

@@ -18,7 +18,7 @@
     fr: { home: "Accueil", apps: "Applications", talk: "Talk", everywhere: "Everywhere", learn: "Learn", profile: "Profil", settings: "Paramètres", nav: "Navigation principale", brand: "24/24 ONE WORLD, accueil" },
     en: { home: "Home", apps: "Apps", talk: "Talk", everywhere: "Everywhere", learn: "Learn", profile: "Profile", settings: "Settings", nav: "Main navigation", brand: "24/24 ONE WORLD, home" }
   };
-  var VER = "0.6.4";
+  var VER = "0.6.5";
   function svg(name) { return '<svg viewBox="0 0 24 24" aria-hidden="true">' + (ICONS[name] || "") + "</svg>"; }
   function langOf() {
     var p = null;
