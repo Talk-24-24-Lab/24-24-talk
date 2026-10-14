@@ -23,6 +23,7 @@
 .lx-mod small{display:block;color:var(--muted);font-size:14px;}
 .lx-mod .badge{margin:0 0 0 auto;}
 .lx-mod.soon{opacity:.85;border-style:dashed;}
+.lx-mod.soon .badge{color:var(--text);} /* lisible malgré la transparence de la carte (contraste ≥ 4,5:1) */
 .lx-mod-ic{width:46px;height:46px;border-radius:14px;background:var(--gbg);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
 
 .seg-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
