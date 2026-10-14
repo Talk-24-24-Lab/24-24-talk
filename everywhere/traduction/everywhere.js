@@ -238,9 +238,11 @@
         var rd = window.EWProfil ? window.EWProfil.reading() : "normal";
         log.innerHTML = face.lines.slice(rd === "slow" ? -2 : rd === "fast" ? -6 : -4).map(function (l) {
           var mine = l.from === who;
-          var big = mine ? l.orig : (l.tr || (l.err ? "" : "…"));
-          var small = mine ? (l.tr || (l.err ? "" : "…")) : l.orig;
-          return '<div class="tr-line' + (mine ? " mine" : "") + '"><p class="tr-big-txt" lang="' + esc(code) + '">' + esc(big) + "</p>" +
+          // Traduction en cours : écrit en toutes lettres (« Traduction… »), distinct de l'écoute et de la lecture.
+          var wait = !l.tr && !l.err;
+          var big = mine ? l.orig : (l.tr || (l.err ? "" : t("translating")));
+          var small = mine ? (l.tr || (l.err ? "" : t("translating"))) : l.orig;
+          return '<div class="tr-line' + (mine ? " mine" : "") + (wait ? " wait" : "") + '"><p class="tr-big-txt" lang="' + esc(code) + '">' + esc(big) + "</p>" +
             (small ? '<p class="tr-small-txt">' + esc(small) + "</p>" : "") + (l.err ? '<p class="tr-err">' + esc(l.err) + "</p>" : "") + "</div>";
         }).join("");
         log.scrollTop = log.scrollHeight;
@@ -290,6 +292,8 @@
     if (!last) { msg(who, t("nothing_replay")); return; }
     var p = prefs(), code = halfLang(who);
     face.seq++;
+    // Micro ouvert pendant la réécoute : on le coupe, sinon il entendrait la voix du téléphone.
+    if (face.listening && face.rec) { face.paused = true; try { face.rec.stop(); } catch (e) { /* déjà arrêté */ } }
     M.speak(last.tr, code, p.volume, { rate: p.rate, voice: p.voices[code] });
   }
   function startMic(who) {
@@ -309,12 +313,13 @@
       face.listening = who;
       paintFace();
       msg(who, t("listening"));
-      var f = face;
+      var f = face, early = 0;
       f.rec = M.listen(halfLang(who), {
         interim: function (txt) { if (face === f) msg(who, txt ? "🎤 " + txt : t("listening")); },
         sound: function (on) { var b = face === f && f.listening === who && f.root.querySelector('[data-mic="' + who + '"]'); if (b) b.classList.toggle("hear", !!on); },
         // Traduction demandée en avance pendant que la phrase se termine (gardée, réutilisée si la phrase ne change plus).
-        stable: function (txt) { if (face === f) M.translate(txt, halfLang(who), halfLang(who === 1 ? 2 : 1)).catch(function () {}); },
+        // Au plus 2 demandes en avance par phrase, et seulement pour une phrase assez longue : le quota gratuit est limité.
+        stable: function (txt) { if (face === f && early < 2 && String(txt || "").trim().length >= 6 && ++early) M.translate(txt, halfLang(who), halfLang(who === 1 ? 2 : 1)).catch(function () {}); },
         final: function (txt) { if (face !== f) return; f.listening = 0; f.rec = null; msg(who, ""); say(who, txt); },
         error: function (code) {
           if (face !== f) return;

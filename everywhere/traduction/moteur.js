@@ -13,6 +13,7 @@
 
   // ---------- Traduction ----------
   // Résultat : texte traduit. Erreurs (message) : EMPTY, OFFLINE, NETWORK, SERVER, QUOTA_PROVIDER, EMPTY_RESULT.
+  // (SERVER couvre aussi une réponse illisible ou un code d'erreur de MyMemory.)
   // Rapidité : chaque traduction est gardée (200 dernières), et une traduction déjà demandée en avance
   // (pendant que la personne finit sa phrase) est réutilisée au lieu d'être redemandée.
   var cache = {}, cacheKeys = [];
@@ -29,7 +30,50 @@
     p.catch(function () { if (cache[key] === p) delete cache[key]; }); // une erreur n'est jamais gardée
     return p;
   }
+  // MyMemory refuse les textes de plus de 500 octets : une longue phrase est découpée (fin de phrase, puis espaces)
+  // et les morceaux sont traduits l'un après l'autre.
+  var MAX_BYTES = 450;
+  function bytes(s) { return unescape(encodeURIComponent(s)).length; }
+  function pieces(text) {
+    if (bytes(text) <= MAX_BYTES) return [text];
+    var parts = text.match(/[^.!?。！？]+[.!?。！？]*\s*/g) || [text], out = [], cur = "";
+    function push(w) {
+      if (cur && bytes(cur + w) > MAX_BYTES) { out.push(cur.trim()); cur = ""; }
+      while (bytes(w) > MAX_BYTES) { var n = MAX_BYTES; while (bytes(w.slice(0, n)) > MAX_BYTES) n -= 10; out.push(w.slice(0, n)); w = w.slice(n); }
+      cur += w;
+    }
+    parts.forEach(function (p) { if (bytes(p) > MAX_BYTES) p.split(/(\s+)/).forEach(push); else push(p); });
+    if (cur.trim()) out.push(cur.trim());
+    return out.filter(Boolean);
+  }
   function fetchTranslation(text, from, to) {
+    var list = pieces(text);
+    if (list.length === 1) return fetchOne(text, from, to);
+    var joint = /^(zh|ja|th|lo|km|my)\b/.test(to) ? "" : " ", done = [];
+    return list.reduce(function (p, part) {
+      return p.then(function () { return fetchOne(part, from, to).then(function (tr) { done.push(tr); }); });
+    }, Promise.resolve()).then(function () { return done.join(joint); });
+  }
+  // Réponse de MyMemory : le quota épuisé arrive parfois comme un texte « traduit » (MYMEMORY WARNING…) avec un
+  // code 429 dans responseStatus ; il ne doit jamais être affiché ni lu à voix haute comme une traduction.
+  function checkAnswer(data) {
+    var tr = data && data.responseData && data.responseData.translatedText;
+    var st = Number(data && data.responseStatus) || 0;
+    var note = String((data && data.responseDetails) || "") + " " + String(tr || "");
+    if ((data && data.quotaFinished) || st === 429 || /MYMEMORY WARNING|ALL AVAILABLE FREE TRANSLATIONS|QUOTA/i.test(note)) throw new Error("QUOTA_PROVIDER");
+    if (st && st !== 200) throw new Error("SERVER");
+    if (!tr) throw new Error("EMPTY_RESULT");
+    return decodeEntities(String(tr));
+  }
+  function decodeEntities(s) {
+    return s.replace(/&(#x?[0-9a-f]+|quot|amp|lt|gt|apos);/gi, function (m, e) {
+      var k = e.toLowerCase();
+      if (k === "quot") return '"'; if (k === "amp") return "&"; if (k === "lt") return "<"; if (k === "gt") return ">"; if (k === "apos") return "'";
+      var n = k[1] === "x" ? parseInt(k.slice(2), 16) : parseInt(k.slice(1), 10);
+      return n > 0 && n < 0x110000 ? String.fromCodePoint(n) : m;
+    });
+  }
+  function fetchOne(text, from, to) {
     if (navigator.onLine === false) return Promise.reject(new Error("OFFLINE"));
     var url = "https://api.mymemory.translated.net/get?q=" + encodeURIComponent(text) + "&langpair=" + encodeURIComponent(from) + "|" + encodeURIComponent(to);
     var ctrl = typeof AbortController === "function" ? new AbortController() : null;
@@ -38,15 +82,11 @@
       .catch(function () { throw new Error("NETWORK"); })
       .then(function (res) {
         if (timer) clearTimeout(timer);
+        if (res.status === 429) throw new Error("QUOTA_PROVIDER");
         if (!res.ok) throw new Error("SERVER");
-        return res.json();
+        return res.json().catch(function () { throw new Error("SERVER"); });
       })
-      .then(function (data) {
-        if (data && data.quotaFinished) throw new Error("QUOTA_PROVIDER");
-        var tr = data && data.responseData && data.responseData.translatedText;
-        if (!tr) throw new Error("EMPTY_RESULT");
-        return tr;
-      });
+      .then(checkAnswer);
   }
 
   // ---------- Lecture à voix haute ----------
@@ -184,5 +224,5 @@
   }
 
   window.EWMoteur = { lang: lang, langs: LANGS, translate: translate, speak: speak, stopSpeaking: stopSpeaking, canSpeak: canSpeak, voicesFor: voicesFor, pickVoice: pickVoice,
-    canListen: !!SR, askMic: askMic, listen: listen };
+    canListen: !!SR, askMic: askMic, listen: listen, _pieces: pieces };
 })();
