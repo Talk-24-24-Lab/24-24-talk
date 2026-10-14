@@ -27,10 +27,10 @@
   document.documentElement.classList.add("ew-shell");
   var l = document.createElement("link");
   l.rel = "stylesheet";
-  l.href = "everywhere/shell.css?v=0.8.0";
+  l.href = "everywhere/shell.css?v=0.8.1";
   document.head.appendChild(l);
   var sc = document.createElement("script");
-  sc.src = "everywhere/shell.js?v=0.8.0";
+  sc.src = "everywhere/shell.js?v=0.8.1";
   sc.defer = true;
   document.head.appendChild(sc);
 })();
@@ -44,11 +44,15 @@
     if (p.text === 1 || p.text === 2) h.setAttribute("data-ts", String(p.text));
     if (p.contrast === true) h.classList.add("contrast-high");
     if (p.motion === true) h.classList.add("motion-off");
-  } catch (e) { /* stockage indisponible : affichage normal */ }
+    // Thème choisi dans le portail (0.8.1) : bleu nuit par défaut, clair au choix, « Auto » suit le téléphone.
+    var th = ["light", "dark", "auto"].indexOf(p.theme) !== -1 ? p.theme : "dark";
+    h.classList.add("theme-" + th);
+    if (th !== "auto") h.setAttribute("data-theme", th);
+  } catch (e) { document.documentElement.setAttribute("data-theme", "dark"); document.documentElement.classList.add("theme-dark"); }
 })();
 </script>
-<script src="everywhere/ecoute.js?v=0.8.0" defer></script>
-<script src="everywhere/choixlangue.js?v=0.8.0" defer></script>
+<script src="everywhere/ecoute.js?v=0.8.1" defer></script>
+<script src="everywhere/choixlangue.js?v=0.8.1" defer></script>
 <meta name="theme-color" content="#101426" />
 <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAGYktHRAD/AP8A/6C9p5MAAAAHdElNRQfqCR4JKQ3z+whAAAAEU0lEQVRIx7XVy49URRQG8O+cW/2a6Z5uhhnkMZKBCGhmFAiJMZgoE01cGIzvuNENC407F8ad+ge4xxjdGZWFC8PCxADxgYkhYwJGwJAhghCR1zz7fW+dz8XtZm4/gME4d9GLutW/U/fUqVOydsPDaD1s/5C3Rrj8ih0jyalE5/zkJF1VHaRbqc7E31asx1+wsrX/J72dolXIzK137s66QCABpG3Qk1y5DsD11WNaRHyz4qM6IDEapAbUZWi+U8ftdBDudjrpo3q5uGHnyNZ9uTXj5qOla6evzxytzV9w2SLYnq9AZFDpqwOU4fUTXZkBxCwS0Qef/mBs16tBWmgwgJT6UuX8Tx9dnv4kSOcBQsQqDS3l2Ij66gCCXH60UwcBmN/94seb9+wPGxY1LQrpQ0ahqUuve2jKhzp74ZgGOT9fzT8/6TaXwtP/SMaB3ToA7a4ZCcLawvijBzZOTlUXmqRCHCSgBBDnPRoVP77vneJ9j/vG0vB7TxXf3tv87QoCBdmrA4mDFo/RwvTA8Niu15o1QB0BknF+SFLBCFrHxmdfz0yuzT+5c+GL6fDinObT9Nark3DJehdoFNaLG3dki+M+IiAkbukGSlOjbHmxdK7+xN/Z/LjNVZtnr7LWxEAKIjDrqCciLtPESRCQlsoOicIiAmIQxg8okc7fPz275YhPL6Dh5KZ61yi8sScYG1r87ATM4kQldYCaLGWCIhrWFrwHIQbEtoEIdW7L8esTX9M1gzCvmoJTGCSQwsuPrHl3H8heHa1elEiaukz55vnq3J8SCK2lS6S14Uuz248GYUEQMDCIiAhUIOJvVHNTDww+N2nlBlTYWZOaOIgEKOrC2uzlk18FaXgfxZVBw+LmX6EmolCIiChaMUQkpayFA8/s0KEsvUE6TnfHfUCC5l1m6NL0p1dOH0sX0gajV5/yzeIVZQrCGEUyhioic+sLbqzIRgRJLpja0yMJCCBnvnnrr1++JCFAJHVzDYjGOekTA5C000JmuZDapPbpwDRRB5Gzh9+8+MOHgwPIuUxKhwATEQh6YkBUEFm8B61Ftndcu/XWkTARDdKDpU17gjwWzp2qnprRgRzI3hiASNpF18rhX/OSDkAmO7T2vT0gEjUr+ZEd6yb2z/x46OShF258/p3AxV2zIwYEZlrIVL49Y4u1ds9YXmuQHVzbpcenwcLKuomXbs58P3P0fZcvRJeWYH5wahtDj8jiDSQJgRvJV4+cmzv4s2ZTXToIKY1u79Lb8URdtlm55jJDoFHISrPwyu7SgcfcyCBJGAlYuVE+/PvcweM0k0DbfuI+KI1uv93NR3rRFOnblQVbrLtNxYG9W1JbRxBIdHm+duJi44+rmktBpVcHIKXRbXe9V5f7oQqbkdXC5QykA8mlYOyrA3D3oAMwExcExWB5yAzeuvKe7NDuHvTWDhI+CfIOOgi9Rz15Hu+uI9GLVkUHqKuqt7/gf9LRowP4FwGVbHLkBjopAAAAAElFTkSuQmCC" />
 <link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,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" />
@@ -306,18 +310,23 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .footer-note{text-align:center;color:var(--muted);font-size:11px;margin-top:18px;}
   /* Réseau */
   nav.tabs button[hidden]{display:none;}
-  .home-tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:4px 0 14px;}
-  .home-tile{position:relative;display:flex;flex-direction:column;align-items:center;gap:12px;min-height:200px;padding:26px 10px 20px;
-    border-radius:20px;background:var(--panel);border:2px solid var(--ok);color:var(--text);font-family:inherit;cursor:pointer;
-    -webkit-tap-highlight-color:transparent;transition:transform .1s;}
-  .home-tile:active{transform:scale(.97);}
-  .home-tile.chat{border-color:var(--blue);}
-  .home-tile-ic{position:relative;width:78px;height:78px;border-radius:50%;background:var(--ok);color:#0b0e1a;
-    display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-  .home-tile.chat .home-tile-ic{background:var(--blue);color:#fff;}
-  .home-tile-ic svg{width:38px;height:38px;}
-  .home-tile-name{font-size:19px;font-weight:800;line-height:1.2;text-align:center;overflow-wrap:anywhere;}
-  .home-tile-sub{font-size:13px;color:var(--muted);line-height:1.35;text-align:center;}
+  /* Accueil 0.8.1 (même look que l'accueil de ONE WORLD) : deux lignes, icône carrée en dégradé, nom et sous-titre à gauche. */
+  .home-tiles{display:grid;grid-template-columns:1fr;gap:10px;margin:4px 0 14px;}
+  .home-tile{position:relative;display:flex;flex-direction:row;align-items:center;gap:14px;min-height:76px;padding:12px 44px 12px 14px;
+    border-radius:18px;background:var(--panel2);border:1px solid var(--line);color:var(--text);font-family:inherit;cursor:pointer;text-align:start;
+    box-shadow:0 10px 26px rgba(0,0,0,.18);-webkit-tap-highlight-color:transparent;transition:transform .1s, border-color .15s;}
+  .home-tile::after{content:"";position:absolute;inset-inline-end:18px;top:50%;width:9px;height:9px;margin-top:-5px;
+    border-top:2px solid var(--muted);border-inline-end:2px solid var(--muted);transform:rotate(45deg);}
+  [dir="rtl"] .home-tile::after{transform:rotate(-45deg);}
+  .home-tile:active{transform:scale(.985);}
+  .home-tile:hover{border-color:var(--blue2);}
+  .home-tile-ic{position:relative;width:48px;height:48px;border-radius:14px;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    background:linear-gradient(135deg,#2ee6c5,#0e9f8e);box-shadow:0 6px 16px rgba(22,184,166,.3);}
+  .home-tile.chat .home-tile-ic{background:linear-gradient(135deg,#3cc8ff,#1a73e8);box-shadow:0 6px 16px rgba(26,140,255,.35);}
+  .home-tile-ic svg{width:26px;height:26px;}
+  .home-tile-name{font-size:16.5px;font-weight:800;line-height:1.2;overflow-wrap:anywhere;}
+  .home-tile-sub{display:block;font-size:14px;color:var(--muted);line-height:1.35;margin-top:3px;}
+  .home-tile-txt{flex:1;min-width:0;}
   .home-tile-badge{position:absolute;top:-2px;inset-inline-end:-2px;min-width:24px;height:24px;padding:0 6px;box-sizing:border-box;
     border-radius:12px;background:var(--err);color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;
     justify-content:center;border:2px solid var(--panel);}
@@ -325,7 +334,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .home-tr{margin:-2px 0 14px;}
   /* Avant que le script ne dessine les deux touches et l'interrupteur de traduction : leur place est réservée
      (touches 200 px + interrupteur environ 86 px) pour que le texte et le pied de page ne sautent pas. */
-  .home-tiles:empty{min-height:200px;margin-bottom:100px;}
+  .home-tiles:empty{min-height:162px;margin-bottom:100px;}
   .tr-switch{display:flex;gap:4px;padding:4px;background:var(--panel);border:1px solid var(--line);border-radius:999px;}
   .tr-switch button{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:6px;border:none;background:transparent;
     color:var(--muted);font-family:inherit;font-weight:700;font-size:14.5px;padding:11px 8px;border-radius:999px;cursor:pointer;
@@ -7529,7 +7538,7 @@ Object.keys(NET_STRINGS).forEach((l) => {
 });
 
 // ---------- Accessibilité (commune avec le portail : clé ew_prefs) ----------
-// Taille du texte, contraste renforcé, animations réduites. Le thème du portail n'est pas repris ici (TALK suit l'appareil).
+// Taille du texte, contraste renforcé, animations réduites et thème (bleu nuit par défaut depuis 0.8.1, comme le portail).
 const A11y = (() => {
   const KEY = "ew_prefs";
   function read() {
@@ -7542,6 +7551,10 @@ const A11y = (() => {
     if (p.text === 1 || p.text === 2) h.setAttribute("data-ts", String(p.text)); else h.removeAttribute("data-ts");
     h.classList.toggle("contrast-high", p.contrast === true);
     h.classList.toggle("motion-off", p.motion === true);
+    const th = ["light", "dark", "auto"].indexOf(p.theme) !== -1 ? p.theme : "dark";
+    h.classList.remove("theme-light", "theme-dark", "theme-auto");
+    h.classList.add("theme-" + th);
+    if (th === "auto") h.removeAttribute("data-theme"); else h.setAttribute("data-theme", th);
   }
   function set(k, v) { const p = read(); p[k] = v; safeStore.setItem(KEY, JSON.stringify(p)); apply(p); paint(); }
   function paint() {
@@ -7659,20 +7672,20 @@ const Reseau = (() => {
   const ICON_MSG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.8-.9L3 21l1.9-5.2A8.4 8.4 0 0 1 12 3a8.5 8.5 0 0 1 9 8.5z"/></svg>';
   let mode = "msg"; // "call" = Téléphone (liste d'appel), "msg" = Messagerie (discussions)
 
-  // Accueil : deux grandes touches côte à côte, Téléphone et Messagerie.
+  // Accueil : deux touches l'une sous l'autre, Messagerie et Téléphone (style de l'accueil ONE WORLD, 0.8.1).
   const tilesBox = document.getElementById("homeTiles");
   let tileBadge = null;
   if (tilesBox) {
     tilesBox.innerHTML = `
-      <button type="button" class="home-tile call" id="tilePhone">
-        <span class="home-tile-ic">${ICON_PHONE}</span>
-        <span class="home-tile-name">${escapeHtml(t("home_phone"))}</span>
-        <span class="home-tile-sub">${escapeHtml(t("home_phone_sub"))}</span>
-      </button>
       <button type="button" class="home-tile chat" id="tileMsg">
         <span class="home-tile-ic">${ICON_MSG}<span class="home-tile-badge" id="tileMsgBadge" hidden></span></span>
-        <span class="home-tile-name">${escapeHtml(t("home_msg"))}</span>
-        <span class="home-tile-sub">${escapeHtml(t("home_msg_sub"))}</span>
+        <span class="home-tile-txt"><span class="home-tile-name">${escapeHtml(t("home_msg"))}</span>
+        <span class="home-tile-sub">${escapeHtml(t("home_msg_sub"))}</span></span>
+      </button>
+      <button type="button" class="home-tile call" id="tilePhone">
+        <span class="home-tile-ic">${ICON_PHONE}</span>
+        <span class="home-tile-txt"><span class="home-tile-name">${escapeHtml(t("home_phone"))}</span>
+        <span class="home-tile-sub">${escapeHtml(t("home_phone_sub"))}</span></span>
       </button>`;
     tileBadge = tilesBox.querySelector("#tileMsgBadge");
     const go = (m) => () => {

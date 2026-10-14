@@ -2,6 +2,14 @@
 
 > © 2026 Sébastien Chevrier. Tous droits réservés. La production n'est concernée par aucune de ces versions.
 
+## 0.8.1 (prototype, 14 octobre 2026) — TALK au même look, site de test seulement
+
+### Modifié
+- **TALK, écran d'entrée** : Messagerie puis Téléphone en deux lignes, icône carrée en dégradé, comme les tuiles de l'accueil.
+- **TALK, thème** : suit le thème choisi dans Paramètres du portail (bleu nuit par défaut, clair au choix, « Auto » suit le
+  téléphone) au lieu de suivre toujours le réglage clair ou sombre du téléphone.
+- Cache hors connexion `ew-shell-v25`.
+
 ## 0.8.0 (prototype, 14 octobre 2026) — nouveau look, site de test seulement
 
 ### Modifié
