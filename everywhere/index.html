@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://api.mymemory.translated.net" crossorigin>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>24/24 ONE WORLD</title>
-<meta name="description" content="24/24 ONE WORLD : une seule application, trois interfaces (TALK, EVERYWHERE, LEARN), un seul compte. Un monde sans barrières.">
+<meta name="description" content="24/24 ONE WORLD : une seule application, un seul compte : TALK, EVERYWHERE, LEARN, et AI LAB bientôt. Un monde sans barrières.">
 <meta name="theme-color" content="#1f5fe0">
 <meta name="color-scheme" content="dark light">
 <link rel="manifest" href="manifest.webmanifest">
@@ -26,6 +26,7 @@
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="traduction/everywhere.css">
 <link rel="stylesheet" href="learn/learn.css">
+<link rel="stylesheet" href="profil/profil.css">
 <script src="config.js"></script>
 <script src="apps.js"></script>
 <script src="shell.js"></script>
@@ -85,6 +86,11 @@
       <div class="pad" id="ewLearn"></div>
     </section>
 
+    <!-- AI LAB : présenté comme « Bientôt » (rien n'est simulé) -->
+    <section class="view" id="view-ailab" data-route="ailab" aria-labelledby="h-ailab">
+      <div class="pad" id="ewAilab"></div>
+    </section>
+
     <!-- APPLICATIONS -->
     <section class="view" id="view-applications" data-route="applications" aria-labelledby="h-apps">
       <div class="pad">
@@ -97,8 +103,12 @@
     <!-- PROFIL -->
     <section class="view" id="view-profil" data-route="profil" aria-labelledby="h-profil">
       <div class="pad">
-        <h1 class="h1" id="h-profil" data-t="profile">Profil</h1>
-        <div class="card" id="profileCard" aria-live="polite"></div>
+        <div id="profileMain">
+          <h1 class="h1" id="h-profil" data-t="profile">Profil</h1>
+          <div class="card" id="lpSummary"></div>
+          <div class="card" id="profileCard" aria-live="polite"></div>
+        </div>
+        <div id="lpEdit" hidden></div>
       </div>
     </section>
 
@@ -160,8 +170,12 @@
 <script src="choixlangue.js"></script>
 <script src="traduction/langues.js"></script>
 <script src="traduction/moteur.js"></script>
+<script src="profil/profil.js"></script>
+<script src="traduction/phrases.js"></script>
+<script src="traduction/voyage.js"></script>
 <script src="traduction/everywhere.js"></script>
 <script src="voix.js"></script>
+<script src="ailab/ailab.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

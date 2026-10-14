@@ -296,3 +296,10 @@ nom ou le code ; Entrée choisit la première) : « Vos langues » (choisie + 5 
 (`everywhere/choixlangue.js`). Le menu d'origine reste caché dans la page et reçoit « change » comme avant.
 Corrigé aussi : l'écran côte à côte était plus large que le téléphone (titre long dans la barre du haut), ce qui coupait
 le bouton ⚙ et la barre du bas à droite.
+
+## 0.7.1 — Profil linguistique et Voyage rejoignent la version actuelle
+Demande de Sébastien (« fini one world », choix « Termine tout »). Le travail 0.7.0 resté en brouillon (PR 17 : profil
+linguistique privé par défaut, Voyage avec recherche et phrases favorites, « Supprimer mon compte », AI LAB « Bientôt »)
+est fusionné avec la version actuelle. L'accueil garde ses deux grandes tuiles (TALK, EVERYWHERE) ; AI LAB se trouve dans
+Applications. Corrigé aussi : deux textes bleus trop pâles dans TALK (onglet actif, heure d'un message non lu).
+Tests : e2e 85/85, expert 32/32, piliers 40/40, profil-voyage 42/42.

@@ -2,12 +2,13 @@
    Il ne garde en mémoire QUE la coquille publique du portail (pages, styles, icônes) pour qu'elle s'ouvre vite
    et hors ligne. Il ne touche jamais aux applications (TALK a son propre fonctionnement), ni au serveur Supabase,
    ni aux conversations : ces requêtes passent sans être enregistrées. */
-var CACHE = "ew-shell-v21";
+var CACHE = "ew-shell-v22";
 var SHELL = ["./", "index.html", "shell.css", "style.css", "prefs.js", "shell.js", "voix.js", "ecoute.js", "choixlangue.js", "connect.js", "app.js", "apps.js", "config.js", "logo.svg", "manifest.webmanifest",
   "learn/learn.css", "learn/progress.js", "learn/exercises.js", "learn/learn.js",
   "learn/content/catalogue.json", "learn/content/en.json", "learn/content/es.json",
   "traduction/everywhere.css", "traduction/langues.js", "traduction/moteur.js", "traduction/everywhere.js",
-  "icons/icon-192.png", "icons/icon-512.png", "icons/maskable-512.png", "icons/apple-touch-icon.png"];
+  "traduction/phrases.js", "traduction/voyage.js", "profil/profil.js", "profil/profil.css", "ailab/ailab.js",
+  "icons/icon-192.png", "icons/icon-512.png", "icons/maskable-512.png", "icons/apple-touch-icon.png", "../terre-tech.jpg"];
 
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(SHELL); }).then(function () { return self.skipWaiting(); }));
