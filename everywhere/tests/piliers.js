@@ -142,7 +142,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     if (sessionStorage.getItem("__idle")) window.EW_IDLE_MS = +sessionStorage.getItem("__idle");
     class FakeSR {
       start() {
-        window.__srStarted = (window.__srStarted || 0) + 1; window.__srLang = this.lang;
+        window.__srStarted = (window.__srStarted || 0) + 1; window.__srLang = this.lang; window.__srLast = this;
         const n = window.__srQueue.shift();
         sessionStorage.setItem("__srq", JSON.stringify(window.__srQueue));
         setTimeout(() => {
@@ -473,6 +473,59 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.tap('[data-mic="1"]');
     await page.waitForFunction(() => /rien entendu/.test(document.querySelector('[data-msg="1"]').textContent), null, { timeout: 30000 });
     return { ok: true };
+  });
+  // Micro : trois états bien distincts (éteint / écoute / voix captée), sur tous les boutons micro.
+  const micLook = (pg, sel) => pg.evaluate((q) => { const b = document.querySelector(q), cs = getComputedStyle(b);
+    return { cls: b.className, bg: cs.backgroundColor, anim: cs.animationName, tr: cs.transform }; }, sel);
+  await step("Micro côte à côte : éteint, écoute (rouge + onde lente) et voix captée (grossi + onde rapide) se distinguent", async () => {
+    await page.evaluate(() => { window.__srQueue.length = 0; });
+    await page.waitForTimeout(300);
+    const sel = '[data-mic="1"]';
+    const off = await micLook(page, sel);
+    await page.screenshot({ path: path.join(OUT, "micro-1-eteint.png"), clip: { x: 0, y: 300, width: 393, height: 160 } });
+    await page.tap(sel);
+    await page.waitForFunction((q) => document.querySelector(q).classList.contains("on"), sel, { timeout: 3000 });
+    await page.waitForTimeout(500);
+    const on = await micLook(page, sel);
+    await page.screenshot({ path: path.join(OUT, "micro-2-ecoute.png") });
+    await page.evaluate(() => window.__srLast.onsoundstart && window.__srLast.onsoundstart());
+    await page.waitForTimeout(200);
+    const hear = await micLook(page, sel);
+    await page.screenshot({ path: path.join(OUT, "micro-3-voix-captee.png") });
+    await page.evaluate(() => window.__srLast.onsoundend && window.__srLast.onsoundend());
+    const quiet = await micLook(page, sel);
+    await page.tap(sel);
+    await page.waitForTimeout(700);
+    const after = await micLook(page, sel);
+    const ok = off.bg !== on.bg && off.anim === "none" && on.anim === "trWait" && !/hear/.test(on.cls) &&
+      /hear/.test(hear.cls) && hear.anim === "trHear" && hear.tr !== "none" && !/hear/.test(quiet.cls) && quiet.anim === "trWait" &&
+      !/\bon\b|hear/.test(after.cls) && after.bg === off.bg;
+    return { ok, detail: [off, on, hear, after].map((x) => x.anim + "/" + x.bg).join(" · ") };
+  });
+  await step("Micro de commande vocale (barre du haut) et micro de TALK : même onde à l'écoute, plus forte quand une voix est captée", async () => {
+    const pg = await open(ctx, URL_EW + "#/everywhere");
+    await pg.waitForSelector("#ewvBtn", { state: "attached" });
+    const off = await micLook(pg, "#ewvBtn");
+    await pg.tap("#ewvBtn");
+    await pg.waitForFunction(() => document.querySelector("#ewvBtn").classList.contains("on"), null, { timeout: 3000 });
+    const on = await micLook(pg, "#ewvBtn");
+    await pg.evaluate(() => window.__srLast.onspeechstart && window.__srLast.onspeechstart());
+    const hear = await micLook(pg, "#ewvBtn");
+    await pg.tap("#ewvStop");
+    const after = await micLook(pg, "#ewvBtn");
+    await pg.goto(URL_TALK);
+    await pg.waitForSelector("#micBtn", { state: "attached" });
+    await pg.evaluate(() => document.querySelector("#micBtn").click());
+    await pg.waitForFunction(() => document.querySelector("#micBtn").classList.contains("recording"), null, { timeout: 3000 });
+    const tOn = await micLook(pg, "#micBtn");
+    await pg.evaluate(() => window.__srLast.onsoundstart && window.__srLast.onsoundstart());
+    const tHear = await micLook(pg, "#micBtn");
+    await pg.evaluate(() => document.querySelector("#micBtn").click());
+    const tAfter = await micLook(pg, "#micBtn");
+    await pg.close();
+    const ok = off.anim === "none" && on.anim === "ewvWait" && hear.anim === "ewvHear" && !/on|hear/.test(after.cls.replace("icon-btn", "")) &&
+      tOn.anim === "micWait" && tHear.anim === "micHear" && !/recording|hear/.test(tAfter.cls);
+    return { ok, detail: [off.anim, on.anim, hear.anim, after.cls, tOn.anim, tHear.anim, tAfter.cls].join(" · ") };
   });
   await ctx.close();
 //@@NEXT@@

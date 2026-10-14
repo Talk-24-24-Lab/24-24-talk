@@ -226,6 +226,7 @@
       }
       var mic = root.querySelector('[data-mic="' + who + '"]');
       mic.classList.toggle("on", face.listening === who);
+      if (face.listening !== who) mic.classList.remove("hear");
       mic.setAttribute("aria-pressed", String(face.listening === who));
     });
   }
@@ -290,6 +291,7 @@
       var f = face;
       f.rec = M.listen(halfLang(who), {
         interim: function (txt) { if (face === f) msg(who, txt ? "🎤 " + txt : t("listening")); },
+        sound: function (on) { var b = face === f && f.listening === who && f.root.querySelector('[data-mic="' + who + '"]'); if (b) b.classList.toggle("hear", !!on); },
         // Traduction demandée en avance pendant que la phrase se termine (gardée, réutilisée si la phrase ne change plus).
         stable: function (txt) { if (face === f) M.translate(txt, halfLang(who), halfLang(who === 1 ? 2 : 1)).catch(function () {}); },
         final: function (txt) { if (face !== f) return; f.listening = 0; f.rec = null; msg(who, ""); say(who, txt); },
