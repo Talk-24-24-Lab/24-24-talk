@@ -2,6 +2,18 @@
 
 > © 2026 Sébastien Chevrier. Tous droits réservés. La production n'est concernée par aucune de ces versions.
 
+## 0.8.0 (prototype, 14 octobre 2026) — nouveau look, site de test seulement
+
+### Modifié
+- **Accueil** refait d'après la maquette validée par Sébastien : ciel bleu nuit et planète lumineuse dessinés en CSS
+  (aucune image), titre « One world. Every voice. », quatre tuiles TALK, EVERYWHERE, VOYAGE et APPRENDRE.
+- **Compte à rebours** « Gratuit encore » (jours, heures, minutes, secondes) jusqu'au 1er novembre 2026 à 0 h, heure de
+  La Réunion (même date que la base et les CGV) ; il disparaît une fois la date passée. Le lecteur d'écran n'annonce
+  que les jours et les heures.
+- **Thème** : bleu nuit par défaut (au lieu du clair), onglet actif cyan ; le thème clair reste au choix dans Paramètres.
+- TALK : mêmes couleurs bleu nuit dans le thème sombre.
+- Cache hors connexion `ew-shell-v24`.
+
 ## 0.7.0 (prototype, 4 octobre 2026) — PR n° 17, brouillon, non fusionnée, non publiée
 
 ### Ajouté

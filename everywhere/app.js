@@ -4,8 +4,8 @@
   "use strict";
   var CFG = window.EW_CONFIG || { env: "test", basePath: "../", talkReadyTimeoutMs: 15000 };
   var APPS = window.EW_APPS || [];
-  var VERSION = "0.7.2 (prototype)";
-  var VERSION_TAG = "0.7.2";
+  var VERSION = "0.8.0 (prototype)";
+  var VERSION_TAG = "0.8.0";
 
   // ---------- Stockage (peut être indisponible : navigation privée stricte, etc.) ----------
   var store = {
@@ -22,8 +22,12 @@
     fr: {
       skip: "Aller au contenu", offline: "Hors ligne : certaines fonctions sont indisponibles.",
       home: "Accueil", apps: "Applications", profile: "Profil", settings: "Paramètres", open_full: "Ouvrir en plein écran",
-      lead: "Un monde sans barrières.", your_apps: "Vos applications",
-      talk_tag: "Communiquer sans barrières", ew_tag: "Accéder au monde sans limites", learn_tag: "Apprendre sans limites.",
+      lead: "Parlez à tout le monde, chacun dans sa langue.", your_apps: "Vos applications",
+      talk_tag: "Messages et appels traduits", ew_tag: "Conversation côte à côte", learn_tag: "Apprendre sans limites.",
+      talk_name: "TALK", ew_name: "EVERYWHERE", trip_name: "VOYAGE", trip_tag: "Phrases utiles hors ligne",
+      learn_name: "APPRENDRE", learn_tag2: "Leçons et révisions",
+      cd_title: "Gratuit encore", cd_d: "jours", cd_h: "heures", cd_m: "minutes", cd_s: "secondes",
+      cd_sr: "Gratuit encore {d} jours et {h} heures.",
       hub_sub: "Traduire, connecter et apprendre partout.", hub_learn_h: "Apprendre",
       hub_learn: "Apprendre une langue", hub_learn_d: "Leçons, exercices, révision, progression",
       kicker: "Une seule application. Trois interfaces. Un seul compte.",
@@ -54,8 +58,12 @@
     en: {
       skip: "Skip to content", offline: "Offline: some features are unavailable.",
       home: "Home", apps: "Apps", profile: "Profile", settings: "Settings", open_full: "Open full screen",
-      lead: "A world without barriers.", your_apps: "Your apps",
-      talk_tag: "Communicate without barriers", ew_tag: "Access the world without limits", learn_tag: "Learn without limits.",
+      lead: "Talk to everyone, each in their own language.", your_apps: "Your apps",
+      talk_tag: "Translated messages and calls", ew_tag: "Side-by-side conversation", learn_tag: "Learn without limits.",
+      talk_name: "TALK", ew_name: "EVERYWHERE", trip_name: "TRAVEL", trip_tag: "Useful phrases, works offline",
+      learn_name: "LEARN", learn_tag2: "Lessons and reviews",
+      cd_title: "Still free for", cd_d: "days", cd_h: "hours", cd_m: "minutes", cd_s: "seconds",
+      cd_sr: "Still free for {d} days and {h} hours.",
       hub_sub: "Translate, connect and learn everywhere.", hub_learn_h: "Learn",
       hub_learn: "Learn a language", hub_learn_d: "Lessons, exercises, review, progress",
       kicker: "One app. Three interfaces. One account.",
@@ -124,6 +132,28 @@
   function fullHref(a) { return a.route ? a.route : CFG.basePath + a.src.replace(/([?&])embed=1\b/, "$1ew=1"); }
   // Tuile TALK de l'accueil : TALK en pleine page (jamais dans un cadre), même adresse que la barre du bas.
   if (talkApp) $("cardTalk").setAttribute("href", fullHref(talkApp));
+
+  // ---------- Compte à rebours de la gratuité (accueil) ----------
+  // Fin de la période gratuite : 1er novembre 2026 à 0 h, heure de La Réunion (UTC+4), soit 31 octobre 2026 20 h UTC,
+  // la même date que free_until dans la base et que les textes de TALK et des CGV. Caché une fois la date passée.
+  var FREE_END = Date.UTC(2026, 9, 31, 20, 0, 0);
+  var cdTimer = null;
+  function pad2(n) { return (n < 10 ? "0" : "") + n; }
+  function tickCountdown() {
+    var box = $("countdown"), left = FREE_END - Date.now();
+    if (!box) return;
+    if (left <= 0) { box.hidden = true; if (cdTimer) { clearInterval(cdTimer); cdTimer = null; } return; }
+    var d = Math.floor(left / 86400000), h = Math.floor(left / 3600000) % 24, m = Math.floor(left / 60000) % 60, s = Math.floor(left / 1000) % 60;
+    $("cdD").textContent = String(d); $("cdHh").textContent = pad2(h); $("cdM").textContent = pad2(m); $("cdS").textContent = pad2(s);
+    var sr = t("cd_sr", { d: d, h: h });
+    if ($("cdSr").textContent !== sr) $("cdSr").textContent = sr; // lecteur d'écran : jours et heures, pas chaque seconde
+    box.hidden = false;
+  }
+  function runCountdown(on) {
+    if (on && !cdTimer && Date.now() < FREE_END) { tickCountdown(); cdTimer = setInterval(tickCountdown, 1000); }
+    else if (!on && cdTimer) { clearInterval(cdTimer); cdTimer = null; }
+  }
+  window.EWCountdown = { end: FREE_END, tick: tickCountdown };
 
   // ---------- Cartes d'applications (accueil et page Applications) ----------
   function appCard(a) {
@@ -379,6 +409,7 @@
     // LEARN est présenté sous EVERYWHERE (accès depuis le hub #/everywhere) : la barre du bas allume Everywhere.
     var navId = target === "app" ? "app/" + appId : target === "learn" ? "everywhere" : target;
     document.documentElement.classList.toggle("ew-home", target === "accueil");
+    runCountdown(target === "accueil");
     document.querySelectorAll("[data-nav]").forEach(function (n) {
       if (n.getAttribute("data-nav") === navId) n.setAttribute("aria-current", "page");
       else n.removeAttribute("aria-current");

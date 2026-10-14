@@ -66,27 +66,39 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   // ---------- Téléphone ----------
   let ctx = await newCtx();
   let page = await openPortal(ctx);
-  await step("Accueil (0.6.2) : « 24/24 Everywhere » (Everywhere en bleu), « Un monde sans barrières. », exactement deux grandes tuiles TALK et EVERYWHERE", async () => {
+  await step("Accueil (0.8.0) : « One world. Every voice. », phrase d'accueil, quatre tuiles TALK, EVERYWHERE, VOYAGE, APPRENDRE", async () => {
     await page.waitForSelector("#view-accueil.active");
-    const h1 = (await page.textContent("#h-accueil")).trim();
-    const blue = await page.$eval("#h-accueil span", (e) => getComputedStyle(e).color);
+    const h1 = await page.$eval("#h-accueil", (e) => e.innerText.replace(/\s+/g, " ").trim());
     const lead = (await page.textContent("#view-accueil .lead")).trim();
     const cards = await page.$$eval("#view-accueil a.duo-card", (n) => n.map((x) => ({ t: x.querySelector("b").textContent, d: x.textContent, href: x.getAttribute("href"), w: x.getBoundingClientRect().width, h: x.getBoundingClientRect().height })));
-    const ok = h1 === "24/24 Everywhere" && /rgb\(\d+, \d+, 255\)/.test(blue) && lead === "Un monde sans barrières." && cards.length === 2 &&
-      cards[0].t === "TALK" && /Communiquer sans barrières/.test(cards[0].d) && cards[1].t === "EVERYWHERE" && /Accéder au monde sans limites/.test(cards[1].d) &&
-      cards.every((c) => c.w >= 330 && c.h >= 180) && !(await page.$("#cardLearn"));
+    const want = [["TALK", /Messages et appels traduits/], ["EVERYWHERE", /Conversation côte à côte/], ["VOYAGE", /Phrases utiles hors ligne/], ["APPRENDRE", /Leçons et révisions/]];
+    const ok = h1 === "One world. Every voice." && lead === "Parlez à tout le monde, chacun dans sa langue." && cards.length === 4 &&
+      want.every((w, i) => cards[i].t === w[0] && w[1].test(cards[i].d)) && cards.every((c) => c.w >= 330 && c.h >= 72);
     return { ok, detail: cards.map((c) => c.t + " → " + c.href + " (" + Math.round(c.w) + "×" + Math.round(c.h) + " px)").join(" · ") };
   });
-  await step("Tuile TALK : TALK en pleine page (index.html?ew=1, pas de cadre) ; tuile EVERYWHERE : #/everywhere", async () => {
-    const r = await page.evaluate(() => ({ talk: document.getElementById("cardTalk").href, ew: document.getElementById("cardEverywhere").getAttribute("href"), frames: document.querySelectorAll("iframe").length }));
+  await step("Tuiles : TALK en pleine page (index.html?ew=1, pas de cadre), EVERYWHERE #/everywhere, VOYAGE #/everywhere/voyage, APPRENDRE #/learn", async () => {
+    const r = await page.evaluate(() => ({ talk: document.getElementById("cardTalk").href, ew: document.getElementById("cardEverywhere").getAttribute("href"),
+      trip: document.getElementById("cardTrip").getAttribute("href"), learn: document.getElementById("cardLearn").getAttribute("href"), frames: document.querySelectorAll("iframe").length }));
     const u = new URL(r.talk);
-    return { ok: u.pathname === BASE + "index.html" && u.search === "?ew=1" && r.ew === "#/everywhere" && r.frames === 0, detail: u.pathname + u.search + " · " + r.ew };
+    return { ok: u.pathname === BASE + "index.html" && u.search === "?ew=1" && r.ew === "#/everywhere" && r.trip === "#/everywhere/voyage" && r.learn === "#/learn" && r.frames === 0,
+      detail: u.pathname + u.search + " · " + r.ew + " · " + r.trip + " · " + r.learn };
   });
-  await step("Accueil bleu nuit (lueur de la Terre en CSS, sans image) ; tuiles bleue (TALK) et verte (EVERYWHERE)", async () => {
-    const c = await page.evaluate(() => ({ home: getComputedStyle(document.getElementById("view-accueil")).backgroundImage, talk: getComputedStyle(document.getElementById("cardTalk")).backgroundImage,
-      ew: getComputedStyle(document.getElementById("cardEverywhere")).backgroundImage, nav: getComputedStyle(document.getElementById("mainnav")).backgroundColor }));
-    return { ok: /radial-gradient/.test(c.home) && /5, 11, 28/.test(c.home) && !/url\(/.test(c.home) && /31, 111, 229/.test(c.talk) && /22, 163, 74/.test(c.ew) && c.nav === "rgb(5, 11, 28)",
-      detail: "barre du bas " + c.nav };
+  await step("Accueil bleu nuit, planète dessinée en CSS (sans image), icônes en dégradé, barre du bas bleu nuit avec onglet actif cyan", async () => {
+    const c = await page.evaluate(() => ({ home: getComputedStyle(document.getElementById("view-accueil")).backgroundColor,
+      sky: getComputedStyle(document.querySelector("#view-accueil .home-head")).backgroundImage,
+      talk: getComputedStyle(document.querySelector("#cardTalk .duo-ic")).backgroundImage, nav: getComputedStyle(document.getElementById("mainnav")).backgroundColor,
+      act: getComputedStyle(document.querySelector('#mainnav a[aria-current="page"]') || document.querySelector("#mainnav a")).color }));
+    return { ok: c.home === "rgb(8, 17, 31)" && /radial-gradient/.test(c.sky) && /63, 169, 245/.test(c.sky) && !/url\(/.test(c.sky) && /26, 115, 232/.test(c.talk) && c.nav === "rgb(11, 21, 38)",
+      detail: "fond " + c.home + " · barre du bas " + c.nav };
+  });
+  await step("Compte à rebours « Gratuit encore » jusqu'au 1er novembre 2026 (0 h, La Réunion) : visible avant, caché après", async () => {
+    await page.waitForTimeout(1100);
+    const r = await page.evaluate(() => ({ end: window.EWCountdown && window.EWCountdown.end, hidden: document.getElementById("countdown").hidden,
+      d: document.getElementById("cdD").textContent, h: document.getElementById("cdHh").textContent, sr: document.getElementById("cdSr").textContent, now: Date.now() }));
+    const before = r.now < r.end;
+    const expD = Math.floor((r.end - r.now) / 86400000);
+    const ok = r.end === Date.UTC(2026, 9, 31, 20, 0, 0) && (before ? (!r.hidden && Math.abs(Number(r.d) - expD) <= 1 && /^\d\d$/.test(r.h) && /jours/.test(r.sr)) : r.hidden);
+    return { ok, detail: before ? r.d + " j " + r.h + " h · « " + r.sr + " »" : "période gratuite terminée : caché" };
   });
   await step("Barre basse commune : 4 entrées Accueil, Talk, Everywhere, Profil", async () => {
     const labels = await page.$$eval("#mainnav a", (n) => n.map((a) => a.textContent.trim()));
@@ -591,7 +603,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.screenshot({ path: path.join(OUT, "learn-grand-texte-sombre.png") });
     await page.tap('#mainnav a[data-nav="accueil"]');
     await page.evaluate(() => { localStorage.removeItem("ew_prefs"); });
-    return { ok: r.ts === "2" && r.c && r.dark && +r.zoom > 1.2 && r.bg === "rgb(5, 9, 19)" && kept && sw, detail: "texte ×" + r.zoom + ", réglages gardés après rechargement, pas de défilement horizontal" };
+    return { ok: r.ts === "2" && r.c && r.dark && +r.zoom > 1.2 && r.bg === "rgb(8, 17, 31)" && kept && sw, detail: "texte ×" + r.zoom + ", réglages gardés après rechargement, pas de défilement horizontal" };
   });
   await step("LEARN : aucune erreur JavaScript", async () => ({ ok: !page._errors.length, detail: page._errors.join(" | ").slice(0, 200) || "aucune" }));
   await ctx.close();
@@ -920,7 +932,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   await step("Interface en anglais selon la langue du téléphone", async () => {
     const labels = await page.$$eval("#mainnav a", (n) => n.map((a) => a.textContent.trim()));
     const ew = await page.textContent("#cardEverywhere .duo-d");
-    return { ok: labels.join(",") === "Home,Talk,Everywhere,Profile" && /Access the world without limits/.test(ew), detail: labels.join(", ") + " · " + ew };
+    return { ok: labels.join(",") === "Home,Talk,Everywhere,Profile" && /Side-by-side conversation/.test(ew), detail: labels.join(", ") + " · " + ew };
   });
   await ctx.close();
 
