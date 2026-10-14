@@ -358,6 +358,75 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     return { ok: r.st.locked && r.st.owners.indexOf("ew-face") !== -1, detail: JSON.stringify(r) };
   });
   await ctx.close();
+
+  // ================= TOUCH =================
+  ctx = await newCtx({}, true, FAKE_SR);
+  await ctx.addInitScript(() => { localStorage.setItem("fake_contacts", "1"); localStorage.setItem("lc_net_joined", "1"); if (localStorage.getItem("lc_net_auth") === null) localStorage.setItem("lc_net_auth", "fake");
+    window.__vib = []; navigator.vibrate = (p) => { window.__vib.push(p); return true; }; });
+  page = await open(ctx, URL_TALK + "?ew=1");
+  const openKenji = async () => {
+    await page.waitForSelector('.bbar button[data-b="msg"]', { timeout: 15000, state: "attached" });
+    await page.evaluate(() => document.querySelector('.bbar button[data-b="msg"]').click());
+    await page.waitForSelector(".net-row", { timeout: 10000 });
+    await page.click(".net-row");
+    await page.waitForSelector("#netLog .bubble.them", { timeout: 10000 });
+  };
+  await step("Touch : appui prolongé sur un message → menu (Écouter, Copier, Signaler…) avec petite vibration, sans sélection de texte gênante", async () => {
+    await openKenji();
+    const sel = await page.$eval("#netLog .bubble.them", (b) => getComputedStyle(b).userSelect);
+    await page.dispatchEvent("#netLog .bubble.them", "contextmenu");
+    await page.waitForSelector("#netSheet");
+    const items = await page.$$eval("#netSheet .net-sheet-btn", (n) => n.map((b) => b.textContent.trim()));
+    const vib = await page.evaluate(() => window.__vib);
+    await page.screenshot({ path: path.join(OUT, "touch-menu-message.png") });
+    return { ok: sel === "none" && vib.length === 1 && items.some((x) => /Écouter/.test(x)) && items.some((x) => /Copier/.test(x)) && items.indexOf("⚠️ Signaler ce message") !== -1, detail: items.join(" · ") };
+  });
+  await step("Touch : « Signaler ce message » demande une confirmation, puis envoie le message précis à la modération", async () => {
+    const btn = () => page.locator("#netSheet .net-sheet-btn", { hasText: "Signaler" });
+    await btn().click();
+    const armed = await btn().textContent();
+    const before = await page.evaluate(() => (window.__inserts || []).filter((x) => x.table === "reports").length);
+    await btn().click();
+    await page.waitForFunction(() => /signalement a été envoyé/.test((document.getElementById("netChatMsg") || {}).textContent || ""), null, { timeout: 5000 });
+    const rep = await page.evaluate(() => (window.__inserts || []).filter((x) => x.table === "reports").pop().row);
+    return { ok: /Appuyez encore/.test(armed) && before === 0 && rep.reason === "message" && rep.message_id === "bbbbbbbb-0000-4000-8000-000000000001" && rep.body_copy === "Bonjour depuis Tokyo" && rep.reported === "00000000-0000-4000-8000-0000000000b1", detail: JSON.stringify(rep) };
+  });
+  await step("Touch : geste « retour » d'Android dans une discussion → retour à la liste, l'appli reste ouverte", async () => {
+    const url = page.url();
+    await page.goBack();
+    await page.waitForSelector(".net-row", { timeout: 5000 });
+    const r = await page.evaluate(() => ({ chat: !!document.querySelector("#netLog"), p: location.pathname }));
+    return { ok: !r.chat && /index\.html$/.test(r.p) && page.url() === url, detail: r.p };
+  });
+  await step("Touch : bouton ← Retour puis geste retour : pas de « retour dans le vide » (une seule entrée par discussion)", async () => {
+    await page.click(".net-row");
+    await page.waitForSelector("#netBack");
+    const n1 = await page.evaluate(() => history.length);
+    await page.click("#netBack");
+    await page.waitForSelector(".net-row", { timeout: 5000 });
+    await sleep(300);
+    const st = await page.evaluate(() => history.state);
+    await page.click(".net-row");
+    await page.waitForSelector("#netBack");
+    await page.goBack();
+    await page.waitForSelector(".net-row", { timeout: 5000 });
+    return { ok: !(st && st.ewNet === "chat") && !page._errors.length, detail: "historique " + n1 + ", état après Retour : " + JSON.stringify(st) };
+  });
+  await step("Touch : zones à toucher d'au moins 44 px (barres, en-tête de discussion, envoi, micro, 🔊)", async () => {
+    await page.click(".net-row");
+    await page.waitForSelector("#netBack");
+    const small = await page.evaluate(() => {
+      const sel = ["#ewsNav a", "#ewsTop a.brand", "#ewsTop button", "#netBack", "#netMore", "#netSend", "#netMic", "#netCallBtn", "#netLog .net-say", "#ewvBtn"];
+      const out = [];
+      sel.forEach((s) => document.querySelectorAll(s).forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.width && r.height && (r.width < 44 || r.height < 44)) out.push(s + " " + Math.round(r.width) + "×" + Math.round(r.height));
+      }));
+      return out;
+    });
+    return { ok: !small.length, detail: small.join(", ") || "toutes ≥ 44 px" };
+  });
+  await ctx.close();
 //@@NEXT@@
 
   await browser.close();

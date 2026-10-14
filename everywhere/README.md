@@ -258,3 +258,13 @@ Tests : `node everywhere/tests/piliers.js` (13 tests voix, dont 34 phrases compr
 - Indicateur commun « 🔊 Lecture en cours » avec ⏸ Arrêter, partout où le téléphone lit à voix haute.
 - Limites : écran éteint ou appli en arrière-plan = l'écoute s'arrête (limite du navigateur) ; les voix dépendent du téléphone.
 Tests : `node everywhere/tests/piliers.js` (6 tests écoute).
+
+## 0.6.6 — TOUCH (pilier 6)
+- TALK : appui prolongé sur un message = le même menu que le toucher (Écouter, Copier, Original/Traduction, Supprimer),
+  avec une petite vibration (Android) et sans sélection de texte gênante. Nouveau : « ⚠️ Signaler ce message »
+  (confirmation, puis le texte exact part à la modération, motif « message », visible dans gestion/).
+- Geste « retour » d'Android dans une discussion : retour à la liste, l'appli reste ouverte (pendant un appel : on reste).
+  Une seule entrée d'historique par discussion, même en passant par « ← Retour » ou la barre du bas.
+- En-tête de discussion : boutons portés à 44 px de haut. Aucun geste caché indispensable : chaque geste a un bouton.
+- Pas de glissement horizontal entre espaces (conflit avec le geste retour d'Android), comme prévu.
+Tests : `node everywhere/tests/piliers.js` (5 tests gestes ; 30 tests au total pour les 4 piliers).

@@ -42,8 +42,10 @@
       maybeSingle: function () { single = true; return b; },
       single: function () { single = true; return b; }
     };
-    ["select", "eq", "neq", "in", "or", "order", "limit", "gt", "lt", "gte", "lte", "is", "insert", "update", "upsert", "delete", "match", "range", "not", "filter"]
+    ["select", "eq", "neq", "in", "or", "order", "limit", "gt", "lt", "gte", "lte", "is", "update", "upsert", "delete", "match", "range", "not", "filter"]
       .forEach(function (m) { b[m] = function () { return b; }; });
+    // Les ajouts sont notés (window.__inserts) pour que les tests puissent les vérifier.
+    b.insert = function (v) { (window.__inserts = window.__inserts || []).push({ table: table, row: v }); return b; };
     return b;
   }
   function channel() {
