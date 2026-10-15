@@ -91,14 +91,9 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     return { ok: c.home === "rgb(8, 17, 31)" && /radial-gradient/.test(c.sky) && /63, 169, 245/.test(c.sky) && !/url\(/.test(c.sky) && /26, 115, 232/.test(c.talk) && c.nav === "rgb(11, 21, 38)",
       detail: "fond " + c.home + " · barre du bas " + c.nav };
   });
-  await step("Compte à rebours « Gratuit encore » jusqu'au 1er novembre 2026 (0 h, La Réunion) : visible avant, caché après", async () => {
-    await page.waitForTimeout(1100);
-    const r = await page.evaluate(() => ({ end: window.EWCountdown && window.EWCountdown.end, hidden: document.getElementById("countdown").hidden,
-      d: document.getElementById("cdD").textContent, h: document.getElementById("cdHh").textContent, sr: document.getElementById("cdSr").textContent, now: Date.now() }));
-    const before = r.now < r.end;
-    const expD = Math.floor((r.end - r.now) / 86400000);
-    const ok = r.end === Date.UTC(2026, 9, 31, 20, 0, 0) && (before ? (!r.hidden && Math.abs(Number(r.d) - expD) <= 1 && /^\d\d$/.test(r.h) && /jours/.test(r.sr)) : r.hidden);
-    return { ok, detail: before ? r.d + " j " + r.h + " h · « " + r.sr + " »" : "période gratuite terminée : caché" };
+  await step("Accueil : « Gratuit pour tous », sans compte à rebours ni date de fin (0.8.4)", async () => {
+    const r = await page.evaluate(() => ({ txt: (document.getElementById("freeAll") || {}).textContent, cd: !!document.getElementById("countdown"), api: !!window.EWCountdown }));
+    return { ok: r.txt === "Gratuit pour tous" && !r.cd && !r.api, detail: r.txt };
   });
   await step("Barre basse commune : 4 entrées Accueil, Talk, Everywhere, Profil", async () => {
     const labels = await page.$$eval("#mainnav a", (n) => n.map((a) => a.textContent.trim()));
