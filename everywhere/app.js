@@ -4,8 +4,8 @@
   "use strict";
   var CFG = window.EW_CONFIG || { env: "test", basePath: "../", talkReadyTimeoutMs: 15000 };
   var APPS = window.EW_APPS || [];
-  var VERSION = "0.8.4 (prototype)";
-  var VERSION_TAG = "0.8.4";
+  var VERSION = "0.8.5 (prototype)";
+  var VERSION_TAG = "0.8.5";
 
   // ---------- Stockage (peut être indisponible : navigation privée stricte, etc.) ----------
   var store = {
@@ -26,7 +26,7 @@
     fr: {
       skip: "Aller au contenu", offline: "Hors ligne : certaines fonctions sont indisponibles.",
       home: "Accueil", apps: "Applications", profile: "Profil", settings: "Paramètres", open_full: "Ouvrir en plein écran",
-      lead: "Parlez à tout le monde, chacun dans sa langue.", your_apps: "Vos applications",
+      lead: "Parlez dans votre langue, il entend dans la sienne.", your_apps: "Vos applications",
       talk_tag: "Messages et appels traduits", ew_tag: "Conversation côte à côte", learn_tag: "Apprendre sans limites.",
       talk_name: "TALK", ew_name: "EVERYWHERE", trip_name: "VOYAGE", trip_tag: "Phrases utiles hors ligne",
       learn_name: "APPRENDRE", learn_tag2: "Leçons et révisions",
@@ -61,7 +61,7 @@
     en: {
       skip: "Skip to content", offline: "Offline: some features are unavailable.",
       home: "Home", apps: "Apps", profile: "Profile", settings: "Settings", open_full: "Open full screen",
-      lead: "Talk to everyone, each in their own language.", your_apps: "Your apps",
+      lead: "Speak your language, they hear theirs.", your_apps: "Your apps",
       talk_tag: "Translated messages and calls", ew_tag: "Side-by-side conversation", learn_tag: "Learn without limits.",
       talk_name: "TALK", ew_name: "EVERYWHERE", trip_name: "TRAVEL", trip_tag: "Useful phrases, works offline",
       learn_name: "LEARN", learn_tag2: "Lessons and reviews",

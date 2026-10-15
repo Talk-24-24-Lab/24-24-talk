@@ -72,7 +72,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const lead = (await page.textContent("#view-accueil .lead")).trim();
     const cards = await page.$$eval("#view-accueil a.duo-card", (n) => n.map((x) => ({ t: x.querySelector("b").textContent, d: x.textContent, href: x.getAttribute("href"), w: x.getBoundingClientRect().width, h: x.getBoundingClientRect().height })));
     const want = [["TALK", /Messages et appels traduits/], ["EVERYWHERE", /Conversation côte à côte/], ["VOYAGE", /Phrases utiles hors ligne/], ["APPRENDRE", /Leçons et révisions/]];
-    const ok = h1 === "One world. Every voice." && lead === "Parlez à tout le monde, chacun dans sa langue." && cards.length === 4 &&
+    const ok = h1 === "One world. Every voice." && lead === "Parlez dans votre langue, il entend dans la sienne." && cards.length === 4 &&
       want.every((w, i) => cards[i].t === w[0] && w[1].test(cards[i].d)) && cards.every((c) => c.w >= 330 && c.h >= 72);
     return { ok, detail: cards.map((c) => c.t + " → " + c.href + " (" + Math.round(c.w) + "×" + Math.round(c.h) + " px)").join(" · ") };
   });
@@ -932,8 +932,8 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   await ctx.close();
 
   // ---------- Autres langues de TALK (0.8.2) : accueil, barres et compte à rebours traduits, arabe de droite à gauche ----------
-  for (const [loc, lead, nav, rtl] of [["es-ES", "Habla con todo el mundo, cada uno en su idioma.", "Inicio,Talk,Everywhere,Perfil", false],
-    ["ar", "تحدّث مع الجميع، كلٌّ بلغته.", "الرئيسية,Talk,Everywhere,ملفي", true], ["ko-KR", "Talk to everyone, each in their own language.", "Home,Talk,Everywhere,Profile", false]]) {
+  for (const [loc, lead, nav, rtl] of [["es-ES", "Habla en tu idioma, el otro escucha en el suyo.", "Inicio,Talk,Everywhere,Perfil", false],
+    ["ar", "تحدّث بلغتك، ويسمعك الآخر بلغته.", "الرئيسية,Talk,Everywhere,ملفي", true], ["ko-KR", "Speak your language, they hear theirs.", "Home,Talk,Everywhere,Profile", false]]) {
     ctx = await newCtx({ locale: loc });
     page = await openPortal(ctx);
     await step("Accueil en " + loc + " : phrase, barre du bas et sens d'écriture", async () => {
