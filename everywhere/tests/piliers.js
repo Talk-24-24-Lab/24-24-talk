@@ -668,7 +668,10 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.tap('[data-replay="2"]');
     await page.waitForFunction(() => !document.querySelector('[data-mic="2"]').classList.contains("on"), null, { timeout: 3000 });
     const r = await page.evaluate(() => window.__spoken.slice());
-    return { ok: r.length === 1 && /slow answer/.test(r[0]), detail: "micro coupé, relu : " + JSON.stringify(r) };
+    // Le micro coupé envoie aussi ce qui avait déjà été dit (« rien ») : sa traduction « [rien] » peut être lue juste après,
+    // selon la vitesse de la machine. Ce qui compte : la réécoute est lue en premier, une seule fois.
+    const ok = r.length >= 1 && /slow answer/.test(r[0]) && r.slice(1).every((x) => x === "[rien]");
+    return { ok, detail: "micro coupé, relu : " + JSON.stringify(r) };
   });
   await ctx.close();
 
@@ -692,7 +695,9 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     });
     await ctx.close();
   }
-  // Tarif affiché dans la monnaie du pays (fuseau horaire d'abord, puis région de la langue), dollars sinon.
+  // Tarif du bouton d'abonnement dans la monnaie du pays (fuseau horaire d'abord, puis région de la langue), dollars sinon.
+  // Le bandeau, lui, n'annonce plus de prix depuis 0.8.6 (« Gratuit pour tous », choix du 15 oct. 2026),
+  // et la carte d'abonnement est masquée tant qu'aucun paiement n'existe ; le prix reste calculé pour plus tard.
   for (const [nom, opts, attendu] of [
     ["La Réunion, français", { locale: "fr-FR", timezoneId: "Indian/Reunion" }, /1,99\s?€/],
     ["Madagascar, téléphone en français", { locale: "fr-FR", timezoneId: "Indian/Antananarivo" }, /9\s?900\s?Ar/],
@@ -703,10 +708,10 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     ctx = await newCtx(opts, false);
     page = await open(ctx, URL_TALK);
     await step("Tarif dans la monnaie locale : " + nom, async () => {
-      await page.waitForFunction(() => { const b = document.querySelector(".promo-banner"); return b && b.textContent.indexOf("{price}") === -1 && /\d/.test(b.textContent); }, null, { timeout: 15000 });
+      await page.waitForFunction(() => { const b = document.getElementById("subBtn"); return b && b.textContent.indexOf("{price}") === -1 && /\d/.test(b.textContent); }, null, { timeout: 15000 });
       await page.waitForTimeout(300);
-      const r = await page.evaluate(() => ({ promo: document.querySelector(".promo-banner").textContent, btn: (document.getElementById("subBtn") || {}).textContent || "" }));
-      const ok = attendu.test(r.promo) && attendu.test(r.btn) && !/\{price\}/.test(r.promo + r.btn);
+      const r = await page.evaluate(() => ({ promo: document.querySelector(".promo-banner").textContent, btn: (document.getElementById("subBtn") || {}).textContent || "", cache: !!(document.getElementById("subCard") || {}).hidden }));
+      const ok = !/\d/.test(r.promo) && r.cache && attendu.test(r.btn) && !/\{price\}/.test(r.promo + r.btn);
       return { ok, detail: JSON.stringify(r).slice(0, 220) };
     });
     await ctx.close();
