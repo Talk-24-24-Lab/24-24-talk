@@ -692,7 +692,8 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     });
     await ctx.close();
   }
-  // Tarif affiché dans la monnaie du pays (fuseau horaire d'abord, puis région de la langue), dollars sinon.
+  // Tarif du bouton d'abonnement dans la monnaie du pays (fuseau horaire d'abord, puis région de la langue), dollars sinon.
+  // Le bandeau, lui, n'annonce plus de prix depuis 0.8.6 (« Gratuit pour tous », choix du 15 oct. 2026).
   for (const [nom, opts, attendu] of [
     ["La Réunion, français", { locale: "fr-FR", timezoneId: "Indian/Reunion" }, /1,99\s?€/],
     ["Madagascar, téléphone en français", { locale: "fr-FR", timezoneId: "Indian/Antananarivo" }, /9\s?900\s?Ar/],
@@ -703,10 +704,10 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     ctx = await newCtx(opts, false);
     page = await open(ctx, URL_TALK);
     await step("Tarif dans la monnaie locale : " + nom, async () => {
-      await page.waitForFunction(() => { const b = document.querySelector(".promo-banner"); return b && b.textContent.indexOf("{price}") === -1 && /\d/.test(b.textContent); }, null, { timeout: 15000 });
+      await page.waitForFunction(() => { const b = document.getElementById("subBtn"); return b && b.textContent.indexOf("{price}") === -1 && /\d/.test(b.textContent); }, null, { timeout: 15000 });
       await page.waitForTimeout(300);
       const r = await page.evaluate(() => ({ promo: document.querySelector(".promo-banner").textContent, btn: (document.getElementById("subBtn") || {}).textContent || "" }));
-      const ok = attendu.test(r.promo) && attendu.test(r.btn) && !/\{price\}/.test(r.promo + r.btn);
+      const ok = !/\d/.test(r.promo) && attendu.test(r.btn) && !/\{price\}/.test(r.promo + r.btn);
       return { ok, detail: JSON.stringify(r).slice(0, 220) };
     });
     await ctx.close();

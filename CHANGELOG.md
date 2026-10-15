@@ -2,6 +2,13 @@
 
 > © 2026 Sébastien Chevrier. Tous droits réservés. La production n'est concernée par aucune de ces versions.
 
+## 0.8.6 (prototype, 15 octobre 2026) — TALK : plus de « puis 1,99 €/mois », site de test seulement
+
+### Modifié
+- **TALK** : le bandeau du haut et le pied de page disent « Gratuit pour tous, aucun paiement demandé » au lieu de
+  « Gratuit jusqu'au 1er novembre 2026, puis 1,99 €/mois », dans les 31 langues de TALK (accord de Sébastien, 15 oct. 2026).
+- Pas encore changé (décision à part) : le bouton « S'abonner — 1,99 €/mois » des Réglages et les CGV (sections 1 à 3).
+
 ## 0.8.5 (prototype, 15 octobre 2026) — nouvelle phrase d'accueil, site de test seulement
 
 ### Modifié
