@@ -135,7 +135,7 @@
     var pc = max ? Math.min(100, Math.round(v / max * 100)) : 0;
     return '<div class="lx-bar" role="progressbar" aria-valuemin="0" aria-valuemax="' + max + '" aria-valuenow="' + Math.min(v, max) + '" aria-label="' + esc(label) + '"><span style="width:' + pc + '%"></span></div>';
   }
-  function backLink(href) { return '<a class="lx-back" href="' + href + '">← ' + esc(t("back")) + "</a>"; }
+  function backLink(href) { return '<a class="lx-back" href="' + href + '">' + (document.documentElement.dir === "rtl" ? "→ " : "← ") + esc(t("back")) + "</a>"; }
   function stars(s, n) {
     var k = n ? (s / n >= 0.99 ? 3 : s / n >= 0.6 ? 2 : s / n > 0 ? 1 : 0) : 0;
     return '<p class="lx-stars" aria-label="' + k + ' / 3">' + "★★★".slice(0, k) + '<span>' + "★★★".slice(0, 3 - k) + "</span></p>";

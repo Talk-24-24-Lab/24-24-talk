@@ -7,12 +7,12 @@
 window.EW_PHRASES = {
   langs: ["fr", "en", "es", "it", "de", "pt"],
   cats: [
-    { id: "base", icon: "👋", name: { fr: "Essentiel", en: "Essentials" } },
-    { id: "transport", icon: "🚆", name: { fr: "Transport", en: "Transport" } },
-    { id: "hotel", icon: "🏨", name: { fr: "Hébergement", en: "Lodging" } },
-    { id: "resto", icon: "🍽️", name: { fr: "Restaurant", en: "Restaurant" } },
-    { id: "achats", icon: "🛍️", name: { fr: "Achats", en: "Shopping" } },
-    { id: "urgence", icon: "🚑", name: { fr: "Santé et urgence", en: "Health and emergency" } }
+    { id: "base", icon: "👋", name: { fr: "Essentiel", en: "Essentials", es: "Lo esencial", pt: "O essencial", de: "Das Wichtigste", it: "Essenziale", zh: "基础", ja: "基本", ar: "الأساسيات", ru: "Самое нужное", mg: "Tena ilaina" } },
+    { id: "transport", icon: "🚆", name: { fr: "Transport", en: "Transport", es: "Transporte", pt: "Transportes", de: "Verkehr", it: "Trasporti", zh: "交通", ja: "交通", ar: "المواصلات", ru: "Транспорт", mg: "Fitaterana" } },
+    { id: "hotel", icon: "🏨", name: { fr: "Hébergement", en: "Lodging", es: "Alojamiento", pt: "Alojamento", de: "Unterkunft", it: "Alloggio", zh: "住宿", ja: "宿泊", ar: "الإقامة", ru: "Жильё", mg: "Toeram-pandriana" } },
+    { id: "resto", icon: "🍽️", name: { fr: "Restaurant", en: "Restaurant", es: "Restaurante", pt: "Restaurante", de: "Restaurant", it: "Ristorante", zh: "餐厅", ja: "レストラン", ar: "المطعم", ru: "Ресторан", mg: "Trano fisakafoana" } },
+    { id: "achats", icon: "🛍️", name: { fr: "Achats", en: "Shopping", es: "Compras", pt: "Compras", de: "Einkaufen", it: "Acquisti", zh: "购物", ja: "買い物", ar: "التسوّق", ru: "Покупки", mg: "Fividianana" } },
+    { id: "urgence", icon: "🚑", name: { fr: "Santé et urgence", en: "Health and emergency", es: "Salud y urgencias", pt: "Saúde e emergências", de: "Gesundheit und Notfall", it: "Salute ed emergenze", zh: "健康与急救", ja: "健康と緊急時", ar: "الصحة والطوارئ", ru: "Здоровье и экстренные случаи", mg: "Fahasalamana sy vonjy maika" } }
   ],
   list: [
     { id: "b1", cat: "base", fr: "Bonjour", en: "Hello", es: "Hola", it: "Buongiorno", de: "Guten Tag", pt: "Olá" },

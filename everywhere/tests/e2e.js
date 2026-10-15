@@ -955,7 +955,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   page = await openPortal(ctx);
   await step("Écrans traduits : chaque langue a tous les textes, avec les mêmes {repères} et listes", async () => {
     const bad = await page.evaluate(() => {
-      const mods = { everywhere: window.EWEverywhere._strings, voyage: window.EWVoyage._strings, learn: window.EWLearn._strings, profil: window.EWProfil._strings };
+      const mods = { everywhere: window.EWEverywhere._strings, voyage: window.EWVoyage._strings, learn: window.EWLearn._strings, profil: window.EWProfil._strings, connect: window.EWConnect._strings };
       const marks = (s) => (String(s).match(/\{\w+\}/g) || []).sort().join("") + "|" + String(s).split("|").length;
       const out = [];
       Object.keys(mods).forEach((m) => ["es", "pt", "de", "it", "zh", "ja", "ar", "ru", "mg"].forEach((l) => Object.keys(mods[m].en).forEach((k) => {
@@ -964,13 +964,13 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
       })));
       return out;
     });
-    return { ok: bad.length === 0, detail: bad.length ? bad.slice(0, 6).join(", ") : "4 écrans × 9 langues complets" };
+    return { ok: bad.length === 0, detail: bad.length ? bad.slice(0, 6).join(", ") : "5 écrans × 9 langues complets" };
   });
   await ctx.close();
   for (const [loc, ui] of [["es-ES", "es"], ["ar", "ar"], ["ja-JP", "ja"]]) {
     ctx = await newCtx({ locale: loc });
     page = await openPortal(ctx);
-    for (const [route, mod, key, sel] of [["#/everywhere", "EWEverywhere", "sub", "#ewTr"], ["#/everywhere/voyage", "EWVoyage", "sub", "#ewTr"],
+    for (const [route, mod, key, sel] of [["#/everywhere", "EWEverywhere", "face", "#ewTr"], ["#/everywhere/voyage", "EWVoyage", "sub", "#ewTr"],
       ["#/learn", "EWLearn", "sub", "#ewLearn"], ["#/profil/linguistique", "EWProfil", "s_langs", "#lpEdit"]]) {
       await step("En " + loc + " : " + route + " dans la langue de l'interface", async () => {
         await page.goto(URL_EW + route);
