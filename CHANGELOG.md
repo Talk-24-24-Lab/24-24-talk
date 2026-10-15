@@ -7,7 +7,16 @@
 ### Modifié
 - **TALK** : le bandeau du haut et le pied de page disent « Gratuit pour tous, aucun paiement demandé » au lieu de
   « Gratuit jusqu'au 1er novembre 2026, puis 1,99 €/mois », dans les 31 langues de TALK (accord de Sébastien, 15 oct. 2026).
-- Pas encore changé (décision à part) : le bouton « S'abonner — 1,99 €/mois » des Réglages et les CGV (sections 1 à 3).
+- **TALK, Réglages** : la carte « Abonnement » (bouton « S'abonner — 1,99 €/mois ») est masquée tant qu'aucun paiement
+  n'existe. Le calcul du prix dans la monnaie locale est gardé pour plus tard.
+- **CGV** (sections 1 à 3) : « L'application est gratuite pour tous » ; aucun abonnement payant n'est en place, et un
+  éventuel abonnement serait annoncé avant toute facturation. Texte à faire relire par un avocat avant la production.
+- **Page de présentation** : « Gratuit pour tous » au lieu de « Gratuit jusqu'au 1er novembre 2026 ».
+
+### Corrigé (tests)
+- Test « Côte à côte : Répéter pendant que le micro écoute » : il échouait une fois sur deux ou trois, selon la vitesse
+  de la machine, car la traduction de la phrase en cours pouvait être lue juste après la réécoute. Il vérifie maintenant
+  que la réécoute est lue en premier, une seule fois.
 
 ## 0.8.5 (prototype, 15 octobre 2026) — nouvelle phrase d'accueil, site de test seulement
 

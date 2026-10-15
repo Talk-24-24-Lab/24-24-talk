@@ -760,7 +760,8 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
       <button class="btn primary" id="installBtn" style="width:100%;margin-top:8px;" hidden data-i18n="install_btn">📲 Installer l'application</button>
       <p class="install-help" id="installHelp"></p>
     </div>
-    <div class="card" id="subCard">
+    <!-- Carte d'abonnement masquée en 0.8.6 : aucun paiement n'existe, l'appli reste gratuite (choix du 15 oct. 2026). -->
+    <div class="card" id="subCard" hidden>
       <div class="settings-row">
         <span data-i18n="sub">Abonnement</span>
         <span id="subStatus" style="color:var(--muted);font-size:13px;"></span>
@@ -843,31 +844,24 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   <section id="legal-cgv" class="view legal-view">
 <a class="back" href="index.html">← Retour à 24/24 Talk</a>
   <h1>Conditions Générales de Vente</h1>
-  <p class="updated">Dernière mise à jour : 29 septembre 2026</p>
+  <p class="updated">Dernière mise à jour : 15 octobre 2026</p>
 
-  <h2>1. Offre de lancement</h2>
+  <h2>1. Gratuité</h2>
   <div class="price">
-    <p><b>Gratuit jusqu'au 1er novembre 2026.</b><br>
-    Toutes les fonctionnalités de l'application sont accessibles sans frais jusqu'à cette date.</p>
+    <p><b>L'application est gratuite pour tous.</b><br>
+    Toutes ses fonctionnalités sont accessibles sans frais, sans abonnement et sans carte bancaire.
+    Aucun paiement n'est demandé.</p>
   </div>
 
-  <h2>2. Tarif après l'offre de lancement</h2>
-  <div class="price">
-    <p>À partir du 1er novembre 2026 : <b><span data-price>1,99 €</span> / mois</b> pour un accès complet et illimité.</p>
-  </div>
-  <p>Le tarif indiqué correspond à un abonnement mensuel, résiliable à tout moment. Il est affiché
-  dans la monnaie de votre pays lorsque l'application la connaît (euro, livre, franc suisse,
-  dollar canadien ou australien, yen, real, ariary, roupie mauricienne), sinon en dollars américains.
-  Les taxes applicables sont calculées par le prestataire de paiement en ligne utilisé.</p>
+  <h2>2. Abonnement payant éventuel</h2>
+  <p>Aucun abonnement payant n'est en place à ce jour. Si un abonnement payant est créé un jour,
+  son tarif et sa date de début seront annoncés dans l'application et sur cette page avant toute
+  facturation, et aucun paiement ne sera prélevé sans l'accord exprès de l'utilisateur.</p>
 
   <h2>3. Modalités de paiement</h2>
-  <p>Les paiements sont traités exclusivement par un prestataire de paiement en ligne tiers
-  (Stripe, ou équivalent). L'éditeur ne collecte, ne stocke et ne traite directement aucune
-  donnée bancaire.</p>
-  <p><i>Note pour la version web actuelle : à la date indiquée ci-dessus, aucun module de paiement
-  n'est encore intégré dans cette version web de l'application. La bascule effective vers un
-  abonnement payant nécessitera la mise en place d'un prestataire de paiement (Stripe ou
-  équivalent) avant le 1er novembre 2026. Cette page sera mise à jour dès que ce sera fait.</i></p>
+  <p>Si un paiement est mis en place, il sera traité exclusivement par un prestataire de paiement
+  en ligne tiers (Stripe, ou équivalent). L'éditeur ne collecte, ne stocke et ne traite directement
+  aucune donnée bancaire. À ce jour, aucun module de paiement n'est intégré à l'application.</p>
 
   <h2>4. Droit de rétractation</h2>
   <p>Conformément à la réglementation applicable, le droit de rétractation de 14 jours pour les
