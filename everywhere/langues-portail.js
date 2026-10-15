@@ -4,6 +4,7 @@
    Les écrans EVERYWHERE, Voyage, Apprendre et Profil linguistique ont leurs textes dans langues-ecrans.js (0.8.3). */
 window.EW_PORTAL_STR = {
  "es": {
+  "free_all": "Gratis para todos",
   "brand_a": "24/24 ONE WORLD, inicio",
   "main_nav": "Navegación principal",
   "skip": "Ir al contenido",
@@ -24,12 +25,6 @@ window.EW_PORTAL_STR = {
   "trip_tag": "Frases útiles sin conexión",
   "learn_name": "APRENDER",
   "learn_tag2": "Lecciones y repasos",
-  "cd_title": "Gratis todavía",
-  "cd_d": "días",
-  "cd_h": "horas",
-  "cd_m": "minutos",
-  "cd_s": "segundos",
-  "cd_sr": "Gratis todavía {d} días y {h} horas.",
   "hub_sub": "Traducir, conectar y aprender en todas partes.",
   "hub_learn_h": "Aprender",
   "hub_learn": "Aprender un idioma",
@@ -92,6 +87,7 @@ window.EW_PORTAL_STR = {
   "title_app": "{app}"
  },
  "pt": {
+  "free_all": "Grátis para todos",
   "brand_a": "24/24 ONE WORLD, início",
   "main_nav": "Navegação principal",
   "skip": "Ir para o conteúdo",
@@ -112,12 +108,6 @@ window.EW_PORTAL_STR = {
   "trip_tag": "Frases úteis sem ligação",
   "learn_name": "APRENDER",
   "learn_tag2": "Lições e revisões",
-  "cd_title": "Ainda grátis",
-  "cd_d": "dias",
-  "cd_h": "horas",
-  "cd_m": "minutos",
-  "cd_s": "segundos",
-  "cd_sr": "Ainda grátis durante {d} dias e {h} horas.",
   "hub_sub": "Traduzir, ligar e aprender em todo o lado.",
   "hub_learn_h": "Aprender",
   "hub_learn": "Aprender uma língua",
@@ -180,6 +170,7 @@ window.EW_PORTAL_STR = {
   "title_app": "{app}"
  },
  "de": {
+  "free_all": "Kostenlos für alle",
   "brand_a": "24/24 ONE WORLD, Startseite",
   "main_nav": "Hauptnavigation",
   "skip": "Zum Inhalt springen",
@@ -200,12 +191,6 @@ window.EW_PORTAL_STR = {
   "trip_tag": "Nützliche Sätze, auch offline",
   "learn_name": "LERNEN",
   "learn_tag2": "Lektionen und Wiederholungen",
-  "cd_title": "Noch kostenlos",
-  "cd_d": "Tage",
-  "cd_h": "Stunden",
-  "cd_m": "Minuten",
-  "cd_s": "Sekunden",
-  "cd_sr": "Noch {d} Tage und {h} Stunden kostenlos.",
   "hub_sub": "Überall übersetzen, verbinden und lernen.",
   "hub_learn_h": "Lernen",
   "hub_learn": "Eine Sprache lernen",
@@ -268,6 +253,7 @@ window.EW_PORTAL_STR = {
   "title_app": "{app}"
  },
  "it": {
+  "free_all": "Gratis per tutti",
   "brand_a": "24/24 ONE WORLD, home",
   "main_nav": "Navigazione principale",
   "skip": "Vai al contenuto",
@@ -288,12 +274,6 @@ window.EW_PORTAL_STR = {
   "trip_tag": "Frasi utili anche offline",
   "learn_name": "IMPARARE",
   "learn_tag2": "Lezioni e ripassi",
-  "cd_title": "Ancora gratis",
-  "cd_d": "giorni",
-  "cd_h": "ore",
-  "cd_m": "minuti",
-  "cd_s": "secondi",
-  "cd_sr": "Ancora gratis per {d} giorni e {h} ore.",
   "hub_sub": "Tradurre, connettersi e imparare ovunque.",
   "hub_learn_h": "Imparare",
   "hub_learn": "Imparare una lingua",
@@ -356,6 +336,7 @@ window.EW_PORTAL_STR = {
   "title_app": "{app}"
  },
  "zh": {
+  "free_all": "对所有人免费",
   "brand_a": "24/24 ONE WORLD，首页",
   "main_nav": "主导航",
   "skip": "跳到内容",
@@ -376,12 +357,6 @@ window.EW_PORTAL_STR = {
   "trip_tag": "实用短语，离线可用",
   "learn_name": "学习",
   "learn_tag2": "课程与复习",
-  "cd_title": "免费剩余",
-  "cd_d": "天",
-  "cd_h": "小时",
-  "cd_m": "分钟",
-  "cd_s": "秒",
-  "cd_sr": "免费期还剩 {d} 天 {h} 小时。",
   "hub_sub": "随时随地翻译、联系和学习。",
   "hub_learn_h": "学习",
   "hub_learn": "学习一门语言",
@@ -444,6 +419,7 @@ window.EW_PORTAL_STR = {
   "title_app": "{app}"
  },
  "ja": {
+  "free_all": "すべての人に無料",
   "brand_a": "24/24 ONE WORLD、ホーム",
   "main_nav": "メインナビゲーション",
   "skip": "本文へ移動",
@@ -464,12 +440,6 @@ window.EW_PORTAL_STR = {
   "trip_tag": "便利なフレーズ、オフライン対応",
   "learn_name": "学ぶ",
   "learn_tag2": "レッスンと復習",
-  "cd_title": "無料期間の残り",
-  "cd_d": "日",
-  "cd_h": "時間",
-  "cd_m": "分",
-  "cd_s": "秒",
-  "cd_sr": "無料期間の残りは {d} 日と {h} 時間です。",
   "hub_sub": "どこでも翻訳し、つながり、学ぶ。",
   "hub_learn_h": "学ぶ",
   "hub_learn": "言語を学ぶ",
@@ -532,6 +502,7 @@ window.EW_PORTAL_STR = {
   "title_app": "{app}"
  },
  "ar": {
+  "free_all": "مجاني للجميع",
   "brand_a": "24/24 ONE WORLD، الصفحة الرئيسية",
   "main_nav": "التنقل الرئيسي",
   "skip": "انتقل إلى المحتوى",
@@ -552,12 +523,6 @@ window.EW_PORTAL_STR = {
   "trip_tag": "عبارات مفيدة دون اتصال",
   "learn_name": "تعلّم",
   "learn_tag2": "دروس ومراجعات",
-  "cd_title": "مجاني لمدة",
-  "cd_d": "أيام",
-  "cd_h": "ساعات",
-  "cd_m": "دقائق",
-  "cd_s": "ثوانٍ",
-  "cd_sr": "مجاني لمدة {d} يومًا و{h} ساعة.",
   "hub_sub": "ترجم وتواصل وتعلّم في كل مكان.",
   "hub_learn_h": "تعلّم",
   "hub_learn": "تعلّم لغة",
@@ -620,6 +585,7 @@ window.EW_PORTAL_STR = {
   "title_app": "{app}"
  },
  "ru": {
+  "free_all": "Бесплатно для всех",
   "brand_a": "24/24 ONE WORLD, главная",
   "main_nav": "Основная навигация",
   "skip": "Перейти к содержимому",
@@ -640,12 +606,6 @@ window.EW_PORTAL_STR = {
   "trip_tag": "Полезные фразы, работает офлайн",
   "learn_name": "УЧИТЬСЯ",
   "learn_tag2": "Уроки и повторение",
-  "cd_title": "Бесплатно ещё",
-  "cd_d": "дн.",
-  "cd_h": "ч",
-  "cd_m": "мин",
-  "cd_s": "сек",
-  "cd_sr": "Бесплатно ещё {d} дн. и {h} ч.",
   "hub_sub": "Переводите, общайтесь и учитесь где угодно.",
   "hub_learn_h": "Учиться",
   "hub_learn": "Выучить язык",
@@ -708,6 +668,7 @@ window.EW_PORTAL_STR = {
   "title_app": "{app}"
  },
  "mg": {
+  "free_all": "Maimaim-poana ho an'ny rehetra",
   "brand_a": "24/24 ONE WORLD, fandraisana",
   "main_nav": "Fitetezana lehibe",
   "skip": "Mankany amin'ny votoaty",
@@ -728,12 +689,6 @@ window.EW_PORTAL_STR = {
   "trip_tag": "Fehezanteny ilaina, na tsy misy aterineto",
   "learn_name": "MIANARA",
   "learn_tag2": "Lesona sy famerenana",
-  "cd_title": "Maimaim-poana mbola",
-  "cd_d": "andro",
-  "cd_h": "ora",
-  "cd_m": "minitra",
-  "cd_s": "segondra",
-  "cd_sr": "Maimaim-poana mbola {d} andro sy {h} ora.",
   "hub_sub": "Mandika, mifandray ary mianatra na aiza na aiza.",
   "hub_learn_h": "Mianara",
   "hub_learn": "Mianatra fiteny",

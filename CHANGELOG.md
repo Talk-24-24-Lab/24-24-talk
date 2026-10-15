@@ -2,6 +2,16 @@
 
 > © 2026 Sébastien Chevrier. Tous droits réservés. La production n'est concernée par aucune de ces versions.
 
+## 0.8.4 (prototype, 15 octobre 2026) — « Gratuit pour tous » sur l'accueil, site de test seulement
+
+### Modifié
+- **Accueil** : le compte à rebours « Gratuit encore » jusqu'au 1er novembre est remplacé par « Gratuit pour tous », dans
+  les 11 langues. L'appli reste gratuite tant que le paiement (Stripe) et une structure juridique n'existent pas (choix de
+  Sébastien, 15 octobre 2026) ; le compte à rebours laissait croire que la gratuité s'arrêtait le 1er novembre.
+- Pas encore changé : le bandeau de TALK, son pied de page et les CGV disent toujours « gratuit jusqu'au 1er novembre,
+  puis 1,99 €/mois » (décision à part, avec relecture juridique pour les CGV).
+- Cache hors connexion `ew-shell-v28`.
+
 ## 0.8.3 (prototype, 15 octobre 2026) — EVERYWHERE, Voyage, Apprendre et Profil dans les langues de TALK, site de test seulement
 
 ### Ajouté
