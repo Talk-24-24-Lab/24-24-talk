@@ -31,6 +31,7 @@
 <script src="apps.js"></script>
 <script src="shell.js"></script>
 <script src="langues-portail.js"></script>
+<script src="langues-ecrans.js"></script>
 </head>
 <body>
 <a class="skip" href="#main" data-t="skip">Aller au contenu</a>
@@ -39,9 +40,9 @@
 
 <div class="shell">
   <header class="topbar">
-    <a class="brand" href="#/accueil" aria-label="24/24 ONE WORLD, accueil">
+    <a class="brand" href="#/accueil" data-t-aria="brand_a" aria-label="24/24 ONE WORLD, accueil">
       <img src="logo.svg" alt="" width="36" height="36">
-      <span class="brand-txt"><b>24/24</b> <span>ONE WORLD</span></span>
+      <span class="brand-txt" dir="ltr"><b>24/24</b> <span>ONE WORLD</span></span>
     </a>
     <span class="topbar-title" id="topTitle" aria-live="polite"></span>
     <a class="icon-btn" id="topOpen" href="../index.html" data-t-aria="open_full" aria-label="Ouvrir en plein écran" hidden>
@@ -52,7 +53,7 @@
     </button>
   </header>
 
-  <nav class="mainnav" id="mainnav" aria-label="Navigation principale"></nav>
+  <nav class="mainnav" id="mainnav" data-t-aria="main_nav" aria-label="Navigation principale"></nav>
 
   <main id="main" tabindex="-1">
     <!-- ACCUEIL 0.8.0 (maquette validée le 14 octobre 2026) : ciel bleu nuit et planète en CSS (aucune image),

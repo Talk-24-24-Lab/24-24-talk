@@ -950,6 +950,64 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await ctx.close();
   }
 
+  // ---------- EVERYWHERE, Voyage, Apprendre et Profil linguistique dans les langues de l'interface (0.8.3) ----------
+  ctx = await newCtx();
+  page = await openPortal(ctx);
+  await step("Écrans traduits : chaque langue a tous les textes, avec les mêmes {repères} et listes", async () => {
+    const bad = await page.evaluate(() => {
+      const mods = { everywhere: window.EWEverywhere._strings, voyage: window.EWVoyage._strings, learn: window.EWLearn._strings, profil: window.EWProfil._strings, connect: window.EWConnect._strings };
+      const marks = (s) => (String(s).match(/\{\w+\}/g) || []).sort().join("") + "|" + String(s).split("|").length;
+      const out = [];
+      Object.keys(mods).forEach((m) => ["es", "pt", "de", "it", "zh", "ja", "ar", "ru", "mg"].forEach((l) => Object.keys(mods[m].en).forEach((k) => {
+        const v = mods[m][l] && mods[m][l][k];
+        if (!v || marks(v) !== marks(mods[m].en[k])) out.push(m + "." + l + "." + k);
+      })));
+      return out;
+    });
+    return { ok: bad.length === 0, detail: bad.length ? bad.slice(0, 6).join(", ") : "5 écrans × 9 langues complets" };
+  });
+  await ctx.close();
+  for (const choice of ["es", "ko"]) {
+    ctx = await newCtx();
+    page = await openPortal(ctx);
+    await step("Profil linguistique : « Enregistrer » garde la langue choisie dans TALK (" + choice + ")", async () => {
+      await page.evaluate((c) => localStorage.setItem("lc_uilang", c), choice);
+      await page.goto(URL_EW + "#/profil/linguistique");
+      await page.reload();
+      await page.waitForSelector("#lpUi");
+      const shown = await page.$eval("#lpUi", (s) => s.value);
+      await page.click("#lpSave");
+      await page.waitForTimeout(300);
+      const kept = await page.evaluate(() => localStorage.getItem("lc_uilang"));
+      return { ok: shown === choice && kept === choice, detail: "menu " + shown + ", réglage après enregistrement " + kept };
+    });
+    await ctx.close();
+  }
+  for (const [loc, ui] of [["es-ES", "es"], ["ar", "ar"], ["ja-JP", "ja"]]) {
+    ctx = await newCtx({ locale: loc });
+    page = await openPortal(ctx);
+    for (const [route, mod, key, sel] of [["#/everywhere", "EWEverywhere", "face", "#ewTr"], ["#/everywhere/voyage", "EWVoyage", "sub", "#ewTr"],
+      ["#/learn", "EWLearn", "sub", "#ewLearn"], ["#/profil/linguistique", "EWProfil", "s_langs", "#lpEdit"]]) {
+      await step("En " + loc + " : " + route + " dans la langue de l'interface", async () => {
+        await page.goto(URL_EW + route);
+        await page.waitForFunction((s) => document.querySelector(s) && document.querySelector(s).textContent.trim().length > 20, sel);
+        const r = await page.evaluate(([mod, key, sel, ui]) => {
+          const want = window[mod]._strings[ui][key], fr = window[mod]._strings.fr[key], txt = document.querySelector(sel).textContent;
+          return { has: txt.indexOf(want) !== -1, fr: want !== fr && txt.indexOf(fr) !== -1, want, sw: document.documentElement.scrollWidth <= innerWidth };
+        }, [mod, key, sel, ui]);
+        if (route === "#/everywhere/voyage") await page.screenshot({ path: path.join(OUT, "voyage-" + ui + ".png") });
+        return { ok: r.has && !r.fr && r.sw, detail: r.want };
+      });
+    }
+    await step("En " + loc + " : noms des langues dans la langue de l'interface", async () => {
+      await page.goto(URL_EW + "#/profil/linguistique");
+      await page.waitForSelector("#lpNative");
+      const r = await page.evaluate(() => [...document.querySelectorAll("#lpNative option")].map((o) => o.textContent).find((x) => /🇬🇧/.test(x)) || "");
+      return { ok: !!r && !/Anglais/.test(r), detail: r };
+    });
+    await ctx.close();
+  }
+
   // ---------- Tablette et ordinateur ----------
   for (const [name, vp, mobile] of [["tablette", { width: 820, height: 1180 }, true], ["ordinateur", { width: 1366, height: 900 }, false]]) {
     ctx = await newCtx({ viewport: vp, isMobile: mobile, hasTouch: mobile, deviceScaleFactor: 1 });

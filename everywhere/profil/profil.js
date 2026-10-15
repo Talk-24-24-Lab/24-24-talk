@@ -16,6 +16,8 @@
   var LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"];
   var MAX_SPOKEN = 12, MAX_FAV = 6, MAX_NAME = 40;
   var lang = "fr";
+  // Langues de l'interface du portail (0.8.3), chacune écrite dans sa propre langue.
+  var UI_NAMES = { fr: "Français", en: "English", es: "Español", pt: "Português", de: "Deutsch", it: "Italiano", zh: "中文", ja: "日本語", ar: "العربية", ru: "Русский", mg: "Malagasy" };
 
   var STR = {
     fr: {
@@ -29,7 +31,8 @@
       level_of: "Niveau en {l}", level_hint: "Niveau déclaré, selon l'échelle européenne (A1 débutant → C2 maîtrise).",
       levels: "A1 · Débutant (mots, phrases simples)|A2 · Élémentaire (situations courantes)|B1 · Intermédiaire (voyage, conversation simple)|B2 · Avancé (conversation fluide)|C1 · Autonome (presque tout)|C2 · Maîtrise (comme un natif)",
       max_spoken: "12 langues au maximum.", already: "Cette langue est déjà dans la liste.",
-      s_ui: "Langue de l'interface", ui: "Langue de l'interface", ui_auto: "Automatique (celle du téléphone)", ui_note: "Le portail existe en français et en anglais ; TALK propose 31 langues (même réglage).",
+      s_ui: "Langue de l'interface", ui: "Langue de l'interface", ui_auto: "Automatique (celle du téléphone)", ui_note: "Le portail existe en 11 langues ; TALK en propose 31 (même réglage).",
+      e_off: "compte non disponible sur ce site", e_net: "pas de connexion",
       s_fav: "Langues favorites", fav_note: "Proposées en premier dans EVERYWHERE et Voyage (6 au maximum).", max_fav: "6 langues favorites au maximum.",
       s_voice: "Voix et lecture", rate: "Vitesse de la voix", reading: "Ma vitesse de lecture", reading_opts: "Lente|Normale|Rapide",
       reading_note: "Lente : moins de phrases à l'écran en conversation côte à côte, en plus grand espace. Rapide : plus de phrases.",
@@ -66,7 +69,8 @@
       level_of: "Level in {l}", level_hint: "Self-declared level, on the European scale (A1 beginner → C2 mastery).",
       levels: "A1 · Beginner (words, simple phrases)|A2 · Elementary (everyday situations)|B1 · Intermediate (travel, simple conversation)|B2 · Upper intermediate (fluent conversation)|C1 · Advanced (almost everything)|C2 · Mastery (like a native)",
       max_spoken: "12 languages at most.", already: "This language is already in the list.",
-      s_ui: "Interface language", ui: "Interface language", ui_auto: "Automatic (the phone's)", ui_note: "The portal exists in French and English; TALK offers 31 languages (same setting).",
+      s_ui: "Interface language", ui: "Interface language", ui_auto: "Automatic (the phone's)", ui_note: "The portal exists in 11 languages; TALK offers 31 (same setting).",
+      e_off: "account not available on this site", e_net: "no connection",
       s_fav: "Favorite languages", fav_note: "Offered first in EVERYWHERE and Travel (6 at most).", max_fav: "6 favorite languages at most.",
       s_voice: "Voice and reading", rate: "Voice speed", reading: "My reading speed", reading_opts: "Slow|Normal|Fast",
       reading_note: "Slow: fewer sentences on screen in side-by-side conversation, with more space. Fast: more sentences.",
@@ -93,8 +97,10 @@
       e_name: "Display name: 40 characters at most, without < or >."
     }
   };
+  // Autres langues de l'interface (0.8.3) : langues-ecrans.js.
+  (function (x) { if (x) Object.keys(x).forEach(function (k) { STR[k] = x[k]; }); })(window.EW_SCREEN_STR && window.EW_SCREEN_STR.profil);
   function t(k, v) {
-    var s = (STR[lang] && STR[lang][k]) || STR.fr[k] || k;
+    var s = (STR[lang] && STR[lang][k]) || STR.en[k] || STR.fr[k] || k;
     if (v) Object.keys(v).forEach(function (x) { s = s.split("{" + x + "}").join(v[x]); });
     return s;
   }
@@ -108,8 +114,8 @@
   // ---------- Langues (même liste que TALK et EVERYWHERE) ----------
   function LANGS() { return window.EW_LANGS || []; }
   function known(code) { return typeof code === "string" && LANGS().some(function (l) { return l.code === code; }); }
-  function langName(code) { var l = LANGS().filter(function (x) { return x.code === code; })[0]; return l ? l.name : String(code || ""); }
-  function langLabel(code) { var l = LANGS().filter(function (x) { return x.code === code; })[0]; return l ? (l.flag ? l.flag + " " : "") + l.name : String(code || ""); }
+  function langName(code) { if (window.EW_LANG_NAME && known(code)) return window.EW_LANG_NAME(code, lang); var l = LANGS().filter(function (x) { return x.code === code; })[0]; return l ? l.name : String(code || ""); }
+  function langLabel(code) { var l = LANGS().filter(function (x) { return x.code === code; })[0]; return l ? (l.flag ? l.flag + " " : "") + langName(code) : String(code || ""); }
   function deviceLang() {
     var p = store.get("lc_uilang");
     var l = (p && p !== "auto" ? p : (navigator.language || "fr")).slice(0, 2).toLowerCase();
@@ -135,7 +141,7 @@
       name: name,
       native: native,
       spoken: spoken,
-      ui: p.ui === "fr" || p.ui === "en" ? p.ui : "auto",
+      ui: UI_NAMES[p.ui] || known(p.ui) ? p.ui : "auto",
       favorites: fav,
       rate: num(p.rate, 0.7, 1.3, 1),
       reading: ["slow", "normal", "fast"].indexOf(p.reading) !== -1 ? p.reading : "normal",
@@ -152,7 +158,7 @@
     var src = (p.name || "").trim() || langName(p.native) || "?";
     return src.split(/\s+/).slice(0, 2).map(function (w) { return Array.from(w)[0] || ""; }).join("").toUpperCase() || "?";
   }
-  function day(iso) { var d = new Date(iso); return isNaN(d) ? "?" : d.toLocaleDateString(lang === "en" ? "en-GB" : "fr-FR", { day: "numeric", month: "long", year: "numeric" }); }
+  function day(iso) { var d = new Date(iso); return isNaN(d) ? "?" : d.toLocaleDateString(lang === "en" ? "en-GB" : lang === "fr" ? "fr-FR" : lang, { day: "numeric", month: "long", year: "numeric" }); }
   function datesTxt(p) { return p.created || p.updated ? t("dates", { c: day(p.created || p.updated), u: day(p.updated || p.created) }) : t("dates_new"); }
   function read() {
     var raw = null;
@@ -208,14 +214,14 @@
   function trPrefs() { var o = {}; try { o = JSON.parse(store.get("ew_tr_v1") || "{}") || {}; } catch (e) { o = {}; } return typeof o === "object" ? o : {}; }
   function errMsg(e) {
     var m = String((e && (e.message || e.code)) || e || "");
-    if (/OFF/.test(m)) return lang === "fr" ? "compte non disponible sur ce site" : "account not available on this site";
-    if (/failed to fetch|network|NETWORK/i.test(m)) return lang === "fr" ? "pas de connexion" : "no connection";
+    if (/OFF/.test(m)) return t("e_off");
+    if (/failed to fetch|network|NETWORK/i.test(m)) return t("e_net");
     return m.slice(0, 60) || "?";
   }
 
   // ---------- Résumé (écran Profil) ----------
   function summary(box, uiLang) {
-    lang = uiLang === "en" ? "en" : "fr";
+    lang = STR[uiLang] ? uiLang : "fr";
     if (!box) return;
     var p = read();
     if (!p.exists) {
@@ -235,7 +241,7 @@
   var token = 0;
   function langOptions(sel, exclude) {
     var fav = read().favorites;
-    var opt = function (l) { return '<option value="' + esc(l.code) + '"' + (l.code === sel ? " selected" : "") + ">" + esc((l.flag ? l.flag + " " : "") + l.name) + "</option>"; };
+    var opt = function (l) { return '<option value="' + esc(l.code) + '"' + (l.code === sel ? " selected" : "") + ">" + esc((l.flag ? l.flag + " " : "") + (window.EW_LANG_NAME ? window.EW_LANG_NAME(l.code, lang) : l.name)) + "</option>"; };
     var list = LANGS().filter(function (l) { return !exclude || exclude.indexOf(l.code) === -1 || l.code === sel; });
     var favs = list.filter(function (l) { return fav.indexOf(l.code) !== -1; });
     return (favs.length ? '<optgroup label="★">' + favs.map(opt).join("") + "</optgroup>" : "") + list.map(opt).join("");
@@ -251,7 +257,7 @@
   }
 
   function edit(outer, uiLang) {
-    lang = uiLang === "en" ? "en" : "fr";
+    lang = STR[uiLang] ? uiLang : "fr";
     var my = ++token;
     // Nouveau conteneur à chaque affichage : les écouteurs d'événements ne s'empilent pas.
     outer.innerHTML = "";
@@ -259,6 +265,10 @@
     outer.appendChild(root);
     var p = read();
     if (!p.native) p.native = deviceLang();
+    // Langue de l'interface : le menu montre le réglage réel, partagé avec TALK (lc_uilang), pour qu'« Enregistrer »
+    // ne remette pas « Automatique » sur une langue choisie dans TALK (0.8.3).
+    var uiNow = store.get("lc_uilang") || "auto";
+    if (uiNow === "auto" || UI_NAMES[uiNow] || known(uiNow)) p.ui = uiNow;
     var a = window.EWPrefs ? window.EWPrefs.read() : { text: 0, contrast: false, theme: "light", motion: false };
     var tr = trPrefs();
     var st = { p: p, a: { text: a.text, contrast: !!a.contrast, theme: a.theme, motion: !!a.motion }, comm: { hands: tr.hands === true, out: tr.out === "earbuds" ? "earbuds" : "speaker" },
@@ -296,7 +306,7 @@
         '<p class="note">' + esc(t("level_hint")) + '</p><p class="tr-msg" id="lpLangMsg" role="alert"></p></section>' +
       // Interface et favorites
       '<section class="card" aria-labelledby="lpH3"><h2 class="cx-h" id="lpH3">' + esc(t("s_ui")) + "</h2>" +
-        '<label class="tr-field"><span>' + esc(t("ui")) + '</span><select id="lpUi"><option value="auto"' + (st.p.ui === "auto" ? " selected" : "") + ">" + esc(t("ui_auto")) + '</option><option value="fr"' + (st.p.ui === "fr" ? " selected" : "") + '>Français</option><option value="en"' + (st.p.ui === "en" ? " selected" : "") + ">English</option></select></label>" +
+        '<label class="tr-field"><span>' + esc(t("ui")) + '</span><select id="lpUi"><option value="auto"' + (st.p.ui === "auto" ? " selected" : "") + ">" + esc(t("ui_auto")) + "</option>" + Object.keys(UI_NAMES).concat(st.p.ui !== "auto" && !UI_NAMES[st.p.ui] ? [st.p.ui] : []).map(function (c) { return '<option value="' + c + '"' + (st.p.ui === c ? " selected" : "") + ' lang="' + c + '">' + esc(UI_NAMES[c] || langName(c)) + "</option>"; }).join("") + "</select></label>" +
         '<p class="note">' + esc(t("ui_note")) + "</p>" +
         '<h2 class="cx-h" id="lpH4">' + esc(t("s_fav")) + '</h2><div class="lp-favs" id="lpFavs" role="group" aria-labelledby="lpH4">' + favHtml() + "</div>" +
         '<p class="note">' + esc(t("fav_note")) + "</p></section>" +
@@ -476,6 +486,6 @@
     native: function () { return read().native; },
     reading: function () { return read().reading; },
     prefer: function () { return read().prefer; },
-    _clean: clean
+    _clean: clean, _strings: STR
   };
 })();

@@ -4,8 +4,8 @@
   "use strict";
   var CFG = window.EW_CONFIG || { env: "test", basePath: "../", talkReadyTimeoutMs: 15000 };
   var APPS = window.EW_APPS || [];
-  var VERSION = "0.8.2 (prototype)";
-  var VERSION_TAG = "0.8.2";
+  var VERSION = "0.8.3 (prototype)";
+  var VERSION_TAG = "0.8.3";
 
   // ---------- Stockage (peut être indisponible : navigation privée stricte, etc.) ----------
   var store = {
@@ -17,8 +17,8 @@
   var pref = store.get("lc_uilang") || "auto";
   var lang = (pref !== "auto" ? pref : (navigator.language || "fr")).slice(0, 2).toLowerCase() === "fr" ? "fr" : "en";
   if (pref === "auto" && /^fr/i.test(navigator.language || "")) lang = "fr";
-  // ui : langue de l'accueil, des barres et des paramètres (11 langues, 0.8.2). lang (« fr » ou « en ») reste celle
-  // des modules EVERYWHERE, Voyage, Apprendre et Profil, qui n'existent encore qu'en français et en anglais.
+  // ui : langue du portail et des modules EVERYWHERE, Voyage, Apprendre, Profil linguistique et CONNECT (11 langues, 0.8.3).
+  // lang (« fr » ou « en ») reste celle des modules pas encore traduits (voix, AI LAB).
   var ui = window.EWShell && window.EWShell.uiLang ? window.EWShell.uiLang() : lang;
   document.documentElement.lang = ui;
   document.documentElement.dir = ui === "ar" ? "rtl" : "ltr";
@@ -38,7 +38,7 @@
       signature: "Un monde. Une connexion. Aucune frontière linguistique.", learn: "LEARN",
       ailab_tag: "Innover avec l'IA.", soon: "Bientôt", soon_badge: "BIENTÔT", ailab: "AI LAB", lp_title: "Profil linguistique",
       a11y: "Affichage et accessibilité", text_size: "Taille du texte", contrast: "Contraste renforcé", motion: "Réduire les animations",
-      th_light: "Clair", th_dark: "Sombre", th_auto: "Auto", ts_names: "Normal|Grand|Très grand", everywhere: "EVERYWHERE",
+      th_light: "Clair", th_dark: "Sombre", th_auto: "Auto", ts_names: "Normal|Grand|Très grand", brand_a: "24/24 ONE WORLD, accueil", main_nav: "Navigation principale", everywhere: "EVERYWHERE",
       apps_lead: "TALK, EVERYWHERE et LEARN : une seule application, un seul compte. AI LAB arrive bientôt.",
       open: "Ouvrir", reserved: "Disponible ultérieurement", reserved_badge: "EMPLACEMENT RÉSERVÉ",
       reserved_txt: "Cet emplacement accueillera une prochaine application de 24/24 ONE WORLD. Elle n'existe pas encore.",
@@ -74,7 +74,7 @@
       signature: "One world. One connection. No language borders.", learn: "LEARN",
       ailab_tag: "Innovating with AI.", soon: "Coming soon", soon_badge: "COMING SOON", ailab: "AI LAB", lp_title: "Language profile",
       a11y: "Display and accessibility", text_size: "Text size", contrast: "High contrast", motion: "Reduce motion",
-      th_light: "Light", th_dark: "Dark", th_auto: "Auto", ts_names: "Normal|Large|Extra large", everywhere: "EVERYWHERE",
+      th_light: "Light", th_dark: "Dark", th_auto: "Auto", ts_names: "Normal|Large|Extra large", brand_a: "24/24 ONE WORLD, home", main_nav: "Main navigation", everywhere: "EVERYWHERE",
       apps_lead: "TALK, EVERYWHERE and LEARN: one app, one account. AI LAB is coming soon.",
       open: "Open", reserved: "Available later", reserved_badge: "RESERVED SLOT",
       reserved_txt: "This slot will host a future 24/24 ONE WORLD app. It does not exist yet.",
@@ -166,7 +166,7 @@
     var style = ' style="--accent:' + esc(a.accent || "#3d7bff") + '"';
     if (a.status === "available") {
       return '<a class="app-card" href="' + esc(fullHref(a)) + '"' + style + '><span class="app-ic">' + svg(a.icon) + "</span>" +
-        "<span><b>" + name + "</b><small>" + esc(loc(a.tagline)) + '</small></span><span class="go">' + esc(t("open")) + " →</span></a>";
+        "<span><b>" + name + "</b><small>" + esc(loc(a.tagline)) + '</small></span><span class="go">' + esc(t("open")) + (ui === "ar" ? " ←" : " →") + "</span></a>";
     }
     var badge = '<span class="badge">' + esc(t(a.status === "soon" ? "soon_badge" : "reserved_badge")) + "</span>";
     if (a.status === "soon" && a.route) {
@@ -293,9 +293,9 @@
     var editLp = sub === "linguistique" && window.EWProfil;
     $("profileMain").hidden = !!editLp;
     $("lpEdit").hidden = !editLp;
-    if (editLp) { window.EWProfil.show($("lpEdit"), lang); return; }
+    if (editLp) { window.EWProfil.show($("lpEdit"), ui); return; }
     $("lpEdit").innerHTML = "";
-    if (window.EWProfil) window.EWProfil.summary($("lpSummary"), lang);
+    if (window.EWProfil) window.EWProfil.summary($("lpSummary"), ui);
     var login = false;
     try { login = sessionStorage.getItem("ew_connect_login") === "1"; sessionStorage.removeItem("ew_connect_login"); } catch (e) { login = false; }
     window.EWConnect.render($("profileCard"), { openTalk: openTalk, login: login });
@@ -429,11 +429,11 @@
     else $("topSettings").removeAttribute("aria-current");
     var title = target === "app" ? loc(appById(appId).name) : TITLES[target] || "";
     if (target === "everywhere" && window.EWEverywhere) {
-      title = window.EWEverywhere.show($("ewTr"), parts.slice(1), lang) || t("everywhere");
+      title = window.EWEverywhere.show($("ewTr"), parts.slice(1), ui) || t("everywhere");
       if (!parts[1]) addLearnToHub($("ewTr"));
     }
-    else if (window.EWEverywhere && $("ewTr").innerHTML) { window.EWEverywhere.show($("ewTr"), [], lang); } // quitte la conversation : micro et voix coupés
-    if (target === "learn" && window.EWLearn) title = window.EWLearn.show($("ewLearn"), parts.slice(1), lang) || t("learn");
+    else if (window.EWEverywhere && $("ewTr").innerHTML) { window.EWEverywhere.show($("ewTr"), [], ui); } // quitte la conversation : micro et voix coupés
+    if (target === "learn" && window.EWLearn) title = window.EWLearn.show($("ewLearn"), parts.slice(1), ui) || t("learn");
     if (target === "ailab" && window.EWAilab) title = window.EWAilab.show($("ewAilab"), lang) || t("ailab");
     if (target === "profil" && appId === "linguistique") title = t("lp_title");
     $("topTitle").textContent = title;

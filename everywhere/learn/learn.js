@@ -85,12 +85,14 @@
       no_voice: "Speech is not available on this device. The text to hear:", unknown: "Lesson not found.", progress_lbl: "Progress"
     }
   };
+  // Autres langues de l'interface (0.8.3) : langues-ecrans.js.
+  (function (x) { if (x) Object.keys(x).forEach(function (k) { STR[k] = x[k]; }); })(window.EW_SCREEN_STR && window.EW_SCREEN_STR.learn);
   function t(k, v) {
-    var s = (T && T[k]) || STR.fr[k] || k;
+    var s = (T && T[k]) || STR.en[k] || STR.fr[k] || k;
     if (v) Object.keys(v).forEach(function (n) { s = s.split("{" + n + "}").join(v[n]); });
     return s;
   }
-  function loc(v) { return v && typeof v === "object" ? (v[lang] || v.fr || "") : (v || ""); }
+  function loc(v) { return v && typeof v === "object" ? (v[lang] || v.en || v.fr || "") : (v || ""); }
 
   // ---------- Contenus ----------
   function getJSON(url) {
@@ -133,7 +135,7 @@
     var pc = max ? Math.min(100, Math.round(v / max * 100)) : 0;
     return '<div class="lx-bar" role="progressbar" aria-valuemin="0" aria-valuemax="' + max + '" aria-valuenow="' + Math.min(v, max) + '" aria-label="' + esc(label) + '"><span style="width:' + pc + '%"></span></div>';
   }
-  function backLink(href) { return '<a class="lx-back" href="' + href + '">← ' + esc(t("back")) + "</a>"; }
+  function backLink(href) { return '<a class="lx-back" href="' + href + '">' + (document.documentElement.dir === "rtl" ? "→ " : "← ") + esc(t("back")) + "</a>"; }
   function stars(s, n) {
     var k = n ? (s / n >= 0.99 ? 3 : s / n >= 0.6 ? 2 : s / n > 0 ? 1 : 0) : 0;
     return '<p class="lx-stars" aria-label="' + k + ' / 3">' + "★★★".slice(0, k) + '<span>' + "★★★".slice(0, 3 - k) + "</span></p>";
@@ -391,7 +393,7 @@
         var st = P.streak(), today = P.todayXp();
         var tile = function (v, k, id) { return '<div class="lx-stat"' + (id ? ' id="' + id + '"' : "") + "><b>" + esc(v) + "</b><small>" + esc(t(k)) + "</small></div>"; };
         var kinds = { lesson: t("k_lesson"), review: t("k_review"), challenge: t("k_challenge") };
-        var fmt = function (ts) { try { return new Date(ts).toLocaleString(lang === "fr" ? "fr-FR" : "en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }); } catch (e) { return ""; } };
+        var fmt = function (ts) { try { return new Date(ts).toLocaleString(lang === "en" ? "en-GB" : lang === "fr" ? "fr-FR" : lang, { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }); } catch (e) { return ""; } };
         root.innerHTML = backLink("#/learn") + '<h1 id="h-ew">' + esc(t("prog_h")) + "</h1>" +
           '<div class="lx-stats">' + tile(p.xp, "st_xp", "lxStXp") + tile(nDone, "st_lessons", "lxStLessons") + tile(p.ex.done, "st_ex", "lxStEx") + tile(rate, "st_rate") +
           tile(st ? (st > 1 ? t("streak_n", { n: st }) : t("streak_1", { n: st })) : "—", "st_streak") + "</div>" +
@@ -432,7 +434,7 @@
   // ---------- Point d'entrée (appelé par app.js à chaque changement d'adresse) ----------
   var lastRoot = null, lastParts = [];
   function show(root, parts, uiLang) {
-    lang = uiLang === "en" ? "en" : "fr";
+    lang = STR[uiLang] ? uiLang : "fr";
     T = STR[lang];
     token += 1;
     var my = token;

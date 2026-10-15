@@ -2,6 +2,31 @@
 
 > © 2026 Sébastien Chevrier. Tous droits réservés. La production n'est concernée par aucune de ces versions.
 
+## 0.8.3 (prototype, 15 octobre 2026) — EVERYWHERE, Voyage, Apprendre et Profil dans les langues de TALK, site de test seulement
+
+### Ajouté
+- **Écrans EVERYWHERE, Voyage, Apprendre (LEARN), Profil linguistique et compte (CONNECT)** traduits dans les mêmes 11 langues que l'accueil
+  (nouveau fichier `everywhere/langues-ecrans.js`), ainsi que la fenêtre de choix de la langue, les niveaux et noms de
+  langues de LEARN et les situations de Voyage.
+- **Noms des langues** dans les listes (EVERYWHERE, Voyage, Profil) affichés dans la langue de l'interface, d'après le
+  navigateur ; le français garde la liste de TALK.
+- **Profil linguistique** : la langue de l'interface se choisit parmi les 11 langues (au lieu de français ou anglais).
+
+### Corrigé (incohérences relevées en passant chaque écran dans les 9 langues)
+- **Voyage** : avant préparation, la colonne « ma langue » montrait le français à tout le monde ; elle montre maintenant la
+  langue de l'interface si ses phrases sont intégrées, sinon l'anglais (le français pour le malgache).
+- **Page Applications** : descriptions de TALK, EVERYWHERE, LEARN et AI LAB traduites (elles restaient en anglais).
+- **Arabe** : flèche « Ouvrir » dans le bon sens ; logo 24/24 ONE WORLD lu de gauche à droite.
+- **Lecteur d'écran** : logo et barre du bas annoncés dans la langue de l'interface (ils l'étaient en français).
+- **Profil linguistique** : « Enregistrer » remettait la langue de l'interface sur « Automatique » quand elle avait été
+  choisie dans TALK (ex. espagnol, coréen). Le menu montre maintenant le vrai réglage et le garde.
+
+### Pas encore traduit
+- Le contenu des leçons LEARN (cours pour francophones) et AI LAB restent en français ou en anglais. La commande vocale
+  ne comprend que le français et l'anglais : elle reste en anglais pour les autres langues.
+- Traductions faites sans relecteur natif ; le malgache est le moins sûr.
+- Cache hors connexion `ew-shell-v27`.
+
 ## 0.8.2 (prototype, 14 octobre 2026) — accueil dans les langues de TALK, site de test seulement
 
 ### Ajouté
