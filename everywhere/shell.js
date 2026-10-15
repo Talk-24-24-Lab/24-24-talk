@@ -27,7 +27,7 @@
     ru: {"home": "Главная", "apps": "Приложения", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "Профиль", "settings": "Настройки", "nav": "Основная навигация", "brand": "24/24 TALK, главная 24/24 ONE WORLD"},
     mg: {"home": "Fandraisana", "apps": "Rindranasa", "talk": "Talk", "everywhere": "Everywhere", "learn": "Learn", "profile": "Momba ahy", "settings": "Fikirakirana", "nav": "Fitetezana lehibe", "brand": "24/24 TALK, fandraisana 24/24 ONE WORLD"}
   };
-  var VER = "0.8.4";
+  var VER = "0.8.5";
   function svg(name) { return '<svg viewBox="0 0 24 24" aria-hidden="true">' + (ICONS[name] || "") + "</svg>"; }
   function langOf() {
     var p = null;

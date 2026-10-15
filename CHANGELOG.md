@@ -2,6 +2,12 @@
 
 > © 2026 Sébastien Chevrier. Tous droits réservés. La production n'est concernée par aucune de ces versions.
 
+## 0.8.5 (prototype, 15 octobre 2026) — nouvelle phrase d'accueil, site de test seulement
+
+### Modifié
+- **Accueil** : sous « One world. Every voice. », la phrase devient « Parlez dans votre langue, il entend dans la sienne »
+  (phrase choisie par Sébastien), dans les 11 langues. Elle remplace « Parlez à tout le monde, chacun dans sa langue ».
+
 ## 0.8.4 (prototype, 15 octobre 2026) — « Gratuit pour tous » sur l'accueil, site de test seulement
 
 ### Modifié
