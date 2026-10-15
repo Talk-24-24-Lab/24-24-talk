@@ -967,6 +967,22 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     return { ok: bad.length === 0, detail: bad.length ? bad.slice(0, 6).join(", ") : "5 écrans × 9 langues complets" };
   });
   await ctx.close();
+  for (const choice of ["es", "ko"]) {
+    ctx = await newCtx();
+    page = await openPortal(ctx);
+    await step("Profil linguistique : « Enregistrer » garde la langue choisie dans TALK (" + choice + ")", async () => {
+      await page.evaluate((c) => localStorage.setItem("lc_uilang", c), choice);
+      await page.goto(URL_EW + "#/profil/linguistique");
+      await page.reload();
+      await page.waitForSelector("#lpUi");
+      const shown = await page.$eval("#lpUi", (s) => s.value);
+      await page.click("#lpSave");
+      await page.waitForTimeout(300);
+      const kept = await page.evaluate(() => localStorage.getItem("lc_uilang"));
+      return { ok: shown === choice && kept === choice, detail: "menu " + shown + ", réglage après enregistrement " + kept };
+    });
+    await ctx.close();
+  }
   for (const [loc, ui] of [["es-ES", "es"], ["ar", "ar"], ["ja-JP", "ja"]]) {
     ctx = await newCtx({ locale: loc });
     page = await openPortal(ctx);

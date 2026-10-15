@@ -141,7 +141,7 @@
       name: name,
       native: native,
       spoken: spoken,
-      ui: UI_NAMES[p.ui] ? p.ui : "auto",
+      ui: UI_NAMES[p.ui] || known(p.ui) ? p.ui : "auto",
       favorites: fav,
       rate: num(p.rate, 0.7, 1.3, 1),
       reading: ["slow", "normal", "fast"].indexOf(p.reading) !== -1 ? p.reading : "normal",
@@ -265,6 +265,10 @@
     outer.appendChild(root);
     var p = read();
     if (!p.native) p.native = deviceLang();
+    // Langue de l'interface : le menu montre le réglage réel, partagé avec TALK (lc_uilang), pour qu'« Enregistrer »
+    // ne remette pas « Automatique » sur une langue choisie dans TALK (0.8.3).
+    var uiNow = store.get("lc_uilang") || "auto";
+    if (uiNow === "auto" || UI_NAMES[uiNow] || known(uiNow)) p.ui = uiNow;
     var a = window.EWPrefs ? window.EWPrefs.read() : { text: 0, contrast: false, theme: "light", motion: false };
     var tr = trPrefs();
     var st = { p: p, a: { text: a.text, contrast: !!a.contrast, theme: a.theme, motion: !!a.motion }, comm: { hands: tr.hands === true, out: tr.out === "earbuds" ? "earbuds" : "speaker" },
@@ -302,7 +306,7 @@
         '<p class="note">' + esc(t("level_hint")) + '</p><p class="tr-msg" id="lpLangMsg" role="alert"></p></section>' +
       // Interface et favorites
       '<section class="card" aria-labelledby="lpH3"><h2 class="cx-h" id="lpH3">' + esc(t("s_ui")) + "</h2>" +
-        '<label class="tr-field"><span>' + esc(t("ui")) + '</span><select id="lpUi"><option value="auto"' + (st.p.ui === "auto" ? " selected" : "") + ">" + esc(t("ui_auto")) + "</option>" + Object.keys(UI_NAMES).map(function (c) { return '<option value="' + c + '"' + (st.p.ui === c ? " selected" : "") + ' lang="' + c + '">' + UI_NAMES[c] + "</option>"; }).join("") + "</select></label>" +
+        '<label class="tr-field"><span>' + esc(t("ui")) + '</span><select id="lpUi"><option value="auto"' + (st.p.ui === "auto" ? " selected" : "") + ">" + esc(t("ui_auto")) + "</option>" + Object.keys(UI_NAMES).concat(st.p.ui !== "auto" && !UI_NAMES[st.p.ui] ? [st.p.ui] : []).map(function (c) { return '<option value="' + c + '"' + (st.p.ui === c ? " selected" : "") + ' lang="' + c + '">' + esc(UI_NAMES[c] || langName(c)) + "</option>"; }).join("") + "</select></label>" +
         '<p class="note">' + esc(t("ui_note")) + "</p>" +
         '<h2 class="cx-h" id="lpH4">' + esc(t("s_fav")) + '</h2><div class="lp-favs" id="lpFavs" role="group" aria-labelledby="lpH4">' + favHtml() + "</div>" +
         '<p class="note">' + esc(t("fav_note")) + "</p></section>" +

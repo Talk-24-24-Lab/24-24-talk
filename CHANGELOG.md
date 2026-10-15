@@ -18,6 +18,8 @@
 - **Page Applications** : descriptions de TALK, EVERYWHERE, LEARN et AI LAB traduites (elles restaient en anglais).
 - **Arabe** : flèche « Ouvrir » dans le bon sens ; logo 24/24 ONE WORLD lu de gauche à droite.
 - **Lecteur d'écran** : logo et barre du bas annoncés dans la langue de l'interface (ils l'étaient en français).
+- **Profil linguistique** : « Enregistrer » remettait la langue de l'interface sur « Automatique » quand elle avait été
+  choisie dans TALK (ex. espagnol, coréen). Le menu montre maintenant le vrai réglage et le garde.
 
 ### Pas encore traduit
 - Le contenu des leçons LEARN (cours pour francophones) et AI LAB restent en français ou en anglais. La commande vocale
