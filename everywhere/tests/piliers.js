@@ -692,6 +692,25 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     });
     await ctx.close();
   }
+  // Tarif affiché dans la monnaie du pays (fuseau horaire d'abord, puis région de la langue), dollars sinon.
+  for (const [nom, opts, attendu] of [
+    ["La Réunion, français", { locale: "fr-FR", timezoneId: "Indian/Reunion" }, /1,99\s?€/],
+    ["Madagascar, téléphone en français", { locale: "fr-FR", timezoneId: "Indian/Antananarivo" }, /9\s?900\s?Ar/],
+    ["Japon, japonais", { locale: "ja-JP", timezoneId: "Asia/Tokyo" }, /[￥¥]300/],
+    ["États-Unis, anglais", { locale: "en-US", timezoneId: "America/New_York" }, /\$1\.99/],
+    ["pays inconnu (Thaïlande), thaï", { locale: "th-TH", timezoneId: "Asia/Bangkok" }, /US\$\s?1\.99|\$1\.99/]
+  ]) {
+    ctx = await newCtx(opts, false);
+    page = await open(ctx, URL_TALK);
+    await step("Tarif dans la monnaie locale : " + nom, async () => {
+      await page.waitForFunction(() => { const b = document.querySelector(".promo-banner"); return b && b.textContent.indexOf("{price}") === -1 && /\d/.test(b.textContent); }, null, { timeout: 15000 });
+      await page.waitForTimeout(300);
+      const r = await page.evaluate(() => ({ promo: document.querySelector(".promo-banner").textContent, btn: (document.getElementById("subBtn") || {}).textContent || "" }));
+      const ok = attendu.test(r.promo) && attendu.test(r.btn) && !/\{price\}/.test(r.promo + r.btn);
+      return { ok, detail: JSON.stringify(r).slice(0, 220) };
+    });
+    await ctx.close();
+  }
 //@@NEXT@@
 
   await browser.close();
