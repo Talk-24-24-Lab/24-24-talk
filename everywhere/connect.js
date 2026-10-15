@@ -95,9 +95,12 @@
     }
   };
   var LANG_NAMES = { fr: "Français", en: "English", es: "Español", pt: "Português", de: "Deutsch", it: "Italiano", mg: "Malagasy", zh: "中文", ja: "日本語", ar: "العربية", ru: "Русский" };
-  var lang = (window.EWShell && window.EWShell.lang()) || "fr";
+  // Autres langues de l'interface (0.8.3) : langues-ecrans.js.
+  (function (x) { if (x) Object.keys(x).forEach(function (k) { S[k] = x[k]; }); })(window.EW_SCREEN_STR && window.EW_SCREEN_STR.connect);
+  var lang = (window.EWShell && (window.EWShell.uiLang ? window.EWShell.uiLang() : window.EWShell.lang())) || "fr";
+  if (!S[lang]) lang = "en";
   function t(k, v) {
-    var s = (S[lang] && S[lang][k]) || S.fr[k] || k;
+    var s = (S[lang] && S[lang][k]) || S.en[k] || S.fr[k] || k;
     if (v) Object.keys(v).forEach(function (x) { s = s.split("{" + x + "}").join(v[x]); });
     return s;
   }
@@ -405,5 +408,5 @@
     });
   }
 
-  window.EWConnect = { render: render, deviceName: deviceName, errText: errText, client: client };
+  window.EWConnect = { render: render, deviceName: deviceName, errText: errText, client: client, _strings: S };
 })();

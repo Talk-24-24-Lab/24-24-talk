@@ -128,3 +128,20 @@ window.EW_LANGS = [
   { code: "fj", name: "Fidjien", flag: "🇫🇯", speech: "fj", region: "Océanie" },
   { code: "haw", name: "Hawaïen", flag: "🇺🇸", speech: "haw", region: "Océanie" },
 ];
+
+// Nom d'une langue dans la langue de l'interface (0.8.3). Le français garde les noms de la liste ci-dessus ;
+// les autres langues de l'interface utilisent les noms fournis par le navigateur (Intl.DisplayNames),
+// et retombent sur le nom français si le navigateur ne les connaît pas.
+window.EW_LANG_NAME = (function () {
+  var dn = {};
+  return function (code, ui) {
+    var l = (window.EW_LANGS || []).filter(function (x) { return x.code === code; })[0];
+    var fr = l ? l.name : String(code || "");
+    if (!ui || ui === "fr" || !l || typeof Intl === "undefined" || !Intl.DisplayNames) return fr;
+    try {
+      if (!dn[ui]) dn[ui] = new Intl.DisplayNames([ui], { type: "language", fallback: "none" });
+      var n = dn[ui].of(code);
+      return n && n.toLowerCase() !== String(code).toLowerCase() ? n.charAt(0).toLocaleUpperCase(ui) + n.slice(1) : fr;
+    } catch (e) { return fr; }
+  };
+})();

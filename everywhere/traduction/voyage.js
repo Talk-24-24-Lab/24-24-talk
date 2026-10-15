@@ -35,7 +35,7 @@
       step5: "Apprendre les bases avant de partir", learn: "Ouvrir LEARN",
       no_voice: "Ce téléphone n'a pas de voix pour cette langue : le texte reste affichable (bouton « Montrer »).",
       talk_btn: "Parler avec quelqu'un sur place", talk_d: "Conversation côte à côte, langue du pays déjà réglée",
-      low_t: "Connexion faible ou absente", online: "🟢 Connecté", offline: "🔴 Hors connexion",
+      low_t: "Connexion faible ou absente", offline_grp: "Hors connexion", online: "🟢 Connecté", offline: "🔴 Hors connexion",
       low_ok: "Fonctionne sans connexion : phrases intégrées et phrases préparées, bouton « Montrer », vos réglages.",
       low_partial: "Dépend du téléphone : la voix (« Écouter ») marche hors connexion seulement si la voix est installée sur le téléphone.",
       low_no: "Besoin d'Internet : traduire une phrase nouvelle, le micro (reconnaissance vocale), les appels TALK.",
@@ -64,7 +64,7 @@
       step5: "Learn the basics before leaving", learn: "Open LEARN",
       no_voice: "This phone has no voice for this language: the text can still be shown (“Show” button).",
       talk_btn: "Talk with someone there", talk_d: "Side-by-side conversation, country language already set",
-      low_t: "Weak or no connection", online: "🟢 Online", offline: "🔴 Offline",
+      low_t: "Weak or no connection", offline_grp: "Offline", online: "🟢 Online", offline: "🔴 Offline",
       low_ok: "Works offline: built-in and prepared phrases, the “Show” button, your settings.",
       low_partial: "Depends on the phone: the voice (“Listen”) works offline only if the voice is installed on the phone.",
       low_no: "Needs the Internet: translating a new sentence, the mic (speech recognition), TALK calls.",
@@ -77,8 +77,10 @@
       hint: "Automatic translation: check important information (health, allergies, address)."
     }
   };
+  // Autres langues de l'interface (0.8.3) : langues-ecrans.js.
+  (function (x) { if (x) Object.keys(x).forEach(function (k) { STR[k] = x[k]; }); })(window.EW_SCREEN_STR && window.EW_SCREEN_STR.voyage);
   function t(k, v) {
-    var s = (STR[lang] && STR[lang][k]) || STR.fr[k] || k;
+    var s = (STR[lang] && STR[lang][k]) || STR.en[k] || STR.fr[k] || k;
     if (v) Object.keys(v).forEach(function (x) { s = s.split("{" + x + "}").join(v[x]); });
     return s;
   }
@@ -91,7 +93,7 @@
   function P() { return window.EW_PHRASES || { langs: [], cats: [], list: [] }; }
   function ew() { return window.EWEverywhere; }
   function known(code) { return typeof code === "string" && (window.EW_LANGS || []).some(function (l) { return l.code === code; }); }
-  function langName(code) { return M() ? M().lang(code).name : code; }
+  function langName(code) { return window.EW_LANG_NAME ? window.EW_LANG_NAME(code, lang) : M() ? M().lang(code).name : code; }
 
   function state() {
     var s = {};
@@ -129,17 +131,17 @@
   function langOptions(sel) {
     var fav = window.EWProfil ? window.EWProfil.favorites() : [];
     var all = window.EW_LANGS || [];
-    var opt = function (l) { return '<option value="' + esc(l.code) + '"' + (l.code === sel ? " selected" : "") + ">" + esc((l.flag ? l.flag + " " : "") + l.name) + "</option>"; };
+    var opt = function (l) { return '<option value="' + esc(l.code) + '"' + (l.code === sel ? " selected" : "") + ">" + esc((l.flag ? l.flag + " " : "") + (window.EW_LANG_NAME ? window.EW_LANG_NAME(l.code, lang) : l.name)) + "</option>"; };
     var favs = all.filter(function (l) { return fav.indexOf(l.code) !== -1; });
     var built = all.filter(function (l) { return builtin(l.code) && fav.indexOf(l.code) === -1; });
     return (favs.length ? '<optgroup label="★">' + favs.map(opt).join("") + "</optgroup>" : "") +
-      '<optgroup label="✅ ' + esc(lang === "fr" ? "Hors connexion" : "Offline") + '">' + built.map(opt).join("") + "</optgroup>" +
+      '<optgroup label="✅ ' + esc(t("offline_grp")) + '">' + built.map(opt).join("") + "</optgroup>" +
       '<optgroup label="🌐">' + all.filter(function (l) { return !builtin(l.code) && fav.indexOf(l.code) === -1; }).map(opt).join("") + "</optgroup>";
   }
 
   var cur = null; // { root, s, busy, token }
   function show(root, uiLang) {
-    lang = uiLang === "en" ? "en" : "fr";
+    lang = STR[uiLang] ? uiLang : "fr";
     cur = { root: root, s: state(), busy: false, token: (cur ? cur.token : 0) + 1 };
     paint();
     return t("title");
@@ -346,5 +348,5 @@
   window.addEventListener("offline", onNet);
 
   function leave() { if (cur) cur.token++; cur = null; var b = document.getElementById("vyBig"); if (b) b.remove(); }
-  window.EWVoyage = { show: show, leave: leave, _prepared: prepared };
+  window.EWVoyage = { show: show, leave: leave, _prepared: prepared, _strings: STR };
 })();

@@ -2,6 +2,21 @@
 
 > © 2026 Sébastien Chevrier. Tous droits réservés. La production n'est concernée par aucune de ces versions.
 
+## 0.8.3 (prototype, 15 octobre 2026) — EVERYWHERE, Voyage, Apprendre et Profil dans les langues de TALK, site de test seulement
+
+### Ajouté
+- **Écrans EVERYWHERE, Voyage, Apprendre (LEARN), Profil linguistique et compte (CONNECT)** traduits dans les mêmes 11 langues que l'accueil
+  (nouveau fichier `everywhere/langues-ecrans.js`), ainsi que la fenêtre de choix de la langue, les niveaux et noms de
+  langues de LEARN et les situations de Voyage.
+- **Noms des langues** dans les listes (EVERYWHERE, Voyage, Profil) affichés dans la langue de l'interface, d'après le
+  navigateur ; le français garde la liste de TALK.
+- **Profil linguistique** : la langue de l'interface se choisit parmi les 11 langues (au lieu de français ou anglais).
+
+### Pas encore traduit
+- Le contenu des leçons LEARN (cours pour francophones), la voix et AI LAB restent en français ou en anglais.
+- Traductions faites sans relecteur natif ; le malgache est le moins sûr.
+- Cache hors connexion `ew-shell-v27`.
+
 ## 0.8.2 (prototype, 14 octobre 2026) — accueil dans les langues de TALK, site de test seulement
 
 ### Ajouté

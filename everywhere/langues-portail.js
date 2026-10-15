@@ -1,7 +1,7 @@
 /* 24/24 ONE WORLD — textes du portail (accueil, barres, paramètres, profil) dans les langues de 24/24 TALK.
    © 2026 Sébastien Chevrier. Le français et l'anglais sont dans app.js ; ce fichier ajoute
    espagnol, portugais, allemand, italien, chinois, japonais, arabe, russe et malgache (0.8.2).
-   Les modules EVERYWHERE, Voyage, Apprendre et Profil linguistique restent en français ou en anglais pour l'instant. */
+   Les écrans EVERYWHERE, Voyage, Apprendre et Profil linguistique ont leurs textes dans langues-ecrans.js (0.8.3). */
 window.EW_PORTAL_STR = {
  "es": {
   "skip": "Ir al contenido",

@@ -104,8 +104,10 @@
       bt_note: "Earbuds: any store-bought Bluetooth model. Connect them in Android's Bluetooth settings, then tap “Try”: the sound should come out in the earbuds. The app doesn't choose the output itself and doesn't control the earbud buttons. Which mic is used (phone or earbuds) depends on Android."
     }
   };
+  // Autres langues de l'interface (0.8.3) : langues-ecrans.js.
+  (function (x) { if (x) Object.keys(x).forEach(function (k) { STR[k] = x[k]; }); })(window.EW_SCREEN_STR && window.EW_SCREEN_STR.everywhere);
   function t(k, v) {
-    var s = (STR[lang] && STR[lang][k]) || STR.fr[k] || k;
+    var s = (STR[lang] && STR[lang][k]) || STR.en[k] || STR.fr[k] || k;
     if (v) Object.keys(v).forEach(function (x) { s = s.split("{" + x + "}").join(v[x]); });
     return s;
   }
@@ -146,13 +148,13 @@
     var opt = function (l, inFav) {
       var on = l.code === sel && (inFav || !favSel);
       if (on && inFav) favSel = true;
-      return '<option value="' + esc(l.code) + '"' + (on ? " selected" : "") + ">" + esc((l.flag ? l.flag + " " : "") + l.name) + "</option>";
+      return '<option value="' + esc(l.code) + '"' + (on ? " selected" : "") + ">" + esc((l.flag ? l.flag + " " : "") + (window.EW_LANG_NAME ? window.EW_LANG_NAME(l.code, lang) : l.name)) + "</option>";
     };
     var favs = M.langs.filter(function (l) { return fav.indexOf(l.code) !== -1; });
     var head = favs.length ? '<optgroup label="' + esc(t("fav_group")) + '">' + favs.map(function (l) { return opt(l, true); }).join("") + "</optgroup>" : "";
     return head + M.langs.map(function (l) { return opt(l, false); }).join("");
   }
-  function langName(code) { var l = M.lang(code); return l.name; }
+  function langName(code) { return window.EW_LANG_NAME ? window.EW_LANG_NAME(code, lang) : M.lang(code).name; }
   function backLink() { return '<a class="tr-back" href="#/everywhere">' + esc(t("back")) + "</a>"; }
 
   // ---------- Accueil EVERYWHERE ----------
@@ -622,7 +624,7 @@
   // ---------- Point d'entrée (appelé par app.js à chaque changement d'adresse) ----------
   var token = 0;
   function show(root, parts, uiLang) {
-    lang = uiLang === "en" ? "en" : "fr";
+    lang = STR[uiLang] ? uiLang : "fr";
     token += 1;
     if (face && face.rec) face.rec.stop();
     face = null;

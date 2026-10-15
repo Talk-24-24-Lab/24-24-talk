@@ -9,13 +9,24 @@
   var RECENT_KEY = "ew_lang_recent";
   var T = {
     fr: { search: "Rechercher une langue", mine: "Vos langues", all: "Toutes les langues (A → Z)", none: "Aucune langue trouvée.", close: "Fermer", choose: "Choisir la langue" },
-    en: { search: "Search for a language", mine: "Your languages", all: "All languages (A → Z)", none: "No language found.", close: "Close", choose: "Choose the language" }
+    en: { search: "Search for a language", mine: "Your languages", all: "All languages (A → Z)", none: "No language found.", close: "Close", choose: "Choose the language" },
+    es: { search: "Buscar un idioma", mine: "Tus idiomas", all: "Todos los idiomas (A → Z)", none: "No se ha encontrado ningún idioma.", close: "Cerrar", choose: "Elegir el idioma" },
+    pt: { search: "Procurar uma língua", mine: "As suas línguas", all: "Todas as línguas (A → Z)", none: "Nenhuma língua encontrada.", close: "Fechar", choose: "Escolher a língua" },
+    de: { search: "Sprache suchen", mine: "Ihre Sprachen", all: "Alle Sprachen (A → Z)", none: "Keine Sprache gefunden.", close: "Schließen", choose: "Sprache wählen" },
+    it: { search: "Cerca una lingua", mine: "Le tue lingue", all: "Tutte le lingue (A → Z)", none: "Nessuna lingua trovata.", close: "Chiudi", choose: "Scegli la lingua" },
+    zh: { search: "搜索语言", mine: "你的语言", all: "所有语言", none: "未找到语言。", close: "关闭", choose: "选择语言" },
+    ja: { search: "言語を検索", mine: "あなたの言語", all: "すべての言語", none: "言語が見つかりません。", close: "閉じる", choose: "言語を選択" },
+    ar: { search: "ابحث عن لغة", mine: "لغاتك", all: "كل اللغات", none: "لم يتم العثور على أي لغة.", close: "إغلاق", choose: "اختر اللغة" },
+    ru: { search: "Найти язык", mine: "Ваши языки", all: "Все языки (А → Я)", none: "Язык не найден.", close: "Закрыть", choose: "Выбрать язык" },
+    mg: { search: "Hitady fiteny", mine: "Ny fiteninao", all: "Ny fiteny rehetra (A → Z)", none: "Tsy nahitana fiteny.", close: "Hidio", choose: "Fidio ny fiteny" }
   };
   function L() {
     var l = "";
     try { l = localStorage.getItem("lc_uilang") || ""; } catch (e) { /* stockage bloqué */ }
     if (!l || l === "auto") l = document.documentElement.lang || navigator.language || "fr";
-    return /^fr/i.test(l) ? T.fr : T.en;
+    l = String(l).toLowerCase();
+    if (/^zh-(tw|hk|mo|hant)/.test(l)) return T.en; // chinois traditionnel : pas encore traduit ici
+    return T[l.slice(0, 2)] || T.en;
   }
   function fold(s) { return String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase(); }
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
@@ -108,7 +119,7 @@
   function open(sel) {
     close();
     var S = L(), all = opts(sel), cur = sel.value;
-    var lang = /^fr/i.test(S.search) ? "fr" : "en";
+    var lang = Object.keys(T).filter(function (k) { return T[k] === S; })[0] || "en";
     all.sort(function (a, b) { return a.sortName.localeCompare(b.sortName, lang, { sensitivity: "base" }); });
     var byVal = {}; all.forEach(function (o) { byVal[o.value] = o; });
     var mine = [cur].concat(recent()).filter(function (v, i, a) { return byVal[v] && a.indexOf(v) === i; }).slice(0, 5).map(function (v) { return byVal[v]; });

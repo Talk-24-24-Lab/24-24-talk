@@ -4,8 +4,8 @@
   "use strict";
   var CFG = window.EW_CONFIG || { env: "test", basePath: "../", talkReadyTimeoutMs: 15000 };
   var APPS = window.EW_APPS || [];
-  var VERSION = "0.8.2 (prototype)";
-  var VERSION_TAG = "0.8.2";
+  var VERSION = "0.8.3 (prototype)";
+  var VERSION_TAG = "0.8.3";
 
   // ---------- Stockage (peut être indisponible : navigation privée stricte, etc.) ----------
   var store = {
@@ -17,8 +17,8 @@
   var pref = store.get("lc_uilang") || "auto";
   var lang = (pref !== "auto" ? pref : (navigator.language || "fr")).slice(0, 2).toLowerCase() === "fr" ? "fr" : "en";
   if (pref === "auto" && /^fr/i.test(navigator.language || "")) lang = "fr";
-  // ui : langue de l'accueil, des barres et des paramètres (11 langues, 0.8.2). lang (« fr » ou « en ») reste celle
-  // des modules EVERYWHERE, Voyage, Apprendre et Profil, qui n'existent encore qu'en français et en anglais.
+  // ui : langue du portail et des modules EVERYWHERE, Voyage, Apprendre, Profil linguistique et CONNECT (11 langues, 0.8.3).
+  // lang (« fr » ou « en ») reste celle des modules pas encore traduits (voix, AI LAB).
   var ui = window.EWShell && window.EWShell.uiLang ? window.EWShell.uiLang() : lang;
   document.documentElement.lang = ui;
   document.documentElement.dir = ui === "ar" ? "rtl" : "ltr";
@@ -293,9 +293,9 @@
     var editLp = sub === "linguistique" && window.EWProfil;
     $("profileMain").hidden = !!editLp;
     $("lpEdit").hidden = !editLp;
-    if (editLp) { window.EWProfil.show($("lpEdit"), lang); return; }
+    if (editLp) { window.EWProfil.show($("lpEdit"), ui); return; }
     $("lpEdit").innerHTML = "";
-    if (window.EWProfil) window.EWProfil.summary($("lpSummary"), lang);
+    if (window.EWProfil) window.EWProfil.summary($("lpSummary"), ui);
     var login = false;
     try { login = sessionStorage.getItem("ew_connect_login") === "1"; sessionStorage.removeItem("ew_connect_login"); } catch (e) { login = false; }
     window.EWConnect.render($("profileCard"), { openTalk: openTalk, login: login });
@@ -429,11 +429,11 @@
     else $("topSettings").removeAttribute("aria-current");
     var title = target === "app" ? loc(appById(appId).name) : TITLES[target] || "";
     if (target === "everywhere" && window.EWEverywhere) {
-      title = window.EWEverywhere.show($("ewTr"), parts.slice(1), lang) || t("everywhere");
+      title = window.EWEverywhere.show($("ewTr"), parts.slice(1), ui) || t("everywhere");
       if (!parts[1]) addLearnToHub($("ewTr"));
     }
-    else if (window.EWEverywhere && $("ewTr").innerHTML) { window.EWEverywhere.show($("ewTr"), [], lang); } // quitte la conversation : micro et voix coupés
-    if (target === "learn" && window.EWLearn) title = window.EWLearn.show($("ewLearn"), parts.slice(1), lang) || t("learn");
+    else if (window.EWEverywhere && $("ewTr").innerHTML) { window.EWEverywhere.show($("ewTr"), [], ui); } // quitte la conversation : micro et voix coupés
+    if (target === "learn" && window.EWLearn) title = window.EWLearn.show($("ewLearn"), parts.slice(1), ui) || t("learn");
     if (target === "ailab" && window.EWAilab) title = window.EWAilab.show($("ewAilab"), lang) || t("ailab");
     if (target === "profil" && appId === "linguistique") title = t("lp_title");
     $("topTitle").textContent = title;
