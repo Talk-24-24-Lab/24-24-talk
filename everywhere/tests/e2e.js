@@ -936,6 +936,20 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   });
   await ctx.close();
 
+  // ---------- Autres langues de TALK (0.8.2) : accueil, barres et compte à rebours traduits, arabe de droite à gauche ----------
+  for (const [loc, lead, nav, rtl] of [["es-ES", "Habla con todo el mundo, cada uno en su idioma.", "Inicio,Talk,Everywhere,Perfil", false],
+    ["ar", "تحدّث مع الجميع، كلٌّ بلغته.", "الرئيسية,Talk,Everywhere,ملفي", true], ["ko-KR", "Talk to everyone, each in their own language.", "Home,Talk,Everywhere,Profile", false]]) {
+    ctx = await newCtx({ locale: loc });
+    page = await openPortal(ctx);
+    await step("Accueil en " + loc + " : phrase, barre du bas et sens d'écriture", async () => {
+      await page.waitForSelector("#view-accueil.active");
+      const r = await page.evaluate(() => ({ lead: document.querySelector("#view-accueil .lead").textContent.trim(), dir: document.documentElement.dir,
+        nav: [...document.querySelectorAll("#mainnav a")].map((a) => a.textContent.trim()).join(","), sw: document.documentElement.scrollWidth <= innerWidth }));
+      return { ok: r.lead === lead && r.nav === nav && r.dir === (rtl ? "rtl" : "ltr") && r.sw, detail: r.lead + " · " + r.nav + " · " + r.dir };
+    });
+    await ctx.close();
+  }
+
   // ---------- Tablette et ordinateur ----------
   for (const [name, vp, mobile] of [["tablette", { width: 820, height: 1180 }, true], ["ordinateur", { width: 1366, height: 900 }, false]]) {
     ctx = await newCtx({ viewport: vp, isMobile: mobile, hasTouch: mobile, deviceScaleFactor: 1 });
