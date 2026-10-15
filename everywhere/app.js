@@ -38,7 +38,7 @@
       signature: "Un monde. Une connexion. Aucune frontière linguistique.", learn: "LEARN",
       ailab_tag: "Innover avec l'IA.", soon: "Bientôt", soon_badge: "BIENTÔT", ailab: "AI LAB", lp_title: "Profil linguistique",
       a11y: "Affichage et accessibilité", text_size: "Taille du texte", contrast: "Contraste renforcé", motion: "Réduire les animations",
-      th_light: "Clair", th_dark: "Sombre", th_auto: "Auto", ts_names: "Normal|Grand|Très grand", everywhere: "EVERYWHERE",
+      th_light: "Clair", th_dark: "Sombre", th_auto: "Auto", ts_names: "Normal|Grand|Très grand", brand_a: "24/24 ONE WORLD, accueil", main_nav: "Navigation principale", everywhere: "EVERYWHERE",
       apps_lead: "TALK, EVERYWHERE et LEARN : une seule application, un seul compte. AI LAB arrive bientôt.",
       open: "Ouvrir", reserved: "Disponible ultérieurement", reserved_badge: "EMPLACEMENT RÉSERVÉ",
       reserved_txt: "Cet emplacement accueillera une prochaine application de 24/24 ONE WORLD. Elle n'existe pas encore.",
@@ -74,7 +74,7 @@
       signature: "One world. One connection. No language borders.", learn: "LEARN",
       ailab_tag: "Innovating with AI.", soon: "Coming soon", soon_badge: "COMING SOON", ailab: "AI LAB", lp_title: "Language profile",
       a11y: "Display and accessibility", text_size: "Text size", contrast: "High contrast", motion: "Reduce motion",
-      th_light: "Light", th_dark: "Dark", th_auto: "Auto", ts_names: "Normal|Large|Extra large", everywhere: "EVERYWHERE",
+      th_light: "Light", th_dark: "Dark", th_auto: "Auto", ts_names: "Normal|Large|Extra large", brand_a: "24/24 ONE WORLD, home", main_nav: "Main navigation", everywhere: "EVERYWHERE",
       apps_lead: "TALK, EVERYWHERE and LEARN: one app, one account. AI LAB is coming soon.",
       open: "Open", reserved: "Available later", reserved_badge: "RESERVED SLOT",
       reserved_txt: "This slot will host a future 24/24 ONE WORLD app. It does not exist yet.",
@@ -166,7 +166,7 @@
     var style = ' style="--accent:' + esc(a.accent || "#3d7bff") + '"';
     if (a.status === "available") {
       return '<a class="app-card" href="' + esc(fullHref(a)) + '"' + style + '><span class="app-ic">' + svg(a.icon) + "</span>" +
-        "<span><b>" + name + "</b><small>" + esc(loc(a.tagline)) + '</small></span><span class="go">' + esc(t("open")) + " →</span></a>";
+        "<span><b>" + name + "</b><small>" + esc(loc(a.tagline)) + '</small></span><span class="go">' + esc(t("open")) + (ui === "ar" ? " ←" : " →") + "</span></a>";
     }
     var badge = '<span class="badge">' + esc(t(a.status === "soon" ? "soon_badge" : "reserved_badge")) + "</span>";
     if (a.status === "soon" && a.route) {

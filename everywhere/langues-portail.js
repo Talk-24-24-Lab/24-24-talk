@@ -4,6 +4,8 @@
    Les écrans EVERYWHERE, Voyage, Apprendre et Profil linguistique ont leurs textes dans langues-ecrans.js (0.8.3). */
 window.EW_PORTAL_STR = {
  "es": {
+  "brand_a": "24/24 ONE WORLD, inicio",
+  "main_nav": "Navegación principal",
   "skip": "Ir al contenido",
   "offline": "Sin conexión: algunas funciones no están disponibles.",
   "home": "Inicio",
@@ -90,6 +92,8 @@ window.EW_PORTAL_STR = {
   "title_app": "{app}"
  },
  "pt": {
+  "brand_a": "24/24 ONE WORLD, início",
+  "main_nav": "Navegação principal",
   "skip": "Ir para o conteúdo",
   "offline": "Sem ligação: algumas funções não estão disponíveis.",
   "home": "Início",
@@ -176,6 +180,8 @@ window.EW_PORTAL_STR = {
   "title_app": "{app}"
  },
  "de": {
+  "brand_a": "24/24 ONE WORLD, Startseite",
+  "main_nav": "Hauptnavigation",
   "skip": "Zum Inhalt springen",
   "offline": "Offline: Einige Funktionen sind nicht verfügbar.",
   "home": "Start",
@@ -262,6 +268,8 @@ window.EW_PORTAL_STR = {
   "title_app": "{app}"
  },
  "it": {
+  "brand_a": "24/24 ONE WORLD, home",
+  "main_nav": "Navigazione principale",
   "skip": "Vai al contenuto",
   "offline": "Offline: alcune funzioni non sono disponibili.",
   "home": "Home",
@@ -348,6 +356,8 @@ window.EW_PORTAL_STR = {
   "title_app": "{app}"
  },
  "zh": {
+  "brand_a": "24/24 ONE WORLD，首页",
+  "main_nav": "主导航",
   "skip": "跳到内容",
   "offline": "离线：部分功能不可用。",
   "home": "首页",
@@ -434,6 +444,8 @@ window.EW_PORTAL_STR = {
   "title_app": "{app}"
  },
  "ja": {
+  "brand_a": "24/24 ONE WORLD、ホーム",
+  "main_nav": "メインナビゲーション",
   "skip": "本文へ移動",
   "offline": "オフライン：一部の機能は使えません。",
   "home": "ホーム",
@@ -520,6 +532,8 @@ window.EW_PORTAL_STR = {
   "title_app": "{app}"
  },
  "ar": {
+  "brand_a": "24/24 ONE WORLD، الصفحة الرئيسية",
+  "main_nav": "التنقل الرئيسي",
   "skip": "انتقل إلى المحتوى",
   "offline": "غير متصل: بعض الميزات غير متاحة.",
   "home": "الرئيسية",
@@ -606,6 +620,8 @@ window.EW_PORTAL_STR = {
   "title_app": "{app}"
  },
  "ru": {
+  "brand_a": "24/24 ONE WORLD, главная",
+  "main_nav": "Основная навигация",
   "skip": "Перейти к содержимому",
   "offline": "Нет подключения: некоторые функции недоступны.",
   "home": "Главная",
@@ -692,6 +708,8 @@ window.EW_PORTAL_STR = {
   "title_app": "{app}"
  },
  "mg": {
+  "brand_a": "24/24 ONE WORLD, fandraisana",
+  "main_nav": "Fitetezana lehibe",
   "skip": "Mankany amin'ny votoaty",
   "offline": "Tsy misy fifandraisana: tsy azo ampiasaina ny asa sasany.",
   "home": "Fandraisana",

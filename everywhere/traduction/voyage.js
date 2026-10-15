@@ -118,6 +118,9 @@
     Object.keys(o.items).forEach(function (k) { if (typeof o.items[k] === "string") items[k] = o.items[k].slice(0, 300); });
     return { ts: typeof o.ts === "string" ? o.ts : "", items: items };
   }
+  // Côté « ma langue » tant que ses phrases ne sont pas préparées : la langue de l'interface si elle est intégrée,
+  // sinon l'anglais (le français pour le malgache, langue officielle à Madagascar). Avant 0.8.3 : toujours le français.
+  function mineOf(p, me) { return phraseIn(p, me) || p[builtin(lang) ? lang : lang === "mg" ? "fr" : "en"] || p.fr; }
   function phraseIn(p, code) {
     if (builtin(code)) return p[code] || "";
     return prepared(code).items[p.id] || "";
@@ -205,7 +208,7 @@
     if (found) found.textContent = q ? (list.length ? t("found", { n: list.length, q: cur.s.q.trim() }) : t("found0", { q: cur.s.q.trim() })) : "";
     if (!list.length && !q && cur.s.cat === "fav") { ul.innerHTML = '<li class="vy-empty muted">' + esc(t("fav_none")) + "</li>"; return; }
     ul.innerHTML = list.map(function (p) {
-      var there = phraseIn(p, d), mine = phraseIn(p, me) || p.fr, on = fav.indexOf(p.id) !== -1;
+      var there = phraseIn(p, d), mine = mineOf(p, me), on = fav.indexOf(p.id) !== -1;
       return '<li class="vy-ph"><button type="button" class="vy-star" data-fav="' + esc(p.id) + '" aria-pressed="' + on + '" aria-label="' + esc(t(on ? "fav_on" : "fav_off", { p: mine })) + '">' + (on ? "★" : "☆") + "</button>" +
         '<p class="vy-there" lang="' + esc(d) + '" dir="auto">' + (there ? esc(there) : '<span class="muted">' + esc(t("not_ready")) + "</span>") + "</p>" +
         '<p class="vy-mine" lang="' + esc(me) + '" dir="auto">' + esc(mine) + "</p>" +
@@ -229,7 +232,7 @@
     box.setAttribute("aria-modal", "true");
     box.setAttribute("aria-labelledby", "vyBigTxt");
     box.innerHTML = '<p class="vy-big-hint">' + esc(t("show_hint")) + '</p><p class="vy-big-txt" id="vyBigTxt" lang="' + esc(d) + '" dir="auto">' + esc(phraseIn(p, d)) + "</p>" +
-      '<p class="vy-big-mine" lang="' + esc(me) + '" dir="auto">' + esc(phraseIn(p, me) || p.fr) + "</p>" +
+      '<p class="vy-big-mine" lang="' + esc(me) + '" dir="auto">' + esc(mineOf(p, me)) + "</p>" +
       '<div class="cx-actions"><button type="button" class="btn" id="vyBigSay">' + esc(t("listen")) + '</button><button type="button" class="btn primary" id="vyBigClose">' + esc(t("close")) + "</button></div>";
     document.body.appendChild(box);
     var back = document.querySelector('[data-big="' + p.id + '"]');

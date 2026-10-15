@@ -12,8 +12,16 @@
   navigateur ; le français garde la liste de TALK.
 - **Profil linguistique** : la langue de l'interface se choisit parmi les 11 langues (au lieu de français ou anglais).
 
+### Corrigé (incohérences relevées en passant chaque écran dans les 9 langues)
+- **Voyage** : avant préparation, la colonne « ma langue » montrait le français à tout le monde ; elle montre maintenant la
+  langue de l'interface si ses phrases sont intégrées, sinon l'anglais (le français pour le malgache).
+- **Page Applications** : descriptions de TALK, EVERYWHERE, LEARN et AI LAB traduites (elles restaient en anglais).
+- **Arabe** : flèche « Ouvrir » dans le bon sens ; logo 24/24 ONE WORLD lu de gauche à droite.
+- **Lecteur d'écran** : logo et barre du bas annoncés dans la langue de l'interface (ils l'étaient en français).
+
 ### Pas encore traduit
-- Le contenu des leçons LEARN (cours pour francophones), la voix et AI LAB restent en français ou en anglais.
+- Le contenu des leçons LEARN (cours pour francophones) et AI LAB restent en français ou en anglais. La commande vocale
+  ne comprend que le français et l'anglais : elle reste en anglais pour les autres langues.
 - Traductions faites sans relecteur natif ; le malgache est le moins sûr.
 - Cache hors connexion `ew-shell-v27`.
 
