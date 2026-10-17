@@ -157,3 +157,13 @@ html.motion-off .tr-mic.on,html.motion-off .tr-mic.on.hear{animation:none;}
 @keyframes trWave{0%,60%,100%{transform:rotate(0)}66%{transform:rotate(16deg)}72%{transform:rotate(-8deg)}78%{transform:rotate(14deg)}84%{transform:rotate(-4deg)}90%{transform:rotate(8deg)}}
 @media (prefers-reduced-motion:reduce){ .tr-wave{animation:none;} }
 html.reduce-motion .tr-wave{animation:none;}
+/* Conversation à trois : trois parts d'écran (la barre d'outils reste entre la 1 et la 2). */
+.tr-face.three{grid-template-rows:1fr auto 1fr 1fr;}
+.tr-half.p3{background:color-mix(in srgb,#b06bff 12%,var(--bg));border-top:1px solid var(--line);}
+.p3 .tr-mic{background:#9d5cf0;}
+.tr-face.three .tr-mic{width:56px;height:56px;}
+.tr-face.three .tr-kb{width:48px;height:48px;}
+.tr-face.three .tr-half{padding:6px 14px;}
+.tr-face.three .tr-big-txt{font-size:19px;}
+.tr-face.three .tr-empty{font-size:14px;margin:4px 0;}
+.tr-tool#trThree[aria-checked="true"]{background:color-mix(in srgb,#9d5cf0 22%,transparent);color:#c79bff;}

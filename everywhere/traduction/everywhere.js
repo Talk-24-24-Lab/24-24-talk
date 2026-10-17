@@ -27,7 +27,8 @@
       face: "Conversation côte à côte", face_d: "Téléphone posé entre vous deux", call: "Appeler sur TALK", call_d: "Appel traduit avec un contact",
       trip: "Voyage", trip_d: "Phrases utiles, préparation, faible connexion", fav_group: "★ Favorites", c_also: "Parle aussi {l}",
       my_langs: "Mes langues", settings: "Configurations", settings_d: "Son, volume, texte", back: "← EVERYWHERE",
-      p1: "Personne 1", p2: "Personne 2", speak: "Parler", speak_in: "Parler en {l}", type: "Écrire", type_in: "Écrire en {l}", send: "Traduire",
+      p1: "Personne 1", p2: "Personne 2", p3: "Personne 3", lang_third: "Langue de la personne 3", three_btn: "À trois",
+      three_on: "Conversation à trois : chacun lit tout dans sa langue.", three_off: "Retour à deux personnes.", speak: "Parler", speak_in: "Parler en {l}", type: "Écrire", type_in: "Écrire en {l}", send: "Traduire",
       listening: "J'écoute…", translating: "Traduction…", empty: "Touchez le micro et parlez. La traduction s'affiche dans l'autre moitié et peut être lue à voix haute.",
       langs_btn: "Langues", sound_btn: "Son", text_btn: "Texte", swap: "Inverser les langues",
       sound_on: "Lecture à voix haute activée", sound_off: "Lecture à voix haute coupée",
@@ -68,7 +69,8 @@
       face: "Side-by-side conversation", face_d: "Phone placed between you", call: "Call on TALK", call_d: "Translated call with a contact",
       trip: "Travel", trip_d: "Useful phrases, preparation, weak connection", fav_group: "★ Favorites", c_also: "Also speaks {l}",
       my_langs: "My languages", settings: "Settings", settings_d: "Sound, volume, text", back: "← EVERYWHERE",
-      p1: "Person 1", p2: "Person 2", speak: "Speak", speak_in: "Speak in {l}", type: "Type", type_in: "Type in {l}", send: "Translate",
+      p1: "Person 1", p2: "Person 2", p3: "Person 3", lang_third: "Person 3's language", three_btn: "Three",
+      three_on: "Three-way conversation: everyone reads everything in their language.", three_off: "Back to two people.", speak: "Speak", speak_in: "Speak in {l}", type: "Type", type_in: "Type in {l}", send: "Translate",
       listening: "Listening…", translating: "Translating…", empty: "Tap the mic and speak. The translation appears in the other half and can be read aloud.",
       langs_btn: "Languages", sound_btn: "Sound", text_btn: "Text", swap: "Swap languages",
       sound_on: "Read aloud on", sound_off: "Read aloud off",
@@ -132,7 +134,8 @@
     try { p = JSON.parse(store.get(KEY) || "{}") || {}; } catch (e) { p = {}; }
     var me = M.lang(p.me).name !== p.me ? p.me : defMe();
     var other = M.lang(p.other).name !== p.other ? p.other : (me === "en" ? "fr" : "en");
-    mem = { me: me, other: other, sound: p.sound !== false, volume: typeof p.volume === "number" ? Math.max(0, Math.min(1, p.volume)) : 1,
+    var third = M.lang(p.third).name !== p.third ? p.third : ["es", "de", "it", "pt"].filter(function (c) { return c !== me && c !== other; })[0];
+    mem = { me: me, other: other, third: third, three: p.three === true, sound: p.sound !== false, volume: typeof p.volume === "number" ? Math.max(0, Math.min(1, p.volume)) : 1,
       size: [0, 1, 2].indexOf(p.size) !== -1 ? p.size : 0,
       out: p.out === "earbuds" ? "earbuds" : "speaker", hands: p.hands === true,
       rate: typeof p.rate === "number" ? Math.max(0.7, Math.min(1.3, p.rate)) : 1,
@@ -182,13 +185,17 @@
 
   // ---------- Mode A : côte à côte ----------
   var face = null; // { lines:[{from:1|2, orig, tr, err}], listening: 1|2|0, rec, root }
-  function halfLang(who) { var p = prefs(); return who === 1 ? p.me : p.other; }
+  function halfLang(who) { var p = prefs(); return who === 1 ? p.me : who === 2 ? p.other : p.third; }
+  // Conversation à trois (même téléphone) : une troisième part d'écran, chacun lit tout dans sa langue.
+  function persons() { return prefs().three ? [1, 2, 3] : [1, 2]; }
+  function others(who) { return persons().filter(function (x) { return x !== who; }); }
+  function clearMsgs() { persons().forEach(function (w) { msg(w, ""); }); }
   function faceScreen(root) {
     var p = prefs();
     face = { lines: [], listening: 0, rec: null, root: root, typing: 0, seq: 0 };
     loadMyPseudo();
     root.innerHTML = '<h1 class="sr" id="h-tr">' + esc(t("face")) + "</h1>" +
-      '<div class="tr-face" id="trFace" data-size="' + p.size + '" data-out="' + p.out + '">' +
+      '<div class="tr-face' + (p.three ? " three" : "") + '" id="trFace" data-size="' + p.size + '" data-out="' + p.out + '">' +
         halfHtml(1) +
         '<div class="tr-mid" role="toolbar" aria-label="' + esc(t("face")) + '">' +
           '<button type="button" class="tr-tool" id="trSwap" aria-label="' + esc(t("swap")) + '">⇅ ' + esc(t("langs_btn")) + "</button>" +
@@ -196,10 +203,12 @@
           '<button type="button" class="tr-tool" id="trOut">' + outLabel(p.out) + "</button>" +
           '<button type="button" class="tr-tool" id="trHands" role="switch" aria-checked="' + p.hands + '">🙌 ' + esc(t("hands_btn")) + "</button>" +
           '<button type="button" class="tr-tool" id="trSize">A+ ' + esc(t("text_btn")) + "</button>" +
+          '<button type="button" class="tr-tool" id="trThree" role="switch" aria-checked="' + p.three + '">👥 ' + esc(t("three_btn")) + "</button>" +
           '<button type="button" class="tr-tool tr-invite-pill" id="trFaceInvite" data-invite-now><span class="tr-wave" aria-hidden="true">👋</span> ' + esc(t("invite_talk").replace(/^📨\s*/, "")) + "</button>" +
           '<a class="tr-tool" href="#/everywhere/reglages" aria-label="' + esc(t("settings")) + '">⚙</a>' +
         "</div>" +
         halfHtml(2) +
+        (p.three ? halfHtml(3) : "") +
       "</div>" +
       '<p class="sr" role="status" id="trFaceSr"></p>';
     paintFace();
@@ -211,7 +220,7 @@
       f.seq++; // annule l'enchaînement des mains libres
       if (f.rec) { try { f.rec.stop(); } catch (e) { /* déjà arrêté */ } }
       M.stopSpeaking();
-      setTimeout(function () { if (face === f) { msg(1, t("idle")); msg(2, ""); } }, 300);
+      setTimeout(function () { if (face === f) { clearMsgs(); msg(1, t("idle")); } }, 300);
     };
     if (window.EWEcoute) window.EWEcoute.keepAwake("ew-face", f.idle);
     // Préférence « Écrire » du profil : les claviers sont ouverts d'emblée (sans prendre le focus).
@@ -220,8 +229,8 @@
   function outLabel(out) { return out === "earbuds" ? "🎧 " + esc(t("out_btn_ea")) : "🔈 " + esc(t("out_btn_sp")); }
   function halfHtml(who) {
     var code = halfLang(who);
-    return '<section class="tr-half p' + who + '" data-who="' + who + '" aria-label="' + esc(t(who === 1 ? "p1" : "p2")) + '">' +
-      '<label class="tr-who"><span>' + esc(t(who === 1 ? "p1" : "p2")) + ' · </span><select data-lang-of="' + who + '" aria-label="' + esc(t(who === 1 ? "lang_me" : "lang_other")) + '">' + langOptions(code) + "</select></label>" +
+    return '<section class="tr-half p' + who + '" data-who="' + who + '" aria-label="' + esc(t("p" + who)) + '">' +
+      '<label class="tr-who"><span>' + esc(t("p" + who)) + ' · </span><select data-lang-of="' + who + '" aria-label="' + esc(t(who === 1 ? "lang_me" : who === 2 ? "lang_other" : "lang_third")) + '">' + langOptions(code) + "</select></label>" +
       '<div class="tr-log" data-log="' + who + '" aria-live="polite" tabindex="0"></div>' +
       '<p class="tr-msg" data-msg="' + who + '" role="alert"></p>' +
       '<form class="tr-type" data-type="' + who + '" hidden><input type="text" data-input="' + who + '" autocomplete="off" lang="' + esc(code) + '"><button type="submit" class="btn primary">' + esc(t("send")) + "</button></form>" +
@@ -233,7 +242,7 @@
   function paintFace() {
     if (!face) return;
     var root = face.root;
-    [1, 2].forEach(function (who) {
+    persons().forEach(function (who) {
       var code = halfLang(who);
       var log = root.querySelector('[data-log="' + who + '"]');
       if (!log) return;
@@ -245,9 +254,11 @@
         log.innerHTML = face.lines.slice(rd === "slow" ? -2 : rd === "fast" ? -6 : -4).map(function (l) {
           var mine = l.from === who;
           // Traduction en cours : écrit en toutes lettres (« Traduction… »), distinct de l'écoute et de la lecture.
-          var wait = !l.tr && !l.err;
-          var big = mine ? l.orig : (l.tr || (l.err ? "" : t("translating")));
-          var small = mine ? (l.tr || (l.err ? "" : t("translating"))) : l.orig;
+          // À trois, ma moitié montre en petit la traduction pour la première des deux autres personnes.
+          var tr = mine ? l.trs[others(who)[0]] : l.trs[who];
+          var wait = !tr && !l.err;
+          var big = mine ? l.orig : (tr || (l.err ? "" : t("translating")));
+          var small = mine ? (tr || (l.err ? "" : t("translating"))) : l.orig;
           return '<div class="tr-line' + (mine ? " mine" : "") + (wait ? " wait" : "") + '"><p class="tr-big-txt" lang="' + esc(code) + '">' + esc(big) + "</p>" +
             (small ? '<p class="tr-small-txt">' + esc(small) + "</p>" : "") + (l.err ? '<p class="tr-err">' + esc(l.err) + "</p>" : "") + "</div>";
         }).join("");
@@ -269,23 +280,36 @@
   }
   function say(who, text) {
     if (window.EWEcoute) window.EWEcoute.activity();
-    var from = halfLang(who), to = halfLang(who === 1 ? 2 : 1);
-    var line = { from: who, orig: text, tr: "", err: "" };
+    var from = halfLang(who), dest = others(who), list = persons();
+    var line = { from: who, orig: text, trs: {}, err: "" };
     face.lines.push(line);
     if (face.lines.length > 30) face.lines.shift();
-    msg(1, ""); msg(2, "");
+    clearMsgs();
     paintFace();
-    M.translate(text, from, to).then(function (tr) {
-      line.tr = tr;
-      paintFace();
+    // Une traduction par autre personne (une seule demande quand deux personnes ont la même langue).
+    var byLang = {};
+    dest.forEach(function (w) { var c = halfLang(w); if (!byLang[c]) byLang[c] = c === from ? Promise.resolve(text) : M.translate(text, from, c); });
+    Promise.all(dest.map(function (w) { return byLang[halfLang(w)].then(function (tr) { line.trs[w] = tr; paintFace(); return tr; }); })).then(function (trs) {
       var sr = face && face.root.querySelector("#trFaceSr");
-      if (sr) sr.textContent = tr;
-      var p = prefs(), next = who === 1 ? 2 : 1, f = face, my = ++f.seq;
-      // Haut-parleur : tout est lu. Écouteurs (portés par la personne 1) : seul ce qui est dit à la personne 1 est lu.
-      var aloud = p.sound && (p.out === "speaker" || next === 1);
+      if (sr) sr.textContent = trs.join(" · ");
+      var p = prefs(), next = list[(list.indexOf(who) + 1) % list.length], f = face, my = ++f.seq;
       var chain = function () { if (face === f && f.seq === my && prefs().hands && !f.listening && !f.paused) startMic(next); };
-      if (aloud) M.speak(tr, to, p.volume, { rate: p.rate, voice: p.voices[to], done: function () { setTimeout(chain, 350); } });
-      else setTimeout(chain, 150);
+      // Haut-parleur : chaque traduction est lue, l'une après l'autre (une seule fois par langue).
+      // Écouteurs (portés par la personne 1) : seul ce qui est dit à la personne 1 est lu.
+      var seen = {}, queue = dest.filter(function (w) {
+        var c = halfLang(w);
+        if (seen[c] || c === from) return false;
+        seen[c] = 1;
+        return p.sound && (p.out === "speaker" || w === 1);
+      });
+      var speakNext = function () {
+        if (face !== f || f.seq !== my) return;
+        var w = queue.shift();
+        if (!w) { setTimeout(chain, 350); return; }
+        var c = halfLang(w);
+        M.speak(line.trs[w], c, p.volume, { rate: p.rate, voice: p.voices[c], done: function () { setTimeout(speakNext, 200); } });
+      };
+      if (queue.length) speakNext(); else setTimeout(chain, 150);
     }, function (e) {
       line.err = errText(e && e.message);
       paintFace();
@@ -294,13 +318,13 @@
   // Répéter : relit la dernière traduction destinée à cette moitié (comme le bouton « répéter » d'un écouteur traducteur).
   function replay(who) {
     if (!face) return;
-    var last = face.lines.filter(function (l) { return l.from !== who && l.tr; }).pop();
+    var last = face.lines.filter(function (l) { return l.from !== who && l.trs[who]; }).pop();
     if (!last) { msg(who, t("nothing_replay")); return; }
     var p = prefs(), code = halfLang(who);
     face.seq++;
     // Micro ouvert pendant la réécoute : on le coupe, sinon il entendrait la voix du téléphone.
     if (face.listening && face.rec) { face.paused = true; try { face.rec.stop(); } catch (e) { /* déjà arrêté */ } }
-    M.speak(last.tr, code, p.volume, { rate: p.rate, voice: p.voices[code] });
+    M.speak(last.trs[who], code, p.volume, { rate: p.rate, voice: p.voices[code] });
   }
   function startMic(who) {
     if (!face) return;
@@ -311,7 +335,7 @@
     face.paused = false;
     if (face.listening) { msg(who, t("busy")); return; }
     if (!M.canListen) { msg(who, t("no_stt")); openType(who); return; }
-    msg(1, ""); msg(2, "");
+    clearMsgs();
     M.stopSpeaking();
     M.askMic().then(function (ok) {
       if (!face) return;
@@ -325,7 +349,7 @@
         sound: function (on) { var b = face === f && f.listening === who && f.root.querySelector('[data-mic="' + who + '"]'); if (b) b.classList.toggle("hear", !!on); },
         // Traduction demandée en avance pendant que la phrase se termine (gardée, réutilisée si la phrase ne change plus).
         // Au plus 2 demandes en avance par phrase, et seulement pour une phrase assez longue : le quota gratuit est limité.
-        stable: function (txt) { if (face === f && early < 2 && String(txt || "").trim().length >= 6 && ++early) M.translate(txt, halfLang(who), halfLang(who === 1 ? 2 : 1)).catch(function () {}); },
+        stable: function (txt) { if (face === f && early < 2 && String(txt || "").trim().length >= 6 && ++early) M.translate(txt, halfLang(who), halfLang(others(who)[0])).catch(function () {}); },
         final: function (txt) { if (face !== f) return; f.listening = 0; f.rec = null; msg(who, ""); say(who, txt); },
         error: function (code) {
           if (face !== f) return;
@@ -609,7 +633,7 @@
   document.addEventListener("click", function (e) {
     if (!e.target.closest) return;
     if (e.target.closest("[data-invite-now]")) { inviteNow(); return; }
-    var b = e.target.closest("[data-mic], [data-kb], [data-replay], #trSwap, #trSound, #trOut, #trHands, #trSize, [data-call]");
+    var b = e.target.closest("[data-mic], [data-kb], [data-replay], #trSwap, #trSound, #trOut, #trHands, #trSize, #trThree, [data-call]");
     if (!b) return;
     if (b.hasAttribute("data-call")) { callSheet(b.getAttribute("data-call")); return; }
     if (!face || !face.root.contains(b)) return;
@@ -621,12 +645,12 @@
       p.out = p.out === "earbuds" ? "speaker" : "earbuds"; savePrefs();
       b.innerHTML = outLabel(p.out);
       face.root.querySelector("#trFace").setAttribute("data-out", p.out);
-      msg(1, t(p.out === "earbuds" ? "out_ea_on" : "out_sp_on")); msg(2, "");
+      clearMsgs(); msg(1, t(p.out === "earbuds" ? "out_ea_on" : "out_sp_on"));
     } else if (b.id === "trHands") {
       p.hands = !p.hands; savePrefs();
       b.setAttribute("aria-checked", String(p.hands));
       if (!p.hands) face.seq++;
-      msg(1, t(p.hands ? "hands_on" : "hands_off")); msg(2, "");
+      clearMsgs(); msg(1, t(p.hands ? "hands_on" : "hands_off"));
     }
     else if (b.id === "trSwap") {
       var x = p.me; p.me = p.other; p.other = x; savePrefs();
@@ -638,6 +662,13 @@
       b.innerHTML = (p.sound ? "🔊" : "🔇") + " " + esc(t("sound_btn"));
       var sr = face.root.querySelector("#trFaceSr");
       if (sr) sr.textContent = t(p.sound ? "sound_on" : "sound_off");
+    } else if (b.id === "trThree") {
+      p.three = !p.three; savePrefs();
+      var keep = face.lines;
+      faceScreen(face.root);
+      face.lines = keep;
+      paintFace();
+      msg(1, t(p.three ? "three_on" : "three_off"));
     } else if (b.id === "trSize") {
       p.size = (p.size + 1) % 3; savePrefs();
       face.root.querySelector("#trFace").setAttribute("data-size", String(p.size));
@@ -647,7 +678,8 @@
     var s = e.target;
     if (!face || !s.hasAttribute || !s.hasAttribute("data-lang-of") || !face.root.contains(s)) return;
     var p = prefs();
-    if (s.getAttribute("data-lang-of") === "1") p.me = s.value; else p.other = s.value;
+    var w = s.getAttribute("data-lang-of");
+    if (w === "1") p.me = s.value; else if (w === "2") p.other = s.value; else p.third = s.value;
     savePrefs();
     var lines = face.lines;
     faceScreen(face.root);
