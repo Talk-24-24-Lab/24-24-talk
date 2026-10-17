@@ -72,5 +72,14 @@
         }
       ]
     }
-  ]
+  ],
+  "share_target": {
+    "action": "./",
+    "method": "GET",
+    "params": {
+      "title": "partage_titre",
+      "text": "partage_texte",
+      "url": "partage_lien"
+    }
+  }
 }

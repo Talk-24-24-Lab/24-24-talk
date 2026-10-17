@@ -4,8 +4,8 @@
   "use strict";
   var CFG = window.EW_CONFIG || { env: "test", basePath: "../", talkReadyTimeoutMs: 15000 };
   var APPS = window.EW_APPS || [];
-  var VERSION = "0.8.5 (prototype)";
-  var VERSION_TAG = "0.8.5";
+  var VERSION = "0.8.6 (prototype)";
+  var VERSION_TAG = "0.8.6";
 
   // ---------- Stockage (peut être indisponible : navigation privée stricte, etc.) ----------
   var store = {
@@ -363,6 +363,16 @@
       "</b><small>" + esc(t("hub_learn_d")) + "</small></span></a>";
     root.appendChild(box);
   }
+  // Message partagé depuis une autre appli (menu Partager d'Android, share_target du manifeste) : gardé le temps
+  // de cette visite seulement, puis ouverture de l'écran EVERYWHERE « Traduire un message ». L'adresse est nettoyée.
+  (function () {
+    var q = new URLSearchParams(location.search);
+    if (!q.has("partage_texte") && !q.has("partage_titre") && !q.has("partage_lien")) return;
+    try {
+      sessionStorage.setItem("ew_partage", JSON.stringify({ text: q.get("partage_texte") || "", title: q.get("partage_titre") || "", url: q.get("partage_lien") || "" }));
+    } catch (e) { /* stockage refusé : l'écran s'ouvre vide, on peut coller le message */ }
+    history.replaceState(null, "", location.pathname + "#/everywhere/partage");
+  })();
   var first = true;
   function route() {
     var h = (location.hash || "").replace(/^#\/?/, "");
