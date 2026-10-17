@@ -11,6 +11,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
 <title>24/24 Talk — Traduisez, maintenant</title>
+<script src="everywhere/sentinelle.js?v=0.8.5"></script>
 <script>/* CONNECT : retour du lien d'e-mail arrivé sur l'adresse principale → écran Profil du portail. */(function(){var h=location.hash||"";if(/(^#|&)(access_token|error_code|error_description)=/.test(h)||/(^#|&)message=Confirmation/.test(h))location.replace("everywhere/"+h);})();</script>
 <script>
 /* 24/24 EVERYWHERE : arrivé depuis le portail (adresse ?ew=1), TALK s'affiche dans la coquille commune
@@ -887,6 +888,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
     <li><strong>Reconnaissance vocale</strong> : sur Android, la dictée de Chrome et le micro du clavier sont assurés par Google (Google LLC, États-Unis) ; sur iPhone, par Apple. L'audio peut être envoyé à leurs serveurs pour être transformé en texte, selon leurs propres politiques.</li>
     <li><strong>GitHub</strong> (GitHub, Inc., États-Unis), hébergeur du site : reçoit, comme tout hébergeur, l'adresse IP des visiteurs.</li>
     <li><strong>Supabase</strong> (Supabase, Inc.), hébergeur des données du Réseau 24/24 Talk : les données sont stockées dans un centre de données de l'Union européenne. Supabase agit comme sous-traitant, sur la base de clauses contractuelles types pour tout accès depuis l'extérieur de l'UE.</li>
+    <li><strong>Sentry</strong> (Functional Software, Inc., serveurs en Allemagne, Union européenne) : si l'appli rencontre une panne technique sur votre téléphone, un rapport anonyme part automatiquement (message d'erreur, écran concerné, langue de l'interface, modèle de navigateur), pour corriger le problème. Il ne contient jamais vos messages, votre pseudo, vos contacts ni vos traductions, et l'appli demande à Sentry de ne pas enregistrer votre adresse IP.</li>
     <li><strong>jsDelivr</strong> (cdn.jsdelivr.net) : si vous ouvrez l'onglet Réseau, le programme de connexion au serveur est téléchargé depuis ce service, qui reçoit alors votre adresse IP.</li>
     <li><strong>Service de notification de votre navigateur</strong>, seulement si vous activez les notifications d'appel : Google (Firebase Cloud Messaging, Google LLC, États-Unis) pour Chrome sur Android, Apple pour Safari, Mozilla pour Firefox. Le contenu de la notification est chiffré de bout en bout : ce service sait seulement qu'une notification est envoyée à votre téléphone, sans pouvoir la lire.</li>
     <li><strong>Vos contacts</strong> du Réseau : ils reçoivent votre pseudo, votre langue et les messages que vous leur envoyez.</li>
