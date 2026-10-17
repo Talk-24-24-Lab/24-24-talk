@@ -91,9 +91,10 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     return { ok: c.home === "rgb(8, 17, 31)" && /radial-gradient/.test(c.sky) && /63, 169, 245/.test(c.sky) && !/url\(/.test(c.sky) && /26, 115, 232/.test(c.talk) && c.nav === "rgb(11, 21, 38)",
       detail: "fond " + c.home + " · barre du bas " + c.nav };
   });
-  await step("Accueil : « Gratuit pour tous », sans compte à rebours ni date de fin (0.8.4)", async () => {
-    const r = await page.evaluate(() => ({ txt: (document.getElementById("freeAll") || {}).textContent, cd: !!document.getElementById("countdown"), api: !!window.EWCountdown }));
-    return { ok: r.txt === "Gratuit pour tous" && !r.cd && !r.api, detail: r.txt };
+  await step("Accueil : aucune mention de prix, ni compte à rebours ni date de fin (17 oct. 2026)", async () => {
+    const r = await page.evaluate(() => ({ txt: document.body.innerText, cd: !!document.getElementById("countdown"), api: !!window.EWCountdown }));
+    const prix = /gratuit|tarif|abonnement|€|\$/i.test(r.txt);
+    return { ok: !prix && !r.cd && !r.api, detail: prix ? "mention de prix trouvée" : "aucune mention de prix" };
   });
   await step("Barre basse commune : 4 entrées Accueil, Talk, Everywhere, Profil", async () => {
     const labels = await page.$$eval("#mainnav a", (n) => n.map((a) => a.textContent.trim()));
