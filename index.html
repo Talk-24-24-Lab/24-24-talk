@@ -324,6 +324,10 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
     background:linear-gradient(135deg,#2ee6c5,#0e9f8e);box-shadow:0 6px 16px rgba(22,184,166,.3);}
   .home-tile.chat .home-tile-ic{background:linear-gradient(135deg,#3cc8ff,#1a73e8);box-shadow:0 6px 16px rgba(26,140,255,.35);}
   .home-tile-ic svg{width:26px;height:26px;}
+  a.home-tile{text-decoration:none;box-sizing:border-box;}
+  .home-tile.ew .home-tile-ic{background:linear-gradient(135deg,#9d8bff,#5b45e0);box-shadow:0 6px 16px rgba(110,90,240,.32);}
+  .home-tile.trip .home-tile-ic{background:linear-gradient(135deg,#ffc04d,#e8890c);box-shadow:0 6px 16px rgba(232,137,12,.3);}
+  .home-tile.learn .home-tile-ic{background:linear-gradient(135deg,#ff8fb4,#e0457b);box-shadow:0 6px 16px rgba(224,69,123,.3);}
   .home-tile-name{font-size:16.5px;font-weight:800;line-height:1.2;overflow-wrap:anywhere;}
   .home-tile-sub{display:block;font-size:14px;color:var(--muted);line-height:1.35;margin-top:3px;}
   .home-tile-txt{flex:1;min-width:0;}
@@ -334,7 +338,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .home-tr{margin:-2px 0 14px;}
   /* Avant que le script ne dessine les deux touches et l'interrupteur de traduction : leur place est réservée
      (touches 200 px + interrupteur environ 86 px) pour que le texte et le pied de page ne sautent pas. */
-  .home-tiles:empty{min-height:162px;margin-bottom:100px;}
+  .home-tiles:empty{min-height:420px;margin-bottom:100px;}
   .tr-switch{display:flex;gap:4px;padding:4px;background:var(--panel);border:1px solid var(--line);border-radius:999px;}
   .tr-switch button{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:6px;border:none;background:transparent;
     color:var(--muted);font-family:inherit;font-weight:700;font-size:14.5px;padding:11px 8px;border-radius:999px;cursor:pointer;
@@ -5948,6 +5952,11 @@ const NET_STRINGS = {
     net_deleted_user: "compte supprimé",
     home_phone: "Téléphone",
     home_phone_sub: "Appels traduits",
+    home_ew_sub: "Conversation côte à côte",
+    home_trip: "Voyage",
+    home_trip_sub: "Phrases utiles hors ligne",
+    home_learn: "Apprendre",
+    home_learn_sub: "Leçons et révisions",
     home_msg: "Messagerie",
     home_msg_sub: "Messages traduits",
     net_home_back: "← Accueil",
@@ -6109,6 +6118,11 @@ const NET_STRINGS = {
     net_deleted_user: "deleted account",
     home_phone: "Phone",
     home_phone_sub: "Translated calls",
+    home_ew_sub: "Side-by-side conversation",
+    home_trip: "Travel",
+    home_trip_sub: "Useful phrases, works offline",
+    home_learn: "Learn",
+    home_learn_sub: "Lessons and reviews",
     home_msg: "Messages",
     home_msg_sub: "Translated messages",
     net_home_back: "← Home",
@@ -6267,6 +6281,11 @@ const NET_STRINGS = {
     net_deleted_user: "cuenta eliminada",
     home_phone: "Teléfono",
     home_phone_sub: "Llamadas traducidas",
+    home_ew_sub: "Conversación cara a cara",
+    home_trip: "Viaje",
+    home_trip_sub: "Frases útiles sin conexión",
+    home_learn: "Aprender",
+    home_learn_sub: "Lecciones y repasos",
     home_msg: "Mensajes",
     home_msg_sub: "Mensajes traducidos",
     net_home_back: "← Inicio",
@@ -6425,6 +6444,11 @@ const NET_STRINGS = {
     net_deleted_user: "conta eliminada",
     home_phone: "Telefone",
     home_phone_sub: "Chamadas traduzidas",
+    home_ew_sub: "Conversa lado a lado",
+    home_trip: "Viagem",
+    home_trip_sub: "Frases úteis sem ligação",
+    home_learn: "Aprender",
+    home_learn_sub: "Lições e revisões",
     home_msg: "Mensagens",
     home_msg_sub: "Mensagens traduzidas",
     net_home_back: "← Início",
@@ -6583,6 +6607,11 @@ const NET_STRINGS = {
     net_deleted_user: "Konto gelöscht",
     home_phone: "Telefon",
     home_phone_sub: "Übersetzte Anrufe",
+    home_ew_sub: "Gespräch von Angesicht zu Angesicht",
+    home_trip: "Reise",
+    home_trip_sub: "Nützliche Sätze, auch offline",
+    home_learn: "Lernen",
+    home_learn_sub: "Lektionen und Wiederholungen",
     home_msg: "Nachrichten",
     home_msg_sub: "Übersetzte Nachrichten",
     net_home_back: "← Start",
@@ -6741,6 +6770,11 @@ const NET_STRINGS = {
     net_deleted_user: "account eliminato",
     home_phone: "Telefono",
     home_phone_sub: "Chiamate tradotte",
+    home_ew_sub: "Conversazione faccia a faccia",
+    home_trip: "Viaggio",
+    home_trip_sub: "Frasi utili anche offline",
+    home_learn: "Imparare",
+    home_learn_sub: "Lezioni e ripassi",
     home_msg: "Messaggi",
     home_msg_sub: "Messaggi tradotti",
     net_home_back: "← Home",
@@ -6899,6 +6933,11 @@ const NET_STRINGS = {
     net_deleted_user: "账户已删除",
     home_phone: "电话",
     home_phone_sub: "翻译通话",
+    home_ew_sub: "面对面对话",
+    home_trip: "旅行",
+    home_trip_sub: "实用短语，离线可用",
+    home_learn: "学习",
+    home_learn_sub: "课程与复习",
     home_msg: "消息",
     home_msg_sub: "翻译消息",
     net_home_back: "← 首页",
@@ -7057,6 +7096,11 @@ const NET_STRINGS = {
     net_deleted_user: "削除されたアカウント",
     home_phone: "電話",
     home_phone_sub: "翻訳通話",
+    home_ew_sub: "対面での会話",
+    home_trip: "旅行",
+    home_trip_sub: "便利なフレーズ、オフライン対応",
+    home_learn: "学ぶ",
+    home_learn_sub: "レッスンと復習",
     home_msg: "メッセージ",
     home_msg_sub: "翻訳メッセージ",
     net_home_back: "← ホーム",
@@ -7215,6 +7259,11 @@ const NET_STRINGS = {
     net_deleted_user: "حساب محذوف",
     home_phone: "الهاتف",
     home_phone_sub: "مكالمات مترجمة",
+    home_ew_sub: "محادثة وجهًا لوجه",
+    home_trip: "السفر",
+    home_trip_sub: "عبارات مفيدة دون اتصال",
+    home_learn: "تعلّم",
+    home_learn_sub: "دروس ومراجعات",
     home_msg: "الرسائل",
     home_msg_sub: "رسائل مترجمة",
     net_home_back: "→ الرئيسية",
@@ -7373,6 +7422,11 @@ const NET_STRINGS = {
     net_deleted_user: "аккаунт удалён",
     home_phone: "Телефон",
     home_phone_sub: "Звонки с переводом",
+    home_ew_sub: "Разговор лицом к лицу",
+    home_trip: "Путешествие",
+    home_trip_sub: "Полезные фразы, работает офлайн",
+    home_learn: "Учиться",
+    home_learn_sub: "Уроки и повторение",
     home_msg: "Сообщения",
     home_msg_sub: "Сообщения с переводом",
     net_home_back: "← Главная",
@@ -7531,6 +7585,11 @@ const NET_STRINGS = {
     net_deleted_user: "kaonty voafafa",
     home_phone: "Telefaonina",
     home_phone_sub: "Antso voadika",
+    home_ew_sub: "Resaka mifanatrika",
+    home_trip: "Dia",
+    home_trip_sub: "Fehezanteny ilaina, na tsy misy aterineto",
+    home_learn: "Mianara",
+    home_learn_sub: "Lesona sy famerenana",
     home_msg: "Hafatra",
     home_msg_sub: "Hafatra voadika",
     net_home_back: "← Fandraisana",
@@ -7700,7 +7759,11 @@ const Reseau = (() => {
   const ICON_MSG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.8-.9L3 21l1.9-5.2A8.4 8.4 0 0 1 12 3a8.5 8.5 0 0 1 9 8.5z"/></svg>';
   let mode = "msg"; // "call" = Téléphone (liste d'appel), "msg" = Messagerie (discussions)
 
-  // Accueil : deux touches l'une sous l'autre, Messagerie et Téléphone (style de l'accueil ONE WORLD, 0.8.1).
+  // Accueil : Messagerie et Téléphone, puis les autres espaces de ONE WORLD (EVERYWHERE, Voyage, Apprendre) qui s'ouvrent dans le portail.
+  const SVG_A = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">';
+  const ICON_GLOBE_EW = SVG_A + '<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.8 3 2.8 15 0 18M12 3c-2.8 3-2.8 15 0 18"/></svg>';
+  const ICON_TRIP = SVG_A + '<rect x="4" y="8" width="16" height="12" rx="2"/><path d="M9 8V5h6v3"/></svg>';
+  const ICON_LEARN = SVG_A + '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c3 2.5 9 2.5 12 0v-5"/></svg>';
   const tilesBox = document.getElementById("homeTiles");
   let tileBadge = null;
   if (tilesBox) {
@@ -7714,7 +7777,22 @@ const Reseau = (() => {
         <span class="home-tile-ic">${ICON_PHONE}</span>
         <span class="home-tile-txt"><span class="home-tile-name">${escapeHtml(t("home_phone"))}</span>
         <span class="home-tile-sub">${escapeHtml(t("home_phone_sub"))}</span></span>
-      </button>`;
+      </button>
+      <a class="home-tile ew" id="tileEw" href="everywhere/#/everywhere">
+        <span class="home-tile-ic">${ICON_GLOBE_EW}</span>
+        <span class="home-tile-txt"><span class="home-tile-name" dir="ltr">EVERYWHERE</span>
+        <span class="home-tile-sub">${escapeHtml(t("home_ew_sub"))}</span></span>
+      </a>
+      <a class="home-tile trip" id="tileTrip" href="everywhere/#/everywhere/voyage">
+        <span class="home-tile-ic">${ICON_TRIP}</span>
+        <span class="home-tile-txt"><span class="home-tile-name">${escapeHtml(t("home_trip"))}</span>
+        <span class="home-tile-sub">${escapeHtml(t("home_trip_sub"))}</span></span>
+      </a>
+      <a class="home-tile learn" id="tileLearn" href="everywhere/#/learn">
+        <span class="home-tile-ic">${ICON_LEARN}</span>
+        <span class="home-tile-txt"><span class="home-tile-name">${escapeHtml(t("home_learn"))}</span>
+        <span class="home-tile-sub">${escapeHtml(t("home_learn_sub"))}</span></span>
+      </a>`;
     tileBadge = tilesBox.querySelector("#tileMsgBadge");
     const go = (m) => () => {
       mode = m;
