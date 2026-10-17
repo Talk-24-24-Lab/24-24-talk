@@ -8,7 +8,7 @@ var SHELL = ["./", "index.html", "shell.css", "style.css", "prefs.js", "shell.js
   "learn/content/catalogue.json", "learn/content/en.json", "learn/content/es.json",
   "traduction/everywhere.css", "traduction/langues.js", "traduction/moteur.js", "traduction/everywhere.js",
   "traduction/phrases.js", "traduction/voyage.js", "profil/profil.js", "profil/profil.css", "ailab/ailab.js",
-  "icons/icon-192.png", "icons/icon-512.png", "icons/maskable-512.png", "icons/apple-touch-icon.png", "../terre-tech.jpg"];
+  "icons/icon-192.png", "icons/icon-512.png", "icons/maskable-512.png", "icons/apple-touch-icon.png"];
 
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(SHELL); }).then(function () { return self.skipWaiting(); }));

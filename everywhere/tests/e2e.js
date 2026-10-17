@@ -1041,7 +1041,9 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await sleep(800);
     const r = await page.evaluate(() => ({ emb: document.documentElement.classList.contains("embedded") || document.documentElement.classList.contains("ew-shell") || !!document.getElementById("ewsNav"),
       hero: getComputedStyle(document.querySelector("header.hero-earth")).display !== "none", banner: !!document.querySelector(".test-banner") && getComputedStyle(document.querySelector(".test-banner")).display !== "none" }));
-    return { ok: !r.emb && r.hero && r.banner && !errs.length, detail: errs.join(" | ").slice(0, 160) || "aucune erreur" };
+    // Bandeau « SITE DE TEST » attendu sur le test seulement, jamais sur la production.
+    const prod = /env:\s*"production"/.test(fs.readFileSync(path.join(__dirname, "..", "config.js"), "utf8"));
+    return { ok: !r.emb && r.hero && r.banner === !prod && !errs.length, detail: errs.join(" | ").slice(0, 160) || "aucune erreur" };
   });
   await page.screenshot({ path: path.join(OUT, "talk-seul.png") });
   await ctx.close();
