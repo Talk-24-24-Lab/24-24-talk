@@ -34,6 +34,8 @@ html{height:100%;}
 body{margin:0;height:100vh;display:flex;flex-direction:column;background:var(--bg);color:var(--text);
   font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-text-size-adjust:100%;overflow:hidden;}
 @supports (height:100dvh){ body{height:100dvh;} }
+/* Fond plus vivant (17 oct. 2026) : lueurs turquoise, violette et bleue, les tuiles ne changent pas. */
+body{background:radial-gradient(90% 50% at 0% 0%,rgba(31,226,205,.16),transparent 70%),radial-gradient(90% 55% at 100% 42%,rgba(124,77,255,.22),transparent 70%),radial-gradient(110% 55% at 10% 100%,rgba(47,106,230,.26),transparent 70%),var(--bg);}
 a{color:var(--teal);}
 button{font:inherit;color:inherit;}
 :focus-visible{outline:3px solid var(--teal);outline-offset:2px;}
@@ -159,7 +161,7 @@ html.reduce-motion *{animation:none !important;transition:none !important;}
 /* ---------- Accueil 0.8.0 (maquette validée le 14 octobre 2026) ----------
    Ciel bleu nuit et planète lumineuse dessinés en CSS (aucune image), quel que soit le thème. Quatre tuiles en liste,
    icône en dégradé de couleur, texte blanc sur panneau sombre (contraste ≥ 7:1), puis le compte à rebours de la gratuité. */
-#view-accueil{color:#f4f7fa;background:#08111f;}
+#view-accueil{color:#f4f7fa;background:radial-gradient(90% 50% at 0% 0%,rgba(31,226,205,.16),transparent 70%),radial-gradient(90% 55% at 100% 42%,rgba(124,77,255,.22),transparent 70%),radial-gradient(110% 55% at 10% 100%,rgba(47,106,230,.26),transparent 70%),#08111f;}
 .home{min-height:100%;display:flex;flex-direction:column;}
 .home-head{position:relative;overflow:hidden;padding:34px calc(22px + var(--sar)) 118px calc(22px + var(--sal));
   background:
@@ -188,17 +190,6 @@ html.reduce-motion *{animation:none !important;transition:none !important;}
 .duo-card:hover{border-color:rgba(33,212,253,.55);}
 .duo-card:active{transform:scale(.985);}
 .duo-card:focus-visible{outline:3px solid #21d4fd;outline-offset:3px;}
-/* Accueil plus vif (17 oct. 2026) : tuiles en couleur pleine, mêmes couleurs que l'accueil de TALK. */
-.duo-card{border:none;box-shadow:0 8px 22px rgba(0,0,0,.3);}
-.duo-card.talk{background:linear-gradient(135deg,#35b8ff 0%,#1a73e8 60%,#1656c8 100%);}
-.duo-card.ew{background:linear-gradient(135deg,#26c06c 0%,#119152 55%,#0b7440 100%);}
-.duo-card.trip{background:linear-gradient(135deg,#ffa23a 0%,#ef7a14 55%,#d4600a 100%);}
-.duo-card.learn{background:linear-gradient(135deg,#b48cff 0%,#7c4dff 60%,#5f35d8 100%);}
-.duo-card .duo-ic,.duo-card.talk .duo-ic,.duo-card.ew .duo-ic,.duo-card.trip .duo-ic,.duo-card.learn .duo-ic{background:rgba(255,255,255,.22);box-shadow:none;}
-.duo-card .duo-d{color:rgba(255,255,255,.95);}
-.duo-txt{text-shadow:0 1px 2px rgba(0,0,0,.28);}
-.duo-card .hm-go{stroke:#fff;}
-.duo-card:hover{filter:brightness(1.06);}
 html.contrast-high .duo-card{border:2px solid #fff;}
 html.contrast-high .duo-d, html.contrast-high .home-head .lead{color:#fff;}
 /* « Gratuit pour tous » (0.8.4, remplace le compte à rebours). */
