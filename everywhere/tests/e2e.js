@@ -606,7 +606,8 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   // ---------- EVERYWHERE : conversation côte à côte et appel traduit via TALK ----------
   // Micro, voix et traduction simulés : reconnaissance vocale factice (dit window.__say), voix enregistrée dans window.__spoken,
   // service de traduction MyMemory remplacé par un petit dictionnaire (aucun accès Internet).
-  const DICT = { "fr|en": { "Où est la gare ?": "Where is the train station?", "Bonjour": "Hello" }, "en|fr": { "It's straight ahead.": "C'est tout droit." } };
+  const DICT = { "fr|en": { "Où est la gare ?": "Where is the train station?", "Bonjour": "Hello" }, "en|fr": { "It's straight ahead.": "C'est tout droit." },
+    "ja|fr": { "来月フランスに行きます。今夜電話しましょうか？": "Je vais en France le mois prochain. On s'appelle ce soir ?" }, "fr|ja": { "Avec plaisir, à ce soir !": "喜んで。では今夜！" } };
   async function ewCtx(opts, fake, mm) {
     const c = await newCtx(opts, fake);
     await c.route(/api\.mymemory\.translated\.net/, (r) => {
@@ -1029,6 +1030,72 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     });
     await ctx.close();
   }
+
+  // ---------- Traduire un message reçu dans une autre appli (menu Partager d'Android, 0.8.6) ----------
+  ctx = await ewCtx();
+  await ctx.addInitScript(() => {
+    window.__shared = []; window.__copied = [];
+    navigator.share = (d) => { window.__shared.push(d); return Promise.resolve(); };
+    try { Object.defineProperty(navigator, "clipboard", { value: { writeText: (x) => { window.__copied.push(x); return Promise.resolve(); } }, configurable: true }); } catch (e) {}
+  });
+  let mmCalls = 0;
+  ctx.on("request", (r) => { if (/api\.mymemory\.translated\.net/.test(r.url())) mmCalls++; });
+  await step("Partager : le manifeste déclare 24/24 dans le menu Partager d'Android (GET, dans le périmètre de l'appli)", async () => {
+    const m = JSON.parse(fs.readFileSync(path.join(SITE, "everywhere/manifest.webmanifest"), "utf8"));
+    const st = m.share_target || {};
+    const p = st.params || {};
+    return { ok: st.action === "./" && st.method === "GET" && p.text === "partage_texte" && p.title === "partage_titre" && p.url === "partage_lien",
+      detail: JSON.stringify(st) };
+  });
+  const JA = "来月フランスに行きます。今夜電話しましょうか？";
+  page = await openPortal(ctx, "?partage_titre=&partage_texte=" + encodeURIComponent(JA));
+  await step("Partager : un message japonais partagé ouvre « Traduire un message », langue devinée, traduit en français, adresse nettoyée", async () => {
+    await page.waitForSelector("#view-everywhere.active #trShIn");
+    await page.waitForFunction(() => { const x = document.getElementById("trShTr"); return x && x.textContent && x.textContent !== "Traduction…"; }, null, { timeout: 5000 });
+    const r = await page.evaluate(() => ({ inp: document.getElementById("trShIn").value, from: document.getElementById("trShFrom").value, to: document.getElementById("trShTo").value,
+      tr: document.getElementById("trShTr").textContent, url: location.search + location.hash, sw: document.documentElement.scrollWidth <= innerWidth,
+      kept: sessionStorage.getItem("ew_partage") !== null, title: document.getElementById("topTitle").textContent }));
+    await page.screenshot({ path: path.join(OUT, "partage-message.png") });
+    return { ok: r.inp === JA && r.from === "ja" && r.to === "fr" && r.tr === "Je vais en France le mois prochain. On s'appelle ce soir ?" && r.url === "#/everywhere/partage" && r.sw && r.kept &&
+      r.title === "Traduire un message" && !page._errors.length, detail: r.from + " → " + r.to + ", adresse " + r.url + (page._errors.length ? " | " + page._errors.join("|") : "") };
+  });
+  await step("Partager : « Copier » met la traduction dans le presse-papiers", async () => {
+    await page.tap("#trShCopy");
+    await sleep(150);
+    const r = await page.evaluate(() => ({ c: window.__copied.slice(-1)[0], ok: document.getElementById("trShOk").textContent }));
+    return { ok: r.c === "Je vais en France le mois prochain. On s'appelle ce soir ?" && /Copié/.test(r.ok), detail: r.ok };
+  });
+  await step("Partager : ma réponse en français est traduite en japonais, « Envoyer… » ouvre le menu Partager avec la traduction", async () => {
+    const lbl = await page.textContent("#trShRepGo");
+    await page.fill("#trShRep", "Avec plaisir, à ce soir !");
+    await page.tap("#trShRepGo");
+    await page.waitForFunction(() => { const x = document.getElementById("trShRepTr"); return x && x.textContent === "喜んで。では今夜！"; }, null, { timeout: 5000 });
+    await page.tap("#trShSend");
+    await sleep(150);
+    const sent = await page.evaluate(() => window.__shared.slice(-1)[0]);
+    await page.screenshot({ path: path.join(OUT, "partage-reponse.png"), fullPage: true });
+    return { ok: /japonais/i.test(lbl) && sent && sent.text === "喜んで。では今夜！", detail: lbl.trim() + " → " + JSON.stringify(sent) };
+  });
+  await page.close();
+  page = await openPortal(ctx, "?partage_texte=" + encodeURIComponent("Regarde ça") + "&partage_lien=" + encodeURIComponent("https://exemple.org/a"));
+  await step("Partager : texte et lien partagés ensemble sont réunis ; alphabet latin → langue de la personne en face (anglais par défaut)", async () => {
+    await page.waitForSelector("#trShIn");
+    const r = await page.evaluate(() => ({ v: document.getElementById("trShIn").value, from: document.getElementById("trShFrom").value }));
+    return { ok: r.v === "Regarde ça\nhttps://exemple.org/a" && r.from === "en", detail: JSON.stringify(r) };
+  });
+  await page.close();
+  page = await openPortal(ctx, "#/everywhere");
+  await step("Partager : carte « Traduire un message » sur l'accueil EVERYWHERE ; ouvert sans message, rien n'est envoyé au service de traduction", async () => {
+    await page.waitForSelector("#trGoShare");
+    const before = mmCalls;
+    await page.evaluate(() => sessionStorage.removeItem("ew_partage"));
+    await page.tap("#trGoShare");
+    await page.waitForSelector("#trShIn");
+    await sleep(300);
+    const r = await page.evaluate(() => ({ v: document.getElementById("trShIn").value, res: document.getElementById("trShRes").hidden }));
+    return { ok: r.v === "" && r.res && mmCalls === before && !page._errors.length, detail: "champ vide, " + (mmCalls - before) + " demande de traduction" };
+  });
+  await ctx.close();
 
   // ---------- Non-régression : TALK seul, comme aujourd'hui ----------
   ctx = await newCtx();

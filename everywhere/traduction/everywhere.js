@@ -7,6 +7,7 @@
      #/everywhere/langues    mes langues
      #/everywhere/reglages   configurations (son, haut-parleur ou écouteurs, voix, vitesse, volume, taille du texte)
      #/everywhere/voyage     parcours Voyage (voyage.js) : préparation, phrases utiles, faible connexion
+     #/everywhere/partage    traduire un message reçu ailleurs (menu Partager d'Android) et traduire sa réponse
    Profil linguistique (profil/profil.js) : langue maternelle = « Ma langue » par défaut, favorites en tête des listes,
    vitesse de lecture (nombre de phrases affichées) et préférence Parler/Écrire en conversation côte à côte.
    Aucune fonction d'apprentissage ici (LEARN) ; les appels restent ceux de TALK.
@@ -60,6 +61,12 @@
       set_hands: "Mains libres (le micro passe tout seul à l'autre personne)",
       set_rate: "Vitesse de la voix", set_voice: "Voix pour {l}", voice_auto: "Automatique (la plus naturelle du téléphone)", voice_none: "Aucune voix trouvée sur ce téléphone pour cette langue : la voix par défaut sera utilisée.",
       try_voice: "▶ Essayer", sample: "Bonjour, je suis la voix de 24/24 ONE WORLD.",
+      share: "Traduire un message", share_d: "Reçu dans WhatsApp, Messenger, un SMS… : partagez-le vers 24/24",
+      sh_lead: "Dans n'importe quelle appli, faites un appui long sur un message, touchez « Partager », puis choisissez 24/24 ONE WORLD. Vous pouvez aussi coller le message ici.",
+      sh_from: "Langue du message", sh_to: "Traduire en", sh_in: "Message reçu", sh_go: "Traduire", sh_result: "Traduction",
+      sh_copy: "Copier", sh_copied: "Copié : collez-le dans votre messagerie.", sh_copy_fail: "Copie impossible : sélectionnez le texte et copiez-le.", sh_listen: "🔊 Écouter",
+      sh_reply_h: "Ma réponse", sh_reply: "Écrivez votre réponse en {l}", sh_reply_go: "Traduire ma réponse en {l}", sh_send: "Envoyer…",
+      sh_send_note: "« Envoyer… » ouvre le menu Partager du téléphone : choisissez la conversation WhatsApp, Messenger ou SMS de la personne.",
       bt_note: "Écouteurs : n'importe quel modèle Bluetooth du commerce. Connectez-les dans les réglages Bluetooth d'Android, puis touchez « Essayer » : le son doit sortir dans les écouteurs. L'appli ne choisit pas elle-même la sortie et ne pilote pas les boutons des écouteurs. Le micro utilisé (téléphone ou écouteurs) dépend d'Android."
     },
     en: {
@@ -101,6 +108,12 @@
       set_hands: "Hands-free (the mic passes to the other person by itself)",
       set_rate: "Voice speed", set_voice: "Voice for {l}", voice_auto: "Automatic (the phone's most natural voice)", voice_none: "No voice found on this phone for this language: the default voice will be used.",
       try_voice: "▶ Try", sample: "Hello, I am the voice of 24/24 ONE WORLD.",
+      share: "Translate a message", share_d: "Received in WhatsApp, Messenger, a text…: share it to 24/24",
+      sh_lead: "In any app, long-press a message, tap “Share”, then choose 24/24 ONE WORLD. You can also paste the message here.",
+      sh_from: "Message language", sh_to: "Translate into", sh_in: "Message received", sh_go: "Translate", sh_result: "Translation",
+      sh_copy: "Copy", sh_copied: "Copied: paste it into your messaging app.", sh_copy_fail: "Can't copy: select the text and copy it.", sh_listen: "🔊 Listen",
+      sh_reply_h: "My reply", sh_reply: "Write your reply in {l}", sh_reply_go: "Translate my reply into {l}", sh_send: "Send…",
+      sh_send_note: "“Send…” opens the phone's Share menu: choose the person's WhatsApp, Messenger or text conversation.",
       bt_note: "Earbuds: any store-bought Bluetooth model. Connect them in Android's Bluetooth settings, then tap “Try”: the sound should come out in the earbuds. The app doesn't choose the output itself and doesn't control the earbud buttons. Which mic is used (phone or earbuds) depends on Android."
     }
   };
@@ -165,7 +178,8 @@
     mic: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/>',
     kb: '<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/>',
     replay: '<path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/>',
-    trip: '<rect x="4" y="7" width="16" height="13" rx="2.5"/><path d="M9 7V4.5h6V7"/><path d="M4 12h16"/>'
+    trip: '<rect x="4" y="7" width="16" height="13" rx="2.5"/><path d="M9 7V4.5h6V7"/><path d="M4 12h16"/>',
+    share: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/>'
   };
   function ic(n) { return '<svg viewBox="0 0 24 24" aria-hidden="true">' + ICON[n] + "</svg>"; }
   function home(root) {
@@ -174,6 +188,7 @@
       '<a class="tr-big face" id="trGoFace" href="#/everywhere/face"><span class="tr-big-ic">' + ic("face") + "</span><span><b>" + esc(t("face")) + "</b><small>" + esc(t("face_d")) + "</small></span></a>" +
       '<a class="tr-big call" id="trGoCall" href="#/everywhere/appel"><span class="tr-big-ic">' + ic("call") + "</span><span><b>" + esc(t("call")) + "</b><small>" + esc(t("call_d")) + "</small></span></a>" +
       '<a class="tr-big trip" id="trGoTrip" href="#/everywhere/voyage"><span class="tr-big-ic">' + ic("trip") + "</span><span><b>" + esc(t("trip")) + "</b><small>" + esc(t("trip_d")) + "</small></span></a>" +
+      '<a class="tr-big share" id="trGoShare" href="#/everywhere/partage"><span class="tr-big-ic">' + ic("share") + "</span><span><b>" + esc(t("share")) + "</b><small>" + esc(t("share_d")) + "</small></span></a>" +
       '<a class="tr-row" href="#/everywhere/langues"><b>' + esc(t("my_langs")) + "</b><span>" + esc(langName(p.me)) + " ⇄ " + esc(langName(p.other)) + "</span></a>" +
       '<a class="tr-row" href="#/everywhere/reglages"><b>' + esc(t("settings")) + "</b><span>" + esc(t("settings_d")) + "</span></a>";
   }
@@ -621,6 +636,92 @@
     say(+f.getAttribute("data-type"), v);
   });
 
+  // ---------- Traduire un message reçu ailleurs (menu Partager d'Android) ----------
+  // Le téléphone ouvre le portail avec le message partagé (manifest.webmanifest, share_target) ; app.js le garde
+  // le temps de cette visite (sessionStorage ew_partage) puis ouvre #/everywhere/partage. Rien n'est enregistré ailleurs.
+  // La langue du message est devinée d'après son écriture (japonais, arabe…) ; sinon « la personne en face ».
+  var SCRIPTS = [[/[\u3040-\u30ff]/, "ja"], [/[\uac00-\ud7af]/, "ko"], [/[\u4e00-\u9fff]/, "zh"], [/[\u0e00-\u0e7f]/, "th"],
+    [/[\u0590-\u05ff]/, "he"], [/[\u0600-\u06ff]/, "ar"], [/[\u0900-\u097f]/, "hi"], [/[\u0980-\u09ff]/, "bn"],
+    [/[\u0b80-\u0bff]/, "ta"], [/[\u0370-\u03ff]/, "el"], [/[\u0400-\u04ff]/, "ru"]];
+  function guessLang(text, fallback) {
+    for (var i = 0; i < SCRIPTS.length; i++) if (SCRIPTS[i][0].test(text) && M.lang(SCRIPTS[i][1]).name !== SCRIPTS[i][1]) return SCRIPTS[i][1];
+    return fallback;
+  }
+  function sharedText() {
+    var d = {};
+    try { d = JSON.parse(sessionStorage.getItem("ew_partage") || "{}") || {}; } catch (e) { d = {}; }
+    var txt = String(d.text || "").trim(), title = String(d.title || "").trim(), url = String(d.url || "").trim();
+    if (!txt) txt = title;
+    if (url && txt.indexOf(url) === -1) txt = (txt ? txt + "\n" : "") + url;
+    return txt;
+  }
+  function trErr(e) { var m = e && e.message; return m === "QUOTA_PROVIDER" ? t("quota") : m === "OFFLINE" || m === "NETWORK" ? t("net_err") : t("tr_err", { m: m || "?" }); }
+  function copyText(txt, out) {
+    function fail() { out.textContent = t("sh_copy_fail"); }
+    if (!navigator.clipboard || !navigator.clipboard.writeText) { fail(); return; }
+    navigator.clipboard.writeText(txt).then(function () { out.textContent = t("sh_copied"); }, fail);
+  }
+  function shareScreen(root, tok) {
+    var p = prefs();
+    var txt = sharedText();
+    var from = guessLang(txt, p.other === p.me ? (p.me === "en" ? "fr" : "en") : p.other);
+    root.innerHTML = backLink() + '<h1 id="h-tr">' + esc(t("share")) + "</h1>" +
+      '<p class="note">' + esc(t("sh_lead")) + "</p>" +
+      '<div class="card"><label class="tr-field"><span>' + esc(t("sh_in")) + '</span><textarea id="trShIn" rows="4" dir="auto">' + esc(txt) + "</textarea></label>" +
+        '<label class="tr-field"><span>' + esc(t("sh_from")) + '</span><select id="trShFrom">' + langOptions(from) + "</select></label>" +
+        '<label class="tr-field"><span>' + esc(t("sh_to")) + '</span><select id="trShTo">' + langOptions(p.me) + "</select></label>" +
+        '<button type="button" class="btn primary wide" id="trShGo">' + esc(t("sh_go")) + "</button>" +
+        '<div class="tr-sh-out" id="trShRes" hidden><h2 class="tr-h2">' + esc(t("sh_result")) + '</h2><p class="tr-big-txt" id="trShTr" dir="auto"></p>' +
+          '<div class="tr-sh-acts"><button type="button" class="btn" id="trShCopy">' + esc(t("sh_copy")) + "</button>" +
+          '<button type="button" class="btn" id="trShSay">' + esc(t("sh_listen")) + "</button></div></div>" +
+        '<p class="tr-err" id="trShErr" role="alert"></p><p class="tr-ok" id="trShOk" role="status"></p></div>' +
+      '<div class="card"><h2 class="tr-h2">' + esc(t("sh_reply_h")) + '</h2><label class="tr-field"><span id="trShRepLbl"></span><textarea id="trShRep" rows="3" dir="auto"></textarea></label>' +
+        '<button type="button" class="btn primary wide" id="trShRepGo"></button>' +
+        '<div class="tr-sh-out" id="trShRepRes" hidden><p class="tr-big-txt" id="trShRepTr" dir="auto"></p>' +
+          '<div class="tr-sh-acts"><button type="button" class="btn primary" id="trShSend">' + esc(t("sh_send")) + "</button>" +
+          '<button type="button" class="btn" id="trShRepCopy">' + esc(t("sh_copy")) + "</button></div>" +
+          '<p class="note">' + esc(t("sh_send_note")) + "</p></div>" +
+        '<p class="tr-err" id="trShRepErr" role="alert"></p><p class="tr-ok" id="trShRepOk" role="status"></p></div>' +
+      '<p class="note">' + esc(t("tr_hint")) + "</p>";
+    function $(id) { return root.querySelector("#" + id); }
+    function labels() {
+      $("trShRepLbl").textContent = t("sh_reply", { l: langName($("trShTo").value) });
+      $("trShRepGo").textContent = t("sh_reply_go", { l: langName($("trShFrom").value) });
+    }
+    labels();
+    $("trShFrom").addEventListener("change", labels);
+    $("trShTo").addEventListener("change", labels);
+    function run(input, a, b, res, outEl, errEl, okEl, btn) {
+      var v = input.value.trim();
+      errEl.textContent = ""; okEl.textContent = "";
+      if (!v) { input.focus(); return; }
+      btn.disabled = true;
+      btn.setAttribute("aria-busy", "true");
+      outEl.textContent = t("translating");
+      outEl.setAttribute("lang", b);
+      res.hidden = false;
+      M.translate(v, a, b).then(function (tr) {
+        if (tok !== token) return;
+        outEl.textContent = tr;
+      }, function (e) {
+        if (tok !== token) return;
+        res.hidden = true;
+        errEl.textContent = trErr(e);
+      }).then(function () { btn.disabled = false; btn.removeAttribute("aria-busy"); });
+    }
+    $("trShGo").addEventListener("click", function () { run($("trShIn"), $("trShFrom").value, $("trShTo").value, $("trShRes"), $("trShTr"), $("trShErr"), $("trShOk"), $("trShGo")); });
+    $("trShRepGo").addEventListener("click", function () { run($("trShRep"), $("trShTo").value, $("trShFrom").value, $("trShRepRes"), $("trShRepTr"), $("trShRepErr"), $("trShRepOk"), $("trShRepGo")); });
+    $("trShCopy").addEventListener("click", function () { copyText($("trShTr").textContent, $("trShOk")); });
+    $("trShRepCopy").addEventListener("click", function () { copyText($("trShRepTr").textContent, $("trShRepOk")); });
+    $("trShSay").addEventListener("click", function () { var q = prefs(); M.speak($("trShTr").textContent, $("trShTo").value, q.volume, { rate: q.rate, voice: q.voices[$("trShTo").value] }); });
+    $("trShSend").addEventListener("click", function () {
+      var tr = $("trShRepTr").textContent;
+      if (navigator.share) navigator.share({ text: tr }).catch(function () { /* partage annulé */ });
+      else copyText(tr, $("trShRepOk"));
+    });
+    if (txt) $("trShGo").click();
+  }
+
   // ---------- Point d'entrée (appelé par app.js à chaque changement d'adresse) ----------
   var token = 0;
   function show(root, parts, uiLang) {
@@ -639,6 +740,7 @@
     if (s === "appel") { callScreen(root, token); return t("call"); }
     if (s === "langues") { langsScreen(root); return t("my_langs"); }
     if (s === "reglages") { settingsScreen(root); return t("settings"); }
+    if (s === "partage") { shareScreen(root, token); return t("share"); }
     if (s === "voyage" && window.EWVoyage) return window.EWVoyage.show(root, lang);
     home(root);
     return t("title");

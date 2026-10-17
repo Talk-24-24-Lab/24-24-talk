@@ -2,6 +2,22 @@
 
 > © 2026 Sébastien Chevrier. Tous droits réservés. La production n'est concernée par aucune de ces versions.
 
+## 0.8.6 (prototype, 17 octobre 2026) — traduire un message reçu dans une autre appli, site de test seulement
+
+### Ajouté
+- **Menu Partager d'Android** : une fois 24/24 ONE WORLD installé sur l'écran d'accueil, il apparaît dans le menu
+  « Partager » des autres applis (WhatsApp, Messenger, SMS, Instagram…). Le message partagé s'ouvre dans le nouvel écran
+  EVERYWHERE « Traduire un message » (`#/everywhere/partage`), traduit dans votre langue.
+- **Répondre** : on écrit sa réponse dans sa langue, elle est traduite dans la langue du message, puis « Envoyer… » ouvre le
+  menu Partager du téléphone pour la renvoyer dans la conversation (ou « Copier » pour la coller).
+- La langue du message est devinée d'après son écriture (japonais, coréen, chinois, arabe, russe…) ; pour les langues en
+  alphabet latin, c'est la « langue de la personne en face » d'EVERYWHERE, modifiable sur l'écran.
+- Une carte « Traduire un message » sur l'accueil EVERYWHERE, pour coller un message à la main (marche aussi sur iPhone).
+- Rien n'est enregistré : le message partagé reste le temps de la visite (sessionStorage). La traduction passe par le même
+  service gratuit que TALK et EVERYWHERE (MyMemory). Textes de l'écran en français et en anglais (les autres langues
+  d'interface affichent l'anglais pour l'instant).
+- Cache hors connexion `ew-shell-v30`.
+
 ## 0.8.5 (prototype, 15 octobre 2026) — nouvelle phrase d'accueil, site de test seulement
 
 ### Modifié
