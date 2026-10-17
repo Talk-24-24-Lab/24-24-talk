@@ -401,6 +401,20 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .net-search svg{width:18px;height:18px;flex:none;color:var(--muted);}
   .net-search input{flex:1;min-width:0;background:transparent;border:0;color:var(--text);font-family:inherit;font-size:16px;padding:11px 0;outline:none;}
   .net-search:focus-within{border-color:var(--blue);}
+  /* Messagerie façon Messenger : rangée de contacts en ronds, bandeau d'activation discret, liste à plat. */
+  .net-stories{display:flex;gap:14px;overflow-x:auto;padding:4px 2px 12px;margin:0 0 4px;scrollbar-width:none;}
+  .net-stories::-webkit-scrollbar{display:none;}
+  .net-story{flex:none;width:64px;display:flex;flex-direction:column;align-items:center;gap:6px;padding:0;border:0;background:none;color:var(--text);cursor:pointer;font-family:inherit;}
+  .net-story .net-av{width:58px;height:58px;font-size:23px;}
+  .net-story-plus{width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:400;color:var(--text);background:var(--panel2);border:1px dashed var(--line);}
+  .net-story-name{max-width:64px;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .net-story-name.net-story-inv{white-space:normal;text-align:center;line-height:1.2;max-width:72px;}
+  .net-pushbar{display:flex;align-items:center;gap:10px;padding:10px 12px;margin:0 0 10px;border-radius:14px;border:1px solid rgba(46,207,142,.45);background:rgba(46,207,142,.10);}
+  .net-pushbar p{flex:1;min-width:0;margin:0;font-size:13.5px;font-weight:600;line-height:1.35;}
+  .net-pushbar .btn{flex:none;width:auto;padding:8px 14px;font-size:14px;}
+  .net-flat{margin:0 0 14px;}
+  .net-flat .empty{padding:18px 8px;}
+  .net-newchat .net-h3{margin-bottom:8px;}
   .net-av{width:52px;height:52px;border-radius:50%;color:#0b0e1a;font-weight:800;font-size:21px;display:flex;align-items:center;justify-content:center;
     flex-shrink:0;text-transform:uppercase;}
   .net-contact .net-av{width:44px;height:44px;font-size:18px;}
@@ -5893,6 +5907,8 @@ const NET_STRINGS = {
     net_pseudo_bad: "Pseudo invalide : 3 à 20 caractères, lettres minuscules, chiffres, point ou _.",
     net_age_needed: "Cochez la case pour continuer.",
     net_invite: "📨 Inviter un ami",
+    net_new_chat: "Nouvelle discussion",
+    net_my_profile: "Mon profil",
     net_invite_text: "📲 Rejoins-moi sur 24/24 Talk, c'est gratuit !",
     net_invite_step2: "📨 2/2 : envoyer la carte",
     net_invite_step2_hint: "Message envoyé. Touchez « 2/2 : envoyer la carte » et choisissez la même personne.",
@@ -6059,6 +6075,8 @@ const NET_STRINGS = {
     net_pseudo_bad: "Invalid username: 3 to 20 characters, lowercase letters, digits, dot or _.",
     net_age_needed: "Tick the box to continue.",
     net_invite: "📨 Invite a friend",
+    net_new_chat: "New chat",
+    net_my_profile: "My profile",
     net_invite_text: "📲 Join me on 24/24 Talk, it's free!",
     net_invite_step2: "📨 2/2: send the card",
     net_invite_step2_hint: "Message sent. Tap “2/2: send the card” and choose the same person.",
@@ -6224,6 +6242,8 @@ const NET_STRINGS = {
     net_pseudo_bad: "Usuario no válido: de 3 a 20 caracteres, minúsculas, cifras, punto o _.",
     net_age_needed: "Marca la casilla para continuar.",
     net_invite: "📨 Invitar a un amigo",
+    net_new_chat: "Nuevo chat",
+    net_my_profile: "Mi perfil",
     net_invite_text: "📲 ¡Únete a mí en 24/24 Talk, es gratis!",
     net_invite_step2: "📨 2/2: enviar la tarjeta",
     net_invite_step2_hint: "Mensaje enviado. Toca «2/2: enviar la tarjeta» y elige a la misma persona.",
@@ -6387,6 +6407,8 @@ const NET_STRINGS = {
     net_pseudo_bad: "Nome inválido: 3 a 20 caracteres, letras minúsculas, algarismos, ponto ou _.",
     net_age_needed: "Marque a caixa para continuar.",
     net_invite: "📨 Convidar um amigo",
+    net_new_chat: "Nova conversa",
+    net_my_profile: "O meu perfil",
     net_invite_text: "📲 Junta-te a mim no 24/24 Talk, é grátis!",
     net_invite_step2: "📨 2/2: enviar o cartão",
     net_invite_step2_hint: "Mensagem enviada. Toque em «2/2: enviar o cartão» e escolha a mesma pessoa.",
@@ -6550,6 +6572,8 @@ const NET_STRINGS = {
     net_pseudo_bad: "Ungültiger Benutzername: 3 bis 20 Zeichen, Kleinbuchstaben, Ziffern, Punkt oder _.",
     net_age_needed: "Setze das Häkchen, um fortzufahren.",
     net_invite: "📨 Freund einladen",
+    net_new_chat: "Neuer Chat",
+    net_my_profile: "Mein Profil",
     net_invite_text: "📲 Komm zu mir auf 24/24 Talk, es ist kostenlos!",
     net_invite_step2: "📨 2/2: Karte senden",
     net_invite_step2_hint: "Nachricht gesendet. Tippe auf „2/2: Karte senden“ und wähle dieselbe Person.",
@@ -6713,6 +6737,8 @@ const NET_STRINGS = {
     net_pseudo_bad: "Nome utente non valido: da 3 a 20 caratteri, lettere minuscole, cifre, punto o _.",
     net_age_needed: "Spunta la casella per continuare.",
     net_invite: "📨 Invita un amico",
+    net_new_chat: "Nuova chat",
+    net_my_profile: "Il mio profilo",
     net_invite_text: "📲 Raggiungimi su 24/24 Talk, è gratis!",
     net_invite_step2: "📨 2/2: invia la scheda",
     net_invite_step2_hint: "Messaggio inviato. Tocca «2/2: invia la scheda» e scegli la stessa persona.",
@@ -6876,6 +6902,8 @@ const NET_STRINGS = {
     net_pseudo_bad: "用户名无效：3 到 20 个字符，小写字母、数字、点或 _。",
     net_age_needed: "请勾选方框后继续。",
     net_invite: "📨 邀请朋友",
+    net_new_chat: "新聊天",
+    net_my_profile: "我的资料",
     net_invite_text: "📲 来 24/24 Talk 找我吧，免费！",
     net_invite_step2: "📨 2/2：发送卡片",
     net_invite_step2_hint: "消息已发送。点击“2/2：发送卡片”，选择同一个人。",
@@ -7039,6 +7067,8 @@ const NET_STRINGS = {
     net_pseudo_bad: "無効なユーザー名：3〜20文字、小文字、数字、ピリオド、_。",
     net_age_needed: "続けるにはチェックを入れてください。",
     net_invite: "📨 友だちを招待",
+    net_new_chat: "新しいチャット",
+    net_my_profile: "マイプロフィール",
     net_invite_text: "📲 24/24 Talk で話そう、無料です！",
     net_invite_step2: "📨 2/2：カードを送る",
     net_invite_step2_hint: "メッセージを送りました。「2/2：カードを送る」をタップして、同じ人を選んでください。",
@@ -7202,6 +7232,8 @@ const NET_STRINGS = {
     net_pseudo_bad: "اسم مستخدم غير صالح: من 3 إلى 20 حرفًا، أحرف لاتينية صغيرة أو أرقام أو نقطة أو _.",
     net_age_needed: "ضع علامة في المربع للمتابعة.",
     net_invite: "📨 ادعُ صديقًا",
+    net_new_chat: "محادثة جديدة",
+    net_my_profile: "ملفي الشخصي",
     net_invite_text: "📲 انضم إليّ على ⁦24/24 Talk⁩، إنه مجاني!",
     net_invite_step2: "📨 2/2: إرسال البطاقة",
     net_invite_step2_hint: "تم إرسال الرسالة. المس «2/2: إرسال البطاقة» واختر الشخص نفسه.",
@@ -7365,6 +7397,8 @@ const NET_STRINGS = {
     net_pseudo_bad: "Недопустимое имя: от 3 до 20 символов, строчные латинские буквы, цифры, точка или _.",
     net_age_needed: "Отметьте флажок, чтобы продолжить.",
     net_invite: "📨 Пригласить друга",
+    net_new_chat: "Новый чат",
+    net_my_profile: "Мой профиль",
     net_invite_text: "📲 Присоединяйся ко мне в 24/24 Talk, это бесплатно!",
     net_invite_step2: "📨 2/2: отправить карточку",
     net_invite_step2_hint: "Сообщение отправлено. Нажмите «2/2: отправить карточку» и выберите того же человека.",
@@ -7528,6 +7562,8 @@ const NET_STRINGS = {
     net_pseudo_bad: "Pseudo tsy mety: litera 3 ka hatramin'ny 20, litera madinika, isa, teboka na _.",
     net_age_needed: "Asio marika ny boaty vao afaka manohy.",
     net_invite: "📨 Hanasa namana",
+    net_new_chat: "Resaka vaovao",
+    net_my_profile: "Ny mombamomba ahy",
     net_invite_text: "📲 Midira miaraka amiko ao amin'ny 24/24 Talk, maimaimpoana io!",
     net_invite_step2: "📨 2/2: handefa ny karatra",
     net_invite_step2_hint: "Lasa ny hafatra. Tsindrio « 2/2: handefa ny karatra » ary safidio ilay olona ihany.",
@@ -9186,8 +9222,10 @@ const Reseau = (() => {
         <div class="net-convs">${rows}</div>
       </div>
       ${callLogHtml()}`;
-    } else {
-      const items = list.length
+    }
+    let items = "";
+    if (!isCall) {
+      items = list.length
         ? list.map((c) => {
             const name = c.other ? "@" + c.other.pseudo : t("net_deleted_user");
             const lang = c.other ? langLabel(c.other.lang) : "";
@@ -9220,6 +9258,42 @@ const Reseau = (() => {
       ? `<div class="card net-pushcard"><p>${escapeHtml(t("net_push_card"))}</p><button class="btn primary" id="netPushOn">${escapeHtml(t("net_push_btn"))}</button></div>`
       : "";
     const listFirst = isCall ? list.some((c) => c.other) : list.length > 0;
+    // Messagerie façon Messenger : recherche, rangée de contacts, discussions ; profil et réglages en bas.
+    const meRow = photosOk ? `<div class="net-me-row">
+          <button type="button" class="net-photo-btn" id="netPhotoBtn" aria-label="${escapeHtml(t(photoOf(me) ? "net_photo_change" : "net_photo_add"))}">${avatarCore(profile.pseudo, me)}<span class="net-photo-cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span></button>
+          <div class="net-me"><b dir="ltr">@${escapeHtml(profile.pseudo)}</b><span>${escapeHtml(langLabel(profile.lang))} · ${escapeHtml(t("net_photo_hint"))}</span></div>
+        </div>
+        <input type="file" id="netPhotoFile" accept="image/*" hidden />` : `<div class="net-me"><b dir="ltr">@${escapeHtml(profile.pseudo)}</b><span>${escapeHtml(langLabel(profile.lang))}</span></div>`;
+    const settingsCard = `<div class="card">
+        <label class="net-label" for="netMyLang">${escapeHtml(t("net_my_lang"))}</label>
+        <select id="netMyLang"></select>
+        ${presOk ? `<div class="net-pres-row"><span>${escapeHtml(t("net_pres_show"))}<small>${escapeHtml(t("net_pres_hint"))}</small></span>
+          <button type="button" class="toggle${presHidden ? "" : " on"}" id="netPresToggle" aria-pressed="${!presHidden}" aria-label="${escapeHtml(t("net_pres_show"))}"></button></div>` : ""}
+        <div class="row"><button class="btn ghost" id="netDelete" style="flex:1;">${escapeHtml(t("net_delete"))}</button></div>
+      </div>`;
+    if (!isCall) {
+      const people = list.filter((c) => c.other);
+      const stories = `<div class="net-stories" role="list">
+          <button type="button" class="net-story" id="netInvite" role="listitem"><span class="net-story-plus" aria-hidden="true">+</span><span class="net-story-name net-story-inv">${escapeHtml(String(t("net_invite")).replace(/^[^\p{L}]+/u, ""))}</span></button>
+          ${people.map((c) => `<button type="button" class="net-story net-conv" data-id="${escapeHtml(c.id)}" role="listitem">${avatarHtml(c.other.pseudo, c.otherId)}<span class="net-story-name" dir="ltr">${escapeHtml(c.other.pseudo)}</span></button>`).join("")}
+        </div>`;
+      const pushBar = pushCard ? pushCard.replace('class="card net-pushcard"', 'class="net-pushbar"') : "";
+      root.innerHTML = `${searchHtml()}
+        ${stories}
+        ${pushBar}
+        <div class="net-convs net-flat">${items}</div>
+        <div id="netHomeMsg">${flashHtml()}</div>
+        <div class="card net-newchat">
+          <h3 class="net-h3">${escapeHtml(t("net_new_chat"))}</h3>
+          <div class="row net-add">
+            <input type="text" id="netAddInput" class="net-input" maxlength="21" autocomplete="off" autocapitalize="none" spellcheck="false"
+              placeholder="${escapeHtml(t("net_add_ph"))}" />
+            <button class="btn ghost" id="netAddBtn">${escapeHtml(t("net_add_btn"))}</button>
+          </div>
+        </div>
+        <div class="card"><h3 class="net-h3">${escapeHtml(t("net_my_profile"))}</h3>${meRow}</div>
+        ${settingsCard}`;
+    } else
     root.innerHTML = `${pushCard}
       ${listFirst ? listCard : ""}
       <div class="card">
