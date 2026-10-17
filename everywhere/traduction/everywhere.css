@@ -139,3 +139,21 @@ html.motion-off .tr-mic.on,html.motion-off .tr-mic.on.hear{animation:none;}
 .vy-star{position:absolute;top:6px;inset-inline-end:6px;width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font-size:1.3rem;line-height:1;cursor:pointer;}
 .vy-star[aria-pressed="true"]{border-color:var(--warn);color:var(--text);}
 .vy-empty{list-style:none;padding:14px 4px;}
+
+/* Invitation en un appui : ligne-bouton de l'accueil et message bref en bas de l'écran. */
+.tr-toast{position:fixed;left:16px;right:16px;bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:50;margin:0;padding:12px 16px;
+  border-radius:14px;background:var(--panel);border:1px solid var(--line);color:var(--text);box-shadow:0 10px 30px rgba(0,0,0,.35);overflow-wrap:anywhere;}
+/* Bouton « Inviter sur TALK » plus fun : dégradé rose-orange et petite main qui salue (immobile si animations réduites). */
+.tr-big.invite{width:100%;border:none;font:inherit;text-align:start;cursor:pointer;-webkit-tap-highlight-color:transparent;
+  background:linear-gradient(135deg,#ff5f9e 0%,#ff7a59 55%,#ffb347 100%);box-shadow:0 10px 26px rgba(255,95,110,.35);}
+.tr-big.invite b{display:block;font-size:19px;}
+.tr-big.invite small{display:block;opacity:.95;}
+.tr-big.invite .tr-big-ic{font-size:26px;}
+.tr-big.invite:active, .tr-invite-pill:active{transform:scale(.97);}
+.tr-invite-pill{background:linear-gradient(135deg,#ff5f9e,#ff7a59 60%,#ffb347);color:#fff;border-radius:999px;padding:0 14px;
+  box-shadow:0 6px 16px rgba(255,95,110,.35);-webkit-tap-highlight-color:transparent;}
+@media (max-width:420px){ .tr-tool.tr-invite-pill{padding:0 12px;} }
+.tr-wave{display:inline-block;transform-origin:70% 80%;animation:trWave 2.6s ease-in-out infinite;}
+@keyframes trWave{0%,60%,100%{transform:rotate(0)}66%{transform:rotate(16deg)}72%{transform:rotate(-8deg)}78%{transform:rotate(14deg)}84%{transform:rotate(-4deg)}90%{transform:rotate(8deg)}}
+@media (prefers-reduced-motion:reduce){ .tr-wave{animation:none;} }
+html.reduce-motion .tr-wave{animation:none;}
