@@ -493,6 +493,9 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   body.net-full .net-flat .net-row-l2 .net-conv-prev{font-size:15px;}
   body.net-full .net-flat .net-row-when{font-size:13.5px;}
   body.net-full .net-flat .net-row.unread .net-row-l1 b{font-weight:700;}
+  /* Globe ONE WORLD en filigrane derrière la messagerie (image du visuel Canva de lancement). */
+  body.net-full::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.16;
+    background:url("globe-filigrane.webp") center 58%/min(118vw,560px) auto no-repeat;}
   body.net-full #netRoot .card.net-listcard{background:transparent;border:0;box-shadow:none;padding:0;}
   body.net-full #netRoot .card.net-listcard > .net-h3{display:none;}
   body.net-full #netRoot .net-listcard .net-contact{background:transparent;border:0;padding:8px 6px;}
