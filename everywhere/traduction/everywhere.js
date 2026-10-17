@@ -170,11 +170,12 @@
   function ic(n) { return '<svg viewBox="0 0 24 24" aria-hidden="true">' + ICON[n] + "</svg>"; }
   function home(root) {
     var p = prefs();
+    loadMyPseudo();
     root.innerHTML = '<div class="tr-head"><span class="tr-logo" aria-hidden="true">' + ic("globe") + '</span><div><h1 id="h-tr">' + esc(t("title")) + '</h1><p class="muted">' + esc(t("sub")) + "</p></div></div>" +
       '<a class="tr-big face" id="trGoFace" href="#/everywhere/face"><span class="tr-big-ic">' + ic("face") + "</span><span><b>" + esc(t("face")) + "</b><small>" + esc(t("face_d")) + "</small></span></a>" +
       '<a class="tr-big call" id="trGoCall" href="#/everywhere/appel"><span class="tr-big-ic">' + ic("call") + "</span><span><b>" + esc(t("call")) + "</b><small>" + esc(t("call_d")) + "</small></span></a>" +
       '<a class="tr-big trip" id="trGoTrip" href="#/everywhere/voyage"><span class="tr-big-ic">' + ic("trip") + "</span><span><b>" + esc(t("trip")) + "</b><small>" + esc(t("trip_d")) + "</small></span></a>" +
-      '<a class="tr-row" id="trGoInvite" href="#/everywhere/appel"><b>' + esc(t("invite_talk")) + "</b><span>" + esc(t("invite_talk_d")) + "</span></a>" +
+      '<button type="button" class="tr-row tr-row-btn" id="trGoInvite" data-invite-now><b>' + esc(t("invite_talk")) + "</b><span>" + esc(t("invite_talk_d")) + "</span></button>" +
       '<a class="tr-row" href="#/everywhere/langues"><b>' + esc(t("my_langs")) + "</b><span>" + esc(langName(p.me)) + " ⇄ " + esc(langName(p.other)) + "</span></a>" +
       '<a class="tr-row" href="#/everywhere/reglages"><b>' + esc(t("settings")) + "</b><span>" + esc(t("settings_d")) + "</span></a>";
   }
@@ -185,6 +186,7 @@
   function faceScreen(root) {
     var p = prefs();
     face = { lines: [], listening: 0, rec: null, root: root, typing: 0, seq: 0 };
+    loadMyPseudo();
     root.innerHTML = '<h1 class="sr" id="h-tr">' + esc(t("face")) + "</h1>" +
       '<div class="tr-face" id="trFace" data-size="' + p.size + '" data-out="' + p.out + '">' +
         halfHtml(1) +
@@ -194,7 +196,7 @@
           '<button type="button" class="tr-tool" id="trOut">' + outLabel(p.out) + "</button>" +
           '<button type="button" class="tr-tool" id="trHands" role="switch" aria-checked="' + p.hands + '">🙌 ' + esc(t("hands_btn")) + "</button>" +
           '<button type="button" class="tr-tool" id="trSize">A+ ' + esc(t("text_btn")) + "</button>" +
-          '<a class="tr-tool" id="trFaceInvite" href="#/everywhere/appel">' + esc(t("invite_talk")) + "</a>" +
+          '<button type="button" class="tr-tool" id="trFaceInvite" data-invite-now>' + esc(t("invite_talk")) + "</button>" +
           '<a class="tr-tool" href="#/everywhere/reglages" aria-label="' + esc(t("settings")) + '">⚙</a>' +
         "</div>" +
         halfHtml(2) +
@@ -564,9 +566,49 @@
     } else copy();
   }
 
+  // Invitation en un seul appui (accueil EVERYWHERE et conversation côte à côte) : mon pseudo TALK est lu à l'avance,
+  // le lien part tout de suite avec le partage du téléphone. Sans profil TALK, on ouvre l'écran qui explique comment en créer un.
+  var myPseudo = null;
+  var pseudoReq = null;
+  function loadMyPseudo() {
+    if (myPseudo || pseudoReq || !window.EWConnect || !window.EWConnect.client) return pseudoReq;
+    pseudoReq = window.EWConnect.client().then(function (sb) {
+      return sb.auth.getSession().then(function (r) {
+        var s = r && r.data && r.data.session;
+        if (!s) return null;
+        return sb.from("profiles").select("pseudo").eq("id", s.user.id).maybeSingle().then(function (p) { return p && p.data ? p.data.pseudo : null; });
+      });
+    }).then(function (ps) { myPseudo = ps || null; pseudoReq = null; return myPseudo; }, function () { pseudoReq = null; return null; });
+    return pseudoReq;
+  }
+  function toast(txt) {
+    var old = document.getElementById("trToast");
+    if (old) old.remove();
+    var d = document.createElement("p");
+    d.id = "trToast"; d.className = "tr-toast"; d.setAttribute("role", "status"); d.textContent = txt;
+    document.body.appendChild(d);
+    setTimeout(function () { if (d.isConnected) d.remove(); }, 6000);
+  }
+  function inviteNow() {
+    var go = function (ps) {
+      if (!ps) { location.hash = "#/everywhere/appel"; return; }
+      var url = new URL(CFG.basePath, location.href).href + "?ajouter=" + encodeURIComponent(ps) + "&i=5";
+      var copy = function () {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(function () { toast(t("c_link_copied")); }, function () { toast(t("c_link_txt", { u: url })); });
+        } else toast(t("c_link_txt", { u: url }));
+      };
+      if (navigator.share) navigator.share({ url: url }).catch(function (e) { if (!(e && e.name === "AbortError")) copy(); });
+      else copy();
+    };
+    if (myPseudo) go(myPseudo);
+    else Promise.resolve(loadMyPseudo()).then(go);
+  }
+
   // ---------- Événements ----------
   document.addEventListener("click", function (e) {
     if (!e.target.closest) return;
+    if (e.target.closest("[data-invite-now]")) { inviteNow(); return; }
     var b = e.target.closest("[data-mic], [data-kb], [data-replay], #trSwap, #trSound, #trOut, #trHands, #trSize, [data-call]");
     if (!b) return;
     if (b.hasAttribute("data-call")) { callSheet(b.getAttribute("data-call")); return; }

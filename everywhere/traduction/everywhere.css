@@ -139,3 +139,8 @@ html.motion-off .tr-mic.on,html.motion-off .tr-mic.on.hear{animation:none;}
 .vy-star{position:absolute;top:6px;inset-inline-end:6px;width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font-size:1.3rem;line-height:1;cursor:pointer;}
 .vy-star[aria-pressed="true"]{border-color:var(--warn);color:var(--text);}
 .vy-empty{list-style:none;padding:14px 4px;}
+
+/* Invitation en un appui : ligne-bouton de l'accueil et message bref en bas de l'écran. */
+.tr-row-btn{width:100%;background:var(--panel);color:var(--text);font:inherit;cursor:pointer;text-align:start;-webkit-tap-highlight-color:transparent;}
+.tr-toast{position:fixed;left:16px;right:16px;bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:50;margin:0;padding:12px 16px;
+  border-radius:14px;background:var(--panel);border:1px solid var(--line);color:var(--text);box-shadow:0 10px 30px rgba(0,0,0,.35);overflow-wrap:anywhere;}
