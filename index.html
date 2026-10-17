@@ -415,6 +415,9 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .net-flat{margin:0 0 14px;}
   .net-flat .empty{padding:18px 8px;}
   .net-newchat .net-h3{margin-bottom:8px;}
+  .net-panel{background:var(--panel2);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin:0 0 12px;}
+  .net-panel .net-me-row{margin-bottom:10px;}
+  .net-story#netMeStory .net-av{box-shadow:0 0 0 2px var(--blue);}
   .net-av{width:52px;height:52px;border-radius:50%;color:#0b0e1a;font-weight:800;font-size:21px;display:flex;align-items:center;justify-content:center;
     flex-shrink:0;text-transform:uppercase;}
   .net-contact .net-av{width:44px;height:44px;font-size:18px;}
@@ -428,7 +431,8 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .net-photo-cam svg{width:14px;height:14px;}
   .net-photo-btn[aria-busy="true"]{opacity:.55;}
   .net-conv.net-row{flex-direction:row;align-items:center;gap:12px;background:transparent;border:0;border-radius:14px;padding:8px 6px;}
-  .net-conv.net-row:hover,.net-conv.net-row:focus-visible{background:var(--panel2);}
+  @media (hover:hover){.net-conv.net-row:hover{background:var(--panel2);}}
+  .net-conv.net-row:focus-visible{background:var(--panel2);}
   .net-conv.net-row.unread b::after{display:none;}
   .net-row-mid{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;}
   .net-row-l1{display:flex;align-items:baseline;justify-content:space-between;gap:8px;min-width:0;}
@@ -7972,6 +7976,8 @@ const Reseau = (() => {
   topbar.querySelector("#netNewBtn").addEventListener("click", () => {
     const inp = root.querySelector("#netAddInput") || root.querySelector("#netPseudo");
     if (!inp) return;
+    const panel = root.querySelector("#netNewPanel");
+    if (panel) panel.hidden = false;
     try { inp.scrollIntoView({ block: "center" }); } catch (e) { /* ignoré */ }
     inp.focus();
   });
@@ -9264,26 +9270,19 @@ const Reseau = (() => {
           <div class="net-me"><b dir="ltr">@${escapeHtml(profile.pseudo)}</b><span>${escapeHtml(langLabel(profile.lang))} · ${escapeHtml(t("net_photo_hint"))}</span></div>
         </div>
         <input type="file" id="netPhotoFile" accept="image/*" hidden />` : `<div class="net-me"><b dir="ltr">@${escapeHtml(profile.pseudo)}</b><span>${escapeHtml(langLabel(profile.lang))}</span></div>`;
-    const settingsCard = `<div class="card">
-        <label class="net-label" for="netMyLang">${escapeHtml(t("net_my_lang"))}</label>
-        <select id="netMyLang"></select>
-        ${presOk ? `<div class="net-pres-row"><span>${escapeHtml(t("net_pres_show"))}<small>${escapeHtml(t("net_pres_hint"))}</small></span>
-          <button type="button" class="toggle${presHidden ? "" : " on"}" id="netPresToggle" aria-pressed="${!presHidden}" aria-label="${escapeHtml(t("net_pres_show"))}"></button></div>` : ""}
-        <div class="row"><button class="btn ghost" id="netDelete" style="flex:1;">${escapeHtml(t("net_delete"))}</button></div>
-      </div>`;
     if (!isCall) {
       const people = list.filter((c) => c.other);
+      // Comme Messenger : moi en premier (profil et réglages), puis « Inviter », puis les contacts.
       const stories = `<div class="net-stories" role="list">
+          <button type="button" class="net-story" id="netMeStory" role="listitem" aria-expanded="false" aria-controls="netMePanel">${avatarCore(profile.pseudo, me)}<span class="net-story-name">${escapeHtml(t("net_my_profile"))}</span></button>
           <button type="button" class="net-story" id="netInvite" role="listitem"><span class="net-story-plus" aria-hidden="true">+</span><span class="net-story-name net-story-inv">${escapeHtml(String(t("net_invite")).replace(/^[^\p{L}]+/u, ""))}</span></button>
           ${people.map((c) => `<button type="button" class="net-story net-conv" data-id="${escapeHtml(c.id)}" role="listitem">${avatarHtml(c.other.pseudo, c.otherId)}<span class="net-story-name" dir="ltr">${escapeHtml(c.other.pseudo)}</span></button>`).join("")}
         </div>`;
       const pushBar = pushCard ? pushCard.replace('class="card net-pushcard"', 'class="net-pushbar"') : "";
+      // Nouvelle discussion (crayon en haut) et profil (mon rond) : fermés par défaut, la liste prend tout l'écran.
       root.innerHTML = `${searchHtml()}
         ${stories}
-        ${pushBar}
-        <div class="net-convs net-flat">${items}</div>
-        <div id="netHomeMsg">${flashHtml()}</div>
-        <div class="card net-newchat">
+        <div class="net-panel" id="netNewPanel"${list.length ? " hidden" : ""}>
           <h3 class="net-h3">${escapeHtml(t("net_new_chat"))}</h3>
           <div class="row net-add">
             <input type="text" id="netAddInput" class="net-input" maxlength="21" autocomplete="off" autocapitalize="none" spellcheck="false"
@@ -9291,8 +9290,22 @@ const Reseau = (() => {
             <button class="btn ghost" id="netAddBtn">${escapeHtml(t("net_add_btn"))}</button>
           </div>
         </div>
-        <div class="card"><h3 class="net-h3">${escapeHtml(t("net_my_profile"))}</h3>${meRow}</div>
-        ${settingsCard}`;
+        <div class="net-panel" id="netMePanel" hidden>
+          ${meRow}
+          <label class="net-label" for="netMyLang">${escapeHtml(t("net_my_lang"))}</label>
+          <select id="netMyLang"></select>
+          ${presOk ? `<div class="net-pres-row"><span>${escapeHtml(t("net_pres_show"))}<small>${escapeHtml(t("net_pres_hint"))}</small></span>
+            <button type="button" class="toggle${presHidden ? "" : " on"}" id="netPresToggle" aria-pressed="${!presHidden}" aria-label="${escapeHtml(t("net_pres_show"))}"></button></div>` : ""}
+          <div class="row"><button class="btn ghost" id="netDelete" style="flex:1;">${escapeHtml(t("net_delete"))}</button></div>
+        </div>
+        <div id="netHomeMsg">${flashHtml()}</div>
+        ${pushBar}
+        <div class="net-convs net-flat">${items}</div>`;
+      const meStory = root.querySelector("#netMeStory"), mePanel = root.querySelector("#netMePanel");
+      meStory.addEventListener("click", () => {
+        mePanel.hidden = !mePanel.hidden;
+        meStory.setAttribute("aria-expanded", String(!mePanel.hidden));
+      });
     } else
     root.innerHTML = `${pushCard}
       ${listFirst ? listCard : ""}

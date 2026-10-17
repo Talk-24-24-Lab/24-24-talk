@@ -681,7 +681,10 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await step("TALK, supprimer mon compte réseau, " + (f === "auth" ? "le serveur refuse : rien n'est effacé, message d'erreur" : "fonction absente (ancien serveur) : ancien effacement du profil"), async () => {
       await page.waitForSelector('.bbar button[data-b="msg"]', { timeout: 15000, state: "attached" });
       await page.evaluate(() => document.querySelector('.bbar button[data-b="msg"]').click());
-      await page.waitForSelector("#netDelete", { timeout: 15000 });
+      await page.waitForSelector("#netDelete", { timeout: 15000, state: "attached" });
+      // Le bouton est dans « Mon profil » (premier rond) : on l'ouvre comme le ferait la personne.
+      await page.evaluate(() => { const m = document.querySelector("#netMeStory"); if (m) m.click(); });
+      await page.waitForSelector("#netDelete", { timeout: 3000 });
       await page.evaluate(() => document.querySelector("#netDelete").click());
       await page.waitForTimeout(150);
       await page.evaluate(() => document.querySelector("#netDelete").click());
