@@ -117,8 +117,8 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
 
 <!-- Aperçu du lien quand il est partagé -->
 <meta property="og:type" content="website" />
-<meta property="og:title" content="24/24, Let's go – Clic ici pour ouvrir le lien de l'appli – C'est gratuit" />
-<meta property="og:image" content="https://sebastienchevrier.github.io/24-24-talk/24-24-Talk-invitation-v3.jpg" />
+<meta property="og:title" content="24/24, Let's go – Clic ici pour ouvrir le lien de l'appli" />
+<meta property="og:image" content="https://sebastienchevrier.github.io/24-24-talk/24-24-Talk-invitation-v4.jpg" />
 <meta property="og:image:type" content="image/jpeg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
@@ -126,8 +126,8 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
 
 <!-- Aperçu du lien sur X/Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="24/24, Let's go – Clic ici pour ouvrir le lien de l'appli – C'est gratuit" />
-<meta name="twitter:image" content="https://sebastienchevrier.github.io/24-24-talk/24-24-Talk-invitation-v3.jpg" />
+<meta name="twitter:title" content="24/24, Let's go – Clic ici pour ouvrir le lien de l'appli" />
+<meta name="twitter:image" content="https://sebastienchevrier.github.io/24-24-talk/24-24-Talk-invitation-v4.jpg" />
 <style>
   /* Nuit d'abord (24h/24) : sombre par défaut, clair si l'appareil ou la personne le demande. */
   :root{
@@ -476,6 +476,15 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .net-sheet-btn{min-height:52px;border-radius:14px;border:1px solid var(--line);background:var(--panel);color:var(--text);font-size:16px;font-weight:600;cursor:pointer;}
   .net-sheet-btn.danger{color:var(--err);}
   .net-sheet-btn.cancel{margin-top:4px;font-weight:700;}
+  .net-prof{display:flex;flex-direction:column;align-items:center;gap:6px;padding:18px 12px 14px;border-radius:18px;background:var(--panel);border:1px solid var(--line);text-align:center;}
+  .net-prof .net-av{width:112px;height:112px;font-size:46px;}
+  .net-prof b{font-size:19px;color:var(--text);}
+  .net-prof-line{font-size:13px;color:var(--muted);}
+  .net-avgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;padding:12px;border-radius:18px;background:var(--panel);border:1px solid var(--line);}
+  .net-avpick{aspect-ratio:1;min-height:44px;border:0;border-radius:50%;font-size:26px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;}
+  .net-chat-who{display:flex;align-items:center;gap:10px;flex:1;min-width:0;min-height:44px;padding:0;border:0;background:none;color:inherit;font:inherit;text-align:start;cursor:pointer;-webkit-tap-highlight-color:transparent;}
+  .net-chat-who:disabled{cursor:default;}
+  .net-ring-avatar img, .net-call-avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;}
   /* Appel reçu : plein écran, Raccrocher et Répondre côte à côte */
   .net-ring{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;flex-direction:column;align-items:center;
     padding:calc(56px + env(safe-area-inset-top,0px)) 24px calc(40px + env(safe-area-inset-bottom,0px));box-sizing:border-box;}
@@ -600,8 +609,6 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   <p data-i18n="tagline">Parlez votre langue, 24h/24. 24/24 Talk fait le reste.</p>
 </header>
 
-<p class="promo-banner" data-i18n-html="promo_html">🎁 Gratuit pour tous.</p>
-<p class="trust-line" data-i18n="trust">🔒 Sans inscription, sans carte bancaire : rien n'est jamais prélevé automatiquement. Votre historique reste uniquement sur votre téléphone.</p>
 <div class="install-top" id="installTop">
   <button class="install-top-btn" id="installTopBtn" type="button" data-i18n="install_btn">📲 Installer l'application</button>
   <p class="install-top-help" id="installTopHelp" hidden></p>
@@ -765,16 +772,14 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
       <button class="btn" id="subBtn" style="width:100%;margin-top:8px;" data-i18n="sub_btn">S'abonner — 1,99&nbsp;€/mois</button>
       <div id="subMsg"></div>
       <p style="color:var(--muted);font-size:11px;margin:8px 0 0;" data-i18n-html="pay_note_html">
-        Le paiement s'effectue sur une page sécurisée Stripe, en dehors de cette application.
-        <a class="link" href="cgv.html">Voir les CGV</a>.
       </p>
     </div>
     <div class="card">
       <button class="btn ghost" id="wipeBtn" style="width:100%;" data-i18n="wipe">Supprimer toutes mes données</button>
     </div>
     <p class="footer-note" data-i18n-html="footer_note_html">
-      24/24 Talk — version web gratuite. Aucun compte requis. Votre historique et vos réglages restent sur cet appareil. <a class="link" href="privacy.html">Confidentialité</a> · <a class="link" href="cgu.html">CGU</a>
-      · <a class="link" href="cgv.html">CGV / Tarifs</a> · <a class="link" href="mentions-legales.html">Mentions légales</a>
+      24/24 Talk — Aucun compte requis. Votre historique et vos réglages restent sur cet appareil. <a class="link" href="privacy.html">Confidentialité</a> · <a class="link" href="cgu.html">CGU</a>
+      · <a class="link" href="mentions-legales.html">Mentions légales</a>
     </p>
   </section>
 
@@ -791,7 +796,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   <p>24/24 Talk est une application web de traduction instantanée de texte et de voix entre plusieurs langues, incluant un mode Conversation, un historique local et le Réseau 24/24 Talk : un service de discussion entre utilisateurs où chaque message est traduit dans la langue de celui qui le lit, avec messages vocaux et appel traduit.</p>
 
   <h2>3. Accès au service</h2>
-  <p>L'utilisation des fonctionnalités de base ne nécessite pas de compte. Certaines fonctionnalités (traductions illimitées, voix, mode Conversation) pourront être réservées aux abonnés Premium une fois l'offre payante activée (voir les <a href="cgv.html">CGV</a>).</p>
+  <p>L'utilisation de l'application ne nécessite pas de compte.</p>
 
   <h2>4. Obligations de l'utilisateur</h2>
   <p>L'utilisateur s'engage à :</p>
@@ -836,49 +841,6 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   <footer>© 2026 Sébastien Albert Vincent CHEVRIER. Tous droits réservés.</footer>
   </section>
 
-  <section id="legal-cgv" class="view legal-view">
-<a class="back" href="index.html">← Retour à 24/24 Talk</a>
-  <h1>Conditions Générales de Vente</h1>
-  <p class="updated">Dernière mise à jour : 17 octobre 2026</p>
-
-  <h2>1. Prix</h2>
-  <div class="price">
-    <p><b>Gratuit pour tous.</b><br>
-    Toutes les fonctionnalités de l'application sont accessibles sans frais.</p>
-  </div>
-
-  <h2>2. Évolution</h2>
-  <p>Toute évolution de ces conditions sera annoncée à l'avance. Rien n'est prélevé automatiquement.</p>
-
-  <h2>3. Paiement</h2>
-  <p>Aucun paiement n'est demandé dans la version actuelle de l'application.</p>
-
-  <h2>4. Droit de rétractation</h2>
-  <p>Conformément à la réglementation applicable, le droit de rétractation de 14 jours pour les
-  contenus numériques peut être limité dès lors que l'exécution du service a commencé avec l'accord
-  exprès du consommateur, qui renonce alors à ce droit. Les conditions spécifiques de
-  remboursement dépendent du prestataire de paiement en ligne utilisé.</p>
-
-  <h2>5. Résiliation</h2>
-  <p>L'abonnement peut être résilié à tout moment depuis l'espace abonnement de l'application ou
-  en contactant l'éditeur par email. La résiliation prend effet à la fin de la période déjà payée ;
-  aucun remboursement au prorata n'est effectué sauf disposition légale contraire.</p>
-
-  <h2>6. Modification des tarifs</h2>
-  <p>L'éditeur se réserve le droit de modifier les tarifs pour l'avenir. Toute modification sera
-  communiquée aux utilisateurs abonnés avec un préavis raisonnable avant son entrée en vigueur, et
-  ne s'appliquera pas rétroactivement aux périodes déjà payées.</p>
-
-  <h2>7. Droit applicable et litiges</h2>
-  <p>Les présentes CGV sont soumises au droit français. En cas de litige, une solution amiable sera
-  recherchée avant toute action judiciaire ; à défaut, les tribunaux français compétents seront
-  saisis, sous réserve des dispositions protectrices applicables aux consommateurs.</p>
-
-  <h2>Contact</h2>
-  <p>Pour toute question relative à la facturation : <a href="mailto:schevrier.1975@gmail.com">schevrier.1975@gmail.com</a></p>
-
-  <footer>© 2026 Sébastien Chevrier. Tous droits réservés.</footer>
-  </section>
 
   <section id="legal-privacy" class="view legal-view">
 <a class="back" href="index.html">← Retour à 24/24 Talk</a>
@@ -944,8 +906,8 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   <p>Vos données locales sont entièrement entre vos mains. Dans Paramètres, vous pouvez désactiver l'enregistrement de l'historique, supprimer une traduction, tout l'historique ou toutes vos données. Effacer les données du site dans votre navigateur, ou désinstaller l'appli, efface aussi tout. Dans l'onglet Réseau, « Supprimer mon compte réseau » efface votre profil et vos messages du serveur.</p>
   <p>Vous disposez des droits d'accès, de rectification, d'effacement, d'opposition, de limitation et de portabilité : écrivez à <a href="mailto:schevrier.1975@gmail.com">schevrier.1975@gmail.com</a>. Pour les données traitées par MyMemory, Google, Apple ou GitHub, vous pouvez aussi vous adresser directement à eux. Si vous estimez que vos droits ne sont pas respectés, vous pouvez adresser une réclamation à la CNIL (<a href="https://www.cnil.fr/fr/plaintes">cnil.fr/fr/plaintes</a>).</p>
 
-  <h2>Abonnements</h2>
-  <p>À ce jour, aucun système de paiement n'est intégré à l'application (voir <a href="cgv.html">CGV</a>). Lorsqu'un abonnement payant sera activé, les paiements seront traités exclusivement par un prestataire tiers (Stripe ou équivalent) ; 24/24 Talk ne collectera aucune donnée bancaire. Cette politique sera alors mise à jour.</p>
+  <h2>Données bancaires</h2>
+  <p>24/24 Talk ne collecte aucune donnée bancaire.</p>
 
   <h2>Contact</h2>
   <p>Pour toute question relative à la confidentialité : <a href="mailto:schevrier.1975@gmail.com">schevrier.1975@gmail.com</a>.</p>
@@ -3662,13 +3624,13 @@ const UI_STRINGS = {
     sub: "Abonnement",
     pay_note_html: "Le paiement s'effectue sur une page sécurisée Stripe, en dehors de cette application. <a class=\"link\" href=\"cgv.html\">Voir les CGV</a>.",
     wipe: "Supprimer toutes mes données",
-    footer_note_html: "24/24 Talk — version web gratuite. Aucun compte requis. Votre historique et vos réglages restent sur cet appareil. <a class=\"link\" href=\"privacy.html\">Confidentialité</a> · <a class=\"link\" href=\"cgu.html\">CGU</a> · <a class=\"link\" href=\"cgv.html\">CGV / Tarifs</a> · <a class=\"link\" href=\"mentions-legales.html\">Mentions légales</a>",
+    footer_note_html: "24/24 Talk — Aucun compte requis. Votre historique et vos réglages restent sur cet appareil. <a class=\"link\" href=\"privacy.html\">Confidentialité</a> · <a class=\"link\" href=\"cgu.html\">CGU</a> · <a class=\"link\" href=\"mentions-legales.html\">Mentions légales</a>",
     rights: "© 2026 Sébastien Chevrier. Tous droits réservés.",
     sub_active: "Abonné ✓", sub_manage: "Gérer mon abonnement", sub_days: "Gratuit encore {n} j",
     sub_btn: "S'abonner — {price}/mois", sub_ended: "Période gratuite terminée",
     pay_off: "Le paiement en ligne n'est pas encore activé. Contact : schevrier.1975@gmail.com",
     err_network: "Impossible de traduire. Vérifiez votre connexion.",
-    err_quota: "Le service de traduction gratuit a atteint sa limite pour aujourd'hui. Réessayez plus tard.",
+    err_quota: "Le service de traduction a atteint sa limite pour aujourd'hui. Réessayez plus tard.",
     err_empty: "Écrivez d'abord un message à traduire.",
     err_lang: "Cette langue n'est momentanément pas disponible. Réessayez.",
     err_engine: "Cette phrase n'est pas encore disponible dans cette version en ligne. Essayez une phrase courante : bonjour, merci, combien ça coûte, où sont les toilettes…",
@@ -3735,13 +3697,13 @@ const UI_STRINGS = {
     sub: "Subscription",
     pay_note_html: "Payment takes place on a secure Stripe page, outside this app. <a class=\"link\" href=\"cgv.html\">Sales terms (in French)</a>.",
     wipe: "Delete all my data",
-    footer_note_html: "24/24 Talk — free web version. No account needed. Your history and settings stay on this device. <a class=\"link\" href=\"privacy.html\">Privacy</a> · <a class=\"link\" href=\"cgu.html\">Terms of use</a> · <a class=\"link\" href=\"cgv.html\">Sales terms / Pricing</a> · <a class=\"link\" href=\"mentions-legales.html\">Legal notice</a> (legal pages in French)",
+    footer_note_html: "24/24 Talk — No account needed. Your history and settings stay on this device. <a class=\"link\" href=\"privacy.html\">Privacy</a> · <a class=\"link\" href=\"cgu.html\">Terms of use</a> · <a class=\"link\" href=\"mentions-legales.html\">Legal notice</a> (legal pages in French)",
     rights: "© 2026 Sébastien Chevrier. All rights reserved.",
     sub_active: "Subscribed ✓", sub_manage: "Manage my subscription", sub_days: "Free for {n} more days",
     sub_btn: "Subscribe — {price}/month", sub_ended: "Free period ended",
     pay_off: "Online payment is not available yet. Contact: schevrier.1975@gmail.com",
     err_network: "Unable to translate. Check your connection.",
-    err_quota: "The free translation service has reached its limit for today. Try again later.",
+    err_quota: "The translation service has reached its limit for today. Try again later.",
     err_empty: "Type a message to translate first.",
     err_lang: "This language is temporarily unavailable. Try again.",
     err_engine: "This sentence is not available in this online version yet. Try a common phrase: hello, thank you, how much is it, where is the bathroom…",
@@ -3808,13 +3770,13 @@ const UI_STRINGS = {
     sub: "Suscripción",
     pay_note_html: "El pago se realiza en una página segura de Stripe, fuera de esta app. <a class=\"link\" href=\"cgv.html\">Condiciones de venta (en francés)</a>.",
     wipe: "Borrar todos mis datos",
-    footer_note_html: "24/24 Talk — versión web gratuita. Sin cuenta. Tu historial y tus ajustes se quedan en este dispositivo. <a class=\"link\" href=\"privacy.html\">Privacidad</a> · <a class=\"link\" href=\"cgu.html\">Condiciones de uso</a> · <a class=\"link\" href=\"cgv.html\">Condiciones de venta / Precios</a> · <a class=\"link\" href=\"mentions-legales.html\">Aviso legal</a> (páginas legales en francés)",
+    footer_note_html: "24/24 Talk — Sin cuenta. Tu historial y tus ajustes se quedan en este dispositivo. <a class=\"link\" href=\"privacy.html\">Privacidad</a> · <a class=\"link\" href=\"cgu.html\">Condiciones de uso</a> · <a class=\"link\" href=\"mentions-legales.html\">Aviso legal</a> (páginas legales en francés)",
     rights: "© 2026 Sébastien Chevrier. Todos los derechos reservados.",
     sub_active: "Suscrito ✓", sub_manage: "Gestionar mi suscripción", sub_days: "Gratis {n} días más",
     sub_btn: "Suscribirse — {price}/mes", sub_ended: "Periodo gratuito terminado",
     pay_off: "El pago en línea aún no está disponible. Contacto: schevrier.1975@gmail.com",
     err_network: "No se puede traducir. Comprueba tu conexión.",
-    err_quota: "El servicio de traducción gratuito ha alcanzado su límite por hoy. Inténtalo más tarde.",
+    err_quota: "El servicio de traducción ha alcanzado su límite por hoy. Inténtalo más tarde.",
     err_empty: "Primero escribe un mensaje para traducir.",
     err_lang: "Este idioma no está disponible por el momento. Inténtalo de nuevo.",
     err_engine: "Esta frase aún no está disponible en esta versión en línea. Prueba una frase común: hola, gracias, cuánto cuesta, dónde está el baño…",
@@ -3881,13 +3843,13 @@ const UI_STRINGS = {
     sub: "Assinatura",
     pay_note_html: "O pagamento é feito em uma página segura da Stripe, fora deste app. <a class=\"link\" href=\"cgv.html\">Condições de venda (em francês)</a>.",
     wipe: "Apagar todos os meus dados",
-    footer_note_html: "24/24 Talk — versão web gratuita. Sem conta. Seu histórico e suas configurações ficam neste aparelho. <a class=\"link\" href=\"privacy.html\">Privacidade</a> · <a class=\"link\" href=\"cgu.html\">Termos de uso</a> · <a class=\"link\" href=\"cgv.html\">Condições de venda / Preços</a> · <a class=\"link\" href=\"mentions-legales.html\">Aviso legal</a> (páginas legais em francês)",
+    footer_note_html: "24/24 Talk — Sem conta. Seu histórico e suas configurações ficam neste aparelho. <a class=\"link\" href=\"privacy.html\">Privacidade</a> · <a class=\"link\" href=\"cgu.html\">Termos de uso</a> · <a class=\"link\" href=\"mentions-legales.html\">Aviso legal</a> (páginas legais em francês)",
     rights: "© 2026 Sébastien Chevrier. Todos os direitos reservados.",
     sub_active: "Assinante ✓", sub_manage: "Gerenciar minha assinatura", sub_days: "Grátis por mais {n} dias",
     sub_btn: "Assinar — {price}/mês", sub_ended: "Período gratuito encerrado",
     pay_off: "O pagamento online ainda não está disponível. Contato: schevrier.1975@gmail.com",
     err_network: "Não foi possível traduzir. Verifique sua conexão.",
-    err_quota: "O serviço de tradução gratuito atingiu o limite de hoje. Tente mais tarde.",
+    err_quota: "O serviço de tradução atingiu o limite de hoje. Tente mais tarde.",
     err_empty: "Primeiro escreva uma mensagem para traduzir.",
     err_lang: "Este idioma está temporariamente indisponível. Tente novamente.",
     err_engine: "Esta frase ainda não está disponível nesta versão online. Tente uma frase comum: olá, obrigado, quanto custa, onde fica o banheiro…",
@@ -3954,13 +3916,13 @@ const UI_STRINGS = {
     sub: "Abonnement",
     pay_note_html: "Die Zahlung erfolgt auf einer sicheren Stripe-Seite außerhalb dieser App. <a class=\"link\" href=\"cgv.html\">Verkaufsbedingungen (auf Französisch)</a>.",
     wipe: "Alle meine Daten löschen",
-    footer_note_html: "24/24 Talk – kostenlose Webversion. Kein Konto nötig. Dein Verlauf und deine Einstellungen bleiben auf diesem Gerät. <a class=\"link\" href=\"privacy.html\">Datenschutz</a> · <a class=\"link\" href=\"cgu.html\">Nutzungsbedingungen</a> · <a class=\"link\" href=\"cgv.html\">Verkaufsbedingungen / Preise</a> · <a class=\"link\" href=\"mentions-legales.html\">Impressum</a> (Rechtstexte auf Französisch)",
+    footer_note_html: "24/24 Talk – Kein Konto nötig. Dein Verlauf und deine Einstellungen bleiben auf diesem Gerät. <a class=\"link\" href=\"privacy.html\">Datenschutz</a> · <a class=\"link\" href=\"cgu.html\">Nutzungsbedingungen</a> · <a class=\"link\" href=\"mentions-legales.html\">Impressum</a> (Rechtstexte auf Französisch)",
     rights: "© 2026 Sébastien Chevrier. Alle Rechte vorbehalten.",
     sub_active: "Abonniert ✓", sub_manage: "Mein Abo verwalten", sub_days: "Noch {n} Tage kostenlos",
     sub_btn: "Abonnieren – {price}/Monat", sub_ended: "Kostenloser Zeitraum beendet",
     pay_off: "Die Online-Zahlung ist noch nicht verfügbar. Kontakt: schevrier.1975@gmail.com",
     err_network: "Übersetzung nicht möglich. Prüfe deine Verbindung.",
-    err_quota: "Der kostenlose Übersetzungsdienst hat sein Tageslimit erreicht. Versuche es später erneut.",
+    err_quota: "Der Übersetzungsdienst hat sein Tageslimit erreicht. Versuche es später erneut.",
     err_empty: "Gib zuerst eine Nachricht zum Übersetzen ein.",
     err_lang: "Diese Sprache ist vorübergehend nicht verfügbar. Versuche es erneut.",
     err_engine: "Dieser Satz ist in dieser Online-Version noch nicht verfügbar. Versuche einen gängigen Satz: Hallo, danke, wie viel kostet das, wo ist die Toilette…",
@@ -4027,13 +3989,13 @@ const UI_STRINGS = {
     sub: "Abbonamento",
     pay_note_html: "Il pagamento avviene su una pagina sicura di Stripe, fuori da questa app. <a class=\"link\" href=\"cgv.html\">Condizioni di vendita (in francese)</a>.",
     wipe: "Elimina tutti i miei dati",
-    footer_note_html: "24/24 Talk — versione web gratuita. Nessun account richiesto. La tua cronologia e le tue impostazioni restano su questo dispositivo. <a class=\"link\" href=\"privacy.html\">Privacy</a> · <a class=\"link\" href=\"cgu.html\">Condizioni d'uso</a> · <a class=\"link\" href=\"cgv.html\">Condizioni di vendita / Prezzi</a> · <a class=\"link\" href=\"mentions-legales.html\">Note legali</a> (pagine legali in francese)",
+    footer_note_html: "24/24 Talk — Nessun account richiesto. La tua cronologia e le tue impostazioni restano su questo dispositivo. <a class=\"link\" href=\"privacy.html\">Privacy</a> · <a class=\"link\" href=\"cgu.html\">Condizioni d'uso</a> · <a class=\"link\" href=\"mentions-legales.html\">Note legali</a> (pagine legali in francese)",
     rights: "© 2026 Sébastien Chevrier. Tutti i diritti riservati.",
     sub_active: "Abbonato ✓", sub_manage: "Gestisci il mio abbonamento", sub_days: "Gratis ancora {n} giorni",
     sub_btn: "Abbonati — {price}/mese", sub_ended: "Periodo gratuito terminato",
     pay_off: "Il pagamento online non è ancora disponibile. Contatto: schevrier.1975@gmail.com",
     err_network: "Impossibile tradurre. Controlla la connessione.",
-    err_quota: "Il servizio di traduzione gratuito ha raggiunto il limite di oggi. Riprova più tardi.",
+    err_quota: "Il servizio di traduzione ha raggiunto il limite di oggi. Riprova più tardi.",
     err_empty: "Scrivi prima un messaggio da tradurre.",
     err_lang: "Questa lingua non è momentaneamente disponibile. Riprova.",
     err_engine: "Questa frase non è ancora disponibile in questa versione online. Prova una frase comune: ciao, grazie, quanto costa, dov'è il bagno…",
@@ -4100,13 +4062,13 @@ const UI_STRINGS = {
     sub: "订阅",
     pay_note_html: "付款在 Stripe 的安全页面上完成，不在本应用内。<a class=\"link\" href=\"cgv.html\">销售条款（法语）</a>。",
     wipe: "删除我的所有数据",
-    footer_note_html: "24/24 Talk — 免费网页版。无需账户。你的历史记录和设置保存在本设备上。<a class=\"link\" href=\"privacy.html\">隐私</a> · <a class=\"link\" href=\"cgu.html\">使用条款</a> · <a class=\"link\" href=\"cgv.html\">销售条款 / 价格</a> · <a class=\"link\" href=\"mentions-legales.html\">法律声明</a>（法律页面为法语）",
+    footer_note_html: "24/24 Talk — 无需账户。你的历史记录和设置保存在本设备上。<a class=\"link\" href=\"privacy.html\">隐私</a> · <a class=\"link\" href=\"cgu.html\">使用条款</a> · <a class=\"link\" href=\"mentions-legales.html\">法律声明</a>（法律页面为法语）",
     rights: "© 2026 Sébastien Chevrier。保留所有权利。",
     sub_active: "已订阅 ✓", sub_manage: "管理我的订阅", sub_days: "还可免费使用 {n} 天",
     sub_btn: "订阅 — 每月 {price}", sub_ended: "免费期已结束",
     pay_off: "在线支付尚未开通。联系方式：schevrier.1975@gmail.com",
     err_network: "无法翻译。请检查网络连接。",
-    err_quota: "免费翻译服务今天已达到上限。请稍后再试。",
+    err_quota: "翻译服务今天已达到上限。请稍后再试。",
     err_empty: "请先输入要翻译的内容。",
     err_lang: "该语言暂时不可用。请重试。",
     err_engine: "此在线版本暂时无法翻译这句话。请试试常用语：你好、谢谢、多少钱、洗手间在哪里…",
@@ -4173,13 +4135,13 @@ const UI_STRINGS = {
     sub: "定期購読",
     pay_note_html: "お支払いはこのアプリの外にある Stripe の安全なページで行われます。<a class=\"link\" href=\"cgv.html\">販売条件（フランス語）</a>。",
     wipe: "すべてのデータを削除",
-    footer_note_html: "24/24 Talk — 無料のウェブ版。アカウント不要。履歴と設定はこの端末内に保存されます。<a class=\"link\" href=\"privacy.html\">プライバシー</a> · <a class=\"link\" href=\"cgu.html\">利用規約</a> · <a class=\"link\" href=\"cgv.html\">販売条件 / 料金</a> · <a class=\"link\" href=\"mentions-legales.html\">法的表示</a>（法的ページはフランス語）",
+    footer_note_html: "24/24 Talk — アカウント不要。履歴と設定はこの端末内に保存されます。<a class=\"link\" href=\"privacy.html\">プライバシー</a> · <a class=\"link\" href=\"cgu.html\">利用規約</a> · <a class=\"link\" href=\"mentions-legales.html\">法的表示</a>（法的ページはフランス語）",
     rights: "© 2026 Sébastien Chevrier. 無断転載を禁じます。",
     sub_active: "購読中 ✓", sub_manage: "購読を管理", sub_days: "無料期間：残り{n}日",
     sub_btn: "購読する — 月額{price}", sub_ended: "無料期間は終了しました",
     pay_off: "オンライン決済はまだご利用いただけません。お問い合わせ：schevrier.1975@gmail.com",
     err_network: "翻訳できません。接続を確認してください。",
-    err_quota: "無料翻訳サービスは本日の上限に達しました。しばらくしてからもう一度お試しください。",
+    err_quota: "翻訳サービスは本日の上限に達しました。しばらくしてからもう一度お試しください。",
     err_empty: "まず翻訳するメッセージを入力してください。",
     err_lang: "この言語は現在ご利用いただけません。もう一度お試しください。",
     err_engine: "このオンライン版では、この文はまだ翻訳できません。よく使うフレーズをお試しください：こんにちは、ありがとう、いくらですか、トイレはどこですか…",
@@ -4246,13 +4208,13 @@ const UI_STRINGS = {
     sub: "الاشتراك",
     pay_note_html: "يتم الدفع عبر صفحة آمنة من Stripe خارج هذا التطبيق. <a class=\"link\" href=\"cgv.html\">شروط البيع (بالفرنسية)</a>.",
     wipe: "حذف جميع بياناتي",
-    footer_note_html: "⁦24/24 Talk⁩ — نسخة ويب مجانية. لا حاجة إلى حساب. يبقى سجلّك وإعداداتك على هذا الجهاز. <a class=\"link\" href=\"privacy.html\">الخصوصية</a> · <a class=\"link\" href=\"cgu.html\">شروط الاستخدام</a> · <a class=\"link\" href=\"cgv.html\">شروط البيع / الأسعار</a> · <a class=\"link\" href=\"mentions-legales.html\">البيانات القانونية</a> (الصفحات القانونية بالفرنسية)",
+    footer_note_html: "⁦24/24 Talk⁩ — لا حاجة إلى حساب. يبقى سجلّك وإعداداتك على هذا الجهاز. <a class=\"link\" href=\"privacy.html\">الخصوصية</a> · <a class=\"link\" href=\"cgu.html\">شروط الاستخدام</a> · <a class=\"link\" href=\"mentions-legales.html\">البيانات القانونية</a> (الصفحات القانونية بالفرنسية)",
     rights: "© 2026 ⁦Sébastien Chevrier⁩. جميع الحقوق محفوظة.",
     sub_active: "مشترك ✓", sub_manage: "إدارة اشتراكي", sub_days: "مجاني لمدة {n} يومًا أخرى",
     sub_btn: "اشترك — {price} شهريًا", sub_ended: "انتهت الفترة المجانية",
     pay_off: "الدفع عبر الإنترنت غير متاح بعد. للتواصل: schevrier.1975@gmail.com",
     err_network: "تعذّرت الترجمة. تحقّق من اتصالك.",
-    err_quota: "بلغت خدمة الترجمة المجانية حدّها لهذا اليوم. حاول مرة أخرى لاحقًا.",
+    err_quota: "بلغت خدمة الترجمة حدّها لهذا اليوم. حاول مرة أخرى لاحقًا.",
     err_empty: "اكتب أولًا رسالة لترجمتها.",
     err_lang: "هذه اللغة غير متاحة مؤقتًا. حاول مرة أخرى.",
     err_engine: "هذه الجملة غير متاحة بعد في هذه النسخة على الإنترنت. جرّب عبارة شائعة: مرحبًا، شكرًا، كم الثمن، أين الحمّام…",
@@ -4319,13 +4281,13 @@ const UI_STRINGS = {
     sub: "Подписка",
     pay_note_html: "Оплата проходит на защищённой странице Stripe, вне этого приложения. <a class=\"link\" href=\"cgv.html\">Условия продажи (на французском)</a>.",
     wipe: "Удалить все мои данные",
-    footer_note_html: "24/24 Talk — бесплатная веб-версия. Без регистрации. Ваша история и настройки остаются на этом устройстве. <a class=\"link\" href=\"privacy.html\">Конфиденциальность</a> · <a class=\"link\" href=\"cgu.html\">Условия использования</a> · <a class=\"link\" href=\"cgv.html\">Условия продажи / Цены</a> · <a class=\"link\" href=\"mentions-legales.html\">Правовая информация</a> (юридические страницы на французском)",
+    footer_note_html: "24/24 Talk — Без регистрации. Ваша история и настройки остаются на этом устройстве. <a class=\"link\" href=\"privacy.html\">Конфиденциальность</a> · <a class=\"link\" href=\"cgu.html\">Условия использования</a> · <a class=\"link\" href=\"mentions-legales.html\">Правовая информация</a> (юридические страницы на французском)",
     rights: "© 2026 Sébastien Chevrier. Все права защищены.",
     sub_active: "Подписка оформлена ✓", sub_manage: "Управлять подпиской", sub_days: "Бесплатно ещё {n} дн.",
     sub_btn: "Подписаться — {price} в месяц", sub_ended: "Бесплатный период закончился",
     pay_off: "Онлайн-оплата пока недоступна. Контакт: schevrier.1975@gmail.com",
     err_network: "Не удалось перевести. Проверьте подключение.",
-    err_quota: "Бесплатный сервис перевода исчерпал лимит на сегодня. Попробуйте позже.",
+    err_quota: "Сервис перевода исчерпал лимит на сегодня. Попробуйте позже.",
     err_empty: "Сначала введите сообщение для перевода.",
     err_lang: "Этот язык временно недоступен. Попробуйте ещё раз.",
     err_engine: "Эта фраза пока недоступна в онлайн-версии. Попробуйте распространённую фразу: здравствуйте, спасибо, сколько стоит, где туалет…",
@@ -4410,7 +4372,7 @@ const UI_STRINGS = {
     sub: "Famandrihana",
     pay_note_html: "Ao amin'ny pejy azo antoka Stripe, ivelan'ity appli ity, no anaovana ny fandoavana. <a class=\"link\" href=\"cgv.html\">Jereo ny CGV</a>.",
     wipe: "Hamafa ny angon-drakitro rehetra",
-    footer_note_html: "24/24 Talk — kinova web maimaimpoana. Tsy mila kaonty. Ao amin'ity fitaovana ity ihany no mijanona ny tantaranao sy ny fikiranao. <a class=\"link\" href=\"privacy.html\">Tsiambaratelo</a> · <a class=\"link\" href=\"cgu.html\">CGU</a> · <a class=\"link\" href=\"cgv.html\">CGV / Sarany</a> · <a class=\"link\" href=\"mentions-legales.html\">Fampahafantarana ara-dalàna</a>",
+    footer_note_html: "24/24 Talk — Tsy mila kaonty. Ao amin'ity fitaovana ity ihany no mijanona ny tantaranao sy ny fikiranao. <a class=\"link\" href=\"privacy.html\">Tsiambaratelo</a> · <a class=\"link\" href=\"cgu.html\">CGU</a> · <a class=\"link\" href=\"mentions-legales.html\">Fampahafantarana ara-dalàna</a>",
     rights: "© 2026 Sébastien Chevrier. Zo rehetra voatokana.",
     sub_active: "Famandrihana mandeha ✓",
     sub_manage: "Hitantana ny famandrihako",
@@ -4419,7 +4381,7 @@ const UI_STRINGS = {
     sub_ended: "Tapitra ny fe-potoana maimaimpoana",
     pay_off: "Tsy mbola mandeha ny fandoavana an-tserasera. Fifandraisana: schevrier.1975@gmail.com",
     err_network: "Tsy afaka mandika. Hamarino ny fifandraisanao amin'ny Internet.",
-    err_quota: "Tratra ny fetra androany ho an'ny serivisy fandikana maimaimpoana. Andramo indray any aoriana.",
+    err_quota: "Tratra ny fetra androany ho an'ny serivisy fandikana. Andramo indray any aoriana.",
     err_empty: "Soraty aloha ny hafatra hadika.",
     err_lang: "Tsy azo ampiasaina vetivety ity fiteny ity. Andramo indray.",
     err_engine: "Tsy mbola azo ampiasaina amin'ity kinova an-tserasera ity io fehezanteny io. Andramo fehezanteny mahazatra: manao ahoana, misaotra, ohatrinona, aiza ny trano fivoahana…",
@@ -5958,6 +5920,10 @@ const NET_STRINGS = {
     net_photo_report: "⚠️ Signaler la photo",
     net_photo_report_confirm: "Appuyez encore pour signaler la photo",
     net_photo_hint: "photo visible par vos contacts",
+    net_photo_pick: "📷 Choisir une photo",
+    net_avatar_pick: "😀 Choisir un avatar",
+    net_avatar_title: "Choisissez votre avatar",
+    net_profile_see: "Voir le profil de @{p}",
     net_delete: "Supprimer mon compte réseau",
     net_delete_confirm: "Appuyez encore : profil et messages supprimés",
     net_deleted: "Votre compte réseau a été supprimé.",
@@ -6115,6 +6081,10 @@ const NET_STRINGS = {
     net_photo_report: "⚠️ Report photo",
     net_photo_report_confirm: "Tap again to report the photo",
     net_photo_hint: "photo seen by your contacts",
+    net_photo_pick: "📷 Choose a photo",
+    net_avatar_pick: "😀 Choose an avatar",
+    net_avatar_title: "Choose your avatar",
+    net_profile_see: "See @{p}'s profile",
     net_delete: "Delete my network account",
     net_delete_confirm: "Tap again: profile and messages deleted",
     net_deleted: "Your network account has been deleted.",
@@ -6269,6 +6239,10 @@ const NET_STRINGS = {
     net_photo_report: "⚠️ Denunciar la foto",
     net_photo_report_confirm: "Pulsa otra vez para denunciar la foto",
     net_photo_hint: "foto visible para tus contactos",
+    net_photo_pick: "📷 Elegir una foto",
+    net_avatar_pick: "😀 Elegir un avatar",
+    net_avatar_title: "Elige tu avatar",
+    net_profile_see: "Ver el perfil de @{p}",
     net_delete: "Eliminar mi cuenta de la red",
     net_delete_confirm: "Pulsa otra vez: perfil y mensajes eliminados",
     net_deleted: "Tu cuenta de la red se ha eliminado.",
@@ -6423,6 +6397,10 @@ const NET_STRINGS = {
     net_photo_report: "⚠️ Denunciar a foto",
     net_photo_report_confirm: "Toque outra vez para denunciar a foto",
     net_photo_hint: "foto visível para seus contatos",
+    net_photo_pick: "📷 Escolher uma foto",
+    net_avatar_pick: "😀 Escolher um avatar",
+    net_avatar_title: "Escolha seu avatar",
+    net_profile_see: "Ver o perfil de @{p}",
     net_delete: "Eliminar a minha conta da rede",
     net_delete_confirm: "Toque outra vez: perfil e mensagens eliminados",
     net_deleted: "A sua conta da rede foi eliminada.",
@@ -6577,6 +6555,10 @@ const NET_STRINGS = {
     net_photo_report: "⚠️ Foto melden",
     net_photo_report_confirm: "Nochmal tippen, um das Foto zu melden",
     net_photo_hint: "Foto für Ihre Kontakte sichtbar",
+    net_photo_pick: "📷 Foto wählen",
+    net_avatar_pick: "😀 Avatar wählen",
+    net_avatar_title: "Wählen Sie Ihren Avatar",
+    net_profile_see: "Profil von @{p} ansehen",
     net_delete: "Mein Netzwerkkonto löschen",
     net_delete_confirm: "Nochmal tippen: Profil und Nachrichten gelöscht",
     net_deleted: "Dein Netzwerkkonto wurde gelöscht.",
@@ -6731,6 +6713,10 @@ const NET_STRINGS = {
     net_photo_report: "⚠️ Segnala la foto",
     net_photo_report_confirm: "Tocca di nuovo per segnalare la foto",
     net_photo_hint: "foto visibile ai tuoi contatti",
+    net_photo_pick: "📷 Scegli una foto",
+    net_avatar_pick: "😀 Scegli un avatar",
+    net_avatar_title: "Scegli il tuo avatar",
+    net_profile_see: "Vedi il profilo di @{p}",
     net_delete: "Elimina il mio account di rete",
     net_delete_confirm: "Tocca di nuovo: profilo e messaggi eliminati",
     net_deleted: "Il tuo account di rete è stato eliminato.",
@@ -6885,6 +6871,10 @@ const NET_STRINGS = {
     net_photo_report: "⚠️ 举报照片",
     net_photo_report_confirm: "再点一次以举报照片",
     net_photo_hint: "仅联系人可见",
+    net_photo_pick: "📷 选择照片",
+    net_avatar_pick: "😀 选择头像",
+    net_avatar_title: "选择你的头像",
+    net_profile_see: "查看 @{p} 的资料",
     net_delete: "删除我的社交账户",
     net_delete_confirm: "再点一次：资料和消息将被删除",
     net_deleted: "你的社交账户已删除。",
@@ -7039,6 +7029,10 @@ const NET_STRINGS = {
     net_photo_report: "⚠️ 写真を報告",
     net_photo_report_confirm: "もう一度タップで写真を報告",
     net_photo_hint: "連絡先にのみ表示",
+    net_photo_pick: "📷 写真を選ぶ",
+    net_avatar_pick: "😀 アバターを選ぶ",
+    net_avatar_title: "アバターを選んでください",
+    net_profile_see: "@{p} のプロフィールを見る",
     net_delete: "ネットワークのアカウントを削除",
     net_delete_confirm: "もう一度タップ：プロフィールとメッセージを削除",
     net_deleted: "ネットワークのアカウントを削除しました。",
@@ -7193,6 +7187,10 @@ const NET_STRINGS = {
     net_photo_report: "⚠️ الإبلاغ عن الصورة",
     net_photo_report_confirm: "اضغط مرة أخرى للإبلاغ عن الصورة",
     net_photo_hint: "الصورة مرئية لجهات اتصالك",
+    net_photo_pick: "📷 اختر صورة",
+    net_avatar_pick: "😀 اختر صورة رمزية",
+    net_avatar_title: "اختر صورتك الرمزية",
+    net_profile_see: "عرض ملف @{p}",
     net_delete: "حذف حسابي في الشبكة",
     net_delete_confirm: "اضغط مرة أخرى: سيُحذف الملف والرسائل",
     net_deleted: "تم حذف حسابك في الشبكة.",
@@ -7347,6 +7345,10 @@ const NET_STRINGS = {
     net_photo_report: "⚠️ Пожаловаться на фото",
     net_photo_report_confirm: "Нажмите ещё раз, чтобы пожаловаться на фото",
     net_photo_hint: "фото видят ваши контакты",
+    net_photo_pick: "📷 Выбрать фото",
+    net_avatar_pick: "😀 Выбрать аватар",
+    net_avatar_title: "Выберите аватар",
+    net_profile_see: "Профиль @{p}",
     net_delete: "Удалить мой аккаунт в сети",
     net_delete_confirm: "Нажмите ещё раз: профиль и сообщения будут удалены",
     net_deleted: "Ваш аккаунт в сети удалён.",
@@ -7501,6 +7503,10 @@ const NET_STRINGS = {
     net_photo_report: "⚠️ Hitatitra ny sary",
     net_photo_report_confirm: "Tsindrio indray hitaterana ny sary",
     net_photo_hint: "hitan'ny mpifandray aminao ny sary",
+    net_photo_pick: "📷 Hisafidy sary",
+    net_avatar_pick: "😀 Hisafidy avatar",
+    net_avatar_title: "Fidio ny avatar-nao",
+    net_profile_see: "Jereo ny mombamomba an'i @{p}",
     net_delete: "Hamafa ny kaontiko amin'ny tambajotra",
     net_delete_confirm: "Tsindrio indray: ho voafafa ny kaonty sy ny hafatra",
     net_deleted: "Voafafa ny kaontinao amin'ny tambajotra.",
@@ -7977,7 +7983,7 @@ const Reseau = (() => {
   // cliquable avec le visuel 24/24 Talk et « 👆 Touchez ici pour ouvrir 24/24 Talk » (aperçu du lien). Une image envoyée avec le lien faisait
   // disparaître le lien dans certaines messageries (Messenger).
   // Invitation : seulement le lien, que la messagerie transforme en carte à toucher
-  // (visuel + « 24/24, Let's go – Clic ici pour ouvrir le lien de l'appli – C'est gratuit »).
+  // (visuel + « 24/24, Let's go – Clic ici pour ouvrir le lien de l'appli »).
   async function sendInvite(msgEl) {
     const link = inviteLink();
     if (navigator.share) {
@@ -8399,13 +8405,13 @@ const Reseau = (() => {
     return !hiddenIds().has(m.id);
   }
   // Petit menu qui monte du bas de l'écran (actions sur un message ou sur la discussion).
-  function actionSheet(items) {
+  function actionSheet(items, head) {
     const old = document.getElementById("netSheet");
     if (old) old.remove();
     const box = document.createElement("div");
     box.id = "netSheet";
     box.className = "net-sheet";
-    box.innerHTML = `<div class="net-sheet-card">${items.map((it, i) =>
+    box.innerHTML = `<div class="net-sheet-card">${head || ""}${items.map((it, i) =>
       `<button type="button" class="net-sheet-btn${it.danger ? " danger" : ""}" data-i="${i}">${escapeHtml(it.label)}</button>`).join("")}
       <button type="button" class="net-sheet-btn cancel" data-i="-1">${escapeHtml(t("net_cancel"))}</button></div>`;
     document.body.appendChild(box);
@@ -8665,16 +8671,7 @@ const Reseau = (() => {
     if (btn) btn.setAttribute("aria-busy", "true");
     try {
       const img = await photoFromFile(file);
-      const r = await sb.rpc("mettre_ma_photo", { img });
-      if (r.error) {
-        const rl = String(r.error.message || "").includes("RATE_LIMIT");
-        showMsg(msgEl, escapeHtml(t(rl ? "net_rate_limit" : "net_err_conn")), "err");
-        return;
-      }
-      photos[me] = { img, at: r.data };
-      savePhotos();
-      setFlash(escapeHtml(t("net_photo_saved")), "ok");
-      render();
+      await setMyImage(img, msgEl);
     } catch (e) {
       showMsg(msgEl, escapeHtml(t("net_photo_err")), "err");
     } finally {
@@ -8688,6 +8685,73 @@ const Reseau = (() => {
     savePhotos();
     setFlash(escapeHtml(t("net_photo_removed")), "ok");
     render();
+  }
+  // ---------- Profil façon messagerie : grande photo, pseudo, langue ; avatar dessiné si pas de photo ----------
+  // L'avatar est une image 256 px (emoji sur fond de couleur) enregistrée comme une photo : rien à changer dans la base.
+  const AVATAR_EMOJIS = ["😀", "😎", "🥳", "🤓", "😺", "🐶", "🦊", "🐼", "🦁", "🐸", "🐵", "🦄", "🌍", "🌸", "⚽", "🎧", "🚀", "⭐"];
+  function profileHead(pseudo, uid, line) {
+    return `<div class="net-prof">${avatarCore(pseudo, uid)}<b dir="ltr">@${escapeHtml(pseudo || "?")}</b>${line ? `<span class="net-prof-line">${escapeHtml(line)}</span>` : ""}</div>`;
+  }
+  function avatarImage(emoji, color) {
+    const S = 256;
+    const cv = document.createElement("canvas");
+    cv.width = S; cv.height = S;
+    const cx = cv.getContext("2d");
+    cx.fillStyle = color;
+    cx.fillRect(0, 0, S, S);
+    cx.textAlign = "center";
+    cx.textBaseline = "middle";
+    cx.font = '150px "Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif';
+    cx.fillText(emoji, S / 2, S / 2 + 10);
+    for (const q of [0.9, 0.75, 0.6]) {
+      let d = cv.toDataURL("image/webp", q);
+      if (!/^data:image\/webp/.test(d)) d = cv.toDataURL("image/jpeg", q);
+      if (d.length <= PHOTO_MAX && PHOTO_RE.test(d)) return d;
+    }
+    throw new Error("taille");
+  }
+  async function setMyImage(img, msgEl) {
+    const r = await sb.rpc("mettre_ma_photo", { img });
+    if (r.error) {
+      const rl = String(r.error.message || "").includes("RATE_LIMIT");
+      showMsg(msgEl, escapeHtml(t(rl ? "net_rate_limit" : "net_err_conn")), "err");
+      return;
+    }
+    photos[me] = { img, at: r.data };
+    savePhotos();
+    setFlash(escapeHtml(t("net_photo_saved")), "ok");
+    render();
+  }
+  function avatarPicker(msgEl) {
+    const old = document.getElementById("netSheet");
+    if (old) old.remove();
+    const box = document.createElement("div");
+    box.id = "netSheet";
+    box.className = "net-sheet";
+    box.innerHTML = `<div class="net-sheet-card"><div class="net-prof"><b>${escapeHtml(t("net_avatar_title"))}</b></div>
+      <div class="net-avgrid">${AVATAR_EMOJIS.map((e, i) =>
+        `<button type="button" class="net-avpick" data-a="${i}" style="background:${AV_COLORS[i % AV_COLORS.length]}" aria-label="${escapeHtml(t("net_avatar_pick"))} ${i + 1}">${e}</button>`).join("")}</div>
+      <button type="button" class="net-sheet-btn cancel" data-i="-1">${escapeHtml(t("net_cancel"))}</button></div>`;
+    document.body.appendChild(box);
+    box.addEventListener("click", (e) => {
+      const b = e.target.closest && e.target.closest("button");
+      if (e.target === box || (b && b.dataset.i === "-1")) return box.remove();
+      if (!b || b.dataset.a == null) return;
+      const i = Number(b.dataset.a);
+      box.remove();
+      let img = "";
+      try { img = avatarImage(AVATAR_EMOJIS[i], AV_COLORS[i % AV_COLORS.length]); }
+      catch (err) { showMsg(msgEl, escapeHtml(t("net_photo_err")), "err"); return; }
+      setMyImage(img, msgEl);
+    });
+  }
+  function myProfileSheet(photoFile, msgEl) {
+    const items = [
+      { label: t("net_photo_pick"), run: () => photoFile.click() },
+      { label: t("net_avatar_pick"), run: () => avatarPicker(msgEl) }
+    ];
+    if (photoOf(me)) items.push({ label: t("net_photo_remove"), danger: true, confirm: t("net_photo_remove_confirm"), run: () => removeMyPhoto(msgEl) });
+    actionSheet(items, profileHead(profile.pseudo, me, langLabel(profile.lang) + " · " + t("net_photo_hint")));
   }
 
   // ---------- Présence « en ligne / vu il y a » (seulement entre contacts, réciproque, désactivable) ----------
@@ -9089,13 +9153,7 @@ const Reseau = (() => {
         photoFile.value = "";
         if (f) setMyPhoto(f, photoBtn, homeMsg);
       });
-      photoBtn.addEventListener("click", () => {
-        if (!photoOf(me)) { photoFile.click(); return; }
-        actionSheet([
-          { label: t("net_photo_change"), run: () => photoFile.click() },
-          { label: t("net_photo_remove"), danger: true, confirm: t("net_photo_remove_confirm"), run: () => removeMyPhoto(homeMsg) }
-        ]);
-      });
+      photoBtn.addEventListener("click", () => myProfileSheet(photoFile, homeMsg));
     }
     const presTg = root.querySelector("#netPresToggle");
     if (presTg) presTg.addEventListener("click", () => {
@@ -9200,8 +9258,10 @@ const Reseau = (() => {
       <div class="card net-chat">
         <div class="net-chat-head">
           <button class="iconbtn" id="netBack">${escapeHtml(t("net_back"))}</button>
-          ${c.other ? avatarHtml(c.other.pseudo, c.otherId) : ""}
-          <div class="net-chat-title"><b dir="ltr">${escapeHtml(name)}</b><span id="netPresText">${c.other ? escapeHtml(langLabel(c.other.lang)) : ""}</span></div>
+          <button type="button" class="net-chat-who" id="netWho"${c.other ? ` aria-label="${escapeHtml(t("net_profile_see", { p: c.other.pseudo }))}"` : " disabled"}>
+            ${c.other ? avatarHtml(c.other.pseudo, c.otherId) : ""}
+            <span class="net-chat-title"><b dir="ltr">${escapeHtml(name)}</b><span id="netPresText">${c.other ? escapeHtml(langLabel(c.other.lang)) : ""}</span></span>
+          </button>
         </div>
         ${trSwitchHtml(true)}
         <button type="button" class="net-langrow${convLangs(c.id).speak !== profile.lang || convLangs(c.id).read !== profile.lang ? " custom" : ""}" id="netConvLang">🗣 ${escapeHtml(langLabel(convLangs(c.id).speak))} · 🌐 ${escapeHtml(langLabel(convLangs(c.id).read))} <span aria-hidden="true">✎</span></button>
@@ -9288,13 +9348,25 @@ const Reseau = (() => {
       setFlash(escapeHtml(t("net_cleared")), "ok");
       render();
     };
-    root.querySelector("#netMore").addEventListener("click", () => {
+    const safetyItems = () => {
       const items = [];
       if (c.otherId && !isBlocked) items.push({ label: t("net_block"), danger: true, confirm: t("net_block_confirm"), run: doBlock });
       if (c.otherId) items.push({ label: t("net_report"), danger: true, confirm: t("net_report_confirm"), run: doReport });
       if (c.otherId && photoOf(c.otherId)) items.push({ label: t("net_photo_report"), danger: true, confirm: t("net_photo_report_confirm"), run: doReportPhoto });
+      return items;
+    };
+    root.querySelector("#netMore").addEventListener("click", () => {
+      const items = safetyItems();
       items.push({ label: t("net_clear"), danger: true, confirm: t("net_clear_confirm"), run: doClear });
       actionSheet(items);
+    });
+    // Toucher la photo ou le nom : fiche du contact (grande photo, langue, en ligne), comme dans une messagerie.
+    root.querySelector("#netWho").addEventListener("click", () => {
+      if (!c.other) return;
+      const pres = presenceText(c.otherId);
+      const items = [];
+      if (c.otherId && !isBlocked) items.push({ label: t("net_call"), run: () => startCall(false) });
+      actionSheet(items.concat(safetyItems()), profileHead(c.other.pseudo, c.otherId, langLabel(c.other.lang) + (pres ? " · " + pres : "")));
     });
   }
 
@@ -9650,7 +9722,7 @@ const Reseau = (() => {
     const who = call.otherPseudo || "?";
     ringBar.innerHTML = `
       <div class="net-ring-top">
-        <div class="net-ring-avatar" aria-hidden="true">${escapeHtml(who.charAt(0))}</div>
+        <div class="net-ring-avatar" aria-hidden="true">${photoOf(call.otherId) ? `<img src="${photoOf(call.otherId)}" alt="" />` : escapeHtml(who.charAt(0))}</div>
         <div class="net-ring-txt">${escapeHtml(t("net_incoming", { p: who }))}</div>
         <div class="net-ring-lang">${escapeHtml(langLabel(call.otherLang || ""))} ⇄ ${escapeHtml(langLabel(mySpeak(call.convId)))}</div>
       </div>
@@ -10154,7 +10226,7 @@ const Reseau = (() => {
     root.innerHTML = `
       <div class="net-call" role="dialog" aria-label="${escapeHtml(status)}">
         <div class="net-call-top">
-          <div class="net-call-avatar${call.state === "active" ? " live" : ""}" aria-hidden="true">${escapeHtml((call.otherPseudo || "?").charAt(0))}</div>
+          <div class="net-call-avatar${call.state === "active" ? " live" : ""}" aria-hidden="true">${photoOf(call.otherId) ? `<img src="${photoOf(call.otherId)}" alt="" />` : escapeHtml((call.otherPseudo || "?").charAt(0))}</div>
           <div class="net-call-name" dir="ltr">@${escapeHtml(call.otherPseudo || "")}</div>
           <div class="net-call-status${call.state === "active" ? " live" : ""}">${escapeHtml(status)}</div>
           ${call.state === "active" ? `<div class="net-call-timer" id="netCallTimer"></div><div class="net-call-info" id="netCallInfo"></div>` : ""}
@@ -10340,7 +10412,7 @@ const Reseau = (() => {
 <script>
 /* 24/24 Talk — © 2026 Sébastien Chevrier. Pages légales affichées dans l'appli (version en un fichier). */
 (function () {
-  var map = { "cgu.html": "legal-cgu", "cgv.html": "legal-cgv", "privacy.html": "legal-privacy", "mentions-legales.html": "legal-mentions" };
+  var map = { "cgu.html": "legal-cgu", "privacy.html": "legal-privacy", "mentions-legales.html": "legal-mentions" };
   function showView(id) {
     document.querySelectorAll(".view").forEach(function (v) { v.classList.remove("active"); });
     document.querySelectorAll("nav.tabs button").forEach(function (b) { b.classList.remove("active"); });
