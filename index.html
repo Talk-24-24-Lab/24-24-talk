@@ -478,6 +478,21 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .net-tb-btn{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--panel2);color:var(--text);
     display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;}
   .net-tb-btn svg{width:20px;height:20px;}
+  /* Messagerie au plus près de Messenger (couleurs ONE WORLD gardées) : gros ronds, noms simples, boutons du haut sans cadre. */
+  body.net-full .net-tb-btn{border:0;background:transparent;width:44px;height:44px;}
+  body.net-full .net-tb-btn svg{width:26px;height:26px;}
+  body.net-full .net-search{background:var(--panel2);border-color:transparent;}
+  body.net-full .net-stories{gap:16px;padding-top:8px;}
+  body.net-full .net-story{width:70px;}
+  body.net-full .net-story .net-av,body.net-full .net-story-plus{width:66px;height:66px;font-size:26px;}
+  body.net-full .net-story-plus{border:0;}
+  body.net-full .net-story-name{font-size:13px;color:var(--text);max-width:72px;}
+  body.net-full .net-flat .net-conv.net-row{padding:9px 2px;gap:14px;}
+  body.net-full .net-flat .net-row .net-av{width:58px;height:58px;font-size:23px;}
+  body.net-full .net-flat .net-row-l1 b{font-size:17px;font-weight:500;}
+  body.net-full .net-flat .net-row-l2 .net-conv-prev{font-size:15px;}
+  body.net-full .net-flat .net-row-when{font-size:13.5px;}
+  body.net-full .net-flat .net-row.unread .net-row-l1 b{font-weight:700;}
   body.net-full #netRoot .card.net-listcard{background:transparent;border:0;box-shadow:none;padding:0;}
   body.net-full #netRoot .card.net-listcard > .net-h3{display:none;}
   body.net-full #netRoot .net-listcard .net-contact{background:transparent;border:0;padding:8px 6px;}
@@ -9233,7 +9248,7 @@ const Reseau = (() => {
     if (!isCall) {
       items = list.length
         ? list.map((c) => {
-            const name = c.other ? "@" + c.other.pseudo : t("net_deleted_user");
+            const name = c.other ? c.other.pseudo : t("net_deleted_user");
             const lang = c.other ? langLabel(c.other.lang) : "";
             const blocked = c.otherId && blockedIds.has(c.otherId) ? " 🚫" : "";
             const prev = !(c.last && visibleForMe(c.last)) ? ""
