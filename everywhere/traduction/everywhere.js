@@ -41,7 +41,7 @@
       save: "Enregistrer", saved: "Enregistré.", close: "Fermer",
       set_sound: "Lire la traduction à voix haute", set_volume: "Volume", set_size: "Taille du texte (côte à côte)", sizes: "Normal|Grand|Très grand",
       set_note: "Ces réglages restent sur cet appareil. Thème et contraste : Paramètres de 24/24 ONE WORLD.", a11y_link: "Ouvrir les Paramètres",
-      c_search: "Rechercher un contact", c_invite: "📨 Inviter un contact", c_invite_d: "Le lien TALK part par SMS, WhatsApp ou e-mail. Dès que la personne a choisi son pseudo, elle apparaît ici.",
+      c_search: "Rechercher un contact", c_invite: "📨 Inviter un contact", invite_talk: "📨 Inviter sur TALK", invite_talk_d: "Envoyer le lien TALK à une personne", c_invite_d: "Le lien TALK part par SMS, WhatsApp ou e-mail. Dès que la personne a choisi son pseudo, elle apparaît ici.",
       c_call: "Appeler", c_loading: "Lecture de vos contacts TALK…", c_none: "Pas encore de contact. Invitez quelqu'un : il apparaîtra ici dès qu'il aura choisi son pseudo.",
       c_nomatch: "Aucun contact ne correspond.", c_err: "Impossible de lire vos contacts pour le moment.", retry: "Réessayer",
       c_off: "La messagerie de TALK n'est pas activée sur ce site.", c_noprof: "Il faut d'abord un profil TALK (un pseudo et votre langue, sans e-mail ni numéro).",
@@ -82,7 +82,7 @@
       save: "Save", saved: "Saved.", close: "Close",
       set_sound: "Read the translation aloud", set_volume: "Volume", set_size: "Text size (side by side)", sizes: "Normal|Large|Extra large",
       set_note: "These settings stay on this device. Theme and contrast: 24/24 ONE WORLD Settings.", a11y_link: "Open Settings",
-      c_search: "Search a contact", c_invite: "📨 Invite a contact", c_invite_d: "The TALK link goes by SMS, WhatsApp or email. As soon as the person picks a username, they appear here.",
+      c_search: "Search a contact", c_invite: "📨 Invite a contact", invite_talk: "📨 Invite to TALK", invite_talk_d: "Send the TALK link to someone", c_invite_d: "The TALK link goes by SMS, WhatsApp or email. As soon as the person picks a username, they appear here.",
       c_call: "Call", c_loading: "Reading your TALK contacts…", c_none: "No contact yet. Invite someone: they'll appear here as soon as they pick a username.",
       c_nomatch: "No matching contact.", c_err: "Your contacts can't be read right now.", retry: "Try again",
       c_off: "TALK messaging is not enabled on this site.", c_noprof: "You need a TALK profile first (a username and your language, no email or phone number).",
@@ -174,6 +174,7 @@
       '<a class="tr-big face" id="trGoFace" href="#/everywhere/face"><span class="tr-big-ic">' + ic("face") + "</span><span><b>" + esc(t("face")) + "</b><small>" + esc(t("face_d")) + "</small></span></a>" +
       '<a class="tr-big call" id="trGoCall" href="#/everywhere/appel"><span class="tr-big-ic">' + ic("call") + "</span><span><b>" + esc(t("call")) + "</b><small>" + esc(t("call_d")) + "</small></span></a>" +
       '<a class="tr-big trip" id="trGoTrip" href="#/everywhere/voyage"><span class="tr-big-ic">' + ic("trip") + "</span><span><b>" + esc(t("trip")) + "</b><small>" + esc(t("trip_d")) + "</small></span></a>" +
+      '<a class="tr-row" id="trGoInvite" href="#/everywhere/appel"><b>' + esc(t("invite_talk")) + "</b><span>" + esc(t("invite_talk_d")) + "</span></a>" +
       '<a class="tr-row" href="#/everywhere/langues"><b>' + esc(t("my_langs")) + "</b><span>" + esc(langName(p.me)) + " ⇄ " + esc(langName(p.other)) + "</span></a>" +
       '<a class="tr-row" href="#/everywhere/reglages"><b>' + esc(t("settings")) + "</b><span>" + esc(t("settings_d")) + "</span></a>";
   }
@@ -193,6 +194,7 @@
           '<button type="button" class="tr-tool" id="trOut">' + outLabel(p.out) + "</button>" +
           '<button type="button" class="tr-tool" id="trHands" role="switch" aria-checked="' + p.hands + '">🙌 ' + esc(t("hands_btn")) + "</button>" +
           '<button type="button" class="tr-tool" id="trSize">A+ ' + esc(t("text_btn")) + "</button>" +
+          '<a class="tr-tool" id="trFaceInvite" href="#/everywhere/appel">' + esc(t("invite_talk")) + "</a>" +
           '<a class="tr-tool" href="#/everywhere/reglages" aria-label="' + esc(t("settings")) + '">⚙</a>' +
         "</div>" +
         halfHtml(2) +
