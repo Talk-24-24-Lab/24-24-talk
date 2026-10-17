@@ -188,6 +188,17 @@ html.reduce-motion *{animation:none !important;transition:none !important;}
 .duo-card:hover{border-color:rgba(33,212,253,.55);}
 .duo-card:active{transform:scale(.985);}
 .duo-card:focus-visible{outline:3px solid #21d4fd;outline-offset:3px;}
+/* Accueil plus vif (17 oct. 2026) : tuiles en couleur pleine, mêmes couleurs que l'accueil de TALK. */
+.duo-card{border:none;box-shadow:0 8px 22px rgba(0,0,0,.3);}
+.duo-card.talk{background:linear-gradient(135deg,#35b8ff 0%,#1a73e8 60%,#1656c8 100%);}
+.duo-card.ew{background:linear-gradient(135deg,#26c06c 0%,#119152 55%,#0b7440 100%);}
+.duo-card.trip{background:linear-gradient(135deg,#ffa23a 0%,#ef7a14 55%,#d4600a 100%);}
+.duo-card.learn{background:linear-gradient(135deg,#b48cff 0%,#7c4dff 60%,#5f35d8 100%);}
+.duo-card .duo-ic,.duo-card.talk .duo-ic,.duo-card.ew .duo-ic,.duo-card.trip .duo-ic,.duo-card.learn .duo-ic{background:rgba(255,255,255,.22);box-shadow:none;}
+.duo-card .duo-d{color:rgba(255,255,255,.95);}
+.duo-txt{text-shadow:0 1px 2px rgba(0,0,0,.28);}
+.duo-card .hm-go{stroke:#fff;}
+.duo-card:hover{filter:brightness(1.06);}
 html.contrast-high .duo-card{border:2px solid #fff;}
 html.contrast-high .duo-d, html.contrast-high .home-head .lead{color:#fff;}
 /* « Gratuit pour tous » (0.8.4, remplace le compte à rebours). */

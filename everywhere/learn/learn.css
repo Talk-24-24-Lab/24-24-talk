@@ -125,3 +125,10 @@
   .lx-opts{display:grid;grid-template-columns:1fr 1fr;}
 }
 @media (min-width:960px){ .lx-mods{grid-template-columns:repeat(3,1fr);} }
+
+/* Modules plus vifs (17 oct. 2026) : chaque module a sa couleur. */
+.lx-mod{--m:#7c4dff;background:linear-gradient(135deg,color-mix(in srgb,var(--m) 30%,var(--panel)) 0%,color-mix(in srgb,var(--m) 10%,var(--panel)) 100%);border-color:color-mix(in srgb,var(--m) 45%,transparent);}
+.lx-mod-ic{background:var(--m);box-shadow:0 6px 14px color-mix(in srgb,var(--m) 40%,transparent);}
+.lx-mod:nth-child(6n+1){--m:#7c4dff;} .lx-mod:nth-child(6n+2){--m:#ff5f9e;} .lx-mod:nth-child(6n+3){--m:#f7931e;}
+.lx-mod:nth-child(6n+4){--m:#1a73e8;} .lx-mod:nth-child(6n+5){--m:#14a35a;} .lx-mod:nth-child(6n+6){--m:#0ea392;}
+.lx-mod:hover{border-color:var(--m);}

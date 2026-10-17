@@ -345,6 +345,19 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .home-tr{margin:-2px 0 14px;}
   /* Avant que le script ne dessine les deux touches et l'interrupteur de traduction : leur place est réservée
      (touches 200 px + interrupteur environ 86 px) pour que le texte et le pied de page ne sautent pas. */
+  /* Accueil plus vif (17 oct. 2026) : chaque espace a sa couleur pleine, la même partout (TALK bleu, téléphone turquoise, EVERYWHERE vert, Voyage orange, Apprendre violet). */
+  .home-tile{border:none;color:#fff;box-shadow:0 8px 22px rgba(0,0,0,.25);}
+  .home-tile.chat{background:linear-gradient(135deg,#35b8ff 0%,#1a73e8 60%,#1656c8 100%);}
+  .home-tile.call{background:linear-gradient(135deg,#1cc2a6 0%,#0c9384 55%,#09766b 100%);}
+  .home-tile.ew{background:linear-gradient(135deg,#26c06c 0%,#119152 55%,#0b7440 100%);}
+  .home-tile.trip{background:linear-gradient(135deg,#ffa23a 0%,#ef7a14 55%,#d4600a 100%);}
+  .home-tile.learn{background:linear-gradient(135deg,#b48cff 0%,#7c4dff 60%,#5f35d8 100%);}
+  .home-tile .home-tile-ic,.home-tile.chat .home-tile-ic,.home-tile.ew .home-tile-ic,.home-tile.trip .home-tile-ic,.home-tile.learn .home-tile-ic{background:rgba(255,255,255,.22);box-shadow:none;}
+  .home-tile .home-tile-sub{color:rgba(255,255,255,.95);}
+  .home-tile-txt{text-shadow:0 1px 2px rgba(0,0,0,.28);}
+  .home-tile::after{border-color:rgba(255,255,255,.85);}
+  .home-tile:hover{border-color:transparent;filter:brightness(1.06);}
+  html.contrast-high .home-tile{border:2px solid #fff;}
   .home-tiles:empty{min-height:340px;margin-bottom:100px;}
   .tr-switch{display:flex;gap:4px;padding:4px;background:var(--panel);border:1px solid var(--line);border-radius:999px;}
   .tr-switch button{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:6px;border:none;background:transparent;

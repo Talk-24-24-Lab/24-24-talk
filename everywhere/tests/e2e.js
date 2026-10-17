@@ -83,10 +83,10 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     return { ok: u.pathname === BASE + "index.html" && u.search === "?ew=1" && r.ew === "#/everywhere" && r.trip === "#/everywhere/voyage" && r.learn === "#/learn" && r.frames === 0,
       detail: u.pathname + u.search + " · " + r.ew + " · " + r.trip + " · " + r.learn };
   });
-  await step("Accueil bleu nuit, planète dessinée en CSS (sans image), icônes en dégradé, barre du bas bleu nuit avec onglet actif cyan", async () => {
+  await step("Accueil bleu nuit, planète dessinée en CSS (sans image), tuiles en couleur pleine, barre du bas bleu nuit avec onglet actif cyan", async () => {
     const c = await page.evaluate(() => ({ home: getComputedStyle(document.getElementById("view-accueil")).backgroundColor,
       sky: getComputedStyle(document.querySelector("#view-accueil .home-head")).backgroundImage,
-      talk: getComputedStyle(document.querySelector("#cardTalk .duo-ic")).backgroundImage, nav: getComputedStyle(document.getElementById("mainnav")).backgroundColor,
+      talk: getComputedStyle(document.querySelector("#cardTalk")).backgroundImage, nav: getComputedStyle(document.getElementById("mainnav")).backgroundColor,
       act: getComputedStyle(document.querySelector('#mainnav a[aria-current="page"]') || document.querySelector("#mainnav a")).color }));
     return { ok: c.home === "rgb(8, 17, 31)" && /radial-gradient/.test(c.sky) && /63, 169, 245/.test(c.sky) && !/url\(/.test(c.sky) && /26, 115, 232/.test(c.talk) && c.nav === "rgb(11, 21, 38)",
       detail: "fond " + c.home + " · barre du bas " + c.nav };
