@@ -195,6 +195,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   header h1{display:flex;align-items:center;justify-content:center;gap:0;}
   header h1{margin:0;font-size:22px;letter-spacing:.3px;}
   header p{margin:4px 0 0;color:var(--muted);font-size:13px;}
+  header p.slogan{margin:6px 0 4px !important;color:#fff !important;font-size:18px !important;font-weight:700;letter-spacing:-.01em;line-height:1.15;}
   nav.tabs{display:flex;gap:6px;padding:10px 12px;overflow-x:auto;}
   nav.tabs button{flex:0 0 auto;border:1px solid var(--line);background:var(--panel);color:var(--text);
     padding:9px 14px;border-radius:999px;font-size:13px;cursor:pointer;white-space:nowrap;}
@@ -260,6 +261,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .srcbadge{font-size:11px;color:var(--muted);margin-top:4px;}
   .srcbadge.verified{color:var(--ok);font-weight:600;}
   .disclaimer{font-size:11.5px;color:var(--muted);text-align:center;margin:6px 0 2px;line-height:1.4;}
+  .disclaimer.langs-n{margin:18px 0 4px;color:#1fe2cd;font-size:15px;font-weight:700;letter-spacing:.04em;}
   .conv-log{display:flex;flex-direction:column;gap:10px;margin-bottom:12px;}
   .bubble{max-width:80%;padding:10px 13px;border-radius:14px;font-size:15px;line-height:1.35;}
   .bubble.me{align-self:flex-end;background:var(--blue);color:#fff;border-bottom-right-radius:4px;}
@@ -621,7 +623,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   </svg>
   <button type="button" class="settings-btn" id="settingsBtn" aria-label="Paramètres" data-i18n-aria="tab_settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
   <h1 dir="ltr">24/24 Talk</h1>
-  <p data-i18n="tagline">Parlez votre langue, 24h/24. 24/24 Talk fait le reste.</p>
+  <p class="slogan" data-i18n="slogan">Le monde se parle. Enfin.</p>
 </header>
 
 <div class="install-top" id="installTop">
@@ -648,7 +650,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   <!-- ACCUEIL : les deux grandes touches Téléphone et Messagerie -->
   <section id="home" class="view active">
     <div class="home-tiles" id="homeTiles"></div>
-    <p class="disclaimer" data-i18n="disclaimer">✨ 112 langues, une seule appli.</p>
+    <p class="disclaimer langs-n" data-i18n="disclaimer">112 langues, 1 application</p>
   </section>
 
   <!-- TRADUIRE -->
@@ -3619,6 +3621,7 @@ const UI_STRINGS = {
     install_ios: "Sur iPhone, dans Safari : bouton Partager ⬆ → « Sur l'écran d'accueil ».",
     install_done: "24/24 Talk est installée sur cet appareil.",
     tagline: "Parlez votre langue, 24h/24. 24/24 Talk fait le reste.",
+    slogan: "Le monde se parle. Enfin.",
     promo_html: "🎁 Gratuit pour tous.",
     close: "Fermer",
     tab_home: "Accueil", tab_tr: "🌐 Traduire", tab_conv: "👥 Face à face", tab_hist: "Historique", tab_fav: "Favoris", tab_settings: "Paramètres",
@@ -3630,7 +3633,7 @@ const UI_STRINGS = {
     voice_hint_kb: "Appuyez sur le micro de votre clavier et parlez : la traduction s'affiche et se lit toute seule dès que vous faites une pause.",
     result_label: "Traduction",
     copy: "📋 Copier", share: "↗ Partager", listen: "🔊 Écouter", fav: "❤️ Favori",
-    disclaimer: "✨ 112 langues, une seule appli.",
+    disclaimer: "112 langues, 1 application",
     conv_empty: "Écrivez votre premier message ci-dessous.", conv_ph: "Votre message…", send: "Envoyer", restart: "🗑 Recommencer",
     hist_search_ph: "Rechercher dans l'historique…", clear_all: "Tout supprimer",
     theme: "Thème sombre / clair", theme_auto: "Suit votre appareil", autospeak: "Lecture audio automatique",
@@ -3692,6 +3695,7 @@ const UI_STRINGS = {
     install_ios: "On iPhone, in Safari: Share button ⬆ → “Add to Home Screen”.",
     install_done: "24/24 Talk is installed on this device.",
     tagline: "Speak your language, 24/7. 24/24 Talk does the rest.",
+    slogan: "The world speaks. At last.",
     promo_html: "🎁 Free for everyone.",
     close: "Close",
     tab_home: "Home", tab_tr: "🌐 Translate", tab_conv: "👥 Face to face", tab_hist: "History", tab_fav: "Favorites", tab_settings: "Settings",
@@ -3703,7 +3707,7 @@ const UI_STRINGS = {
     voice_hint_kb: "Tap the microphone on your keyboard and speak: the translation appears and is read aloud as soon as you pause.",
     result_label: "Translation",
     copy: "📋 Copy", share: "↗ Share", listen: "🔊 Listen", fav: "❤️ Favorite",
-    disclaimer: "✨ 112 languages, one app.",
+    disclaimer: "112 languages, 1 app",
     conv_empty: "Write your first message below.", conv_ph: "Your message…", send: "Send", restart: "🗑 Start over",
     hist_search_ph: "Search history…", clear_all: "Delete all",
     theme: "Dark / light theme", theme_auto: "Follows your device", autospeak: "Read translations aloud",
@@ -3765,6 +3769,7 @@ const UI_STRINGS = {
     install_ios: "En iPhone, en Safari: botón Compartir ⬆ → «Añadir a pantalla de inicio».",
     install_done: "24/24 Talk está instalada en este dispositivo.",
     tagline: "Habla tu idioma, 24 horas al día. 24/24 Talk se encarga del resto.",
+    slogan: "El mundo conversa. Por fin.",
     promo_html: "🎁 Gratis para todos.",
     close: "Cerrar",
     tab_home: "Inicio", tab_tr: "🌐 Traducir", tab_conv: "👥 Cara a cara", tab_hist: "Historial", tab_fav: "Favoritos", tab_settings: "Ajustes",
@@ -3776,7 +3781,7 @@ const UI_STRINGS = {
     voice_hint_kb: "Pulsa el micrófono de tu teclado y habla: la traducción aparece y se lee sola en cuanto haces una pausa.",
     result_label: "Traducción",
     copy: "📋 Copiar", share: "↗ Compartir", listen: "🔊 Escuchar", fav: "❤️ Favorito",
-    disclaimer: "✨ 112 idiomas, una sola app.",
+    disclaimer: "112 idiomas, 1 aplicación",
     conv_empty: "Escribe tu primer mensaje abajo.", conv_ph: "Tu mensaje…", send: "Enviar", restart: "🗑 Empezar de nuevo",
     hist_search_ph: "Buscar en el historial…", clear_all: "Borrar todo",
     theme: "Tema oscuro / claro", theme_auto: "Sigue tu dispositivo", autospeak: "Leer las traducciones en voz alta",
@@ -3838,6 +3843,7 @@ const UI_STRINGS = {
     install_ios: "No iPhone, no Safari: botão Compartilhar ⬆ → “Adicionar à Tela de Início”.",
     install_done: "O 24/24 Talk está instalado neste aparelho.",
     tagline: "Fale a sua língua, 24 horas por dia. O 24/24 Talk faz o resto.",
+    slogan: "O mundo conversa. Finalmente.",
     promo_html: "🎁 Grátis para todos.",
     close: "Fechar",
     tab_home: "Início", tab_tr: "🌐 Traduzir", tab_conv: "👥 Frente a frente", tab_hist: "Histórico", tab_fav: "Favoritos", tab_settings: "Configurações",
@@ -3849,7 +3855,7 @@ const UI_STRINGS = {
     voice_hint_kb: "Toque no microfone do seu teclado e fale: a tradução aparece e é lida sozinha assim que você fizer uma pausa.",
     result_label: "Tradução",
     copy: "📋 Copiar", share: "↗ Compartilhar", listen: "🔊 Ouvir", fav: "❤️ Favorito",
-    disclaimer: "✨ 112 idiomas, um só app.",
+    disclaimer: "112 línguas, 1 aplicação",
     conv_empty: "Escreva sua primeira mensagem abaixo.", conv_ph: "Sua mensagem…", send: "Enviar", restart: "🗑 Recomeçar",
     hist_search_ph: "Pesquisar no histórico…", clear_all: "Apagar tudo",
     theme: "Tema escuro / claro", theme_auto: "Segue o seu aparelho", autospeak: "Ler as traduções em voz alta",
@@ -3911,6 +3917,7 @@ const UI_STRINGS = {
     install_ios: "Auf dem iPhone, in Safari: Teilen-Taste ⬆ → „Zum Home-Bildschirm“.",
     install_done: "24/24 Talk ist auf diesem Gerät installiert.",
     tagline: "Sprich deine Sprache, rund um die Uhr. 24/24 Talk erledigt den Rest.",
+    slogan: "Die Welt spricht miteinander. Endlich.",
     promo_html: "🎁 Kostenlos für alle.",
     close: "Schließen",
     tab_home: "Start", tab_tr: "🌐 Übersetzen", tab_conv: "👥 Gegenüber", tab_hist: "Verlauf", tab_fav: "Favoriten", tab_settings: "Einstellungen",
@@ -3922,7 +3929,7 @@ const UI_STRINGS = {
     voice_hint_kb: "Tippe auf das Mikrofon deiner Tastatur und sprich: Die Übersetzung erscheint und wird vorgelesen, sobald du eine Pause machst.",
     result_label: "Übersetzung",
     copy: "📋 Kopieren", share: "↗ Teilen", listen: "🔊 Anhören", fav: "❤️ Favorit",
-    disclaimer: "✨ 112 Sprachen, eine App.",
+    disclaimer: "112 Sprachen, 1 App",
     conv_empty: "Schreibe unten deine erste Nachricht.", conv_ph: "Deine Nachricht…", send: "Senden", restart: "🗑 Neu beginnen",
     hist_search_ph: "Verlauf durchsuchen…", clear_all: "Alles löschen",
     theme: "Dunkles / helles Design", theme_auto: "Folgt deinem Gerät", autospeak: "Übersetzungen vorlesen",
@@ -3984,6 +3991,7 @@ const UI_STRINGS = {
     install_ios: "Su iPhone, in Safari: pulsante Condividi ⬆ → «Aggiungi alla schermata Home».",
     install_done: "24/24 Talk è installata su questo dispositivo.",
     tagline: "Parla la tua lingua, 24 ore su 24. Al resto pensa 24/24 Talk.",
+    slogan: "Il mondo dialoga. Finalmente.",
     promo_html: "🎁 Gratis per tutti.",
     close: "Chiudi",
     tab_home: "Home", tab_tr: "🌐 Traduci", tab_conv: "👥 Faccia a faccia", tab_hist: "Cronologia", tab_fav: "Preferiti", tab_settings: "Impostazioni",
@@ -3995,7 +4003,7 @@ const UI_STRINGS = {
     voice_hint_kb: "Tocca il microfono della tastiera e parla: la traduzione appare e viene letta da sola appena fai una pausa.",
     result_label: "Traduzione",
     copy: "📋 Copia", share: "↗ Condividi", listen: "🔊 Ascolta", fav: "❤️ Preferito",
-    disclaimer: "✨ 112 lingue, una sola app.",
+    disclaimer: "112 lingue, 1 app",
     conv_empty: "Scrivi qui sotto il tuo primo messaggio.", conv_ph: "Il tuo messaggio…", send: "Invia", restart: "🗑 Ricomincia",
     hist_search_ph: "Cerca nella cronologia…", clear_all: "Elimina tutto",
     theme: "Tema scuro / chiaro", theme_auto: "Segue il tuo dispositivo", autospeak: "Leggi le traduzioni ad alta voce",
@@ -4057,6 +4065,7 @@ const UI_STRINGS = {
     install_ios: "在 iPhone 的 Safari 中：分享按钮 ⬆ →「添加到主屏幕」。",
     install_done: "24/24 Talk 已安装在此设备上。",
     tagline: "说你的语言，全天候。其余交给 24/24 Talk。",
+    slogan: "世界终于能对话了。",
     promo_html: "🎁 对所有人免费。",
     close: "关闭",
     tab_home: "首页", tab_tr: "🌐 翻译", tab_conv: "👥 面对面", tab_hist: "历史", tab_fav: "收藏", tab_settings: "设置",
@@ -4068,7 +4077,7 @@ const UI_STRINGS = {
     voice_hint_kb: "点按键盘上的麦克风并说话：只要你一停顿，译文就会显示并自动朗读。",
     result_label: "译文",
     copy: "📋 复制", share: "↗ 分享", listen: "🔊 收听", fav: "❤️ 收藏",
-    disclaimer: "✨ 112 种语言，一个应用。",
+    disclaimer: "112 种语言，1 个应用",
     conv_empty: "在下方写下你的第一条消息。", conv_ph: "你的消息…", send: "发送", restart: "🗑 重新开始",
     hist_search_ph: "搜索历史记录…", clear_all: "全部删除",
     theme: "深色 / 浅色主题", theme_auto: "跟随设备", autospeak: "自动朗读译文",
@@ -4130,6 +4139,7 @@ const UI_STRINGS = {
     install_ios: "iPhone の Safari の場合：共有ボタン ⬆ →「ホーム画面に追加」。",
     install_done: "24/24 Talk はこの端末にインストール済みです。",
     tagline: "あなたの言葉で、24時間いつでも。あとは 24/24 Talk におまかせ。",
+    slogan: "世界が語り合う。ついに。",
     promo_html: "🎁 すべての人に無料。",
     close: "閉じる",
     tab_home: "ホーム", tab_tr: "🌐 翻訳", tab_conv: "👥 対面", tab_hist: "履歴", tab_fav: "お気に入り", tab_settings: "設定",
@@ -4141,7 +4151,7 @@ const UI_STRINGS = {
     voice_hint_kb: "キーボードのマイクをタップして話してください。話を区切ると、翻訳が表示されて自動で読み上げられます。",
     result_label: "翻訳",
     copy: "📋 コピー", share: "↗ 共有", listen: "🔊 聞く", fav: "❤️ お気に入り",
-    disclaimer: "✨ 112言語をひとつのアプリで。",
+    disclaimer: "112言語、1つのアプリ",
     conv_empty: "下に最初のメッセージを書いてください。", conv_ph: "メッセージ…", send: "送信", restart: "🗑 最初から",
     hist_search_ph: "履歴を検索…", clear_all: "すべて削除",
     theme: "ダーク / ライトテーマ", theme_auto: "端末の設定に合わせる", autospeak: "翻訳を自動で読み上げる",
@@ -4203,6 +4213,7 @@ const UI_STRINGS = {
     install_ios: "على iPhone في Safari: زر المشاركة ⬆ ← «إضافة إلى الشاشة الرئيسية».",
     install_done: "تم تثبيت ⁦24/24 Talk⁩ على هذا الجهاز.",
     tagline: "تحدَّث بلغتك، على مدار الساعة. و⁦24/24 Talk⁩ يتكفّل بالباقي.",
+    slogan: "العالم يتحاور. أخيرًا.",
     promo_html: "🎁 مجاني للجميع.",
     close: "إغلاق",
     tab_home: "الرئيسية", tab_tr: "🌐 ترجمة", tab_conv: "👥 وجهًا لوجه", tab_hist: "السجل", tab_fav: "المفضلة", tab_settings: "الإعدادات",
@@ -4214,7 +4225,7 @@ const UI_STRINGS = {
     voice_hint_kb: "اضغط على ميكروفون لوحة المفاتيح وتحدَّث: تظهر الترجمة وتُقرأ تلقائيًا بمجرد أن تتوقف قليلًا.",
     result_label: "الترجمة",
     copy: "📋 نسخ", share: "↗ مشاركة", listen: "🔊 استماع", fav: "❤️ المفضلة",
-    disclaimer: "✨ 112 لغة في تطبيق واحد.",
+    disclaimer: "112 لغة، تطبيق واحد",
     conv_empty: "اكتب رسالتك الأولى في الأسفل.", conv_ph: "رسالتك…", send: "إرسال", restart: "🗑 البدء من جديد",
     hist_search_ph: "البحث في السجل…", clear_all: "حذف الكل",
     theme: "المظهر الداكن / الفاتح", theme_auto: "يتبع جهازك", autospeak: "قراءة الترجمات بصوت عالٍ",
@@ -4276,6 +4287,7 @@ const UI_STRINGS = {
     install_ios: "На iPhone, в Safari: кнопка «Поделиться» ⬆ → «На экран „Домой“».",
     install_done: "24/24 Talk установлено на этом устройстве.",
     tagline: "Говорите на своём языке круглосуточно. Остальное сделает 24/24 Talk.",
+    slogan: "Мир говорит друг с другом. Наконец-то.",
     promo_html: "🎁 Бесплатно для всех.",
     close: "Закрыть",
     tab_home: "Главная", tab_tr: "🌐 Перевод", tab_conv: "👥 Лицом к лицу", tab_hist: "История", tab_fav: "Избранное", tab_settings: "Настройки",
@@ -4287,7 +4299,7 @@ const UI_STRINGS = {
     voice_hint_kb: "Нажмите на микрофон клавиатуры и говорите: перевод появится и будет зачитан, как только вы сделаете паузу.",
     result_label: "Перевод",
     copy: "📋 Копировать", share: "↗ Поделиться", listen: "🔊 Слушать", fav: "❤️ В избранное",
-    disclaimer: "✨ 112 языков в одном приложении.",
+    disclaimer: "112 языков, 1 приложение",
     conv_empty: "Напишите первое сообщение ниже.", conv_ph: "Ваше сообщение…", send: "Отправить", restart: "🗑 Начать заново",
     hist_search_ph: "Поиск по истории…", clear_all: "Удалить всё",
     theme: "Тёмная / светлая тема", theme_auto: "Как на устройстве", autospeak: "Зачитывать переводы вслух",
@@ -4349,6 +4361,7 @@ const UI_STRINGS = {
     install_ios: "Amin'ny iPhone, ao amin'ny Safari: bokotra Partager ⬆ → « Sur l'écran d'accueil ».",
     install_done: "Efa voapetraka amin'ity fitaovana ity ny 24/24 Talk.",
     tagline: "Mitenena amin'ny fiteninao, 24 ora/24. Ny 24/24 Talk no mikarakara ny ambiny.",
+    slogan: "Mifampiresaka izao tontolo izao. Tamin'ny farany.",
     promo_html: "🎁 Maimaimpoana ho an'ny rehetra.",
     close: "Hidiana",
     tab_home: "Fandraisana",
@@ -4371,7 +4384,7 @@ const UI_STRINGS = {
     share: "↗ Hizara",
     listen: "🔊 Hihaino",
     fav: "❤️ Ankafizina",
-    disclaimer: "✨ Fiteny 112, appli iray ihany.",
+    disclaimer: "Fiteny 112, fampiharana 1",
     conv_empty: "Soraty eto ambany ny hafatrao voalohany.",
     conv_ph: "Ny hafatrao…",
     send: "Alefa",
