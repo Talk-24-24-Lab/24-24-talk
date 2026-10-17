@@ -170,7 +170,7 @@ html.reduce-motion *{animation:none !important;transition:none !important;}
     linear-gradient(180deg,#050b18 0%,#08142c 70%,#08111f 100%);}
 .home-head::after{content:"";position:absolute;left:0;right:0;bottom:0;height:56px;background:linear-gradient(180deg,rgba(8,17,31,0),#08111f);}
 .home-head h1{position:relative;z-index:1;margin:0;font-size:40px;line-height:1.05;font-weight:800;letter-spacing:-.035em;color:#fff;}
-.home-head .langs-n{position:relative;z-index:1;margin:10px 0 0;color:#1fe2cd;font-size:14px;font-weight:700;letter-spacing:.04em;}
+.home .langs-n{position:relative;z-index:1;margin:22px 0 4px;text-align:center;color:#1fe2cd;font-size:15px;font-weight:700;letter-spacing:.04em;}
 .home-head .lead{position:relative;z-index:1;margin:12px 0 0;max-width:300px;color:#dbe4f3;font-size:16px;line-height:1.45;}
 .home-body{position:relative;z-index:2;margin-top:-64px;padding-top:0;padding-bottom:28px;width:100%;}
 .duo{display:grid;grid-template-columns:1fr;gap:10px;}
