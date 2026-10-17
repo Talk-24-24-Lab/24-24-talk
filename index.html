@@ -328,20 +328,13 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .home-tile.ew .home-tile-ic{background:linear-gradient(135deg,#9d8bff,#5b45e0);box-shadow:0 6px 16px rgba(110,90,240,.32);}
   .home-tile.trip .home-tile-ic{background:linear-gradient(135deg,#ffc04d,#e8890c);box-shadow:0 6px 16px rgba(232,137,12,.3);}
   .home-tile.learn .home-tile-ic{background:linear-gradient(135deg,#ff8fb4,#e0457b);box-shadow:0 6px 16px rgba(224,69,123,.3);}
-  /* Accueil compact (17 oct. 2026) : tout tient sur un écran de téléphone. Messagerie et Téléphone côte à côte,
-     puis EVERYWHERE, Voyage et Apprendre en trois petites touches. */
-  .home-tiles{grid-template-columns:repeat(6,1fr);gap:8px;}
-  .home-tile{flex-direction:column;align-items:flex-start;gap:8px;min-height:0;padding:12px;grid-column:span 3;}
-  .home-tile::after{display:none;}
-  .home-tile.ew, .home-tile.trip, .home-tile.learn{grid-column:span 2;align-items:center;text-align:center;padding:10px 6px;gap:6px;}
-  .home-tile.ew .home-tile-ic, .home-tile.trip .home-tile-ic, .home-tile.learn .home-tile-ic{width:40px;height:40px;border-radius:12px;}
-  .home-tile.ew .home-tile-ic svg, .home-tile.trip .home-tile-ic svg, .home-tile.learn .home-tile-ic svg{width:22px;height:22px;}
-  .home-tile.ew .home-tile-name, .home-tile.trip .home-tile-name, .home-tile.learn .home-tile-name{font-size:13.5px;overflow-wrap:normal;}
-  .home-tile.ew .home-tile-name{font-size:12px;letter-spacing:-.2px;}
-  .home-tile.ew .home-tile-sub, .home-tile.trip .home-tile-sub, .home-tile.learn .home-tile-sub{font-size:11.5px;line-height:1.25;margin-top:2px;
-    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-  .home-tile-txt{width:100%;}
-  .home-tile-sub{font-size:13px;}
+  /* Accueil (17 oct. 2026) : cinq lignes plus basses pour que tout tienne sur un écran de téléphone. */
+  .home-tiles{gap:7px;}
+  .home-tile{min-height:0;padding:8px 40px 8px 12px;gap:12px;}
+  .home-tile-ic{width:42px;height:42px;border-radius:12px;}
+  .home-tile-ic svg{width:23px;height:23px;}
+  .home-tile-name{font-size:16px;}
+  .home-tile-sub{font-size:13.5px;margin-top:1px;}
   .home-tile-name{font-size:16.5px;font-weight:800;line-height:1.2;overflow-wrap:anywhere;}
   .home-tile-sub{display:block;font-size:14px;color:var(--muted);line-height:1.35;margin-top:3px;}
   .home-tile-txt{flex:1;min-width:0;}
@@ -352,7 +345,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .home-tr{margin:-2px 0 14px;}
   /* Avant que le script ne dessine les deux touches et l'interrupteur de traduction : leur place est réservée
      (touches 200 px + interrupteur environ 86 px) pour que le texte et le pied de page ne sautent pas. */
-  .home-tiles:empty{min-height:240px;margin-bottom:100px;}
+  .home-tiles:empty{min-height:340px;margin-bottom:100px;}
   .tr-switch{display:flex;gap:4px;padding:4px;background:var(--panel);border:1px solid var(--line);border-radius:999px;}
   .tr-switch button{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:6px;border:none;background:transparent;
     color:var(--muted);font-family:inherit;font-weight:700;font-size:14.5px;padding:11px 8px;border-radius:999px;cursor:pointer;
