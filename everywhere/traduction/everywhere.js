@@ -175,7 +175,7 @@
       '<a class="tr-big face" id="trGoFace" href="#/everywhere/face"><span class="tr-big-ic">' + ic("face") + "</span><span><b>" + esc(t("face")) + "</b><small>" + esc(t("face_d")) + "</small></span></a>" +
       '<a class="tr-big call" id="trGoCall" href="#/everywhere/appel"><span class="tr-big-ic">' + ic("call") + "</span><span><b>" + esc(t("call")) + "</b><small>" + esc(t("call_d")) + "</small></span></a>" +
       '<a class="tr-big trip" id="trGoTrip" href="#/everywhere/voyage"><span class="tr-big-ic">' + ic("trip") + "</span><span><b>" + esc(t("trip")) + "</b><small>" + esc(t("trip_d")) + "</small></span></a>" +
-      '<button type="button" class="tr-row tr-row-btn" id="trGoInvite" data-invite-now><b>' + esc(t("invite_talk")) + "</b><span>" + esc(t("invite_talk_d")) + "</span></button>" +
+      '<button type="button" class="tr-big invite" id="trGoInvite" data-invite-now><span class="tr-big-ic tr-wave" aria-hidden="true">👋</span><span><b>' + esc(t("invite_talk").replace(/^📨\s*/, "")) + "</b><small>" + esc(t("invite_talk_d")) + "</small></span></button>" +
       '<a class="tr-row" href="#/everywhere/langues"><b>' + esc(t("my_langs")) + "</b><span>" + esc(langName(p.me)) + " ⇄ " + esc(langName(p.other)) + "</span></a>" +
       '<a class="tr-row" href="#/everywhere/reglages"><b>' + esc(t("settings")) + "</b><span>" + esc(t("settings_d")) + "</span></a>";
   }
@@ -196,7 +196,7 @@
           '<button type="button" class="tr-tool" id="trOut">' + outLabel(p.out) + "</button>" +
           '<button type="button" class="tr-tool" id="trHands" role="switch" aria-checked="' + p.hands + '">🙌 ' + esc(t("hands_btn")) + "</button>" +
           '<button type="button" class="tr-tool" id="trSize">A+ ' + esc(t("text_btn")) + "</button>" +
-          '<button type="button" class="tr-tool" id="trFaceInvite" data-invite-now>' + esc(t("invite_talk")) + "</button>" +
+          '<button type="button" class="tr-tool tr-invite-pill" id="trFaceInvite" data-invite-now><span class="tr-wave" aria-hidden="true">👋</span> ' + esc(t("invite_talk").replace(/^📨\s*/, "")) + "</button>" +
           '<a class="tr-tool" href="#/everywhere/reglages" aria-label="' + esc(t("settings")) + '">⚙</a>' +
         "</div>" +
         halfHtml(2) +
