@@ -603,7 +603,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   <p data-i18n="tagline">Parlez votre langue, 24h/24. 24/24 Talk fait le reste.</p>
 </header>
 
-<p class="promo-banner" data-i18n-html="promo_html">🎁 Gratuit jusqu'au 1er novembre 2026 — ensuite 1,99&nbsp;€/mois. <a href="cgv.html">Voir les conditions</a></p>
+<p class="promo-banner" data-i18n-html="promo_html">🎁 Gratuit pour tous.</p>
 <p class="trust-line" data-i18n="trust">🔒 Sans inscription, sans carte bancaire : rien n'est jamais prélevé automatiquement. Votre historique reste uniquement sur votre téléphone.</p>
 <div class="install-top" id="installTop">
   <button class="install-top-btn" id="installTopBtn" type="button" data-i18n="install_btn">📲 Installer l'application</button>
@@ -760,7 +760,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
       <button class="btn primary" id="installBtn" style="width:100%;margin-top:8px;" hidden data-i18n="install_btn">📲 Installer l'application</button>
       <p class="install-help" id="installHelp"></p>
     </div>
-    <div class="card" id="subCard">
+    <div class="card" id="subCard" hidden style="display:none">
       <div class="settings-row">
         <span data-i18n="sub">Abonnement</span>
         <span id="subStatus" style="color:var(--muted);font-size:13px;"></span>
@@ -777,8 +777,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
     </div>
     <p class="footer-note" data-i18n-html="footer_note_html">
       24/24 Talk — version web gratuite. Aucun compte requis. Votre historique et vos réglages restent sur cet appareil. <a class="link" href="privacy.html">Confidentialité</a> · <a class="link" href="cgu.html">CGU</a>
-      · <a class="link" href="cgv.html">CGV / Tarifs</a> · <a class="link" href="mentions-legales.html">Mentions légales</a><br>
-      Gratuit jusqu'au 1er novembre 2026, puis 1,99&nbsp;€/mois. <a class="link" href="cgv.html">Détails</a>.
+      · <a class="link" href="cgv.html">CGV / Tarifs</a> · <a class="link" href="mentions-legales.html">Mentions légales</a>
     </p>
   </section>
 
@@ -843,31 +842,19 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   <section id="legal-cgv" class="view legal-view">
 <a class="back" href="index.html">← Retour à 24/24 Talk</a>
   <h1>Conditions Générales de Vente</h1>
-  <p class="updated">Dernière mise à jour : 29 septembre 2026</p>
+  <p class="updated">Dernière mise à jour : 17 octobre 2026</p>
 
-  <h2>1. Offre de lancement</h2>
+  <h2>1. Prix</h2>
   <div class="price">
-    <p><b>Gratuit jusqu'au 1er novembre 2026.</b><br>
-    Toutes les fonctionnalités de l'application sont accessibles sans frais jusqu'à cette date.</p>
+    <p><b>Gratuit pour tous.</b><br>
+    Toutes les fonctionnalités de l'application sont accessibles sans frais.</p>
   </div>
 
-  <h2>2. Tarif après l'offre de lancement</h2>
-  <div class="price">
-    <p>À partir du 1er novembre 2026 : <b><span data-price>1,99 €</span> / mois</b> pour un accès complet et illimité.</p>
-  </div>
-  <p>Le tarif indiqué correspond à un abonnement mensuel, résiliable à tout moment. Il est affiché
-  dans la monnaie de votre pays lorsque l'application la connaît (euro, livre, franc suisse,
-  dollar canadien ou australien, yen, real, ariary, roupie mauricienne), sinon en dollars américains.
-  Les taxes applicables sont calculées par le prestataire de paiement en ligne utilisé.</p>
+  <h2>2. Évolution</h2>
+  <p>Toute évolution de ces conditions sera annoncée à l'avance. Rien n'est prélevé automatiquement.</p>
 
-  <h2>3. Modalités de paiement</h2>
-  <p>Les paiements sont traités exclusivement par un prestataire de paiement en ligne tiers
-  (Stripe, ou équivalent). L'éditeur ne collecte, ne stocke et ne traite directement aucune
-  donnée bancaire.</p>
-  <p><i>Note pour la version web actuelle : à la date indiquée ci-dessus, aucun module de paiement
-  n'est encore intégré dans cette version web de l'application. La bascule effective vers un
-  abonnement payant nécessitera la mise en place d'un prestataire de paiement (Stripe ou
-  équivalent) avant le 1er novembre 2026. Cette page sera mise à jour dès que ce sera fait.</i></p>
+  <h2>3. Paiement</h2>
+  <p>Aucun paiement n'est demandé dans la version actuelle de l'application.</p>
 
   <h2>4. Droit de rétractation</h2>
   <p>Conformément à la réglementation applicable, le droit de rétractation de 14 jours pour les
@@ -3659,7 +3646,7 @@ const UI_STRINGS = {
     install_ios: "Sur iPhone, dans Safari : bouton Partager ⬆ → « Sur l'écran d'accueil ».",
     install_done: "24/24 Talk est installée sur cet appareil.",
     tagline: "Parlez votre langue, 24h/24. 24/24 Talk fait le reste.",
-    promo_html: "🎁 Gratuit jusqu'au 1er novembre 2026 — ensuite {price}/mois. <a href=\"cgv.html\">Voir les conditions</a>",
+    promo_html: "🎁 Gratuit pour tous.",
     close: "Fermer",
     tab_home: "Accueil", tab_tr: "🌐 Traduire", tab_conv: "👥 Face à face", tab_hist: "Historique", tab_fav: "Favoris", tab_settings: "Paramètres",
     swap: "Inverser",
@@ -3678,7 +3665,7 @@ const UI_STRINGS = {
     sub: "Abonnement",
     pay_note_html: "Le paiement s'effectue sur une page sécurisée Stripe, en dehors de cette application. <a class=\"link\" href=\"cgv.html\">Voir les CGV</a>.",
     wipe: "Supprimer toutes mes données",
-    footer_note_html: "24/24 Talk — version web gratuite. Aucun compte requis. Votre historique et vos réglages restent sur cet appareil. <a class=\"link\" href=\"privacy.html\">Confidentialité</a> · <a class=\"link\" href=\"cgu.html\">CGU</a> · <a class=\"link\" href=\"cgv.html\">CGV / Tarifs</a> · <a class=\"link\" href=\"mentions-legales.html\">Mentions légales</a><br>Gratuit jusqu'au 1er novembre 2026, puis {price}/mois. <a class=\"link\" href=\"cgv.html\">Détails</a>.",
+    footer_note_html: "24/24 Talk — version web gratuite. Aucun compte requis. Votre historique et vos réglages restent sur cet appareil. <a class=\"link\" href=\"privacy.html\">Confidentialité</a> · <a class=\"link\" href=\"cgu.html\">CGU</a> · <a class=\"link\" href=\"cgv.html\">CGV / Tarifs</a> · <a class=\"link\" href=\"mentions-legales.html\">Mentions légales</a>",
     rights: "© 2026 Sébastien Chevrier. Tous droits réservés.",
     sub_active: "Abonné ✓", sub_manage: "Gérer mon abonnement", sub_days: "Gratuit encore {n} j",
     sub_btn: "S'abonner — {price}/mois", sub_ended: "Période gratuite terminée",
@@ -3732,7 +3719,7 @@ const UI_STRINGS = {
     install_ios: "On iPhone, in Safari: Share button ⬆ → “Add to Home Screen”.",
     install_done: "24/24 Talk is installed on this device.",
     tagline: "Speak your language, 24/7. 24/24 Talk does the rest.",
-    promo_html: "🎁 Free until November 1, 2026 — then {price}/month. <a href=\"cgv.html\">See the terms</a>",
+    promo_html: "🎁 Free for everyone.",
     close: "Close",
     tab_home: "Home", tab_tr: "🌐 Translate", tab_conv: "👥 Face to face", tab_hist: "History", tab_fav: "Favorites", tab_settings: "Settings",
     swap: "Swap",
@@ -3751,7 +3738,7 @@ const UI_STRINGS = {
     sub: "Subscription",
     pay_note_html: "Payment takes place on a secure Stripe page, outside this app. <a class=\"link\" href=\"cgv.html\">Sales terms (in French)</a>.",
     wipe: "Delete all my data",
-    footer_note_html: "24/24 Talk — free web version. No account needed. Your history and settings stay on this device. <a class=\"link\" href=\"privacy.html\">Privacy</a> · <a class=\"link\" href=\"cgu.html\">Terms of use</a> · <a class=\"link\" href=\"cgv.html\">Sales terms / Pricing</a> · <a class=\"link\" href=\"mentions-legales.html\">Legal notice</a> (legal pages in French)<br>Free until November 1, 2026, then {price}/month. <a class=\"link\" href=\"cgv.html\">Details</a>.",
+    footer_note_html: "24/24 Talk — free web version. No account needed. Your history and settings stay on this device. <a class=\"link\" href=\"privacy.html\">Privacy</a> · <a class=\"link\" href=\"cgu.html\">Terms of use</a> · <a class=\"link\" href=\"cgv.html\">Sales terms / Pricing</a> · <a class=\"link\" href=\"mentions-legales.html\">Legal notice</a> (legal pages in French)",
     rights: "© 2026 Sébastien Chevrier. All rights reserved.",
     sub_active: "Subscribed ✓", sub_manage: "Manage my subscription", sub_days: "Free for {n} more days",
     sub_btn: "Subscribe — {price}/month", sub_ended: "Free period ended",
@@ -3805,7 +3792,7 @@ const UI_STRINGS = {
     install_ios: "En iPhone, en Safari: botón Compartir ⬆ → «Añadir a pantalla de inicio».",
     install_done: "24/24 Talk está instalada en este dispositivo.",
     tagline: "Habla tu idioma, 24 horas al día. 24/24 Talk se encarga del resto.",
-    promo_html: "🎁 Gratis hasta el 1 de noviembre de 2026; después, {price}/mes. <a href=\"cgv.html\">Ver las condiciones</a>",
+    promo_html: "🎁 Gratis para todos.",
     close: "Cerrar",
     tab_home: "Inicio", tab_tr: "🌐 Traducir", tab_conv: "👥 Cara a cara", tab_hist: "Historial", tab_fav: "Favoritos", tab_settings: "Ajustes",
     swap: "Invertir",
@@ -3824,7 +3811,7 @@ const UI_STRINGS = {
     sub: "Suscripción",
     pay_note_html: "El pago se realiza en una página segura de Stripe, fuera de esta app. <a class=\"link\" href=\"cgv.html\">Condiciones de venta (en francés)</a>.",
     wipe: "Borrar todos mis datos",
-    footer_note_html: "24/24 Talk — versión web gratuita. Sin cuenta. Tu historial y tus ajustes se quedan en este dispositivo. <a class=\"link\" href=\"privacy.html\">Privacidad</a> · <a class=\"link\" href=\"cgu.html\">Condiciones de uso</a> · <a class=\"link\" href=\"cgv.html\">Condiciones de venta / Precios</a> · <a class=\"link\" href=\"mentions-legales.html\">Aviso legal</a> (páginas legales en francés)<br>Gratis hasta el 1 de noviembre de 2026, después {price}/mes. <a class=\"link\" href=\"cgv.html\">Detalles</a>.",
+    footer_note_html: "24/24 Talk — versión web gratuita. Sin cuenta. Tu historial y tus ajustes se quedan en este dispositivo. <a class=\"link\" href=\"privacy.html\">Privacidad</a> · <a class=\"link\" href=\"cgu.html\">Condiciones de uso</a> · <a class=\"link\" href=\"cgv.html\">Condiciones de venta / Precios</a> · <a class=\"link\" href=\"mentions-legales.html\">Aviso legal</a> (páginas legales en francés)",
     rights: "© 2026 Sébastien Chevrier. Todos los derechos reservados.",
     sub_active: "Suscrito ✓", sub_manage: "Gestionar mi suscripción", sub_days: "Gratis {n} días más",
     sub_btn: "Suscribirse — {price}/mes", sub_ended: "Periodo gratuito terminado",
@@ -3878,7 +3865,7 @@ const UI_STRINGS = {
     install_ios: "No iPhone, no Safari: botão Compartilhar ⬆ → “Adicionar à Tela de Início”.",
     install_done: "O 24/24 Talk está instalado neste aparelho.",
     tagline: "Fale a sua língua, 24 horas por dia. O 24/24 Talk faz o resto.",
-    promo_html: "🎁 Grátis até 1 de novembro de 2026 — depois, {price}/mês. <a href=\"cgv.html\">Ver as condições</a>",
+    promo_html: "🎁 Grátis para todos.",
     close: "Fechar",
     tab_home: "Início", tab_tr: "🌐 Traduzir", tab_conv: "👥 Frente a frente", tab_hist: "Histórico", tab_fav: "Favoritos", tab_settings: "Configurações",
     swap: "Inverter",
@@ -3897,7 +3884,7 @@ const UI_STRINGS = {
     sub: "Assinatura",
     pay_note_html: "O pagamento é feito em uma página segura da Stripe, fora deste app. <a class=\"link\" href=\"cgv.html\">Condições de venda (em francês)</a>.",
     wipe: "Apagar todos os meus dados",
-    footer_note_html: "24/24 Talk — versão web gratuita. Sem conta. Seu histórico e suas configurações ficam neste aparelho. <a class=\"link\" href=\"privacy.html\">Privacidade</a> · <a class=\"link\" href=\"cgu.html\">Termos de uso</a> · <a class=\"link\" href=\"cgv.html\">Condições de venda / Preços</a> · <a class=\"link\" href=\"mentions-legales.html\">Aviso legal</a> (páginas legais em francês)<br>Grátis até 1 de novembro de 2026, depois {price}/mês. <a class=\"link\" href=\"cgv.html\">Detalhes</a>.",
+    footer_note_html: "24/24 Talk — versão web gratuita. Sem conta. Seu histórico e suas configurações ficam neste aparelho. <a class=\"link\" href=\"privacy.html\">Privacidade</a> · <a class=\"link\" href=\"cgu.html\">Termos de uso</a> · <a class=\"link\" href=\"cgv.html\">Condições de venda / Preços</a> · <a class=\"link\" href=\"mentions-legales.html\">Aviso legal</a> (páginas legais em francês)",
     rights: "© 2026 Sébastien Chevrier. Todos os direitos reservados.",
     sub_active: "Assinante ✓", sub_manage: "Gerenciar minha assinatura", sub_days: "Grátis por mais {n} dias",
     sub_btn: "Assinar — {price}/mês", sub_ended: "Período gratuito encerrado",
@@ -3951,7 +3938,7 @@ const UI_STRINGS = {
     install_ios: "Auf dem iPhone, in Safari: Teilen-Taste ⬆ → „Zum Home-Bildschirm“.",
     install_done: "24/24 Talk ist auf diesem Gerät installiert.",
     tagline: "Sprich deine Sprache, rund um die Uhr. 24/24 Talk erledigt den Rest.",
-    promo_html: "🎁 Kostenlos bis 1. November 2026 – danach {price}/Monat. <a href=\"cgv.html\">Bedingungen ansehen</a>",
+    promo_html: "🎁 Kostenlos für alle.",
     close: "Schließen",
     tab_home: "Start", tab_tr: "🌐 Übersetzen", tab_conv: "👥 Gegenüber", tab_hist: "Verlauf", tab_fav: "Favoriten", tab_settings: "Einstellungen",
     swap: "Tauschen",
@@ -3970,7 +3957,7 @@ const UI_STRINGS = {
     sub: "Abonnement",
     pay_note_html: "Die Zahlung erfolgt auf einer sicheren Stripe-Seite außerhalb dieser App. <a class=\"link\" href=\"cgv.html\">Verkaufsbedingungen (auf Französisch)</a>.",
     wipe: "Alle meine Daten löschen",
-    footer_note_html: "24/24 Talk – kostenlose Webversion. Kein Konto nötig. Dein Verlauf und deine Einstellungen bleiben auf diesem Gerät. <a class=\"link\" href=\"privacy.html\">Datenschutz</a> · <a class=\"link\" href=\"cgu.html\">Nutzungsbedingungen</a> · <a class=\"link\" href=\"cgv.html\">Verkaufsbedingungen / Preise</a> · <a class=\"link\" href=\"mentions-legales.html\">Impressum</a> (Rechtstexte auf Französisch)<br>Kostenlos bis 1. November 2026, danach {price}/Monat. <a class=\"link\" href=\"cgv.html\">Details</a>.",
+    footer_note_html: "24/24 Talk – kostenlose Webversion. Kein Konto nötig. Dein Verlauf und deine Einstellungen bleiben auf diesem Gerät. <a class=\"link\" href=\"privacy.html\">Datenschutz</a> · <a class=\"link\" href=\"cgu.html\">Nutzungsbedingungen</a> · <a class=\"link\" href=\"cgv.html\">Verkaufsbedingungen / Preise</a> · <a class=\"link\" href=\"mentions-legales.html\">Impressum</a> (Rechtstexte auf Französisch)",
     rights: "© 2026 Sébastien Chevrier. Alle Rechte vorbehalten.",
     sub_active: "Abonniert ✓", sub_manage: "Mein Abo verwalten", sub_days: "Noch {n} Tage kostenlos",
     sub_btn: "Abonnieren – {price}/Monat", sub_ended: "Kostenloser Zeitraum beendet",
@@ -4024,7 +4011,7 @@ const UI_STRINGS = {
     install_ios: "Su iPhone, in Safari: pulsante Condividi ⬆ → «Aggiungi alla schermata Home».",
     install_done: "24/24 Talk è installata su questo dispositivo.",
     tagline: "Parla la tua lingua, 24 ore su 24. Al resto pensa 24/24 Talk.",
-    promo_html: "🎁 Gratis fino al 1° novembre 2026 — poi {price}/mese. <a href=\"cgv.html\">Vedi le condizioni</a>",
+    promo_html: "🎁 Gratis per tutti.",
     close: "Chiudi",
     tab_home: "Home", tab_tr: "🌐 Traduci", tab_conv: "👥 Faccia a faccia", tab_hist: "Cronologia", tab_fav: "Preferiti", tab_settings: "Impostazioni",
     swap: "Inverti",
@@ -4043,7 +4030,7 @@ const UI_STRINGS = {
     sub: "Abbonamento",
     pay_note_html: "Il pagamento avviene su una pagina sicura di Stripe, fuori da questa app. <a class=\"link\" href=\"cgv.html\">Condizioni di vendita (in francese)</a>.",
     wipe: "Elimina tutti i miei dati",
-    footer_note_html: "24/24 Talk — versione web gratuita. Nessun account richiesto. La tua cronologia e le tue impostazioni restano su questo dispositivo. <a class=\"link\" href=\"privacy.html\">Privacy</a> · <a class=\"link\" href=\"cgu.html\">Condizioni d'uso</a> · <a class=\"link\" href=\"cgv.html\">Condizioni di vendita / Prezzi</a> · <a class=\"link\" href=\"mentions-legales.html\">Note legali</a> (pagine legali in francese)<br>Gratis fino al 1° novembre 2026, poi {price}/mese. <a class=\"link\" href=\"cgv.html\">Dettagli</a>.",
+    footer_note_html: "24/24 Talk — versione web gratuita. Nessun account richiesto. La tua cronologia e le tue impostazioni restano su questo dispositivo. <a class=\"link\" href=\"privacy.html\">Privacy</a> · <a class=\"link\" href=\"cgu.html\">Condizioni d'uso</a> · <a class=\"link\" href=\"cgv.html\">Condizioni di vendita / Prezzi</a> · <a class=\"link\" href=\"mentions-legales.html\">Note legali</a> (pagine legali in francese)",
     rights: "© 2026 Sébastien Chevrier. Tutti i diritti riservati.",
     sub_active: "Abbonato ✓", sub_manage: "Gestisci il mio abbonamento", sub_days: "Gratis ancora {n} giorni",
     sub_btn: "Abbonati — {price}/mese", sub_ended: "Periodo gratuito terminato",
@@ -4097,7 +4084,7 @@ const UI_STRINGS = {
     install_ios: "在 iPhone 的 Safari 中：分享按钮 ⬆ →「添加到主屏幕」。",
     install_done: "24/24 Talk 已安装在此设备上。",
     tagline: "说你的语言，全天候。其余交给 24/24 Talk。",
-    promo_html: "🎁 2026年11月1日前免费，之后每月 {price}。<a href=\"cgv.html\">查看条款</a>",
+    promo_html: "🎁 对所有人免费。",
     close: "关闭",
     tab_home: "首页", tab_tr: "🌐 翻译", tab_conv: "👥 面对面", tab_hist: "历史", tab_fav: "收藏", tab_settings: "设置",
     swap: "互换",
@@ -4116,7 +4103,7 @@ const UI_STRINGS = {
     sub: "订阅",
     pay_note_html: "付款在 Stripe 的安全页面上完成，不在本应用内。<a class=\"link\" href=\"cgv.html\">销售条款（法语）</a>。",
     wipe: "删除我的所有数据",
-    footer_note_html: "24/24 Talk — 免费网页版。无需账户。你的历史记录和设置保存在本设备上。<a class=\"link\" href=\"privacy.html\">隐私</a> · <a class=\"link\" href=\"cgu.html\">使用条款</a> · <a class=\"link\" href=\"cgv.html\">销售条款 / 价格</a> · <a class=\"link\" href=\"mentions-legales.html\">法律声明</a>（法律页面为法语）<br>2026年11月1日前免费，之后每月 {price}。<a class=\"link\" href=\"cgv.html\">详情</a>。",
+    footer_note_html: "24/24 Talk — 免费网页版。无需账户。你的历史记录和设置保存在本设备上。<a class=\"link\" href=\"privacy.html\">隐私</a> · <a class=\"link\" href=\"cgu.html\">使用条款</a> · <a class=\"link\" href=\"cgv.html\">销售条款 / 价格</a> · <a class=\"link\" href=\"mentions-legales.html\">法律声明</a>（法律页面为法语）",
     rights: "© 2026 Sébastien Chevrier。保留所有权利。",
     sub_active: "已订阅 ✓", sub_manage: "管理我的订阅", sub_days: "还可免费使用 {n} 天",
     sub_btn: "订阅 — 每月 {price}", sub_ended: "免费期已结束",
@@ -4170,7 +4157,7 @@ const UI_STRINGS = {
     install_ios: "iPhone の Safari の場合：共有ボタン ⬆ →「ホーム画面に追加」。",
     install_done: "24/24 Talk はこの端末にインストール済みです。",
     tagline: "あなたの言葉で、24時間いつでも。あとは 24/24 Talk におまかせ。",
-    promo_html: "🎁 2026年11月1日まで無料、その後は月額{price}。<a href=\"cgv.html\">条件を見る</a>",
+    promo_html: "🎁 すべての人に無料。",
     close: "閉じる",
     tab_home: "ホーム", tab_tr: "🌐 翻訳", tab_conv: "👥 対面", tab_hist: "履歴", tab_fav: "お気に入り", tab_settings: "設定",
     swap: "入れ替え",
@@ -4189,7 +4176,7 @@ const UI_STRINGS = {
     sub: "定期購読",
     pay_note_html: "お支払いはこのアプリの外にある Stripe の安全なページで行われます。<a class=\"link\" href=\"cgv.html\">販売条件（フランス語）</a>。",
     wipe: "すべてのデータを削除",
-    footer_note_html: "24/24 Talk — 無料のウェブ版。アカウント不要。履歴と設定はこの端末内に保存されます。<a class=\"link\" href=\"privacy.html\">プライバシー</a> · <a class=\"link\" href=\"cgu.html\">利用規約</a> · <a class=\"link\" href=\"cgv.html\">販売条件 / 料金</a> · <a class=\"link\" href=\"mentions-legales.html\">法的表示</a>（法的ページはフランス語）<br>2026年11月1日まで無料、その後は月額{price}。<a class=\"link\" href=\"cgv.html\">詳細</a>。",
+    footer_note_html: "24/24 Talk — 無料のウェブ版。アカウント不要。履歴と設定はこの端末内に保存されます。<a class=\"link\" href=\"privacy.html\">プライバシー</a> · <a class=\"link\" href=\"cgu.html\">利用規約</a> · <a class=\"link\" href=\"cgv.html\">販売条件 / 料金</a> · <a class=\"link\" href=\"mentions-legales.html\">法的表示</a>（法的ページはフランス語）",
     rights: "© 2026 Sébastien Chevrier. 無断転載を禁じます。",
     sub_active: "購読中 ✓", sub_manage: "購読を管理", sub_days: "無料期間：残り{n}日",
     sub_btn: "購読する — 月額{price}", sub_ended: "無料期間は終了しました",
@@ -4243,7 +4230,7 @@ const UI_STRINGS = {
     install_ios: "على iPhone في Safari: زر المشاركة ⬆ ← «إضافة إلى الشاشة الرئيسية».",
     install_done: "تم تثبيت ⁦24/24 Talk⁩ على هذا الجهاز.",
     tagline: "تحدَّث بلغتك، على مدار الساعة. و⁦24/24 Talk⁩ يتكفّل بالباقي.",
-    promo_html: "🎁 مجاني حتى 1 نوفمبر 2026، ثم {price} شهريًا. <a href=\"cgv.html\">عرض الشروط</a>",
+    promo_html: "🎁 مجاني للجميع.",
     close: "إغلاق",
     tab_home: "الرئيسية", tab_tr: "🌐 ترجمة", tab_conv: "👥 وجهًا لوجه", tab_hist: "السجل", tab_fav: "المفضلة", tab_settings: "الإعدادات",
     swap: "تبديل",
@@ -4262,7 +4249,7 @@ const UI_STRINGS = {
     sub: "الاشتراك",
     pay_note_html: "يتم الدفع عبر صفحة آمنة من Stripe خارج هذا التطبيق. <a class=\"link\" href=\"cgv.html\">شروط البيع (بالفرنسية)</a>.",
     wipe: "حذف جميع بياناتي",
-    footer_note_html: "⁦24/24 Talk⁩ — نسخة ويب مجانية. لا حاجة إلى حساب. يبقى سجلّك وإعداداتك على هذا الجهاز. <a class=\"link\" href=\"privacy.html\">الخصوصية</a> · <a class=\"link\" href=\"cgu.html\">شروط الاستخدام</a> · <a class=\"link\" href=\"cgv.html\">شروط البيع / الأسعار</a> · <a class=\"link\" href=\"mentions-legales.html\">البيانات القانونية</a> (الصفحات القانونية بالفرنسية)<br>مجاني حتى 1 نوفمبر 2026، ثم {price} شهريًا. <a class=\"link\" href=\"cgv.html\">التفاصيل</a>.",
+    footer_note_html: "⁦24/24 Talk⁩ — نسخة ويب مجانية. لا حاجة إلى حساب. يبقى سجلّك وإعداداتك على هذا الجهاز. <a class=\"link\" href=\"privacy.html\">الخصوصية</a> · <a class=\"link\" href=\"cgu.html\">شروط الاستخدام</a> · <a class=\"link\" href=\"cgv.html\">شروط البيع / الأسعار</a> · <a class=\"link\" href=\"mentions-legales.html\">البيانات القانونية</a> (الصفحات القانونية بالفرنسية)",
     rights: "© 2026 ⁦Sébastien Chevrier⁩. جميع الحقوق محفوظة.",
     sub_active: "مشترك ✓", sub_manage: "إدارة اشتراكي", sub_days: "مجاني لمدة {n} يومًا أخرى",
     sub_btn: "اشترك — {price} شهريًا", sub_ended: "انتهت الفترة المجانية",
@@ -4316,7 +4303,7 @@ const UI_STRINGS = {
     install_ios: "На iPhone, в Safari: кнопка «Поделиться» ⬆ → «На экран „Домой“».",
     install_done: "24/24 Talk установлено на этом устройстве.",
     tagline: "Говорите на своём языке круглосуточно. Остальное сделает 24/24 Talk.",
-    promo_html: "🎁 Бесплатно до 1 ноября 2026 г., затем {price} в месяц. <a href=\"cgv.html\">Условия</a>",
+    promo_html: "🎁 Бесплатно для всех.",
     close: "Закрыть",
     tab_home: "Главная", tab_tr: "🌐 Перевод", tab_conv: "👥 Лицом к лицу", tab_hist: "История", tab_fav: "Избранное", tab_settings: "Настройки",
     swap: "Поменять",
@@ -4335,7 +4322,7 @@ const UI_STRINGS = {
     sub: "Подписка",
     pay_note_html: "Оплата проходит на защищённой странице Stripe, вне этого приложения. <a class=\"link\" href=\"cgv.html\">Условия продажи (на французском)</a>.",
     wipe: "Удалить все мои данные",
-    footer_note_html: "24/24 Talk — бесплатная веб-версия. Без регистрации. Ваша история и настройки остаются на этом устройстве. <a class=\"link\" href=\"privacy.html\">Конфиденциальность</a> · <a class=\"link\" href=\"cgu.html\">Условия использования</a> · <a class=\"link\" href=\"cgv.html\">Условия продажи / Цены</a> · <a class=\"link\" href=\"mentions-legales.html\">Правовая информация</a> (юридические страницы на французском)<br>Бесплатно до 1 ноября 2026 г., затем {price} в месяц. <a class=\"link\" href=\"cgv.html\">Подробнее</a>.",
+    footer_note_html: "24/24 Talk — бесплатная веб-версия. Без регистрации. Ваша история и настройки остаются на этом устройстве. <a class=\"link\" href=\"privacy.html\">Конфиденциальность</a> · <a class=\"link\" href=\"cgu.html\">Условия использования</a> · <a class=\"link\" href=\"cgv.html\">Условия продажи / Цены</a> · <a class=\"link\" href=\"mentions-legales.html\">Правовая информация</a> (юридические страницы на французском)",
     rights: "© 2026 Sébastien Chevrier. Все права защищены.",
     sub_active: "Подписка оформлена ✓", sub_manage: "Управлять подпиской", sub_days: "Бесплатно ещё {n} дн.",
     sub_btn: "Подписаться — {price} в месяц", sub_ended: "Бесплатный период закончился",
@@ -4389,7 +4376,7 @@ const UI_STRINGS = {
     install_ios: "Amin'ny iPhone, ao amin'ny Safari: bokotra Partager ⬆ → « Sur l'écran d'accueil ».",
     install_done: "Efa voapetraka amin'ity fitaovana ity ny 24/24 Talk.",
     tagline: "Mitenena amin'ny fiteninao, 24 ora/24. Ny 24/24 Talk no mikarakara ny ambiny.",
-    promo_html: "🎁 Maimaimpoana hatramin'ny 1 Novambra 2026 — avy eo {price}/volana. <a href=\"cgv.html\">Jereo ny fepetra</a>",
+    promo_html: "🎁 Maimaimpoana ho an'ny rehetra.",
     close: "Hidiana",
     tab_home: "Fandraisana",
     tab_tr: "🌐 Handika",
@@ -4426,7 +4413,7 @@ const UI_STRINGS = {
     sub: "Famandrihana",
     pay_note_html: "Ao amin'ny pejy azo antoka Stripe, ivelan'ity appli ity, no anaovana ny fandoavana. <a class=\"link\" href=\"cgv.html\">Jereo ny CGV</a>.",
     wipe: "Hamafa ny angon-drakitro rehetra",
-    footer_note_html: "24/24 Talk — kinova web maimaimpoana. Tsy mila kaonty. Ao amin'ity fitaovana ity ihany no mijanona ny tantaranao sy ny fikiranao. <a class=\"link\" href=\"privacy.html\">Tsiambaratelo</a> · <a class=\"link\" href=\"cgu.html\">CGU</a> · <a class=\"link\" href=\"cgv.html\">CGV / Sarany</a> · <a class=\"link\" href=\"mentions-legales.html\">Fampahafantarana ara-dalàna</a><br>Maimaimpoana hatramin'ny 1 Novambra 2026, avy eo {price}/volana. <a class=\"link\" href=\"cgv.html\">Antsipiriany</a>.",
+    footer_note_html: "24/24 Talk — kinova web maimaimpoana. Tsy mila kaonty. Ao amin'ity fitaovana ity ihany no mijanona ny tantaranao sy ny fikiranao. <a class=\"link\" href=\"privacy.html\">Tsiambaratelo</a> · <a class=\"link\" href=\"cgu.html\">CGU</a> · <a class=\"link\" href=\"cgv.html\">CGV / Sarany</a> · <a class=\"link\" href=\"mentions-legales.html\">Fampahafantarana ara-dalàna</a>",
     rights: "© 2026 Sébastien Chevrier. Zo rehetra voatokana.",
     sub_active: "Famandrihana mandeha ✓",
     sub_manage: "Hitantana ny famandrihako",
