@@ -61,14 +61,13 @@ self.addEventListener("notificationclick", function (e) {
   var scope = self.registration.scope;
   e.waitUntil(
     self.clients.matchAll({ type: "window", includeUncontrolled: true }).then(function (cs) {
-      for (var i = 0; i < cs.length; i++) {
-        var c = cs[i];
-        if (c.url.indexOf(scope) === 0 && c.url.indexOf("/gestion/") < 0 && "focus" in c) {
-          if (data.call) c.postMessage({ t: "answer", call: data.call });
-          return c.focus();
-        }
-      }
-      return self.clients.openWindow(data.url || scope);
+      // TALK peut être ouvert seul ou dans le portail 24/24 EVERYWHERE (dans un cadre) : on prévient toutes ses
+      // fenêtres, et on met au premier plan la fenêtre principale (pas le cadre).
+      var mine = cs.filter(function (c) { return c.url.indexOf(scope) === 0 && c.url.indexOf("/gestion/") < 0; });
+      if (!mine.length) return self.clients.openWindow(data.url || scope);
+      mine.forEach(function (c) { if (data.call) c.postMessage({ t: "answer", call: data.call }); });
+      var top = mine.filter(function (c) { return c.frameType !== "nested" && "focus" in c; })[0] || mine[0];
+      return "focus" in top ? top.focus() : undefined;
     })
   );
 });

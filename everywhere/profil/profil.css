@@ -1,0 +1,33 @@
+/* 24/24 ONE WORLD — profil linguistique. © 2026 Sébastien Chevrier. Tous droits réservés.
+   Reprend les composants du système de design (card, row, seg, toggle, btn, tr-field) : voir docs/DESIGN-SYSTEM.md. */
+#view-profil{--g:var(--teal);}
+.lp-line{margin:4px 0;font-weight:600;}
+.lp-priv{margin:8px 0 2px;color:var(--muted);font-size:14.5px;}
+.lp-lbl{font-weight:700;margin:12px 0 6px;}
+.lp-spoken{list-style:none;margin:0;padding:0;}
+.lp-sp{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line);}
+.lp-sp-name{flex:1 1 120px;font-weight:700;}
+.lp-sp select,.lp-add select,.lp-addfav select{min-height:44px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);color:var(--text);padding:0 8px;font-size:15px;max-width:100%;}
+.lp-sp select{flex:1 1 180px;}
+.lp-sp .link-btn{min-width:44px;}
+.lp-none{padding:8px 0;}
+.lp-add{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+.lp-add select{flex:1 1 180px;}
+.lp-add .btn{flex:0 0 auto;}
+.lp-favs{display:flex;flex-wrap:wrap;gap:8px;}
+.lp-chip{min-height:44px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--panel2);font-weight:700;cursor:pointer;color:var(--text);}
+.lp-chip[aria-pressed="true"]{background:var(--teal);border-color:var(--teal);color:var(--on-primary,#fff);}
+.lp-addfav select{min-width:0;}
+.lp-applied{margin:4px 0 0;padding-left:20px;color:var(--muted);font-size:14.5px;}
+.lp-applied li{margin:4px 0;}
+.lp-actions{margin:16px 0 8px;}
+.lp-erase{display:block;margin:18px auto 0;}
+.lp-erase.sure{background:var(--err);border-color:var(--err);color:#fff;}
+.toggle[aria-disabled="true"]{opacity:.5;cursor:not-allowed;}
+html.contrast-high .lp-chip{border-width:2px;}
+/* Avatar à initiales (aucune photo), dates, accord explicite */
+.lp-who{display:flex;gap:12px;align-items:center;margin:8px 0;}
+.lp-who > span:last-child{display:flex;flex-direction:column;gap:2px;min-width:0;}
+.lp-av{flex:0 0 auto;}
+.lp-consent{margin-top:8px;}
+.lp-consent small{display:block;margin-top:4px;}

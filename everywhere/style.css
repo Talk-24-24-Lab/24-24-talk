@@ -1,0 +1,232 @@
+/* 24/24 EVERYWHERE — © 2026 Sébastien Chevrier. Mobile d'abord : les règles de base visent un téléphone,
+   les @media (min-width) adaptent ensuite tablette et ordinateur. */
+:root{
+  --bg:#050913; --bg2:#0b1224; --panel:#111a30; --panel2:#18233f; --line:#25325a;
+  --text:#eef3ff; --muted:#9fb0d4; --teal:#1fe2cd; --teal2:#a8efe6; --blue:#3d7bff; --ok:#2ecf8e; --warn:#ffb020; --err:#ff5c7a;
+  --nav-h:64px; --top-h:56px;
+  --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px); --sal:env(safe-area-inset-left,0px); --sar:env(safe-area-inset-right,0px);
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){
+  :root{ --bg:#f3f6fc; --bg2:#e8eef9; --panel:#ffffff; --panel2:#eef2fb; --line:#d6deef; --text:#0f1730; --muted:#55628a;
+    --teal:#0a9e8f; --teal2:#0b6f66; --blue:#2a62e0; --ok:#12955f; --warn:#a86a00; --err:#d63355; color-scheme:light; }
+}
+/* Thème du portail (prefs.js) : bleu nuit par défaut depuis 0.8.0 (maquette validée le 14 octobre 2026), clair au choix. */
+html.theme-light, html.theme-auto{ --on-primary:#ffffff; --green:#0f8a4c; --green-bg:#e6f6ec; --violet:#6b3fd6; --violet-bg:#efe9ff; }
+html.theme-light{ --bg:#f5f8ff; --bg2:#eaf0fb; --panel:#ffffff; --panel2:#eef3fc; --line:#d8e1f3; --text:#0d1733; --muted:#4d5b80;
+  --teal:#1f5fe0; --teal2:#1749b8; --blue:#1f5fe0; --ok:#0f8a4c; --warn:#9a5b00; --err:#c62848; color-scheme:light; }
+html.theme-dark, html.theme-auto{ --on-primary:#06122b; }
+html.theme-dark{ --bg:#08111f; --bg2:#0b1526; --panel:#111c2e; --panel2:#16243a; --line:#233452; --text:#f4f7fa; --muted:#a8b5c8;
+  --teal:#5fb8ff; --teal2:#21d4fd; --blue:#7aa7ff; --ok:#3ddc84; --warn:#ffb020; --err:#ff6b86; --green:#3ddc84; --green-bg:#0f2a1d; --violet:#b49bff; --violet-bg:#221a3d; color-scheme:dark; }
+html.theme-auto{ --teal:#7aa7ff; --teal2:#a9c6ff; --blue:#7aa7ff; --green:#3ddc84; --green-bg:#0f2a1d; --violet:#b49bff; --violet-bg:#221a3d; }
+@media (prefers-color-scheme: light){ html.theme-auto{ --teal:#1f5fe0; --teal2:#1749b8; --blue:#1f5fe0; --on-primary:#ffffff; --green:#0f8a4c; --green-bg:#e6f6ec; --violet:#6b3fd6; --violet-bg:#efe9ff; } }
+/* Contraste renforcé : texte secondaire aussi foncé que le texte principal, bordures plus marquées. */
+html.contrast-high{ --muted:var(--text); }
+html.contrast-high.theme-light{ --line:#5b6b91; --text:#000814; }
+html.contrast-high.theme-dark{ --line:#8fa3cf; --text:#ffffff; }
+html.contrast-high .card, html.contrast-high .app-card, html.contrast-high .btn, html.contrast-high .lx-opt{ border-width:2px; }
+/* Taille du texte : agrandit le contenu des écrans (la mise en page suit, pas de défilement horizontal). */
+html[data-ts="1"] .pad{ zoom:1.15; }
+html[data-ts="2"] .pad{ zoom:1.3; }
+
+*{box-sizing:border-box;}
+html{height:100%;}
+body{margin:0;height:100vh;display:flex;flex-direction:column;background:var(--bg);color:var(--text);
+  font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-text-size-adjust:100%;overflow:hidden;}
+@supports (height:100dvh){ body{height:100dvh;} }
+a{color:var(--teal);}
+button{font:inherit;color:inherit;}
+:focus-visible{outline:3px solid var(--teal);outline-offset:2px;}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+.skip{position:absolute;left:8px;top:-60px;z-index:100;background:var(--panel);padding:10px 14px;border-radius:10px;}
+.skip:focus{top:8px;}
+[hidden]{display:none !important;}
+
+.env-banner{position:relative;z-index:30;background:#ff8a00;color:#1a0d00;font:700 13px/1.3 system-ui,sans-serif;text-align:center;
+  padding:calc(6px + var(--sat)) 10px 6px;letter-spacing:.02em;}
+.offline{background:var(--warn);color:#1a1200;font-weight:700;font-size:14px;text-align:center;padding:6px 10px;}
+
+/* Coquille : barre haute, contenu, barre de navigation basse (téléphone). Leur apparence est dans shell.css (commune avec TALK). */
+.shell>.topbar{grid-area:top;}
+.shell>.mainnav{grid-area:nav;}
+body.no-banner .topbar{padding-top:calc(6px + var(--sat));}
+.shell{flex:1;min-height:0;display:grid;grid-template-rows:auto 1fr auto;grid-template-areas:"top" "main" "nav";}
+.shell>*{min-width:0;} /* un titre long ne doit jamais élargir la page */
+
+
+main{grid-area:main;position:relative;overflow:hidden;min-height:0;}
+main:focus{outline:none;}
+.view{position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;visibility:hidden;pointer-events:none;
+  padding-left:var(--sal);padding-right:var(--sar);}
+.view.active{visibility:visible;pointer-events:auto;}
+.view:not(.view-app){display:none;}
+.view:not(.view-app).active{display:block;}
+.pad{padding:18px 16px 28px;max-width:960px;margin:0 auto;}
+
+
+.h1{font-size:24px;margin:4px 0 6px;}
+.h2{font-size:17px;margin:4px 0 12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;}
+.muted{color:var(--muted);}
+.note{color:var(--muted);font-size:13.5px;margin:12px 2px 0;}
+
+.app-grid,.app-list{display:grid;gap:12px;grid-template-columns:1fr;}
+.app-card{position:relative;display:flex;gap:14px;align-items:center;text-align:left;width:100%;padding:16px;border-radius:18px;
+  border:1px solid var(--line);background:linear-gradient(135deg,color-mix(in srgb,var(--accent) 16%,var(--panel)),var(--panel));
+  color:var(--text);text-decoration:none;min-height:88px;}
+a.app-card:hover{border-color:var(--accent);}
+.app-card .app-ic{width:56px;height:56px;border-radius:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--accent);color:#06121f;}
+.app-card .app-ic svg{width:30px;height:30px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+.app-card b{display:block;font-size:18px;}
+.app-card small{display:block;color:var(--muted);font-size:14px;margin-top:2px;}
+.app-card .go{margin-left:auto;font-weight:800;color:var(--accent);white-space:nowrap;}
+.app-card.reserved{border-style:dashed;background:var(--panel);}
+.app-card.reserved .app-ic{background:var(--panel2);color:var(--muted);}
+.badge{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.04em;padding:3px 8px;border-radius:999px;background:var(--panel2);color:var(--muted);margin-top:6px;}
+
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin-top:14px;}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;border-bottom:1px solid var(--line);}
+.row:last-child{border-bottom:none;}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 18px;border-radius:14px;border:1px solid var(--line);
+  background:var(--panel2);font-weight:800;cursor:pointer;text-decoration:none;color:var(--text);}
+.btn.primary{background:var(--teal);border-color:var(--teal);color:var(--on-primary,#04161a);}
+.btn.wide{width:100%;margin-top:10px;}
+.btn.danger{background:transparent;border:2px solid var(--err);color:var(--err);font-weight:700;}
+.cx-del{border-top:1px solid var(--line);margin-top:18px;padding-top:6px;}
+.link-btn{min-height:44px;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);font-weight:700;cursor:pointer;}
+/* Interrupteur : rail de 52×30 dessiné, mais zone à toucher de 56×44 (taille minimale conseillée sur téléphone). */
+.toggle{width:56px;height:44px;padding:0;border:none;background:none;position:relative;cursor:pointer;flex-shrink:0;}
+.toggle::before{content:"";position:absolute;left:2px;top:7px;width:52px;height:30px;border-radius:999px;background:var(--line);}
+.toggle::after{content:"";position:absolute;top:10px;left:5px;width:24px;height:24px;border-radius:50%;background:#fff;transition:left .15s;}
+.toggle[aria-checked="true"]::before{background:var(--ok);}
+.toggle[aria-checked="true"]::after{left:27px;}
+.profile-head{display:flex;align-items:center;gap:14px;}
+.avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--blue));color:#04161a;display:flex;align-items:center;
+  justify-content:center;font-size:28px;font-weight:900;flex-shrink:0;}
+.profile-head b{font-size:20px;display:block;}
+.state{text-align:center;padding:18px 6px;}
+.state p{margin:6px 0 12px;}
+.spinner{width:28px;height:28px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--teal);margin:4px auto;animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.empty{text-align:center;padding-top:60px;}
+
+/* Applications intégrées : le cadre reste chargé quand on change d'écran (appels et messages continuent). */
+.view-app{overflow:hidden;padding:0;}
+.app-frames{position:absolute;inset:0;}
+.app-frame-wrap{position:absolute;inset:0;visibility:hidden;}
+.app-frame-wrap.active{visibility:visible;}
+.app-frame-wrap iframe{width:100%;height:100%;border:0;display:block;background:var(--bg);}
+.app-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg);padding:24px;}
+.app-overlay .state{max-width:360px;}
+
+/* Tablette */
+@media (min-width:640px){
+  .app-grid{grid-template-columns:1fr 1fr;}
+}
+/* Ordinateur : navigation latérale. */
+@media (min-width:960px){
+  .shell{grid-template-columns:232px 1fr;grid-template-rows:auto 1fr;grid-template-areas:"top top" "nav main";}
+  .mainnav{flex-direction:column;justify-content:flex-start;gap:4px;border-top:none;border-right:1px solid var(--line);padding:14px 10px;}
+  .mainnav a{flex:0 0 auto;flex-direction:row;justify-content:flex-start;gap:12px;padding:0 14px;font-size:15px;min-height:48px;}
+  .app-list{grid-template-columns:1fr 1fr;}
+}
+@media (prefers-reduced-motion: reduce){ *{animation:none !important;transition:none !important;} }
+html.motion-off *, html.motion-off *::before, html.motion-off *::after{animation:none !important;transition:none !important;scroll-behavior:auto !important;}
+html.reduce-motion *{animation:none !important;transition:none !important;}
+/* Mode installé (standalone) : pas de bouton d'installation. */
+@media (display-mode: standalone){ #installCard{display:none;} }
+
+/* CONNECT (profil : sécurité du compte, appareils) */
+.cx-h{font-size:17px;margin:18px 0 6px;}
+.cx-sec{border-top:1px solid var(--line);margin-top:14px;padding-top:4px;}
+.cx-ok{color:var(--ok);font-weight:700;margin:6px 0;}
+.cx-warn{border-left:4px solid var(--warn);background:var(--panel2);border-radius:10px;padding:10px 12px;margin:8px 0;}
+.cx-msg{border-radius:10px;padding:10px 12px;margin:8px 0;font-weight:600;}
+.cx-msg.ok{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--text);}
+.cx-msg.err{background:color-mix(in srgb,var(--err) 18%,transparent);color:var(--text);}
+.cx-form{display:flex;flex-direction:column;gap:8px;margin-top:10px;}
+.cx-lbl{font-weight:700;font-size:15px;}
+.cx-input{min-height:48px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);color:var(--text);padding:0 14px;font-size:17px;width:100%;box-sizing:border-box;}
+.cx-input:focus{outline:2px solid var(--teal);outline-offset:1px;}
+.cx-code{letter-spacing:.4em;font-size:24px;text-align:center;font-variant-numeric:tabular-nums;}
+.cx-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px;}
+.cx-actions .btn{flex:1 1 140px;}
+.cx-devs{list-style:none;margin:6px 0;padding:0;}
+.cx-dev{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);}
+.cx-dev small{display:block;color:var(--muted);}
+.cx-other{margin-top:16px;}
+.link-btn.sure{background:var(--err);border-color:var(--err);color:#fff;}
+
+/* ---------- Accueil 0.8.0 (maquette validée le 14 octobre 2026) ----------
+   Ciel bleu nuit et planète lumineuse dessinés en CSS (aucune image), quel que soit le thème. Quatre tuiles en liste,
+   icône en dégradé de couleur, texte blanc sur panneau sombre (contraste ≥ 7:1), puis le compte à rebours de la gratuité. */
+#view-accueil{color:#f4f7fa;background:#08111f;}
+.home{min-height:100%;display:flex;flex-direction:column;}
+.home-head{position:relative;overflow:hidden;padding:34px calc(22px + var(--sar)) 118px calc(22px + var(--sal));
+  background:
+    radial-gradient(ellipse 170% 124% at 50% 200%, #06152f 0 90%, #0a2a5e 94%, #165bb8 97%, #3fa9f5 99.2%, rgba(63,169,245,.5) 100.6%, rgba(33,150,253,.16) 106%, transparent 115%),
+    radial-gradient(ellipse 90% 70% at 72% 0%, #12306a 0%, rgba(18,48,106,0) 70%),
+    linear-gradient(180deg,#050b18 0%,#08142c 70%,#08111f 100%);}
+.home-head::after{content:"";position:absolute;left:0;right:0;bottom:0;height:56px;background:linear-gradient(180deg,rgba(8,17,31,0),#08111f);}
+.home-head h1{position:relative;z-index:1;margin:0;font-size:40px;line-height:1.05;font-weight:800;letter-spacing:-.035em;color:#fff;}
+.home-head .lead{position:relative;z-index:1;margin:12px 0 0;max-width:300px;color:#dbe4f3;font-size:16px;line-height:1.45;}
+.home-body{position:relative;z-index:2;margin-top:-64px;padding-top:0;padding-bottom:28px;width:100%;}
+.duo{display:grid;grid-template-columns:1fr;gap:10px;}
+.duo-card{display:flex;align-items:center;gap:14px;min-height:76px;padding:12px 14px;border-radius:18px;text-decoration:none;color:#f4f7fa;
+  background:rgba(22,36,58,.94);border:1px solid rgba(120,160,220,.18);box-shadow:0 10px 26px rgba(0,0,0,.28);transition:transform .15s ease, border-color .15s ease;}
+.duo-ic{width:48px;height:48px;border-radius:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.duo-ic svg{width:26px;height:26px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.duo-card.talk .duo-ic{background:linear-gradient(135deg,#3cc8ff,#1a73e8);box-shadow:0 6px 16px rgba(26,140,255,.35);}
+.duo-card.ew .duo-ic{background:linear-gradient(135deg,#2ee6c5,#0e9f8e);box-shadow:0 6px 16px rgba(22,184,166,.35);}
+.duo-card.trip .duo-ic{background:linear-gradient(135deg,#ffd36e,#f29a1f);box-shadow:0 6px 16px rgba(255,200,87,.3);}
+.duo-card.learn .duo-ic{background:linear-gradient(135deg,#b48cff,#6d3fe0);box-shadow:0 6px 16px rgba(124,92,255,.35);}
+.duo-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;}
+.duo-card b{font-size:16.5px;font-weight:800;letter-spacing:.02em;}
+.duo-d{font-size:14px;color:#b9c5d8;}
+.hm-go{width:20px;height:20px;flex-shrink:0;fill:none;stroke:#9aa8be;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+[dir="rtl"] .hm-go{transform:scaleX(-1);}
+[dir="rtl"] .home-head h1{text-align:right;}
+.duo-card:hover{border-color:rgba(33,212,253,.55);}
+.duo-card:active{transform:scale(.985);}
+.duo-card:focus-visible{outline:3px solid #21d4fd;outline-offset:3px;}
+html.contrast-high .duo-card{border:2px solid #fff;}
+html.contrast-high .duo-d, html.contrast-high .home-head .lead{color:#fff;}
+/* « Gratuit pour tous » (0.8.4, remplace le compte à rebours). */
+.free-all{margin:14px 0 0;padding:12px 16px;border-radius:18px;border:1px solid rgba(33,212,253,.32);text-align:center;
+  background:linear-gradient(135deg,rgba(26,140,255,.22),rgba(33,212,253,.08));font-size:16px;font-weight:700;color:#21d4fd;}
+/* Accueil : barres du haut et du bas en bleu nuit aussi (jetons de shell.css redéfinis localement). */
+html.ew-home .shell>.topbar, html.ew-home .shell>.mainnav{--ews-bg:#050b18;--ews-bg2:#0b1526;--ews-panel:#111c2e;--ews-line:#1d2b45;
+  --ews-text:#f4f7fa;--ews-muted:#a8b5c8;--ews-teal:#21d4fd;--ews-teal2:#21d4fd;}
+html.ew-home .shell>.topbar :focus-visible, html.ew-home .shell>.mainnav :focus-visible{outline-color:#21d4fd;}
+/* Hub EVERYWHERE : accès au module LEARN sous la traduction. */
+.ew-hub-learn{margin-top:22px;}
+.ew-hub-h{font-size:15px;margin:0 2px 10px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;}
+.tr-big.learn{background:linear-gradient(160deg,#8b63f0 0%,#6b3fd6 55%,#5228b5 100%);}
+
+/* Groupes de choix (taille du texte, thème, objectif) */
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;flex-shrink:0;}
+.seg button{min-height:44px;min-width:48px;padding:0 12px;border:none;border-right:1px solid var(--line);background:var(--panel);cursor:pointer;font-weight:700;color:var(--text);}
+.seg button:last-child{border-right:none;}
+.seg button[aria-checked="true"]{background:var(--teal);color:var(--on-primary,#fff);}
+.seg .ts1{font-size:19px;} .seg .ts2{font-size:23px;}
+@media (max-width:379px){ .row:has(.seg){flex-wrap:wrap;padding:6px 0;} }
+
+/* Quatre espaces : une colonne sur téléphone, 2 × 2 sur tablette, 4 colonnes sur grand écran. */
+@media (min-width:640px){
+  .duo{grid-template-columns:1fr 1fr;gap:14px;}
+  .duo-card{min-height:96px;}
+  .home-head{padding-top:56px;padding-left:max(22px,calc((100% - 928px) / 2));padding-right:max(22px,calc((100% - 928px) / 2));}
+  .home-head h1{font-size:52px;}
+  .free-all{max-width:520px;}
+}
+@media (min-width:1200px){
+  .duo{grid-template-columns:1fr 1fr 1fr 1fr;}
+}
+
+/* AI LAB (« Bientôt ») */
+.ai-head{display:flex;align-items:center;gap:14px;margin:4px 0 6px;}
+.ai-head h1{margin:0;font-size:26px;letter-spacing:.03em;}
+.ai-logo{width:56px;height:56px;border-radius:50%;background:#8a3f08;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ai-logo svg{width:30px;height:30px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.ai-badge{vertical-align:middle;margin:0 0 0 6px;background:#8a3f08;color:#fff;}
+.ai-list{margin:4px 0;padding-left:20px;}
+.ai-list li{margin:6px 0;}

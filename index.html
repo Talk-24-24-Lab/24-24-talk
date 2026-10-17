@@ -11,6 +11,48 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
 <title>24/24 Talk — Traduisez, maintenant</title>
+<script>/* CONNECT : retour du lien d'e-mail arrivé sur l'adresse principale → écran Profil du portail. */(function(){var h=location.hash||"";if(/(^#|&)(access_token|error_code|error_description)=/.test(h)||/(^#|&)message=Confirmation/.test(h))location.replace("everywhere/"+h);})();</script>
+<script>
+/* 24/24 EVERYWHERE : arrivé depuis le portail (adresse ?ew=1), TALK s'affiche dans la coquille commune
+   (même barre du haut et du bas que le portail). Retenu pour la suite de la visite (onglet). Ouvert seul, TALK ne change pas. */
+(function () {
+  var on = false;
+  try {
+    if (window.parent !== window) return; // jamais dans un cadre
+    on = /[?&]ew=1\b/.test(location.search);
+    if (on) sessionStorage.setItem("ew_shell", "1"); else on = sessionStorage.getItem("ew_shell") === "1";
+  } catch (e) { /* stockage indisponible : on garde l'adresse seule */ }
+  if (!on) return;
+  window.EW_SHELL = true;
+  document.documentElement.classList.add("ew-shell");
+  var l = document.createElement("link");
+  l.rel = "stylesheet";
+  l.href = "everywhere/shell.css?v=0.8.5";
+  document.head.appendChild(l);
+  var sc = document.createElement("script");
+  sc.src = "everywhere/shell.js?v=0.8.5";
+  sc.defer = true;
+  document.head.appendChild(sc);
+})();
+</script>
+<script>
+/* Accessibilité commune à TALK et au portail (clé ew_prefs, gardée sur cet appareil) : taille du texte,
+   contraste renforcé, animations réduites. Appliquée avant l'affichage, que TALK soit ouvert seul ou dans la coquille. */
+(function () {
+  try {
+    var p = JSON.parse(localStorage.getItem("ew_prefs") || "{}") || {}, h = document.documentElement;
+    if (p.text === 1 || p.text === 2) h.setAttribute("data-ts", String(p.text));
+    if (p.contrast === true) h.classList.add("contrast-high");
+    if (p.motion === true) h.classList.add("motion-off");
+    // Thème choisi dans le portail (0.8.1) : bleu nuit par défaut, clair au choix, « Auto » suit le téléphone.
+    var th = ["light", "dark", "auto"].indexOf(p.theme) !== -1 ? p.theme : "dark";
+    h.classList.add("theme-" + th);
+    if (th !== "auto") h.setAttribute("data-theme", th);
+  } catch (e) { document.documentElement.setAttribute("data-theme", "dark"); document.documentElement.classList.add("theme-dark"); }
+})();
+</script>
+<script src="everywhere/ecoute.js?v=0.8.5" defer></script>
+<script src="everywhere/choixlangue.js?v=0.8.5" defer></script>
 <meta name="theme-color" content="#101426" />
 <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAAIGNIUk0AAHomAACAhAAA+gAAAIDoAAB1MAAA6mAAADqYAAAXcJy6UTwAAAAGYktHRAD/AP8A/6C9p5MAAAAHdElNRQfqCR4JKQ3z+whAAAAEU0lEQVRIx7XVy49URRQG8O+cW/2a6Z5uhhnkMZKBCGhmFAiJMZgoE01cGIzvuNENC407F8ad+ge4xxjdGZWFC8PCxADxgYkhYwJGwJAhghCR1zz7fW+dz8XtZm4/gME4d9GLutW/U/fUqVOydsPDaD1s/5C3Rrj8ih0jyalE5/zkJF1VHaRbqc7E31asx1+wsrX/J72dolXIzK137s66QCABpG3Qk1y5DsD11WNaRHyz4qM6IDEapAbUZWi+U8ftdBDudjrpo3q5uGHnyNZ9uTXj5qOla6evzxytzV9w2SLYnq9AZFDpqwOU4fUTXZkBxCwS0Qef/mBs16tBWmgwgJT6UuX8Tx9dnv4kSOcBQsQqDS3l2Ij66gCCXH60UwcBmN/94seb9+wPGxY1LQrpQ0ahqUuve2jKhzp74ZgGOT9fzT8/6TaXwtP/SMaB3ToA7a4ZCcLawvijBzZOTlUXmqRCHCSgBBDnPRoVP77vneJ9j/vG0vB7TxXf3tv87QoCBdmrA4mDFo/RwvTA8Niu15o1QB0BknF+SFLBCFrHxmdfz0yuzT+5c+GL6fDinObT9Nark3DJehdoFNaLG3dki+M+IiAkbukGSlOjbHmxdK7+xN/Z/LjNVZtnr7LWxEAKIjDrqCciLtPESRCQlsoOicIiAmIQxg8okc7fPz275YhPL6Dh5KZ61yi8sScYG1r87ATM4kQldYCaLGWCIhrWFrwHIQbEtoEIdW7L8esTX9M1gzCvmoJTGCSQwsuPrHl3H8heHa1elEiaukz55vnq3J8SCK2lS6S14Uuz248GYUEQMDCIiAhUIOJvVHNTDww+N2nlBlTYWZOaOIgEKOrC2uzlk18FaXgfxZVBw+LmX6EmolCIiChaMUQkpayFA8/s0KEsvUE6TnfHfUCC5l1m6NL0p1dOH0sX0gajV5/yzeIVZQrCGEUyhioic+sLbqzIRgRJLpja0yMJCCBnvnnrr1++JCFAJHVzDYjGOekTA5C000JmuZDapPbpwDRRB5Gzh9+8+MOHgwPIuUxKhwATEQh6YkBUEFm8B61Ftndcu/XWkTARDdKDpU17gjwWzp2qnprRgRzI3hiASNpF18rhX/OSDkAmO7T2vT0gEjUr+ZEd6yb2z/x46OShF258/p3AxV2zIwYEZlrIVL49Y4u1ds9YXmuQHVzbpcenwcLKuomXbs58P3P0fZcvRJeWYH5wahtDj8jiDSQJgRvJV4+cmzv4s2ZTXToIKY1u79Lb8URdtlm55jJDoFHISrPwyu7SgcfcyCBJGAlYuVE+/PvcweM0k0DbfuI+KI1uv93NR3rRFOnblQVbrLtNxYG9W1JbRxBIdHm+duJi44+rmktBpVcHIKXRbXe9V5f7oQqbkdXC5QykA8mlYOyrA3D3oAMwExcExWB5yAzeuvKe7NDuHvTWDhI+CfIOOgi9Rz15Hu+uI9GLVkUHqKuqt7/gf9LRowP4FwGVbHLkBjopAAAAAElFTkSuQmCC" />
 <link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAMAAAAKE/YAAAAA3lBMVEURFicUHDQOEiIMEB4LDhsZJUYjNmYqQXssSIkwS4swT5UmPnUgMVw0UppDbMlJeedShfpWjP5Yjv5UiP5QhPs9ZsQ4XbJZkP5Shv5Sif41WKdUh/1Qhv5Lg/4cLFNGc9cVJDgODSAVQz1AZr0giWQbalMTNjUkp3QmuX4QJCsaYU4qxIUegV88YrctTZUnvYFRges+btYil2tIff4WS0EddVkYV0gs0Y0+cdwjWW4t1ZE5pMNDiusytaZBkuItx5A8l9M1p7UvrKAus5k7nMkmxHsehGAwupxCbuAPICh1OfggAAANkElEQVR42tWcC1/bNhfGFUlceqEhhFIMMRRGSILXeSNAtpaWdh1d3+//hV7J1uVIlm1JTounFUiy/tp/nj56zpEiG6HKGKAnH5j9Vz7A4EX5BBu/d9ADXhPLAY1N6L4ga2BcgpYPxBvAltBPjSlgCzI14LMSmv/gpugJrwbH8kuSIgCPegasJiBGVXnhK30aStHyCXSIpn5qyAqzJpT42iYVpftiEktKoHB/7YFsLDkPQZ70aiKqgldOQ+EUKzn6prSu0yCibT/3DBqWEp3MqILcI2gMkgJ5QPfH1LD6ITgpe6p0BVrpaxH3B9osJ8isjD2Gxsaj/wI0gsh6MrqIewFdVg/Z4IOurprPPYIWsVbTgvYSGqvGokSEoG7kHkALdF0OwWs1zE8ObXQbJnQd8tND2xFnSt1zaPm479AY6W5O4wss3DSeEtoiaMqLvkDbf79pkz5Dm0+bSncvoN1eVsHXb+gqaG+htbrqOfxfPYTGaqvZAd3X9MDIKicGfD+hsbu/6D20Hc8K5b8Crbtnz3r486FB+ylBwSLWj/lJoOGCUL2Jnw2NCS0Hafnj4A6oek14Gvl6Yw3QhOLBxubW9rPnz7ZfvNxgz0kztGPhGsrcDZrSwebOq+HuaDTa22PfxvvD19sv2cu1zIahATZ46YdCY0Z8MBy9GY3Hh7t8HLKRjEbJ8Ihxu/5gY3vRoA4h7gCN6cbOcG9vfFyw6jHZnySMe3tQwYaZoW0h0+NnQNONo903jPh4zIYBPWG/JgnDRqZJ9I6RfA/Wh8c/GpqgZxx5PLaRS2r2lR4mwy1izUlstnLyrQQSR0LTk1OFPD62kEupC+zXb7XYwM8QOsLQcdBka3dPIltCT9RIJ2maDDepcTqjsunFIt6/eHeBxkda5qo3NDUbk2TboIZTsHj5DJ8j7zrYBfqXN1rm41pkwZ0cEePzQXMRTtHFlIYzh0O/8mYuLXJAMIJhB5kvZ/PF2U+Ahsx1fgYG4VpTpD9a0/Do7Oxqnv0aI3QgNH7noXOaQug0+Y0qaBBzdHGRzfPzHw9Nd97UxIbNnGroNHlBlcIqnen5LJvPZzHTMAyabu6N272RQuBybBBktEgsNaZZPp9nUdMwCBq//X3s9sakYg6DefIHMvsOurhmMrNxGTMNg6AJMHRtPLugl9zWuPQ0zw96My+Ys4s45gBoAsxRPwdTBzTD3iBSbHSGbjPGzN1xE+UOQvyh0emeU+iJDZ1WmNP0gMotGhbOWc7HPIuYhqT45j8Lt5Q56mp3arIb44SWmUfv8pKZQd+GC02KESF0Wz67mLnUqKjbWZZnAvuSxDAH2IM52iW0XQHrmMvYY9ZYMeSsoM6uoyZhyEQk7wR0Y19Xy7xMf6OYXGVqMOi7uJD2h1YZXdsjOcMOQP95hi5WADqbL6KqYQA03XIJPalCp3Vj+dfsfQah43ol5mhvaPLL3mFL7XZnndB5ufywAjrzcUlD56DIDu+JOBjy1cpxg50bx/L+Y2aNWRhyoXAYNDlp7eua2JefHlYPJvPqKsgdQmXxxNvSuw3eaGZeLpf3nz9mJnUetGSREpOQiUh39naPD+snYUPWceIvf3/Nc1PoiwChpcCqFvnPwzpvcOK0WA+6kO//+Zo/Ps6LBik33EG9E49YldN3Ip6OAvu6MjQ+M+K5aDXKIcHn13fIG7uklv5o2wUH4dHU1zmZl8vPXx8fcznmanDunH2fcexA6HJORkHby24Hs4VsUBde4YuA2Q3xmo7CH0ROSi9mPPh97PZGXW4s0y8mso0tNP+2aBdbp4b0SDC07Q038/3XCrIDmot93kYNkYP6aWiPyjLFwfw5czA7qef5VQM1kS10DDRS0K1m5sz/PGZyfeIh9pS0iSwNEth7nI7dc9AZG18eVafvo3V2e9boZlXCSWDv8W7kDb388FgsqJzQNdTUjWybOgya7ox2ncgTpzfE0sRf66mbugIfBr1lQhftszufP+sFVZ77is2WXk6liRaakFBocmIHRxl3jqzTDUYA9HxuLwkInH6W0N6r8dOk4gtndHx8hGtX7wjJZ4hUrUGqvCHQ9GC0X4F2hx1cB/qL7bC1bqBjoV8kYOrVht29vaji0JmfQyyDyKa/6mhvaDwYJkZeuHvRL49VaE/q7IJAZ0BoguOUZv5I5Kc/tT2/S2h/X2fn1OUO4hje0C8T2Nm5qrdD6EyGtYfYUmoiv2mlY6ERfp2kCtrNXBFaq535WKRwNYFhhzF2MAds9W5qf6Ru6A+PNdSZV0kvqzmEdkZH0FYvlzoVH125of/N6oePsXlWq50C2ZB28TSvivtNW1/p8lMjs0cjkt1Q4QZtbdINGtGjxFm6W9zRmCIm9K9Ul21Sq3MQNB6cNlEvP7Yo3U49gzldzxwCjSg3SK3S9w9ZI7VPRWf5UV0RdoNGdDupQ262tKfWvENtzo0IaLYYqKXWjXS81rxrIoSosrIe6KKau4iXbB42A/tonX2jOqfJ2qAxPqjRunEeCvSauFbU8gMv0uSNYGh+UuooiYVuXczkM9V5kPVB80+K6Xblk29v6JZFel7WxBbkYOiCenOYGH5ethZxzwzJ50iUw/VCF7Nx8C4p5VU6s/Hvyoc5b9paKKHbRww0+5M3v0vsUmj23c8ejRWd22Pd0ODoJUXb33lJHx9OSmRP6DJD6qjLibhmaH0SHmGKtv5MD/kW36Sk9oXO6qBzHnnEgzmoYeJDX62JKX022hWbOHytlT10IS6gL+h6oeFpZ/GhGD3g0HLp+CFA58y9ahRlfK1KI/MMI9nYTTRz+skjPZoFFw3TmtPDhC7dofZC7h86U+eX64XGuPrwNDkE+zfLj/7QIq8t5GzmNw+9d5j0Fd1YXHygdkLkqjHA1KWrLWrR5K0HGhvHtlV+sGmYgo3I5PtfoebIIi3tBW3cfwOJO4aQwfBwovcTkneIzkJNbVJn8//5ucMDGtzZBB6Qp1vl5m+BPEm3KT67fR+IbHJ7u8MH2r7/hljBvUoUdHJ6QhE6u8yCpYbUfAdyXdCSXFqjeBNsZa7DLjlAtHD5BZPatyxqrQV2du1H3A4NrjFGAJrv3IhpmCbpC0qK30AuQ5Q2Ppzh0De+QrcrreaeqfdgKHRO/tig8r0UUgebQyzU/YVuhFZXvdomwfzjjHJXb3KE9MEesuAcD2EOEXmdeVbDVmjz/huwjFO+W11eMwSOxyA6DZZa7Ifwfbx1KI3hVbzqKrdi0I1C5/LqLPiZAwrM6lLmLCCjWz1tW0PNTfo84Zu+O9g688XmIo+9wOTj0N5x1wytL3JUVzlKaIxOJ7Y1pEHuuEFCqVeejXQLtHm/AutaTf5RRvJ6YFmjHLSoi6uQyZivvtEA5AZo8zYQCPAVO3r724S4z0wVubcKoM5XFyTA0HXQ9s1v1DwsH5O3+8MTp8xl8IWldb7yXM6KQeugK042biFCn79G9czSIT9M55orvDGchApXrsYx2sSkHplTT1eeUzHPVrd+K3CNTOuVdmksH7eet6Q3eSF2m7FZ2N0FMdOCuinxkLr+Vc9MWcibB786672H2KvZIijrmuxhRTXW5Rz7DkLu5m3Yq/yKhDO7oGG51iEXDM0sgqZ5E/Yqv12E2blwBx8uYgMaZEkAcTFlGfZ85eZerebTBQ2TubgZhwu60muE3B6p6hGKzi9yxr0ygVf5xQ2iXhukFjSlFXuAq+bxOqA5NuOeXs8Z6Xs2GG82v57eLGgwsrrxiTs99L8vrIjRg/8teHF5d3c1nd7dnS9QccuVUGRgDxPauumUf8I1EIsfUicBHE4spSaO9JC41powltp5XjcG2JiINdDYgo4X2saOxBWlsBSaGM6QulZuVRaJLE7IgDNJccxEmlnoDQIaRh4G7XSs0urchj4tE28M+J1ajNgyRafkMI63RnuD6LSTj8zcQOJWIVj+7JR2xrGeaD+b1NAeZlbAO2d1YCbl4Xjcen6j2c8SVdMrS5hdR/hthqoqa+hoX0gjC3hq2AMuS+Bd1boldEkNdI/1syE4SA94YxbZikZfuFs5xxiZdcAYlIKqWknlahWP5ibqVGAHaIle/tLQmtm4K1K3fJYHMKOnoFgQyocUtC/wxjfGMqDrEMzdfCH6Z0NmBQ12Z+LuQWUI3T3oALWEhgOIa6ZGtDfso8RduzpqzEFzIgpY42ecK9aadUQtVyylsdFBixu1dHGyOkocy2xUQYtYQsOuA64RY6B1R9dNZwhNKtDYtd3YZbSffw5zc5PSnaHV1Wz6WaTIVFVtpztoxdGdF4Rryg2zr6tCIxO6I3P33ADQtA4alu/4fIaXw4KLTCOAVWdHiVtoauZFF527pQX0Mykzj9Ygc2g5AbsxG+boUr5V0LmDQ0N33eEgwB1d5QbQdUJX14jR0N1LCmxFaa3MWunOFQXeGSJ6DhK1bU4bh3XKoIM3SHdrqOxo4VZHqjr1dXJDplPTD6CbvEHhIiDe0BWDRIpM4ZcHdHxfZ0oev4SF8pIW7K65QaqvdPAyrevraopLvLjwDcTaGUK3ZQco49HUZF2pUd+KOqG7GVlgk8DDBFVoKlX3gI7FrTg73hvSGB7J0Q3akLsDsxp+1ijTI94X8IrjTpsyRHjDDzlaaQIudmy/ftDHywHM9P+1JpI7dhnUxQAAAABJRU5ErkJggg==" />
@@ -42,7 +84,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   }
   var code = pick();
   window.UI_PICK = code;
-  if (BUILTIN.indexOf(code) === -1) document.write('<script src="i18n/' + code + '.js?v=1"><\/script>');
+  if (BUILTIN.indexOf(code) === -1) document.write('<script src="i18n/' + code + '.js?v=2"><\/script>');
 })();
 </script>
 <script>
@@ -64,7 +106,8 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
     };
     var l = document.createElement("link");
     l.rel = "manifest";
-    l.href = URL.createObjectURL(new Blob([JSON.stringify(m)], { type: "application/manifest+json" }));
+    // Dans la coquille EVERYWHERE : une seule application installée pour tout 24/24 (fiche du portail).
+    l.href = window.EW_SHELL ? "everywhere/manifest.webmanifest" : URL.createObjectURL(new Blob([JSON.stringify(m)], { type: "application/manifest+json" }));
     document.head.appendChild(l);
   } catch (e) { /* navigateur ancien : l'appli marche quand même, sans icône personnalisée */ }
 })();
@@ -88,17 +131,35 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
 <style>
   /* Nuit d'abord (24h/24) : sombre par défaut, clair si l'appareil ou la personne le demande. */
   :root{
-    --bg:#0b0e1a; --panel:#141a2e; --panel2:#1b2340; --blue:#3d7bff; --blue2:#5b8cff;
-    --text:#eef1fb; --muted:#9aa4c7; --line:#26304f; --ok:#2ecf8e; --warn:#ffb020; --err:#ff5c7a;
+    /* --blue : fond des boutons (texte blanc, contraste 4,9:1) ; --link : texte des liens (contraste ≥ 4,5:1, WCAG AA). */
+    --bg:#08111f; --panel:#111c2e; --panel2:#16243a; --blue:#2f6ae6; --blue2:#5fb8ff; --link:#7cc4ff;
+    --text:#f4f7fa; --muted:#a8b5c8; --line:#233452; --ok:#2ecf8e; --warn:#ffb020; --err:#ff5c7a;
     color-scheme: dark;
   }
   @media (prefers-color-scheme: light){
     :root:not([data-theme="dark"]){ --bg:#f4f6fb; --panel:#ffffff; --panel2:#eef1fb; --text:#131a2e;
-      --muted:#5a6485; --line:#dbe1f2; --ok:#12955f; --warn:#a86a00; --err:#d63355; color-scheme: light; }
+      --muted:#5a6485; --line:#dbe1f2; --ok:#12955f; --warn:#a86a00; --err:#d63355; --link:#1d55d0; --blue2:#2456c9; color-scheme: light; }
   }
   :root[data-theme="light"]{ --bg:#f4f6fb; --panel:#ffffff; --panel2:#eef1fb; --text:#131a2e;
-    --muted:#5a6485; --line:#dbe1f2; --ok:#12955f; --warn:#a86a00; --err:#d63355; color-scheme: light; }
+    --muted:#5a6485; --line:#dbe1f2; --ok:#12955f; --warn:#a86a00; --err:#d63355; --link:#1d55d0; --blue2:#2456c9; color-scheme: light; }
   *{box-sizing:border-box;}
+  /* Accessibilité (ew_prefs) : texte agrandi (contenu seulement, les barres fixes gardent leur taille), contraste, animations. */
+  html[data-ts="1"] main{zoom:1.15;}
+  html[data-ts="2"] main{zoom:1.3;}
+  :root.contrast-high{ --muted:var(--text); --line:#8fa3cf; }
+  :root.contrast-high[data-theme="light"]{ --line:#5b6b91; }
+  :root.contrast-high .card, :root.contrast-high .btn, :root.contrast-high input, :root.contrast-high textarea, :root.contrast-high select{border-width:2px;}
+  :root.contrast-high :focus-visible{outline:3px solid var(--blue2) !important;outline-offset:2px;}
+  html.motion-off *, html.motion-off *::before, html.motion-off *::after{animation:none !important;transition:none !important;scroll-behavior:auto !important;}
+  #netBack, #netCallBtn, #netMore, #netUnblock{min-height:44px;} /* TOUCH : zones à toucher d'au moins 44 px */
+  #netLog .bubble{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none;}
+  .bubble.has-say{position:relative;padding-right:46px;}
+  .net-say{position:absolute;right:2px;top:50%;transform:translateY(-50%);width:44px;height:44px;border:0;border-radius:50%;background:transparent;font-size:18px;cursor:pointer;line-height:1;}
+  .net-say:active{background:rgba(127,127,127,.18);}
+  .a11y-seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;}
+  .a11y-seg button{min-width:44px;min-height:44px;border:none;background:transparent;color:var(--text);font-weight:700;cursor:pointer;}
+  .a11y-seg button[aria-checked="true"]{background:var(--blue);color:#fff;}
+  .a11y-seg button.ts1{font-size:17px;} .a11y-seg button.ts2{font-size:21px;}
   body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;}
   header{padding:18px 16px 8px;text-align:center;position:relative;}
   .settings-btn{position:absolute;top:12px;right:12px;width:46px;height:46px;border-radius:14px;border:1px solid var(--line);background:var(--panel);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;}
@@ -160,11 +221,16 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   button.btn{border:none;border-radius:12px;padding:13px 16px;font-size:15px;font-weight:600;cursor:pointer;
     min-height:48px;}
   .primary{background:var(--blue);color:#fff;flex:1;}
-  .primary:active{background:var(--blue2);}
+  .primary:active{background:#2456c9;}
   .ghost{background:var(--panel2);color:var(--text);border:1px solid var(--line);}
   .mic{width:56px;height:56px;border-radius:50%;background:var(--panel2);border:1px solid var(--line);
     font-size:22px;flex:0 0 auto;}
-  .mic.recording{background:var(--err);color:#fff;border-color:var(--err);}
+  /* Micro : rouge + onde qui s'élargit = il écoute ; onde rapide et bouton grossi = il entend une voix. */
+  .mic.recording{background:var(--err);color:#fff;border-color:var(--err);box-shadow:0 0 0 6px color-mix(in srgb,var(--err) 30%,transparent);animation:micWait 1.6s ease-out infinite;}
+  .mic.recording.hear{box-shadow:0 0 0 10px color-mix(in srgb,var(--err) 55%,transparent);animation:micHear .6s ease-out infinite;transform:scale(1.08);}
+  @keyframes micWait{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--err) 60%,transparent);}100%{box-shadow:0 0 0 18px transparent;}}
+  @keyframes micHear{0%{box-shadow:0 0 0 2px color-mix(in srgb,var(--err) 80%,transparent);}100%{box-shadow:0 0 0 22px transparent;}}
+  @media (prefers-reduced-motion:reduce){ .mic.recording,.mic.recording.hear{animation:none;} }
   .result{margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);}
   .result .label{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:4px;}
   .result .txt{font-size:17px;line-height:1.4;white-space:pre-wrap;}
@@ -177,7 +243,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .msg.ok{background:rgba(46,207,142,.12);color:var(--ok);border:1px solid rgba(46,207,142,.3);}
   .promo-banner{background:rgba(61,123,255,.12);border:1px solid rgba(61,123,255,.3);color:var(--text);
     font-size:12.5px;text-align:center;padding:8px 14px;border-radius:10px;margin:0 16px 8px;}
-  .promo-banner a{color:var(--blue);}
+  .promo-banner a{color:var(--link);}
   .inapp-banner{display:none;background:rgba(255,176,32,.14);border:1px solid rgba(255,176,32,.4);
     color:var(--text);font-size:12.5px;padding:10px 14px;border-radius:10px;margin:0 16px 8px;
     align-items:center;gap:10px;}
@@ -215,7 +281,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .toggle::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;
     background:#fff;transition:left .15s;}
   .toggle.on::after{left:23px;}
-  a.link{color:var(--blue);}
+  a.link{color:var(--link);}
   [hidden]{display:none !important;}
   .install-top{margin:0 16px 10px;text-align:center;}
   .install-top-btn{background:var(--ok);color:#0b0e1a;border:none;border-radius:999px;padding:10px 18px;
@@ -244,23 +310,31 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .footer-note{text-align:center;color:var(--muted);font-size:11px;margin-top:18px;}
   /* Réseau */
   nav.tabs button[hidden]{display:none;}
-  .home-tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:4px 0 14px;}
-  .home-tile{position:relative;display:flex;flex-direction:column;align-items:center;gap:12px;min-height:200px;padding:26px 10px 20px;
-    border-radius:20px;background:var(--panel);border:2px solid var(--ok);color:var(--text);font-family:inherit;cursor:pointer;
-    -webkit-tap-highlight-color:transparent;transition:transform .1s;}
-  .home-tile:active{transform:scale(.97);}
-  .home-tile.chat{border-color:var(--blue);}
-  .home-tile-ic{position:relative;width:78px;height:78px;border-radius:50%;background:var(--ok);color:#0b0e1a;
-    display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-  .home-tile.chat .home-tile-ic{background:var(--blue);color:#fff;}
-  .home-tile-ic svg{width:38px;height:38px;}
-  .home-tile-name{font-size:19px;font-weight:800;line-height:1.2;text-align:center;overflow-wrap:anywhere;}
-  .home-tile-sub{font-size:13px;color:var(--muted);line-height:1.35;text-align:center;}
+  /* Accueil 0.8.1 (même look que l'accueil de ONE WORLD) : deux lignes, icône carrée en dégradé, nom et sous-titre à gauche. */
+  .home-tiles{display:grid;grid-template-columns:1fr;gap:10px;margin:4px 0 14px;}
+  .home-tile{position:relative;display:flex;flex-direction:row;align-items:center;gap:14px;min-height:76px;padding:12px 44px 12px 14px;
+    border-radius:18px;background:var(--panel2);border:1px solid var(--line);color:var(--text);font-family:inherit;cursor:pointer;text-align:start;
+    box-shadow:0 10px 26px rgba(0,0,0,.18);-webkit-tap-highlight-color:transparent;transition:transform .1s, border-color .15s;}
+  .home-tile::after{content:"";position:absolute;inset-inline-end:18px;top:50%;width:9px;height:9px;margin-top:-5px;
+    border-top:2px solid var(--muted);border-inline-end:2px solid var(--muted);transform:rotate(45deg);}
+  [dir="rtl"] .home-tile::after{transform:rotate(-45deg);}
+  .home-tile:active{transform:scale(.985);}
+  .home-tile:hover{border-color:var(--blue2);}
+  .home-tile-ic{position:relative;width:48px;height:48px;border-radius:14px;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    background:linear-gradient(135deg,#2ee6c5,#0e9f8e);box-shadow:0 6px 16px rgba(22,184,166,.3);}
+  .home-tile.chat .home-tile-ic{background:linear-gradient(135deg,#3cc8ff,#1a73e8);box-shadow:0 6px 16px rgba(26,140,255,.35);}
+  .home-tile-ic svg{width:26px;height:26px;}
+  .home-tile-name{font-size:16.5px;font-weight:800;line-height:1.2;overflow-wrap:anywhere;}
+  .home-tile-sub{display:block;font-size:14px;color:var(--muted);line-height:1.35;margin-top:3px;}
+  .home-tile-txt{flex:1;min-width:0;}
   .home-tile-badge{position:absolute;top:-2px;inset-inline-end:-2px;min-width:24px;height:24px;padding:0 6px;box-sizing:border-box;
     border-radius:12px;background:var(--err);color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;
     justify-content:center;border:2px solid var(--panel);}
   .home-tile-badge[hidden]{display:none;}
   .home-tr{margin:-2px 0 14px;}
+  /* Avant que le script ne dessine les deux touches et l'interrupteur de traduction : leur place est réservée
+     (touches 200 px + interrupteur environ 86 px) pour que le texte et le pied de page ne sautent pas. */
+  .home-tiles:empty{min-height:162px;margin-bottom:100px;}
   .tr-switch{display:flex;gap:4px;padding:4px;background:var(--panel);border:1px solid var(--line);border-radius:999px;}
   .tr-switch button{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:6px;border:none;background:transparent;
     color:var(--muted);font-family:inherit;font-weight:700;font-size:14.5px;padding:11px 8px;border-radius:999px;cursor:pointer;
@@ -306,6 +380,73 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .net-conv-top{display:flex;justify-content:space-between;gap:8px;font-size:15px;min-width:0;}
   .net-conv-lang{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .net-conv-prev{font-size:13px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  /* Liste façon messagerie : rond, nom, heure, aperçu, compteur */
+  .net-search{display:flex;align-items:center;gap:9px;background:var(--panel2);border:1px solid var(--line);border-radius:999px;padding:0 14px;margin:0 0 10px;}
+  .net-search svg{width:18px;height:18px;flex:none;color:var(--muted);}
+  .net-search input{flex:1;min-width:0;background:transparent;border:0;color:var(--text);font-family:inherit;font-size:16px;padding:11px 0;outline:none;}
+  .net-search:focus-within{border-color:var(--blue);}
+  .net-av{width:52px;height:52px;border-radius:50%;color:#0b0e1a;font-weight:800;font-size:21px;display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;text-transform:uppercase;}
+  .net-contact .net-av{width:44px;height:44px;font-size:18px;}
+  img.net-av{object-fit:cover;background:var(--panel2);}
+  .net-me-row{display:flex;align-items:center;gap:14px;}
+  .net-me-row .net-me{flex:1;min-width:0;}
+  .net-photo-btn{position:relative;flex-shrink:0;padding:0;border:0;background:none;cursor:pointer;border-radius:50%;}
+  .net-photo-btn .net-av{width:64px;height:64px;font-size:26px;}
+  .net-photo-cam{position:absolute;right:-3px;bottom:-3px;width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;
+    display:flex;align-items:center;justify-content:center;border:2px solid var(--panel);box-sizing:border-box;}
+  .net-photo-cam svg{width:14px;height:14px;}
+  .net-photo-btn[aria-busy="true"]{opacity:.55;}
+  .net-conv.net-row{flex-direction:row;align-items:center;gap:12px;background:transparent;border:0;border-radius:14px;padding:8px 6px;}
+  .net-conv.net-row:hover,.net-conv.net-row:focus-visible{background:var(--panel2);}
+  .net-conv.net-row.unread b::after{display:none;}
+  .net-row-mid{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;}
+  .net-row-l1{display:flex;align-items:baseline;justify-content:space-between;gap:8px;min-width:0;}
+  .net-row-l1 b{font-size:16px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .net-row-when{flex:none;font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;}
+  .net-row-l2{display:flex;align-items:center;gap:6px;min-width:0;}
+  .net-row-l2 .net-conv-prev{flex:1;min-width:0;font-size:14px;}
+  .net-row-flag{flex:none;font-size:14px;line-height:1;}
+  .net-row-count{flex:none;min-width:20px;height:20px;padding:0 6px;box-sizing:border-box;border-radius:10px;background:var(--blue);color:#fff;
+    font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+  .net-row.unread .net-row-l1 b,.net-row.unread .net-conv-prev{color:var(--text);font-weight:700;}
+  .net-row.unread .net-row-when{color:var(--blue2);font-weight:700;}
+  .net-avwrap{position:relative;flex-shrink:0;display:inline-flex;}
+  .net-online{position:absolute;right:0;bottom:1px;width:15px;height:15px;border-radius:50%;background:var(--ok);border:3px solid var(--panel);box-sizing:border-box;}
+  .net-seen{position:absolute;right:-4px;bottom:-2px;background:var(--panel2);color:var(--ok);border:2px solid var(--panel);border-radius:999px;
+    font-size:10.5px;font-weight:800;padding:0 4px;line-height:15px;white-space:nowrap;}
+  .net-chat-title span.net-pres-on{color:var(--ok);font-weight:700;}
+  .net-chat-head .net-av{width:40px;height:40px;font-size:17px;}
+  .net-chat-head .net-online{width:13px;height:13px;border-width:2px;}
+  .net-pres-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 2px 2px;font-size:14px;line-height:1.4;}
+  .net-pres-row small{display:block;color:var(--muted);font-size:12.5px;margin-top:2px;}
+  .net-nomatch{color:var(--muted);text-align:center;padding:18px 10px;font-size:14px;}
+  /* Barre d'onglets en bas */
+  .bbar{position:fixed;left:0;right:0;bottom:0;z-index:40;display:grid;grid-template-columns:repeat(4,1fr);background:var(--bg);
+    border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));}
+  .bbar[hidden]{display:none;}
+  .bbar button{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;background:transparent;border:0;color:var(--muted);
+    font-family:inherit;font-size:12px;font-weight:600;padding:5px 2px;cursor:pointer;-webkit-tap-highlight-color:transparent;min-width:0;}
+  .bbar button span{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .bbar button svg{width:24px;height:24px;}
+  .bbar button.on{color:var(--blue2);font-weight:800;}
+  .bbar .bbar-n{position:absolute;top:0;left:calc(50% + 6px);min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;border-radius:9px;
+    background:var(--err);color:#fff;font-size:10.5px;font-weight:800;display:flex;align-items:center;justify-content:center;border:2px solid var(--bg);}
+  body.has-bbar main{padding-bottom:92px;}
+  /* Messagerie et Téléphone en plein écran, comme une appli de messagerie : sans le grand bandeau d'accueil. */
+  .net-topbar .net-tb-actions{display:none;}
+  body.net-full header.hero-earth, body.net-full .promo-banner, body.net-full .trust-line, body.net-full .install-top,
+  body.net-full .inapp-banner, body.net-full .site-footer, body.net-full #netHomeBtn{display:none !important;}
+  body.net-full main{padding-top:10px;}
+  body.net-full .net-topbar{justify-content:space-between;margin:4px 0 12px;}
+  body.net-full .net-topbar-title{font-size:28px;font-weight:800;letter-spacing:-.4px;}
+  body.net-full .net-topbar .net-tb-actions{display:flex;gap:8px;}
+  .net-tb-btn{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--panel2);color:var(--text);
+    display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;}
+  .net-tb-btn svg{width:20px;height:20px;}
+  body.net-full #netRoot .card.net-listcard{background:transparent;border:0;box-shadow:none;padding:0;}
+  body.net-full #netRoot .card.net-listcard > .net-h3{display:none;}
+  body.net-full #netRoot .net-listcard .net-contact{background:transparent;border:0;padding:8px 6px;}
   .net-chat-head{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
   .net-chat-title{display:flex;flex-direction:column;min-width:0;}
   .net-chat-title b{font-size:16px;}
@@ -396,7 +537,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .legal-view h1{font-size:22px;margin:4px 0 6px;text-wrap:balance;}
   .legal-view h2{font-size:16px;margin:22px 0 8px;}
   .legal-view p,.legal-view li,.legal-view td,.legal-view th{font-size:14px;line-height:1.6;}
-  .legal-view a{color:var(--blue);}
+  .legal-view a{color:var(--link);}
   .legal-view a.back{display:inline-block;margin-bottom:14px;text-decoration:none;color:var(--muted);font-size:13px;}
   .legal-view .updated{color:var(--muted);font-size:12.5px;margin-bottom:18px;}
   .legal-view .price{background:var(--panel2);border-radius:12px;padding:10px 14px;margin:10px 0;}
@@ -407,11 +548,35 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .legal-view ul{padding-left:20px;}
   .legal-view code{background:var(--panel2);border-radius:6px;padding:1px 5px;}
   .legal-view footer{border-top:1px solid var(--line);margin-top:22px;padding-top:12px;color:var(--muted);font-size:12px;}
+
+  /* Apparence « Terre tech » (proposition, octobre 2026) : bandeau d'accueil avec l'image de la Terre,
+     affichée en entier sous le titre (image d'origine 649 x 361). */
+  header.hero-earth{
+    --earth-w:min(100vw, 649px);
+    --earth-h:calc(var(--earth-w) * 361 / 649);
+    background:radial-gradient(120% 90% at 50% 0%, #0f2747 0%, #02050b 70%);
+    padding:18px 16px 22px;
+    border-radius:0 0 26px 26px;
+    margin-bottom:12px;
+    box-shadow:0 12px 40px rgba(31,226,205,.16);
+    color:#eaf6ff;
+  }
+  header.hero-earth h1{color:#ffffff;font-size:26px;text-shadow:0 0 18px rgba(31,226,205,.55);}
+  header.hero-earth p{color:#a8efe6;font-size:14px;}
+  header.hero-earth .logo{box-shadow:0 0 0 1px rgba(168,239,230,.25),0 0 24px rgba(31,226,205,.35);}
+  header.hero-earth .settings-btn{background:rgba(2,5,11,.55);border-color:rgba(168,239,230,.3);color:#eaf6ff;}
+  /* Dans 24/24 EVERYWHERE : pas de grand en-tête, ni de bandeau ou de bouton d'installation en double. */
+  html.embedded header.hero-earth, html.embedded .install-top, html.embedded #installCard{display:none !important;}
+  html.embedded main{padding-top:6px;}
+  /* Coquille ONE WORLD : place de la barre du haut réservée dès le premier affichage (pas de saut quand elle arrive). */
+  #ewsTopSlot{display:none;}
+  html.ew-shell #ewsTopSlot{display:block;height:57px;}
 </style>
 </head>
 <body>
+<div id="ewsTopSlot" aria-hidden="true"></div>
 
-<header>
+<header class="hero-earth">
   <svg class="logo" viewBox="0 0 512 512" role="img" aria-label="24/24 Talk">
     <defs>
       <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
@@ -565,6 +730,24 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
         <button class="toggle" id="statsToggle" aria-pressed="true"></button>
       </div>
       <div class="settings-row">
+        <span id="autoReadLbl" data-i18n="net_autoread">Lire à voix haute les messages reçus</span>
+        <button class="toggle" id="autoReadToggle" role="switch" aria-checked="false" aria-labelledby="autoReadLbl"></button>
+      </div>
+      <div class="settings-row">
+        <span id="a11yTsLbl" data-i18n="a11y_ts">Taille du texte</span>
+        <span class="a11y-seg" role="radiogroup" aria-labelledby="a11yTsLbl">
+          <button type="button" role="radio" data-a11y-ts="0" aria-checked="true">A</button><button type="button" role="radio" data-a11y-ts="1" class="ts1" aria-checked="false">A</button><button type="button" role="radio" data-a11y-ts="2" class="ts2" aria-checked="false">A</button>
+        </span>
+      </div>
+      <div class="settings-row">
+        <span id="a11yContrastLbl" data-i18n="a11y_contrast">Contraste renforcé</span>
+        <button class="toggle" id="a11yContrast" role="switch" aria-checked="false" aria-labelledby="a11yContrastLbl"></button>
+      </div>
+      <div class="settings-row">
+        <span id="a11yMotionLbl" data-i18n="a11y_motion">Réduire les animations</span>
+        <button class="toggle" id="a11yMotion" role="switch" aria-checked="false" aria-labelledby="a11yMotionLbl"></button>
+      </div>
+      <div class="settings-row">
         <label for="uiLangSelect" data-i18n="ui_lang">Langue de l'interface</label>
         <select id="uiLangSelect" class="ui-lang-select"></select>
       </div>
@@ -579,7 +762,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
         <span data-i18n="sub">Abonnement</span>
         <span id="subStatus" style="color:var(--muted);font-size:13px;"></span>
       </div>
-      <button class="btn" id="subBtn" style="width:100%;margin-top:8px;">S'abonner — 1,99 $/mois</button>
+      <button class="btn" id="subBtn" style="width:100%;margin-top:8px;" data-i18n="sub_btn">S'abonner — 1,99&nbsp;€/mois</button>
       <div id="subMsg"></div>
       <p style="color:var(--muted);font-size:11px;margin:8px 0 0;" data-i18n-html="pay_note_html">
         Le paiement s'effectue sur une page sécurisée Stripe, en dehors de cette application.
@@ -3482,7 +3665,7 @@ const UI_STRINGS = {
     footer_note_html: "24/24 Talk — version web gratuite. Aucun compte requis. Votre historique et vos réglages restent sur cet appareil. <a class=\"link\" href=\"privacy.html\">Confidentialité</a> · <a class=\"link\" href=\"cgu.html\">CGU</a> · <a class=\"link\" href=\"cgv.html\">CGV / Tarifs</a> · <a class=\"link\" href=\"mentions-legales.html\">Mentions légales</a>",
     rights: "© 2026 Sébastien Chevrier. Tous droits réservés.",
     sub_active: "Abonné ✓", sub_manage: "Gérer mon abonnement", sub_days: "Gratuit encore {n} j",
-    sub_btn: "S'abonner — 1,99 $/mois", sub_ended: "Période gratuite terminée",
+    sub_btn: "S'abonner — {price}/mois", sub_ended: "Période gratuite terminée",
     pay_off: "Le paiement en ligne n'est pas encore activé. Contact : schevrier.1975@gmail.com",
     err_network: "Impossible de traduire. Vérifiez votre connexion.",
     err_quota: "Le service de traduction gratuit a atteint sa limite pour aujourd'hui. Réessayez plus tard.",
@@ -3555,7 +3738,7 @@ const UI_STRINGS = {
     footer_note_html: "24/24 Talk — free web version. No account needed. Your history and settings stay on this device. <a class=\"link\" href=\"privacy.html\">Privacy</a> · <a class=\"link\" href=\"cgu.html\">Terms of use</a> · <a class=\"link\" href=\"cgv.html\">Sales terms / Pricing</a> · <a class=\"link\" href=\"mentions-legales.html\">Legal notice</a> (legal pages in French)",
     rights: "© 2026 Sébastien Chevrier. All rights reserved.",
     sub_active: "Subscribed ✓", sub_manage: "Manage my subscription", sub_days: "Free for {n} more days",
-    sub_btn: "Subscribe — $1.99/month", sub_ended: "Free period ended",
+    sub_btn: "Subscribe — {price}/month", sub_ended: "Free period ended",
     pay_off: "Online payment is not available yet. Contact: schevrier.1975@gmail.com",
     err_network: "Unable to translate. Check your connection.",
     err_quota: "The free translation service has reached its limit for today. Try again later.",
@@ -3628,7 +3811,7 @@ const UI_STRINGS = {
     footer_note_html: "24/24 Talk — versión web gratuita. Sin cuenta. Tu historial y tus ajustes se quedan en este dispositivo. <a class=\"link\" href=\"privacy.html\">Privacidad</a> · <a class=\"link\" href=\"cgu.html\">Condiciones de uso</a> · <a class=\"link\" href=\"cgv.html\">Condiciones de venta / Precios</a> · <a class=\"link\" href=\"mentions-legales.html\">Aviso legal</a> (páginas legales en francés)",
     rights: "© 2026 Sébastien Chevrier. Todos los derechos reservados.",
     sub_active: "Suscrito ✓", sub_manage: "Gestionar mi suscripción", sub_days: "Gratis {n} días más",
-    sub_btn: "Suscribirse — 1,99 $/mes", sub_ended: "Periodo gratuito terminado",
+    sub_btn: "Suscribirse — {price}/mes", sub_ended: "Periodo gratuito terminado",
     pay_off: "El pago en línea aún no está disponible. Contacto: schevrier.1975@gmail.com",
     err_network: "No se puede traducir. Comprueba tu conexión.",
     err_quota: "El servicio de traducción gratuito ha alcanzado su límite por hoy. Inténtalo más tarde.",
@@ -3701,7 +3884,7 @@ const UI_STRINGS = {
     footer_note_html: "24/24 Talk — versão web gratuita. Sem conta. Seu histórico e suas configurações ficam neste aparelho. <a class=\"link\" href=\"privacy.html\">Privacidade</a> · <a class=\"link\" href=\"cgu.html\">Termos de uso</a> · <a class=\"link\" href=\"cgv.html\">Condições de venda / Preços</a> · <a class=\"link\" href=\"mentions-legales.html\">Aviso legal</a> (páginas legais em francês)",
     rights: "© 2026 Sébastien Chevrier. Todos os direitos reservados.",
     sub_active: "Assinante ✓", sub_manage: "Gerenciar minha assinatura", sub_days: "Grátis por mais {n} dias",
-    sub_btn: "Assinar — US$ 1,99/mês", sub_ended: "Período gratuito encerrado",
+    sub_btn: "Assinar — {price}/mês", sub_ended: "Período gratuito encerrado",
     pay_off: "O pagamento online ainda não está disponível. Contato: schevrier.1975@gmail.com",
     err_network: "Não foi possível traduzir. Verifique sua conexão.",
     err_quota: "O serviço de tradução gratuito atingiu o limite de hoje. Tente mais tarde.",
@@ -3774,7 +3957,7 @@ const UI_STRINGS = {
     footer_note_html: "24/24 Talk – kostenlose Webversion. Kein Konto nötig. Dein Verlauf und deine Einstellungen bleiben auf diesem Gerät. <a class=\"link\" href=\"privacy.html\">Datenschutz</a> · <a class=\"link\" href=\"cgu.html\">Nutzungsbedingungen</a> · <a class=\"link\" href=\"cgv.html\">Verkaufsbedingungen / Preise</a> · <a class=\"link\" href=\"mentions-legales.html\">Impressum</a> (Rechtstexte auf Französisch)",
     rights: "© 2026 Sébastien Chevrier. Alle Rechte vorbehalten.",
     sub_active: "Abonniert ✓", sub_manage: "Mein Abo verwalten", sub_days: "Noch {n} Tage kostenlos",
-    sub_btn: "Abonnieren – 1,99 $/Monat", sub_ended: "Kostenloser Zeitraum beendet",
+    sub_btn: "Abonnieren – {price}/Monat", sub_ended: "Kostenloser Zeitraum beendet",
     pay_off: "Die Online-Zahlung ist noch nicht verfügbar. Kontakt: schevrier.1975@gmail.com",
     err_network: "Übersetzung nicht möglich. Prüfe deine Verbindung.",
     err_quota: "Der kostenlose Übersetzungsdienst hat sein Tageslimit erreicht. Versuche es später erneut.",
@@ -3847,7 +4030,7 @@ const UI_STRINGS = {
     footer_note_html: "24/24 Talk — versione web gratuita. Nessun account richiesto. La tua cronologia e le tue impostazioni restano su questo dispositivo. <a class=\"link\" href=\"privacy.html\">Privacy</a> · <a class=\"link\" href=\"cgu.html\">Condizioni d'uso</a> · <a class=\"link\" href=\"cgv.html\">Condizioni di vendita / Prezzi</a> · <a class=\"link\" href=\"mentions-legales.html\">Note legali</a> (pagine legali in francese)",
     rights: "© 2026 Sébastien Chevrier. Tutti i diritti riservati.",
     sub_active: "Abbonato ✓", sub_manage: "Gestisci il mio abbonamento", sub_days: "Gratis ancora {n} giorni",
-    sub_btn: "Abbonati — 1,99 $/mese", sub_ended: "Periodo gratuito terminato",
+    sub_btn: "Abbonati — {price}/mese", sub_ended: "Periodo gratuito terminato",
     pay_off: "Il pagamento online non è ancora disponibile. Contatto: schevrier.1975@gmail.com",
     err_network: "Impossibile tradurre. Controlla la connessione.",
     err_quota: "Il servizio di traduzione gratuito ha raggiunto il limite di oggi. Riprova più tardi.",
@@ -3920,7 +4103,7 @@ const UI_STRINGS = {
     footer_note_html: "24/24 Talk — 免费网页版。无需账户。你的历史记录和设置保存在本设备上。<a class=\"link\" href=\"privacy.html\">隐私</a> · <a class=\"link\" href=\"cgu.html\">使用条款</a> · <a class=\"link\" href=\"cgv.html\">销售条款 / 价格</a> · <a class=\"link\" href=\"mentions-legales.html\">法律声明</a>（法律页面为法语）",
     rights: "© 2026 Sébastien Chevrier。保留所有权利。",
     sub_active: "已订阅 ✓", sub_manage: "管理我的订阅", sub_days: "还可免费使用 {n} 天",
-    sub_btn: "订阅 — 每月 1.99 美元", sub_ended: "免费期已结束",
+    sub_btn: "订阅 — 每月 {price}", sub_ended: "免费期已结束",
     pay_off: "在线支付尚未开通。联系方式：schevrier.1975@gmail.com",
     err_network: "无法翻译。请检查网络连接。",
     err_quota: "免费翻译服务今天已达到上限。请稍后再试。",
@@ -3993,7 +4176,7 @@ const UI_STRINGS = {
     footer_note_html: "24/24 Talk — 無料のウェブ版。アカウント不要。履歴と設定はこの端末内に保存されます。<a class=\"link\" href=\"privacy.html\">プライバシー</a> · <a class=\"link\" href=\"cgu.html\">利用規約</a> · <a class=\"link\" href=\"cgv.html\">販売条件 / 料金</a> · <a class=\"link\" href=\"mentions-legales.html\">法的表示</a>（法的ページはフランス語）",
     rights: "© 2026 Sébastien Chevrier. 無断転載を禁じます。",
     sub_active: "購読中 ✓", sub_manage: "購読を管理", sub_days: "無料期間：残り{n}日",
-    sub_btn: "購読する — 月額1.99ドル", sub_ended: "無料期間は終了しました",
+    sub_btn: "購読する — 月額{price}", sub_ended: "無料期間は終了しました",
     pay_off: "オンライン決済はまだご利用いただけません。お問い合わせ：schevrier.1975@gmail.com",
     err_network: "翻訳できません。接続を確認してください。",
     err_quota: "無料翻訳サービスは本日の上限に達しました。しばらくしてからもう一度お試しください。",
@@ -4066,7 +4249,7 @@ const UI_STRINGS = {
     footer_note_html: "⁦24/24 Talk⁩ — نسخة ويب مجانية. لا حاجة إلى حساب. يبقى سجلّك وإعداداتك على هذا الجهاز. <a class=\"link\" href=\"privacy.html\">الخصوصية</a> · <a class=\"link\" href=\"cgu.html\">شروط الاستخدام</a> · <a class=\"link\" href=\"cgv.html\">شروط البيع / الأسعار</a> · <a class=\"link\" href=\"mentions-legales.html\">البيانات القانونية</a> (الصفحات القانونية بالفرنسية)",
     rights: "© 2026 ⁦Sébastien Chevrier⁩. جميع الحقوق محفوظة.",
     sub_active: "مشترك ✓", sub_manage: "إدارة اشتراكي", sub_days: "مجاني لمدة {n} يومًا أخرى",
-    sub_btn: "اشترك — 1.99 دولار شهريًا", sub_ended: "انتهت الفترة المجانية",
+    sub_btn: "اشترك — {price} شهريًا", sub_ended: "انتهت الفترة المجانية",
     pay_off: "الدفع عبر الإنترنت غير متاح بعد. للتواصل: schevrier.1975@gmail.com",
     err_network: "تعذّرت الترجمة. تحقّق من اتصالك.",
     err_quota: "بلغت خدمة الترجمة المجانية حدّها لهذا اليوم. حاول مرة أخرى لاحقًا.",
@@ -4139,7 +4322,7 @@ const UI_STRINGS = {
     footer_note_html: "24/24 Talk — бесплатная веб-версия. Без регистрации. Ваша история и настройки остаются на этом устройстве. <a class=\"link\" href=\"privacy.html\">Конфиденциальность</a> · <a class=\"link\" href=\"cgu.html\">Условия использования</a> · <a class=\"link\" href=\"cgv.html\">Условия продажи / Цены</a> · <a class=\"link\" href=\"mentions-legales.html\">Правовая информация</a> (юридические страницы на французском)",
     rights: "© 2026 Sébastien Chevrier. Все права защищены.",
     sub_active: "Подписка оформлена ✓", sub_manage: "Управлять подпиской", sub_days: "Бесплатно ещё {n} дн.",
-    sub_btn: "Подписаться — 1,99 $ в месяц", sub_ended: "Бесплатный период закончился",
+    sub_btn: "Подписаться — {price} в месяц", sub_ended: "Бесплатный период закончился",
     pay_off: "Онлайн-оплата пока недоступна. Контакт: schevrier.1975@gmail.com",
     err_network: "Не удалось перевести. Проверьте подключение.",
     err_quota: "Бесплатный сервис перевода исчерпал лимит на сегодня. Попробуйте позже.",
@@ -4232,7 +4415,7 @@ const UI_STRINGS = {
     sub_active: "Famandrihana mandeha ✓",
     sub_manage: "Hitantana ny famandrihako",
     sub_days: "Maimaimpoana mbola {n} andro",
-    sub_btn: "Hanao famandrihana — 1,99 $/volana",
+    sub_btn: "Hanao famandrihana — {price}/volana",
     sub_ended: "Tapitra ny fe-potoana maimaimpoana",
     pay_off: "Tsy mbola mandeha ny fandoavana an-tserasera. Fifandraisana: schevrier.1975@gmail.com",
     err_network: "Tsy afaka mandika. Hamarino ny fifandraisanao amin'ny Internet.",
@@ -4312,7 +4495,45 @@ const UI_LANG = detectUiLang();
 function t(key, vars) {
   let s = (UI_STRINGS[UI_LANG] && UI_STRINGS[UI_LANG][key]) || (UI_LANG !== "fr" && UI_STRINGS.en && UI_STRINGS.en[key]) || UI_STRINGS.fr[key] || key;
   if (vars) Object.keys(vars).forEach((k) => { s = s.split("{" + k + "}").join(vars[k]); });
+  if (s.indexOf("{price}") !== -1) s = s.split("{price}").join(localPrice());
   return s;
+}
+
+// ---------- Tarif dans la monnaie locale ----------
+// Prix mensuel par monnaie. Le jour où Stripe est branché, chaque ligne doit avoir le même prix dans Stripe.
+// Monnaie inconnue : dollars américains (comme avant).
+const PRICE_TABLE = { EUR: 1.99, USD: 1.99, GBP: 1.79, CHF: 1.99, CAD: 2.79, AUD: 2.99, JPY: 300, BRL: 9.9, MGA: 9900, MUR: 99 };
+const PRICE_BY_REGION = {
+  GB: "GBP", CH: "CHF", LI: "CHF", CA: "CAD", AU: "AUD", JP: "JPY", BR: "BRL", MG: "MGA", MU: "MUR", US: "USD"
+};
+"AT BE CY DE EE ES FI FR GR HR IE IT LT LU LV MT NL PT SI SK RE GP MQ GF YT PM BL MF MC SM VA AD ME XK".split(" ")
+  .forEach((r) => { PRICE_BY_REGION[r] = "EUR"; });
+// Le fuseau horaire dit mieux le pays que la langue (un téléphone en « fr-FR » peut être à Madagascar).
+const PRICE_BY_ZONE = {
+  "Indian/Reunion": "EUR", "Indian/Mayotte": "EUR", "Indian/Antananarivo": "MGA", "Indian/Mauritius": "MUR",
+  "America/Guadeloupe": "EUR", "America/Martinique": "EUR", "America/Cayenne": "EUR"
+};
+function localCurrency() {
+  try {
+    const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (PRICE_BY_ZONE[zone]) return PRICE_BY_ZONE[zone];
+  } catch (e) { /* fuseau inconnu */ }
+  const tags = (navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ""]);
+  for (const tag of tags) {
+    const m = /[-_]([A-Za-z]{2})(?:$|[-_])/.exec(String(tag));
+    if (m && PRICE_BY_REGION[m[1].toUpperCase()]) return PRICE_BY_REGION[m[1].toUpperCase()];
+  }
+  return "USD";
+}
+function localPrice() {
+  const cur = localCurrency(), amount = PRICE_TABLE[cur];
+  try {
+    return new Intl.NumberFormat(UI_LANG === "mg" ? "fr" : UI_LANG, {
+      style: "currency", currency: cur, currencyDisplay: cur === "MGA" || cur === "MUR" ? "narrowSymbol" : "symbol", minimumFractionDigits: amount % 1 ? 2 : 0, maximumFractionDigits: amount % 1 ? 2 : 0
+    }).format(amount);
+  } catch (e) {
+    return amount + " " + cur;
+  }
 }
 
 // Nom d'une langue du catalogue dans la langue de l'interface (le navigateur connaît ces noms).
@@ -4349,6 +4570,7 @@ function applyStaticI18n() {
   document.documentElement.dir = ["ar", "he", "fa", "ur", "ps"].includes(UI_LANG) ? "rtl" : "ltr";
   document.querySelectorAll("[data-i18n]").forEach((el) => { el.textContent = t(el.dataset.i18n); });
   document.querySelectorAll("[data-i18n-html]").forEach((el) => { el.innerHTML = t(el.dataset.i18nHtml); });
+  document.querySelectorAll("[data-price]").forEach((el) => { el.textContent = localPrice(); });
   document.querySelectorAll("[data-i18n-ph]").forEach((el) => { el.placeholder = t(el.dataset.i18nPh); });
   document.querySelectorAll("[data-i18n-title]").forEach((el) => { el.title = t(el.dataset.i18nTitle); });
   document.querySelectorAll("[data-i18n-aria]").forEach((el) => { el.setAttribute("aria-label", t(el.dataset.i18nAria)); });
@@ -4379,6 +4601,10 @@ applyStaticI18n();
 const AUTEUR_24_24_TALK = "24/24 Talk — © 2026 Sébastien Chevrier (La Réunion) — version officielle : https://sebastienchevrier.github.io/24-24-talk/";
 const OFFICIAL_URL = "https://sebastienchevrier.github.io/24-24-talk/";
 const IS_OFFICIAL_SITE = ["sebastienchevrier.github.io", "localhost", "127.0.0.1", ""].includes(location.hostname);
+// Ouvert dans le portail 24/24 EVERYWHERE (même site) : le portail affiche déjà le logo, le bandeau et l'installation.
+const EMBEDDED = (() => { try { return window.parent !== window && /[?&]embed=1\b/.test(location.search) && window.parent.location.origin === location.origin; } catch (e) { return false; } })();
+if (EMBEDDED) document.documentElement.classList.add("embedded");
+// Copie hébergée ailleurs : bandeau permanent (écrit directement en haut de <body>).
 if (!IS_OFFICIAL_SITE) {
   const bar = document.createElement("div");
   bar.className = "unofficial";
@@ -4481,10 +4707,10 @@ function detectInAppBrowser() {
 // App Store / Google Play une fois les comptes développeur créés.
 const SUBSCRIPTION_CONFIG = {
   // Remplacer par le vrai lien une fois le compte Stripe créé :
-  // Stripe Dashboard → Payment Links → Créer → produit "24/24 Talk Premium" à 1,99 $/mois récurrent.
+  // Stripe Dashboard → Payment Links → Créer → produit "24/24 Talk Premium" à 1,99 €/mois récurrent (et un prix par monnaie, voir PRICE_TABLE).
   stripePaymentLinkUrl: "REMPLACER_PAR_LE_LIEN_STRIPE", // ex: "https://buy.stripe.com/xxxxxxxx"
   trialEndDate: "2026-11-01T00:00:00",
-  priceLabel: "1,99 $/mois",
+  
 };
 
 function isTrialActive() {
@@ -4529,6 +4755,62 @@ document.getElementById("subBtn") && document.getElementById("subBtn").addEventL
   renderSubscription();
 });
 
+// ---------- MyMemory : découpe, vérification de la réponse (mêmes règles que everywhere/traduction/moteur.js) ----------
+const MM_MAX_BYTES = 450;
+function mmBytes(x) { return unescape(encodeURIComponent(x)).length; }
+function mmPieces(text) {
+  if (mmBytes(text) <= MM_MAX_BYTES) return [text];
+  const parts = text.match(/[^.!?。！？]+[.!?。！？]*\s*/g) || [text], out = [];
+  let cur = "";
+  const push = (w) => {
+    if (cur && mmBytes(cur + w) > MM_MAX_BYTES) { out.push(cur.trim()); cur = ""; }
+    while (mmBytes(w) > MM_MAX_BYTES) { let n = MM_MAX_BYTES; while (mmBytes(w.slice(0, n)) > MM_MAX_BYTES) n -= 10; out.push(w.slice(0, n)); w = w.slice(n); }
+    cur += w;
+  };
+  parts.forEach((p) => { if (mmBytes(p) > MM_MAX_BYTES) p.split(/(\s+)/).forEach(push); else push(p); });
+  if (cur.trim()) out.push(cur.trim());
+  return out.filter(Boolean);
+}
+function mmDecode(x) {
+  return x.replace(/&(#x?[0-9a-f]+|quot|amp|lt|gt|apos);/gi, (m, e) => {
+    const k = e.toLowerCase();
+    if (k === "quot") return '"'; if (k === "amp") return "&"; if (k === "lt") return "<"; if (k === "gt") return ">"; if (k === "apos") return "'";
+    const n = k[1] === "x" ? parseInt(k.slice(2), 16) : parseInt(k.slice(1), 10);
+    return n > 0 && n < 0x110000 ? String.fromCodePoint(n) : m;
+  });
+}
+// Le quota épuisé arrive parfois comme un faux texte traduit (« MYMEMORY WARNING… », code 429 dans responseStatus) :
+// il ne doit jamais être affiché ni lu à voix haute comme une traduction.
+async function mmFetchOne(text, sourceCode, targetCode) {
+  const url =
+    "https://api.mymemory.translated.net/get?q=" +
+    encodeURIComponent(text) +
+    "&langpair=" +
+    encodeURIComponent(sourceCode) +
+    "|" +
+    encodeURIComponent(targetCode);
+  let res;
+  try {
+    const ctrl = typeof AbortController === "function" ? new AbortController() : null;
+    const timer = ctrl ? setTimeout(() => ctrl.abort(), 8000) : null;
+    try { res = await fetch(url, { method: "GET", signal: ctrl ? ctrl.signal : undefined }); }
+    finally { if (timer) clearTimeout(timer); }
+  } catch (e) {
+    throw new Error("NETWORK");
+  }
+  if (res.status === 429) throw new Error("QUOTA_PROVIDER");
+  if (!res.ok) throw new Error("SERVER");
+  let data;
+  try { data = await res.json(); } catch (e) { throw new Error("SERVER"); }
+  const translated = data && data.responseData && data.responseData.translatedText;
+  const st = Number(data && data.responseStatus) || 0;
+  const note = String((data && data.responseDetails) || "") + " " + String(translated || "");
+  if ((data && data.quotaFinished) || st === 429 || /MYMEMORY WARNING|ALL AVAILABLE FREE TRANSLATIONS|QUOTA/i.test(note)) throw new Error("QUOTA_PROVIDER");
+  if (st && st !== 200) throw new Error("SERVER");
+  if (!translated) throw new Error("EMPTY_RESULT");
+  return mmDecode(String(translated));
+}
+
 // ---------- Fournisseur de traduction (abstraction, comme dans l'app native) ----------
 // translate() retourne { text, source: "phrasebook" | "engine" } pour que l'UI puisse indiquer
 // honnêtement d'où vient la traduction : dictionnaire vérifié (instantané, hors-ligne) ou moteur
@@ -4547,29 +4829,11 @@ const TranslationProvider = {
 
     // 2. Moteur générique en ligne, pour tout le reste
     if (!navigator.onLine) throw new Error("OFFLINE");
-
-    const url =
-      "https://api.mymemory.translated.net/get?q=" +
-      encodeURIComponent(text) +
-      "&langpair=" +
-      encodeURIComponent(sourceCode) +
-      "|" +
-      encodeURIComponent(targetCode);
-    let res;
-    try {
-      const ctrl = typeof AbortController === "function" ? new AbortController() : null;
-      const timer = ctrl ? setTimeout(() => ctrl.abort(), 8000) : null;
-      try { res = await fetch(url, { method: "GET", signal: ctrl ? ctrl.signal : undefined }); }
-      finally { if (timer) clearTimeout(timer); }
-    } catch (e) {
-      throw new Error("NETWORK");
-    }
-    if (!res.ok) throw new Error("SERVER");
-    const data = await res.json();
-    if (data && data.quotaFinished) throw new Error("QUOTA_PROVIDER");
-    const translated = data && data.responseData && data.responseData.translatedText;
-    if (!translated) throw new Error("EMPTY_RESULT");
-    return { text: translated, source: "engine" };
+    // MyMemory refuse plus de 500 octets : un long texte est découpé et traduit morceau par morceau.
+    const parts = mmPieces(text.trim());
+    const out = [];
+    for (const part of parts) out.push(await mmFetchOne(part, sourceCode, targetCode));
+    return { text: out.join(/^(zh|ja|th|lo|km|my)\b/.test(targetCode) ? "" : " "), source: "engine" };
   },
 };
 
@@ -4946,6 +5210,11 @@ function startDictation(targetTextarea, langSelect, onFinal, msgEl) {
   }
   const recog = new SpeechRecognitionAPI();
   recog.lang = langByCode(langSelect.value).speech;
+  // Le bouton micro allumé réagit quand une voix est captée (classe « hear »).
+  const hear = (on) => document.querySelectorAll(".mic").forEach((b) => b.classList.toggle("hear", on && b.classList.contains("recording")));
+  hear(false);
+  recog.onsoundstart = recog.onspeechstart = () => hear(true);
+  recog.onsoundend = recog.onspeechend = () => hear(false);
   recog.interimResults = true;
   recog.continuous = false;
 
@@ -4960,6 +5229,7 @@ function startDictation(targetTextarea, langSelect, onFinal, msgEl) {
   };
   recog.onresult = (event) => {
     if (delivered) return;
+    hear(true);
     let finalText = "";
     let interim = "";
     for (let i = event.resultIndex; i < event.results.length; i++) {
@@ -5000,7 +5270,7 @@ document.getElementById("micBtn").addEventListener("click", async () => {
   if (micActive) {
     micActive.stop();
     micActive = null;
-    btn.classList.remove("recording");
+    btn.classList.remove("recording", "hear");
     return;
   }
   showMsg(homeMsg, "", "");
@@ -5010,15 +5280,15 @@ document.getElementById("micBtn").addEventListener("click", async () => {
     inputText,
     srcLang,
     (finalText) => {
-      btn.classList.remove("recording");
+      btn.classList.remove("recording", "hear");
       micActive = null;
       if (finalText) doTranslate();
     },
     homeMsg
   );
-  if (!micActive) btn.classList.remove("recording");
+  if (!micActive) btn.classList.remove("recording", "hear");
   // Le bouton redevient normal dès que l'écoute s'arrête, même après une erreur (micro refusé…).
-  else micActive.onend = () => { btn.classList.remove("recording"); micActive = null; };
+  else micActive.onend = () => { btn.classList.remove("recording", "hear"); micActive = null; };
 });
 
 // ---------- MODE VOCAL EN TEMPS RÉEL ----------
@@ -5053,6 +5323,11 @@ function setVoiceMode(on) {
   voiceModeBtn.setAttribute("aria-pressed", on ? "true" : "false");
   voiceModeBtn.textContent = on ? t("voice_stop") : t("voice_mode");
   clearTimeout(voiceDebounce);
+  // LISTEN : l'écran reste allumé pendant le Mode vocal ; arrêt tout seul après 2 minutes sans parole.
+  if (window.EWEcoute) {
+    if (on) window.EWEcoute.keepAwake("talk-voice", () => { if (voiceModeOn) { setVoiceMode(false); showMsg(homeMsg, escapeHtml(t("voice_idle")), "ok"); } });
+    else window.EWEcoute.release("talk-voice");
+  }
   if (!on) {
     voiceHint.hidden = true;
     voiceListeningPaused = false;
@@ -5094,6 +5369,7 @@ function startLiveListening() {
     if (t === lastLiveFinal && now - lastLiveFinalAt < 4000) return;
     lastLiveFinal = t;
     lastLiveFinalAt = now;
+    if (window.EWEcoute) window.EWEcoute.activity();
     pauseLiveListening(true);
     doTranslate();
   };
@@ -5284,7 +5560,7 @@ document.getElementById("convMicBtn").addEventListener("click", () => {
   if (convMicActive) {
     convMicActive.stop();
     convMicActive = null;
-    btn.classList.remove("recording");
+    btn.classList.remove("recording", "hear");
     return;
   }
   btn.classList.add("recording");
@@ -5293,14 +5569,14 @@ document.getElementById("convMicBtn").addEventListener("click", () => {
     input,
     convMeLang,
     (finalText) => {
-      btn.classList.remove("recording");
+      btn.classList.remove("recording", "hear");
       convMicActive = null;
       if (finalText) convSend("me");
     },
     convMsg
   );
-  if (!convMicActive) btn.classList.remove("recording");
-  else convMicActive.onend = () => { btn.classList.remove("recording"); convMicActive = null; };
+  if (!convMicActive) btn.classList.remove("recording", "hear");
+  else convMicActive.onend = () => { btn.classList.remove("recording", "hear"); convMicActive = null; };
 });
 renderConv();
 
@@ -5568,7 +5844,9 @@ if (SERVICE_WORKER_FILE && "serviceWorker" in navigator) {
 // Rempli une fois le projet Supabase créé (adresse du projet + clé publique « publishable »/« anon »).
 // Ces deux valeurs sont publiques par nature : la sécurité repose sur les règles de la base.
 const NET_CONFIG = { url: "https://wsgcumnaltdinchsdovs.supabase.co", key: "sb_publishable_FkPVBXxsT57oNonWUv16_g_9M0eIyxl" };
-const NET_SDK_URL = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+// Version figée + empreinte (SRI) du fichier officiel npm : le navigateur refuse tout fichier différent.
+const NET_SDK_URL = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js";
+const NET_SDK_SRI = "sha384-Rj26LVGvoeRVR6+mwQmFfcR3QOBEwT+ZmuCWpuiqeTzJpCs0ER4ITAWGb4Hiy3Ok";
 // Voix réelle (WebRTC) : la voix va directement d'un téléphone à l'autre. Les serveurs STUN aident les
 // deux téléphones à se trouver. Pour les réseaux qui bloquent le direct, ajouter ici un relais TURN,
 // ex. { urls: "turn:turn.cloudflare.com:3478", username: "…", credential: "…" }.
@@ -5615,6 +5893,7 @@ const NET_STRINGS = {
     net_retry: "Réessayer",
     net_setup_title: "Créez votre profil",
     net_setup_text: "Un pseudo et votre langue, c'est tout : pas d'e-mail, pas de numéro. Vos contacts lisent vos messages déjà traduits dans leur langue.",
+    net_have_account: "J'ai déjà un compte (code reçu par e-mail)",
     net_invited: "@{p} vous invite à discuter sur 24/24 Talk.",
     net_pseudo_ph: "pseudo (ex. : sebastien974)",
     net_pseudo_rule: "3 à 20 caractères : lettres minuscules, chiffres, point ou _",
@@ -5635,7 +5914,16 @@ const NET_STRINGS = {
     net_not_found: "Aucun utilisateur avec ce pseudo.",
     net_self: "C'est votre propre pseudo 🙂",
     net_blocked: "Impossible : l'un de vous a bloqué l'autre.",
+    net_suspended: "Votre compte est suspendu. Pour en parler : schevrier.1975@gmail.com",
+    net_rate_limit: "Trop d'envois d'un coup. Patientez une minute puis réessayez.",
     net_convs: "Mes discussions",
+    net_search_ph: "Rechercher",
+    net_online: "En ligne",
+    net_seen: "Vu {t}",
+    net_pres_show: "Montrer à mes contacts quand je suis en ligne",
+    net_pres_hint: "Si vous le désactivez, vous ne voyez plus non plus celle des autres.",
+    net_nomatch: "Aucun résultat.",
+    net_tabs: "Onglets",
     net_no_convs: "Pas encore de discussion. Appuyez sur « 📨 Inviter un ami » : dès qu'il aura choisi son pseudo, votre discussion apparaîtra ici. Ouvrez-la ensuite pour écrire, envoyer un message vocal 🎤 ou lancer un 📞 appel traduit.",
     net_back: "← Retour",
     net_msg_ph: "Votre message…",
@@ -5652,6 +5940,24 @@ const NET_STRINGS = {
     net_report: "⚠️ Signaler",
     net_report_confirm: "Appuyez encore pour signaler",
     net_report_done: "Merci, le signalement a été envoyé.",
+    net_photo_add: "Ajouter une photo",
+    net_photo_change: "Changer la photo",
+    a11y_ts: "Taille du texte",
+    a11y_ts_names: "Normal|Grand|Très grand",
+    a11y_contrast: "Contraste renforcé",
+    a11y_motion: "Réduire les animations",
+    net_say: "Écouter ce message",
+    net_m_report: "⚠️ Signaler ce message",
+    net_autoread: "Lire à voix haute les messages reçus",
+    voice_idle: "Mode vocal arrêté après 2 minutes sans parole : l'écran peut de nouveau s'éteindre.",
+    net_photo_remove: "Retirer la photo",
+    net_photo_remove_confirm: "Appuyez encore pour retirer la photo",
+    net_photo_saved: "Photo enregistrée.",
+    net_photo_removed: "Photo retirée.",
+    net_photo_err: "Cette image ne peut pas être utilisée. Essayez une autre photo.",
+    net_photo_report: "⚠️ Signaler la photo",
+    net_photo_report_confirm: "Appuyez encore pour signaler la photo",
+    net_photo_hint: "photo visible par vos contacts",
     net_delete: "Supprimer mon compte réseau",
     net_delete_confirm: "Appuyez encore : profil et messages supprimés",
     net_deleted: "Votre compte réseau a été supprimé.",
@@ -5744,6 +6050,7 @@ const NET_STRINGS = {
     net_retry: "Try again",
     net_setup_title: "Create your profile",
     net_setup_text: "Just a username and your language: no email, no phone number. Your contacts read your messages already translated into their language.",
+    net_have_account: "I already have an account (code by email)",
     net_invited: "@{p} invites you to chat on 24/24 Talk.",
     net_pseudo_ph: "username (e.g. sebastien974)",
     net_pseudo_rule: "3 to 20 characters: lowercase letters, digits, dot or _",
@@ -5764,7 +6071,16 @@ const NET_STRINGS = {
     net_not_found: "No user with this username.",
     net_self: "That's your own username 🙂",
     net_blocked: "Not possible: one of you has blocked the other.",
+    net_suspended: "Your account is suspended. To discuss it: schevrier.1975@gmail.com",
+    net_rate_limit: "Too many at once. Wait a minute and try again.",
     net_convs: "My chats",
+    net_search_ph: "Search",
+    net_online: "Online",
+    net_seen: "Seen {t}",
+    net_pres_show: "Show my contacts when I'm online",
+    net_pres_hint: "If you turn it off, you no longer see theirs either.",
+    net_nomatch: "No results.",
+    net_tabs: "Tabs",
     net_no_convs: "No chats yet. Tap “📨 Invite a friend”: as soon as they choose a username, your chat will appear here. Open it to write, send a voice message 🎤 or start a 📞 translated call.",
     net_back: "← Back",
     net_msg_ph: "Your message…",
@@ -5781,6 +6097,24 @@ const NET_STRINGS = {
     net_report: "⚠️ Report",
     net_report_confirm: "Tap again to report",
     net_report_done: "Thank you, the report has been sent.",
+    net_photo_add: "Add a photo",
+    net_photo_change: "Change photo",
+    a11y_ts: "Text size",
+    a11y_ts_names: "Normal|Large|Extra large",
+    a11y_contrast: "High contrast",
+    a11y_motion: "Reduce motion",
+    net_say: "Listen to this message",
+    net_m_report: "⚠️ Report this message",
+    net_autoread: "Read received messages aloud",
+    voice_idle: "Voice mode stopped after 2 minutes without speech: the screen can turn off again.",
+    net_photo_remove: "Remove photo",
+    net_photo_remove_confirm: "Tap again to remove the photo",
+    net_photo_saved: "Photo saved.",
+    net_photo_removed: "Photo removed.",
+    net_photo_err: "This image can't be used. Try another photo.",
+    net_photo_report: "⚠️ Report photo",
+    net_photo_report_confirm: "Tap again to report the photo",
+    net_photo_hint: "photo seen by your contacts",
     net_delete: "Delete my network account",
     net_delete_confirm: "Tap again: profile and messages deleted",
     net_deleted: "Your network account has been deleted.",
@@ -5894,6 +6228,13 @@ const NET_STRINGS = {
     net_self: "Es tu propio usuario 🙂",
     net_blocked: "Imposible: uno de los dos ha bloqueado al otro.",
     net_convs: "Mis chats",
+    net_search_ph: "Buscar",
+    net_online: "En línea",
+    net_seen: "Visto {t}",
+    net_pres_show: "Mostrar a mis contactos cuándo estoy en línea",
+    net_pres_hint: "Si lo desactivas, tampoco verás la de los demás.",
+    net_nomatch: "Sin resultados.",
+    net_tabs: "Pestañas",
     net_no_convs: "Todavía no hay chats. Pulsa «📨 Invitar a un amigo»: en cuanto elija su usuario, vuestro chat aparecerá aquí. Ábrelo para escribir, enviar un mensaje de voz 🎤 o iniciar una 📞 llamada traducida.",
     net_back: "← Volver",
     net_msg_ph: "Tu mensaje…",
@@ -5910,6 +6251,24 @@ const NET_STRINGS = {
     net_report: "⚠️ Denunciar",
     net_report_confirm: "Pulsa otra vez para denunciar",
     net_report_done: "Gracias, la denuncia se ha enviado.",
+    net_photo_add: "Añadir una foto",
+    net_photo_change: "Cambiar la foto",
+    a11y_ts: "Tamaño del texto",
+    a11y_ts_names: "Normal|Grande|Muy grande",
+    a11y_contrast: "Contraste alto",
+    a11y_motion: "Reducir animaciones",
+    net_say: "Escuchar este mensaje",
+    net_m_report: "⚠️ Denunciar este mensaje",
+    net_autoread: "Leer en voz alta los mensajes recibidos",
+    voice_idle: "Modo de voz detenido tras 2 minutos sin hablar: la pantalla ya puede apagarse.",
+    net_photo_remove: "Quitar la foto",
+    net_photo_remove_confirm: "Pulsa otra vez para quitar la foto",
+    net_photo_saved: "Foto guardada.",
+    net_photo_removed: "Foto quitada.",
+    net_photo_err: "No se puede usar esta imagen. Prueba otra foto.",
+    net_photo_report: "⚠️ Denunciar la foto",
+    net_photo_report_confirm: "Pulsa otra vez para denunciar la foto",
+    net_photo_hint: "foto visible para tus contactos",
     net_delete: "Eliminar mi cuenta de la red",
     net_delete_confirm: "Pulsa otra vez: perfil y mensajes eliminados",
     net_deleted: "Tu cuenta de la red se ha eliminado.",
@@ -6023,6 +6382,13 @@ const NET_STRINGS = {
     net_self: "É o seu próprio nome 🙂",
     net_blocked: "Impossível: um de vocês bloqueou o outro.",
     net_convs: "As minhas conversas",
+    net_search_ph: "Pesquisar",
+    net_online: "Online",
+    net_seen: "Visto {t}",
+    net_pres_show: "Mostrar aos meus contactos quando estou online",
+    net_pres_hint: "Se desativar, também deixa de ver a dos outros.",
+    net_nomatch: "Sem resultados.",
+    net_tabs: "Separadores",
     net_no_convs: "Ainda não há conversas. Toque em «📨 Convidar um amigo»: assim que ele escolher o nome, a vossa conversa aparece aqui. Abra-a para escrever, enviar uma mensagem de voz 🎤 ou fazer uma 📞 chamada traduzida.",
     net_back: "← Voltar",
     net_msg_ph: "A sua mensagem…",
@@ -6039,6 +6405,24 @@ const NET_STRINGS = {
     net_report: "⚠️ Denunciar",
     net_report_confirm: "Toque outra vez para denunciar",
     net_report_done: "Obrigado, a denúncia foi enviada.",
+    net_photo_add: "Adicionar uma foto",
+    net_photo_change: "Trocar a foto",
+    a11y_ts: "Tamanho do texto",
+    a11y_ts_names: "Normal|Grande|Muito grande",
+    a11y_contrast: "Alto contraste",
+    a11y_motion: "Reduzir animações",
+    net_say: "Ouvir esta mensagem",
+    net_m_report: "⚠️ Denunciar esta mensagem",
+    net_autoread: "Ler em voz alta as mensagens recebidas",
+    voice_idle: "Modo de voz parado após 2 minutos sem fala: a tela pode desligar novamente.",
+    net_photo_remove: "Remover a foto",
+    net_photo_remove_confirm: "Toque outra vez para remover a foto",
+    net_photo_saved: "Foto salva.",
+    net_photo_removed: "Foto removida.",
+    net_photo_err: "Esta imagem não pode ser usada. Tente outra foto.",
+    net_photo_report: "⚠️ Denunciar a foto",
+    net_photo_report_confirm: "Toque outra vez para denunciar a foto",
+    net_photo_hint: "foto visível para seus contatos",
     net_delete: "Eliminar a minha conta da rede",
     net_delete_confirm: "Toque outra vez: perfil e mensagens eliminados",
     net_deleted: "A sua conta da rede foi eliminada.",
@@ -6152,6 +6536,13 @@ const NET_STRINGS = {
     net_self: "Das ist dein eigener Benutzername 🙂",
     net_blocked: "Nicht möglich: Einer von euch hat den anderen blockiert.",
     net_convs: "Meine Chats",
+    net_search_ph: "Suchen",
+    net_online: "Online",
+    net_seen: "Zuletzt {t}",
+    net_pres_show: "Meinen Kontakten zeigen, wann ich online bin",
+    net_pres_hint: "Wenn du es ausschaltest, siehst du auch den Status der anderen nicht mehr.",
+    net_nomatch: "Keine Treffer.",
+    net_tabs: "Tabs",
     net_no_convs: "Noch keine Chats. Tippe auf „📨 Freund einladen“: Sobald er seinen Benutzernamen gewählt hat, erscheint euer Chat hier. Öffne ihn, um zu schreiben, eine Sprachnachricht 🎤 zu senden oder einen 📞 übersetzten Anruf zu starten.",
     net_back: "← Zurück",
     net_msg_ph: "Deine Nachricht…",
@@ -6168,6 +6559,24 @@ const NET_STRINGS = {
     net_report: "⚠️ Melden",
     net_report_confirm: "Nochmal tippen zum Melden",
     net_report_done: "Danke, die Meldung wurde gesendet.",
+    net_photo_add: "Foto hinzufügen",
+    net_photo_change: "Foto ändern",
+    a11y_ts: "Textgröße",
+    a11y_ts_names: "Normal|Groß|Sehr groß",
+    a11y_contrast: "Hoher Kontrast",
+    a11y_motion: "Animationen reduzieren",
+    net_say: "Diese Nachricht anhören",
+    net_m_report: "⚠️ Diese Nachricht melden",
+    net_autoread: "Empfangene Nachrichten vorlesen",
+    voice_idle: "Sprachmodus nach 2 Minuten ohne Sprache beendet: Der Bildschirm kann wieder ausgehen.",
+    net_photo_remove: "Foto entfernen",
+    net_photo_remove_confirm: "Nochmal tippen zum Entfernen",
+    net_photo_saved: "Foto gespeichert.",
+    net_photo_removed: "Foto entfernt.",
+    net_photo_err: "Dieses Bild geht nicht. Versuchen Sie ein anderes Foto.",
+    net_photo_report: "⚠️ Foto melden",
+    net_photo_report_confirm: "Nochmal tippen, um das Foto zu melden",
+    net_photo_hint: "Foto für Ihre Kontakte sichtbar",
     net_delete: "Mein Netzwerkkonto löschen",
     net_delete_confirm: "Nochmal tippen: Profil und Nachrichten gelöscht",
     net_deleted: "Dein Netzwerkkonto wurde gelöscht.",
@@ -6281,6 +6690,13 @@ const NET_STRINGS = {
     net_self: "È il tuo nome utente 🙂",
     net_blocked: "Impossibile: uno di voi ha bloccato l'altro.",
     net_convs: "Le mie chat",
+    net_search_ph: "Cerca",
+    net_online: "Online",
+    net_seen: "Visto {t}",
+    net_pres_show: "Mostra ai miei contatti quando sono online",
+    net_pres_hint: "Se lo disattivi, non vedi più nemmeno quello degli altri.",
+    net_nomatch: "Nessun risultato.",
+    net_tabs: "Schede",
     net_no_convs: "Ancora nessuna chat. Tocca «📨 Invita un amico»: appena avrà scelto il suo nome, la vostra chat apparirà qui. Aprila per scrivere, inviare un messaggio vocale 🎤 o avviare una 📞 chiamata tradotta.",
     net_back: "← Indietro",
     net_msg_ph: "Il tuo messaggio…",
@@ -6297,6 +6713,24 @@ const NET_STRINGS = {
     net_report: "⚠️ Segnala",
     net_report_confirm: "Tocca di nuovo per segnalare",
     net_report_done: "Grazie, la segnalazione è stata inviata.",
+    net_photo_add: "Aggiungi una foto",
+    net_photo_change: "Cambia foto",
+    a11y_ts: "Dimensione del testo",
+    a11y_ts_names: "Normale|Grande|Molto grande",
+    a11y_contrast: "Contrasto elevato",
+    a11y_motion: "Riduci animazioni",
+    net_say: "Ascolta questo messaggio",
+    net_m_report: "⚠️ Segnala questo messaggio",
+    net_autoread: "Leggi ad alta voce i messaggi ricevuti",
+    voice_idle: "Modalità vocale fermata dopo 2 minuti senza parlare: lo schermo può di nuovo spegnersi.",
+    net_photo_remove: "Rimuovi foto",
+    net_photo_remove_confirm: "Tocca di nuovo per rimuovere la foto",
+    net_photo_saved: "Foto salvata.",
+    net_photo_removed: "Foto rimossa.",
+    net_photo_err: "Questa immagine non si può usare. Prova un'altra foto.",
+    net_photo_report: "⚠️ Segnala la foto",
+    net_photo_report_confirm: "Tocca di nuovo per segnalare la foto",
+    net_photo_hint: "foto visibile ai tuoi contatti",
     net_delete: "Elimina il mio account di rete",
     net_delete_confirm: "Tocca di nuovo: profilo e messaggi eliminati",
     net_deleted: "Il tuo account di rete è stato eliminato.",
@@ -6410,6 +6844,13 @@ const NET_STRINGS = {
     net_self: "这是你自己的用户名 🙂",
     net_blocked: "无法操作：你们其中一方已屏蔽对方。",
     net_convs: "我的聊天",
+    net_search_ph: "搜索",
+    net_online: "在线",
+    net_seen: "{t}在线",
+    net_pres_show: "让联系人看到我是否在线",
+    net_pres_hint: "关闭后，你也看不到别人的在线状态。",
+    net_nomatch: "没有结果。",
+    net_tabs: "标签",
     net_no_convs: "还没有聊天。点按“📨 邀请朋友”：他选好用户名后，你们的聊天就会出现在这里。打开它即可发消息、发送语音 🎤 或发起 📞 翻译通话。",
     net_back: "← 返回",
     net_msg_ph: "你的消息…",
@@ -6426,6 +6867,24 @@ const NET_STRINGS = {
     net_report: "⚠️ 举报",
     net_report_confirm: "再点一次以举报",
     net_report_done: "谢谢，举报已发送。",
+    net_photo_add: "添加照片",
+    net_photo_change: "更换照片",
+    a11y_ts: "文字大小",
+    a11y_ts_names: "正常|大|特大",
+    a11y_contrast: "高对比度",
+    a11y_motion: "减少动画",
+    net_say: "收听此消息",
+    net_m_report: "⚠️ 举报此消息",
+    net_autoread: "朗读收到的消息",
+    voice_idle: "2 分钟无语音，语音模式已停止：屏幕可以再次熄灭。",
+    net_photo_remove: "移除照片",
+    net_photo_remove_confirm: "再点一次以移除照片",
+    net_photo_saved: "照片已保存。",
+    net_photo_removed: "照片已移除。",
+    net_photo_err: "无法使用此图片，请换一张。",
+    net_photo_report: "⚠️ 举报照片",
+    net_photo_report_confirm: "再点一次以举报照片",
+    net_photo_hint: "仅联系人可见",
     net_delete: "删除我的社交账户",
     net_delete_confirm: "再点一次：资料和消息将被删除",
     net_deleted: "你的社交账户已删除。",
@@ -6539,6 +6998,13 @@ const NET_STRINGS = {
     net_self: "あなた自身のユーザー名です 🙂",
     net_blocked: "できません：どちらかが相手をブロックしています。",
     net_convs: "チャット一覧",
+    net_search_ph: "検索",
+    net_online: "オンライン",
+    net_seen: "{t}にオンライン",
+    net_pres_show: "オンライン状態を連絡先に表示する",
+    net_pres_hint: "オフにすると、他の人の状態も見えなくなります。",
+    net_nomatch: "見つかりません。",
+    net_tabs: "タブ",
     net_no_convs: "まだチャットはありません。「📨 友だちを招待」をタップ：相手がユーザー名を選ぶと、ここにチャットが表示されます。開いてメッセージ、音声メッセージ 🎤、📞 翻訳通話ができます。",
     net_back: "← 戻る",
     net_msg_ph: "メッセージ…",
@@ -6555,6 +7021,24 @@ const NET_STRINGS = {
     net_report: "⚠️ 報告",
     net_report_confirm: "もう一度タップで報告",
     net_report_done: "ありがとうございます。報告を送信しました。",
+    net_photo_add: "写真を追加",
+    net_photo_change: "写真を変更",
+    a11y_ts: "文字サイズ",
+    a11y_ts_names: "標準|大|特大",
+    a11y_contrast: "ハイコントラスト",
+    a11y_motion: "アニメーションを減らす",
+    net_say: "このメッセージを聞く",
+    net_m_report: "⚠️ このメッセージを報告",
+    net_autoread: "受信したメッセージを読み上げる",
+    voice_idle: "2分間話さなかったため音声モードを停止しました。画面は再び消えます。",
+    net_photo_remove: "写真を削除",
+    net_photo_remove_confirm: "もう一度タップで写真を削除",
+    net_photo_saved: "写真を保存しました。",
+    net_photo_removed: "写真を削除しました。",
+    net_photo_err: "この画像は使えません。別の写真をお試しください。",
+    net_photo_report: "⚠️ 写真を報告",
+    net_photo_report_confirm: "もう一度タップで写真を報告",
+    net_photo_hint: "連絡先にのみ表示",
     net_delete: "ネットワークのアカウントを削除",
     net_delete_confirm: "もう一度タップ：プロフィールとメッセージを削除",
     net_deleted: "ネットワークのアカウントを削除しました。",
@@ -6668,6 +7152,13 @@ const NET_STRINGS = {
     net_self: "هذا اسم المستخدم الخاص بك 🙂",
     net_blocked: "غير ممكن: أحدكما حظر الآخر.",
     net_convs: "محادثاتي",
+    net_search_ph: "بحث",
+    net_online: "متصل الآن",
+    net_seen: "آخر ظهور {t}",
+    net_pres_show: "إظهار حالة الاتصال لجهات اتصالي",
+    net_pres_hint: "إذا أوقفته، فلن ترى حالة الآخرين أيضًا.",
+    net_nomatch: "لا توجد نتائج.",
+    net_tabs: "علامات التبويب",
     net_no_convs: "لا توجد محادثات بعد. اضغط «📨 ادعُ صديقًا»: بمجرد أن يختار اسمه ستظهر محادثتكما هنا. افتحها للكتابة أو إرسال رسالة صوتية 🎤 أو بدء 📞 مكالمة مترجمة.",
     net_back: "→ رجوع",
     net_msg_ph: "رسالتك…",
@@ -6684,6 +7175,24 @@ const NET_STRINGS = {
     net_report: "⚠️ إبلاغ",
     net_report_confirm: "اضغط مرة أخرى للإبلاغ",
     net_report_done: "شكرًا، تم إرسال البلاغ.",
+    net_photo_add: "إضافة صورة",
+    net_photo_change: "تغيير الصورة",
+    a11y_ts: "حجم النص",
+    a11y_ts_names: "عادي|كبير|كبير جدًا",
+    a11y_contrast: "تباين عالٍ",
+    a11y_motion: "تقليل الحركة",
+    net_say: "استمع إلى هذه الرسالة",
+    net_m_report: "⚠️ الإبلاغ عن هذه الرسالة",
+    net_autoread: "قراءة الرسائل المستلمة بصوت عالٍ",
+    voice_idle: "توقف الوضع الصوتي بعد دقيقتين بدون كلام: يمكن للشاشة أن تنطفئ مجددًا.",
+    net_photo_remove: "إزالة الصورة",
+    net_photo_remove_confirm: "اضغط مرة أخرى لإزالة الصورة",
+    net_photo_saved: "تم حفظ الصورة.",
+    net_photo_removed: "تمت إزالة الصورة.",
+    net_photo_err: "لا يمكن استخدام هذه الصورة. جرّب صورة أخرى.",
+    net_photo_report: "⚠️ الإبلاغ عن الصورة",
+    net_photo_report_confirm: "اضغط مرة أخرى للإبلاغ عن الصورة",
+    net_photo_hint: "الصورة مرئية لجهات اتصالك",
     net_delete: "حذف حسابي في الشبكة",
     net_delete_confirm: "اضغط مرة أخرى: سيُحذف الملف والرسائل",
     net_deleted: "تم حذف حسابك في الشبكة.",
@@ -6797,6 +7306,13 @@ const NET_STRINGS = {
     net_self: "Это ваше собственное имя 🙂",
     net_blocked: "Невозможно: один из вас заблокировал другого.",
     net_convs: "Мои чаты",
+    net_search_ph: "Поиск",
+    net_online: "В сети",
+    net_seen: "Был(а) {t}",
+    net_pres_show: "Показывать контактам, когда я в сети",
+    net_pres_hint: "Если выключить, вы тоже не будете видеть статус других.",
+    net_nomatch: "Ничего не найдено.",
+    net_tabs: "Вкладки",
     net_no_convs: "Чатов пока нет. Нажмите «📨 Пригласить друга»: как только он выберет имя, ваш чат появится здесь. Откройте его, чтобы писать, отправить голосовое сообщение 🎤 или начать 📞 звонок с переводом.",
     net_back: "← Назад",
     net_msg_ph: "Ваше сообщение…",
@@ -6813,6 +7329,24 @@ const NET_STRINGS = {
     net_report: "⚠️ Пожаловаться",
     net_report_confirm: "Нажмите ещё раз, чтобы пожаловаться",
     net_report_done: "Спасибо, жалоба отправлена.",
+    net_photo_add: "Добавить фото",
+    net_photo_change: "Сменить фото",
+    a11y_ts: "Размер текста",
+    a11y_ts_names: "Обычный|Крупный|Очень крупный",
+    a11y_contrast: "Высокий контраст",
+    a11y_motion: "Меньше анимации",
+    net_say: "Прослушать сообщение",
+    net_m_report: "⚠️ Пожаловаться на сообщение",
+    net_autoread: "Читать вслух полученные сообщения",
+    voice_idle: "Голосовой режим остановлен после 2 минут тишины: экран снова может гаснуть.",
+    net_photo_remove: "Удалить фото",
+    net_photo_remove_confirm: "Нажмите ещё раз, чтобы удалить фото",
+    net_photo_saved: "Фото сохранено.",
+    net_photo_removed: "Фото удалено.",
+    net_photo_err: "Это изображение нельзя использовать. Попробуйте другое фото.",
+    net_photo_report: "⚠️ Пожаловаться на фото",
+    net_photo_report_confirm: "Нажмите ещё раз, чтобы пожаловаться на фото",
+    net_photo_hint: "фото видят ваши контакты",
     net_delete: "Удалить мой аккаунт в сети",
     net_delete_confirm: "Нажмите ещё раз: профиль и сообщения будут удалены",
     net_deleted: "Ваш аккаунт в сети удалён.",
@@ -6926,6 +7460,13 @@ const NET_STRINGS = {
     net_self: "Ny pseudo-nao ihany io 🙂",
     net_blocked: "Tsy azo atao: nisy nanakana ny iray taminareo.",
     net_convs: "Ny resadresako",
+    net_search_ph: "Hitady",
+    net_online: "Tafiditra",
+    net_seen: "Hita {t}",
+    net_pres_show: "Asehoy amin'ny olona fantatro rehefa tafiditra aho",
+    net_pres_hint: "Raha vonoina, tsy hahita ny an'ny hafa koa ianao.",
+    net_nomatch: "Tsy misy valiny.",
+    net_tabs: "Tabilao",
     net_no_convs: "Mbola tsy misy resaka. Tsindrio « 📨 Hanasa namana »: raha vantany vao misafidy ny pseudo-ny ny namanao, hiseho eto ny resakareo. Sokafy avy eo hanoratana, handefasana hafatra feo 🎤 na hiantsoana 📞 voadika.",
     net_back: "← Hiverina",
     net_msg_ph: "Ny hafatrao…",
@@ -6942,6 +7483,24 @@ const NET_STRINGS = {
     net_report: "⚠️ Hitatitra",
     net_report_confirm: "Tsindrio indray hitaterana",
     net_report_done: "Misaotra, lasa ny tatitra.",
+    net_photo_add: "Hampiditra sary",
+    net_photo_change: "Hanova ny sary",
+    a11y_ts: "Haben'ny soratra",
+    a11y_ts_names: "Mahazatra|Lehibe|Lehibe dia lehibe",
+    a11y_contrast: "Fifanoherana mafy",
+    a11y_motion: "Ahenoy ny hetsika",
+    net_say: "Henoy ity hafatra ity",
+    net_m_report: "⚠️ Tatitra momba ity hafatra ity",
+    net_autoread: "Vakio mafy ny hafatra voaray",
+    voice_idle: "Najanona ny fomba feo rehefa 2 minitra tsy nisy teny: afaka maty indray ny efijery.",
+    net_photo_remove: "Hanala ny sary",
+    net_photo_remove_confirm: "Tsindrio indray hanalana ny sary",
+    net_photo_saved: "Voatahiry ny sary.",
+    net_photo_removed: "Nesorina ny sary.",
+    net_photo_err: "Tsy azo ampiasaina ity sary ity. Andramo sary hafa.",
+    net_photo_report: "⚠️ Hitatitra ny sary",
+    net_photo_report_confirm: "Tsindrio indray hitaterana ny sary",
+    net_photo_hint: "hitan'ny mpifandray aminao ny sary",
     net_delete: "Hamafa ny kaontiko amin'ny tambajotra",
     net_delete_confirm: "Tsindrio indray: ho voafafa ny kaonty sy ny hafatra",
     net_deleted: "Voafafa ny kaontinao amin'ny tambajotra.",
@@ -7000,12 +7559,68 @@ Object.keys(NET_STRINGS).forEach((l) => {
   UI_STRINGS[l] = Object.assign(UI_STRINGS[l] || {}, NET_STRINGS[l]);
 });
 
+// ---------- Accessibilité (commune avec le portail : clé ew_prefs) ----------
+// Taille du texte, contraste renforcé, animations réduites et thème (bleu nuit par défaut depuis 0.8.1, comme le portail).
+const A11y = (() => {
+  const KEY = "ew_prefs";
+  function read() {
+    let p = {};
+    try { p = JSON.parse(safeStore.getItem(KEY) || "{}") || {}; } catch (e) { p = {}; }
+    return p && typeof p === "object" ? p : {};
+  }
+  function apply(p) {
+    const h = document.documentElement;
+    if (p.text === 1 || p.text === 2) h.setAttribute("data-ts", String(p.text)); else h.removeAttribute("data-ts");
+    h.classList.toggle("contrast-high", p.contrast === true);
+    h.classList.toggle("motion-off", p.motion === true);
+    const th = ["light", "dark", "auto"].indexOf(p.theme) !== -1 ? p.theme : "dark";
+    h.classList.remove("theme-light", "theme-dark", "theme-auto");
+    h.classList.add("theme-" + th);
+    if (th === "auto") h.removeAttribute("data-theme"); else h.setAttribute("data-theme", th);
+  }
+  function set(k, v) { const p = read(); p[k] = v; safeStore.setItem(KEY, JSON.stringify(p)); apply(p); paint(); }
+  function paint() {
+    const p = read(), ts = p.text === 1 || p.text === 2 ? p.text : 0, names = t("a11y_ts_names").split("|");
+    document.querySelectorAll("[data-a11y-ts]").forEach((b) => {
+      const n = +b.getAttribute("data-a11y-ts");
+      b.setAttribute("aria-checked", String(n === ts));
+      b.setAttribute("aria-label", names[n] || "");
+    });
+    [["a11yContrast", p.contrast === true], ["a11yMotion", p.motion === true]].forEach(([id, on]) => {
+      const el = document.getElementById(id);
+      if (el) { el.classList.toggle("on", on); el.setAttribute("aria-checked", String(on)); }
+    });
+    document.querySelectorAll('[data-i18n^="a11y_"]').forEach((el) => { el.textContent = t(el.dataset.i18n); });
+  }
+  document.addEventListener("click", (e) => {
+    const b = e.target.closest && e.target.closest("[data-a11y-ts], #a11yContrast, #a11yMotion");
+    if (!b) return;
+    if (b.hasAttribute("data-a11y-ts")) set("text", +b.getAttribute("data-a11y-ts"));
+    else if (b.id === "a11yContrast") set("contrast", read().contrast !== true);
+    else set("motion", read().motion !== true);
+  });
+  // Réglé dans le portail pendant que TALK est ouvert dans un autre onglet : suivre tout de suite.
+  window.addEventListener("storage", (e) => { if (e.key === KEY) { apply(read()); paint(); } });
+  // LISTEN : lecture à voix haute des messages reçus dans la discussion ouverte (gardé sur ce téléphone).
+  const ar = document.getElementById("autoReadToggle");
+  if (ar) {
+    const paintAr = () => { const on = safeStore.getItem("lc_net_autoread") === "1"; ar.classList.toggle("on", on); ar.setAttribute("aria-checked", String(on)); };
+    paintAr();
+    ar.addEventListener("click", () => { safeStore.setItem("lc_net_autoread", safeStore.getItem("lc_net_autoread") === "1" ? "0" : "1"); paintAr(); });
+    const lbl = document.getElementById("autoReadLbl");
+    if (lbl) lbl.textContent = t("net_autoread");
+  }
+  apply(read());
+  paint();
+  return { read, set, paint };
+})();
+
 // ---------- Statistiques de visite anonymes ----------
 // Uniquement sur le site officiel. Aucune donnée personnelle : un identifiant tiré au hasard sur ce
 // téléphone (renouvelé au bout de 13 mois, jamais relié au compte réseau), et des comptes par jour.
 // Désactivable dans Paramètres.
 const Stats24 = (() => {
-  const enabled = location.hostname === "sebastienchevrier.github.io" && !!(NET_CONFIG.url && NET_CONFIG.key);
+  const enabled = ["sebastienchevrier.github.io"].includes(location.hostname) && !!(NET_CONFIG.url && NET_CONFIG.key);
   let netOn = false;
   function newId() {
     if (window.crypto && typeof crypto.randomUUID === "function") return crypto.randomUUID();
@@ -7079,20 +7694,20 @@ const Reseau = (() => {
   const ICON_MSG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.8-.9L3 21l1.9-5.2A8.4 8.4 0 0 1 12 3a8.5 8.5 0 0 1 9 8.5z"/></svg>';
   let mode = "msg"; // "call" = Téléphone (liste d'appel), "msg" = Messagerie (discussions)
 
-  // Accueil : deux grandes touches côte à côte, Téléphone et Messagerie.
+  // Accueil : deux touches l'une sous l'autre, Messagerie et Téléphone (style de l'accueil ONE WORLD, 0.8.1).
   const tilesBox = document.getElementById("homeTiles");
   let tileBadge = null;
   if (tilesBox) {
     tilesBox.innerHTML = `
-      <button type="button" class="home-tile call" id="tilePhone">
-        <span class="home-tile-ic">${ICON_PHONE}</span>
-        <span class="home-tile-name">${escapeHtml(t("home_phone"))}</span>
-        <span class="home-tile-sub">${escapeHtml(t("home_phone_sub"))}</span>
-      </button>
       <button type="button" class="home-tile chat" id="tileMsg">
         <span class="home-tile-ic">${ICON_MSG}<span class="home-tile-badge" id="tileMsgBadge" hidden></span></span>
-        <span class="home-tile-name">${escapeHtml(t("home_msg"))}</span>
-        <span class="home-tile-sub">${escapeHtml(t("home_msg_sub"))}</span>
+        <span class="home-tile-txt"><span class="home-tile-name">${escapeHtml(t("home_msg"))}</span>
+        <span class="home-tile-sub">${escapeHtml(t("home_msg_sub"))}</span></span>
+      </button>
+      <button type="button" class="home-tile call" id="tilePhone">
+        <span class="home-tile-ic">${ICON_PHONE}</span>
+        <span class="home-tile-txt"><span class="home-tile-name">${escapeHtml(t("home_phone"))}</span>
+        <span class="home-tile-sub">${escapeHtml(t("home_phone_sub"))}</span></span>
       </button>`;
     tileBadge = tilesBox.querySelector("#tileMsgBadge");
     const go = (m) => () => {
@@ -7100,7 +7715,12 @@ const Reseau = (() => {
       if (screen === "chat" && !call) { currentConv = null; screen = "home"; }
       if (isActiveTab()) open();
       else tabBtn.click();
-      try { document.querySelector("nav.tabs").scrollIntoView({ block: "start", behavior: "smooth" }); } catch (e) { /* ignoré */ }
+      try {
+        const nv = document.querySelector("nav.tabs");
+        // Dans le portail, scrollIntoView ferait aussi défiler la page du portail autour de TALK : on ne fait défiler que TALK.
+        if (EMBEDDED) window.scrollTo({ top: Math.max(0, nv.getBoundingClientRect().top + window.scrollY - 6), behavior: "smooth" });
+        else nv.scrollIntoView({ block: "start", behavior: "smooth" });
+      } catch (e) { /* ignoré */ }
     };
     tilesBox.querySelector("#tilePhone").addEventListener("click", go("call"));
     tilesBox.querySelector("#tileMsg").addEventListener("click", go("msg"));
@@ -7195,8 +7815,23 @@ const Reseau = (() => {
   // Barre du haut de l'écran réseau : retour à l'accueil + nom de la touche choisie.
   const topbar = document.createElement("div");
   topbar.className = "net-topbar";
-  topbar.innerHTML = `<button type="button" class="iconbtn" id="netHomeBtn">${escapeHtml(t("net_home_back"))}</button><span class="net-topbar-title" id="netTopTitle"></span>`;
+  topbar.innerHTML = `<button type="button" class="iconbtn" id="netHomeBtn">${escapeHtml(t("net_home_back"))}</button><span class="net-topbar-title" id="netTopTitle"></span>
+    <span class="net-tb-actions">
+      <button type="button" class="net-tb-btn" id="netNewBtn" aria-label="${escapeHtml(t("net_add_ph"))}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>
+      <button type="button" class="net-tb-btn" id="netGearBtn" aria-label="${escapeHtml(t("tab_settings"))}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></svg></button>
+    </span>`;
   root.parentNode.insertBefore(topbar, root);
+  topbar.querySelector("#netGearBtn").addEventListener("click", () => {
+    const sbtn = document.getElementById("settingsBtn");
+    if (sbtn) sbtn.click();
+  });
+  // Crayon : aller au champ « @pseudo de votre contact » (ou au pseudo à créer).
+  topbar.querySelector("#netNewBtn").addEventListener("click", () => {
+    const inp = root.querySelector("#netAddInput") || root.querySelector("#netPseudo");
+    if (!inp) return;
+    try { inp.scrollIntoView({ block: "center" }); } catch (e) { /* ignoré */ }
+    inp.focus();
+  });
   topbar.querySelector("#netHomeBtn").addEventListener("click", () => {
     if (homeTabBtn) homeTabBtn.click();
     try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (e) { /* ignoré */ }
@@ -7315,11 +7950,13 @@ const Reseau = (() => {
 
   function updateTopbar() {
     topbar.hidden = screen === "chat" || screen === "call";
-    topbar.querySelector("#netTopTitle").textContent = mode === "call" ? "📞 " + t("home_phone") : "💬 " + t("home_msg");
+    const full = document.body.classList.contains("net-full");
+    topbar.querySelector("#netTopTitle").textContent = mode === "call" ? (full ? "" : "📞 ") + t("home_phone") : (full ? "" : "💬 ") + t("home_msg");
   }
 
   const configured = IS_OFFICIAL_SITE && !!(NET_CONFIG.url && NET_CONFIG.key);
   let sb = null; // client Supabase
+  let ewRing = () => {}; // prévient 24/24 EVERYWHERE d'un appel entrant (voir le pont en fin de module)
   let me = null; // identifiant de l'utilisateur connecté
   let profile = null; // { id, pseudo, lang }
   let screen = configured ? "loading" : "off";
@@ -7385,6 +8022,16 @@ const Reseau = (() => {
     pendingAnswer = { id: m[1], t: Date.now() };
     try { history.replaceState(null, "", location.pathname); } catch (e) { /* ignoré */ }
   })();
+  // Arrivé depuis 24/24 EVERYWHERE (« Appeler sur TALK ») : ?ew_appel=<discussion> lance l'appel traduit habituel de TALK
+  // avec ce contact, puis ramène dans EVERYWHERE à la fin de l'appel. Aucune autre infrastructure d'appel.
+  let pendingEwCall = null;
+  let ewCallReturn = false;
+  (function readEwCall() {
+    const m = /[?&]ew_appel=([0-9a-f-]{36})/i.exec(location.search || "");
+    if (!m) return;
+    pendingEwCall = m[1].toLowerCase();
+    try { history.replaceState(null, "", location.pathname + (/[?&]ew=1\b/.test(location.search) ? "?ew=1" : "")); } catch (e) { /* ignoré */ }
+  })();
   function inviteUsed() {
     pendingAdd = null;
     safeStore.removeItem("lc_net_pending");
@@ -7430,6 +8077,7 @@ const Reseau = (() => {
       if (window.supabase && typeof window.supabase.createClient === "function") return resolve(window.supabase);
       const s = document.createElement("script");
       s.src = NET_SDK_URL;
+      if (!window.__EW_NO_SRI) { s.integrity = NET_SDK_SRI; s.crossOrigin = "anonymous"; } // __EW_NO_SRI : tests automatiques seulement (faux serveur)
       s.async = true;
       s.onload = () => (window.supabase && window.supabase.createClient ? resolve(window.supabase) : reject(new Error("SDK")));
       s.onerror = () => reject(new Error("NETWORK"));
@@ -7482,13 +8130,26 @@ const Reseau = (() => {
   async function afterProfileReady() {
     Stats24.setNet(true);
     if (pushState() === "on") syncPushSub(false);
+    else autoPush();
     await Promise.all([loadConversations(), loadBlocks()]);
     await startRealtime();
+    startPresence();
+    startPhotos();
     screen = "home";
     if (pendingAdd) {
       const p = pendingAdd;
       inviteUsed();
       if (p !== profile.pseudo) await openWith(p);
+    }
+    if (pendingEwCall) {
+      const id = pendingEwCall;
+      pendingEwCall = null;
+      const c = convs.find((x) => x.id === id);
+      if (c && c.other && !blockedIds.has(c.otherId) && !call) {
+        await openChat(c);
+        ewCallReturn = true;
+        startCall();
+      }
     }
   }
 
@@ -7552,8 +8213,14 @@ const Reseau = (() => {
   }
 
   async function loadConversations() {
-    const { data: mems, error } = await sb.from("members").select("conversation_id,user_id,last_read");
+    // CONNECT : « Effacer la discussion » est aussi enregistré sur le serveur (cleared_at), pour tous les appareils.
+    let { data: mems, error } = await sb.from("members").select("conversation_id,user_id,last_read,cleared_at");
+    if (error && /cleared_at/.test(error.message || "")) ({ data: mems, error } = await sb.from("members").select("conversation_id,user_id,last_read"));
     if (error) throw error;
+    (mems || []).forEach((r) => { if (r.user_id === me && r.cleared_at) serverCleared[r.conversation_id] = Date.parse(r.cleared_at) || 0; });
+    sb.from("hidden_messages").select("message_id").then(({ data, error: e }) => {
+      if (!e && data) serverHidden = new Set(data.map((r) => r.message_id));
+    }, () => {});
     const mine = (mems || []).filter((r) => r.user_id === me);
     const others = (mems || []).filter((r) => r.user_id !== me);
     const ids = [...new Set(others.map((r) => r.user_id))];
@@ -7580,10 +8247,20 @@ const Reseau = (() => {
         otherRead: o ? o.last_read : null,
         last,
         unread: !!(last && last.sender_id !== me && new Date(last.created_at) > new Date(r.last_read)),
+        unreadN: 0,
       };
     });
     sortConvs();
     updateBadge();
+    // Nombre de messages non lus par discussion (seulement pour celles qui en ont), sans bloquer l'affichage.
+    const todo = convs.filter((c) => c.unread);
+    if (todo.length) {
+      Promise.all(todo.map((c) =>
+        sb.from("messages").select("id", { count: "exact", head: true })
+          .eq("conversation_id", c.id).neq("sender_id", me).gt("created_at", c.lastRead || "1970-01-01")
+          .then((r) => { if (!r.error && c.unread && typeof r.count === "number") c.unreadN = Math.max(c.unreadN || 0, r.count); }, () => {})
+      )).then(() => { updateBadge(); if (screen === "home" && isActiveTab()) render(); });
+    }
   }
   function sortConvs() {
     convs.sort((a, b) => new Date(b.last ? b.last.created_at : 0) - new Date(a.last ? a.last.created_at : 0));
@@ -7597,6 +8274,7 @@ const Reseau = (() => {
       tileBadge.textContent = n > 9 ? "9+" : String(n);
       tileBadge.setAttribute("aria-label", t("net_unread", { n }));
     }
+    syncBar();
   }
 
   async function openWith(pseudo, stay) {
@@ -7610,7 +8288,8 @@ const Reseau = (() => {
     if (error) {
       const m = String(error.message || "");
       setFlash(
-        m.includes("NOT_FOUND") ? t("net_not_found") : m.includes("SELF") ? t("net_self") : m.includes("BLOCKED") ? t("net_blocked") : t("net_err_conn"),
+        m.includes("NOT_FOUND") ? t("net_not_found") : m.includes("SELF") ? t("net_self") : m.includes("BLOCKED") ? t("net_blocked")
+          : m.includes("SUSPENDED") ? t("net_suspended") : m.includes("RATE_LIMIT") ? t("net_rate_limit") : t("net_err_conn"),
         "warn"
       );
       screen = "home";
@@ -7628,7 +8307,33 @@ const Reseau = (() => {
     if (c) await openChat(c);
   }
 
+  // TOUCH : geste « retour » d'Android dans une discussion = revenir à la liste, sans quitter l'appli.
+  async function closeChat() {
+    const sh = document.getElementById("netSheet");
+    if (sh) sh.remove();
+    currentConv = null;
+    screen = "home";
+    render();
+    try {
+      await Promise.all([loadConversations(), loadBlocks()]);
+    } catch (e) { /* on garde la liste déjà affichée */ }
+    if (screen === "home") render();
+  }
+  var ignorePop = false; // var : render() peut être appelé avant cette ligne
+  // Discussion quittée autrement (barre du bas, fin de discussion…) : on retire son entrée d'historique,
+  // pour que le geste « retour » suivant ne tombe pas dans le vide.
+  function dropChatHistory() {
+    if (screen === "chat" || ignorePop) return;
+    if (history.state && history.state.ewNet === "chat") { ignorePop = true; try { history.back(); } catch (e) { ignorePop = false; } }
+  }
+  window.addEventListener("popstate", () => {
+    if (ignorePop) { ignorePop = false; return; }
+    if (screen !== "chat") return;
+    if (call) { try { history.pushState({ ewNet: "chat" }, ""); } catch (e) { /* ignoré */ } return; } // pendant un appel : on reste
+    closeChat();
+  });
   async function openChat(c) {
+    try { if (!(history.state && history.state.ewNet === "chat")) history.pushState({ ewNet: "chat" }, ""); } catch (e) { /* historique indisponible */ }
     currentConv = c;
     if (c.otherId && !blockedIds.has(c.otherId)) warmChannel(c.otherId);
     screen = "chat";
@@ -7645,6 +8350,7 @@ const Reseau = (() => {
     }, () => {});
     chatLoading = false;
     c.unread = false;
+    c.unreadN = 0;
     updateBadge();
     markRead();
     render();
@@ -7660,6 +8366,7 @@ const Reseau = (() => {
     const stamp = newest || new Date().toISOString();
     currentConv.lastRead = stamp;
     currentConv.unread = false;
+    currentConv.unreadN = 0;
     updateBadge();
     sb.from("members").update({ last_read: stamp }).eq("conversation_id", currentConv.id).eq("user_id", me).then(() => {}, () => {});
     const c = currentConv;
@@ -7670,13 +8377,21 @@ const Reseau = (() => {
   }
 
   // ---------- Effacement local, « Vu », « en train d'écrire », menus (comme Messenger) ----------
-  function clearedAt(convId) { return Number(safeStore.getItem("lc_cleared_" + convId)) || 0; }
+  // CONNECT : ce téléphone + le serveur (respecté sur tous les appareils du compte).
+  let serverCleared = {};
+  let serverHidden = new Set();
+  function clearedAt(convId) { return Math.max(Number(safeStore.getItem("lc_cleared_" + convId)) || 0, serverCleared[convId] || 0); }
   function hiddenIds() {
-    try { return new Set(JSON.parse(safeStore.getItem("lc_hidden_msgs") || "[]")); } catch (e) { return new Set(); }
+    let local = [];
+    try { local = JSON.parse(safeStore.getItem("lc_hidden_msgs") || "[]"); } catch (e) { local = []; }
+    return new Set([...local, ...serverHidden]);
   }
   function hideForMe(id) {
-    const a = [...hiddenIds(), id].slice(-500);
-    safeStore.setItem("lc_hidden_msgs", JSON.stringify(a));
+    let local = [];
+    try { local = JSON.parse(safeStore.getItem("lc_hidden_msgs") || "[]"); } catch (e) { local = []; }
+    safeStore.setItem("lc_hidden_msgs", JSON.stringify([...local, id].slice(-500)));
+    serverHidden.add(id);
+    if (sb) sb.from("hidden_messages").insert({ message_id: id }).then(() => {}, () => {});
   }
   function visibleForMe(m) {
     if (!m) return false;
@@ -7720,10 +8435,17 @@ const Reseau = (() => {
       items.push({ label: t(showing ? "net_m_translation" : "net_m_original"), run: () => { showOrig[m.id] = !showing; renderChatMessages(); } });
     }
     if (mine) items.push({ label: t("net_m_del_all"), danger: true, confirm: t("net_m_del_all") + " ?", run: () => deleteForAll(m) });
+    // TOUCH : signaler un message précis (copie du texte pour la modération), avec confirmation.
+    if (!mine) items.push({ label: t("net_m_report"), danger: true, confirm: t("net_report_confirm"), run: () => reportMessage(m) });
     items.push({ label: t("net_m_del_me"), run: () => { hideForMe(m.id); chatMsgs = chatMsgs.filter((x) => x.id !== m.id); renderChatMessages(); } });
     actionSheet(items);
   }
   const showOrig = {};
+  async function reportMessage(m) {
+    const { error } = await sb.from("reports").insert({ reported: m.sender_id, message_id: m.id, body_copy: String(m.body || "").slice(0, 2000), reason: "message" });
+    const rl = error && String(error.message || "").includes("RATE_LIMIT");
+    showMsg(root.querySelector("#netChatMsg"), escapeHtml(rl ? t("net_rate_limit") : error ? t("net_err_conn") : t("net_report_done")), error ? "err" : "ok");
+  }
   async function deleteForAll(m) {
     const c = currentConv;
     const { error } = await sb.from("messages").delete().eq("id", m.id);
@@ -7786,16 +8508,18 @@ const Reseau = (() => {
       if (chatVisible()) markRead();
       else if (m.sender_id !== me) {
         c.unread = true;
+        c.unreadN = (c.unreadN || 0) + 1;
         updateBadge();
         beep("msg");
       }
       if (m.sender_id !== me && isActiveTab() && document.visibilityState !== "hidden") {
         const toggle = document.getElementById("autoSpeakToggle");
-        const auto = m.kind !== "call" && (m.kind === "voice" || (toggle && toggle.classList.contains("on")));
+        const auto = m.kind !== "call" && (m.kind === "voice" || (toggle && toggle.classList.contains("on")) || safeStore.getItem("lc_net_autoread") === "1");
         if (auto) translateFor(m).then((txt) => txt && speak(txt, voiceLang(m.lang, m.conversation_id)));
       }
     } else if (m.sender_id !== me) {
       c.unread = true;
+      c.unreadN = (c.unreadN || 0) + 1;
       updateBadge();
       beep("msg");
       if (screen === "home") render();
@@ -7832,7 +8556,344 @@ const Reseau = (() => {
   }
 
   // ---------- Rendu ----------
+  // ---------- Liste façon messagerie : rond coloré, heure du dernier message, recherche ----------
+  const AV_COLORS = ["#3d7bff", "#2ecf8e", "#ffb020", "#ff7aa8", "#9d7bff", "#4fc3f7", "#e8b46a", "#ff8a5c"];
+  function avatarCore(pseudo, uid) {
+    const img = photoOf(uid);
+    if (img) return `<img class="net-av" src="${img}" alt="" aria-hidden="true" decoding="async" />`;
+    const p = String(pseudo || "?");
+    let h = 0;
+    for (let i = 0; i < p.length; i++) h = (h * 31 + p.charCodeAt(i)) >>> 0;
+    return `<span class="net-av" aria-hidden="true" style="background:${AV_COLORS[h % AV_COLORS.length]}">${escapeHtml(p.charAt(0))}</span>`;
+  }
+  function avatarHtml(pseudo, uid) {
+    const av = avatarCore(pseudo, uid);
+    return uid ? `<span class="net-avwrap" data-uid="${escapeHtml(uid)}" data-p="${escapeHtml(String(pseudo || "?"))}">${av}${presenceBadge(uid)}</span>` : av;
+  }
+
+  // ---------- Photos de profil (visibles seulement par soi et ses contacts, voir photos-de-profil-TEST.sql) ----------
+  // Image carrée 256 px réduite sur le téléphone (~20 Ko), gardée en cache local ; seules les photos changées sont retéléchargées.
+  // Si la base n'a pas ces fonctions, tout reste silencieux : ronds colorés comme avant.
+  const PHOTO_RE = /^data:image\/(jpeg|webp);base64,[A-Za-z0-9+/]+=*$/;
+  const PHOTO_MAX = 58000;
+  let photos = {};
+  try {
+    const c = JSON.parse(safeStore.getItem("lc_photos_v1") || "{}");
+    Object.keys(c).forEach((k) => { if (c[k] && PHOTO_RE.test(c[k].img || "")) photos[k] = c[k]; });
+  } catch (e) { photos = {}; }
+  let photosOk = true;
+  let photoTimer = null;
+  let photoLast = 0;
+  function photoOf(uid) {
+    const p = uid && photos[uid];
+    return p && PHOTO_RE.test(p.img || "") ? p.img : "";
+  }
+  function savePhotos() {
+    try { safeStore.setItem("lc_photos_v1", JSON.stringify(photos)); } catch (e) { /* stockage plein : sans cache */ }
+  }
+  function paintPhotos() {
+    root.querySelectorAll(".net-avwrap[data-uid]").forEach((w) => {
+      const old = w.querySelector(".net-av");
+      if (old) old.outerHTML = avatarCore(w.dataset.p, w.dataset.uid);
+    });
+    const mine = root.querySelector("#netPhotoBtn .net-av");
+    if (mine && profile) mine.outerHTML = avatarCore(profile.pseudo, me);
+  }
+  async function photosTick(force) {
+    if (!sb || !profile || !photosOk) return;
+    if (!force && (document.visibilityState === "hidden" || Date.now() - photoLast < 60000)) return;
+    photoLast = Date.now();
+    try {
+      const l = await sb.rpc("photos_de_mes_contacts");
+      if (l.error) { if (/photos_de_mes_contacts|function|schema cache/i.test(l.error.message || "")) { photosOk = false; if (isActiveTab()) render(); } return; }
+      const next = {};
+      const need = [];
+      (l.data || []).forEach((r) => {
+        const old = photos[r.user_id];
+        if (old && old.at === r.updated_at) next[r.user_id] = old; else need.push(r.user_id);
+      });
+      for (let i = 0; i < need.length; i += 50) {
+        const g = await sb.rpc("photos", { ids: need.slice(i, i + 50) });
+        if (g.error) break;
+        (g.data || []).forEach((r) => { if (PHOTO_RE.test(r.img || "")) next[r.user_id] = { img: r.img, at: r.updated_at }; });
+      }
+      const sig = (o) => Object.keys(o).sort().map((k) => k + "@" + o[k].at).join("|");
+      const changed = sig(next) !== sig(photos);
+      photos = next;
+      if (changed) { savePhotos(); if (isActiveTab()) paintPhotos(); }
+    } catch (e) { /* hors ligne : on réessaiera */ }
+  }
+  function startPhotos() {
+    if (photoTimer) return;
+    photosTick(true);
+    photoTimer = setInterval(() => photosTick(false), 300000);
+    document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") photosTick(false); });
+  }
+  // Recadre au centre en carré 256 px, fond blanc (images transparentes), WebP sinon JPEG, qualité baissée jusqu'à tenir dans la limite.
+  async function photoFromFile(file) {
+    if (!file || !/^image\//.test(file.type || "") || file.size > 20e6) throw new Error("type");
+    let src = null;
+    let url = "";
+    try { src = await createImageBitmap(file); }
+    catch (e) {
+      url = URL.createObjectURL(file);
+      src = await new Promise((ok, ko) => { const i = new Image(); i.onload = () => ok(i); i.onerror = ko; i.src = url; });
+    }
+    try {
+      const w = src.width, h = src.height, side = Math.min(w, h);
+      if (!side) throw new Error("vide");
+      const S = 256;
+      const cv = document.createElement("canvas");
+      cv.width = S; cv.height = S;
+      const cx = cv.getContext("2d");
+      cx.fillStyle = "#ffffff";
+      cx.fillRect(0, 0, S, S);
+      cx.imageSmoothingQuality = "high";
+      cx.drawImage(src, (w - side) / 2, (h - side) / 2, side, side, 0, 0, S, S);
+      for (const q of [0.82, 0.7, 0.58, 0.46, 0.34]) {
+        let d = cv.toDataURL("image/webp", q);
+        if (!/^data:image\/webp/.test(d)) d = cv.toDataURL("image/jpeg", q);
+        if (d.length <= PHOTO_MAX && PHOTO_RE.test(d)) return d;
+      }
+      throw new Error("taille");
+    } finally {
+      if (url) URL.revokeObjectURL(url);
+      if (src && src.close) src.close();
+    }
+  }
+  async function setMyPhoto(file, btn, msgEl) {
+    if (btn) btn.setAttribute("aria-busy", "true");
+    try {
+      const img = await photoFromFile(file);
+      const r = await sb.rpc("mettre_ma_photo", { img });
+      if (r.error) {
+        const rl = String(r.error.message || "").includes("RATE_LIMIT");
+        showMsg(msgEl, escapeHtml(t(rl ? "net_rate_limit" : "net_err_conn")), "err");
+        return;
+      }
+      photos[me] = { img, at: r.data };
+      savePhotos();
+      setFlash(escapeHtml(t("net_photo_saved")), "ok");
+      render();
+    } catch (e) {
+      showMsg(msgEl, escapeHtml(t("net_photo_err")), "err");
+    } finally {
+      if (btn && btn.isConnected) btn.removeAttribute("aria-busy");
+    }
+  }
+  async function removeMyPhoto(msgEl) {
+    const r = await sb.rpc("retirer_ma_photo");
+    if (r.error) { showMsg(msgEl, escapeHtml(t("net_err_conn")), "err"); return; }
+    delete photos[me];
+    savePhotos();
+    setFlash(escapeHtml(t("net_photo_removed")), "ok");
+    render();
+  }
+
+  // ---------- Présence « en ligne / vu il y a » (seulement entre contacts, réciproque, désactivable) ----------
+  // Base : je_suis_la() toutes les minutes quand l'appli est ouverte ; presence_de_mes_contacts() pour lire.
+  // Si la base n'a pas ces fonctions (ancienne version), tout reste silencieux et rien ne s'affiche.
+  const ONLINE_MS = 150000;
+  let presence = {};
+  let presOk = true;
+  let presTimer = null;
+  let presHidden = safeStore.getItem("lc_pres_hidden") === "1";
+  function presenceBadge(uid) {
+    const at = presence[uid];
+    if (!at) return "";
+    const age = Date.now() - at;
+    if (age < ONLINE_MS) return `<span class="net-online" title="${escapeHtml(t("net_online"))}"></span>`;
+    if (age < 3600000) return `<span class="net-seen">${Math.max(1, Math.round(age / 60000))} min</span>`;
+    return "";
+  }
+  function presenceText(uid) {
+    const at = presence[uid];
+    if (!at) return "";
+    const age = Date.now() - at;
+    if (age < ONLINE_MS) return t("net_online");
+    let rel;
+    try {
+      const rtf = new Intl.RelativeTimeFormat(UI_LANG, { numeric: "auto" });
+      rel = age < 3600000 ? rtf.format(-Math.max(1, Math.round(age / 60000)), "minute")
+        : age < 86400000 ? rtf.format(-Math.round(age / 3600000), "hour")
+        : rtf.format(-Math.round(age / 86400000), "day");
+    } catch (e) { return ""; }
+    return t("net_seen", { t: rel });
+  }
+  function paintPresence() {
+    root.querySelectorAll(".net-avwrap[data-uid]").forEach((w) => {
+      const old = w.querySelector(".net-online, .net-seen");
+      if (old) old.remove();
+      w.insertAdjacentHTML("beforeend", presenceBadge(w.dataset.uid));
+    });
+    const ps = root.querySelector("#netPresText");
+    if (ps && currentConv) {
+      const txt = presenceText(currentConv.otherId);
+      const on = txt === t("net_online");
+      ps.textContent = txt || (currentConv.other ? langLabel(currentConv.other.lang) : "");
+      ps.classList.toggle("net-pres-on", on);
+    }
+  }
+  async function presenceTick() {
+    if (!sb || !profile || !presOk) return;
+    if (document.visibilityState === "hidden") return;
+    try {
+      const r = await sb.rpc("je_suis_la", { cacher: presHidden });
+      if (r.error) { if (/je_suis_la|function|schema cache/i.test(r.error.message || "")) presOk = false; return; }
+      const l = await sb.rpc("presence_de_mes_contacts");
+      if (l.error) return;
+      const next = {};
+      (l.data || []).forEach((row) => { const ms = Date.parse(row.last_seen); if (ms) next[row.user_id] = ms; });
+      presence = next;
+      if (isActiveTab()) paintPresence();
+    } catch (e) { /* hors ligne : on réessaiera */ }
+  }
+  function startPresence() {
+    if (presTimer) return;
+    presenceTick();
+    presTimer = setInterval(presenceTick, 60000);
+    document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") presenceTick(); });
+  }
+  function whenLabel(iso) {
+    const d = new Date(iso);
+    if (isNaN(d)) return "";
+    const now = new Date();
+    const day = (x) => new Date(x.getFullYear(), x.getMonth(), x.getDate()).getTime();
+    const diff = Math.round((day(now) - day(d)) / 86400000);
+    try {
+      if (diff <= 0) return d.toLocaleTimeString(UI_LANG, { hour: "2-digit", minute: "2-digit" });
+      if (diff === 1 && Intl.RelativeTimeFormat) return new Intl.RelativeTimeFormat(UI_LANG, { numeric: "auto" }).format(-1, "day");
+      if (diff < 7) return d.toLocaleDateString(UI_LANG, { weekday: "short" });
+      return d.toLocaleDateString(UI_LANG, { day: "numeric", month: "short" });
+    } catch (e) {
+      return d.toLocaleDateString();
+    }
+  }
+  let netQuery = "";
+  const ICON_SEARCH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
+  function searchHtml() {
+    return `<label class="net-search" for="netSearch">${ICON_SEARCH}<input type="search" id="netSearch" autocomplete="off" spellcheck="false"
+        placeholder="${escapeHtml(t("net_search_ph"))}" aria-label="${escapeHtml(t("net_search_ph"))}" value="${escapeHtml(netQuery)}" /></label>
+      <div class="net-nomatch" id="netNoMatch" hidden>${escapeHtml(t("net_nomatch"))}</div>`;
+  }
+  function applySearch() {
+    const q = netQuery.trim().toLowerCase();
+    let shown = 0, total = 0;
+    root.querySelectorAll(".net-convs [data-q]").forEach((el) => {
+      total++;
+      const ok = !q || el.dataset.q.indexOf(q) !== -1;
+      el.hidden = !ok;
+      if (ok) shown++;
+    });
+    const nm = root.querySelector("#netNoMatch");
+    if (nm) nm.hidden = !(total && !shown);
+  }
+  function bindSearch() {
+    const inp = root.querySelector("#netSearch");
+    if (!inp) return;
+    inp.addEventListener("input", () => { netQuery = inp.value; applySearch(); });
+    applySearch();
+  }
+
+  // ---------- Barre d'onglets en bas : Accueil, Messagerie, Téléphone, Traduire ----------
+  const ICON_HOME = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/></svg>';
+  const bar = document.createElement("nav");
+  bar.className = "bbar";
+  bar.setAttribute("aria-label", t("net_tabs"));
+  const trLabel = String(t("tab_tr")).replace(/^[^\p{L}]+/u, "");
+  bar.innerHTML = `
+    <button type="button" data-b="home">${ICON_HOME}<span>${escapeHtml(t("tab_home"))}</span></button>
+    <button type="button" data-b="msg">${ICON_MSG}<span>${escapeHtml(t("home_msg"))}</span><em class="bbar-n" id="bbarN" hidden></em></button>
+    <button type="button" data-b="call">${ICON_PHONE}<span>${escapeHtml(t("home_phone"))}</span></button>
+    <button type="button" data-b="tr">${ICON_GLOBE}<span>${escapeHtml(trLabel)}</span></button>`;
+  // Dans le portail ONE WORLD (TALK affiché dans un cadre), le portail a déjà sa propre barre.
+  if (!EMBEDDED) {
+    document.body.appendChild(bar);
+    document.body.classList.add("has-bbar");
+  }
+  bar.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-b]");
+    if (!b) return;
+    const k = b.dataset.b;
+    if (k === "home") {
+      if (homeTabBtn) homeTabBtn.click();
+    } else if (k === "tr") {
+      const trBtn = document.querySelector('nav.tabs button[data-view="tr"]');
+      if (trBtn) trBtn.click();
+    } else {
+      mode = k;
+      scrollAfterRender = true;
+      if (screen === "chat" && !call) { currentConv = null; screen = "home"; }
+      if (isActiveTab()) open();
+      else tabBtn.click();
+    }
+    // Comme les grandes touches de l'accueil : on fait défiler jusqu'au début de l'écran choisi (la liste), pas tout en haut.
+    // La liste peut arriver un peu après (chargement) : on refait le défilement quand elle s'affiche.
+    barScrollTo(k === "home" ? null : k === "tr" ? document.getElementById("tr") : topbar);
+    syncBar();
+  });
+  // VOICE (bouton micro de la coquille, everywhere/voix.js) : TALK fait lui-même « ouvre la messagerie », « ouvre TALK »
+  // et « lis mon dernier message » (dernier message reçu de la discussion ouverte, traduit s'il est affiché traduit).
+  window.addEventListener("ew:voice", (e) => {
+    const c = e.detail || {};
+    if (c.act === "open" && (c.target === "msg" || c.target === "talk")) {
+      e.preventDefault();
+      c.sayKey = "opening";
+      bar.querySelector(`button[data-b="${c.target === "msg" ? "msg" : "home"}"]`).click();
+    } else if (c.act === "read" && screen === "chat" && currentConv) {
+      e.preventDefault();
+      const m = [...chatMsgs].reverse().find((x) => x.sender_id !== me && x.kind !== "call");
+      if (!m) { c.sayKey = "no_msg"; return; }
+      c.sayKey = "reading";
+      const rl = myRead(m.conversation_id);
+      if (m.lang === rl || !trOn || showOrig[m.id]) speak(m.body, m.lang || rl);
+      else translateFor(m).then((txt) => speak(txt || m.body, txt ? rl : (m.lang || rl)), () => speak(m.body, m.lang || rl));
+    }
+  });
+  try {
+    if (sessionStorage.getItem("ew_voice_next") === "msg") {
+      sessionStorage.removeItem("ew_voice_next");
+      setTimeout(() => { const b = bar.querySelector('button[data-b="msg"]'); if (b) b.click(); }, 0);
+    }
+  } catch (e) { /* stockage indisponible : TALK reste sur son accueil */ }
+  let scrollAfterRender = false;
+  function barScrollTo(target) {
+    try {
+      const y = target && !document.body.classList.contains("net-full") ? Math.max(0, target.getBoundingClientRect().top + window.scrollY - 6) : 0;
+      window.scrollTo({ top: y });
+    } catch (err) { /* ignoré */ }
+  }
+  function syncBar() {
+    const v = document.querySelector("main .view.active");
+    const id = v ? v.id : "";
+    const k = id === "net" ? mode : id === "home" ? "home" : id === "tr" ? "tr" : "";
+    if (id !== "net") scrollAfterRender = false;
+    bar.querySelectorAll("button[data-b]").forEach((b) => {
+      b.classList.toggle("on", b.dataset.b === k);
+      if (b.dataset.b === k) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
+    });
+    // Comme dans les messageries : la barre s'efface dans une discussion ouverte et pendant un appel.
+    const hide = id === "net" && (screen === "chat" || screen === "call");
+    bar.hidden = hide;
+    const full = id === "net" && !EMBEDDED;
+    if (document.body.classList.contains("net-full") !== full) {
+      document.body.classList.toggle("net-full", full);
+      updateTopbar();
+      if (full) { try { window.scrollTo(0, 0); } catch (e) { /* ignoré */ } }
+    }
+    document.body.classList.toggle("has-bbar", !hide && !EMBEDDED);
+    const n = convs.filter((c) => c.unread).length;
+    const nb = bar.querySelector("#bbarN");
+    nb.hidden = n === 0;
+    nb.textContent = n > 9 ? "9+" : String(n);
+  }
+  try {
+    new MutationObserver(syncBar).observe(document.querySelector("main"), { subtree: true, attributes: true, attributeFilter: ["class"] });
+  } catch (e) { /* ignoré */ }
+
   function render() {
+    dropChatHistory();
+    syncBar();
     updateTopbar();
     if (screen === "off") {
       root.innerHTML = `<div class="card"><p class="net-lead">${escapeHtml(t("net_off"))}</p></div>`;
@@ -7849,8 +8910,12 @@ const Reseau = (() => {
       return;
     }
     if (screen === "setup") return renderSetup();
-    if (screen === "home") return renderHome();
-    if (screen === "chat") return renderChat();
+    if (screen === "home") {
+      renderHome();
+      if (scrollAfterRender && isActiveTab()) { scrollAfterRender = false; barScrollTo(topbar); }
+      return;
+    }
+    if (screen === "chat") { renderChat(); paintPresence(); return; }
     if (screen === "call") return renderCall();
   }
 
@@ -7871,6 +8936,7 @@ const Reseau = (() => {
         <label class="net-check"><input type="checkbox" id="netAge" /> <span>${t("net_age_html")}</span></label>
         <div class="row"><button class="btn primary" id="netCreate">${escapeHtml(t("net_create"))}</button></div>
         <div id="netSetupMsg">${flashHtml()}</div>
+        <p class="net-note"><a href="everywhere/#/profil" id="netHaveAccount">${escapeHtml(t("net_have_account"))}</a></p>
       </div>`;
     const sel = root.querySelector("#netLang");
     fillLangSelect(sel, DEFAULT_SRC);
@@ -7880,6 +8946,8 @@ const Reseau = (() => {
       if (v !== input.value) input.value = v;
     });
     root.querySelector("#netCreate").addEventListener("click", () => createProfile(input.value, sel.value, root.querySelector("#netAge").checked));
+    // CONNECT : se connecter à un compte existant (relié à un e-mail) se fait dans Profil d'EVERYWHERE.
+    root.querySelector("#netHaveAccount").addEventListener("click", () => { try { sessionStorage.setItem("ew_connect_login", "1"); } catch (e) { /* ignoré */ } });
   }
 
   async function createProfile(pseudo, lang, ageOk) {
@@ -7889,6 +8957,12 @@ const Reseau = (() => {
     if (!ageOk) return showMsg(msg, escapeHtml(t("net_age_needed")), "warn");
     const btn = root.querySelector("#netCreate");
     btn.disabled = true;
+    // Appels appli fermée = fonction de base : l'autorisation est demandée dès la création du compte
+    // (le navigateur exige qu'elle soit demandée pendant l'appui sur un bouton).
+    const permAsk = pushSupported && Notification.permission === "default" && safeStore.getItem("lc_push") !== "0"
+      ? Notification.requestPermission().catch(() => "denied")
+      : null;
+    if (permAsk) permAsk.then((p) => { if (p === "granted" && profile) autoPush(); });
     try {
       if (!me) {
         const { data, error } = await sb.auth.signInAnonymously();
@@ -7933,16 +9007,17 @@ const Reseau = (() => {
         ? contacts.map((c) => {
             const p = c.other.pseudo;
             const blocked = c.otherId && blockedIds.has(c.otherId);
-            return `<div class="net-contact">
-                <span class="net-avatar" aria-hidden="true">${escapeHtml(p.charAt(0))}</span>
+            return `<div class="net-contact" data-q="${escapeHtml(p.toLowerCase())}">
+                ${avatarHtml(p, c.otherId)}
                 <span class="net-contact-name"><b dir="ltr">@${escapeHtml(p)}</b><span class="net-conv-lang">${escapeHtml(langLabel(c.other.lang))}</span>
                   <button type="button" class="net-cl-chip${convLangs(c.id).speak !== profile.lang || convLangs(c.id).read !== profile.lang ? " custom" : ""}" data-cl="${escapeHtml(c.id)}">🗣 ${escapeHtml(langLabel(convLangs(c.id).speak))} · 🌐 ${escapeHtml(langLabel(convLangs(c.id).read))} ✎</button></span>
                 ${blocked ? "🚫" : `<button type="button" class="net-dial" data-id="${escapeHtml(c.id)}" aria-label="${escapeHtml(t("net_call_btn") + " @" + p)}">${ICON_PHONE}<span>${escapeHtml(t("net_call_btn"))}</span></button>`}
               </div>`;
           }).join("")
         : `<div class="empty">${escapeHtml(t("net_no_contacts", { b: t("net_invite") }))}</div>`;
-      listCard = `<div class="card">
+      listCard = `<div class="card net-listcard">
         <h3 class="net-h3">${escapeHtml(t("net_contacts"))}</h3>
+        ${contacts.length ? searchHtml() : ""}
         <div class="net-convs">${rows}</div>
       </div>
       ${callLogHtml()}`;
@@ -7955,14 +9030,22 @@ const Reseau = (() => {
             const prev = !(c.last && visibleForMe(c.last)) ? ""
               : c.last.kind === "call" ? callRecTitle(parseCallMsg(c.last))
               : (c.last.kind === "voice" ? "🎙 " : "") + c.last.body;
-            return `<button class="net-conv${c.unread ? " unread" : ""}" data-id="${escapeHtml(c.id)}">
-                <span class="net-conv-top"><b dir="ltr">${escapeHtml(name)}</b>${blocked}<span class="net-conv-lang">${escapeHtml(lang)}</span></span>
-                <span class="net-conv-prev" dir="auto">${escapeHtml(prev.length > 70 ? prev.slice(0, 70) + "…" : prev)}</span>
+            const l = c.other && typeof langByCode === "function" ? langByCode(c.other.lang) : null;
+            const flag = l && l.flag ? `<span class="net-row-flag" title="${escapeHtml(lang)}" aria-label="${escapeHtml(lang)}">${l.flag}</span>` : "";
+            const n = c.unread ? Math.max(1, c.unreadN || 0) : 0;
+            const when = c.last && visibleForMe(c.last) ? whenLabel(c.last.created_at) : "";
+            return `<button class="net-conv net-row${c.unread ? " unread" : ""}" data-id="${escapeHtml(c.id)}" data-q="${escapeHtml((name + " " + prev).toLowerCase())}">
+                ${avatarHtml(c.other ? c.other.pseudo : "?", c.other ? c.otherId : null)}
+                <span class="net-row-mid">
+                  <span class="net-row-l1"><b dir="ltr">${escapeHtml(name)}${blocked}</b><span class="net-row-when">${escapeHtml(when)}</span></span>
+                  <span class="net-row-l2">${flag}<span class="net-conv-prev" dir="auto">${escapeHtml(prev.length > 70 ? prev.slice(0, 70) + "…" : prev)}</span>${n ? `<span class="net-row-count" aria-label="${escapeHtml(t("net_unread", { n }))}">${n > 99 ? "99+" : n}</span>` : ""}</span>
+                </span>
               </button>`;
           }).join("")
         : `<div class="empty">${escapeHtml(t("net_no_convs"))}</div>`;
-      listCard = `<div class="card">
+      listCard = `<div class="card net-listcard">
         <h3 class="net-h3">${escapeHtml(t("net_convs"))}</h3>
+        ${list.length ? searchHtml() : ""}
         <div class="net-convs">${items}</div>
       </div>`;
     }
@@ -7971,9 +9054,15 @@ const Reseau = (() => {
       : pushState() === "off" && safeStore.getItem("lc_push") !== "0"
       ? `<div class="card net-pushcard"><p>${escapeHtml(t("net_push_card"))}</p><button class="btn primary" id="netPushOn">${escapeHtml(t("net_push_btn"))}</button></div>`
       : "";
+    const listFirst = isCall ? list.some((c) => c.other) : list.length > 0;
     root.innerHTML = `${pushCard}
+      ${listFirst ? listCard : ""}
       <div class="card">
-        <div class="net-me"><b dir="ltr">@${escapeHtml(profile.pseudo)}</b><span>${escapeHtml(langLabel(profile.lang))}</span></div>
+        ${photosOk ? `<div class="net-me-row">
+          <button type="button" class="net-photo-btn" id="netPhotoBtn" aria-label="${escapeHtml(t(photoOf(me) ? "net_photo_change" : "net_photo_add"))}">${avatarCore(profile.pseudo, me)}<span class="net-photo-cam" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span></button>
+          <div class="net-me"><b dir="ltr">@${escapeHtml(profile.pseudo)}</b><span>${escapeHtml(langLabel(profile.lang))} · ${escapeHtml(t("net_photo_hint"))}</span></div>
+        </div>
+        <input type="file" id="netPhotoFile" accept="image/*" hidden />` : `<div class="net-me"><b dir="ltr">@${escapeHtml(profile.pseudo)}</b><span>${escapeHtml(langLabel(profile.lang))}</span></div>`}
         <div class="row"><button class="btn primary" id="netInvite">${escapeHtml(t("net_invite"))}</button></div>
         <div class="row net-add">
           <input type="text" id="netAddInput" class="net-input" maxlength="21" autocomplete="off" autocapitalize="none" spellcheck="false"
@@ -7982,12 +9071,41 @@ const Reseau = (() => {
         </div>
         <div id="netHomeMsg">${flashHtml()}</div>
       </div>
-      ${listCard}
+      ${listFirst ? "" : listCard}
       <div class="card">
         <label class="net-label" for="netMyLang">${escapeHtml(t("net_my_lang"))}</label>
         <select id="netMyLang"></select>
+        ${presOk ? `<div class="net-pres-row"><span>${escapeHtml(t("net_pres_show"))}<small>${escapeHtml(t("net_pres_hint"))}</small></span>
+          <button type="button" class="toggle${presHidden ? "" : " on"}" id="netPresToggle" aria-pressed="${!presHidden}" aria-label="${escapeHtml(t("net_pres_show"))}"></button></div>` : ""}
         <div class="row"><button class="btn ghost" id="netDelete" style="flex:1;">${escapeHtml(t("net_delete"))}</button></div>
       </div>`;
+    bindSearch();
+    const photoBtn = root.querySelector("#netPhotoBtn");
+    const photoFile = root.querySelector("#netPhotoFile");
+    if (photoBtn && photoFile) {
+      const homeMsg = root.querySelector("#netHomeMsg");
+      photoFile.addEventListener("change", () => {
+        const f = photoFile.files && photoFile.files[0];
+        photoFile.value = "";
+        if (f) setMyPhoto(f, photoBtn, homeMsg);
+      });
+      photoBtn.addEventListener("click", () => {
+        if (!photoOf(me)) { photoFile.click(); return; }
+        actionSheet([
+          { label: t("net_photo_change"), run: () => photoFile.click() },
+          { label: t("net_photo_remove"), danger: true, confirm: t("net_photo_remove_confirm"), run: () => removeMyPhoto(homeMsg) }
+        ]);
+      });
+    }
+    const presTg = root.querySelector("#netPresToggle");
+    if (presTg) presTg.addEventListener("click", () => {
+      presHidden = !presHidden;
+      safeStore.setItem("lc_pres_hidden", presHidden ? "1" : "0");
+      presTg.classList.toggle("on", !presHidden);
+      presTg.setAttribute("aria-pressed", String(!presHidden));
+      if (presHidden) { presence = {}; paintPresence(); }
+      presenceTick();
+    });
     const iosBtn = root.querySelector("#netIosHow");
     if (iosBtn) iosBtn.addEventListener("click", showIosGuide);
     const pushBtn = root.querySelector("#netPushOn");
@@ -8037,8 +9155,16 @@ const Reseau = (() => {
 
   async function deleteAccount() {
     try {
-      const { error } = await sb.from("profiles").delete().eq("id", me);
-      if (error) throw error;
+      // CONNECT : supprimer_mon_compte efface aussi l'e-mail relié. Repli sur l'ancien effacement (profil seul)
+      // UNIQUEMENT si la fonction n'existe pas sur ce serveur ; toute autre erreur est affichée et rien n'est effacé,
+      // pour ne jamais laisser un compte et un e-mail sans profil.
+      const r = await sb.rpc("supprimer_mon_compte");
+      if (r.error) {
+        const missing = r.error.code === "PGRST202" || r.error.code === "42883" || /could not find the function|does not exist/i.test(r.error.message || "");
+        if (!missing) throw r.error;
+        const { error } = await sb.from("profiles").delete().eq("id", me);
+        if (error) throw error;
+      }
       if (call) endCall(null);
       try { await sb.removeAllChannels(); } catch (e) { /* ignoré */ }
       try { await sb.auth.signOut(); } catch (e) { /* ignoré */ }
@@ -8074,7 +9200,8 @@ const Reseau = (() => {
       <div class="card net-chat">
         <div class="net-chat-head">
           <button class="iconbtn" id="netBack">${escapeHtml(t("net_back"))}</button>
-          <div class="net-chat-title"><b dir="ltr">${escapeHtml(name)}</b><span>${c.other ? escapeHtml(langLabel(c.other.lang)) : ""}</span></div>
+          ${c.other ? avatarHtml(c.other.pseudo, c.otherId) : ""}
+          <div class="net-chat-title"><b dir="ltr">${escapeHtml(name)}</b><span id="netPresText">${c.other ? escapeHtml(langLabel(c.other.lang)) : ""}</span></div>
         </div>
         ${trSwitchHtml(true)}
         <button type="button" class="net-langrow${convLangs(c.id).speak !== profile.lang || convLangs(c.id).read !== profile.lang ? " custom" : ""}" id="netConvLang">🗣 ${escapeHtml(langLabel(convLangs(c.id).speak))} · 🌐 ${escapeHtml(langLabel(convLangs(c.id).read))} <span aria-hidden="true">✎</span></button>
@@ -8093,14 +9220,10 @@ const Reseau = (() => {
         <div id="netChatMsg">${chatLoading ? "" : flashHtml()}</div>
       </div>`;
     renderChatMessages();
-    root.querySelector("#netBack").addEventListener("click", async () => {
-      currentConv = null;
-      screen = "home";
-      render();
-      try {
-        await Promise.all([loadConversations(), loadBlocks()]);
-      } catch (e) { /* on garde la liste déjà affichée */ }
-      if (screen === "home") render();
+    root.querySelector("#netBack").addEventListener("click", () => {
+      // TOUCH : même chemin que le geste « retour » d'Android (une seule entrée d'historique par discussion).
+      if (history.state && history.state.ewNet === "chat") history.back();
+      else closeChat();
     });
     const input = root.querySelector("#netInput");
     root.querySelector("#netSend").addEventListener("click", () => sendMessage(input.value, "text"));
@@ -8110,7 +9233,7 @@ const Reseau = (() => {
       if (micActive) {
         try { micActive.stop(); } catch (e) { /* ignoré */ }
         micActive = null;
-        micBtn.classList.remove("recording");
+        micBtn.classList.remove("recording", "hear");
         return;
       }
       const msgEl = root.querySelector("#netChatMsg");
@@ -8118,12 +9241,12 @@ const Reseau = (() => {
       if (SpeechRecognitionAPI && !(await ensureMicPermission(msgEl, false))) return;
       micBtn.classList.add("recording");
       micActive = startDictation(input, { value: mySpeak(c.id) }, (finalText) => {
-        micBtn.classList.remove("recording");
+        micBtn.classList.remove("recording", "hear");
         micActive = null;
         if (finalText) sendMessage(finalText, "voice");
       }, msgEl);
-      if (!micActive) micBtn.classList.remove("recording");
-      else micActive.onend = () => { micBtn.classList.remove("recording"); micActive = null; };
+      if (!micActive) micBtn.classList.remove("recording", "hear");
+      else micActive.onend = () => { micBtn.classList.remove("recording", "hear"); micActive = null; };
     });
     const callBtn = root.querySelector("#netCallBtn");
     if (callBtn) callBtn.addEventListener("click", () => startCall(false));
@@ -8148,10 +9271,18 @@ const Reseau = (() => {
       const copy = theirs.map((m) => m.body).join("\n").slice(0, 2000);
       const lastId = theirs.length ? theirs[theirs.length - 1].id : null;
       const { error } = await sb.from("reports").insert({ reported: c.otherId, message_id: lastId, body_copy: copy, reason: "user_report" });
-      showMsg(root.querySelector("#netChatMsg"), escapeHtml(error ? t("net_err_conn") : t("net_report_done")), error ? "err" : "ok");
+      const rl = error && String(error.message || "").includes("RATE_LIMIT");
+      showMsg(root.querySelector("#netChatMsg"), escapeHtml(rl ? t("net_rate_limit") : error ? t("net_err_conn") : t("net_report_done")), error ? "err" : "ok");
+    };
+    const doReportPhoto = async () => {
+      const { error } = await sb.from("reports").insert({ reported: c.otherId, body_copy: "[photo de profil]", reason: "photo" });
+      const rl = error && String(error.message || "").includes("RATE_LIMIT");
+      showMsg(root.querySelector("#netChatMsg"), escapeHtml(rl ? t("net_rate_limit") : error ? t("net_err_conn") : t("net_report_done")), error ? "err" : "ok");
     };
     const doClear = () => {
       safeStore.setItem("lc_cleared_" + c.id, String(Date.now()));
+      serverCleared[c.id] = Date.now();
+      sb.from("members").update({ cleared_at: new Date().toISOString() }).eq("conversation_id", c.id).eq("user_id", me).then(() => {}, () => {});
       chatMsgs = [];
       c.last = null;
       setFlash(escapeHtml(t("net_cleared")), "ok");
@@ -8161,6 +9292,7 @@ const Reseau = (() => {
       const items = [];
       if (c.otherId && !isBlocked) items.push({ label: t("net_block"), danger: true, confirm: t("net_block_confirm"), run: doBlock });
       if (c.otherId) items.push({ label: t("net_report"), danger: true, confirm: t("net_report_confirm"), run: doReport });
+      if (c.otherId && photoOf(c.otherId)) items.push({ label: t("net_photo_report"), danger: true, confirm: t("net_photo_report_confirm"), run: doReportPhoto });
       items.push({ label: t("net_clear"), danger: true, confirm: t("net_clear_confirm"), run: doClear });
       actionSheet(items);
     });
@@ -8226,6 +9358,28 @@ const Reseau = (() => {
       }
       if (!div.onclick && !mine && !(m.lang === rl || !trOn || showOrig[m.id])) div.onclick = () => messageMenu(m, null);
       div.style.cursor = "pointer";
+      // TOUCH : appui prolongé (Android : menu contextuel) = même menu que le toucher, avec une petite vibration.
+      div.addEventListener("contextmenu", (e) => {
+        e.preventDefault();
+        try { if (navigator.vibrate) navigator.vibrate(15); } catch (err) { /* pas de vibration (iPhone) */ }
+        if (div.onclick) div.onclick(); else messageMenu(m, null);
+      });
+      // LISTEN : 🔊 sur chaque message reçu, lu dans la langue affichée (la traduction quand elle est affichée).
+      if (!mine) {
+        const sb = document.createElement("button");
+        sb.type = "button";
+        sb.className = "net-say";
+        sb.setAttribute("aria-label", t("net_say"));
+        sb.textContent = "🔊";
+        sb.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const tr = div.querySelector(".net-tr");
+          const shown = tr && !tr.classList.contains("net-fail") && tr.textContent !== t("net_translating") ? tr.textContent : "";
+          speak(shown || m.body, shown ? voiceLang(rl, m.conversation_id) : voiceLang(m.lang || rl, m.conversation_id));
+        });
+        div.appendChild(sb);
+        div.classList.add("has-say");
+      }
       log.appendChild(div);
     });
     // « Vu » ou « Envoyé » sous mon dernier message, comme Messenger.
@@ -8251,8 +9405,9 @@ const Reseau = (() => {
       .insert({ conversation_id: currentConv.id, body: body.slice(0, 2000), lang: mySpeak(currentConv.id), kind: kind === "voice" ? "voice" : "text" })
       .select("id,conversation_id,sender_id,body,lang,kind,created_at").single();
     if (error) {
-      const blocked = /row-level security|policy/i.test(error.message || "");
-      showMsg(msgEl, escapeHtml(blocked ? t("net_blocked") : t("net_send_fail")), "err");
+      const em = String(error.message || "");
+      const blocked = /row-level security|policy/i.test(em);
+      showMsg(msgEl, escapeHtml(em.includes("SUSPENDED") ? t("net_suspended") : em.includes("RATE_LIMIT") ? t("net_rate_limit") : blocked ? t("net_blocked") : t("net_send_fail")), "err");
       return;
     }
     if (input) input.value = "";
@@ -8327,6 +9482,18 @@ const Reseau = (() => {
     const ok = await syncPushSub(true);
     if (ok) safeStore.setItem("lc_push", "1");
     return ok ? "on" : "fail";
+  }
+  // Active les appels appli fermée sans rien demander quand l'autorisation est déjà donnée
+  // (sauf si la personne les a coupés elle-même dans les Paramètres).
+  function autoPush() {
+    if (!pushSupported || !profile || Notification.permission !== "granted" || safeStore.getItem("lc_push") === "0") return;
+    syncPushSub(true).then((ok) => {
+      if (!ok) return;
+      safeStore.setItem("lc_push", "1");
+      const tg = document.getElementById("pushToggle");
+      if (tg) { tg.classList.add("on"); tg.setAttribute("aria-pressed", "true"); }
+      if (screen === "home" && isActiveTab()) render();
+    });
   }
   async function disablePush() {
     safeStore.setItem("lc_push", "0");
@@ -8455,6 +9622,7 @@ const Reseau = (() => {
   }
   function startRing(incoming) {
     stopRing();
+    if (incoming) ewRing();
     const once = () => {
       if (incoming) {
         ringMelody();
@@ -8793,9 +9961,11 @@ const Reseau = (() => {
     pc.onconnectionstatechange = () => {
       if (c.voice !== v) return;
       if (pc.connectionState === "connected") {
+        const first = !v.ok;
         v.ok = true;
         clearTimeout(v.timer);
         setVoiceInfo(t("net_voice_live"));
+        if (first && c.role === "caller") countVoicePath(pc);
       } else if (pc.connectionState === "failed") {
         voiceFailed(c);
       }
@@ -8844,8 +10014,24 @@ const Reseau = (() => {
     if (v.stream) v.stream.getTracks().forEach((tr) => tr.stop());
     if (v.audio) { try { v.audio.srcObject = null; } catch (e) { /* ignoré */ } v.audio.remove(); }
   }
+  // Statistiques anonymes des appels en voix réelle (comptées une fois, par la personne qui appelle) :
+  // voix_ok = voix établie, voix_relais = établie grâce à un relais TURN, voix_echec = repli en appel traduit.
+  function countVoicePath(pc) {
+    try { Stats24.track("voix_ok"); } catch (e) { /* ignoré */ }
+    pc.getStats().then((stats) => {
+      let pair = null;
+      stats.forEach((r) => { if (r.type === "transport" && r.selectedCandidatePairId) pair = stats.get(r.selectedCandidatePairId); });
+      if (!pair) stats.forEach((r) => { if (!pair && r.type === "candidate-pair" && r.state === "succeeded" && r.nominated) pair = r; });
+      if (!pair) return;
+      const loc = stats.get(pair.localCandidateId), rem = stats.get(pair.remoteCandidateId);
+      const types = [loc && loc.candidateType, rem && rem.candidateType];
+      console.log("[24/24] chemin de la voix :", types.join(" ↔ "));
+      if (types.includes("relay")) { try { Stats24.track("voix_relais"); } catch (e) { /* ignoré */ } }
+    }).catch(() => { /* ignoré */ });
+  }
   function voiceFailed(c) {
     if (!c || call !== c) return;
+    if (c.role === "caller" && c.voice && c.voice.pc && !c.voice.ok) { try { Stats24.track("voix_echec"); } catch (e) { /* ignoré */ } }
     stopVoice(c);
     if (c.mode !== "voice") return;
     sendSignal(c.otherId, { t: "mode", callId: c.id, mode: "translate" });
@@ -8936,6 +10122,11 @@ const Reseau = (() => {
     logCallMessage(call);
     call = null;
     if (message) setFlash(escapeHtml(message), "ok");
+    if (ewCallReturn) {
+      // Appel lancé depuis EVERYWHERE : retour dans EVERYWHERE, après avoir laissé lire le message de fin.
+      ewCallReturn = false;
+      setTimeout(() => { location.href = "everywhere/#/everywhere/appel"; }, 1800);
+    }
     if (screen === "call") {
       if (fromList) {
         // Appel lancé depuis le Téléphone : retour à la liste des contacts.
@@ -9110,9 +10301,36 @@ const Reseau = (() => {
     setTimeout(() => ensureConnected(), 600);
   }
   // Arrivé par un lien d'invitation : on ouvre directement l'onglet Réseau.
-  if (pendingAdd && inviteFromLink) {
+  if ((pendingAdd && inviteFromLink) || pendingEwCall) {
     setTimeout(() => goToTab(), 300);
   }
+  // ---------- Pont avec 24/24 EVERYWHERE (seulement quand TALK est ouvert dans le portail, même site) ----------
+  if (EMBEDDED) {
+    const toPortal = (m) => { try { window.parent.postMessage(m, location.origin); } catch (e) { /* ignoré */ } };
+    const meMsg = (extra) => Object.assign({ t: "ew:me", configured, pseudo: profile ? profile.pseudo : null, lang: profile ? profile.lang : null,
+      joined: safeStore.getItem("lc_net_joined") === "1" }, extra || {});
+    window.addEventListener("message", (e) => {
+      if (e.origin !== location.origin || e.source !== window.parent) return;
+      const d = e.data || {};
+      if (d.t === "ew:who") {
+        // Déjà inscrit mais pas encore reconnecté : on attend la reconnexion (12 s au plus) avant de répondre.
+        if (profile || !configured || safeStore.getItem("lc_net_joined") !== "1") { toPortal(meMsg()); return; }
+        if (!sb) ensureConnected();
+        const t0 = Date.now();
+        const iv = setInterval(() => {
+          if (profile || Date.now() - t0 > 12000) { clearInterval(iv); toPortal(meMsg(profile ? null : { error: true })); }
+        }, 250);
+      } else if (d.t === "ew:view") {
+        if (d.view === "settings") { const b = document.querySelector('nav.tabs button[data-view="settings"]'); if (b) b.click(); }
+        else if (d.view === "net") { const b = document.getElementById("tileMsg"); if (b) b.click(); }
+        else if (d.view === "home" && homeTabBtn) homeTabBtn.click();
+        try { window.scrollTo(0, 0); } catch (e) { /* ignoré */ }
+      }
+    });
+    ewRing = () => toPortal({ t: "ew:ring" });
+    toPortal({ t: "ew:hello", app: "talk" });
+  }
+
   render();
 
   return { open, _state: () => ({ screen, profile, convs: convs.length, call: call && call.state }) };
