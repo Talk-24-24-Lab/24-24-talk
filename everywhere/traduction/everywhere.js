@@ -323,7 +323,8 @@
     var p = prefs(), code = halfLang(who);
     face.seq++;
     // Micro ouvert pendant la réécoute : on le coupe, sinon il entendrait la voix du téléphone.
-    if (face.listening && face.rec) { face.paused = true; try { face.rec.stop(); } catch (e) { /* déjà arrêté */ } }
+    // Les mots à moitié dits avant « Répéter » sont abandonnés : sinon ils partaient traduits et lus juste après la réécoute.
+    if (face.listening && face.rec) { face.paused = true; face.drop = true; try { face.rec.stop(); } catch (e) { /* déjà arrêté */ } }
     M.speak(last.trs[who], code, p.volume, { rate: p.rate, voice: p.voices[code] });
   }
   function startMic(who) {
@@ -350,13 +351,13 @@
         // Traduction demandée en avance pendant que la phrase se termine (gardée, réutilisée si la phrase ne change plus).
         // Au plus 2 demandes en avance par phrase, et seulement pour une phrase assez longue : le quota gratuit est limité.
         stable: function (txt) { if (face === f && early < 2 && String(txt || "").trim().length >= 6 && ++early) M.translate(txt, halfLang(who), halfLang(others(who)[0])).catch(function () {}); },
-        final: function (txt) { if (face !== f) return; f.listening = 0; f.rec = null; msg(who, ""); say(who, txt); },
+        final: function (txt) { if (face !== f) return; f.listening = 0; f.rec = null; msg(who, ""); if (f.drop) { f.drop = false; paintFace(); return; } say(who, txt); },
         error: function (code) {
           if (face !== f) return;
           f.listening = 0; f.rec = null; paintFace();
           msg(who, code === "DENIED" ? t("mic_denied") : code === "NETWORK" ? t("net_err") : code === "NO_SPEECH" ? (prefs().hands ? t("hands_pause") : t("no_speech")) : t("stt_fail"));
         },
-        end: function () { if (face !== f) return; if (f.listening === who) { f.listening = 0; f.rec = null; msg(who, ""); } paintFace(); }
+        end: function () { if (face !== f) return; f.drop = false; if (f.listening === who) { f.listening = 0; f.rec = null; msg(who, ""); } paintFace(); }
       });
       if (!f.rec) { f.listening = 0; paintFace(); msg(who, t("stt_fail")); }
     });

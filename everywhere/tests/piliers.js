@@ -692,22 +692,25 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     });
     await ctx.close();
   }
-  // Tarif affiché dans la monnaie du pays (fuseau horaire d'abord, puis région de la langue), dollars sinon.
-  for (const [nom, opts, attendu] of [
-    ["La Réunion, français", { locale: "fr-FR", timezoneId: "Indian/Reunion" }, /1,99\s?€/],
-    ["Madagascar, téléphone en français", { locale: "fr-FR", timezoneId: "Indian/Antananarivo" }, /9\s?900\s?Ar/],
-    ["Japon, japonais", { locale: "ja-JP", timezoneId: "Asia/Tokyo" }, /[￥¥]300/],
-    ["États-Unis, anglais", { locale: "en-US", timezoneId: "America/New_York" }, /\$1\.99/],
-    ["pays inconnu (Thaïlande), thaï", { locale: "th-TH", timezoneId: "Asia/Bangkok" }, /US\$\s?1\.99|\$1\.99/]
+  // 17 oct. 2026 : plus aucun prix affiché (demande de Sébastien). On vérifie qu'aucun tarif n'apparaît, quel que soit le pays.
+  for (const [nom, opts] of [
+    ["La Réunion, français", { locale: "fr-FR", timezoneId: "Indian/Reunion" }],
+    ["Madagascar, téléphone en français", { locale: "fr-FR", timezoneId: "Indian/Antananarivo" }],
+    ["Japon, japonais", { locale: "ja-JP", timezoneId: "Asia/Tokyo" }],
+    ["États-Unis, anglais", { locale: "en-US", timezoneId: "America/New_York" }],
+    ["Thaïlande, thaï", { locale: "th-TH", timezoneId: "Asia/Bangkok" }]
   ]) {
     ctx = await newCtx(opts, false);
     page = await open(ctx, URL_TALK);
-    await step("Tarif dans la monnaie locale : " + nom, async () => {
-      await page.waitForFunction(() => { const b = document.querySelector(".promo-banner"); return b && b.textContent.indexOf("{price}") === -1 && /\d/.test(b.textContent); }, null, { timeout: 15000 });
-      await page.waitForTimeout(300);
-      const r = await page.evaluate(() => ({ promo: document.querySelector(".promo-banner").textContent, btn: (document.getElementById("subBtn") || {}).textContent || "" }));
-      const ok = attendu.test(r.promo) && attendu.test(r.btn) && !/\{price\}/.test(r.promo + r.btn);
-      return { ok, detail: JSON.stringify(r).slice(0, 220) };
+    await step("Aucun prix affiché dans TALK : " + nom, async () => {
+      await page.waitForSelector("#homeTiles .home-tile", { timeout: 15000 });
+      await page.waitForTimeout(500);
+      const r = await page.evaluate(() => {
+        const vis = (e) => e && e.offsetParent !== null;
+        const txt = [...document.querySelectorAll("body *")].filter((e) => vis(e) && !e.children.length).map((e) => e.textContent).join(" ");
+        return { price: (txt.match(/(\d[\d\s.,]*\s?(€|Ar|\$|¥|￥|฿))|((€|\$|¥|￥|฿|US\$)\s?\d)/) || [""])[0], sub: vis(document.getElementById("subBtn")) };
+      });
+      return { ok: !r.price && !r.sub, detail: JSON.stringify(r) };
     });
     await ctx.close();
   }
