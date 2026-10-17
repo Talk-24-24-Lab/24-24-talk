@@ -26,7 +26,7 @@
     fr: {
       skip: "Aller au contenu", offline: "Hors ligne : certaines fonctions sont indisponibles.",
       home: "Accueil", apps: "Applications", profile: "Profil", settings: "Paramètres", open_full: "Ouvrir en plein écran",
-      lead: "Le monde se parle. Enfin.", your_apps: "Vos applications",
+      lead: "Le monde se parle. Enfin.", langs_n: "112 langues, 1 application", your_apps: "Vos applications",
       talk_tag: "Messages et appels traduits", ew_tag: "Conversation côte à côte", learn_tag: "Apprendre sans limites.",
       talk_name: "TALK", ew_name: "EVERYWHERE", trip_name: "VOYAGE", trip_tag: "Phrases utiles hors ligne",
       learn_name: "APPRENDRE", learn_tag2: "Leçons et révisions",
@@ -61,7 +61,7 @@
     en: {
       skip: "Skip to content", offline: "Offline: some features are unavailable.",
       home: "Home", apps: "Apps", profile: "Profile", settings: "Settings", open_full: "Open full screen",
-      lead: "The world speaks. At last.", your_apps: "Your apps",
+      lead: "The world speaks. At last.", langs_n: "112 languages, 1 app", your_apps: "Your apps",
       talk_tag: "Translated messages and calls", ew_tag: "Side-by-side conversation", learn_tag: "Learn without limits.",
       talk_name: "TALK", ew_name: "EVERYWHERE", trip_name: "TRAVEL", trip_tag: "Useful phrases, works offline",
       learn_name: "LEARN", learn_tag2: "Lessons and reviews",
