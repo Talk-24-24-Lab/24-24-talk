@@ -328,6 +328,20 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .home-tile.ew .home-tile-ic{background:linear-gradient(135deg,#9d8bff,#5b45e0);box-shadow:0 6px 16px rgba(110,90,240,.32);}
   .home-tile.trip .home-tile-ic{background:linear-gradient(135deg,#ffc04d,#e8890c);box-shadow:0 6px 16px rgba(232,137,12,.3);}
   .home-tile.learn .home-tile-ic{background:linear-gradient(135deg,#ff8fb4,#e0457b);box-shadow:0 6px 16px rgba(224,69,123,.3);}
+  /* Accueil compact (17 oct. 2026) : tout tient sur un écran de téléphone. Messagerie et Téléphone côte à côte,
+     puis EVERYWHERE, Voyage et Apprendre en trois petites touches. */
+  .home-tiles{grid-template-columns:repeat(6,1fr);gap:8px;}
+  .home-tile{flex-direction:column;align-items:flex-start;gap:8px;min-height:0;padding:12px;grid-column:span 3;}
+  .home-tile::after{display:none;}
+  .home-tile.ew, .home-tile.trip, .home-tile.learn{grid-column:span 2;align-items:center;text-align:center;padding:10px 6px;gap:6px;}
+  .home-tile.ew .home-tile-ic, .home-tile.trip .home-tile-ic, .home-tile.learn .home-tile-ic{width:40px;height:40px;border-radius:12px;}
+  .home-tile.ew .home-tile-ic svg, .home-tile.trip .home-tile-ic svg, .home-tile.learn .home-tile-ic svg{width:22px;height:22px;}
+  .home-tile.ew .home-tile-name, .home-tile.trip .home-tile-name, .home-tile.learn .home-tile-name{font-size:13.5px;overflow-wrap:normal;}
+  .home-tile.ew .home-tile-name{font-size:12px;letter-spacing:-.2px;}
+  .home-tile.ew .home-tile-sub, .home-tile.trip .home-tile-sub, .home-tile.learn .home-tile-sub{font-size:11.5px;line-height:1.25;margin-top:2px;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .home-tile-txt{width:100%;}
+  .home-tile-sub{font-size:13px;}
   .home-tile-name{font-size:16.5px;font-weight:800;line-height:1.2;overflow-wrap:anywhere;}
   .home-tile-sub{display:block;font-size:14px;color:var(--muted);line-height:1.35;margin-top:3px;}
   .home-tile-txt{flex:1;min-width:0;}
@@ -338,7 +352,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .home-tr{margin:-2px 0 14px;}
   /* Avant que le script ne dessine les deux touches et l'interrupteur de traduction : leur place est réservée
      (touches 200 px + interrupteur environ 86 px) pour que le texte et le pied de page ne sautent pas. */
-  .home-tiles:empty{min-height:420px;margin-bottom:100px;}
+  .home-tiles:empty{min-height:240px;margin-bottom:100px;}
   .tr-switch{display:flex;gap:4px;padding:4px;background:var(--panel);border:1px solid var(--line);border-radius:999px;}
   .tr-switch button{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:6px;border:none;background:transparent;
     color:var(--muted);font-family:inherit;font-weight:700;font-size:14.5px;padding:11px 8px;border-radius:999px;cursor:pointer;
@@ -637,9 +651,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   <!-- ACCUEIL : les deux grandes touches Téléphone et Messagerie -->
   <section id="home" class="view active">
     <div class="home-tiles" id="homeTiles"></div>
-    <p class="disclaimer" data-i18n="disclaimer">✨ 112 langues, une seule appli. Traduisez instantanément vos phrases du
-      quotidien, où que vous soyez dans le monde — parfait pour voyager, travailler ou simplement
-      vous faire comprendre, à toute heure du jour ou de la nuit.</p>
+    <p class="disclaimer" data-i18n="disclaimer">✨ 112 langues, une seule appli.</p>
   </section>
 
   <!-- TRADUIRE -->
@@ -3620,7 +3632,7 @@ const UI_STRINGS = {
     voice_hint_kb: "Appuyez sur le micro de votre clavier et parlez : la traduction s'affiche et se lit toute seule dès que vous faites une pause.",
     result_label: "Traduction",
     copy: "📋 Copier", share: "↗ Partager", listen: "🔊 Écouter", fav: "❤️ Favori",
-    disclaimer: "✨ 112 langues, une seule appli. Traduisez instantanément vos phrases du quotidien, où que vous soyez dans le monde — parfait pour voyager, travailler ou simplement vous faire comprendre, à toute heure du jour ou de la nuit.",
+    disclaimer: "✨ 112 langues, une seule appli.",
     conv_empty: "Écrivez votre premier message ci-dessous.", conv_ph: "Votre message…", send: "Envoyer", restart: "🗑 Recommencer",
     hist_search_ph: "Rechercher dans l'historique…", clear_all: "Tout supprimer",
     theme: "Thème sombre / clair", theme_auto: "Suit votre appareil", autospeak: "Lecture audio automatique",
@@ -3693,7 +3705,7 @@ const UI_STRINGS = {
     voice_hint_kb: "Tap the microphone on your keyboard and speak: the translation appears and is read aloud as soon as you pause.",
     result_label: "Translation",
     copy: "📋 Copy", share: "↗ Share", listen: "🔊 Listen", fav: "❤️ Favorite",
-    disclaimer: "✨ 112 languages, one app. Instantly translate everyday phrases wherever you are in the world — perfect for travel, work or simply being understood, day or night.",
+    disclaimer: "✨ 112 languages, one app.",
     conv_empty: "Write your first message below.", conv_ph: "Your message…", send: "Send", restart: "🗑 Start over",
     hist_search_ph: "Search history…", clear_all: "Delete all",
     theme: "Dark / light theme", theme_auto: "Follows your device", autospeak: "Read translations aloud",
@@ -3766,7 +3778,7 @@ const UI_STRINGS = {
     voice_hint_kb: "Pulsa el micrófono de tu teclado y habla: la traducción aparece y se lee sola en cuanto haces una pausa.",
     result_label: "Traducción",
     copy: "📋 Copiar", share: "↗ Compartir", listen: "🔊 Escuchar", fav: "❤️ Favorito",
-    disclaimer: "✨ 112 idiomas, una sola app. Traduce al instante tus frases del día a día, estés donde estés — ideal para viajar, trabajar o simplemente hacerte entender, de día o de noche.",
+    disclaimer: "✨ 112 idiomas, una sola app.",
     conv_empty: "Escribe tu primer mensaje abajo.", conv_ph: "Tu mensaje…", send: "Enviar", restart: "🗑 Empezar de nuevo",
     hist_search_ph: "Buscar en el historial…", clear_all: "Borrar todo",
     theme: "Tema oscuro / claro", theme_auto: "Sigue tu dispositivo", autospeak: "Leer las traducciones en voz alta",
@@ -3839,7 +3851,7 @@ const UI_STRINGS = {
     voice_hint_kb: "Toque no microfone do seu teclado e fale: a tradução aparece e é lida sozinha assim que você fizer uma pausa.",
     result_label: "Tradução",
     copy: "📋 Copiar", share: "↗ Compartilhar", listen: "🔊 Ouvir", fav: "❤️ Favorito",
-    disclaimer: "✨ 112 idiomas, um só app. Traduza na hora as frases do dia a dia, onde quer que esteja — perfeito para viajar, trabalhar ou simplesmente se fazer entender, de dia ou de noite.",
+    disclaimer: "✨ 112 idiomas, um só app.",
     conv_empty: "Escreva sua primeira mensagem abaixo.", conv_ph: "Sua mensagem…", send: "Enviar", restart: "🗑 Recomeçar",
     hist_search_ph: "Pesquisar no histórico…", clear_all: "Apagar tudo",
     theme: "Tema escuro / claro", theme_auto: "Segue o seu aparelho", autospeak: "Ler as traduções em voz alta",
@@ -3912,7 +3924,7 @@ const UI_STRINGS = {
     voice_hint_kb: "Tippe auf das Mikrofon deiner Tastatur und sprich: Die Übersetzung erscheint und wird vorgelesen, sobald du eine Pause machst.",
     result_label: "Übersetzung",
     copy: "📋 Kopieren", share: "↗ Teilen", listen: "🔊 Anhören", fav: "❤️ Favorit",
-    disclaimer: "✨ 112 Sprachen, eine App. Übersetze Alltagssätze sofort, wo auch immer du bist – perfekt zum Reisen, Arbeiten oder einfach, um verstanden zu werden, Tag und Nacht.",
+    disclaimer: "✨ 112 Sprachen, eine App.",
     conv_empty: "Schreibe unten deine erste Nachricht.", conv_ph: "Deine Nachricht…", send: "Senden", restart: "🗑 Neu beginnen",
     hist_search_ph: "Verlauf durchsuchen…", clear_all: "Alles löschen",
     theme: "Dunkles / helles Design", theme_auto: "Folgt deinem Gerät", autospeak: "Übersetzungen vorlesen",
@@ -3985,7 +3997,7 @@ const UI_STRINGS = {
     voice_hint_kb: "Tocca il microfono della tastiera e parla: la traduzione appare e viene letta da sola appena fai una pausa.",
     result_label: "Traduzione",
     copy: "📋 Copia", share: "↗ Condividi", listen: "🔊 Ascolta", fav: "❤️ Preferito",
-    disclaimer: "✨ 112 lingue, una sola app. Traduci all'istante le frasi di tutti i giorni, ovunque tu sia — perfetta per viaggiare, lavorare o semplicemente farti capire, giorno e notte.",
+    disclaimer: "✨ 112 lingue, una sola app.",
     conv_empty: "Scrivi qui sotto il tuo primo messaggio.", conv_ph: "Il tuo messaggio…", send: "Invia", restart: "🗑 Ricomincia",
     hist_search_ph: "Cerca nella cronologia…", clear_all: "Elimina tutto",
     theme: "Tema scuro / chiaro", theme_auto: "Segue il tuo dispositivo", autospeak: "Leggi le traduzioni ad alta voce",
@@ -4058,7 +4070,7 @@ const UI_STRINGS = {
     voice_hint_kb: "点按键盘上的麦克风并说话：只要你一停顿，译文就会显示并自动朗读。",
     result_label: "译文",
     copy: "📋 复制", share: "↗ 分享", listen: "🔊 收听", fav: "❤️ 收藏",
-    disclaimer: "✨ 112 种语言，一个应用。无论身在何处，都能即时翻译日常用语——旅行、工作或只是让别人听懂你，白天黑夜都适用。",
+    disclaimer: "✨ 112 种语言，一个应用。",
     conv_empty: "在下方写下你的第一条消息。", conv_ph: "你的消息…", send: "发送", restart: "🗑 重新开始",
     hist_search_ph: "搜索历史记录…", clear_all: "全部删除",
     theme: "深色 / 浅色主题", theme_auto: "跟随设备", autospeak: "自动朗读译文",
@@ -4131,7 +4143,7 @@ const UI_STRINGS = {
     voice_hint_kb: "キーボードのマイクをタップして話してください。話を区切ると、翻訳が表示されて自動で読み上げられます。",
     result_label: "翻訳",
     copy: "📋 コピー", share: "↗ 共有", listen: "🔊 聞く", fav: "❤️ お気に入り",
-    disclaimer: "✨ 112言語をひとつのアプリで。世界のどこにいても日常のフレーズをすぐに翻訳。旅行にも仕事にも、ただ気持ちを伝えたいときにも、昼夜を問わず使えます。",
+    disclaimer: "✨ 112言語をひとつのアプリで。",
     conv_empty: "下に最初のメッセージを書いてください。", conv_ph: "メッセージ…", send: "送信", restart: "🗑 最初から",
     hist_search_ph: "履歴を検索…", clear_all: "すべて削除",
     theme: "ダーク / ライトテーマ", theme_auto: "端末の設定に合わせる", autospeak: "翻訳を自動で読み上げる",
@@ -4204,7 +4216,7 @@ const UI_STRINGS = {
     voice_hint_kb: "اضغط على ميكروفون لوحة المفاتيح وتحدَّث: تظهر الترجمة وتُقرأ تلقائيًا بمجرد أن تتوقف قليلًا.",
     result_label: "الترجمة",
     copy: "📋 نسخ", share: "↗ مشاركة", listen: "🔊 استماع", fav: "❤️ المفضلة",
-    disclaimer: "✨ 112 لغة في تطبيق واحد. ترجم عباراتك اليومية فورًا أينما كنت في العالم، مثالي للسفر والعمل أو لتُفهَم ببساطة، ليلًا ونهارًا.",
+    disclaimer: "✨ 112 لغة في تطبيق واحد.",
     conv_empty: "اكتب رسالتك الأولى في الأسفل.", conv_ph: "رسالتك…", send: "إرسال", restart: "🗑 البدء من جديد",
     hist_search_ph: "البحث في السجل…", clear_all: "حذف الكل",
     theme: "المظهر الداكن / الفاتح", theme_auto: "يتبع جهازك", autospeak: "قراءة الترجمات بصوت عالٍ",
@@ -4277,7 +4289,7 @@ const UI_STRINGS = {
     voice_hint_kb: "Нажмите на микрофон клавиатуры и говорите: перевод появится и будет зачитан, как только вы сделаете паузу.",
     result_label: "Перевод",
     copy: "📋 Копировать", share: "↗ Поделиться", listen: "🔊 Слушать", fav: "❤️ В избранное",
-    disclaimer: "✨ 112 языков в одном приложении. Мгновенно переводите повседневные фразы, где бы вы ни были, — идеально для путешествий, работы или просто чтобы вас поняли, днём и ночью.",
+    disclaimer: "✨ 112 языков в одном приложении.",
     conv_empty: "Напишите первое сообщение ниже.", conv_ph: "Ваше сообщение…", send: "Отправить", restart: "🗑 Начать заново",
     hist_search_ph: "Поиск по истории…", clear_all: "Удалить всё",
     theme: "Тёмная / светлая тема", theme_auto: "Как на устройстве", autospeak: "Зачитывать переводы вслух",
@@ -4361,7 +4373,7 @@ const UI_STRINGS = {
     share: "↗ Hizara",
     listen: "🔊 Hihaino",
     fav: "❤️ Ankafizina",
-    disclaimer: "✨ Fiteny 112, appli iray ihany. Adikao avy hatrany ireo fehezanteny andavanandro, na aiza na aiza misy anao eto an-tany — mety tsara amin'ny dia, ny asa, na mba ho azon'ny hafa fotsiny ianao, amin'ny ora rehetra, andro sy alina.",
+    disclaimer: "✨ Fiteny 112, appli iray ihany.",
     conv_empty: "Soraty eto ambany ny hafatrao voalohany.",
     conv_ph: "Ny hafatrao…",
     send: "Alefa",
