@@ -645,6 +645,10 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   :root:not([data-theme="light"]){--bg:#070b1c;--panel:#0d1329;--panel2:#121a36;--line:rgba(160,180,255,.14);--muted:#9aa6c8;--text:#eef2ff;--blue:#2f4bd6;--cta:#eef2ff;--cta-ink:#070b1c;}
   @media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){--bg:#f4f6fb;--panel:#ffffff;--panel2:#eef1fb;--line:#dbe1f2;--muted:#5a6485;--text:#131a2e;--blue:#2f6ae6;--cta:#2f6ae6;--cta-ink:#fff;} }
   :root[data-theme="light"]{--cta:#2f6ae6;--cta-ink:#fff;}
+  /* Contraste renforcé : reste prioritaire sur l'ambiance. */
+  :root.contrast-high:not([data-theme="light"]){--muted:var(--text);--line:#8fa3cf;}
+  @media (prefers-color-scheme: light){ :root.contrast-high:not([data-theme="dark"]){--muted:var(--text);--line:#5b6b91;} }
+  :root.contrast-high[data-theme="light"]{--muted:var(--text);--line:#5b6b91;}
   .primary, .net-dial, .net-callbtn{background:var(--cta) !important;border-color:var(--cta) !important;color:var(--cta-ink) !important;}
   body{background:var(--bg) !important;}
   header.hero-earth{background:transparent;box-shadow:none;border-radius:0;padding:22px 16px 18px;margin-bottom:6px;}
