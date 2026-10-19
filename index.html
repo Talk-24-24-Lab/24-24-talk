@@ -384,6 +384,11 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .net-input{width:100%;min-width:0;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:12px;
     padding:12px;font-size:16px;font-family:inherit;}
   .net-add .net-input{flex:1;width:auto;}
+  .ow-welcome{text-align:center;padding:18px 8px 14px;}
+  .ow-welcome img{display:block;margin:0 auto 6px;border-radius:18px;}
+  .ow-welcome-eyebrow{margin:8px 0 6px;font-size:11.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);}
+  .ow-welcome h1{margin:0;font-size:30px;font-weight:800;letter-spacing:-.01em;color:var(--text);}
+  .ow-welcome-slogan{margin:6px 0 0;color:var(--muted);font-size:16px;}
   .link-btn{background:none;border:0;padding:4px 0;color:inherit;text-decoration:underline;font:inherit;cursor:pointer;min-height:44px;}
   .net-check{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.45;margin:14px 2px 2px;}
   .net-check input{width:20px;height:20px;flex:0 0 auto;margin:0;}
@@ -5953,7 +5958,7 @@ const NET_STRINGS = {
     net_loading: "Connexion au réseau…",
     net_err_conn: "Impossible de joindre le réseau. Vérifiez votre connexion Internet.",
     net_retry: "Réessayer",
-    net_setup_title: "Créez votre profil",
+    net_setup_title: "Créez votre compte",
     net_setup_text: "Un pseudo, votre langue et un e-mail confirmé : pas de numéro de téléphone. Vos contacts lisent vos messages déjà traduits dans leur langue.",
     net_have_account: "J'ai déjà un compte (code reçu par e-mail)",
     net_invited: "@{p} vous invite à discuter sur 24/24 ONE WORLD.",
@@ -6138,7 +6143,7 @@ const NET_STRINGS = {
     net_loading: "Connecting to the network…",
     net_err_conn: "Can't reach the network. Check your Internet connection.",
     net_retry: "Try again",
-    net_setup_title: "Create your profile",
+    net_setup_title: "Create your account",
     net_setup_text: "A username, your language and a confirmed email: no phone number. Your contacts read your messages already translated into their language.",
     net_have_account: "I already have an account (code by email)",
     net_invited: "@{p} invites you to chat on 24/24 ONE WORLD.",
@@ -6323,7 +6328,7 @@ const NET_STRINGS = {
     net_loading: "Conectando a la red…",
     net_err_conn: "No se puede acceder a la red. Revisa tu conexión a Internet.",
     net_retry: "Reintentar",
-    net_setup_title: "Crea tu perfil",
+    net_setup_title: "Crea tu cuenta",
     net_setup_text: "Un nombre de usuario, tu idioma y un correo confirmado: sin número de teléfono. Tus contactos leen tus mensajes ya traducidos a su idioma.",
     net_invited: "@{p} te invita a chatear en 24/24 ONE WORLD.",
     net_pseudo_ph: "usuario (ej.: sebastien974)",
@@ -6505,7 +6510,7 @@ const NET_STRINGS = {
     net_loading: "Ligando à rede…",
     net_err_conn: "Não foi possível aceder à rede. Verifique a sua ligação à Internet.",
     net_retry: "Tentar novamente",
-    net_setup_title: "Crie o seu perfil",
+    net_setup_title: "Crie a sua conta",
     net_setup_text: "Um nome de utilizador, o seu idioma e um e-mail confirmado: sem número de telefone. Os seus contactos leem as suas mensagens já traduzidas no idioma deles.",
     net_invited: "@{p} convida-o a conversar no 24/24 ONE WORLD.",
     net_pseudo_ph: "utilizador (ex.: sebastien974)",
@@ -6687,7 +6692,7 @@ const NET_STRINGS = {
     net_loading: "Verbindung zum Netzwerk…",
     net_err_conn: "Netzwerk nicht erreichbar. Prüfe deine Internetverbindung.",
     net_retry: "Erneut versuchen",
-    net_setup_title: "Erstelle dein Profil",
+    net_setup_title: "Erstelle dein Konto",
     net_setup_text: "Ein Benutzername, deine Sprache und eine bestätigte E-Mail: keine Telefonnummer. Deine Kontakte lesen deine Nachrichten schon übersetzt in ihrer Sprache.",
     net_invited: "@{p} lädt dich zum Chatten auf 24/24 ONE WORLD ein.",
     net_pseudo_ph: "Benutzername (z. B. sebastien974)",
@@ -6869,7 +6874,7 @@ const NET_STRINGS = {
     net_loading: "Connessione alla rete…",
     net_err_conn: "Impossibile raggiungere la rete. Controlla la connessione Internet.",
     net_retry: "Riprova",
-    net_setup_title: "Crea il tuo profilo",
+    net_setup_title: "Crea il tuo account",
     net_setup_text: "Un nome utente, la tua lingua e un'e-mail confermata: niente numero di telefono. I tuoi contatti leggono i tuoi messaggi già tradotti nella loro lingua.",
     net_invited: "@{p} ti invita a chattare su 24/24 ONE WORLD.",
     net_pseudo_ph: "nome utente (es. sebastien974)",
@@ -7051,7 +7056,7 @@ const NET_STRINGS = {
     net_loading: "正在连接网络…",
     net_err_conn: "无法连接网络。请检查你的网络连接。",
     net_retry: "重试",
-    net_setup_title: "创建你的个人资料",
+    net_setup_title: "创建你的账户",
     net_setup_text: "一个用户名、你的语言和一个已确认的邮箱：无需手机号。你的联系人会直接读到翻译成他们语言的消息。",
     net_invited: "@{p} 邀请你在 24/24 ONE WORLD 上聊天。",
     net_pseudo_ph: "用户名（例如 sebastien974）",
@@ -7233,7 +7238,7 @@ const NET_STRINGS = {
     net_loading: "ネットワークに接続中…",
     net_err_conn: "ネットワークに接続できません。インターネット接続を確認してください。",
     net_retry: "再試行",
-    net_setup_title: "プロフィールを作成",
+    net_setup_title: "アカウントを作成",
     net_setup_text: "ユーザー名、言語、確認済みのメールアドレス：電話番号は不要。相手はあなたのメッセージを自分の言語に翻訳された状態で読めます。",
     net_invited: "@{p} さんが 24/24 ONE WORLD でのチャットに招待しています。",
     net_pseudo_ph: "ユーザー名（例：sebastien974）",
@@ -7415,7 +7420,7 @@ const NET_STRINGS = {
     net_loading: "جارٍ الاتصال بالشبكة…",
     net_err_conn: "تعذّر الوصول إلى الشبكة. تحقّق من اتصالك بالإنترنت.",
     net_retry: "إعادة المحاولة",
-    net_setup_title: "أنشئ ملفك الشخصي",
+    net_setup_title: "أنشئ حسابك",
     net_setup_text: "اسم مستخدم ولغتك وبريد إلكتروني مؤكَّد: بلا رقم هاتف. يقرأ جهات اتصالك رسائلك مترجمة إلى لغتهم.",
     net_invited: "⁦@{p}⁩ يدعوك إلى الدردشة على ⁦24/24 ONE WORLD⁩.",
     net_pseudo_ph: "اسم المستخدم (مثال: sebastien974)",
@@ -7597,7 +7602,7 @@ const NET_STRINGS = {
     net_loading: "Подключение к сети…",
     net_err_conn: "Не удаётся подключиться к сети. Проверьте интернет-соединение.",
     net_retry: "Повторить",
-    net_setup_title: "Создайте профиль",
+    net_setup_title: "Создайте аккаунт",
     net_setup_text: "Имя пользователя, ваш язык и подтверждённый e-mail: без номера телефона. Собеседники читают ваши сообщения уже переведёнными на свой язык.",
     net_invited: "@{p} приглашает вас пообщаться в 24/24 ONE WORLD.",
     net_pseudo_ph: "имя пользователя (напр. sebastien974)",
@@ -8340,7 +8345,7 @@ const Reseau = (() => {
   }
 
   function updateTopbar() {
-    topbar.hidden = screen === "chat" || screen === "call";
+    topbar.hidden = screen === "chat" || screen === "call" || screen === "setup" || screen === "verify";
     const full = document.body.classList.contains("net-full");
     topbar.querySelector("#netTopTitle").textContent = mode === "call" ? (full ? "" : "📞 ") + t("home_phone") : (full ? "" : "💬 ") + t("home_msg");
   }
@@ -9392,9 +9397,18 @@ const Reseau = (() => {
     if (screen === "call") return renderCall();
   }
 
+  // Porte d'entrée 24/24 ONE WORLD (inscription et confirmation de l'e-mail).
+  function owWelcomeHtml() {
+    return `<div class="ow-welcome">
+        <img src="everywhere/logo.svg" alt="" width="72" height="72" />
+        <p class="ow-welcome-eyebrow">${escapeHtml(t("ow_eyebrow"))}</p>
+        <h1>24/24 ONE WORLD</h1>
+        <p class="ow-welcome-slogan">${escapeHtml(t("slogan"))}</p>
+      </div>`;
+  }
   function renderSetup() {
     const invited = pendingAdd ? `<div class="msg ok">${escapeHtml(t("net_invited", { p: pendingAdd }))}</div>` : "";
-    root.innerHTML = `
+    root.innerHTML = `${owWelcomeHtml()}
       <div class="card">
         ${invited}
         <h2 class="net-h">${escapeHtml(t("net_setup_title"))}</h2>
@@ -9524,7 +9538,7 @@ const Reseau = (() => {
 
   function renderVerify() {
     const mail = pendingEmail || signupDraft().email || "";
-    root.innerHTML = `
+    root.innerHTML = `${owWelcomeHtml()}
       <div class="card">
         <h2 class="net-h">${escapeHtml(t("net_verify_title"))}</h2>
         <p class="net-lead">${escapeHtml(t("net_verify_text", { e: mail }))}</p>
