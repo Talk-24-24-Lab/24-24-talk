@@ -482,7 +482,7 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   body.net-full .net-tb-btn{border:0;background:transparent;width:44px;height:44px;}
   body.net-full .net-tb-btn svg{width:26px;height:26px;}
   body.net-full .net-search{background:var(--panel2);border-color:transparent;}
-  body.net-full .net-stories{gap:16px;padding-top:8px;}
+  body.net-full .net-stories{gap:16px;padding:12px 10px 14px;margin:0 -10px 4px;}
   body.net-full .net-story{width:70px;}
   body.net-full .net-story .net-av,body.net-full .net-story-plus{width:66px;height:66px;font-size:26px;}
   body.net-full .net-story-plus{border:0;}
@@ -494,8 +494,23 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   body.net-full .net-flat .net-row-when{font-size:13.5px;}
   body.net-full .net-flat .net-row.unread .net-row-l1 b{font-weight:700;}
   /* Globe ONE WORLD en filigrane derrière la messagerie (image du visuel Canva de lancement). */
-  body.net-full::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.16;
-    background:url("globe-filigrane.webp") center 58%/min(118vw,560px) auto no-repeat;}
+  body.net-full::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.26;
+    background:url("globe-filigrane.webp") center 62%/min(118vw,560px) auto no-repeat;}
+  /* Éclat ONE WORLD : anneaux turquoise→violet, ronds en relief, lueurs (comme le visuel de lancement). */
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) body.net-full .net-topbar-title{background:linear-gradient(90deg,#fff 0%,#bff7ef 45%,#c9b6ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent;} }
+  :root[data-theme="dark"] body.net-full .net-topbar-title{background:linear-gradient(90deg,#fff 0%,#bff7ef 45%,#c9b6ff 100%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  body.net-full .net-story .net-avwrap,body.net-full #netMeStory .net-av,body.net-full .net-story-plus{position:relative;}
+  body.net-full .net-story .net-av{box-shadow:0 0 0 3px #0b1024,0 0 0 5.5px #1fe2cd,0 0 18px 2px rgba(124,77,255,.55);}
+  body.net-full .net-story:nth-child(odd) .net-av{box-shadow:0 0 0 3px #0b1024,0 0 0 5.5px #8c52ff,0 0 18px 2px rgba(31,226,205,.45);}
+  body.net-full #netMeStory .net-av{box-shadow:0 0 0 3px #0b1024,0 0 0 5.5px #fff,0 0 20px 3px rgba(31,226,205,.55);}
+  body.net-full .net-story-plus{background:linear-gradient(135deg,#1fe2cd,#7c4dff);color:#fff;font-weight:300;box-shadow:0 0 22px 2px rgba(124,77,255,.6);}
+  body.net-full span.net-av{background-image:radial-gradient(120% 120% at 30% 20%,rgba(255,255,255,.38),rgba(255,255,255,0) 55%,rgba(0,0,0,.2)) !important;}
+  body.net-full .net-flat .net-conv.net-row{background:rgba(255,255,255,.035);border:1px solid rgba(140,82,255,.16);border-radius:18px;padding:10px 12px;margin:0 0 8px;
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);}
+  body.net-full .net-flat .net-row.unread{border-color:rgba(31,226,205,.45);box-shadow:0 0 16px -4px rgba(31,226,205,.45);}
+  body.net-full .net-row-count{background:linear-gradient(135deg,#1fe2cd,#7c4dff);}
+  body.net-full .net-row.unread .net-row-when{color:#1fe2cd;}
+  body.net-full .net-search{background:rgba(255,255,255,.06);border:1px solid rgba(31,226,205,.25);}
   body.net-full #netRoot .card.net-listcard{background:transparent;border:0;box-shadow:none;padding:0;}
   body.net-full #netRoot .card.net-listcard > .net-h3{display:none;}
   body.net-full #netRoot .net-listcard .net-contact{background:transparent;border:0;padding:8px 6px;}
