@@ -55,6 +55,8 @@ a.icon-btn{text-decoration:none;}
 /* ---------- 24/24 TALK dans la coquille (html.ew-shell, posé par TALK quand on vient d'EVERYWHERE) ---------- */
 html.ew-shell header.hero-earth, html.ew-shell .install-top, html.ew-shell #installCard{display:none !important;}
 html.ew-shell body{padding-bottom:calc(var(--ews-nav-h) + var(--ews-sab) + 8px);}
+html.ew-shell main:has(> #home.view.active){padding-bottom:0 !important;}
+html.ew-shell #home.view.active{display:flex;flex-direction:column;justify-content:center;min-height:calc(100dvh - 57px - var(--ews-nav-h) - var(--ews-sab) - 8px - 72px);box-sizing:border-box;}
 html.ew-shell .ews-top{position:relative;z-index:20;}
 /* Barre du bas fixée en bas ; un appel (sonnerie ou appel en cours, z-index 45-50) passe par-dessus. */
 html.ew-shell .ews-nav{position:fixed;left:0;right:0;bottom:0;z-index:40;}
