@@ -389,6 +389,28 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .ow-welcome-eyebrow{margin:8px 0 6px;font-size:11.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);}
   .ow-welcome h1{margin:0;font-size:30px;font-weight:800;letter-spacing:-.01em;color:var(--text);}
   .ow-welcome-slogan{margin:6px 0 0;color:var(--muted);font-size:16px;}
+  .ob{max-width:520px;margin:0 auto;padding:4px 4px 8px;}
+  .ob-bar{display:flex;gap:6px;margin:4px 0 22px;}
+  .ob-bar span{flex:1;height:4px;border-radius:4px;background:var(--line);transition:background .3s;}
+  .ob-bar span.on{background:var(--text);}
+  .ob-step{display:none;}
+  .ob-step.on{display:block;animation:obIn .35s ease;}
+  @keyframes obIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+  @media (prefers-reduced-motion: reduce){.ob-step.on{animation:none;}}
+  .ob-count{margin:0 0 6px;font-size:12px;letter-spacing:.2em;color:var(--muted);}
+  .ob-t{margin:0 0 8px;font-size:28px;line-height:1.15;font-weight:800;color:var(--text);}
+  .ob-d{margin:0 0 22px;font-size:16px;color:var(--muted);}
+  .ob-field{display:flex;align-items:center;gap:10px;border-bottom:2px solid var(--line);padding:6px 2px;transition:border-color .2s;}
+  .ob-field:focus-within{border-color:var(--text);}
+  .ob-at{font-size:22px;color:var(--muted);}
+  .ob-field input{flex:1;min-width:0;background:none;border:0;outline:0;color:var(--text);font-size:22px;padding:8px 0;}
+  .ob-hint{margin:10px 0 0;font-size:13px;color:var(--muted);}
+  .ob-select{width:100%;font-size:18px;padding:14px;border-radius:14px;background:var(--panel2);color:var(--text);border:1px solid var(--line);}
+  .ob-check{margin-top:16px;}
+  .ob-go{display:block;width:100%;margin-top:26px;padding:16px;border-radius:999px;font-size:17px;font-weight:700;}
+  .ob-go[hidden]{display:none;}
+  .ob-foot{text-align:center;margin-top:14px;font-size:14px;}
+  .ob-foot a{color:var(--muted);}
   .link-btn{background:none;border:0;padding:4px 0;color:inherit;text-decoration:underline;font:inherit;cursor:pointer;min-height:44px;}
   .net-check{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.45;margin:14px 2px 2px;}
   .net-check input{width:20px;height:20px;flex:0 0 auto;margin:0;}
@@ -5970,6 +5992,14 @@ const NET_STRINGS = {
     net_pseudo_taken: "Ce pseudo est déjà pris, choisissez-en un autre.",
     net_pseudo_bad: "Pseudo invalide : 3 à 20 caractères, lettres minuscules, chiffres, point ou _.",
     net_age_needed: "Cochez la case pour continuer.",
+    ob_pseudo_t: "Votre nom sur le réseau",
+    ob_pseudo_d: "C'est ainsi que le monde vous trouvera.",
+    ob_email_t: "Votre e-mail",
+    ob_email_d: "Il protège votre compte. Il n'est jamais affiché aux autres.",
+    ob_lang_t: "Votre langue",
+    ob_lang_d: "Tout ce que vous recevrez arrivera traduit dans cette langue.",
+    ob_next: "Continuer",
+    ob_back: "Retour",
     net_email_lbl: "Votre adresse e-mail",
     net_email_ph: "vous@exemple.com",
     net_email_rule: "Obligatoire : un e-mail de confirmation vous sera envoyé. Il n'est jamais affiché aux autres.",
@@ -6155,6 +6185,14 @@ const NET_STRINGS = {
     net_pseudo_taken: "This username is taken, please choose another one.",
     net_pseudo_bad: "Invalid username: 3 to 20 characters, lowercase letters, digits, dot or _.",
     net_age_needed: "Tick the box to continue.",
+    ob_pseudo_t: "Your name on the network",
+    ob_pseudo_d: "This is how the world will find you.",
+    ob_email_t: "Your email",
+    ob_email_d: "It protects your account. It is never shown to others.",
+    ob_lang_t: "Your language",
+    ob_lang_d: "Everything you receive will arrive translated into this language.",
+    ob_next: "Continue",
+    ob_back: "Back",
     net_email_lbl: "Your email address",
     net_email_ph: "you@example.com",
     net_email_rule: "Required: we will send you a confirmation email. It is never shown to others.",
@@ -6339,6 +6377,14 @@ const NET_STRINGS = {
     net_pseudo_taken: "Este usuario ya existe, elige otro.",
     net_pseudo_bad: "Usuario no válido: de 3 a 20 caracteres, minúsculas, cifras, punto o _.",
     net_age_needed: "Marca la casilla para continuar.",
+    ob_pseudo_t: "Tu nombre en la red",
+    ob_pseudo_d: "Así te encontrará el mundo.",
+    ob_email_t: "Tu correo",
+    ob_email_d: "Protege tu cuenta. Nunca se muestra a los demás.",
+    ob_lang_t: "Tu idioma",
+    ob_lang_d: "Todo lo que recibas llegará traducido a este idioma.",
+    ob_next: "Continuar",
+    ob_back: "Atrás",
     net_email_lbl: "Tu correo electrónico",
     net_email_ph: "tu@ejemplo.com",
     net_email_rule: "Obligatorio: te enviaremos un correo de confirmación. Nunca se muestra a los demás.",
@@ -6521,6 +6567,14 @@ const NET_STRINGS = {
     net_pseudo_taken: "Este nome já está em uso, escolha outro.",
     net_pseudo_bad: "Nome inválido: 3 a 20 caracteres, letras minúsculas, algarismos, ponto ou _.",
     net_age_needed: "Marque a caixa para continuar.",
+    ob_pseudo_t: "O seu nome na rede",
+    ob_pseudo_d: "É assim que o mundo o vai encontrar.",
+    ob_email_t: "O seu e-mail",
+    ob_email_d: "Protege a sua conta. Nunca é mostrado aos outros.",
+    ob_lang_t: "O seu idioma",
+    ob_lang_d: "Tudo o que receber chegará traduzido neste idioma.",
+    ob_next: "Continuar",
+    ob_back: "Voltar",
     net_email_lbl: "O seu e-mail",
     net_email_ph: "voce@exemplo.com",
     net_email_rule: "Obrigatório: vamos enviar-lhe um e-mail de confirmação. Nunca é mostrado aos outros.",
@@ -6703,6 +6757,14 @@ const NET_STRINGS = {
     net_pseudo_taken: "Dieser Benutzername ist vergeben, bitte wähle einen anderen.",
     net_pseudo_bad: "Ungültiger Benutzername: 3 bis 20 Zeichen, Kleinbuchstaben, Ziffern, Punkt oder _.",
     net_age_needed: "Setze das Häkchen, um fortzufahren.",
+    ob_pseudo_t: "Dein Name im Netzwerk",
+    ob_pseudo_d: "So findet dich die Welt.",
+    ob_email_t: "Deine E-Mail",
+    ob_email_d: "Sie schützt dein Konto und wird anderen nie angezeigt.",
+    ob_lang_t: "Deine Sprache",
+    ob_lang_d: "Alles, was du erhältst, kommt in dieser Sprache übersetzt an.",
+    ob_next: "Weiter",
+    ob_back: "Zurück",
     net_email_lbl: "Ihre E-Mail-Adresse",
     net_email_ph: "sie@beispiel.de",
     net_email_rule: "Pflicht: Sie erhalten eine Bestätigungs-E-Mail. Sie wird anderen nie angezeigt.",
@@ -6885,6 +6947,14 @@ const NET_STRINGS = {
     net_pseudo_taken: "Questo nome utente è già preso, scegline un altro.",
     net_pseudo_bad: "Nome utente non valido: da 3 a 20 caratteri, lettere minuscole, cifre, punto o _.",
     net_age_needed: "Spunta la casella per continuare.",
+    ob_pseudo_t: "Il tuo nome nella rete",
+    ob_pseudo_d: "È così che il mondo ti troverà.",
+    ob_email_t: "La tua e-mail",
+    ob_email_d: "Protegge il tuo account. Non viene mai mostrata agli altri.",
+    ob_lang_t: "La tua lingua",
+    ob_lang_d: "Tutto ciò che riceverai arriverà tradotto in questa lingua.",
+    ob_next: "Continua",
+    ob_back: "Indietro",
     net_email_lbl: "Il tuo indirizzo e-mail",
     net_email_ph: "tu@esempio.it",
     net_email_rule: "Obbligatorio: ti invieremo un'e-mail di conferma. Non viene mai mostrato agli altri.",
@@ -7067,6 +7137,14 @@ const NET_STRINGS = {
     net_pseudo_taken: "该用户名已被占用，请换一个。",
     net_pseudo_bad: "用户名无效：3 到 20 个字符，小写字母、数字、点或 _。",
     net_age_needed: "请勾选方框后继续。",
+    ob_pseudo_t: "你在网络上的名字",
+    ob_pseudo_d: "世界将通过它找到你。",
+    ob_email_t: "你的邮箱",
+    ob_email_d: "它保护你的账户，绝不会显示给他人。",
+    ob_lang_t: "你的语言",
+    ob_lang_d: "你收到的一切都会翻译成这种语言。",
+    ob_next: "继续",
+    ob_back: "返回",
     net_email_lbl: "您的电子邮箱",
     net_email_ph: "you@example.com",
     net_email_rule: "必填：我们会给您发送一封确认邮件。邮箱不会显示给他人。",
@@ -7249,6 +7327,14 @@ const NET_STRINGS = {
     net_pseudo_taken: "このユーザー名は使われています。別の名前を選んでください。",
     net_pseudo_bad: "無効なユーザー名：3〜20文字、小文字、数字、ピリオド、_。",
     net_age_needed: "続けるにはチェックを入れてください。",
+    ob_pseudo_t: "ネットワークでのあなたの名前",
+    ob_pseudo_d: "世界はこの名前であなたを見つけます。",
+    ob_email_t: "メールアドレス",
+    ob_email_d: "アカウントを守ります。他の人には表示されません。",
+    ob_lang_t: "あなたの言語",
+    ob_lang_d: "受け取るすべてがこの言語に翻訳されて届きます。",
+    ob_next: "続ける",
+    ob_back: "戻る",
     net_email_lbl: "メールアドレス",
     net_email_ph: "you@example.com",
     net_email_rule: "必須：確認メールをお送りします。他の人には表示されません。",
@@ -7431,6 +7517,14 @@ const NET_STRINGS = {
     net_pseudo_taken: "اسم المستخدم هذا مأخوذ، اختر اسمًا آخر.",
     net_pseudo_bad: "اسم مستخدم غير صالح: من 3 إلى 20 حرفًا، أحرف لاتينية صغيرة أو أرقام أو نقطة أو _.",
     net_age_needed: "ضع علامة في المربع للمتابعة.",
+    ob_pseudo_t: "اسمك على الشبكة",
+    ob_pseudo_d: "هكذا سيجدك العالم.",
+    ob_email_t: "بريدك الإلكتروني",
+    ob_email_d: "يحمي حسابك ولا يظهر للآخرين أبدًا.",
+    ob_lang_t: "لغتك",
+    ob_lang_d: "كل ما تتلقاه سيصلك مترجمًا إلى هذه اللغة.",
+    ob_next: "متابعة",
+    ob_back: "رجوع",
     net_email_lbl: "بريدك الإلكتروني",
     net_email_ph: "you@example.com",
     net_email_rule: "إلزامي: سنرسل إليك رسالة تأكيد. لا يظهر بريدك للآخرين أبدًا.",
@@ -7613,6 +7707,14 @@ const NET_STRINGS = {
     net_pseudo_taken: "Это имя уже занято, выберите другое.",
     net_pseudo_bad: "Недопустимое имя: от 3 до 20 символов, строчные латинские буквы, цифры, точка или _.",
     net_age_needed: "Отметьте флажок, чтобы продолжить.",
+    ob_pseudo_t: "Ваше имя в сети",
+    ob_pseudo_d: "Так мир сможет вас найти.",
+    ob_email_t: "Ваш e-mail",
+    ob_email_d: "Он защищает аккаунт и никогда не показывается другим.",
+    ob_lang_t: "Ваш язык",
+    ob_lang_d: "Всё, что вы получите, придёт переведённым на этот язык.",
+    ob_next: "Продолжить",
+    ob_back: "Назад",
     net_email_lbl: "Ваш e-mail",
     net_email_ph: "vy@primer.ru",
     net_email_rule: "Обязательно: мы отправим письмо для подтверждения. Адрес никогда не показывается другим.",
@@ -7795,6 +7897,14 @@ const NET_STRINGS = {
     net_pseudo_taken: "Efa misy naka io pseudo io, mifidiana hafa.",
     net_pseudo_bad: "Pseudo tsy mety: litera 3 ka hatramin'ny 20, litera madinika, isa, teboka na _.",
     net_age_needed: "Asio marika ny boaty vao afaka manohy.",
+    ob_pseudo_t: "Ny anaranao amin'ny tambajotra",
+    ob_pseudo_d: "Izany no hahitan'izao tontolo izao anao.",
+    ob_email_t: "Ny mailakao",
+    ob_email_d: "Miaro ny kaontinao izy. Tsy aseho amin'ny hafa mihitsy.",
+    ob_lang_t: "Ny fiteninao",
+    ob_lang_d: "Izay rehetra horaisinao dia ho tonga voadika amin'ity fiteny ity.",
+    ob_next: "Tohizo",
+    ob_back: "Hiverina",
     net_email_lbl: "Ny adiresy mailakao",
     net_email_ph: "ianao@ohatra.com",
     net_email_rule: "Tsy maintsy atao: handefasanay mailaka fanamafisana ianao. Tsy aseho amin'ny hafa mihitsy izy.",
@@ -9406,43 +9516,66 @@ const Reseau = (() => {
         <p class="ow-welcome-slogan">${escapeHtml(t("slogan"))}</p>
       </div>`;
   }
+  // Inscription façon appli moderne : une question par écran (pseudo, e-mail, langue), barre de progression.
+  let setupStep = 0;
   function renderSetup() {
     const invited = pendingAdd ? `<div class="msg ok">${escapeHtml(t("net_invited", { p: pendingAdd }))}</div>` : "";
+    const steps = myEmail ? ["pseudo", "lang"] : ["pseudo", "email", "lang"];
+    if (setupStep >= steps.length) setupStep = steps.length - 1;
+    const d0 = signupDraft();
+    const step = (k, i, body) => `<section class="ob-step${steps[setupStep] === k ? " on" : ""}" data-k="${k}">
+        <p class="ob-count">${i + 1} / ${steps.length}</p>
+        <h2 class="ob-t">${escapeHtml(t("ob_" + k + "_t"))}</h2>
+        <p class="ob-d">${escapeHtml(t("ob_" + k + "_d"))}</p>${body}</section>`;
     root.innerHTML = `${owWelcomeHtml()}
-      <div class="card">
+      <div class="ob">
         ${invited}
-        <h2 class="net-h">${escapeHtml(t("net_setup_title"))}</h2>
-        <p class="net-lead">${escapeHtml(t("net_setup_text"))}</p>
-        <div class="net-how"><div class="net-how-title">${escapeHtml(t("net_how_title"))}</div>
-          <ol><li>${escapeHtml(t("net_how_1"))}</li><li>${escapeHtml(t("net_how_2"))}</li><li>${escapeHtml(t("net_how_3"))}</li></ol></div>
-        <input type="text" id="netPseudo" class="net-input" maxlength="20" autocomplete="off" autocapitalize="none" spellcheck="false"
-          placeholder="${escapeHtml(t("net_pseudo_ph"))}" />
-        <p class="net-note">${escapeHtml(t("net_pseudo_rule"))}</p>
-        ${myEmail ? "" : `<label class="net-label" for="netEmail">${escapeHtml(t("net_email_lbl"))}</label>
-        <input type="email" id="netEmail" class="net-input" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false"
-          placeholder="${escapeHtml(t("net_email_ph"))}" value="${escapeHtml(signupDraft().email || "")}" />
-        <p class="net-note">${escapeHtml(t("net_email_rule"))}</p>`}
-        <label class="net-label" for="netLang">${escapeHtml(t("net_my_lang"))}</label>
-        <select id="netLang"></select>
-        <label class="net-check"><input type="checkbox" id="netAge" /> <span>${t("net_age_html")}</span></label>
-        <div class="row"><button class="btn primary" id="netCreate">${escapeHtml(t("net_create"))}</button></div>
+        <div class="ob-bar">${steps.map((k, i) => `<span class="${i <= setupStep ? "on" : ""}"></span>`).join("")}</div>
+        ${step("pseudo", 0, `<div class="ob-field"><span class="ob-at">@</span><input type="text" id="netPseudo" maxlength="20" autocomplete="off" autocapitalize="none" spellcheck="false"
+          placeholder="${escapeHtml(t("net_pseudo_ph"))}" /></div>
+          <p class="ob-hint">${escapeHtml(t("net_pseudo_rule"))}</p>`)}
+        ${myEmail ? "" : step("email", 1, `<div class="ob-field"><span class="ob-at">✉</span><input type="email" id="netEmail" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false"
+          placeholder="${escapeHtml(t("net_email_ph"))}" value="${escapeHtml(d0.email || "")}" /></div>`)}
+        ${step("lang", steps.length - 1, `<select id="netLang" class="ob-select"></select>
+          <label class="net-check ob-check"><input type="checkbox" id="netAge" /> <span>${t("net_age_html")}</span></label>`)}
         <div id="netSetupMsg">${flashHtml()}</div>
-        <p class="net-note"><a href="everywhere/#/profil" id="netHaveAccount">${escapeHtml(t("net_have_account"))}</a></p>
+        <button class="btn primary ob-go" id="netNext">${escapeHtml(t("ob_next"))}</button>
+        <button class="btn primary ob-go" id="netCreate">${escapeHtml(t("net_create"))}</button>
+        <div class="ob-foot">${setupStep > 0 ? `<button type="button" class="link-btn" id="netBack">← ${escapeHtml(t("ob_back"))}</button>` : `<a href="everywhere/#/profil" id="netHaveAccount">${escapeHtml(t("net_have_account"))}</a>`}</div>
       </div>`;
     const sel = root.querySelector("#netLang");
     fillLangSelect(sel, DEFAULT_SRC);
     const input = root.querySelector("#netPseudo");
+    const emailIn = root.querySelector("#netEmail");
+    const msg = root.querySelector("#netSetupMsg");
     input.addEventListener("input", () => {
       const v = input.value.toLowerCase().replace(/[^a-z0-9_.]/g, "");
       if (v !== input.value) input.value = v;
     });
-    const d0 = signupDraft();
     if (d0.pseudo) input.value = d0.pseudo;
     if (d0.lang) sel.value = d0.lang;
-    const emailIn = root.querySelector("#netEmail");
+    const last = setupStep === steps.length - 1;
+    root.querySelector("#netNext").hidden = last;
+    root.querySelector("#netCreate").hidden = !last;
+    const save = () => safeStore.setItem("lc_signup", JSON.stringify({ pseudo: input.value.trim().toLowerCase(), lang: sel.value, email: emailIn ? emailIn.value.trim().toLowerCase() : d0.email || "" }));
+    const cur = root.querySelector(".ob-step.on input");
+    if (cur) setTimeout(() => { try { cur.focus(); } catch (e) { /* ignoré */ } }, 50);
+    const next = () => {
+      const k = steps[setupStep];
+      if (k === "pseudo" && !/^[a-z0-9_.]{3,20}$/.test(input.value.trim().toLowerCase())) return showMsg(msg, escapeHtml(t("net_pseudo_bad")), "warn");
+      if (k === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(emailIn.value.trim())) return showMsg(msg, escapeHtml(t("net_email_bad")), "warn");
+      save();
+      setupStep++;
+      renderSetup();
+    };
+    root.querySelector("#netNext").addEventListener("click", next);
+    root.querySelectorAll(".ob-step input").forEach((el) => el.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); if (!last) next(); } }));
+    const back = root.querySelector("#netBack");
+    if (back) back.addEventListener("click", () => { save(); setupStep--; renderSetup(); });
     root.querySelector("#netCreate").addEventListener("click", () => createProfile(input.value, sel.value, root.querySelector("#netAge").checked, emailIn ? emailIn.value : myEmail));
     // CONNECT : se connecter à un compte existant (relié à un e-mail) se fait dans Profil d'EVERYWHERE.
-    root.querySelector("#netHaveAccount").addEventListener("click", () => { try { sessionStorage.setItem("ew_connect_login", "1"); } catch (e) { /* ignoré */ } });
+    const have = root.querySelector("#netHaveAccount");
+    if (have) have.addEventListener("click", () => { try { sessionStorage.setItem("ew_connect_login", "1"); } catch (e) { /* ignoré */ } });
   }
 
   // ---------- E-mail confirmé obligatoire (comptes plus responsables) ----------
