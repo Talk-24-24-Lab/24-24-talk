@@ -145,7 +145,7 @@
   var cur = null; // { root, s, busy, token }
   function show(root, uiLang) {
     lang = STR[uiLang] ? uiLang : "fr";
-    cur = { root: root, s: state(), busy: false, token: (cur ? cur.token : 0) + 1 };
+    cur = { root: root, s: state(), busy: false, token: (cur ? cur.token : 0) + 1, auto: {}, prog: null };
     paint();
     return t("title");
   }
@@ -193,6 +193,10 @@
         }).join("") + "</div>" +
       '<div role="tabpanel" id="vyPanel" aria-labelledby="vyCatsH"><ul class="vy-phrases" id="vyList"></ul></div><p class="note">' + esc(t("hint")) + "</p>";
     paintList();
+    // Avec Internet, les phrases d'une langue non intégrée se traduisent toutes seules (une fois par langue et par visite) :
+    // plus besoin de trouver le bouton « Préparer » (retour de Sébastien, 17 oct. 2026).
+    var key = d + "|" + me;
+    if (needPrep && !ready && !cur.busy && navigator.onLine !== false && !cur.auto[key]) { cur.auto[key] = true; setTimeout(prepare, 0); }
   }
   function paintList() {
     var ul = cur.root.querySelector("#vyList");
@@ -210,7 +214,7 @@
     ul.innerHTML = list.map(function (p) {
       var there = phraseIn(p, d), mine = mineOf(p, me), on = fav.indexOf(p.id) !== -1;
       return '<li class="vy-ph"><button type="button" class="vy-star" data-fav="' + esc(p.id) + '" aria-pressed="' + on + '" aria-label="' + esc(t(on ? "fav_on" : "fav_off", { p: mine })) + '">' + (on ? "★" : "☆") + "</button>" +
-        '<p class="vy-there" lang="' + esc(d) + '" dir="auto">' + (there ? esc(there) : '<span class="muted">' + esc(t("not_ready")) + "</span>") + "</p>" +
+        '<p class="vy-there" lang="' + esc(d) + '" dir="auto">' + (there ? esc(there) : '<span class="muted">' + esc(cur.busy && cur.prog ? "⏳ " + t("prep_run", cur.prog) : t("not_ready")) + "</span>") + "</p>" +
         '<p class="vy-mine" lang="' + esc(me) + '" dir="auto">' + esc(mine) + "</p>" +
         (there ? '<div class="vy-acts"><button type="button" class="btn" data-say="' + esc(p.id) + '" aria-label="' + esc(t("listen_a", { p: mine })) + '">' + esc(t("listen")) + "</button>" +
           '<button type="button" class="btn" data-big="' + esc(p.id) + '" aria-label="' + esc(t("show_a", { p: mine })) + '">' + esc(t("show")) + "</button></div>" : "") + "</li>";
@@ -254,23 +258,27 @@
     var my = c.token, list = P().list, total = list.length * todo.length, done = 0;
     btn.disabled = true;
     var jobs = [];
-    todo.forEach(function (code) { list.forEach(function (p) { jobs.push({ code: code, p: p }); }); });
+    // La situation ouverte d'abord, pour voir les phrases apparaître tout de suite.
+    var open = list.filter(function (p) { return p.cat === c.s.cat; }), rest = list.filter(function (p) { return p.cat !== c.s.cat; });
+    todo.forEach(function (code) { open.concat(rest).forEach(function (p) { jobs.push({ code: code, p: p }); }); });
     var bags = {};
     todo.forEach(function (code) { bags[code] = prepared(code); });
     function keep() { todo.forEach(function (code) { store.set("ew_voyage_tr_" + code, JSON.stringify({ ts: new Date().toISOString(), items: bags[code].items })); }); }
     function next() {
       if (cur !== c || my !== c.token) { keep(); return; }
       var j = jobs.shift();
-      if (!j) { keep(); c.busy = false; paint(); return; }
+      if (!j) { keep(); c.busy = false; c.prog = null; paint(); return; }
       if (bags[j.code].items[j.p.id]) { done++; return next(); }
-      btn.textContent = t("prep_run", { n: done, t: total });
+      c.prog = { n: done, t: total };
+      if (btn.isConnected) btn.textContent = t("prep_run", c.prog);
       M().translate(j.p.fr, "fr", j.code).then(function (tr) {
         bags[j.code].items[j.p.id] = String(tr).slice(0, 300);
         done++;
+        if (done % 3 === 0 || !jobs.length) { keep(); if (cur === c && my === c.token) { c.prog = { n: done, t: total }; paintList(); } }
         next();
       }, function (e) {
         keep();
-        c.busy = false;
+        c.busy = false; c.prog = null;
         var code = e && e.message, n = Object.keys(bags[c.s.dest] ? bags[c.s.dest].items : {}).length;
         if (cur !== c || my !== c.token) return;
         paint();

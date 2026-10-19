@@ -40,6 +40,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const ORIGIN = "http://localhost:" + server.address().port;
   const URL_EW = ORIGIN + BASE + "everywhere/";
   const browser = await chromium.launch();
+  { const nc = browser.newContext.bind(browser); browser.newContext = async (o) => { const c = await nc(o); await c.addInitScript(() => { window.EW_PORTAL_HOME = true; }); return c; }; } // ancien accueil du portail, encore testé
   const PHONE = { viewport: { width: 393, height: 851 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true, locale: "fr-FR" };
 
   // mm : "ok" (traduction imitée « [ja] texte »), "quota" (quota atteint après 3 phrases), "down"
@@ -332,11 +333,8 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await ctx.setOffline(false);
     return { ok: /Hors connexion/.test(r.net) && r.n > 0 && !/Pas encore traduite/.test(r.t), detail: r.net + " · " + r.t };
   });
-  await step("Voyage, japonais (non intégré) : rien n'est promis hors connexion ; « Préparer » traduit une fois puis garde les phrases", async () => {
+  await step("Voyage, japonais (non intégré) : avec Internet, les phrases se traduisent toutes seules (sans appuyer sur « Préparer ») puis restent hors connexion", async () => {
     await page.selectOption("#vyDest", "ja");
-    await sleep(200);
-    const before = await page.evaluate(() => ({ st: document.getElementById("vyStatus").textContent, t: document.querySelector(".vy-there").textContent }));
-    await page.tap("#vyPrep");
     await page.waitForFunction(() => /phrases préparées le/.test(document.getElementById("vyStatus").textContent), null, { timeout: 15000 });
     const saved = JSON.parse(await ls(page, "ew_voyage_tr_ja"));
     const n = Object.keys(saved.items).length;
@@ -346,7 +344,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await page.waitForSelector(".vy-ph");
     const off = await page.textContent(".vy-there");
     await ctx.setOffline(false);
-    return { ok: /pas encore disponibles hors connexion/.test(before.st) && /Pas encore traduite/.test(before.t) && n === total && /^\[ja\] /.test(off.trim()), detail: n + "/" + total + " phrases gardées ; hors connexion : " + off.trim() };
+    return { ok: n === total && /^\[ja\] /.test(off.trim()), detail: n + "/" + total + " phrases gardées ; hors connexion : " + off.trim() };
   });
   await step("Voyage : « Parler avec quelqu'un sur place » ouvre le côte à côte avec la langue du pays", async () => {
     await page.goto(URL_EW + "#/everywhere/voyage");

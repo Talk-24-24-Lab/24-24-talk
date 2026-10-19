@@ -26,7 +26,7 @@
     fr: {
       skip: "Aller au contenu", offline: "Hors ligne : certaines fonctions sont indisponibles.",
       home: "Accueil", apps: "Applications", profile: "Profil", settings: "Paramètres", open_full: "Ouvrir en plein écran",
-      lead: "Parlez dans votre langue, il entend dans la sienne.", your_apps: "Vos applications",
+      lead: "Le monde se parle. Enfin.", langs_n: "112 langues, 1 application", your_apps: "Vos applications",
       talk_tag: "Messages et appels traduits", ew_tag: "Conversation côte à côte", learn_tag: "Apprendre sans limites.",
       talk_name: "TALK", ew_name: "EVERYWHERE", trip_name: "VOYAGE", trip_tag: "Phrases utiles hors ligne",
       learn_name: "APPRENDRE", learn_tag2: "Leçons et révisions",
@@ -61,7 +61,7 @@
     en: {
       skip: "Skip to content", offline: "Offline: some features are unavailable.",
       home: "Home", apps: "Apps", profile: "Profile", settings: "Settings", open_full: "Open full screen",
-      lead: "Speak your language, they hear theirs.", your_apps: "Your apps",
+      lead: "The world speaks. At last.", langs_n: "112 languages, 1 app", your_apps: "Your apps",
       talk_tag: "Translated messages and calls", ew_tag: "Side-by-side conversation", learn_tag: "Learn without limits.",
       talk_name: "TALK", ew_name: "EVERYWHERE", trip_name: "TRAVEL", trip_tag: "Useful phrases, works offline",
       learn_name: "LEARN", learn_tag2: "Lessons and reviews",
@@ -367,6 +367,10 @@
   function route() {
     var h = (location.hash || "").replace(/^#\/?/, "");
     if (!h) h = "accueil";
+    // 19 oct. 2026 : une seule appli, un seul accueil (celui de 24/24 ONE WORLD, index.html à la racine).
+    if (h === "accueil" && !window.EW_PORTAL_HOME) { location.replace(CFG.basePath + "index.html"); return; }
+    // Ancienne adresse CONNECT : le compte sur plusieurs appareils se règle dans Profil.
+    if (h === "connect" || h.indexOf("connect/") === 0) { location.replace("#/profil"); return; }
     var parts = h.split("/");
     var view = parts[0], appId = parts[1];
     var target = view;
@@ -390,7 +394,7 @@
       if ("inert" in v && !v.classList.contains("view-app")) v.inert = !on;
     });
     // LEARN est présenté sous EVERYWHERE (accès depuis le hub #/everywhere) : la barre du bas allume Everywhere.
-    var navId = target === "app" ? "app/" + appId : target === "learn" ? "everywhere" : target;
+    var navId = target === "app" ? "app/" + appId : target;
     document.documentElement.classList.toggle("ew-home", target === "accueil");
     document.querySelectorAll("[data-nav]").forEach(function (n) {
       if (n.getAttribute("data-nav") === navId) n.setAttribute("aria-current", "page");

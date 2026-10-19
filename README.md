@@ -7,7 +7,7 @@ Créé à La Réunion par Sébastien Chevrier.
 
 <p align="center">
   <a href="https://sebastienchevrier.github.io/24-24-talk/">
-    <img src="24-24-Talk-visuel.png" alt="24/24 Talk : appels et messages traduits, 112 langues" width="420">
+    <img src="24-24-Talk-visuel-v2.png" alt="24/24 Talk : appels et messages traduits, 112 langues" width="420">
   </a>
 </p>
 
@@ -39,10 +39,6 @@ Astuce : sur l'écran d'accueil, le bouton **Ajouter à l'écran d'accueil** ins
 - Aucune donnée personnelle demandée : un pseudo suffit.
 - Les messages du réseau sont hébergés en France.
 - L'historique des traductions reste uniquement sur votre téléphone.
-
-## Tarif
-
-Gratuit jusqu'au 1er novembre 2026, sans inscription et sans carte bancaire. Ensuite : 1,99 € par mois, affiché dans la monnaie de votre pays.
 
 ---
 
