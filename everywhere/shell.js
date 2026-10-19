@@ -103,7 +103,8 @@
       if (h) h.click();
       try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (err) { window.scrollTo(0, 0); }
     });
-    document.body.appendChild(nav);
+    // 19 oct. 2026 : TALK garde sa propre barre du bas (la même partout) ; la coquille n'ajoute que la barre du haut.
+    void nav;
     // VOICE : le même bouton micro que dans le portail (chargé seulement si le navigateur sait reconnaître la voix).
     if (window.SpeechRecognition || window.webkitSpeechRecognition) {
       var vs = document.createElement("script");
