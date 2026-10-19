@@ -27,6 +27,6 @@ body{background:var(--bg) !important;}
 .tr-logo svg, .lx-logo svg{stroke:#1fe2cd !important;}
 /* Barre du haut : le nom tient sur une ligne, comme dans l'appli. */
 .brand-txt span{color:inherit !important;font-weight:800;}
-@media (max-width:400px){ .topbar{gap:6px;} .topbar .icon-btn{width:40px;height:40px;} .brand-txt{font-size:14px;letter-spacing:.02em;} }
+@media (max-width:400px){ .topbar{gap:4px;padding-left:8px;padding-right:8px;} .brand-txt{font-size:13px;letter-spacing:0;} .brand img{width:30px;height:30px;} }
 .lx-hero{background:var(--panel) !important;border-color:var(--line) !important;}
 .lx-hero{background:var(--panel) !important;border-color:var(--line) !important;}

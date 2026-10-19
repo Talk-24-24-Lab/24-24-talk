@@ -96,13 +96,6 @@
     nav.id = "ewsNav";
     nav.setAttribute("aria-label", L.nav);
     nav.innerHTML = navHtml(root, false, "talk", lang);
-    // Toucher TALK quand on est déjà dans TALK : retour à l'accueil de TALK, sans recharger la page.
-    nav.querySelector('[data-nav="talk"]').addEventListener("click", function (e) {
-      e.preventDefault();
-      var h = document.querySelector('nav.tabs button[data-view="home"]');
-      if (h) h.click();
-      try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (err) { window.scrollTo(0, 0); }
-    });
     // 19 oct. 2026 : TALK garde sa propre barre du bas (la même partout) ; la coquille n'ajoute que la barre du haut.
     void nav;
     // VOICE : le même bouton micro que dans le portail (chargé seulement si le navigateur sait reconnaître la voix).
