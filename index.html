@@ -9444,7 +9444,8 @@ const Reseau = (() => {
   }
   async function sendConfirmEmail(email) {
     const back = location.origin + location.pathname;
-    const { error } = await sb.auth.updateUser({ email }, { emailRedirectTo: back });
+    // email_lang : langue de l'e-mail de confirmation (le modèle Supabase choisit le texte selon cette valeur).
+    const { error } = await sb.auth.updateUser({ email, data: { email_lang: String(UI_LANG || "en").split("-")[0] } }, { emailRedirectTo: back });
     return error;
   }
   async function createProfile(pseudo, lang, ageOk, email) {
