@@ -4662,7 +4662,7 @@ applyStaticI18n();
 // le réseau (messages et appels) n'y fonctionne pas.
 const AUTEUR_24_24_TALK = "24/24 ONE WORLD — © 2026 Sébastien Chevrier (La Réunion) — version officielle : https://sebastienchevrier.github.io/24-24-talk/";
 const OFFICIAL_URL = "https://sebastienchevrier.github.io/24-24-talk/";
-const IS_OFFICIAL_SITE = ["sebastienchevrier.github.io", "localhost", "127.0.0.1", ""].includes(location.hostname);
+const IS_OFFICIAL_SITE = ["sebastienchevrier.github.io", "talk-24-24-lab.github.io", "localhost", "127.0.0.1", ""].includes(location.hostname);
 // Ouvert dans le portail 24/24 EVERYWHERE (même site) : le portail affiche déjà le logo, le bandeau et l'installation.
 const EMBEDDED = (() => { try { return window.parent !== window && /[?&]embed=1\b/.test(location.search) && window.parent.location.origin === location.origin; } catch (e) { return false; } })();
 if (EMBEDDED) document.documentElement.classList.add("embedded");
@@ -7990,7 +7990,7 @@ const A11y = (() => {
 // téléphone (renouvelé au bout de 13 mois, jamais relié au compte réseau), et des comptes par jour.
 // Désactivable dans Paramètres.
 const Stats24 = (() => {
-  const enabled = ["sebastienchevrier.github.io"].includes(location.hostname) && !!(NET_CONFIG.url && NET_CONFIG.key);
+  const enabled = ["sebastienchevrier.github.io", "talk-24-24-lab.github.io"].includes(location.hostname) && !!(NET_CONFIG.url && NET_CONFIG.key);
   let netOn = false;
   function newId() {
     if (window.crypto && typeof crypto.randomUUID === "function") return crypto.randomUUID();
