@@ -89,7 +89,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
       sky: getComputedStyle(document.querySelector("#view-accueil .home-head")).backgroundImage,
       talk: getComputedStyle(document.querySelector("#cardTalk .duo-ic")).backgroundImage, nav: getComputedStyle(document.getElementById("mainnav")).backgroundColor,
       act: getComputedStyle(document.querySelector('#mainnav a[aria-current="page"]') || document.querySelector("#mainnav a")).color }));
-    return { ok: c.home === "rgb(7, 11, 28)" && /radial-gradient/.test(c.sky) && /63, 169, 245/.test(c.sky) && !/url\(/.test(c.sky) && /26, 115, 232/.test(c.talk) && c.nav === "rgba(7, 11, 28, 0.92)",
+    return { ok: c.home === "rgb(8, 17, 31)" && /radial-gradient/.test(c.sky) && /63, 169, 245/.test(c.sky) && !/url\(/.test(c.sky) && /26, 115, 232/.test(c.talk) && c.nav === "rgb(11, 21, 38)",
       detail: "fond " + c.home + " · barre du bas " + c.nav };
   });
   await step("Accueil : aucune mention de prix, ni compte à rebours ni date de fin (17 oct. 2026)", async () => {
@@ -142,7 +142,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   await step("TALK dans la coquille : la même barre du bas (Messagerie active), barre du haut, une seule barre", async () => {
     const r = await page.evaluate(() => {
       const nav = document.querySelector(".bbar");
-      const labels = [...nav.querySelectorAll("button")].map((a) => a.textContent.trim()).join(",");
+      const labels = [...nav.querySelectorAll("button > span")].map((a) => a.textContent.trim()).join(",");
       const cur = nav.querySelector('[aria-current="page"]');
       const nr = nav.getBoundingClientRect();
       return { shell: document.documentElement.classList.contains("ew-shell"), labels, cur: cur && cur.dataset.b, other: !!document.getElementById("ewsNav"),
