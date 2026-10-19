@@ -29,3 +29,4 @@ body{background:var(--bg) !important;}
 .brand-txt span{color:inherit !important;font-weight:800;}
 @media (max-width:400px){ .topbar{gap:6px;} .topbar .icon-btn{width:40px;height:40px;} .brand-txt{font-size:14px;letter-spacing:.02em;} }
 .lx-hero{background:var(--panel) !important;border-color:var(--line) !important;}
+.lx-hero{background:var(--panel) !important;border-color:var(--line) !important;}
