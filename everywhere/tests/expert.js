@@ -246,7 +246,7 @@ const DICT = { "fr|en": { "Bonjour": "Hello", "Où est la gare ?": "Where is the
     await page.evaluate(() => { window.__sayQ = ["Bonjour"]; });
     await page.tap('[data-mic="1"]');
     await page.waitForFunction(() => window.__spoken.length === 1, null, { timeout: 5000 });
-    await page.tap('#mainnav a[data-nav="accueil"]');
+    await page.tap('#mainnav a[data-nav="learn"]');
     await sleep(1500);
     const r = await page.evaluate(() => ({ sr: window.__srLangs.length, act: window.__srActive }));
     return { ok: r.sr === 1 && r.act <= 0 && !page._errors.length, detail: r.sr + " écoute en tout" };
