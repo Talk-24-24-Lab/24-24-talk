@@ -12,7 +12,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
 <title>24/24 ONE WORLD — Le monde se parle. Enfin.</title>
 <script src="everywhere/sentinelle.js?v=0.8.5"></script>
-<script>/* CONNECT : retour du lien d'e-mail arrivé sur l'adresse principale → écran Profil du portail (sauf inscription en cours : TALK la termine lui-même). */(function(){var h=location.hash||"",s=null;try{s=localStorage.getItem("lc_signup");}catch(e){}if(s)return;if(/(^#|&)(access_token|error_code|error_description)=/.test(h)||/(^#|&)message=Confirmation/.test(h))location.replace("everywhere/"+h);})();</script>
+<script>/* CONNECT : retour du lien d'e-mail arrivé sur l'adresse principale → écran Profil du portail (sauf inscription : TALK la termine lui-même, même si le lien s'ouvre dans un autre navigateur). */(function(){var h=location.hash||"",s=null;try{s=localStorage.getItem("lc_signup");}catch(e){}if(s||/(^#|&)type=email_change(&|$)/.test(h))return;if(/(^#|&)(access_token|error_code|error_description)=/.test(h)||/(^#|&)message=Confirmation/.test(h))location.replace("everywhere/"+h);})();</script>
 <script>
 /* 24/24 EVERYWHERE : arrivé depuis le portail (adresse ?ew=1), TALK s'affiche dans la coquille commune
    (même barre du haut et du bas que le portail). Retenu pour la suite de la visite (onglet). Ouvert seul, TALK ne change pas. */
@@ -9439,7 +9439,7 @@ const Reseau = (() => {
     }
   });
   try {
-    const want = new URLSearchParams(location.search).get("b");
+    const want = new URLSearchParams(location.search).get("b") || (linkSession ? "msg" : null); // retour du lien d'inscription : Messagerie
     if (want === "msg" || want === "call" || want === "tr") {
       history.replaceState(null, "", location.pathname + location.hash);
       setTimeout(() => { const b = bar.querySelector(`button[data-b="${want}"]`); if (b) b.click(); }, 0);
