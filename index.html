@@ -12,7 +12,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
 <title>24/24 ONE WORLD — Le monde se parle. Enfin.</title>
 <script src="everywhere/sentinelle.js?v=0.8.5"></script>
-<script>/* CONNECT : retour du lien d'e-mail arrivé sur l'adresse principale → écran Profil du portail. */(function(){var h=location.hash||"";if(/(^#|&)(access_token|error_code|error_description)=/.test(h)||/(^#|&)message=Confirmation/.test(h))location.replace("everywhere/"+h);})();</script>
+<script>/* CONNECT : retour du lien d'e-mail arrivé sur l'adresse principale → écran Profil du portail (sauf inscription en cours : TALK la termine lui-même). */(function(){var h=location.hash||"",s=null;try{s=localStorage.getItem("lc_signup");}catch(e){}if(s)return;if(/(^#|&)(access_token|error_code|error_description)=/.test(h)||/(^#|&)message=Confirmation/.test(h))location.replace("everywhere/"+h);})();</script>
 <script>
 /* 24/24 EVERYWHERE : arrivé depuis le portail (adresse ?ew=1), TALK s'affiche dans la coquille commune
    (même barre du haut et du bas que le portail). Retenu pour la suite de la visite (onglet). Ouvert seul, TALK ne change pas. */
@@ -8591,7 +8591,11 @@ const Reseau = (() => {
     });
   }
 
+  // Retour du lien de confirmation de l'inscription : on garde la session du lien (utile s'il s'ouvre dans un autre navigateur).
+  let linkSession = null;
   if (/access_token=|error_description=|type=email_change/.test(location.hash)) {
+    const hp = new URLSearchParams(location.hash.slice(1));
+    if (hp.get("access_token") && hp.get("refresh_token")) linkSession = { access_token: hp.get("access_token"), refresh_token: hp.get("refresh_token") };
     try { history.replaceState(null, "", location.pathname + location.search); } catch (e) { /* ignoré */ }
   }
   async function connect() {
@@ -8600,6 +8604,10 @@ const Reseau = (() => {
       sb = lib.createClient(NET_CONFIG.url, NET_CONFIG.key, {
         auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false, storageKey: "lc_net_auth" },
       });
+    }
+    if (linkSession) {
+      const ls = linkSession; linkSession = null;
+      try { await sb.auth.setSession(ls); } catch (e) { /* lien périmé : on garde la session actuelle */ }
     }
     const { data, error: sessErr } = await sb.auth.getSession();
     if (sessErr) throw sessErr; // connexion impossible : on n'écrase surtout pas le compte existant
