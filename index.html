@@ -596,6 +596,11 @@ window.UI_PACKS = ["bn", "fa", "he", "hi", "ht", "id", "ko", "ms", "nl", "pl", "
   .net-call{position:fixed;inset:0;z-index:45;display:flex;flex-direction:column;background:var(--bg);
     padding:calc(18px + env(safe-area-inset-top,0px)) 16px calc(14px + env(safe-area-inset-bottom,0px));box-sizing:border-box;}
   .net-call-top{display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;}
+  .net-video{position:relative;width:100%;max-width:420px;aspect-ratio:3/4;max-height:44vh;margin:0 auto 10px;background:#000;border-radius:18px;overflow:hidden;}
+  .net-video .rv{width:100%;height:100%;object-fit:cover;display:block;}
+  .net-video .lv{position:absolute;right:8px;bottom:8px;width:30%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;border:2px solid rgba(255,255,255,.7);transform:scaleX(-1);}
+  .net-video.solo .lv{position:static;width:100%;height:100%;border:0;border-radius:0;}
+  .net-video ~ .net-call-avatar{display:none;}
   .net-call-avatar{width:76px;height:76px;border-radius:50%;background:var(--ok);color:#0b0e1a;font-size:34px;font-weight:800;
     display:flex;align-items:center;justify-content:center;text-transform:uppercase;box-shadow:0 0 0 4px var(--bg),0 0 0 7px var(--line);}
   .net-call-avatar.live{box-shadow:0 0 0 4px var(--bg),0 0 0 7px var(--ok);}
@@ -6089,6 +6094,8 @@ const NET_STRINGS = {
     net_hangup: "Raccrocher",
     net_mute: "Sourdine",
     net_speaker: "Haut-parleur",
+    net_camera: "Caméra",
+    net_cam_fail: "Caméra impossible à ouvrir : autorisez-la dans les réglages du navigateur (cadenas à côté de l'adresse).",
     net_remote_muted: "🔇 @{p} a coupé son micro",
     net_you_muted: "🔇 Votre micro est coupé",
     net_in_call: "Appel traduit avec @{p} : parlez, il vous entend dans sa langue.",
@@ -6282,6 +6289,8 @@ const NET_STRINGS = {
     net_hangup: "Hang up",
     net_mute: "Mute",
     net_speaker: "Speaker",
+    net_camera: "Camera",
+    net_cam_fail: "Can't open the camera: allow it in the browser settings (padlock next to the address).",
     net_remote_muted: "🔇 @{p} muted their mic",
     net_you_muted: "🔇 Your mic is muted",
     net_in_call: "Translated call with @{p}: speak, they hear you in their language.",
@@ -6472,6 +6481,8 @@ const NET_STRINGS = {
     net_hangup: "Colgar",
     net_mute: "Silenciar",
     net_speaker: "Altavoz",
+    net_camera: "Cámara",
+    net_cam_fail: "No se puede abrir la cámara: permítela en los ajustes del navegador (candado junto a la dirección).",
     net_remote_muted: "🔇 @{p} ha silenciado su micro",
     net_you_muted: "🔇 Tu micro está silenciado",
     net_in_call: "Llamada traducida con @{p}: habla, te oye en su idioma.",
@@ -6662,6 +6673,8 @@ const NET_STRINGS = {
     net_hangup: "Desligar",
     net_mute: "Silêncio",
     net_speaker: "Altifalante",
+    net_camera: "Câmera",
+    net_cam_fail: "Não é possível abrir a câmera: permita-a nas configurações do navegador (cadeado ao lado do endereço).",
     net_remote_muted: "🔇 @{p} desligou o microfone",
     net_you_muted: "🔇 O seu microfone está desligado",
     net_in_call: "Chamada traduzida com @{p}: fale, ele ouve no idioma dele.",
@@ -6852,6 +6865,8 @@ const NET_STRINGS = {
     net_hangup: "Auflegen",
     net_mute: "Stumm",
     net_speaker: "Lautsprecher",
+    net_camera: "Kamera",
+    net_cam_fail: "Kamera lässt sich nicht öffnen: Erlaube sie in den Browser-Einstellungen (Schloss neben der Adresse).",
     net_remote_muted: "🔇 @{p} hat das Mikrofon stummgeschaltet",
     net_you_muted: "🔇 Dein Mikrofon ist stumm",
     net_in_call: "Übersetzter Anruf mit @{p}: Sprich, er hört dich in seiner Sprache.",
@@ -7042,6 +7057,8 @@ const NET_STRINGS = {
     net_hangup: "Riaggancia",
     net_mute: "Muto",
     net_speaker: "Vivavoce",
+    net_camera: "Fotocamera",
+    net_cam_fail: "Impossibile aprire la fotocamera: consentila nelle impostazioni del browser (lucchetto accanto all'indirizzo).",
     net_remote_muted: "🔇 @{p} ha disattivato il microfono",
     net_you_muted: "🔇 Il tuo microfono è disattivato",
     net_in_call: "Chiamata tradotta con @{p}: parla, ti sente nella sua lingua.",
@@ -7232,6 +7249,8 @@ const NET_STRINGS = {
     net_hangup: "挂断",
     net_mute: "静音",
     net_speaker: "扬声器",
+    net_camera: "摄像头",
+    net_cam_fail: "无法打开摄像头：请在浏览器设置中允许（地址旁的锁形图标）。",
     net_remote_muted: "🔇 @{p} 已关闭麦克风",
     net_you_muted: "🔇 你的麦克风已关闭",
     net_in_call: "与 @{p} 的翻译通话：请说话，对方会听到他的语言。",
@@ -7422,6 +7441,8 @@ const NET_STRINGS = {
     net_hangup: "終了",
     net_mute: "ミュート",
     net_speaker: "スピーカー",
+    net_camera: "カメラ",
+    net_cam_fail: "カメラを開けません：ブラウザの設定（アドレス横の鍵マーク）で許可してください。",
     net_remote_muted: "🔇 @{p} がマイクをミュートしました",
     net_you_muted: "🔇 マイクはミュート中です",
     net_in_call: "@{p} さんと翻訳通話中：話すと、相手には相手の言語で聞こえます。",
@@ -7612,6 +7633,8 @@ const NET_STRINGS = {
     net_hangup: "إنهاء",
     net_mute: "كتم",
     net_speaker: "مكبّر الصوت",
+    net_camera: "الكاميرا",
+    net_cam_fail: "تعذّر فتح الكاميرا: اسمح بها في إعدادات المتصفح (القفل بجوار العنوان).",
     net_remote_muted: "🔇 ⁦@{p}⁩ كتم الميكروفون",
     net_you_muted: "🔇 الميكروفون مكتوم",
     net_in_call: "مكالمة مترجمة مع ⁦@{p}⁩: تحدَّث، وسيسمعك بلغته.",
@@ -7802,6 +7825,8 @@ const NET_STRINGS = {
     net_hangup: "Завершить",
     net_mute: "Без звука",
     net_speaker: "Динамик",
+    net_camera: "Камера",
+    net_cam_fail: "Не удаётся открыть камеру: разрешите её в настройках браузера (замок рядом с адресом).",
     net_remote_muted: "🔇 @{p} выключил(а) микрофон",
     net_you_muted: "🔇 Ваш микрофон выключен",
     net_in_call: "Звонок с переводом с @{p}: говорите, собеседник слышит вас на своём языке.",
@@ -7992,6 +8017,8 @@ const NET_STRINGS = {
     net_hangup: "Hanapaka",
     net_mute: "Hampangina",
     net_speaker: "Fanamafisam-peo",
+    net_camera: "Fakantsary",
+    net_cam_fail: "Tsy misokatra ny fakantsary: avelao ao amin'ny fikirana navigateur (hidin-trano eo akaikin'ny adiresy).",
     net_remote_muted: "🔇 Nanapaka ny mikrô-ny i @{p}",
     net_you_muted: "🔇 Tapaka ny mikrô-nao",
     net_in_call: "Antso voadika miaraka amin'i @{p}: mitenena, henony amin'ny fiteniny ianao.",
@@ -8174,6 +8201,7 @@ const Reseau = (() => {
 
   const homeTabBtn = document.querySelector('nav.tabs button[data-view="home"]');
   const ICON_MIC_OFF = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 2l20 20"/><path d="M18.9 13.3A7 7 0 0 0 19 12v-2"/><path d="M15 9.3V5a3 3 0 0 0-5.7-1.3"/><path d="M9 9v3a3 3 0 0 0 5.1 2.1"/><path d="M16.9 16.9A7 7 0 0 1 5 12v-2"/><path d="M12 19v3"/></svg>';
+  const ICON_CAM = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>';
   const ICON_SPEAKER = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5L6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg>';
   const ICON_PHONE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>';
   const ICON_MSG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.8-.9L3 21l1.9-5.2A8.4 8.4 0 0 1 12 3a8.5 8.5 0 0 1 9 8.5z"/></svg>';
@@ -10624,6 +10652,10 @@ const Reseau = (() => {
       onRemoteLine(p);
     } else if (p.t === "rtc" && call.state === "active") {
       onRtc(p);
+    } else if (p.t === "vrtc" && call.state === "active") {
+      onVrtc(p);
+    } else if (p.t === "cam" && call.state === "active") {
+      if (!p.on && call.vid) { call.vid.remote = false; try { call.vid.rv.srcObject = null; } catch (e) { /* ignoré */ } renderCall(); }
     } else if (p.t === "mode" && call.state === "active" && (p.mode === "voice" || p.mode === "translate")) {
       if (call.mode === undefined) call.mode = p.mode; // reçu avant la fin du décroché
       else setMode(p.mode, true);
@@ -10904,6 +10936,7 @@ const Reseau = (() => {
     if (call.role === "caller" && call.state === "ringing" && !call.remoteEnded) notifyCall("cancel", call);
     if (call.listener) call.listener.stop();
     stopVoice(call);
+    stopVideo(call);
     stopRing();
     hideRingBar();
     try { window.speechSynthesis && window.speechSynthesis.cancel(); } catch (e) { /* ignoré */ }
@@ -10933,6 +10966,102 @@ const Reseau = (() => {
     if (isActiveTab()) render();
   }
 
+  // ---------- Vidéo (appel vidéo traduit) ----------
+  // Image seulement, en direct d'un téléphone à l'autre (WebRTC, comme la voix réelle) : la traduction continue
+  // comme avant (sous-titres et voix traduite). Une connexion vidéo à part, ouverte quand quelqu'un allume sa caméra ;
+  // chaque côté peut l'allumer ou l'éteindre (renégociation « polie » : celui qui décroche cède en cas de croisement).
+  function mkVideo(local) {
+    const el = document.createElement("video");
+    el.autoplay = true; el.muted = true; el.playsInline = true;
+    el.setAttribute("playsinline", "");
+    el.className = local ? "lv" : "rv";
+    return el;
+  }
+  function ensureVideo(c) {
+    if (c.vid) return c.vid;
+    const pc = new RTCPeerConnection({ iceServers: RTC_ICE_SERVERS });
+    const v = { pc, polite: c.role !== "caller", making: false, ignore: false, local: null, sender: null, remote: false, lv: mkVideo(true), rv: mkVideo(false) };
+    c.vid = v;
+    pc.onicecandidate = (e) => {
+      if (e.candidate && c.vid === v) sendSignal(c.otherId, { t: "vrtc", callId: c.id, ice: e.candidate.toJSON ? e.candidate.toJSON() : e.candidate });
+    };
+    pc.onnegotiationneeded = async () => {
+      try {
+        v.making = true;
+        await pc.setLocalDescription(await pc.createOffer());
+        sendSignal(c.otherId, { t: "vrtc", callId: c.id, sdp: { type: pc.localDescription.type, sdp: pc.localDescription.sdp } });
+      } catch (e) { /* nouvel essai à la prochaine caméra */ } finally { v.making = false; }
+    };
+    pc.ontrack = (e) => {
+      if (c.vid !== v) return;
+      v.rv.srcObject = (e.streams && e.streams[0]) || new MediaStream([e.track]);
+      v.remote = true;
+      if (call === c) renderCall();
+      const pl = v.rv.play();
+      if (pl && pl.catch) pl.catch(() => { /* reprend au prochain toucher */ });
+    };
+    return v;
+  }
+  async function onVrtc(p) {
+    const c = call;
+    if (!c) return;
+    let v;
+    try { v = ensureVideo(c); } catch (e) { return; }
+    const pc = v.pc;
+    try {
+      if (p.sdp) {
+        const collision = p.sdp.type === "offer" && (v.making || pc.signalingState !== "stable");
+        v.ignore = !v.polite && collision;
+        if (v.ignore) return;
+        if (collision) await pc.setLocalDescription({ type: "rollback" });
+        await pc.setRemoteDescription(p.sdp);
+        if (p.sdp.type === "offer") {
+          await pc.setLocalDescription(await pc.createAnswer());
+          sendSignal(c.otherId, { t: "vrtc", callId: c.id, sdp: { type: pc.localDescription.type, sdp: pc.localDescription.sdp } });
+        }
+      } else if (p.ice) {
+        try { await pc.addIceCandidate(p.ice); } catch (e) { /* candidat d'une offre ignorée */ }
+      }
+    } catch (e) { /* la vidéo seule échoue : l'appel continue */ }
+  }
+  async function toggleCamera() {
+    const c = call;
+    if (!c || c.state !== "active") return;
+    let v;
+    try { v = ensureVideo(c); } catch (e) { return; }
+    if (v.local) {
+      v.local.getTracks().forEach((tr) => tr.stop());
+      try { if (v.sender) v.pc.removeTrack(v.sender); } catch (e) { /* ignoré */ }
+      v.local = null; v.sender = null; v.lv.srcObject = null;
+      sendSignal(c.otherId, { t: "cam", callId: c.id, on: false });
+      renderCall();
+      return;
+    }
+    let st;
+    try {
+      st = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user", width: { ideal: 640 }, height: { ideal: 480 } }, audio: false });
+    } catch (e) {
+      const el = root.querySelector("#netCallMsg");
+      if (el) el.innerHTML = `<div class="msg warn">${escapeHtml(t("net_cam_fail"))}</div>`;
+      return;
+    }
+    if (call !== c || c.vid !== v) { st.getTracks().forEach((tr) => tr.stop()); return; }
+    v.local = st;
+    v.lv.srcObject = st;
+    const tr = st.getVideoTracks()[0];
+    if (v.sender) { try { await v.sender.replaceTrack(tr); } catch (e) { v.sender = v.pc.addTrack(tr, st); } }
+    else v.sender = v.pc.addTrack(tr, st);
+    sendSignal(c.otherId, { t: "cam", callId: c.id, on: true });
+    renderCall();
+  }
+  function stopVideo(c) {
+    const v = c && c.vid;
+    if (!v) return;
+    c.vid = null;
+    if (v.local) v.local.getTracks().forEach((tr) => tr.stop());
+    try { v.pc.close(); } catch (e) { /* ignoré */ }
+    v.lv.srcObject = null; v.rv.srcObject = null;
+  }
   function renderCall() {
     if (!call) {
       screen = currentConv ? "chat" : "home";
@@ -10945,6 +11074,7 @@ const Reseau = (() => {
     root.innerHTML = `
       <div class="net-call" role="dialog" aria-label="${escapeHtml(status)}">
         <div class="net-call-top">
+          ${call.vid && (call.vid.local || call.vid.remote) ? `<div class="net-video${call.vid.remote ? "" : " solo"}" id="netVideo"></div>` : ""}
           <div class="net-call-avatar${call.state === "active" ? " live" : ""}" aria-hidden="true">${photoOf(call.otherId) ? `<img src="${photoOf(call.otherId)}" alt="" />` : escapeHtml((call.otherPseudo || "?").charAt(0))}</div>
           <div class="net-call-name" dir="ltr">@${escapeHtml(call.otherPseudo || "")}</div>
           <div class="net-call-status${call.state === "active" ? " live" : ""}">${escapeHtml(status)}</div>
@@ -10967,6 +11097,7 @@ const Reseau = (() => {
           <div class="net-call-ctrls">
             ${call.state !== "incoming" ? `<div class="net-ctrl"><button type="button" class="net-ctrl-btn${call.muted ? " on" : ""}" id="netMute" aria-pressed="${call.muted}">${ICON_MIC_OFF}</button><span>${escapeHtml(t("net_mute"))}</span></div>` : ""}
             <div class="net-ctrl"><button type="button" class="net-hangup" id="netHangup" aria-label="${escapeHtml(t("net_hangup"))}">${ICON_PHONE}</button><span class="net-hangup-label">${escapeHtml(t("net_hangup"))}</span></div>
+            ${call.state === "active" && voiceSupported() ? `<div class="net-ctrl"><button type="button" class="net-ctrl-btn${call.vid && call.vid.local ? " on" : ""}" id="netCam" aria-pressed="${!!(call.vid && call.vid.local)}">${ICON_CAM}</button><span>${escapeHtml(t("net_camera"))}</span></div>` : ""}
             ${call.state !== "incoming" ? `<div class="net-ctrl"><button type="button" class="net-ctrl-btn${call.speaker ? " on" : ""}" id="netSpeaker" aria-pressed="${call.speaker}">${ICON_SPEAKER}</button><span>${escapeHtml(t("net_speaker"))}</span></div>` : ""}
           </div>
         </div>
@@ -10974,6 +11105,14 @@ const Reseau = (() => {
     renderCallLines();
     updateCallInfo();
     root.querySelector("#netHangup").addEventListener("click", hangup);
+    const vslot = root.querySelector("#netVideo");
+    if (vslot && call.vid) {
+      if (call.vid.remote) vslot.appendChild(call.vid.rv);
+      if (call.vid.local) vslot.appendChild(call.vid.lv);
+      [call.vid.rv, call.vid.lv].forEach((el) => { const pl = el.srcObject && el.play(); if (pl && pl.catch) pl.catch(() => {}); });
+    }
+    const camBtn = root.querySelector("#netCam");
+    if (camBtn) camBtn.addEventListener("click", toggleCamera);
     const vm = root.querySelector("#netVoiceMode");
     if (vm) vm.addEventListener("click", () => { if (call) setMode(call.mode === "voice" ? "translate" : "voice"); });
     const muteBtn = root.querySelector("#netMute");

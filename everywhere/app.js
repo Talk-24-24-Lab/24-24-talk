@@ -363,6 +363,15 @@
       "</b><small>" + esc(t("hub_learn_d")) + "</small></span></a>";
     root.appendChild(box);
   }
+  // Message partagé depuis une autre application (WhatsApp, SMS, Messenger… → Partager → 24/24 ONE WORLD) :
+  // manifest share_target ouvre ./?text=… ; le texte va à l'écran Partout, qui le traduit dans ma langue.
+  (function () {
+    var q = new URLSearchParams(location.search);
+    var txt = [q.get("title"), q.get("text"), q.get("url")].filter(Boolean).join("\n").trim();
+    if (!txt) return;
+    try { sessionStorage.setItem("ew_partage", txt.slice(0, 4000)); } catch (e) { /* sans mémoire de session : rien à traduire */ }
+    history.replaceState(null, "", location.pathname + "#/everywhere/partout");
+  })();
   var first = true;
   function route() {
     var h = (location.hash || "").replace(/^#\/?/, "");
