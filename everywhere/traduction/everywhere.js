@@ -7,6 +7,7 @@
      #/everywhere/langues    mes langues
      #/everywhere/reglages   configurations (son, haut-parleur ou écouteurs, voix, vitesse, volume, taille du texte)
      #/everywhere/voyage     parcours Voyage (voyage.js) : préparation, phrases utiles, faible connexion
+     #/everywhere/partout    Partout (partout.js) : traduire pour SMS, WhatsApp, e-mail, autres applis ; message reçu
    Profil linguistique (profil/profil.js) : langue maternelle = « Ma langue » par défaut, favorites en tête des listes,
    vitesse de lecture (nombre de phrases affichées) et préférence Parler/Écrire en conversation côte à côte.
    Aucune fonction d'apprentissage ici (LEARN) ; les appels restent ceux de TALK.
@@ -168,6 +169,7 @@
     mic: '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/>',
     kb: '<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/>',
     replay: '<path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/>',
+    send: '<path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/>',
     trip: '<rect x="4" y="7" width="16" height="13" rx="2.5"/><path d="M9 7V4.5h6V7"/><path d="M4 12h16"/>'
   };
   function ic(n) { return '<svg viewBox="0 0 24 24" aria-hidden="true">' + ICON[n] + "</svg>"; }
@@ -177,6 +179,7 @@
     root.innerHTML = '<div class="tr-head"><span class="tr-logo" aria-hidden="true">' + ic("globe") + '</span><div><h1 id="h-tr">' + esc(t("title")) + '</h1><p class="muted">' + esc(t("sub")) + "</p></div></div>" +
       '<a class="tr-big face" id="trGoFace" href="#/everywhere/face"><span class="tr-big-ic">' + ic("face") + "</span><span><b>" + esc(t("face")) + "</b><small>" + esc(t("face_d")) + "</small></span></a>" +
       '<a class="tr-big call" id="trGoCall" href="#/everywhere/appel"><span class="tr-big-ic">' + ic("call") + "</span><span><b>" + esc(t("call")) + "</b><small>" + esc(t("call_d")) + "</small></span></a>" +
+      (window.EWPartout ? (function (h) { return '<a class="tr-big partout" id="trGoPartout" href="#/everywhere/partout"><span class="tr-big-ic">' + ic("send") + "</span><span><b>" + esc(h.b) + "</b><small>" + esc(h.d) + "</small></span></a>"; })(window.EWPartout.homeLabel(lang)) : "") +
       '<a class="tr-big trip" id="trGoTrip" href="#/everywhere/voyage"><span class="tr-big-ic">' + ic("trip") + "</span><span><b>" + esc(t("trip")) + "</b><small>" + esc(t("trip_d")) + "</small></span></a>" +
       '<button type="button" class="tr-big invite" id="trGoInvite" data-invite-now><span class="tr-big-ic tr-wave" aria-hidden="true">👋</span><span><b>' + esc(t("invite_talk").replace(/^📨\s*/, "")) + "</b><small>" + esc(t("invite_talk_d")) + "</small></span></button>" +
       '<a class="tr-row" href="#/everywhere/langues"><b>' + esc(t("my_langs")) + "</b><span>" + esc(langName(p.me)) + " ⇄ " + esc(langName(p.other)) + "</span></a>" +
@@ -717,6 +720,7 @@
     if (s === "langues") { langsScreen(root); return t("my_langs"); }
     if (s === "reglages") { settingsScreen(root); return t("settings"); }
     if (s === "voyage" && window.EWVoyage) return window.EWVoyage.show(root, lang);
+    if (s === "partout" && window.EWPartout) return window.EWPartout.show(root, lang, { prefs: prefs, langOptions: langOptions });
     home(root);
     return t("title");
   }

@@ -167,3 +167,14 @@ html.reduce-motion .tr-wave{animation:none;}
 .tr-face.three .tr-big-txt{font-size:19px;}
 .tr-face.three .tr-empty{font-size:14px;margin:4px 0;}
 .tr-tool#trThree[aria-checked="true"]{background:color-mix(in srgb,#9d5cf0 22%,transparent);color:#c79bff;}
+/* PARTOUT : traduire pour SMS, WhatsApp, e-mail, autres applis */
+.pt-tabs{display:flex;gap:6px;margin:12px 0;}
+.pt-tabs button{flex:1;min-height:44px;border-radius:12px;border:1px solid var(--line);background:transparent;color:inherit;font:inherit;font-weight:600;}
+.pt-tabs button[aria-selected="true"]{background:var(--teal);border-color:var(--teal);color:var(--on-primary,#04161a);}
+.pt-text{width:100%;box-sizing:border-box;border-radius:12px;border:1px solid var(--line);background:transparent;color:inherit;font:inherit;font-size:17px;padding:12px;margin-top:8px;resize:vertical;}
+.pt-row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+.pt-row .btn{flex:1 1 120px;}
+.pt-by{margin:14px 0 6px;font-weight:700;}
+.pt-apps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
+.pt-app{text-decoration:none;font-weight:600;white-space:nowrap;}
+.pt-check{display:flex;gap:8px;align-items:center;margin-top:10px;font-size:15px;}
