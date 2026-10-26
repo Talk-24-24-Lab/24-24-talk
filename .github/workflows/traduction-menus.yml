@@ -1,0 +1,65 @@
+# 24/24 ONE WORLD — traduction automatique des menus dans les langues pas encore écrites à la main.
+# Tourne une fois sur GitHub (gratuit pour un dépôt public), jamais sur les téléphones. Résultat : mt/out/<langue>.json.
+name: Traduction des menus
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/project-thread-a9v28q]
+    paths: [mt/translate.py, mt/src.json, mt/jobs.json, .github/workflows/traduction-menus.yml]
+permissions:
+  contents: write
+concurrency: { group: traduction-menus, cancel-in-progress: true }
+jobs:
+  modele:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/cache@v4
+        id: c
+        with: { path: madlad-ct2, key: madlad400-3b-ct2-int8-v1 }
+      - if: steps.c.outputs.cache-hit != 'true'
+        run: |
+          pip install -q "ctranslate2>=4.4" "transformers>=4.44,<5" sentencepiece huggingface_hub torch --extra-index-url https://download.pytorch.org/whl/cpu
+          python - <<'PY'
+          import os, subprocess
+          from huggingface_hub import snapshot_download
+          for repo in ["Nextcloud-AI/madlad400-3b-mt-ct2-int8_float32", "SoybeanMilk/madlad400-3b-mt-ct2-int8_float16"]:
+              try:
+                  p = snapshot_download(repo, local_dir="madlad-ct2")
+                  if os.path.exists("madlad-ct2/model.bin"):
+                      print("modèle prêt :", repo); break
+              except Exception as e:
+                  print("absent :", repo, e)
+          else:
+              subprocess.check_call(["ct2-transformers-converter", "--model", "google/madlad400-3b-mt", "--quantization", "int8",
+                                     "--output_dir", "madlad-ct2", "--low_cpu_mem_usage", "--force"])
+          PY
+          ls -la madlad-ct2
+  traduire:
+    needs: modele
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    strategy:
+      fail-fast: false
+      matrix:
+        part: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache/restore@v4
+        with: { path: madlad-ct2, key: madlad400-3b-ct2-int8-v1, fail-on-cache-miss: true }
+      - run: pip install -q "ctranslate2>=4.4" "transformers>=4.44,<5" sentencepiece
+      - run: python mt/translate.py "$(python -c "import json;print(json.load(open('mt/jobs.json'))[${{ matrix.part }}])")"
+      - uses: actions/upload-artifact@v4
+        with: { name: "mt-${{ matrix.part }}", path: mt-out/ }
+  rassembler:
+    needs: traduire
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { path: arts, pattern: "mt-*", merge-multiple: true }
+      - run: |
+          mkdir -p mt/out && cp arts/*.json mt/out/ && ls mt/out | wc -l
+          git config user.name "github-actions[bot]"; git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add mt/out && git commit -m "Traductions automatiques des menus (MADLAD-400) [skip ci]" && git pull --rebase && git push
