@@ -20,7 +20,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/cache/restore@v4
         with: { path: madlad-ct2, key: madlad400-3b-ct2-int8-v1, fail-on-cache-miss: true }
-      - run: pip install -q "ctranslate2>=4.4" "transformers>=4.44,<5" sentencepiece fasttext-wheel "numpy<2" sacrebleu huggingface_hub
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install -q "ctranslate2>=4.4" "transformers>=4.44,<5" sentencepiece "fasttext-wheel==0.9.2" "numpy<2" sacrebleu huggingface_hub
       - run: python mt/verify.py "$(python -c "import json;print(json.load(open('mt/jobs.json'))[${{ matrix.part }}])")"
       - uses: actions/upload-artifact@v4
         with: { name: "qa-${{ matrix.part }}", path: mt-qa/ }
