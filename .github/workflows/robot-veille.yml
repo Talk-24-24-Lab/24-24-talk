@@ -41,6 +41,7 @@ jobs:
           page "appli" "https://sebastienchevrier.github.io/24-24-talk/"
           page "site monde" "https://sebastienchevrier.github.io/24-24-talk/monde/"
           page "portail" "https://sebastienchevrier.github.io/24-24-talk/everywhere/"
+          page "essai alerte" "https://sebastienchevrier.github.io/24-24-talk/page-qui-n-existe-pas-essai/"
           {
             echo "problemes<<FIN"
             printf "%b" "$problemes"
