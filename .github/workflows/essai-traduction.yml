@@ -2,7 +2,7 @@ name: Essai réel (traduction)
 on:
   push:
     branches: [claude/project-thread-a9v28q]
-    paths: ["essai-reel/traduction.json", "essai-reel/traduction.mjs"]
+    paths: ["essai-reel/traduction.json", "essai-reel/traduction.mjs", "essai-reel/matches.mjs"]
   workflow_dispatch:
 permissions:
   contents: read
@@ -14,4 +14,4 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
-      - run: node essai-reel/traduction.mjs
+      - run: node essai-reel/traduction.mjs && node essai-reel/matches.mjs
