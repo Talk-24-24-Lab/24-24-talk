@@ -1,0 +1,84 @@
+{
+ "phrases": [
+  [
+   "Bonjour, comment vas-tu ?",
+   "fr|es"
+  ],
+  [
+   "Bonjour",
+   "fr|es"
+  ],
+  [
+   "Bonjour, comment vas-tu ?",
+   "fr|en"
+  ],
+  [
+   "Où est la gare ?",
+   "fr|es"
+  ],
+  [
+   "Je t'aime",
+   "fr|it"
+  ],
+  [
+   "Merci beaucoup pour ton aide",
+   "fr|de"
+  ],
+  [
+   "Tu es arrivé à la maison ?",
+   "fr|it"
+  ],
+  [
+   "On se voit demain à 10 heures ?",
+   "fr|pt"
+  ],
+  [
+   "Combien ça coûte ?",
+   "fr|zh-CN"
+  ],
+  [
+   "J'ai besoin d'un médecin",
+   "fr|ar"
+  ],
+  [
+   "Hello, how are you?",
+   "en|fr"
+  ],
+  [
+   "Where is the hotel?",
+   "en|ja"
+  ],
+  [
+   "Can you send me the price list?",
+   "en|es"
+  ],
+  [
+   "Hola, ¿cómo estás?",
+   "es|fr"
+  ],
+  [
+   "Ich komme morgen",
+   "de|fr"
+  ],
+  [
+   "Bonne nuit, à demain",
+   "fr|ru"
+  ],
+  [
+   "Le colis arrive quand ?",
+   "fr|en"
+  ],
+  [
+   "Je suis perdu, pouvez-vous m'aider ?",
+   "fr|th"
+  ],
+  [
+   "Salut, ça va ?",
+   "fr|es"
+  ],
+  [
+   "Tu me manques",
+   "fr|en"
+  ]
+ ]
+}
