@@ -40,13 +40,15 @@ if (cfg.etape === "demander") {
   const recus = [];
   await cb.realtime.setAuth(vb.data.session.access_token);
   const ch = cb.channel("essai-" + ts).on("postgres_changes", { event: "INSERT", schema: "public", table: "messages" }, (p) => recus.push(p.new));
-  await new Promise((res) => ch.subscribe((s) => { if (s === "SUBSCRIBED" || s === "CHANNEL_ERROR" || s === "TIMED_OUT") res(s); }));
+  const etat = await new Promise((res) => { ch.subscribe((s, err) => { if (s === "SUBSCRIBED" || s === "CHANNEL_ERROR" || s === "TIMED_OUT" || s === "CLOSED") res(s + (err ? " " + err.message : "")); }); setTimeout(() => res("pas de réponse en 15 s"), 15000); });
+  ok("B est abonné au temps réel", etat === "SUBSCRIBED", etat);
+  await new Promise((res) => setTimeout(res, 1500));
   const textes = ["Bonjour, comment vas-tu ?", "Message 2", "Message 3", "Message 4", "Message 5"];
   for (const t of textes) {
     const m = await ca.from("messages").insert({ conversation_id: conv, body: t, lang: "fr", kind: "text" }).select("id,created_at").single();
     if (m.error) ok("Envoi « " + t + " »", false, m.error.message);
   }
-  await new Promise((res) => setTimeout(res, 4000));
+  for (let i = 0; i < 20 && recus.length < 5; i++) await new Promise((res) => setTimeout(res, 500));
   const lus = await cb.from("messages").select("id,body,lang,sender_id,created_at").eq("conversation_id", conv).order("created_at", { ascending: true });
   const corps = (lus.data || []).map((m) => m.body);
   ok("B reçoit les 5 messages (lecture)", corps.length === 5, corps.length + " lus");
