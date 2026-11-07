@@ -15,8 +15,8 @@
     gear: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>'
   };
   var LABELS = {
-    fr: { home: "Accueil", apps: "Applications", talk: "Talk", everywhere: "Everywhere", learn: "Learn", profile: "Profil", settings: "Paramètres", nav: "Navigation principale", brand: "24/24 ONE WORLD, accueil" },
-    en: { home: "Home", apps: "Apps", talk: "Talk", everywhere: "Everywhere", learn: "Learn", profile: "Profile", settings: "Settings", nav: "Main navigation", brand: "24/24 ONE WORLD, home" }
+    fr: { home: "One World", apps: "Applications", talk: "Talk", everywhere: "Everywhere", learn: "Learn", profile: "Connect", settings: "Paramètres", nav: "Navigation principale", brand: "24/24 ONE WORLD, accueil" },
+    en: { home: "One World", apps: "Apps", talk: "Talk", everywhere: "Everywhere", learn: "Learn", profile: "Connect", settings: "Settings", nav: "Main navigation", brand: "24/24 ONE WORLD, home" }
   };
   function svg(name) { return '<svg viewBox="0 0 24 24" aria-hidden="true">' + (ICONS[name] || "") + "</svg>"; }
   function langOf() {
@@ -26,7 +26,8 @@
     return /^fr/i.test(l) ? "fr" : "en";
   }
 
-  // Les cinq entrées de la barre du bas (une application, trois interfaces) : Accueil · Everywhere · Learn · Talk · Profil.
+  // Les cinq entrées de la barre du bas : One World (la porte, avec WORLD BRIDGE) · Everywhere · Learn · Talk · Connect (profil,
+  // appareils, sécurité). AI LAB (« Bientôt ») reste sur l'accueil : pas de place pour une entrée vide dans la barre.
   // root = chemin vers la racine du site ; inPortal = liens internes du portail (#/…).
   function items(root, inPortal) {
     var ew = inPortal ? "" : root + "everywhere/";

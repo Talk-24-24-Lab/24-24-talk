@@ -11,8 +11,12 @@
       ideas: "Tuteur de conversation pour LEARN : parler avec une IA qui corrige avec bienveillance.|Résumé et reformulation d'une conversation traduite, à la demande.|Traduction plus naturelle des expressions et du ton (politesse, humour).|Assistant de voyage : préparer les phrases utiles d'un séjour à partir de votre programme.",
       rules_t: "Nos règles avant d'ouvrir AI LAB",
       rules: "Aucune fonction présentée comme disponible tant qu'elle n'est pas testée.|Aucun service payant activé sans l'accord écrit de Sébastien.|Aucune clé secrète dans le site : l'IA passerait par une fonction serveur protégée.|Vos conversations ne servent jamais à entraîner un modèle sans votre accord explicite.",
-      now_t: "Disponible dès aujourd'hui", now: "Pour parler avec quelqu'un dans une autre langue, utilisez EVERYWHERE ; pour apprendre une langue, LEARN.",
-      ew: "Ouvrir EVERYWHERE", learn: "Ouvrir LEARN"
+      now_t: "Disponible dès aujourd'hui", now: "Pour parler tout de suite avec quelqu'un dans une autre langue, utilisez WORLD BRIDGE ou EVERYWHERE ; pour apprendre une langue, LEARN.",
+      ew: "Ouvrir EVERYWHERE", learn: "Ouvrir LEARN",
+      caps_t: "Capacités préparées (aucune n'est branchée)",
+      caps: "Compréhension : reformuler un message mal compris.|Écoute : sous-titres et transcription plus fiables.|Contextualisation : tenir compte du lieu et de la situation (voyage, santé, travail).|Aide : expliquer une expression, la politesse, l'humour.|Apprentissage : un tuteur pour LEARN.|Communication interculturelle : signaler un malentendu possible entre deux cultures.",
+      caps_note: "Techniquement, une IA viendra comme un fournisseur de plus dans l'adaptateur de traduction de ONE WORLD : sans changer l'identité, les relations ni les permissions, et jamais sans votre accord avant l'envoi d'un texte.",
+      bridge: "Ouvrir WORLD BRIDGE"
     },
     en: {
       title: "AI LAB", soon: "COMING SOON", sub: "The innovation space of 24/24 ONE WORLD.",
@@ -21,8 +25,12 @@
       ideas: "Conversation tutor for LEARN: talk with an AI that corrects you kindly.|On-demand summary and rephrasing of a translated conversation.|More natural translation of expressions and tone (politeness, humor).|Travel assistant: prepare useful phrases for a trip from your plans.",
       rules_t: "Our rules before opening AI LAB",
       rules: "No feature shown as available until it is tested.|No paid service turned on without Sébastien's written approval.|No secret key in the site: AI would go through a protected server function.|Your conversations are never used to train a model without your explicit consent.",
-      now_t: "Available today", now: "To talk with someone in another language, use EVERYWHERE; to learn a language, LEARN.",
-      ew: "Open EVERYWHERE", learn: "Open LEARN"
+      now_t: "Available today", now: "To talk right now with someone in another language, use WORLD BRIDGE or EVERYWHERE; to learn a language, LEARN.",
+      ew: "Open EVERYWHERE", learn: "Open LEARN",
+      caps_t: "Prepared capabilities (none is connected)",
+      caps: "Understanding: rephrase a misunderstood message.|Listening: more reliable captions and transcripts.|Context: take place and situation into account (travel, health, work).|Help: explain an expression, politeness, humour.|Learning: a tutor for LEARN.|Intercultural communication: flag a possible misunderstanding between two cultures.",
+      caps_note: "Technically, an AI will come as one more provider in ONE WORLD's translation adapter: without changing identity, relationships or permissions, and never without your consent before a text is sent.",
+      bridge: "Open WORLD BRIDGE"
     }
   };
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
@@ -35,7 +43,8 @@
       '<div class="card"><p>' + esc(S.intro) + "</p></div>" +
       '<div class="card"><h2 class="cx-h">' + esc(S.ideas_t) + "</h2>" + list(S.ideas) + "</div>" +
       '<div class="card"><h2 class="cx-h">' + esc(S.rules_t) + "</h2>" + list(S.rules) + "</div>" +
-      '<div class="card"><h2 class="cx-h">' + esc(S.now_t) + "</h2><p>" + esc(S.now) + '</p><div class="cx-actions"><a class="btn primary" href="#/everywhere">' + esc(S.ew) + '</a><a class="btn" href="#/learn">' + esc(S.learn) + "</a></div></div>";
+      '<div class="card" id="aiCaps"><h2 class="cx-h">' + esc(S.caps_t) + "</h2>" + list(S.caps) + '<p class="note">' + esc(S.caps_note) + "</p></div>" +
+      '<div class="card"><h2 class="cx-h">' + esc(S.now_t) + "</h2><p>" + esc(S.now) + '</p><div class="cx-actions"><a class="btn primary" href="#/bridge">' + esc(S.bridge) + '</a><a class="btn" href="#/everywhere">' + esc(S.ew) + '</a><a class="btn" href="#/learn">' + esc(S.learn) + "</a></div></div>";
     return S.title;
   }
   window.EWAilab = { show: show };

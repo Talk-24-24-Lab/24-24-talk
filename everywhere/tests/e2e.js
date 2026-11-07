@@ -85,16 +85,16 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const light = /rgb\((24[0-9]|25[0-5]), (24[0-9]|25[0-5]), 255\)/.test(c.bg);
     return { ok: light && /31, 95, 224/.test(c.talk) && /12, 125, 69/.test(c.ew) && /107, 63, 214/.test(c.learn), detail: "fond " + c.bg };
   });
-  await step("Barre basse commune : Accueil, Everywhere, Learn, Talk, Profil", async () => {
+  await step("Barre basse commune : One World, Everywhere, Learn, Talk, Connect", async () => {
     const labels = await page.$$eval("#mainnav a", (n) => n.map((a) => a.textContent.trim()));
     const pos = await page.$eval("#mainnav", (n) => { const r = n.getBoundingClientRect(); return { bottom: Math.round(r.bottom), h: innerHeight, dir: getComputedStyle(n).flexDirection }; });
-    return { ok: labels.join(",") === "Accueil,Everywhere,Learn,Talk,Profil" && pos.bottom === pos.h && pos.dir === "row", detail: labels.join(", ") + " · collée en bas" };
+    return { ok: labels.join(",") === "One World,Everywhere,Learn,Talk,Connect" && pos.bottom === pos.h && pos.dir === "row", detail: labels.join(", ") + " · collée en bas" };
   });
   await step("Zones tactiles ≥ 44 px (barre basse, roue dentée)", async () => {
     const sizes = await page.$$eval("#mainnav a, #topSettings", (n) => n.map((a) => { const r = a.getBoundingClientRect(); return Math.min(r.width, r.height); }));
     return { ok: sizes.every((s) => s >= 44), detail: "plus petite : " + Math.round(Math.min.apply(null, sizes)) + " px" };
   });
-  for (const [label, route, view] of [["Everywhere", "#/everywhere", "view-everywhere"], ["Learn", "#/learn", "view-learn"], ["Profil", "#/profil", "view-profil"], ["Accueil", "#/accueil", "view-accueil"]]) {
+  for (const [label, route, view] of [["Everywhere", "#/everywhere", "view-everywhere"], ["Learn", "#/learn", "view-learn"], ["Connect", "#/profil", "view-profil"], ["One World", "#/accueil", "view-accueil"]]) {
     await step("Navigation : " + label, async () => {
       await page.click('#mainnav a[href="' + route + '"]');
       await page.waitForSelector("#" + view + ".active");
@@ -135,7 +135,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
         hero: getComputedStyle(document.querySelector("header.hero-earth")).display === "none",
         sizes: [...nav.querySelectorAll("a")].every((a) => a.getBoundingClientRect().height >= 44) };
     });
-    return { ok: r.shell && r.labels === "Accueil,Everywhere,Learn,Talk,Profil" && r.cur === "talk" && r.bottom && r.top && r.hero && r.sizes, detail: r.labels + " · actif : " + r.cur };
+    return { ok: r.shell && r.labels === "One World,Everywhere,Learn,Talk,Connect" && r.cur === "talk" && r.bottom && r.top && r.hero && r.sizes, detail: r.labels + " · actif : " + r.cur };
   });
   await step("Roue dentée de la coquille dans TALK : ouvre les réglages de TALK", async () => {
     await page.tap("#ewsSettings");
@@ -934,7 +934,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   page = await openPortal(ctx);
   await step("Interface en anglais selon la langue du téléphone", async () => {
     const labels = await page.$$eval("#mainnav a", (n) => n.map((a) => a.textContent.trim()));
-    return { ok: labels.join(",") === "Home,Everywhere,Learn,Talk,Profile", detail: labels.join(", ") };
+    return { ok: labels.join(",") === "One World,Everywhere,Learn,Talk,Connect", detail: labels.join(", ") };
   });
   await ctx.close();
 

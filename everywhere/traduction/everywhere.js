@@ -638,6 +638,11 @@
   window.EWEverywhere = {
     show: show, _strings: STR, prefs: prefs,
     reload: function () { mem = null; }, // le profil linguistique a modifié ew_tr_v1
-    setOther: function (code) { var p = prefs(); if (M.lang(code).name === code) return; if (p.me === code) p.me = p.other; p.other = code; savePrefs(); }
+    setOther: function (code) { var p = prefs(); if (M.lang(code).name === code) return; if (p.me === code) p.me = p.other; p.other = code; savePrefs(); },
+    // WORLD BRIDGE (oneworld/bridge.js) : mêmes langues que la conversation face à face, enregistrées au même endroit.
+    setLangs: function (me, other) {
+      if (M.lang(me).name === me || M.lang(other).name === other || me === other) return;
+      var p = prefs(); p.me = me; p.other = other; savePrefs();
+    }
   };
 })();
