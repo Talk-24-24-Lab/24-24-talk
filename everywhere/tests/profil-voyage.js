@@ -47,6 +47,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     o = o || {};
     const ctx = await browser.newContext(Object.assign({}, PHONE, o.ctx || {}));
     ctx._mm = { mode: o.mm || "ok", n: 0, calls: [] };
+    await ctx.route(/\/vendor\/supabase-js-[\d.]+\.js$/, (r) => r.fulfill({ status: 200, contentType: "text/javascript", body: FAKE }));
     await ctx.route(/^https?:\/\/(?!localhost)/, (r) => {
       const url = r.request().url();
       if (/supabase-js/.test(url)) return r.fulfill({ status: 200, contentType: "text/javascript", body: FAKE });
