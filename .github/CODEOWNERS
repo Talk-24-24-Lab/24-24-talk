@@ -1,0 +1,15 @@
+# 24/24 ONE WORLD — responsables du code (CODEOWNERS)
+# Copyright (c) 2026 Sébastien Chevrier — projet 24/24 ONE WORLD (TALK / EVERYWHERE / LEARN)
+# Titularité revendiquée par Sébastien Chevrier, sous réserve des droits des tiers
+# et des contributions dont le transfert reste à formaliser (directive OW-SEC-001).
+#
+# Ce fichier désigne le responsable qui doit examiner les changements.
+# Il ne constitue pas une preuve de propriété.
+
+# Tout le dépôt
+* @sebastienchevrier
+
+# Fichiers stratégiques (mentionnés explicitement)
+/LICENSE.md @sebastienchevrier
+/.github/ @sebastienchevrier
+/everywhere/config.js @sebastienchevrier
