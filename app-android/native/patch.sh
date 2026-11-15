@@ -13,6 +13,9 @@ add+='    <queries>\n        <intent><action android:name="android.speech.Recogn
 s=s.replace("</manifest>",add+"</manifest>")
 s=s.replace("</application>",'        <service android:name=".OwVeilleService" android:exported="false" android:foregroundServiceType="microphone" />\n    </application>',1); open(p,"w").write(s)
 g="android/app/build.gradle"; t=open(g).read()
+import os, re
+run=os.environ.get("GITHUB_RUN_NUMBER","1")
+t=re.sub(r"versionCode \d+","versionCode "+run,t,1); t=re.sub(r'versionName "[^"]*"','versionName "1.0.'+run+'"',t,1)
 t=t.replace("dependencies {","dependencies {\n    implementation \"androidx.webkit:webkit:1.11.0\"",1); open(g,"w").write(t)
 PY
 rm -rf android/app/src/main/res/mipmap-anydpi-v26
