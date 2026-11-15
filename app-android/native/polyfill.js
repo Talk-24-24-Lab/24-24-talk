@@ -40,7 +40,11 @@
     var self = this, SR = P("SpeechRecognition");
     if (!SR) { setTimeout(function () { self._fire("error", { error: "not-allowed" }); self._fire("end"); }); return; }
     self._live = true; awake(); veille(true);
-    SR.requestPermissions().then(function (p) {
+    // Autorisation déjà donnée : on vérifie seulement (une demande attend que l'écran se rallume).
+    var perm = window.__owMicOk ? Promise.resolve({ speechRecognition: "granted" }) :
+      SR.checkPermissions().then(function (p) { return p && p.speechRecognition === "granted" ? p : SR.requestPermissions(); });
+    perm.then(function (p) {
+      if (p && p.speechRecognition === "granted") window.__owMicOk = true;
       if (p && p.speechRecognition && p.speechRecognition !== "granted") throw { error: "not-allowed" };
       self._fire("start"); self._fire("audiostart"); self._fire("soundstart"); self._fire("speechstart");
       return SR.start({ language: self.lang, maxResults: 1, partialResults: false, popup: false });
