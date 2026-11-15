@@ -1,0 +1,898 @@
+{
+ "welcome_back": [
+  {
+   "text": "Раді знову Вас бачити!",
+   "register": "formal"
+  },
+  {
+   "text": "Радий тебе знову бачити!",
+   "register": "informal"
+  }
+ ],
+ "hello_welcome": [
+  {
+   "text": "Добрий день і ласкаво просимо! Чим можу Вам допомогти?",
+   "register": "formal"
+  },
+  {
+   "text": "Привіт, ласкаво просимо! Чим можу допомогти?",
+   "register": "informal"
+  }
+ ],
+ "have_booking": [
+  {
+   "text": "У Вас є бронювання?",
+   "register": "formal"
+  },
+  {
+   "text": "У тебе є бронь?",
+   "register": "informal"
+  }
+ ],
+ "booking_name": [
+  {
+   "text": "На яке ім'я оформлено бронювання?",
+   "register": "formal"
+  },
+  {
+   "text": "На яке ім'я?",
+   "register": "informal"
+  }
+ ],
+ "passport_id": [
+  {
+   "text": "Можна Ваш паспорт або посвідчення особи, будь ласка?",
+   "register": "formal"
+  },
+  {
+   "text": "Можна твій паспорт або посвідчення особи?",
+   "register": "informal"
+  }
+ ],
+ "fill_form": [
+  {
+   "text": "Заповніть і підпишіть, будь ласка, цю анкету.",
+   "register": "formal"
+  },
+  {
+   "text": "Можеш заповнити й підписати цю анкету?",
+   "register": "informal"
+  }
+ ],
+ "how_many_nights": [
+  {
+   "text": "Скільки ночей Ви у нас пробудете?",
+   "register": "formal"
+  },
+  {
+   "text": "Скільки ночей ти залишаєшся?",
+   "register": "informal"
+  }
+ ],
+ "how_many_people": [
+  {
+   "text": "Скільки буде осіб?",
+   "register": "formal"
+  },
+  {
+   "text": "Скільки вас?",
+   "register": "informal"
+  }
+ ],
+ "room_ready": [
+  {
+   "text": "Ваш номер готовий.",
+   "register": "formal"
+  },
+  {
+   "text": "Твій номер готовий.",
+   "register": "informal"
+  }
+ ],
+ "room_not_ready": [
+  {
+   "text": "Ваш номер ще не готовий. Він буде готовий близько 14:00.",
+   "register": "formal"
+  },
+  {
+   "text": "Твій номер ще не готовий. Він буде готовий близько 14:00.",
+   "register": "informal"
+  }
+ ],
+ "leave_luggage": [
+  {
+   "text": "Поки що можете залишити багаж тут.",
+   "register": "formal"
+  },
+  {
+   "text": "Поки що можеш залишити речі тут.",
+   "register": "informal"
+  }
+ ],
+ "room_number": [
+  {
+   "text": "Ваш номер — 214, на третьому поверсі.",
+   "register": "formal"
+  },
+  {
+   "text": "Твій номер — 214, на третьому поверсі.",
+   "register": "informal"
+  }
+ ],
+ "elevator": [
+  {
+   "text": "Ліфт праворуч.",
+   "register": "formal"
+  }
+ ],
+ "key_card": [
+  {
+   "text": "Ось Ваша картка-ключ. Вона відчиняє номер і ліфт.",
+   "register": "formal"
+  },
+  {
+   "text": "Ось твоя картка-ключ. Вона відчиняє номер і ліфт.",
+   "register": "informal"
+  }
+ ],
+ "wifi_code": [
+  {
+   "text": "Пароль від Wi-Fi написаний на цій картці.",
+   "register": "formal"
+  }
+ ],
+ "breakfast_hours": [
+  {
+   "text": "Сніданок подають з 7:00 до 10:30.",
+   "register": "formal"
+  }
+ ],
+ "checkout_time": [
+  {
+   "text": "Виселення — до 11:00.",
+   "register": "formal"
+  }
+ ],
+ "no_booking_found": [
+  {
+   "text": "Я не можу знайти Ваше бронювання. У Вас є номер підтвердження?",
+   "register": "formal"
+  },
+  {
+   "text": "Не можу знайти твою бронь. У тебе є номер підтвердження?",
+   "register": "informal"
+  }
+ ],
+ "booked_online": [
+  {
+   "text": "У мене бронювання через інтернет.",
+   "register": "formal"
+  }
+ ],
+ "early_checkin": [
+  {
+   "text": "Чи можна заселитися в номер раніше?",
+   "register": "formal"
+  }
+ ],
+ "hotel_full": [
+  {
+   "text": "На жаль, сьогодні ввечері в готелі немає вільних місць.",
+   "register": "formal"
+  }
+ ],
+ "pay_now_or_later": [
+  {
+   "text": "Бажаєте оплатити зараз чи під час виселення?",
+   "register": "formal"
+  },
+  {
+   "text": "Хочеш заплатити зараз чи під час виселення?",
+   "register": "informal"
+  }
+ ],
+ "deposit": [
+  {
+   "text": "Ми беремо заставу 100 євро, яку повертаємо під час виселення.",
+   "register": "formal"
+  }
+ ],
+ "card_or_cash": [
+  {
+   "text": "Ви платитимете карткою чи готівкою?",
+   "register": "formal"
+  },
+  {
+   "text": "Ти платиш карткою чи готівкою?",
+   "register": "informal"
+  }
+ ],
+ "city_tax": [
+  {
+   "text": "Туристичний збір становить 2 євро з особи за ніч.",
+   "register": "formal"
+  }
+ ],
+ "tax_not_included": [
+  {
+   "text": "Туристичний збір не входить у вартість бронювання.",
+   "register": "formal"
+  }
+ ],
+ "card_declined": [
+  {
+   "text": "Вашу картку відхилено. У Вас є інша картка?",
+   "register": "formal"
+  },
+  {
+   "text": "Твою картку відхилено. У тебе є інша?",
+   "register": "informal"
+  }
+ ],
+ "enter_pin": [
+  {
+   "text": "Можете ввести ПІН-код.",
+   "register": "formal"
+  },
+  {
+   "text": "Можеш ввести ПІН-код.",
+   "register": "informal"
+  }
+ ],
+ "receipt": [
+  {
+   "text": "Вам потрібен чек?",
+   "register": "formal"
+  },
+  {
+   "text": "Тобі потрібен чек?",
+   "register": "informal"
+  }
+ ],
+ "invoice_company": [
+  {
+   "text": "Чи можна виставити рахунок на мою компанію?",
+   "register": "formal"
+  }
+ ],
+ "breakfast_included": [
+  {
+   "text": "Сніданок включено?",
+   "register": "formal"
+  }
+ ],
+ "price_night": [
+  {
+   "text": "Скільки коштує одна ніч?",
+   "register": "formal"
+  }
+ ],
+ "cheaper_room": [
+  {
+   "text": "У Вас є дешевший номер?",
+   "register": "formal"
+  }
+ ],
+ "room_view": [
+  {
+   "text": "Вікна номера виходять на море.",
+   "register": "formal"
+  }
+ ],
+ "double_twin": [
+  {
+   "text": "Вам краще одне велике ліжко чи два окремих?",
+   "register": "formal"
+  },
+  {
+   "text": "Тобі одне велике ліжко чи два?",
+   "register": "informal"
+  }
+ ],
+ "extra_bed": [
+  {
+   "text": "Ми можемо поставити додаткове ліжко для дитини.",
+   "register": "formal"
+  }
+ ],
+ "baby_cot": [
+  {
+   "text": "Дитяче ліжечко надається безкоштовно.",
+   "register": "formal"
+  }
+ ],
+ "air_con": [
+  {
+   "text": "Пульт від кондиціонера лежить на приліжковій тумбочці.",
+   "register": "formal"
+  }
+ ],
+ "safe": [
+  {
+   "text": "У шафі є сейф.",
+   "register": "formal"
+  }
+ ],
+ "minibar": [
+  {
+   "text": "Напої з мінібару оплачуються окремо.",
+   "register": "formal"
+  }
+ ],
+ "non_smoking": [
+  {
+   "text": "У всіх номерах палити заборонено.",
+   "register": "formal"
+  }
+ ],
+ "quiet_room": [
+  {
+   "text": "Мені, будь ласка, тихий номер.",
+   "register": "formal"
+  }
+ ],
+ "change_room": [
+  {
+   "text": "Чи можна змінити номер?",
+   "register": "formal"
+  }
+ ],
+ "hair_dryer": [
+  {
+   "text": "Фен у ванній кімнаті.",
+   "register": "formal"
+  }
+ ],
+ "adapter": [
+  {
+   "text": "У Вас є перехідник для розетки?",
+   "register": "formal"
+  }
+ ],
+ "iron": [
+  {
+   "text": "Можна мені праску?",
+   "register": "formal"
+  }
+ ],
+ "extra_pillow": [
+  {
+   "text": "Чи не могли б Ви принести мені ще одну подушку?",
+   "register": "formal"
+  }
+ ],
+ "balcony": [
+  {
+   "text": "У номері є балкон.",
+   "register": "formal"
+  }
+ ],
+ "accessible_room": [
+  {
+   "text": "У нас є номер, пристосований для гостей на візку.",
+   "register": "formal"
+  }
+ ],
+ "housekeeping_time": [
+  {
+   "text": "О котрій годині Вам зручно, щоб прибрали номер?",
+   "register": "formal"
+  },
+  {
+   "text": "О котрій тобі прибрати номер?",
+   "register": "informal"
+  }
+ ],
+ "do_not_disturb": [
+  {
+   "text": "Повісьте на двері табличку «Не турбувати», якщо не хочете, щоб Вас турбували.",
+   "register": "formal"
+  },
+  {
+   "text": "Повісь табличку «Не турбувати», якщо хочеш, щоб тебе не чіпали.",
+   "register": "informal"
+  }
+ ],
+ "clean_now": [
+  {
+   "text": "Можна прибрати номер зараз?",
+   "register": "formal"
+  },
+  {
+   "text": "Можна я зараз приберу?",
+   "register": "informal"
+  }
+ ],
+ "come_back_later": [
+  {
+   "text": "Я зайду пізніше.",
+   "register": "formal"
+  }
+ ],
+ "towels": [
+  {
+   "text": "Можна мені чисті рушники?",
+   "register": "formal"
+  }
+ ],
+ "change_sheets": [
+  {
+   "text": "Постільну білизну міняють кожні три дні.",
+   "register": "formal"
+  }
+ ],
+ "laundry": [
+  {
+   "text": "У нас є послуги пральні. Речі повертаємо наступного дня.",
+   "register": "formal"
+  }
+ ],
+ "toilet_paper": [
+  {
+   "text": "Закінчився туалетний папір.",
+   "register": "formal"
+  }
+ ],
+ "lost_item": [
+  {
+   "text": "Ви щось загубили?",
+   "register": "formal"
+  },
+  {
+   "text": "Ти щось загубив?",
+   "register": "informal"
+  }
+ ],
+ "found_item": [
+  {
+   "text": "Ми знайшли цю річ у Вашому номері.",
+   "register": "formal"
+  },
+  {
+   "text": "Ми знайшли це у твоєму номері.",
+   "register": "informal"
+  }
+ ],
+ "table_for": [
+  {
+   "text": "Столик на скільки осіб?",
+   "register": "formal"
+  },
+  {
+   "text": "Столик на скількох?",
+   "register": "informal"
+  }
+ ],
+ "breakfast_room": [
+  {
+   "text": "Сніданок подають на першому поверсі, поруч зі стійкою реєстрації.",
+   "register": "formal"
+  }
+ ],
+ "buffet": [
+  {
+   "text": "Це шведський стіл — пригощайтеся.",
+   "register": "formal"
+  },
+  {
+   "text": "Це шведський стіл — бери що хочеш.",
+   "register": "informal"
+  }
+ ],
+ "coffee_or_tea": [
+  {
+   "text": "Кава чи чай?",
+   "register": "formal"
+  }
+ ],
+ "allergy": [
+  {
+   "text": "У Вас є харчова алергія?",
+   "register": "formal"
+  },
+  {
+   "text": "У тебе є харчова алергія?",
+   "register": "informal"
+  }
+ ],
+ "vegetarian": [
+  {
+   "text": "У нас є вегетаріанські страви.",
+   "register": "formal"
+  }
+ ],
+ "halal": [
+  {
+   "text": "Це м'ясо халяльне?",
+   "register": "formal"
+  }
+ ],
+ "gluten_free": [
+  {
+   "text": "Я не їм глютен.",
+   "register": "formal"
+  }
+ ],
+ "room_service": [
+  {
+   "text": "Обслуговування в номерах працює до 22:00.",
+   "register": "formal"
+  }
+ ],
+ "charge_room": [
+  {
+   "text": "Записати на Ваш номер?",
+   "register": "formal"
+  },
+  {
+   "text": "Записати на твій номер?",
+   "register": "informal"
+  }
+ ],
+ "restaurant_closed": [
+  {
+   "text": "Ресторан сьогодні ввечері зачинений.",
+   "register": "formal"
+  }
+ ],
+ "recommend_restaurant": [
+  {
+   "text": "Можу порадити Вам гарний ресторан зовсім поруч.",
+   "register": "formal"
+  },
+  {
+   "text": "Можу порадити тобі класний ресторанчик зовсім поруч.",
+   "register": "informal"
+  }
+ ],
+ "enjoy_meal": [
+  {
+   "text": "Смачного!",
+   "register": "formal"
+  }
+ ],
+ "problem_room": [
+  {
+   "text": "У мене проблема в номері.",
+   "register": "formal"
+  }
+ ],
+ "ac_broken": [
+  {
+   "text": "Кондиціонер не працює.",
+   "register": "formal"
+  }
+ ],
+ "no_hot_water": [
+  {
+   "text": "Немає гарячої води.",
+   "register": "formal"
+  }
+ ],
+ "wifi_not_working": [
+  {
+   "text": "Wi-Fi не працює.",
+   "register": "formal"
+  }
+ ],
+ "too_noisy": [
+  {
+   "text": "Занадто шумно, я не можу заснути.",
+   "register": "formal"
+  }
+ ],
+ "room_dirty": [
+  {
+   "text": "У номері брудно.",
+   "register": "formal"
+  }
+ ],
+ "card_not_working": [
+  {
+   "text": "Моя картка більше не відчиняє двері.",
+   "register": "formal"
+  }
+ ],
+ "locked_out": [
+  {
+   "text": "Моя картка залишилася в номері.",
+   "register": "formal"
+  }
+ ],
+ "sorry_problem": [
+  {
+   "text": "Щиро перепрошую за цю проблему.",
+   "register": "formal"
+  }
+ ],
+ "send_technician": [
+  {
+   "text": "Я негайно надішлю когось до Вашого номера.",
+   "register": "formal"
+  },
+  {
+   "text": "Негайно надішлю когось до твого номера.",
+   "register": "informal"
+  }
+ ],
+ "fixed_soon": [
+  {
+   "text": "Це полагодять щонайпізніше за годину.",
+   "register": "formal"
+  }
+ ],
+ "offer_new_room": [
+  {
+   "text": "Можу запропонувати Вам інший номер.",
+   "register": "formal"
+  },
+  {
+   "text": "Можу запропонувати тобі інший номер.",
+   "register": "informal"
+  }
+ ],
+ "compensation": [
+  {
+   "text": "На знак вибачення сніданок для Вас безкоштовний.",
+   "register": "formal"
+  },
+  {
+   "text": "На знак вибачення твій сніданок за наш рахунок.",
+   "register": "informal"
+  }
+ ],
+ "manager": [
+  {
+   "text": "Я хочу поговорити з менеджером.",
+   "register": "formal"
+  }
+ ],
+ "complaint_noted": [
+  {
+   "text": "Вашу скаргу зафіксовано. Менеджер Вам передзвонить.",
+   "register": "formal"
+  },
+  {
+   "text": "Твою скаргу зафіксовано. Менеджер тобі передзвонить.",
+   "register": "informal"
+  }
+ ],
+ "taxi": [
+  {
+   "text": "Викликати Вам таксі?",
+   "register": "formal"
+  },
+  {
+   "text": "Викликати тобі таксі?",
+   "register": "informal"
+  }
+ ],
+ "airport_transfer": [
+  {
+   "text": "У нас є трансфер до аеропорту. Бронювати потрібно напередодні.",
+   "register": "formal"
+  }
+ ],
+ "how_far": [
+  {
+   "text": "Це далеко пішки?",
+   "register": "formal"
+  }
+ ],
+ "ten_minutes_walk": [
+  {
+   "text": "Це десять хвилин пішки.",
+   "register": "formal"
+  }
+ ],
+ "map": [
+  {
+   "text": "Ось мапа міста.",
+   "register": "formal"
+  }
+ ],
+ "bus_stop": [
+  {
+   "text": "Автобусна зупинка просто перед готелем.",
+   "register": "formal"
+  }
+ ],
+ "parking": [
+  {
+   "text": "Паркування коштує 15 євро на добу.",
+   "register": "formal"
+  }
+ ],
+ "nearest_pharmacy": [
+  {
+   "text": "Де найближча аптека?",
+   "register": "formal"
+  }
+ ],
+ "atm": [
+  {
+   "text": "Де можна зняти гроші?",
+   "register": "formal"
+  }
+ ],
+ "book_tour": [
+  {
+   "text": "Я можу забронювати для Вас екскурсію з гідом.",
+   "register": "formal"
+  },
+  {
+   "text": "Можу забронювати тобі екскурсію з гідом.",
+   "register": "informal"
+  }
+ ],
+ "safe_area": [
+  {
+   "text": "Чи безпечний цей район уночі?",
+   "register": "formal"
+  }
+ ],
+ "doctor": [
+  {
+   "text": "Мені потрібен лікар.",
+   "register": "formal"
+  }
+ ],
+ "call_doctor": [
+  {
+   "text": "Я викличу Вам лікаря.",
+   "register": "formal"
+  },
+  {
+   "text": "Я викличу тобі лікаря.",
+   "register": "informal"
+  }
+ ],
+ "emergency": [
+  {
+   "text": "У разі надзвичайної ситуації телефонуйте 112.",
+   "register": "formal"
+  }
+ ],
+ "first_aid": [
+  {
+   "text": "На стійці реєстрації є аптечка першої допомоги.",
+   "register": "formal"
+  }
+ ],
+ "fire_exit": [
+  {
+   "text": "Запасний вихід — у кінці коридору.",
+   "register": "formal"
+  }
+ ],
+ "fire_alarm": [
+  {
+   "text": "Спрацювала пожежна сигналізація: виходьте сходами, не користуйтеся ліфтом.",
+   "register": "formal"
+  }
+ ],
+ "checkout_question": [
+  {
+   "text": "Ви сьогодні виїжджаєте?",
+   "register": "formal"
+  },
+  {
+   "text": "Ти сьогодні виїжджаєш?",
+   "register": "informal"
+  }
+ ],
+ "late_checkout": [
+  {
+   "text": "Чи можна виїхати пізніше?",
+   "register": "formal"
+  }
+ ],
+ "late_checkout_fee": [
+  {
+   "text": "Пізнє виселення до 14:00 коштує 30 євро.",
+   "register": "formal"
+  }
+ ],
+ "minibar_used": [
+  {
+   "text": "Ви брали щось із мінібару?",
+   "register": "formal"
+  },
+  {
+   "text": "Ти брав щось із мінібару?",
+   "register": "informal"
+  }
+ ],
+ "here_invoice": [
+  {
+   "text": "Ось Ваш рахунок.",
+   "register": "formal"
+  },
+  {
+   "text": "Ось твій рахунок.",
+   "register": "informal"
+  }
+ ],
+ "invoice_email": [
+  {
+   "text": "Надіслати Вам рахунок електронною поштою?",
+   "register": "formal"
+  },
+  {
+   "text": "Надіслати тобі рахунок на пошту?",
+   "register": "informal"
+  }
+ ],
+ "keep_luggage_after": [
+  {
+   "text": "Ми можемо зберегти Ваш багаж після виселення.",
+   "register": "formal"
+  },
+  {
+   "text": "Можемо потримати твої речі після виселення.",
+   "register": "informal"
+  }
+ ],
+ "enjoyed_stay": [
+  {
+   "text": "Вам у нас сподобалося?",
+   "register": "formal"
+  },
+  {
+   "text": "Тобі в нас сподобалося?",
+   "register": "informal"
+  }
+ ],
+ "leave_review": [
+  {
+   "text": "Якщо Вам усе сподобалося, можете залишити відгук в інтернеті.",
+   "register": "formal"
+  },
+  {
+   "text": "Якщо тобі все сподобалося, можеш залишити відгук в інтернеті.",
+   "register": "informal"
+  }
+ ],
+ "goodbye": [
+  {
+   "text": "Дякуємо і щасливої дороги!",
+   "register": "formal"
+  }
+ ],
+ "colleague_help": [
+  {
+   "text": "Можеш допомогти мені на рецепції?",
+   "register": "informal"
+  }
+ ],
+ "room_free": [
+  {
+   "text": "Номер 214 вільний і прибраний.",
+   "register": "informal"
+  }
+ ],
+ "guest_waiting": [
+  {
+   "text": "На рецепції чекає гість.",
+   "register": "informal"
+  }
+ ],
+ "vip_arrival": [
+  {
+   "text": "О 15:00 приїжджає важливий гість.",
+   "register": "informal"
+  }
+ ],
+ "shift_change": [
+  {
+   "text": "Я закінчую о 18:00, хто мене змінить?",
+   "register": "informal"
+  }
+ ],
+ "broken_report": [
+  {
+   "text": "У 305-му протікає душ, треба попередити техніка.",
+   "register": "informal"
+  }
+ ]
+}

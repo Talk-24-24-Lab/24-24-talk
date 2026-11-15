@@ -1,0 +1,898 @@
+{
+ "welcome_back": [
+  {
+   "text": "Senang sekali bertemu Bapak/Ibu lagi!",
+   "register": "formal"
+  },
+  {
+   "text": "Senang ketemu kamu lagi!",
+   "register": "informal"
+  }
+ ],
+ "hello_welcome": [
+  {
+   "text": "Selamat datang! Ada yang bisa saya bantu?",
+   "register": "formal"
+  },
+  {
+   "text": "Hai, selamat datang! Ada yang bisa aku bantu?",
+   "register": "informal"
+  }
+ ],
+ "have_booking": [
+  {
+   "text": "Apakah Bapak/Ibu sudah melakukan reservasi?",
+   "register": "formal"
+  },
+  {
+   "text": "Kamu sudah pesan kamar?",
+   "register": "informal"
+  }
+ ],
+ "booking_name": [
+  {
+   "text": "Reservasinya atas nama siapa?",
+   "register": "formal"
+  },
+  {
+   "text": "Pesannya atas nama siapa?",
+   "register": "informal"
+  }
+ ],
+ "passport_id": [
+  {
+   "text": "Boleh saya lihat paspor atau kartu identitas Bapak/Ibu?",
+   "register": "formal"
+  },
+  {
+   "text": "Boleh aku lihat paspor atau KTP kamu?",
+   "register": "informal"
+  }
+ ],
+ "fill_form": [
+  {
+   "text": "Mohon isi dan tanda tangani formulir ini.",
+   "register": "formal"
+  },
+  {
+   "text": "Tolong isi dan tanda tangan formulir ini, ya?",
+   "register": "informal"
+  }
+ ],
+ "how_many_nights": [
+  {
+   "text": "Bapak/Ibu akan menginap berapa malam?",
+   "register": "formal"
+  },
+  {
+   "text": "Kamu nginap berapa malam?",
+   "register": "informal"
+  }
+ ],
+ "how_many_people": [
+  {
+   "text": "Untuk berapa orang?",
+   "register": "formal"
+  },
+  {
+   "text": "Kalian berapa orang?",
+   "register": "informal"
+  }
+ ],
+ "room_ready": [
+  {
+   "text": "Kamar Bapak/Ibu sudah siap.",
+   "register": "formal"
+  },
+  {
+   "text": "Kamarmu sudah siap.",
+   "register": "informal"
+  }
+ ],
+ "room_not_ready": [
+  {
+   "text": "Kamar Bapak/Ibu belum siap. Kamar akan siap sekitar pukul 14.00.",
+   "register": "formal"
+  },
+  {
+   "text": "Kamarmu belum siap. Sekitar jam 14.00 sudah siap.",
+   "register": "informal"
+  }
+ ],
+ "leave_luggage": [
+  {
+   "text": "Sambil menunggu, Bapak/Ibu bisa menitipkan barang bawaan di sini.",
+   "register": "formal"
+  },
+  {
+   "text": "Sambil nunggu, kamu bisa taruh barangmu di sini.",
+   "register": "informal"
+  }
+ ],
+ "room_number": [
+  {
+   "text": "Kamar Bapak/Ibu nomor 214, di lantai dua.",
+   "register": "formal"
+  },
+  {
+   "text": "Kamarmu nomor 214, di lantai dua.",
+   "register": "informal"
+  }
+ ],
+ "elevator": [
+  {
+   "text": "Lift ada di sebelah kanan.",
+   "register": "formal"
+  }
+ ],
+ "key_card": [
+  {
+   "text": "Ini kartu kamar Bapak/Ibu. Kartu ini untuk membuka kamar dan menggunakan lift.",
+   "register": "formal"
+  },
+  {
+   "text": "Ini kartumu. Bisa buat buka kamar dan lift.",
+   "register": "informal"
+  }
+ ],
+ "wifi_code": [
+  {
+   "text": "Kata sandi wifi tertulis di kartu ini.",
+   "register": "formal"
+  }
+ ],
+ "breakfast_hours": [
+  {
+   "text": "Sarapan disajikan dari pukul 07.00 sampai 10.30.",
+   "register": "formal"
+  }
+ ],
+ "checkout_time": [
+  {
+   "text": "Check-out paling lambat pukul 11.00.",
+   "register": "formal"
+  }
+ ],
+ "no_booking_found": [
+  {
+   "text": "Saya tidak menemukan reservasi Bapak/Ibu. Apakah ada nomor konfirmasinya?",
+   "register": "formal"
+  },
+  {
+   "text": "Aku nggak menemukan pesananmu. Kamu punya nomor konfirmasinya?",
+   "register": "informal"
+  }
+ ],
+ "booked_online": [
+  {
+   "text": "Saya pesan lewat internet.",
+   "register": "formal"
+  }
+ ],
+ "early_checkin": [
+  {
+   "text": "Apakah saya bisa masuk kamar lebih awal?",
+   "register": "formal"
+  }
+ ],
+ "hotel_full": [
+  {
+   "text": "Mohon maaf, hotel sudah penuh malam ini.",
+   "register": "formal"
+  }
+ ],
+ "pay_now_or_later": [
+  {
+   "text": "Bapak/Ibu ingin membayar sekarang atau saat check-out?",
+   "register": "formal"
+  },
+  {
+   "text": "Kamu mau bayar sekarang atau pas check-out?",
+   "register": "informal"
+  }
+ ],
+ "deposit": [
+  {
+   "text": "Kami meminta deposit sebesar 100 euro, yang akan dikembalikan saat check-out.",
+   "register": "formal"
+  }
+ ],
+ "card_or_cash": [
+  {
+   "text": "Bapak/Ibu membayar dengan kartu atau tunai?",
+   "register": "formal"
+  },
+  {
+   "text": "Kamu bayar pakai kartu atau tunai?",
+   "register": "informal"
+  }
+ ],
+ "city_tax": [
+  {
+   "text": "Pajak menginap sebesar 2 euro per orang per malam.",
+   "register": "formal"
+  }
+ ],
+ "tax_not_included": [
+  {
+   "text": "Pajak menginap belum termasuk dalam harga reservasi.",
+   "register": "formal"
+  }
+ ],
+ "card_declined": [
+  {
+   "text": "Kartu Bapak/Ibu ditolak. Apakah ada kartu lain?",
+   "register": "formal"
+  },
+  {
+   "text": "Kartumu ditolak. Ada kartu lain?",
+   "register": "informal"
+  }
+ ],
+ "enter_pin": [
+  {
+   "text": "Silakan masukkan PIN Anda.",
+   "register": "formal"
+  },
+  {
+   "text": "Silakan masukin PIN-mu.",
+   "register": "informal"
+  }
+ ],
+ "receipt": [
+  {
+   "text": "Apakah Bapak/Ibu memerlukan kuitansi?",
+   "register": "formal"
+  },
+  {
+   "text": "Kamu mau struk?",
+   "register": "informal"
+  }
+ ],
+ "invoice_company": [
+  {
+   "text": "Bisakah fakturnya dibuat atas nama perusahaan saya?",
+   "register": "formal"
+  }
+ ],
+ "breakfast_included": [
+  {
+   "text": "Apakah sudah termasuk sarapan?",
+   "register": "formal"
+  }
+ ],
+ "price_night": [
+  {
+   "text": "Berapa harga per malam?",
+   "register": "formal"
+  }
+ ],
+ "cheaper_room": [
+  {
+   "text": "Apakah ada kamar yang lebih murah?",
+   "register": "formal"
+  }
+ ],
+ "room_view": [
+  {
+   "text": "Kamar ini menghadap ke laut.",
+   "register": "formal"
+  }
+ ],
+ "double_twin": [
+  {
+   "text": "Bapak/Ibu lebih suka satu tempat tidur besar atau dua tempat tidur terpisah?",
+   "register": "formal"
+  },
+  {
+   "text": "Kamu mau satu kasur besar atau dua kasur?",
+   "register": "informal"
+  }
+ ],
+ "extra_bed": [
+  {
+   "text": "Kami bisa menambahkan tempat tidur untuk anak.",
+   "register": "formal"
+  }
+ ],
+ "baby_cot": [
+  {
+   "text": "Boks bayi tersedia gratis.",
+   "register": "formal"
+  }
+ ],
+ "air_con": [
+  {
+   "text": "Remote AC ada di atas meja samping tempat tidur.",
+   "register": "formal"
+  }
+ ],
+ "safe": [
+  {
+   "text": "Ada brankas di dalam lemari.",
+   "register": "formal"
+  }
+ ],
+ "minibar": [
+  {
+   "text": "Minuman di minibar dikenakan biaya.",
+   "register": "formal"
+  }
+ ],
+ "non_smoking": [
+  {
+   "text": "Semua kamar bebas asap rokok.",
+   "register": "formal"
+  }
+ ],
+ "quiet_room": [
+  {
+   "text": "Saya ingin kamar yang tenang.",
+   "register": "formal"
+  }
+ ],
+ "change_room": [
+  {
+   "text": "Apakah saya bisa pindah kamar?",
+   "register": "formal"
+  }
+ ],
+ "hair_dryer": [
+  {
+   "text": "Pengering rambut ada di kamar mandi.",
+   "register": "formal"
+  }
+ ],
+ "adapter": [
+  {
+   "text": "Apakah ada adaptor colokan listrik?",
+   "register": "formal"
+  }
+ ],
+ "iron": [
+  {
+   "text": "Boleh saya pinjam setrika?",
+   "register": "formal"
+  }
+ ],
+ "extra_pillow": [
+  {
+   "text": "Bisakah tolong bawakan satu bantal tambahan?",
+   "register": "formal"
+  }
+ ],
+ "balcony": [
+  {
+   "text": "Kamar ini memiliki balkon.",
+   "register": "formal"
+  }
+ ],
+ "accessible_room": [
+  {
+   "text": "Kami memiliki kamar yang dapat diakses kursi roda.",
+   "register": "formal"
+  }
+ ],
+ "housekeeping_time": [
+  {
+   "text": "Jam berapa Bapak/Ibu ingin kamarnya dibersihkan?",
+   "register": "formal"
+  },
+  {
+   "text": "Kamu mau kamarnya dibersihkan jam berapa?",
+   "register": "informal"
+  }
+ ],
+ "do_not_disturb": [
+  {
+   "text": "Jika tidak ingin diganggu, silakan gantung tanda \"Jangan Ganggu\" di pintu.",
+   "register": "formal"
+  },
+  {
+   "text": "Kalau nggak mau diganggu, gantung aja tanda \"Jangan Ganggu\".",
+   "register": "informal"
+  }
+ ],
+ "clean_now": [
+  {
+   "text": "Bolehkah saya membersihkan kamar sekarang?",
+   "register": "formal"
+  },
+  {
+   "text": "Boleh aku bersihin kamarnya sekarang?",
+   "register": "informal"
+  }
+ ],
+ "come_back_later": [
+  {
+   "text": "Saya akan kembali nanti.",
+   "register": "formal"
+  }
+ ],
+ "towels": [
+  {
+   "text": "Boleh saya minta handuk bersih?",
+   "register": "formal"
+  }
+ ],
+ "change_sheets": [
+  {
+   "text": "Seprai diganti setiap tiga hari.",
+   "register": "formal"
+  }
+ ],
+ "laundry": [
+  {
+   "text": "Kami memiliki layanan binatu. Cucian dikembalikan keesokan harinya.",
+   "register": "formal"
+  }
+ ],
+ "toilet_paper": [
+  {
+   "text": "Tisu toiletnya habis.",
+   "register": "formal"
+  }
+ ],
+ "lost_item": [
+  {
+   "text": "Apakah Bapak/Ibu kehilangan sesuatu?",
+   "register": "formal"
+  },
+  {
+   "text": "Kamu kehilangan sesuatu?",
+   "register": "informal"
+  }
+ ],
+ "found_item": [
+  {
+   "text": "Kami menemukan barang ini di kamar Bapak/Ibu.",
+   "register": "formal"
+  },
+  {
+   "text": "Kami nemu ini di kamarmu.",
+   "register": "informal"
+  }
+ ],
+ "table_for": [
+  {
+   "text": "Meja untuk berapa orang?",
+   "register": "formal"
+  },
+  {
+   "text": "Mejanya buat berapa orang?",
+   "register": "informal"
+  }
+ ],
+ "breakfast_room": [
+  {
+   "text": "Sarapan disajikan di lantai dasar, di sebelah resepsionis.",
+   "register": "formal"
+  }
+ ],
+ "buffet": [
+  {
+   "text": "Ini prasmanan, silakan ambil sendiri.",
+   "register": "formal"
+  },
+  {
+   "text": "Ini prasmanan, ambil sendiri ya.",
+   "register": "informal"
+  }
+ ],
+ "coffee_or_tea": [
+  {
+   "text": "Kopi atau teh?",
+   "register": "formal"
+  }
+ ],
+ "allergy": [
+  {
+   "text": "Apakah Bapak/Ibu punya alergi makanan?",
+   "register": "formal"
+  },
+  {
+   "text": "Kamu punya alergi makanan?",
+   "register": "informal"
+  }
+ ],
+ "vegetarian": [
+  {
+   "text": "Kami punya hidangan vegetarian.",
+   "register": "formal"
+  }
+ ],
+ "halal": [
+  {
+   "text": "Apakah dagingnya halal?",
+   "register": "formal"
+  }
+ ],
+ "gluten_free": [
+  {
+   "text": "Saya tidak makan gluten.",
+   "register": "formal"
+  }
+ ],
+ "room_service": [
+  {
+   "text": "Layanan kamar tersedia sampai pukul 22.00.",
+   "register": "formal"
+  }
+ ],
+ "charge_room": [
+  {
+   "text": "Apakah saya tagihkan ke kamar Bapak/Ibu?",
+   "register": "formal"
+  },
+  {
+   "text": "Aku masukin ke tagihan kamarmu?",
+   "register": "informal"
+  }
+ ],
+ "restaurant_closed": [
+  {
+   "text": "Restoran tutup malam ini.",
+   "register": "formal"
+  }
+ ],
+ "recommend_restaurant": [
+  {
+   "text": "Saya bisa merekomendasikan restoran yang enak di dekat sini.",
+   "register": "formal"
+  },
+  {
+   "text": "Aku bisa rekomendasiin tempat makan enak dekat sini.",
+   "register": "informal"
+  }
+ ],
+ "enjoy_meal": [
+  {
+   "text": "Selamat menikmati!",
+   "register": "formal"
+  }
+ ],
+ "problem_room": [
+  {
+   "text": "Ada masalah di kamar saya.",
+   "register": "formal"
+  }
+ ],
+ "ac_broken": [
+  {
+   "text": "AC-nya tidak berfungsi.",
+   "register": "formal"
+  }
+ ],
+ "no_hot_water": [
+  {
+   "text": "Tidak ada air panas.",
+   "register": "formal"
+  }
+ ],
+ "wifi_not_working": [
+  {
+   "text": "Wifi-nya tidak bisa.",
+   "register": "formal"
+  }
+ ],
+ "too_noisy": [
+  {
+   "text": "Terlalu bising, saya tidak bisa tidur.",
+   "register": "formal"
+  }
+ ],
+ "room_dirty": [
+  {
+   "text": "Kamarnya tidak bersih.",
+   "register": "formal"
+  }
+ ],
+ "card_not_working": [
+  {
+   "text": "Kartu saya tidak bisa membuka pintu lagi.",
+   "register": "formal"
+  }
+ ],
+ "locked_out": [
+  {
+   "text": "Kartu saya tertinggal di dalam kamar.",
+   "register": "formal"
+  }
+ ],
+ "sorry_problem": [
+  {
+   "text": "Saya benar-benar mohon maaf atas masalah ini.",
+   "register": "formal"
+  }
+ ],
+ "send_technician": [
+  {
+   "text": "Saya segera mengirim petugas ke kamar Bapak/Ibu.",
+   "register": "formal"
+  },
+  {
+   "text": "Aku langsung kirim orang ke kamarmu.",
+   "register": "informal"
+  }
+ ],
+ "fixed_soon": [
+  {
+   "text": "Paling lambat dalam satu jam akan selesai diperbaiki.",
+   "register": "formal"
+  }
+ ],
+ "offer_new_room": [
+  {
+   "text": "Saya tawarkan kamar lain untuk Bapak/Ibu.",
+   "register": "formal"
+  },
+  {
+   "text": "Aku kasih kamu kamar lain, ya.",
+   "register": "informal"
+  }
+ ],
+ "compensation": [
+  {
+   "text": "Sebagai permohonan maaf, sarapan Bapak/Ibu kami berikan gratis.",
+   "register": "formal"
+  },
+  {
+   "text": "Sebagai permintaan maaf, sarapanmu gratis.",
+   "register": "informal"
+  }
+ ],
+ "manager": [
+  {
+   "text": "Saya ingin bicara dengan manajernya.",
+   "register": "formal"
+  }
+ ],
+ "complaint_noted": [
+  {
+   "text": "Keluhan Bapak/Ibu sudah saya catat. Manajer akan menghubungi Bapak/Ibu kembali.",
+   "register": "formal"
+  },
+  {
+   "text": "Keluhanmu sudah aku catat. Manajer nanti telepon kamu balik.",
+   "register": "informal"
+  }
+ ],
+ "taxi": [
+  {
+   "text": "Apakah Bapak/Ibu ingin saya panggilkan taksi?",
+   "register": "formal"
+  },
+  {
+   "text": "Mau aku panggilin taksi?",
+   "register": "informal"
+  }
+ ],
+ "airport_transfer": [
+  {
+   "text": "Kami menyediakan antar-jemput ke bandara. Harus dipesan sehari sebelumnya.",
+   "register": "formal"
+  }
+ ],
+ "how_far": [
+  {
+   "text": "Apakah jauh kalau jalan kaki?",
+   "register": "formal"
+  }
+ ],
+ "ten_minutes_walk": [
+  {
+   "text": "Sekitar sepuluh menit jalan kaki.",
+   "register": "formal"
+  }
+ ],
+ "map": [
+  {
+   "text": "Ini peta kota.",
+   "register": "formal"
+  }
+ ],
+ "bus_stop": [
+  {
+   "text": "Halte bus ada tepat di depan hotel.",
+   "register": "formal"
+  }
+ ],
+ "parking": [
+  {
+   "text": "Biaya parkir 15 euro per hari.",
+   "register": "formal"
+  }
+ ],
+ "nearest_pharmacy": [
+  {
+   "text": "Di mana apotek terdekat?",
+   "register": "formal"
+  }
+ ],
+ "atm": [
+  {
+   "text": "Di mana saya bisa mengambil uang?",
+   "register": "formal"
+  }
+ ],
+ "book_tour": [
+  {
+   "text": "Saya bisa memesankan tur berpemandu untuk Bapak/Ibu.",
+   "register": "formal"
+  },
+  {
+   "text": "Aku bisa pesenin kamu tur berpemandu.",
+   "register": "informal"
+  }
+ ],
+ "safe_area": [
+  {
+   "text": "Apakah daerah ini aman di malam hari?",
+   "register": "formal"
+  }
+ ],
+ "doctor": [
+  {
+   "text": "Saya perlu dokter.",
+   "register": "formal"
+  }
+ ],
+ "call_doctor": [
+  {
+   "text": "Saya panggilkan dokter untuk Bapak/Ibu.",
+   "register": "formal"
+  },
+  {
+   "text": "Aku panggilin dokter buat kamu.",
+   "register": "informal"
+  }
+ ],
+ "emergency": [
+  {
+   "text": "Dalam keadaan darurat, hubungi 112.",
+   "register": "formal"
+  }
+ ],
+ "first_aid": [
+  {
+   "text": "Kami memiliki kotak P3K di resepsionis.",
+   "register": "formal"
+  }
+ ],
+ "fire_exit": [
+  {
+   "text": "Pintu darurat ada di ujung lorong.",
+   "register": "formal"
+  }
+ ],
+ "fire_alarm": [
+  {
+   "text": "Alarm kebakaran berbunyi: keluarlah lewat tangga, jangan pakai lift.",
+   "register": "formal"
+  }
+ ],
+ "checkout_question": [
+  {
+   "text": "Apakah Bapak/Ibu check-out hari ini?",
+   "register": "formal"
+  },
+  {
+   "text": "Kamu pergi hari ini?",
+   "register": "informal"
+  }
+ ],
+ "late_checkout": [
+  {
+   "text": "Apakah saya bisa check-out lebih lambat?",
+   "register": "formal"
+  }
+ ],
+ "late_checkout_fee": [
+  {
+   "text": "Late check-out sampai pukul 14.00 dikenakan biaya 30 euro.",
+   "register": "formal"
+  }
+ ],
+ "minibar_used": [
+  {
+   "text": "Apakah Bapak/Ibu mengambil sesuatu dari minibar?",
+   "register": "formal"
+  },
+  {
+   "text": "Kamu ambil sesuatu dari minibar?",
+   "register": "informal"
+  }
+ ],
+ "here_invoice": [
+  {
+   "text": "Ini tagihan Bapak/Ibu.",
+   "register": "formal"
+  },
+  {
+   "text": "Ini tagihanmu.",
+   "register": "informal"
+  }
+ ],
+ "invoice_email": [
+  {
+   "text": "Apakah Bapak/Ibu ingin tagihannya dikirim lewat email?",
+   "register": "formal"
+  },
+  {
+   "text": "Mau tagihannya dikirim lewat email?",
+   "register": "informal"
+  }
+ ],
+ "keep_luggage_after": [
+  {
+   "text": "Kami bisa menyimpan barang bawaan Bapak/Ibu setelah check-out.",
+   "register": "formal"
+  },
+  {
+   "text": "Kami bisa simpan barangmu setelah check-out.",
+   "register": "informal"
+  }
+ ],
+ "enjoyed_stay": [
+  {
+   "text": "Apakah Bapak/Ibu menikmati masa menginap di sini?",
+   "register": "formal"
+  },
+  {
+   "text": "Nginapnya menyenangkan?",
+   "register": "informal"
+  }
+ ],
+ "leave_review": [
+  {
+   "text": "Jika Bapak/Ibu puas, silakan tinggalkan ulasan di internet.",
+   "register": "formal"
+  },
+  {
+   "text": "Kalau kamu puas, kamu bisa kasih ulasan di internet.",
+   "register": "informal"
+  }
+ ],
+ "goodbye": [
+  {
+   "text": "Terima kasih dan selamat jalan!",
+   "register": "formal"
+  }
+ ],
+ "colleague_help": [
+  {
+   "text": "Bisa bantu aku di resepsionis?",
+   "register": "informal"
+  }
+ ],
+ "room_free": [
+  {
+   "text": "Kamar 214 kosong dan sudah bersih.",
+   "register": "informal"
+  }
+ ],
+ "guest_waiting": [
+  {
+   "text": "Ada tamu yang menunggu di resepsionis.",
+   "register": "informal"
+  }
+ ],
+ "vip_arrival": [
+  {
+   "text": "Ada tamu penting datang jam 15.00.",
+   "register": "informal"
+  }
+ ],
+ "shift_change": [
+  {
+   "text": "Aku selesai jam 18.00, siapa yang gantiin aku?",
+   "register": "informal"
+  }
+ ],
+ "broken_report": [
+  {
+   "text": "Shower di 305 bocor, harus kasih tahu teknisi.",
+   "register": "informal"
+  }
+ ]
+}

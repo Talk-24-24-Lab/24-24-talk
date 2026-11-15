@@ -1,0 +1,898 @@
+{
+ "welcome_back": [
+  {
+   "text": "כמה טוב לראות אותך שוב!",
+   "register": "formal"
+  },
+  {
+   "text": "כיף לראות אותך שוב!",
+   "register": "informal"
+  }
+ ],
+ "hello_welcome": [
+  {
+   "text": "שלום וברוכים הבאים! במה אפשר לעזור לך?",
+   "register": "formal"
+  },
+  {
+   "text": "היי, ברוך הבא! אפשר לעזור לך?",
+   "register": "informal"
+  }
+ ],
+ "have_booking": [
+  {
+   "text": "האם יש לך הזמנה?",
+   "register": "formal"
+  },
+  {
+   "text": "יש לך הזמנה?",
+   "register": "informal"
+  }
+ ],
+ "booking_name": [
+  {
+   "text": "על איזה שם ההזמנה, בבקשה?",
+   "register": "formal"
+  },
+  {
+   "text": "על איזה שם?",
+   "register": "informal"
+  }
+ ],
+ "passport_id": [
+  {
+   "text": "אפשר לראות את הדרכון או את תעודת הזהות שלך, בבקשה?",
+   "register": "formal"
+  },
+  {
+   "text": "אפשר לראות דרכון או תעודת זהות?",
+   "register": "informal"
+  }
+ ],
+ "fill_form": [
+  {
+   "text": "תוכל בבקשה למלא ולחתום על הטופס הזה?",
+   "register": "formal"
+  },
+  {
+   "text": "תמלא ותחתום על הטופס הזה?",
+   "register": "informal"
+  }
+ ],
+ "how_many_nights": [
+  {
+   "text": "כמה לילות תשהה אצלנו?",
+   "register": "formal"
+  },
+  {
+   "text": "כמה לילות אתה נשאר?",
+   "register": "informal"
+  }
+ ],
+ "how_many_people": [
+  {
+   "text": "לכמה אנשים, בבקשה?",
+   "register": "formal"
+  },
+  {
+   "text": "כמה אתם?",
+   "register": "informal"
+  }
+ ],
+ "room_ready": [
+  {
+   "text": "החדר שלך מוכן.",
+   "register": "formal"
+  },
+  {
+   "text": "החדר מוכן לך.",
+   "register": "informal"
+  }
+ ],
+ "room_not_ready": [
+  {
+   "text": "החדר שלך עדיין לא מוכן. הוא יהיה מוכן בסביבות 14:00.",
+   "register": "formal"
+  },
+  {
+   "text": "החדר עוד לא מוכן. הוא יהיה מוכן בסביבות 14:00.",
+   "register": "informal"
+  }
+ ],
+ "leave_luggage": [
+  {
+   "text": "בינתיים אפשר להשאיר כאן את המזוודות.",
+   "register": "formal"
+  },
+  {
+   "text": "בינתיים אתה יכול להשאיר פה את התיקים.",
+   "register": "informal"
+  }
+ ],
+ "room_number": [
+  {
+   "text": "החדר שלך הוא מספר 214, בקומה השנייה.",
+   "register": "formal"
+  },
+  {
+   "text": "החדר שלך זה 214, בקומה השנייה.",
+   "register": "informal"
+  }
+ ],
+ "elevator": [
+  {
+   "text": "המעלית נמצאת מימין.",
+   "register": "formal"
+  }
+ ],
+ "key_card": [
+  {
+   "text": "הנה הכרטיס שלך. הוא פותח את החדר ואת המעלית.",
+   "register": "formal"
+  },
+  {
+   "text": "קח, זה הכרטיס שלך. הוא פותח את החדר ואת המעלית.",
+   "register": "informal"
+  }
+ ],
+ "wifi_code": [
+  {
+   "text": "הסיסמה של ה-Wi-Fi כתובה על הכרטיס הזה.",
+   "register": "formal"
+  }
+ ],
+ "breakfast_hours": [
+  {
+   "text": "ארוחת הבוקר מוגשת מ-7:00 עד 10:30.",
+   "register": "formal"
+  }
+ ],
+ "checkout_time": [
+  {
+   "text": "הצ'ק-אאוט הוא עד השעה 11:00.",
+   "register": "formal"
+  }
+ ],
+ "no_booking_found": [
+  {
+   "text": "אני לא מוצא את ההזמנה שלך. האם יש לך מספר אישור?",
+   "register": "formal"
+  },
+  {
+   "text": "אני לא מוצא את ההזמנה שלך. יש לך מספר אישור?",
+   "register": "informal"
+  }
+ ],
+ "booked_online": [
+  {
+   "text": "הזמנתי דרך האינטרנט.",
+   "register": "formal"
+  }
+ ],
+ "early_checkin": [
+  {
+   "text": "אפשר להיכנס לחדר מוקדם יותר?",
+   "register": "formal"
+  }
+ ],
+ "hotel_full": [
+  {
+   "text": "מצטערים, המלון מלא הלילה.",
+   "register": "formal"
+  }
+ ],
+ "pay_now_or_later": [
+  {
+   "text": "תרצה לשלם עכשיו או בעזיבה?",
+   "register": "formal"
+  },
+  {
+   "text": "אתה מעדיף לשלם עכשיו או בעזיבה?",
+   "register": "informal"
+  }
+ ],
+ "deposit": [
+  {
+   "text": "אנחנו גובים פיקדון של 100 יורו, שמוחזר בעזיבה.",
+   "register": "formal"
+  }
+ ],
+ "card_or_cash": [
+  {
+   "text": "התשלום יהיה בכרטיס או במזומן?",
+   "register": "formal"
+  },
+  {
+   "text": "אתה משלם בכרטיס או במזומן?",
+   "register": "informal"
+  }
+ ],
+ "city_tax": [
+  {
+   "text": "מס התיירות הוא 2 יורו לאדם ללילה.",
+   "register": "formal"
+  }
+ ],
+ "tax_not_included": [
+  {
+   "text": "מס התיירות אינו כלול במחיר ההזמנה.",
+   "register": "formal"
+  }
+ ],
+ "card_declined": [
+  {
+   "text": "הכרטיס שלך נדחה. האם יש לך כרטיס אחר?",
+   "register": "formal"
+  },
+  {
+   "text": "הכרטיס שלך לא עבר. יש לך כרטיס אחר?",
+   "register": "informal"
+  }
+ ],
+ "enter_pin": [
+  {
+   "text": "אפשר להקיש את הקוד.",
+   "register": "formal"
+  },
+  {
+   "text": "אתה יכול להקיש את הקוד.",
+   "register": "informal"
+  }
+ ],
+ "receipt": [
+  {
+   "text": "תרצה קבלה?",
+   "register": "formal"
+  },
+  {
+   "text": "אתה רוצה קבלה?",
+   "register": "informal"
+  }
+ ],
+ "invoice_company": [
+  {
+   "text": "אפשר להוציא את החשבונית על שם החברה שלי?",
+   "register": "formal"
+  }
+ ],
+ "breakfast_included": [
+  {
+   "text": "ארוחת הבוקר כלולה?",
+   "register": "formal"
+  }
+ ],
+ "price_night": [
+  {
+   "text": "כמה עולה לילה?",
+   "register": "formal"
+  }
+ ],
+ "cheaper_room": [
+  {
+   "text": "יש לכם חדר זול יותר?",
+   "register": "formal"
+  }
+ ],
+ "room_view": [
+  {
+   "text": "החדר פונה לים.",
+   "register": "formal"
+  }
+ ],
+ "double_twin": [
+  {
+   "text": "תעדיף מיטה זוגית או שתי מיטות נפרדות?",
+   "register": "formal"
+  },
+  {
+   "text": "אתה מעדיף מיטה זוגית או שתי מיטות?",
+   "register": "informal"
+  }
+ ],
+ "extra_bed": [
+  {
+   "text": "אנחנו יכולים להוסיף מיטה לילד.",
+   "register": "formal"
+  }
+ ],
+ "baby_cot": [
+  {
+   "text": "עריסה לתינוק זמינה ללא תשלום.",
+   "register": "formal"
+  }
+ ],
+ "air_con": [
+  {
+   "text": "השלט של המזגן נמצא על השידה שליד המיטה.",
+   "register": "formal"
+  }
+ ],
+ "safe": [
+  {
+   "text": "יש כספת בארון.",
+   "register": "formal"
+  }
+ ],
+ "minibar": [
+  {
+   "text": "המשקאות במיני-בר בתשלום.",
+   "register": "formal"
+  }
+ ],
+ "non_smoking": [
+  {
+   "text": "העישון אסור בכל החדרים.",
+   "register": "formal"
+  }
+ ],
+ "quiet_room": [
+  {
+   "text": "הייתי רוצה חדר שקט, בבקשה.",
+   "register": "formal"
+  }
+ ],
+ "change_room": [
+  {
+   "text": "אפשר להחליף חדר?",
+   "register": "formal"
+  }
+ ],
+ "hair_dryer": [
+  {
+   "text": "מייבש השיער נמצא בחדר הרחצה.",
+   "register": "formal"
+  }
+ ],
+ "adapter": [
+  {
+   "text": "יש לכם מתאם לשקע חשמל?",
+   "register": "formal"
+  }
+ ],
+ "iron": [
+  {
+   "text": "אפשר לקבל מגהץ?",
+   "register": "formal"
+  }
+ ],
+ "extra_pillow": [
+  {
+   "text": "תוכלו להביא לי כרית נוספת?",
+   "register": "formal"
+  }
+ ],
+ "balcony": [
+  {
+   "text": "בחדר יש מרפסת.",
+   "register": "formal"
+  }
+ ],
+ "accessible_room": [
+  {
+   "text": "יש לנו חדר נגיש לכיסא גלגלים.",
+   "register": "formal"
+  }
+ ],
+ "housekeeping_time": [
+  {
+   "text": "באיזו שעה תרצה שננקה את החדר?",
+   "register": "formal"
+  },
+  {
+   "text": "מתי אתה רוצה שננקה?",
+   "register": "informal"
+  }
+ ],
+ "do_not_disturb": [
+  {
+   "text": "אם אינך רוצה שיפריעו לך, תלה על הדלת את השלט \"נא לא להפריע\".",
+   "register": "formal"
+  },
+  {
+   "text": "תתלה את השלט \"נא לא להפריע\" אם אתה רוצה שקט.",
+   "register": "informal"
+  }
+ ],
+ "clean_now": [
+  {
+   "text": "אפשר לנקות את החדר עכשיו?",
+   "register": "formal"
+  },
+  {
+   "text": "אני יכול לנקות עכשיו?",
+   "register": "informal"
+  }
+ ],
+ "come_back_later": [
+  {
+   "text": "אחזור מאוחר יותר.",
+   "register": "formal"
+  }
+ ],
+ "towels": [
+  {
+   "text": "אפשר לקבל מגבות נקיות?",
+   "register": "formal"
+  }
+ ],
+ "change_sheets": [
+  {
+   "text": "המצעים מוחלפים כל שלושה ימים.",
+   "register": "formal"
+  }
+ ],
+ "laundry": [
+  {
+   "text": "יש לנו שירות כביסה. הכביסה מוחזרת למחרת.",
+   "register": "formal"
+  }
+ ],
+ "toilet_paper": [
+  {
+   "text": "נגמר נייר הטואלט.",
+   "register": "formal"
+  }
+ ],
+ "lost_item": [
+  {
+   "text": "האם איבדת משהו?",
+   "register": "formal"
+  },
+  {
+   "text": "איבדת משהו?",
+   "register": "informal"
+  }
+ ],
+ "found_item": [
+  {
+   "text": "מצאנו את הפריט הזה בחדר שלך.",
+   "register": "formal"
+  },
+  {
+   "text": "מצאנו את זה בחדר שלך.",
+   "register": "informal"
+  }
+ ],
+ "table_for": [
+  {
+   "text": "שולחן לכמה אנשים?",
+   "register": "formal"
+  },
+  {
+   "text": "שולחן לכמה?",
+   "register": "informal"
+  }
+ ],
+ "breakfast_room": [
+  {
+   "text": "ארוחת הבוקר מוגשת בקומת הקרקע, ליד הקבלה.",
+   "register": "formal"
+  }
+ ],
+ "buffet": [
+  {
+   "text": "זה בופה, בבקשה תתכבדו.",
+   "register": "formal"
+  },
+  {
+   "text": "זה בופה, תיקח מה שאתה רוצה.",
+   "register": "informal"
+  }
+ ],
+ "coffee_or_tea": [
+  {
+   "text": "קפה או תה?",
+   "register": "formal"
+  }
+ ],
+ "allergy": [
+  {
+   "text": "האם יש לך אלרגיה למזון?",
+   "register": "formal"
+  },
+  {
+   "text": "יש לך אלרגיה למזון?",
+   "register": "informal"
+  }
+ ],
+ "vegetarian": [
+  {
+   "text": "יש לנו מנות צמחוניות.",
+   "register": "formal"
+  }
+ ],
+ "halal": [
+  {
+   "text": "הבשר חלאל?",
+   "register": "formal"
+  }
+ ],
+ "gluten_free": [
+  {
+   "text": "אני לא אוכל גלוטן.",
+   "register": "formal"
+  }
+ ],
+ "room_service": [
+  {
+   "text": "שירות החדרים זמין עד 22:00.",
+   "register": "formal"
+  }
+ ],
+ "charge_room": [
+  {
+   "text": "לרשום את זה על החדר שלך?",
+   "register": "formal"
+  },
+  {
+   "text": "לרשום לך על החדר?",
+   "register": "informal"
+  }
+ ],
+ "restaurant_closed": [
+  {
+   "text": "המסעדה סגורה הערב.",
+   "register": "formal"
+  }
+ ],
+ "recommend_restaurant": [
+  {
+   "text": "אוכל להמליץ לך על מסעדה טובה ממש קרוב.",
+   "register": "formal"
+  },
+  {
+   "text": "אני יכול להמליץ לך על מסעדה טובה ממש פה ליד.",
+   "register": "informal"
+  }
+ ],
+ "enjoy_meal": [
+  {
+   "text": "בתיאבון!",
+   "register": "formal"
+  }
+ ],
+ "problem_room": [
+  {
+   "text": "יש בעיה בחדר שלי.",
+   "register": "formal"
+  }
+ ],
+ "ac_broken": [
+  {
+   "text": "המזגן לא עובד.",
+   "register": "formal"
+  }
+ ],
+ "no_hot_water": [
+  {
+   "text": "אין מים חמים.",
+   "register": "formal"
+  }
+ ],
+ "wifi_not_working": [
+  {
+   "text": "ה-Wi-Fi לא עובד.",
+   "register": "formal"
+  }
+ ],
+ "too_noisy": [
+  {
+   "text": "רועש מדי, אני לא מצליח להירדם.",
+   "register": "formal"
+  }
+ ],
+ "room_dirty": [
+  {
+   "text": "החדר לא נקי.",
+   "register": "formal"
+  }
+ ],
+ "card_not_working": [
+  {
+   "text": "הכרטיס שלי כבר לא פותח את הדלת.",
+   "register": "formal"
+  }
+ ],
+ "locked_out": [
+  {
+   "text": "השארתי את הכרטיס בחדר.",
+   "register": "formal"
+  }
+ ],
+ "sorry_problem": [
+  {
+   "text": "אני באמת מצטער על הבעיה.",
+   "register": "formal"
+  }
+ ],
+ "send_technician": [
+  {
+   "text": "אני שולח מישהו לחדר שלך מיד.",
+   "register": "formal"
+  },
+  {
+   "text": "אני שולח לך מישהו לחדר מיד.",
+   "register": "informal"
+  }
+ ],
+ "fixed_soon": [
+  {
+   "text": "זה יתוקן תוך שעה לכל המאוחר.",
+   "register": "formal"
+  }
+ ],
+ "offer_new_room": [
+  {
+   "text": "אני יכול להציע לך חדר אחר.",
+   "register": "formal"
+  },
+  {
+   "text": "אני מציע לך חדר אחר.",
+   "register": "informal"
+  }
+ ],
+ "compensation": [
+  {
+   "text": "כהתנצלות, ארוחת הבוקר שלך על חשבוננו.",
+   "register": "formal"
+  },
+  {
+   "text": "כהתנצלות, ארוחת הבוקר שלך עלינו.",
+   "register": "informal"
+  }
+ ],
+ "manager": [
+  {
+   "text": "הייתי רוצה לדבר עם האחראי.",
+   "register": "formal"
+  }
+ ],
+ "complaint_noted": [
+  {
+   "text": "רשמתי את התלונה שלך. האחראי יחזור אליך.",
+   "register": "formal"
+  },
+  {
+   "text": "רשמתי את התלונה, האחראי יתקשר אליך.",
+   "register": "informal"
+  }
+ ],
+ "taxi": [
+  {
+   "text": "תרצה שאזמין לך מונית?",
+   "register": "formal"
+  },
+  {
+   "text": "אתה רוצה שאזמין לך מונית?",
+   "register": "informal"
+  }
+ ],
+ "airport_transfer": [
+  {
+   "text": "יש לנו הסעה לשדה התעופה. יש להזמין יום מראש.",
+   "register": "formal"
+  }
+ ],
+ "how_far": [
+  {
+   "text": "זה רחוק ברגל?",
+   "register": "formal"
+  }
+ ],
+ "ten_minutes_walk": [
+  {
+   "text": "זה עשר דקות הליכה.",
+   "register": "formal"
+  }
+ ],
+ "map": [
+  {
+   "text": "הנה מפה של העיר.",
+   "register": "formal"
+  }
+ ],
+ "bus_stop": [
+  {
+   "text": "תחנת האוטובוס נמצאת ממש מול המלון.",
+   "register": "formal"
+  }
+ ],
+ "parking": [
+  {
+   "text": "החניה עולה 15 יורו ליום.",
+   "register": "formal"
+  }
+ ],
+ "nearest_pharmacy": [
+  {
+   "text": "איפה בית המרקחת הקרוב?",
+   "register": "formal"
+  }
+ ],
+ "atm": [
+  {
+   "text": "איפה אפשר למשוך כסף?",
+   "register": "formal"
+  }
+ ],
+ "book_tour": [
+  {
+   "text": "אני יכול להזמין עבורך סיור מודרך.",
+   "register": "formal"
+  },
+  {
+   "text": "אני יכול להזמין לך סיור מודרך.",
+   "register": "informal"
+  }
+ ],
+ "safe_area": [
+  {
+   "text": "האזור בטוח בלילה?",
+   "register": "formal"
+  }
+ ],
+ "doctor": [
+  {
+   "text": "אני צריך רופא.",
+   "register": "formal"
+  }
+ ],
+ "call_doctor": [
+  {
+   "text": "אני מזמין עבורך רופא.",
+   "register": "formal"
+  },
+  {
+   "text": "אני מזמין לך רופא.",
+   "register": "informal"
+  }
+ ],
+ "emergency": [
+  {
+   "text": "במקרה חירום, חייגו 112.",
+   "register": "formal"
+  }
+ ],
+ "first_aid": [
+  {
+   "text": "יש לנו ערכת עזרה ראשונה בקבלה.",
+   "register": "formal"
+  }
+ ],
+ "fire_exit": [
+  {
+   "text": "יציאת החירום נמצאת בסוף המסדרון.",
+   "register": "formal"
+  }
+ ],
+ "fire_alarm": [
+  {
+   "text": "אזעקת האש פועלת: צאו דרך המדרגות, לא במעלית.",
+   "register": "formal"
+  }
+ ],
+ "checkout_question": [
+  {
+   "text": "האם אתה עוזב היום?",
+   "register": "formal"
+  },
+  {
+   "text": "אתה עוזב היום?",
+   "register": "informal"
+  }
+ ],
+ "late_checkout": [
+  {
+   "text": "אפשר לעזוב מאוחר יותר?",
+   "register": "formal"
+  }
+ ],
+ "late_checkout_fee": [
+  {
+   "text": "צ'ק-אאוט מאוחר עד 14:00 עולה 30 יורו.",
+   "register": "formal"
+  }
+ ],
+ "minibar_used": [
+  {
+   "text": "האם לקחת משהו מהמיני-בר?",
+   "register": "formal"
+  },
+  {
+   "text": "לקחת משהו מהמיני-בר?",
+   "register": "informal"
+  }
+ ],
+ "here_invoice": [
+  {
+   "text": "הנה החשבונית שלך.",
+   "register": "formal"
+  },
+  {
+   "text": "קח, החשבונית שלך.",
+   "register": "informal"
+  }
+ ],
+ "invoice_email": [
+  {
+   "text": "תרצה לקבל את החשבונית במייל?",
+   "register": "formal"
+  },
+  {
+   "text": "אתה רוצה את החשבונית במייל?",
+   "register": "informal"
+  }
+ ],
+ "keep_luggage_after": [
+  {
+   "text": "נוכל לשמור את המזוודות שלך אחרי הצ'ק-אאוט.",
+   "register": "formal"
+  },
+  {
+   "text": "אנחנו יכולים לשמור לך את התיקים אחרי הצ'ק-אאוט.",
+   "register": "informal"
+  }
+ ],
+ "enjoyed_stay": [
+  {
+   "text": "האם נהנית מהשהות?",
+   "register": "formal"
+  },
+  {
+   "text": "נהנית מהשהות?",
+   "register": "informal"
+  }
+ ],
+ "leave_review": [
+  {
+   "text": "אם אתה מרוצה, תוכל להשאיר ביקורת באינטרנט.",
+   "register": "formal"
+  },
+  {
+   "text": "אם אתה מרוצה, אתה יכול להשאיר ביקורת באינטרנט.",
+   "register": "informal"
+  }
+ ],
+ "goodbye": [
+  {
+   "text": "תודה ונסיעה טובה!",
+   "register": "formal"
+  }
+ ],
+ "colleague_help": [
+  {
+   "text": "אתה יכול לעזור לי בקבלה?",
+   "register": "informal"
+  }
+ ],
+ "room_free": [
+  {
+   "text": "חדר 214 פנוי ונקי.",
+   "register": "informal"
+  }
+ ],
+ "guest_waiting": [
+  {
+   "text": "אורח מחכה בקבלה.",
+   "register": "informal"
+  }
+ ],
+ "vip_arrival": [
+  {
+   "text": "אורח חשוב מגיע ב-15:00.",
+   "register": "informal"
+  }
+ ],
+ "shift_change": [
+  {
+   "text": "אני מסיים ב-18:00, מי מחליף אותי?",
+   "register": "informal"
+  }
+ ],
+ "broken_report": [
+  {
+   "text": "המקלחת ב-305 דולפת, צריך להודיע לטכנאי.",
+   "register": "informal"
+  }
+ ]
+}

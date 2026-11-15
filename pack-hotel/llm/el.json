@@ -1,0 +1,898 @@
+{
+ "welcome_back": [
+  {
+   "text": "Χαίρομαι πολύ που σας ξαναβλέπω!",
+   "register": "formal"
+  },
+  {
+   "text": "Χαίρομαι που σε ξαναβλέπω!",
+   "register": "informal"
+  }
+ ],
+ "hello_welcome": [
+  {
+   "text": "Γεια σας και καλώς ήρθατε! Πώς μπορώ να σας βοηθήσω;",
+   "register": "formal"
+  },
+  {
+   "text": "Γεια, καλώς ήρθες! Να σε βοηθήσω;",
+   "register": "informal"
+  }
+ ],
+ "have_booking": [
+  {
+   "text": "Έχετε κάνει κράτηση;",
+   "register": "formal"
+  },
+  {
+   "text": "Έχεις κράτηση;",
+   "register": "informal"
+  }
+ ],
+ "booking_name": [
+  {
+   "text": "Σε ποιο όνομα είναι η κράτηση;",
+   "register": "formal"
+  },
+  {
+   "text": "Σε ποιο όνομα;",
+   "register": "informal"
+  }
+ ],
+ "passport_id": [
+  {
+   "text": "Μπορώ να δω το διαβατήριο ή την ταυτότητά σας, παρακαλώ;",
+   "register": "formal"
+  },
+  {
+   "text": "Μπορώ να δω το διαβατήριο ή την ταυτότητά σου;",
+   "register": "informal"
+  }
+ ],
+ "fill_form": [
+  {
+   "text": "Θα μπορούσατε να συμπληρώσετε και να υπογράψετε αυτό το έντυπο, παρακαλώ;",
+   "register": "formal"
+  },
+  {
+   "text": "Μπορείς να συμπληρώσεις και να υπογράψεις αυτό το έντυπο;",
+   "register": "informal"
+  }
+ ],
+ "how_many_nights": [
+  {
+   "text": "Πόσες νύχτες θα μείνετε;",
+   "register": "formal"
+  },
+  {
+   "text": "Πόσες νύχτες θα μείνεις;",
+   "register": "informal"
+  }
+ ],
+ "how_many_people": [
+  {
+   "text": "Πόσα άτομα είστε;",
+   "register": "formal"
+  },
+  {
+   "text": "Πόσοι είστε;",
+   "register": "informal"
+  }
+ ],
+ "room_ready": [
+  {
+   "text": "Το δωμάτιό σας είναι έτοιμο.",
+   "register": "formal"
+  },
+  {
+   "text": "Το δωμάτιό σου είναι έτοιμο.",
+   "register": "informal"
+  }
+ ],
+ "room_not_ready": [
+  {
+   "text": "Το δωμάτιό σας δεν είναι ακόμη έτοιμο. Θα είναι έτοιμο γύρω στις 14:00.",
+   "register": "formal"
+  },
+  {
+   "text": "Το δωμάτιό σου δεν είναι ακόμα έτοιμο. Θα είναι γύρω στις 14:00.",
+   "register": "informal"
+  }
+ ],
+ "leave_luggage": [
+  {
+   "text": "Στο μεταξύ, μπορείτε να αφήσετε τις αποσκευές σας εδώ.",
+   "register": "formal"
+  },
+  {
+   "text": "Στο μεταξύ, μπορείς να αφήσεις τις βαλίτσες σου εδώ.",
+   "register": "informal"
+  }
+ ],
+ "room_number": [
+  {
+   "text": "Το δωμάτιό σας είναι το 214, στον δεύτερο όροφο.",
+   "register": "formal"
+  },
+  {
+   "text": "Το δωμάτιό σου είναι το 214, στον δεύτερο όροφο.",
+   "register": "informal"
+  }
+ ],
+ "elevator": [
+  {
+   "text": "Ο ανελκυστήρας είναι στα δεξιά.",
+   "register": "formal"
+  }
+ ],
+ "key_card": [
+  {
+   "text": "Ορίστε η κάρτα σας. Ανοίγει το δωμάτιο και τον ανελκυστήρα.",
+   "register": "formal"
+  },
+  {
+   "text": "Ορίστε η κάρτα σου. Ανοίγει το δωμάτιο και το ασανσέρ.",
+   "register": "informal"
+  }
+ ],
+ "wifi_code": [
+  {
+   "text": "Ο κωδικός του Wi-Fi είναι γραμμένος σε αυτή την κάρτα.",
+   "register": "formal"
+  }
+ ],
+ "breakfast_hours": [
+  {
+   "text": "Το πρωινό σερβίρεται από τις 7:00 έως τις 10:30.",
+   "register": "formal"
+  }
+ ],
+ "checkout_time": [
+  {
+   "text": "Η αναχώρηση γίνεται έως τις 11:00.",
+   "register": "formal"
+  }
+ ],
+ "no_booking_found": [
+  {
+   "text": "Δεν βρίσκω την κράτησή σας. Έχετε τον αριθμό επιβεβαίωσης;",
+   "register": "formal"
+  },
+  {
+   "text": "Δεν βρίσκω την κράτησή σου. Έχεις τον αριθμό επιβεβαίωσης;",
+   "register": "informal"
+  }
+ ],
+ "booked_online": [
+  {
+   "text": "Έκανα κράτηση μέσω ίντερνετ.",
+   "register": "formal"
+  }
+ ],
+ "early_checkin": [
+  {
+   "text": "Μπορώ να μπω στο δωμάτιο νωρίτερα;",
+   "register": "formal"
+  }
+ ],
+ "hotel_full": [
+  {
+   "text": "Λυπάμαι, το ξενοδοχείο είναι πλήρες απόψε.",
+   "register": "formal"
+  }
+ ],
+ "pay_now_or_later": [
+  {
+   "text": "Θέλετε να πληρώσετε τώρα ή κατά την αναχώρηση;",
+   "register": "formal"
+  },
+  {
+   "text": "Προτιμάς να πληρώσεις τώρα ή όταν φύγεις;",
+   "register": "informal"
+  }
+ ],
+ "deposit": [
+  {
+   "text": "Ζητάμε εγγύηση 100 ευρώ, η οποία επιστρέφεται κατά την αναχώρηση.",
+   "register": "formal"
+  }
+ ],
+ "card_or_cash": [
+  {
+   "text": "Θα πληρώσετε με κάρτα ή μετρητά;",
+   "register": "formal"
+  },
+  {
+   "text": "Θα πληρώσεις με κάρτα ή μετρητά;",
+   "register": "informal"
+  }
+ ],
+ "city_tax": [
+  {
+   "text": "Ο φόρος διαμονής είναι 2 ευρώ ανά άτομο ανά διανυκτέρευση.",
+   "register": "formal"
+  }
+ ],
+ "tax_not_included": [
+  {
+   "text": "Ο φόρος διαμονής δεν περιλαμβάνεται στην τιμή της κράτησης.",
+   "register": "formal"
+  }
+ ],
+ "card_declined": [
+  {
+   "text": "Η κάρτα σας απορρίφθηκε. Έχετε κάποια άλλη κάρτα;",
+   "register": "formal"
+  },
+  {
+   "text": "Η κάρτα σου απορρίφθηκε. Έχεις άλλη;",
+   "register": "informal"
+  }
+ ],
+ "enter_pin": [
+  {
+   "text": "Μπορείτε να πληκτρολογήσετε το PIN σας.",
+   "register": "formal"
+  },
+  {
+   "text": "Μπορείς να βάλεις το PIN σου.",
+   "register": "informal"
+  }
+ ],
+ "receipt": [
+  {
+   "text": "Θέλετε απόδειξη;",
+   "register": "formal"
+  },
+  {
+   "text": "Θέλεις απόδειξη;",
+   "register": "informal"
+  }
+ ],
+ "invoice_company": [
+  {
+   "text": "Μπορείτε να κόψετε το τιμολόγιο στο όνομα της εταιρείας μου;",
+   "register": "formal"
+  }
+ ],
+ "breakfast_included": [
+  {
+   "text": "Περιλαμβάνεται το πρωινό;",
+   "register": "formal"
+  }
+ ],
+ "price_night": [
+  {
+   "text": "Πόσο κοστίζει η διανυκτέρευση;",
+   "register": "formal"
+  }
+ ],
+ "cheaper_room": [
+  {
+   "text": "Έχετε κάποιο φθηνότερο δωμάτιο;",
+   "register": "formal"
+  }
+ ],
+ "room_view": [
+  {
+   "text": "Το δωμάτιο έχει θέα στη θάλασσα.",
+   "register": "formal"
+  }
+ ],
+ "double_twin": [
+  {
+   "text": "Προτιμάτε ένα διπλό κρεβάτι ή δύο μονά;",
+   "register": "formal"
+  },
+  {
+   "text": "Προτιμάς διπλό κρεβάτι ή δύο μονά;",
+   "register": "informal"
+  }
+ ],
+ "extra_bed": [
+  {
+   "text": "Μπορούμε να προσθέσουμε ένα κρεβάτι για το παιδί.",
+   "register": "formal"
+  }
+ ],
+ "baby_cot": [
+  {
+   "text": "Διατίθεται βρεφική κούνια δωρεάν.",
+   "register": "formal"
+  }
+ ],
+ "air_con": [
+  {
+   "text": "Το τηλεχειριστήριο του κλιματιστικού είναι στο κομοδίνο.",
+   "register": "formal"
+  }
+ ],
+ "safe": [
+  {
+   "text": "Υπάρχει χρηματοκιβώτιο στην ντουλάπα.",
+   "register": "formal"
+  }
+ ],
+ "minibar": [
+  {
+   "text": "Τα ποτά του μίνι μπαρ χρεώνονται.",
+   "register": "formal"
+  }
+ ],
+ "non_smoking": [
+  {
+   "text": "Όλα τα δωμάτια είναι για μη καπνιστές.",
+   "register": "formal"
+  }
+ ],
+ "quiet_room": [
+  {
+   "text": "Θα ήθελα ένα ήσυχο δωμάτιο, παρακαλώ.",
+   "register": "formal"
+  }
+ ],
+ "change_room": [
+  {
+   "text": "Μπορώ να αλλάξω δωμάτιο;",
+   "register": "formal"
+  }
+ ],
+ "hair_dryer": [
+  {
+   "text": "Το πιστολάκι μαλλιών είναι στο μπάνιο.",
+   "register": "formal"
+  }
+ ],
+ "adapter": [
+  {
+   "text": "Έχετε έναν αντάπτορα πρίζας;",
+   "register": "formal"
+  }
+ ],
+ "iron": [
+  {
+   "text": "Θα μπορούσα να έχω ένα σίδερο;",
+   "register": "formal"
+  }
+ ],
+ "extra_pillow": [
+  {
+   "text": "Θα μπορούσατε να μου φέρετε ένα επιπλέον μαξιλάρι;",
+   "register": "formal"
+  }
+ ],
+ "balcony": [
+  {
+   "text": "Το δωμάτιο έχει μπαλκόνι.",
+   "register": "formal"
+  }
+ ],
+ "accessible_room": [
+  {
+   "text": "Έχουμε δωμάτιο προσβάσιμο σε αναπηρικό αμαξίδιο.",
+   "register": "formal"
+  }
+ ],
+ "housekeeping_time": [
+  {
+   "text": "Τι ώρα θα θέλατε να καθαρίσουμε το δωμάτιό σας;",
+   "register": "formal"
+  },
+  {
+   "text": "Τι ώρα θέλεις να σου καθαρίσουμε το δωμάτιο;",
+   "register": "informal"
+  }
+ ],
+ "do_not_disturb": [
+  {
+   "text": "Αν δεν θέλετε να σας ενοχλήσουν, κρεμάστε την πινακίδα «Μην ενοχλείτε» στην πόρτα.",
+   "register": "formal"
+  },
+  {
+   "text": "Κρέμασε την πινακίδα «Μην ενοχλείτε» αν θέλεις ησυχία.",
+   "register": "informal"
+  }
+ ],
+ "clean_now": [
+  {
+   "text": "Μπορώ να καθαρίσω το δωμάτιο τώρα;",
+   "register": "formal"
+  },
+  {
+   "text": "Να καθαρίσω τώρα;",
+   "register": "informal"
+  }
+ ],
+ "come_back_later": [
+  {
+   "text": "Θα ξαναπεράσω αργότερα.",
+   "register": "formal"
+  }
+ ],
+ "towels": [
+  {
+   "text": "Μπορώ να έχω καθαρές πετσέτες;",
+   "register": "formal"
+  }
+ ],
+ "change_sheets": [
+  {
+   "text": "Τα σεντόνια αλλάζουν κάθε τρεις μέρες.",
+   "register": "formal"
+  }
+ ],
+ "laundry": [
+  {
+   "text": "Διαθέτουμε υπηρεσία πλυντηρίου. Τα ρούχα επιστρέφονται την επόμενη μέρα.",
+   "register": "formal"
+  }
+ ],
+ "toilet_paper": [
+  {
+   "text": "Τελείωσε το χαρτί υγείας.",
+   "register": "formal"
+  }
+ ],
+ "lost_item": [
+  {
+   "text": "Χάσατε κάτι;",
+   "register": "formal"
+  },
+  {
+   "text": "Έχασες κάτι;",
+   "register": "informal"
+  }
+ ],
+ "found_item": [
+  {
+   "text": "Βρήκαμε αυτό το αντικείμενο στο δωμάτιό σας.",
+   "register": "formal"
+  },
+  {
+   "text": "Βρήκαμε αυτό στο δωμάτιό σου.",
+   "register": "informal"
+  }
+ ],
+ "table_for": [
+  {
+   "text": "Τραπέζι για πόσα άτομα;",
+   "register": "formal"
+  },
+  {
+   "text": "Τραπέζι για πόσους;",
+   "register": "informal"
+  }
+ ],
+ "breakfast_room": [
+  {
+   "text": "Το πρωινό σερβίρεται στο ισόγειο, δίπλα στη ρεσεψιόν.",
+   "register": "formal"
+  }
+ ],
+ "buffet": [
+  {
+   "text": "Είναι μπουφές: σερβιριστείτε μόνοι σας.",
+   "register": "formal"
+  },
+  {
+   "text": "Είναι μπουφές: σερβιρίσου μόνος σου.",
+   "register": "informal"
+  }
+ ],
+ "coffee_or_tea": [
+  {
+   "text": "Καφέ ή τσάι;",
+   "register": "formal"
+  }
+ ],
+ "allergy": [
+  {
+   "text": "Έχετε κάποια τροφική αλλεργία;",
+   "register": "formal"
+  },
+  {
+   "text": "Έχεις κάποια τροφική αλλεργία;",
+   "register": "informal"
+  }
+ ],
+ "vegetarian": [
+  {
+   "text": "Έχουμε χορτοφαγικά πιάτα.",
+   "register": "formal"
+  }
+ ],
+ "halal": [
+  {
+   "text": "Το κρέας είναι χαλάλ;",
+   "register": "formal"
+  }
+ ],
+ "gluten_free": [
+  {
+   "text": "Δεν τρώω γλουτένη.",
+   "register": "formal"
+  }
+ ],
+ "room_service": [
+  {
+   "text": "Η υπηρεσία δωματίου είναι διαθέσιμη έως τις 22:00.",
+   "register": "formal"
+  }
+ ],
+ "charge_room": [
+  {
+   "text": "Να το χρεώσω στο δωμάτιό σας;",
+   "register": "formal"
+  },
+  {
+   "text": "Να το χρεώσω στο δωμάτιό σου;",
+   "register": "informal"
+  }
+ ],
+ "restaurant_closed": [
+  {
+   "text": "Το εστιατόριο είναι κλειστό απόψε.",
+   "register": "formal"
+  }
+ ],
+ "recommend_restaurant": [
+  {
+   "text": "Μπορώ να σας προτείνω ένα καλό εστιατόριο πολύ κοντά.",
+   "register": "formal"
+  },
+  {
+   "text": "Μπορώ να σου προτείνω ένα καλό μαγαζί εδώ δίπλα.",
+   "register": "informal"
+  }
+ ],
+ "enjoy_meal": [
+  {
+   "text": "Καλή όρεξη!",
+   "register": "formal"
+  }
+ ],
+ "problem_room": [
+  {
+   "text": "Υπάρχει ένα πρόβλημα στο δωμάτιό μου.",
+   "register": "formal"
+  }
+ ],
+ "ac_broken": [
+  {
+   "text": "Το κλιματιστικό δεν λειτουργεί.",
+   "register": "formal"
+  }
+ ],
+ "no_hot_water": [
+  {
+   "text": "Δεν υπάρχει ζεστό νερό.",
+   "register": "formal"
+  }
+ ],
+ "wifi_not_working": [
+  {
+   "text": "Το Wi-Fi δεν λειτουργεί.",
+   "register": "formal"
+  }
+ ],
+ "too_noisy": [
+  {
+   "text": "Έχει πολύ θόρυβο, δεν μπορώ να κοιμηθώ.",
+   "register": "formal"
+  }
+ ],
+ "room_dirty": [
+  {
+   "text": "Το δωμάτιο δεν είναι καθαρό.",
+   "register": "formal"
+  }
+ ],
+ "card_not_working": [
+  {
+   "text": "Η κάρτα μου δεν ανοίγει πια την πόρτα.",
+   "register": "formal"
+  }
+ ],
+ "locked_out": [
+  {
+   "text": "Άφησα την κάρτα μου μέσα στο δωμάτιο.",
+   "register": "formal"
+  }
+ ],
+ "sorry_problem": [
+  {
+   "text": "Λυπάμαι πραγματικά πολύ για αυτό το πρόβλημα.",
+   "register": "formal"
+  }
+ ],
+ "send_technician": [
+  {
+   "text": "Στέλνω αμέσως κάποιον στο δωμάτιό σας.",
+   "register": "formal"
+  },
+  {
+   "text": "Στέλνω αμέσως κάποιον στο δωμάτιό σου.",
+   "register": "informal"
+  }
+ ],
+ "fixed_soon": [
+  {
+   "text": "Θα έχει επισκευαστεί το αργότερο σε μία ώρα.",
+   "register": "formal"
+  }
+ ],
+ "offer_new_room": [
+  {
+   "text": "Σας προτείνω ένα άλλο δωμάτιο.",
+   "register": "formal"
+  },
+  {
+   "text": "Σου προτείνω ένα άλλο δωμάτιο.",
+   "register": "informal"
+  }
+ ],
+ "compensation": [
+  {
+   "text": "Για να επανορθώσουμε, το πρωινό σας είναι προσφορά μας.",
+   "register": "formal"
+  },
+  {
+   "text": "Για να επανορθώσουμε, το πρωινό σου είναι κερασμένο.",
+   "register": "informal"
+  }
+ ],
+ "manager": [
+  {
+   "text": "Θα ήθελα να μιλήσω με τον υπεύθυνο.",
+   "register": "formal"
+  }
+ ],
+ "complaint_noted": [
+  {
+   "text": "Κατέγραψα το παράπονό σας. Ο υπεύθυνος θα σας καλέσει.",
+   "register": "formal"
+  },
+  {
+   "text": "Κατέγραψα το παράπονό σου. Ο υπεύθυνος θα σε πάρει τηλέφωνο.",
+   "register": "informal"
+  }
+ ],
+ "taxi": [
+  {
+   "text": "Θέλετε να σας καλέσω ταξί;",
+   "register": "formal"
+  },
+  {
+   "text": "Θέλεις να σου καλέσω ταξί;",
+   "register": "informal"
+  }
+ ],
+ "airport_transfer": [
+  {
+   "text": "Προσφέρουμε μεταφορά από και προς το αεροδρόμιο. Χρειάζεται κράτηση την προηγούμενη μέρα.",
+   "register": "formal"
+  }
+ ],
+ "how_far": [
+  {
+   "text": "Είναι μακριά με τα πόδια;",
+   "register": "formal"
+  }
+ ],
+ "ten_minutes_walk": [
+  {
+   "text": "Είναι δέκα λεπτά με τα πόδια.",
+   "register": "formal"
+  }
+ ],
+ "map": [
+  {
+   "text": "Ορίστε ένας χάρτης της πόλης.",
+   "register": "formal"
+  }
+ ],
+ "bus_stop": [
+  {
+   "text": "Η στάση του λεωφορείου είναι ακριβώς μπροστά στο ξενοδοχείο.",
+   "register": "formal"
+  }
+ ],
+ "parking": [
+  {
+   "text": "Το πάρκινγκ κοστίζει 15 ευρώ την ημέρα.",
+   "register": "formal"
+  }
+ ],
+ "nearest_pharmacy": [
+  {
+   "text": "Πού είναι το πλησιέστερο φαρμακείο;",
+   "register": "formal"
+  }
+ ],
+ "atm": [
+  {
+   "text": "Πού μπορώ να βγάλω χρήματα;",
+   "register": "formal"
+  }
+ ],
+ "book_tour": [
+  {
+   "text": "Μπορώ να σας κλείσω μια ξενάγηση.",
+   "register": "formal"
+  },
+  {
+   "text": "Μπορώ να σου κλείσω μια ξενάγηση.",
+   "register": "informal"
+  }
+ ],
+ "safe_area": [
+  {
+   "text": "Είναι ασφαλής η περιοχή τη νύχτα;",
+   "register": "formal"
+  }
+ ],
+ "doctor": [
+  {
+   "text": "Χρειάζομαι γιατρό.",
+   "register": "formal"
+  }
+ ],
+ "call_doctor": [
+  {
+   "text": "Θα σας καλέσω έναν γιατρό.",
+   "register": "formal"
+  },
+  {
+   "text": "Θα σου καλέσω έναν γιατρό.",
+   "register": "informal"
+  }
+ ],
+ "emergency": [
+  {
+   "text": "Σε περίπτωση έκτακτης ανάγκης, καλέστε το 112.",
+   "register": "formal"
+  }
+ ],
+ "first_aid": [
+  {
+   "text": "Έχουμε φαρμακείο πρώτων βοηθειών στη ρεσεψιόν.",
+   "register": "formal"
+  }
+ ],
+ "fire_exit": [
+  {
+   "text": "Η έξοδος κινδύνου είναι στο τέλος του διαδρόμου.",
+   "register": "formal"
+  }
+ ],
+ "fire_alarm": [
+  {
+   "text": "Χτυπάει ο συναγερμός πυρκαγιάς: βγείτε από τις σκάλες, όχι με τον ανελκυστήρα.",
+   "register": "formal"
+  }
+ ],
+ "checkout_question": [
+  {
+   "text": "Φεύγετε σήμερα;",
+   "register": "formal"
+  },
+  {
+   "text": "Φεύγεις σήμερα;",
+   "register": "informal"
+  }
+ ],
+ "late_checkout": [
+  {
+   "text": "Μπορώ να αναχωρήσω αργότερα;",
+   "register": "formal"
+  }
+ ],
+ "late_checkout_fee": [
+  {
+   "text": "Η καθυστερημένη αναχώρηση έως τις 14:00 κοστίζει 30 ευρώ.",
+   "register": "formal"
+  }
+ ],
+ "minibar_used": [
+  {
+   "text": "Πήρατε κάτι από το μίνι μπαρ;",
+   "register": "formal"
+  },
+  {
+   "text": "Πήρες κάτι από το μίνι μπαρ;",
+   "register": "informal"
+  }
+ ],
+ "here_invoice": [
+  {
+   "text": "Ορίστε το τιμολόγιό σας.",
+   "register": "formal"
+  },
+  {
+   "text": "Ορίστε το τιμολόγιό σου.",
+   "register": "informal"
+  }
+ ],
+ "invoice_email": [
+  {
+   "text": "Θέλετε το τιμολόγιο με e-mail;",
+   "register": "formal"
+  },
+  {
+   "text": "Θέλεις το τιμολόγιο με e-mail;",
+   "register": "informal"
+  }
+ ],
+ "keep_luggage_after": [
+  {
+   "text": "Μπορούμε να φυλάξουμε τις αποσκευές σας μετά την αναχώρηση.",
+   "register": "formal"
+  },
+  {
+   "text": "Μπορούμε να σου κρατήσουμε τις βαλίτσες μετά την αναχώρηση.",
+   "register": "informal"
+  }
+ ],
+ "enjoyed_stay": [
+  {
+   "text": "Περάσατε καλά στη διαμονή σας;",
+   "register": "formal"
+  },
+  {
+   "text": "Πέρασες καλά στη διαμονή σου;",
+   "register": "informal"
+  }
+ ],
+ "leave_review": [
+  {
+   "text": "Αν μείνατε ευχαριστημένοι, μπορείτε να αφήσετε μια κριτική στο ίντερνετ.",
+   "register": "formal"
+  },
+  {
+   "text": "Αν έμεινες ευχαριστημένος, μπορείς να αφήσεις μια κριτική στο ίντερνετ.",
+   "register": "informal"
+  }
+ ],
+ "goodbye": [
+  {
+   "text": "Ευχαριστούμε και καλό ταξίδι!",
+   "register": "formal"
+  }
+ ],
+ "colleague_help": [
+  {
+   "text": "Μπορείς να με βοηθήσεις στη ρεσεψιόν;",
+   "register": "informal"
+  }
+ ],
+ "room_free": [
+  {
+   "text": "Το δωμάτιο 214 είναι ελεύθερο και καθαρό.",
+   "register": "informal"
+  }
+ ],
+ "guest_waiting": [
+  {
+   "text": "Ένας πελάτης περιμένει στη ρεσεψιόν.",
+   "register": "informal"
+  }
+ ],
+ "vip_arrival": [
+  {
+   "text": "Ένας σημαντικός πελάτης φτάνει στις 15:00.",
+   "register": "informal"
+  }
+ ],
+ "shift_change": [
+  {
+   "text": "Τελειώνω στις 18:00, ποιος με αντικαθιστά;",
+   "register": "informal"
+  }
+ ],
+ "broken_report": [
+  {
+   "text": "Το ντους στο 305 στάζει, πρέπει να ειδοποιήσουμε τον τεχνικό.",
+   "register": "informal"
+  }
+ ]
+}

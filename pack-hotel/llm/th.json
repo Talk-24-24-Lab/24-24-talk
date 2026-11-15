@@ -1,0 +1,898 @@
+{
+ "welcome_back": [
+  {
+   "text": "ยินดีที่ได้พบคุณอีกครั้งค่ะ!",
+   "register": "formal"
+  },
+  {
+   "text": "ดีใจที่ได้เจออีกนะ!",
+   "register": "informal"
+  }
+ ],
+ "hello_welcome": [
+  {
+   "text": "สวัสดีค่ะ ยินดีต้อนรับค่ะ! มีอะไรให้ดิฉันช่วยไหมคะ?",
+   "register": "formal"
+  },
+  {
+   "text": "หวัดดี ยินดีต้อนรับ! ให้ช่วยอะไรไหม?",
+   "register": "informal"
+  }
+ ],
+ "have_booking": [
+  {
+   "text": "คุณได้จองห้องพักไว้ไหมคะ?",
+   "register": "formal"
+  },
+  {
+   "text": "จองไว้หรือเปล่า?",
+   "register": "informal"
+  }
+ ],
+ "booking_name": [
+  {
+   "text": "การจองอยู่ในชื่ออะไรคะ?",
+   "register": "formal"
+  },
+  {
+   "text": "จองไว้ชื่ออะไร?",
+   "register": "informal"
+  }
+ ],
+ "passport_id": [
+  {
+   "text": "ขอดูหนังสือเดินทางหรือบัตรประชาชนของคุณด้วยค่ะ",
+   "register": "formal"
+  },
+  {
+   "text": "ขอดูพาสปอร์ตหรือบัตรประชาชนหน่อยได้ไหม?",
+   "register": "informal"
+  }
+ ],
+ "fill_form": [
+  {
+   "text": "รบกวนกรอกและเซ็นชื่อในแบบฟอร์มนี้ด้วยค่ะ",
+   "register": "formal"
+  },
+  {
+   "text": "ช่วยกรอกแล้วเซ็นแบบฟอร์มนี้หน่อยได้ไหม?",
+   "register": "informal"
+  }
+ ],
+ "how_many_nights": [
+  {
+   "text": "คุณจะพักกี่คืนคะ?",
+   "register": "formal"
+  },
+  {
+   "text": "จะพักกี่คืน?",
+   "register": "informal"
+  }
+ ],
+ "how_many_people": [
+  {
+   "text": "มาทั้งหมดกี่ท่านคะ?",
+   "register": "formal"
+  },
+  {
+   "text": "มากี่คน?",
+   "register": "informal"
+  }
+ ],
+ "room_ready": [
+  {
+   "text": "ห้องพักของคุณพร้อมแล้วค่ะ",
+   "register": "formal"
+  },
+  {
+   "text": "ห้องพร้อมแล้วนะ",
+   "register": "informal"
+  }
+ ],
+ "room_not_ready": [
+  {
+   "text": "ห้องพักของคุณยังไม่พร้อมค่ะ น่าจะพร้อมประมาณบ่ายสองโมง (14.00 น.) ค่ะ",
+   "register": "formal"
+  },
+  {
+   "text": "ห้องยังไม่พร้อมนะ น่าจะเสร็จประมาณบ่ายสอง (14.00 น.)",
+   "register": "informal"
+  }
+ ],
+ "leave_luggage": [
+  {
+   "text": "ระหว่างรอ คุณฝากกระเป๋าไว้ที่นี่ได้ค่ะ",
+   "register": "formal"
+  },
+  {
+   "text": "ระหว่างรอ วางกระเป๋าไว้ตรงนี้ได้นะ",
+   "register": "informal"
+  }
+ ],
+ "room_number": [
+  {
+   "text": "ห้องของคุณคือห้อง 214 อยู่ชั้นสองค่ะ",
+   "register": "formal"
+  },
+  {
+   "text": "ห้องเธอคือ 214 อยู่ชั้นสองนะ",
+   "register": "informal"
+  }
+ ],
+ "elevator": [
+  {
+   "text": "ลิฟต์อยู่ทางขวามือค่ะ",
+   "register": "formal"
+  }
+ ],
+ "key_card": [
+  {
+   "text": "นี่คือคีย์การ์ดของคุณค่ะ ใช้เปิดห้องและใช้กับลิฟต์ได้ค่ะ",
+   "register": "formal"
+  },
+  {
+   "text": "นี่คีย์การ์ดนะ ใช้เปิดห้องกับลิฟต์ได้",
+   "register": "informal"
+  }
+ ],
+ "wifi_code": [
+  {
+   "text": "รหัสไวไฟเขียนอยู่บนการ์ดใบนี้ค่ะ",
+   "register": "formal"
+  }
+ ],
+ "breakfast_hours": [
+  {
+   "text": "อาหารเช้าเสิร์ฟตั้งแต่ 7.00 น. ถึง 10.30 น. ค่ะ",
+   "register": "formal"
+  }
+ ],
+ "checkout_time": [
+  {
+   "text": "กรุณาเช็กเอาต์ก่อน 11.00 น. ค่ะ",
+   "register": "formal"
+  }
+ ],
+ "no_booking_found": [
+  {
+   "text": "ดิฉันหาการจองของคุณไม่พบค่ะ คุณมีหมายเลขยืนยันการจองไหมคะ?",
+   "register": "formal"
+  },
+  {
+   "text": "หาการจองไม่เจอเลย มีเลขยืนยันไหม?",
+   "register": "informal"
+  }
+ ],
+ "booked_online": [
+  {
+   "text": "ฉันจองทางอินเทอร์เน็ตค่ะ",
+   "register": "formal"
+  }
+ ],
+ "early_checkin": [
+  {
+   "text": "ขอเข้าห้องเร็วกว่ากำหนดได้ไหมคะ?",
+   "register": "formal"
+  }
+ ],
+ "hotel_full": [
+  {
+   "text": "ขออภัยค่ะ คืนนี้ห้องพักเต็มแล้วค่ะ",
+   "register": "formal"
+  }
+ ],
+ "pay_now_or_later": [
+  {
+   "text": "คุณต้องการชำระเงินตอนนี้หรือตอนเช็กเอาต์คะ?",
+   "register": "formal"
+  },
+  {
+   "text": "จะจ่ายตอนนี้หรือตอนเช็กเอาต์?",
+   "register": "informal"
+  }
+ ],
+ "deposit": [
+  {
+   "text": "ทางโรงแรมขอเก็บเงินมัดจำ 100 ยูโร และจะคืนให้ตอนเช็กเอาต์ค่ะ",
+   "register": "formal"
+  }
+ ],
+ "card_or_cash": [
+  {
+   "text": "คุณจะชำระด้วยบัตรหรือเงินสดคะ?",
+   "register": "formal"
+  },
+  {
+   "text": "จ่ายบัตรหรือเงินสด?",
+   "register": "informal"
+  }
+ ],
+ "city_tax": [
+  {
+   "text": "ภาษีที่พักอยู่ที่ 2 ยูโรต่อคนต่อคืนค่ะ",
+   "register": "formal"
+  }
+ ],
+ "tax_not_included": [
+  {
+   "text": "ภาษีที่พักไม่รวมอยู่ในราคาห้องที่จองไว้ค่ะ",
+   "register": "formal"
+  }
+ ],
+ "card_declined": [
+  {
+   "text": "บัตรของคุณถูกปฏิเสธค่ะ มีบัตรใบอื่นไหมคะ?",
+   "register": "formal"
+  },
+  {
+   "text": "บัตรใช้ไม่ผ่านนะ มีใบอื่นไหม?",
+   "register": "informal"
+  }
+ ],
+ "enter_pin": [
+  {
+   "text": "กรุณากดรหัสได้เลยค่ะ",
+   "register": "formal"
+  },
+  {
+   "text": "กดรหัสได้เลย",
+   "register": "informal"
+  }
+ ],
+ "receipt": [
+  {
+   "text": "รับใบเสร็จไหมคะ?",
+   "register": "formal"
+  },
+  {
+   "text": "เอาใบเสร็จไหม?",
+   "register": "informal"
+  }
+ ],
+ "invoice_company": [
+  {
+   "text": "ออกใบแจ้งหนี้ในนามบริษัทของฉันได้ไหมคะ?",
+   "register": "formal"
+  }
+ ],
+ "breakfast_included": [
+  {
+   "text": "รวมอาหารเช้าด้วยไหมคะ?",
+   "register": "formal"
+  }
+ ],
+ "price_night": [
+  {
+   "text": "คืนละเท่าไหร่คะ?",
+   "register": "formal"
+  }
+ ],
+ "cheaper_room": [
+  {
+   "text": "มีห้องที่ถูกกว่านี้ไหมคะ?",
+   "register": "formal"
+  }
+ ],
+ "room_view": [
+  {
+   "text": "ห้องนี้มองเห็นวิวทะเลค่ะ",
+   "register": "formal"
+  }
+ ],
+ "double_twin": [
+  {
+   "text": "คุณต้องการเตียงใหญ่หนึ่งเตียงหรือเตียงเดี่ยวสองเตียงคะ?",
+   "register": "formal"
+  },
+  {
+   "text": "อยากได้เตียงใหญ่หรือเตียงคู่?",
+   "register": "informal"
+  }
+ ],
+ "extra_bed": [
+  {
+   "text": "เราเสริมเตียงให้น้องได้ค่ะ",
+   "register": "formal"
+  }
+ ],
+ "baby_cot": [
+  {
+   "text": "มีเตียงเด็กอ่อนให้บริการฟรีค่ะ",
+   "register": "formal"
+  }
+ ],
+ "air_con": [
+  {
+   "text": "รีโมตแอร์อยู่บนโต๊ะข้างเตียงค่ะ",
+   "register": "formal"
+  }
+ ],
+ "safe": [
+  {
+   "text": "มีตู้เซฟอยู่ในตู้เสื้อผ้าค่ะ",
+   "register": "formal"
+  }
+ ],
+ "minibar": [
+  {
+   "text": "เครื่องดื่มในมินิบาร์มีค่าใช้จ่ายค่ะ",
+   "register": "formal"
+  }
+ ],
+ "non_smoking": [
+  {
+   "text": "ห้องพักทุกห้องเป็นห้องปลอดบุหรี่ค่ะ",
+   "register": "formal"
+  }
+ ],
+ "quiet_room": [
+  {
+   "text": "ขอห้องที่เงียบหน่อยค่ะ",
+   "register": "formal"
+  }
+ ],
+ "change_room": [
+  {
+   "text": "ขอเปลี่ยนห้องได้ไหมคะ?",
+   "register": "formal"
+  }
+ ],
+ "hair_dryer": [
+  {
+   "text": "ไดร์เป่าผมอยู่ในห้องน้ำค่ะ",
+   "register": "formal"
+  }
+ ],
+ "adapter": [
+  {
+   "text": "มีปลั๊กแปลงไฟไหมคะ?",
+   "register": "formal"
+  }
+ ],
+ "iron": [
+  {
+   "text": "ขอเตารีดหน่อยได้ไหมคะ?",
+   "register": "formal"
+  }
+ ],
+ "extra_pillow": [
+  {
+   "text": "รบกวนเอาหมอนมาเพิ่มอีกใบได้ไหมคะ?",
+   "register": "formal"
+  }
+ ],
+ "balcony": [
+  {
+   "text": "ห้องนี้มีระเบียงค่ะ",
+   "register": "formal"
+  }
+ ],
+ "accessible_room": [
+  {
+   "text": "เรามีห้องพักที่รองรับรถเข็นค่ะ",
+   "register": "formal"
+  }
+ ],
+ "housekeeping_time": [
+  {
+   "text": "คุณต้องการให้ทำความสะอาดห้องกี่โมงคะ?",
+   "register": "formal"
+  },
+  {
+   "text": "อยากให้ทำความสะอาดห้องกี่โมง?",
+   "register": "informal"
+  }
+ ],
+ "do_not_disturb": [
+  {
+   "text": "หากไม่ต้องการให้รบกวน กรุณาแขวนป้าย \"ห้ามรบกวน\" ไว้ที่ประตูค่ะ",
+   "register": "formal"
+  },
+  {
+   "text": "ถ้าไม่อยากให้ใครกวน ก็แขวนป้าย \"ห้ามรบกวน\" ไว้นะ",
+   "register": "informal"
+  }
+ ],
+ "clean_now": [
+  {
+   "text": "ขออนุญาตทำความสะอาดห้องตอนนี้ได้ไหมคะ?",
+   "register": "formal"
+  },
+  {
+   "text": "ทำความสะอาดห้องตอนนี้ได้ไหม?",
+   "register": "informal"
+  }
+ ],
+ "come_back_later": [
+  {
+   "text": "เดี๋ยวดิฉันจะกลับมาใหม่นะคะ",
+   "register": "formal"
+  }
+ ],
+ "towels": [
+  {
+   "text": "ขอผ้าเช็ดตัวผืนใหม่ได้ไหมคะ?",
+   "register": "formal"
+  }
+ ],
+ "change_sheets": [
+  {
+   "text": "ผ้าปูที่นอนเปลี่ยนทุกสามวันค่ะ",
+   "register": "formal"
+  }
+ ],
+ "laundry": [
+  {
+   "text": "เรามีบริการซักรีดค่ะ จะได้รับผ้าคืนในวันถัดไปค่ะ",
+   "register": "formal"
+  }
+ ],
+ "toilet_paper": [
+  {
+   "text": "กระดาษชำระหมดแล้วค่ะ",
+   "register": "formal"
+  }
+ ],
+ "lost_item": [
+  {
+   "text": "คุณทำของหายหรือเปล่าคะ?",
+   "register": "formal"
+  },
+  {
+   "text": "ทำของหายเหรอ?",
+   "register": "informal"
+  }
+ ],
+ "found_item": [
+  {
+   "text": "เราพบของชิ้นนี้ในห้องพักของคุณค่ะ",
+   "register": "formal"
+  },
+  {
+   "text": "เจออันนี้ในห้องเธอนะ",
+   "register": "informal"
+  }
+ ],
+ "table_for": [
+  {
+   "text": "โต๊ะสำหรับกี่ท่านคะ?",
+   "register": "formal"
+  },
+  {
+   "text": "กี่คน?",
+   "register": "informal"
+  }
+ ],
+ "breakfast_room": [
+  {
+   "text": "อาหารเช้าเสิร์ฟที่ชั้นล่าง ข้างแผนกต้อนรับค่ะ",
+   "register": "formal"
+  }
+ ],
+ "buffet": [
+  {
+   "text": "เป็นบุฟเฟต์ค่ะ เชิญตักได้ตามสบายเลยค่ะ",
+   "register": "formal"
+  },
+  {
+   "text": "เป็นบุฟเฟต์นะ ตักเองได้เลย",
+   "register": "informal"
+  }
+ ],
+ "coffee_or_tea": [
+  {
+   "text": "รับกาแฟหรือชาดีคะ?",
+   "register": "formal"
+  }
+ ],
+ "allergy": [
+  {
+   "text": "คุณแพ้อาหารอะไรไหมคะ?",
+   "register": "formal"
+  },
+  {
+   "text": "แพ้อาหารอะไรไหม?",
+   "register": "informal"
+  }
+ ],
+ "vegetarian": [
+  {
+   "text": "เรามีอาหารมังสวิรัติค่ะ",
+   "register": "formal"
+  }
+ ],
+ "halal": [
+  {
+   "text": "เนื้อนี้เป็นฮาลาลไหมคะ?",
+   "register": "formal"
+  }
+ ],
+ "gluten_free": [
+  {
+   "text": "ฉันทานกลูเตนไม่ได้ค่ะ",
+   "register": "formal"
+  }
+ ],
+ "room_service": [
+  {
+   "text": "รูมเซอร์วิสให้บริการถึง 22.00 น. ค่ะ",
+   "register": "formal"
+  }
+ ],
+ "charge_room": [
+  {
+   "text": "ให้ลงบิลไว้กับห้องของคุณไหมคะ?",
+   "register": "formal"
+  },
+  {
+   "text": "ลงบิลไว้กับห้องเลยไหม?",
+   "register": "informal"
+  }
+ ],
+ "restaurant_closed": [
+  {
+   "text": "คืนนี้ห้องอาหารปิดค่ะ",
+   "register": "formal"
+  }
+ ],
+ "recommend_restaurant": [
+  {
+   "text": "ดิฉันแนะนำร้านอาหารดี ๆ ใกล้ ๆ นี้ให้ได้ค่ะ",
+   "register": "formal"
+  },
+  {
+   "text": "แนะนำร้านอร่อย ๆ แถวนี้ให้ได้นะ",
+   "register": "informal"
+  }
+ ],
+ "enjoy_meal": [
+  {
+   "text": "ขอให้อร่อยนะคะ!",
+   "register": "formal"
+  }
+ ],
+ "problem_room": [
+  {
+   "text": "ห้องของฉันมีปัญหาค่ะ",
+   "register": "formal"
+  }
+ ],
+ "ac_broken": [
+  {
+   "text": "แอร์ไม่ทำงานค่ะ",
+   "register": "formal"
+  }
+ ],
+ "no_hot_water": [
+  {
+   "text": "ไม่มีน้ำร้อนค่ะ",
+   "register": "formal"
+  }
+ ],
+ "wifi_not_working": [
+  {
+   "text": "ไวไฟใช้ไม่ได้ค่ะ",
+   "register": "formal"
+  }
+ ],
+ "too_noisy": [
+  {
+   "text": "เสียงดังเกินไป ฉันนอนไม่หลับเลยค่ะ",
+   "register": "formal"
+  }
+ ],
+ "room_dirty": [
+  {
+   "text": "ห้องไม่สะอาดค่ะ",
+   "register": "formal"
+  }
+ ],
+ "card_not_working": [
+  {
+   "text": "คีย์การ์ดของฉันเปิดประตูไม่ได้แล้วค่ะ",
+   "register": "formal"
+  }
+ ],
+ "locked_out": [
+  {
+   "text": "ฉันลืมคีย์การ์ดไว้ในห้องค่ะ",
+   "register": "formal"
+  }
+ ],
+ "sorry_problem": [
+  {
+   "text": "ต้องขออภัยเป็นอย่างยิ่งสำหรับปัญหานี้ค่ะ",
+   "register": "formal"
+  }
+ ],
+ "send_technician": [
+  {
+   "text": "ดิฉันจะส่งเจ้าหน้าที่ไปที่ห้องของคุณทันทีค่ะ",
+   "register": "formal"
+  },
+  {
+   "text": "เดี๋ยวส่งคนไปที่ห้องเลยนะ",
+   "register": "informal"
+  }
+ ],
+ "fixed_soon": [
+  {
+   "text": "จะซ่อมเสร็จภายในหนึ่งชั่วโมงเป็นอย่างช้าค่ะ",
+   "register": "formal"
+  }
+ ],
+ "offer_new_room": [
+  {
+   "text": "ดิฉันขอเสนอห้องอื่นให้คุณค่ะ",
+   "register": "formal"
+  },
+  {
+   "text": "เดี๋ยวย้ายไปห้องอื่นให้นะ",
+   "register": "informal"
+  }
+ ],
+ "compensation": [
+  {
+   "text": "เพื่อเป็นการขออภัย เรามอบอาหารเช้าให้คุณฟรีค่ะ",
+   "register": "formal"
+  },
+  {
+   "text": "เพื่อเป็นการขอโทษ อาหารเช้าฟรีนะ",
+   "register": "informal"
+  }
+ ],
+ "manager": [
+  {
+   "text": "ฉันขอคุยกับผู้จัดการค่ะ",
+   "register": "formal"
+  }
+ ],
+ "complaint_noted": [
+  {
+   "text": "ดิฉันบันทึกข้อร้องเรียนของคุณไว้แล้วค่ะ ผู้จัดการจะติดต่อกลับค่ะ",
+   "register": "formal"
+  },
+  {
+   "text": "จดเรื่องที่ร้องเรียนไว้แล้วนะ เดี๋ยวผู้จัดการจะโทรกลับ",
+   "register": "informal"
+  }
+ ],
+ "taxi": [
+  {
+   "text": "ต้องการให้เรียกแท็กซี่ให้ไหมคะ?",
+   "register": "formal"
+  },
+  {
+   "text": "ให้เรียกแท็กซี่ให้ไหม?",
+   "register": "informal"
+  }
+ ],
+ "airport_transfer": [
+  {
+   "text": "เรามีบริการรถรับส่งสนามบินค่ะ ต้องจองล่วงหน้าหนึ่งวันค่ะ",
+   "register": "formal"
+  }
+ ],
+ "how_far": [
+  {
+   "text": "เดินไปไกลไหมคะ?",
+   "register": "formal"
+  }
+ ],
+ "ten_minutes_walk": [
+  {
+   "text": "เดินไปประมาณสิบนาทีค่ะ",
+   "register": "formal"
+  }
+ ],
+ "map": [
+  {
+   "text": "นี่คือแผนที่เมืองค่ะ",
+   "register": "formal"
+  }
+ ],
+ "bus_stop": [
+  {
+   "text": "ป้ายรถเมล์อยู่หน้าโรงแรมเลยค่ะ",
+   "register": "formal"
+  }
+ ],
+ "parking": [
+  {
+   "text": "ค่าจอดรถวันละ 15 ยูโรค่ะ",
+   "register": "formal"
+  }
+ ],
+ "nearest_pharmacy": [
+  {
+   "text": "ร้านขายยาที่ใกล้ที่สุดอยู่ที่ไหนคะ?",
+   "register": "formal"
+  }
+ ],
+ "atm": [
+  {
+   "text": "จะกดเงินได้ที่ไหนคะ?",
+   "register": "formal"
+  }
+ ],
+ "book_tour": [
+  {
+   "text": "ดิฉันจองทัวร์พร้อมไกด์ให้คุณได้ค่ะ",
+   "register": "formal"
+  },
+  {
+   "text": "จองทัวร์มีไกด์ให้ได้นะ",
+   "register": "informal"
+  }
+ ],
+ "safe_area": [
+  {
+   "text": "ย่านนี้ตอนกลางคืนปลอดภัยไหมคะ?",
+   "register": "formal"
+  }
+ ],
+ "doctor": [
+  {
+   "text": "ฉันต้องการพบแพทย์ค่ะ",
+   "register": "formal"
+  }
+ ],
+ "call_doctor": [
+  {
+   "text": "ดิฉันจะเรียกแพทย์ให้คุณค่ะ",
+   "register": "formal"
+  },
+  {
+   "text": "เดี๋ยวเรียกหมอให้นะ",
+   "register": "informal"
+  }
+ ],
+ "emergency": [
+  {
+   "text": "ในกรณีฉุกเฉิน กรุณาโทร 112 ค่ะ",
+   "register": "formal"
+  }
+ ],
+ "first_aid": [
+  {
+   "text": "มีชุดปฐมพยาบาลอยู่ที่แผนกต้อนรับค่ะ",
+   "register": "formal"
+  }
+ ],
+ "fire_exit": [
+  {
+   "text": "ทางหนีไฟอยู่สุดทางเดินค่ะ",
+   "register": "formal"
+  }
+ ],
+ "fire_alarm": [
+  {
+   "text": "สัญญาณเตือนไฟไหม้ดังอยู่ค่ะ กรุณาออกทางบันได ห้ามใช้ลิฟต์ค่ะ",
+   "register": "formal"
+  }
+ ],
+ "checkout_question": [
+  {
+   "text": "วันนี้คุณจะเช็กเอาต์ใช่ไหมคะ?",
+   "register": "formal"
+  },
+  {
+   "text": "วันนี้จะกลับแล้วเหรอ?",
+   "register": "informal"
+  }
+ ],
+ "late_checkout": [
+  {
+   "text": "ขอเช็กเอาต์ช้ากว่ากำหนดได้ไหมคะ?",
+   "register": "formal"
+  }
+ ],
+ "late_checkout_fee": [
+  {
+   "text": "เช็กเอาต์ล่าช้าถึง 14.00 น. มีค่าบริการ 30 ยูโรค่ะ",
+   "register": "formal"
+  }
+ ],
+ "minibar_used": [
+  {
+   "text": "คุณได้ใช้อะไรจากมินิบาร์ไหมคะ?",
+   "register": "formal"
+  },
+  {
+   "text": "หยิบอะไรจากมินิบาร์ไปหรือเปล่า?",
+   "register": "informal"
+  }
+ ],
+ "here_invoice": [
+  {
+   "text": "นี่คือใบแจ้งหนี้ของคุณค่ะ",
+   "register": "formal"
+  },
+  {
+   "text": "นี่ใบแจ้งหนี้นะ",
+   "register": "informal"
+  }
+ ],
+ "invoice_email": [
+  {
+   "text": "ต้องการรับใบแจ้งหนี้ทางอีเมลไหมคะ?",
+   "register": "formal"
+  },
+  {
+   "text": "เอาใบแจ้งหนี้ทางอีเมลไหม?",
+   "register": "informal"
+  }
+ ],
+ "keep_luggage_after": [
+  {
+   "text": "หลังเช็กเอาต์ เรารับฝากกระเป๋าให้ได้ค่ะ",
+   "register": "formal"
+  },
+  {
+   "text": "หลังเช็กเอาต์ ฝากกระเป๋าไว้ได้นะ",
+   "register": "informal"
+  }
+ ],
+ "enjoyed_stay": [
+  {
+   "text": "การเข้าพักของคุณเป็นอย่างไรบ้างคะ?",
+   "register": "formal"
+  },
+  {
+   "text": "พักสนุกไหม?",
+   "register": "informal"
+  }
+ ],
+ "leave_review": [
+  {
+   "text": "หากคุณพอใจ สามารถรีวิวทางอินเทอร์เน็ตได้ค่ะ",
+   "register": "formal"
+  },
+  {
+   "text": "ถ้าพอใจ ก็ไปรีวิวในเน็ตได้นะ",
+   "register": "informal"
+  }
+ ],
+ "goodbye": [
+  {
+   "text": "ขอบคุณค่ะ ขอให้เดินทางโดยสวัสดิภาพค่ะ!",
+   "register": "formal"
+  }
+ ],
+ "colleague_help": [
+  {
+   "text": "มาช่วยที่เคาน์เตอร์หน่อยได้ไหม?",
+   "register": "informal"
+  }
+ ],
+ "room_free": [
+  {
+   "text": "ห้อง 214 ว่างแล้วก็สะอาดแล้วนะ",
+   "register": "informal"
+  }
+ ],
+ "guest_waiting": [
+  {
+   "text": "มีแขกรออยู่ที่เคาน์เตอร์",
+   "register": "informal"
+  }
+ ],
+ "vip_arrival": [
+  {
+   "text": "แขกคนสำคัญจะมาถึงตอนบ่ายสาม (15.00 น.)",
+   "register": "informal"
+  }
+ ],
+ "shift_change": [
+  {
+   "text": "เราเลิกงาน 18.00 น. ใครมาเปลี่ยนกะ?",
+   "register": "informal"
+  }
+ ],
+ "broken_report": [
+  {
+   "text": "ฝักบัวห้อง 305 รั่ว ต้องแจ้งช่างนะ",
+   "register": "informal"
+  }
+ ]
+}

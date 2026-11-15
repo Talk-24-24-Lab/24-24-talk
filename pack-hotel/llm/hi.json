@@ -1,0 +1,898 @@
+{
+ "welcome_back": [
+  {
+   "text": "आपको फिर से देखकर बहुत खुशी हुई!",
+   "register": "formal"
+  },
+  {
+   "text": "तुम्हें फिर से देखकर अच्छा लगा!",
+   "register": "informal"
+  }
+ ],
+ "hello_welcome": [
+  {
+   "text": "नमस्ते, आपका स्वागत है! मैं आपकी क्या सहायता कर सकता हूँ?",
+   "register": "formal"
+  },
+  {
+   "text": "हाय, स्वागत है! कुछ मदद करूँ?",
+   "register": "informal"
+  }
+ ],
+ "have_booking": [
+  {
+   "text": "क्या आपकी बुकिंग है?",
+   "register": "formal"
+  },
+  {
+   "text": "तुम्हारी बुकिंग है?",
+   "register": "informal"
+  }
+ ],
+ "booking_name": [
+  {
+   "text": "बुकिंग किस नाम से है?",
+   "register": "formal"
+  },
+  {
+   "text": "किस नाम से बुक किया है?",
+   "register": "informal"
+  }
+ ],
+ "passport_id": [
+  {
+   "text": "क्या मैं आपका पासपोर्ट या पहचान पत्र देख सकता हूँ, कृपया?",
+   "register": "formal"
+  },
+  {
+   "text": "ज़रा अपना पासपोर्ट या आईडी कार्ड दिखाओगे?",
+   "register": "informal"
+  }
+ ],
+ "fill_form": [
+  {
+   "text": "कृपया यह फ़ॉर्म भरकर इस पर हस्ताक्षर कर दीजिए।",
+   "register": "formal"
+  },
+  {
+   "text": "यह फ़ॉर्म भरकर साइन कर दोगे?",
+   "register": "informal"
+  }
+ ],
+ "how_many_nights": [
+  {
+   "text": "आप कितनी रातें ठहरेंगे?",
+   "register": "formal"
+  },
+  {
+   "text": "तुम कितनी रातें रुकोगे?",
+   "register": "informal"
+  }
+ ],
+ "how_many_people": [
+  {
+   "text": "आप कितने लोग हैं?",
+   "register": "formal"
+  },
+  {
+   "text": "तुम लोग कितने हो?",
+   "register": "informal"
+  }
+ ],
+ "room_ready": [
+  {
+   "text": "आपका कमरा तैयार है।",
+   "register": "formal"
+  },
+  {
+   "text": "तुम्हारा कमरा तैयार है।",
+   "register": "informal"
+  }
+ ],
+ "room_not_ready": [
+  {
+   "text": "आपका कमरा अभी तैयार नहीं है। यह लगभग दोपहर 2 बजे (14:00) तक तैयार हो जाएगा।",
+   "register": "formal"
+  },
+  {
+   "text": "तुम्हारा कमरा अभी तैयार नहीं है। लगभग दोपहर 2 बजे (14:00) तक हो जाएगा।",
+   "register": "informal"
+  }
+ ],
+ "leave_luggage": [
+  {
+   "text": "तब तक आप अपना सामान यहाँ छोड़ सकते हैं।",
+   "register": "formal"
+  },
+  {
+   "text": "तब तक तुम अपना सामान यहाँ रख सकते हो।",
+   "register": "informal"
+  }
+ ],
+ "room_number": [
+  {
+   "text": "आपका कमरा नंबर 214 है, दूसरी मंज़िल पर।",
+   "register": "formal"
+  },
+  {
+   "text": "तुम्हारा कमरा 214 है, दूसरी मंज़िल पर।",
+   "register": "informal"
+  }
+ ],
+ "elevator": [
+  {
+   "text": "लिफ़्ट दाईं ओर है।",
+   "register": "formal"
+  }
+ ],
+ "key_card": [
+  {
+   "text": "यह रहा आपका कार्ड। इससे कमरा और लिफ़्ट दोनों खुलते हैं।",
+   "register": "formal"
+  },
+  {
+   "text": "यह लो तुम्हारा कार्ड। इससे कमरा और लिफ़्ट दोनों खुलते हैं।",
+   "register": "informal"
+  }
+ ],
+ "wifi_code": [
+  {
+   "text": "वाई-फ़ाई का पासवर्ड इस कार्ड पर लिखा है।",
+   "register": "formal"
+  }
+ ],
+ "breakfast_hours": [
+  {
+   "text": "नाश्ता सुबह 7 बजे से 10:30 बजे तक परोसा जाता है।",
+   "register": "formal"
+  }
+ ],
+ "checkout_time": [
+  {
+   "text": "चेक-आउट सुबह 11 बजे से पहले करना होता है।",
+   "register": "formal"
+  }
+ ],
+ "no_booking_found": [
+  {
+   "text": "मुझे आपकी बुकिंग नहीं मिल रही है। क्या आपके पास कन्फ़र्मेशन नंबर है?",
+   "register": "formal"
+  },
+  {
+   "text": "मुझे तुम्हारी बुकिंग नहीं मिल रही। तुम्हारे पास कन्फ़र्मेशन नंबर है?",
+   "register": "informal"
+  }
+ ],
+ "booked_online": [
+  {
+   "text": "मैंने ऑनलाइन बुकिंग की थी।",
+   "register": "formal"
+  }
+ ],
+ "early_checkin": [
+  {
+   "text": "क्या मैं कमरे में थोड़ा पहले जा सकता हूँ?",
+   "register": "formal"
+  }
+ ],
+ "hotel_full": [
+  {
+   "text": "माफ़ कीजिए, आज रात होटल पूरी तरह भरा हुआ है।",
+   "register": "formal"
+  }
+ ],
+ "pay_now_or_later": [
+  {
+   "text": "आप अभी भुगतान करना चाहेंगे या चेक-आउट के समय?",
+   "register": "formal"
+  },
+  {
+   "text": "अभी पैसे दोगे या चेक-आउट के समय?",
+   "register": "informal"
+  }
+ ],
+ "deposit": [
+  {
+   "text": "हम 100 यूरो की सिक्योरिटी डिपॉज़िट लेते हैं, जो चेक-आउट पर लौटा दी जाती है।",
+   "register": "formal"
+  }
+ ],
+ "card_or_cash": [
+  {
+   "text": "आप कार्ड से भुगतान करेंगे या नकद?",
+   "register": "formal"
+  },
+  {
+   "text": "कार्ड से दोगे या कैश?",
+   "register": "informal"
+  }
+ ],
+ "city_tax": [
+  {
+   "text": "पर्यटक कर प्रति व्यक्ति प्रति रात 2 यूरो है।",
+   "register": "formal"
+  }
+ ],
+ "tax_not_included": [
+  {
+   "text": "पर्यटक कर बुकिंग की कीमत में शामिल नहीं है।",
+   "register": "formal"
+  }
+ ],
+ "card_declined": [
+  {
+   "text": "आपका कार्ड अस्वीकार हो गया है। क्या आपके पास कोई दूसरा कार्ड है?",
+   "register": "formal"
+  },
+  {
+   "text": "तुम्हारा कार्ड नहीं चला। कोई दूसरा कार्ड है?",
+   "register": "informal"
+  }
+ ],
+ "enter_pin": [
+  {
+   "text": "अब आप अपना पिन डाल सकते हैं।",
+   "register": "formal"
+  },
+  {
+   "text": "अब अपना पिन डाल दो।",
+   "register": "informal"
+  }
+ ],
+ "receipt": [
+  {
+   "text": "क्या आपको रसीद चाहिए?",
+   "register": "formal"
+  },
+  {
+   "text": "रसीद चाहिए?",
+   "register": "informal"
+  }
+ ],
+ "invoice_company": [
+  {
+   "text": "क्या आप बिल मेरी कंपनी के नाम पर बना सकते हैं?",
+   "register": "formal"
+  }
+ ],
+ "breakfast_included": [
+  {
+   "text": "क्या नाश्ता शामिल है?",
+   "register": "formal"
+  }
+ ],
+ "price_night": [
+  {
+   "text": "एक रात का कितना है?",
+   "register": "formal"
+  }
+ ],
+ "cheaper_room": [
+  {
+   "text": "क्या कोई सस्ता कमरा है?",
+   "register": "formal"
+  }
+ ],
+ "room_view": [
+  {
+   "text": "इस कमरे से समुद्र दिखता है।",
+   "register": "formal"
+  }
+ ],
+ "double_twin": [
+  {
+   "text": "आप एक बड़ा बेड पसंद करेंगे या दो अलग बेड?",
+   "register": "formal"
+  },
+  {
+   "text": "एक बड़ा बेड चाहिए या दो बेड?",
+   "register": "informal"
+  }
+ ],
+ "extra_bed": [
+  {
+   "text": "हम बच्चे के लिए एक अतिरिक्त बेड लगा सकते हैं।",
+   "register": "formal"
+  }
+ ],
+ "baby_cot": [
+  {
+   "text": "बच्चे का पालना मुफ़्त में उपलब्ध है।",
+   "register": "formal"
+  }
+ ],
+ "air_con": [
+  {
+   "text": "एसी का रिमोट बेड के पास वाली मेज़ पर है।",
+   "register": "formal"
+  }
+ ],
+ "safe": [
+  {
+   "text": "अलमारी में एक तिजोरी है।",
+   "register": "formal"
+  }
+ ],
+ "minibar": [
+  {
+   "text": "मिनीबार के पेय पदार्थों का अलग से शुल्क लगता है।",
+   "register": "formal"
+  }
+ ],
+ "non_smoking": [
+  {
+   "text": "सभी कमरे धूम्रपान-निषिद्ध हैं।",
+   "register": "formal"
+  }
+ ],
+ "quiet_room": [
+  {
+   "text": "मुझे एक शांत कमरा चाहिए, कृपया।",
+   "register": "formal"
+  }
+ ],
+ "change_room": [
+  {
+   "text": "क्या मैं कमरा बदल सकता हूँ?",
+   "register": "formal"
+  }
+ ],
+ "hair_dryer": [
+  {
+   "text": "हेयर ड्रायर बाथरूम में है।",
+   "register": "formal"
+  }
+ ],
+ "adapter": [
+  {
+   "text": "क्या आपके पास प्लग का एडाप्टर है?",
+   "register": "formal"
+  }
+ ],
+ "iron": [
+  {
+   "text": "क्या मुझे एक इस्त्री मिल सकती है?",
+   "register": "formal"
+  }
+ ],
+ "extra_pillow": [
+  {
+   "text": "क्या आप मुझे एक और तकिया ला सकते हैं?",
+   "register": "formal"
+  }
+ ],
+ "balcony": [
+  {
+   "text": "इस कमरे में बालकनी है।",
+   "register": "formal"
+  }
+ ],
+ "accessible_room": [
+  {
+   "text": "हमारे पास व्हीलचेयर के लिए सुलभ कमरा है।",
+   "register": "formal"
+  }
+ ],
+ "housekeeping_time": [
+  {
+   "text": "आप कमरे की सफ़ाई किस समय करवाना चाहेंगे?",
+   "register": "formal"
+  },
+  {
+   "text": "सफ़ाई किस समय करवानी है?",
+   "register": "informal"
+  }
+ ],
+ "do_not_disturb": [
+  {
+   "text": "अगर आप परेशान नहीं होना चाहते, तो दरवाज़े पर \"कृपया परेशान न करें\" का बोर्ड लगा दीजिए।",
+   "register": "formal"
+  },
+  {
+   "text": "अगर चैन से रहना चाहते हो, तो \"कृपया परेशान न करें\" का बोर्ड लगा दो।",
+   "register": "informal"
+  }
+ ],
+ "clean_now": [
+  {
+   "text": "क्या मैं अभी कमरे की सफ़ाई कर दूँ?",
+   "register": "formal"
+  },
+  {
+   "text": "अभी सफ़ाई कर दूँ?",
+   "register": "informal"
+  }
+ ],
+ "come_back_later": [
+  {
+   "text": "मैं बाद में आता हूँ।",
+   "register": "formal"
+  }
+ ],
+ "towels": [
+  {
+   "text": "क्या मुझे साफ़ तौलिए मिल सकते हैं?",
+   "register": "formal"
+  }
+ ],
+ "change_sheets": [
+  {
+   "text": "चादरें हर तीन दिन में बदली जाती हैं।",
+   "register": "formal"
+  }
+ ],
+ "laundry": [
+  {
+   "text": "हमारे यहाँ लॉन्ड्री सेवा है। कपड़े अगले दिन लौटा दिए जाते हैं।",
+   "register": "formal"
+  }
+ ],
+ "toilet_paper": [
+  {
+   "text": "टॉयलेट पेपर ख़त्म हो गया है।",
+   "register": "formal"
+  }
+ ],
+ "lost_item": [
+  {
+   "text": "क्या आपका कुछ खो गया है?",
+   "register": "formal"
+  },
+  {
+   "text": "तुम्हारा कुछ खो गया है?",
+   "register": "informal"
+  }
+ ],
+ "found_item": [
+  {
+   "text": "हमें आपके कमरे में यह चीज़ मिली है।",
+   "register": "formal"
+  },
+  {
+   "text": "हमें तुम्हारे कमरे में यह मिला।",
+   "register": "informal"
+  }
+ ],
+ "table_for": [
+  {
+   "text": "कितने लोगों के लिए टेबल चाहिए?",
+   "register": "formal"
+  },
+  {
+   "text": "कितने लोगों के लिए?",
+   "register": "informal"
+  }
+ ],
+ "breakfast_room": [
+  {
+   "text": "नाश्ता ग्राउंड फ़्लोर पर, रिसेप्शन के बगल में परोसा जाता है।",
+   "register": "formal"
+  }
+ ],
+ "buffet": [
+  {
+   "text": "यह बुफ़े है, कृपया अपने आप लीजिए।",
+   "register": "formal"
+  },
+  {
+   "text": "यह बुफ़े है, ख़ुद ले लो।",
+   "register": "informal"
+  }
+ ],
+ "coffee_or_tea": [
+  {
+   "text": "कॉफ़ी या चाय?",
+   "register": "formal"
+  }
+ ],
+ "allergy": [
+  {
+   "text": "क्या आपको किसी खाने से एलर्जी है?",
+   "register": "formal"
+  },
+  {
+   "text": "तुम्हें किसी खाने से एलर्जी है?",
+   "register": "informal"
+  }
+ ],
+ "vegetarian": [
+  {
+   "text": "हमारे पास शाकाहारी व्यंजन हैं।",
+   "register": "formal"
+  }
+ ],
+ "halal": [
+  {
+   "text": "क्या यह मांस हलाल है?",
+   "register": "formal"
+  }
+ ],
+ "gluten_free": [
+  {
+   "text": "मैं ग्लूटेन नहीं खाता।",
+   "register": "formal"
+  }
+ ],
+ "room_service": [
+  {
+   "text": "रूम सर्विस रात 10 बजे तक उपलब्ध है।",
+   "register": "formal"
+  }
+ ],
+ "charge_room": [
+  {
+   "text": "क्या मैं इसे आपके कमरे के बिल में जोड़ दूँ?",
+   "register": "formal"
+  },
+  {
+   "text": "तुम्हारे कमरे के बिल में जोड़ दूँ?",
+   "register": "informal"
+  }
+ ],
+ "restaurant_closed": [
+  {
+   "text": "आज रात रेस्टोरेंट बंद है।",
+   "register": "formal"
+  }
+ ],
+ "recommend_restaurant": [
+  {
+   "text": "मैं आपको पास ही एक अच्छा रेस्टोरेंट सुझा सकता हूँ।",
+   "register": "formal"
+  },
+  {
+   "text": "मैं तुम्हें पास ही एक बढ़िया रेस्टोरेंट बता सकता हूँ।",
+   "register": "informal"
+  }
+ ],
+ "enjoy_meal": [
+  {
+   "text": "भोजन का आनंद लीजिए!",
+   "register": "formal"
+  }
+ ],
+ "problem_room": [
+  {
+   "text": "मेरे कमरे में एक समस्या है।",
+   "register": "formal"
+  }
+ ],
+ "ac_broken": [
+  {
+   "text": "एसी काम नहीं कर रहा है।",
+   "register": "formal"
+  }
+ ],
+ "no_hot_water": [
+  {
+   "text": "गरम पानी नहीं आ रहा है।",
+   "register": "formal"
+  }
+ ],
+ "wifi_not_working": [
+  {
+   "text": "वाई-फ़ाई काम नहीं कर रहा है।",
+   "register": "formal"
+  }
+ ],
+ "too_noisy": [
+  {
+   "text": "बहुत शोर है, मुझे नींद नहीं आ रही।",
+   "register": "formal"
+  }
+ ],
+ "room_dirty": [
+  {
+   "text": "कमरा साफ़ नहीं है।",
+   "register": "formal"
+  }
+ ],
+ "card_not_working": [
+  {
+   "text": "मेरे कार्ड से दरवाज़ा नहीं खुल रहा है।",
+   "register": "formal"
+  }
+ ],
+ "locked_out": [
+  {
+   "text": "मैं अपना कार्ड कमरे में ही भूल गया।",
+   "register": "formal"
+  }
+ ],
+ "sorry_problem": [
+  {
+   "text": "इस समस्या के लिए मुझे सचमुच बहुत खेद है।",
+   "register": "formal"
+  }
+ ],
+ "send_technician": [
+  {
+   "text": "मैं अभी किसी को आपके कमरे में भेजता हूँ।",
+   "register": "formal"
+  },
+  {
+   "text": "मैं अभी किसी को तुम्हारे कमरे में भेजता हूँ।",
+   "register": "informal"
+  }
+ ],
+ "fixed_soon": [
+  {
+   "text": "यह ज़्यादा से ज़्यादा एक घंटे में ठीक हो जाएगा।",
+   "register": "formal"
+  }
+ ],
+ "offer_new_room": [
+  {
+   "text": "मैं आपको दूसरा कमरा देता हूँ।",
+   "register": "formal"
+  },
+  {
+   "text": "मैं तुम्हें दूसरा कमरा देता हूँ।",
+   "register": "informal"
+  }
+ ],
+ "compensation": [
+  {
+   "text": "क्षमा स्वरूप, आपका नाश्ता हमारी ओर से मुफ़्त है।",
+   "register": "formal"
+  },
+  {
+   "text": "माफ़ी के तौर पर, तुम्हारा नाश्ता मुफ़्त है।",
+   "register": "informal"
+  }
+ ],
+ "manager": [
+  {
+   "text": "मैं मैनेजर से बात करना चाहता हूँ।",
+   "register": "formal"
+  }
+ ],
+ "complaint_noted": [
+  {
+   "text": "मैंने आपकी शिकायत दर्ज कर ली है। मैनेजर आपको वापस फ़ोन करेंगे।",
+   "register": "formal"
+  },
+  {
+   "text": "मैंने तुम्हारी शिकायत लिख ली है। मैनेजर तुम्हें वापस फ़ोन करेंगे।",
+   "register": "informal"
+  }
+ ],
+ "taxi": [
+  {
+   "text": "क्या मैं आपके लिए टैक्सी बुला दूँ?",
+   "register": "formal"
+  },
+  {
+   "text": "तुम्हारे लिए टैक्सी बुला दूँ?",
+   "register": "informal"
+  }
+ ],
+ "airport_transfer": [
+  {
+   "text": "हम एयरपोर्ट के लिए शटल सेवा देते हैं। इसे एक दिन पहले बुक करना होता है।",
+   "register": "formal"
+  }
+ ],
+ "how_far": [
+  {
+   "text": "क्या पैदल दूर है?",
+   "register": "formal"
+  }
+ ],
+ "ten_minutes_walk": [
+  {
+   "text": "पैदल दस मिनट का रास्ता है।",
+   "register": "formal"
+  }
+ ],
+ "map": [
+  {
+   "text": "यह रहा शहर का नक्शा।",
+   "register": "formal"
+  }
+ ],
+ "bus_stop": [
+  {
+   "text": "बस स्टॉप होटल के ठीक सामने है।",
+   "register": "formal"
+  }
+ ],
+ "parking": [
+  {
+   "text": "पार्किंग का शुल्क 15 यूरो प्रति दिन है।",
+   "register": "formal"
+  }
+ ],
+ "nearest_pharmacy": [
+  {
+   "text": "सबसे नज़दीकी दवा की दुकान कहाँ है?",
+   "register": "formal"
+  }
+ ],
+ "atm": [
+  {
+   "text": "मैं पैसे कहाँ निकाल सकता हूँ?",
+   "register": "formal"
+  }
+ ],
+ "book_tour": [
+  {
+   "text": "मैं आपके लिए गाइडेड टूर बुक कर सकता हूँ।",
+   "register": "formal"
+  },
+  {
+   "text": "मैं तुम्हारे लिए गाइडेड टूर बुक कर सकता हूँ।",
+   "register": "informal"
+  }
+ ],
+ "safe_area": [
+  {
+   "text": "क्या यह इलाक़ा रात में सुरक्षित है?",
+   "register": "formal"
+  }
+ ],
+ "doctor": [
+  {
+   "text": "मुझे डॉक्टर की ज़रूरत है।",
+   "register": "formal"
+  }
+ ],
+ "call_doctor": [
+  {
+   "text": "मैं आपके लिए डॉक्टर बुलाता हूँ।",
+   "register": "formal"
+  },
+  {
+   "text": "मैं तुम्हारे लिए डॉक्टर बुलाता हूँ।",
+   "register": "informal"
+  }
+ ],
+ "emergency": [
+  {
+   "text": "आपातकाल में 112 पर कॉल करें।",
+   "register": "formal"
+  }
+ ],
+ "first_aid": [
+  {
+   "text": "रिसेप्शन पर हमारे पास फ़र्स्ट-एड किट है।",
+   "register": "formal"
+  }
+ ],
+ "fire_exit": [
+  {
+   "text": "आपातकालीन निकास गलियारे के अंत में है।",
+   "register": "formal"
+  }
+ ],
+ "fire_alarm": [
+  {
+   "text": "फ़ायर अलार्म बज रहा है: सीढ़ियों से बाहर निकलिए, लिफ़्ट का इस्तेमाल मत कीजिए।",
+   "register": "formal"
+  }
+ ],
+ "checkout_question": [
+  {
+   "text": "क्या आप आज जा रहे हैं?",
+   "register": "formal"
+  },
+  {
+   "text": "तुम आज जा रहे हो?",
+   "register": "informal"
+  }
+ ],
+ "late_checkout": [
+  {
+   "text": "क्या मैं देर से चेक-आउट कर सकता हूँ?",
+   "register": "formal"
+  }
+ ],
+ "late_checkout_fee": [
+  {
+   "text": "दोपहर 2 बजे (14:00) तक लेट चेक-आउट का शुल्क 30 यूरो है।",
+   "register": "formal"
+  }
+ ],
+ "minibar_used": [
+  {
+   "text": "क्या आपने मिनीबार से कुछ लिया है?",
+   "register": "formal"
+  },
+  {
+   "text": "तुमने मिनीबार से कुछ लिया है?",
+   "register": "informal"
+  }
+ ],
+ "here_invoice": [
+  {
+   "text": "यह रहा आपका बिल।",
+   "register": "formal"
+  },
+  {
+   "text": "यह रहा तुम्हारा बिल।",
+   "register": "informal"
+  }
+ ],
+ "invoice_email": [
+  {
+   "text": "क्या आप बिल ई-मेल पर चाहेंगे?",
+   "register": "formal"
+  },
+  {
+   "text": "बिल ई-मेल पर चाहिए?",
+   "register": "informal"
+  }
+ ],
+ "keep_luggage_after": [
+  {
+   "text": "चेक-आउट के बाद हम आपका सामान रख सकते हैं।",
+   "register": "formal"
+  },
+  {
+   "text": "चेक-आउट के बाद हम तुम्हारा सामान रख सकते हैं।",
+   "register": "informal"
+  }
+ ],
+ "enjoyed_stay": [
+  {
+   "text": "क्या आपका ठहरना अच्छा रहा?",
+   "register": "formal"
+  },
+  {
+   "text": "तुम्हारा रुकना अच्छा रहा?",
+   "register": "informal"
+  }
+ ],
+ "leave_review": [
+  {
+   "text": "अगर आप संतुष्ट हैं, तो इंटरनेट पर एक रिव्यू दे सकते हैं।",
+   "register": "formal"
+  },
+  {
+   "text": "अगर तुम ख़ुश हो, तो इंटरनेट पर रिव्यू दे सकते हो।",
+   "register": "informal"
+  }
+ ],
+ "goodbye": [
+  {
+   "text": "धन्यवाद, आपकी यात्रा शुभ हो!",
+   "register": "formal"
+  }
+ ],
+ "colleague_help": [
+  {
+   "text": "रिसेप्शन पर मेरी मदद कर सकते हो?",
+   "register": "informal"
+  }
+ ],
+ "room_free": [
+  {
+   "text": "कमरा 214 ख़ाली है और साफ़ है।",
+   "register": "informal"
+  }
+ ],
+ "guest_waiting": [
+  {
+   "text": "रिसेप्शन पर एक मेहमान इंतज़ार कर रहे हैं।",
+   "register": "informal"
+  }
+ ],
+ "vip_arrival": [
+  {
+   "text": "एक ख़ास मेहमान दोपहर 3 बजे (15:00) आ रहे हैं।",
+   "register": "informal"
+  }
+ ],
+ "shift_change": [
+  {
+   "text": "मेरी शिफ़्ट शाम 6 बजे (18:00) ख़त्म होती है, मेरी जगह कौन आएगा?",
+   "register": "informal"
+  }
+ ],
+ "broken_report": [
+  {
+   "text": "305 का शॉवर लीक कर रहा है, टेक्नीशियन को बताना होगा।",
+   "register": "informal"
+  }
+ ]
+}

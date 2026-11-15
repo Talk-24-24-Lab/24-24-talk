@@ -1,0 +1,898 @@
+{
+ "welcome_back": [
+  {
+   "text": "다시 뵙게 되어 반갑습니다!",
+   "register": "formal"
+  },
+  {
+   "text": "다시 보니까 반갑다!",
+   "register": "informal"
+  }
+ ],
+ "hello_welcome": [
+  {
+   "text": "안녕하세요, 어서 오십시오! 무엇을 도와드릴까요?",
+   "register": "formal"
+  },
+  {
+   "text": "안녕, 어서 와! 도와줄까?",
+   "register": "informal"
+  }
+ ],
+ "have_booking": [
+  {
+   "text": "예약하셨습니까?",
+   "register": "formal"
+  },
+  {
+   "text": "예약했어?",
+   "register": "informal"
+  }
+ ],
+ "booking_name": [
+  {
+   "text": "예약자 성함이 어떻게 되십니까?",
+   "register": "formal"
+  },
+  {
+   "text": "누구 이름으로 예약했어?",
+   "register": "informal"
+  }
+ ],
+ "passport_id": [
+  {
+   "text": "여권이나 신분증을 보여 주시겠습니까?",
+   "register": "formal"
+  },
+  {
+   "text": "여권이나 신분증 좀 보여 줄래?",
+   "register": "informal"
+  }
+ ],
+ "fill_form": [
+  {
+   "text": "이 카드를 작성하시고 서명해 주시겠습니까?",
+   "register": "formal"
+  },
+  {
+   "text": "이 카드 작성하고 사인해 줄래?",
+   "register": "informal"
+  }
+ ],
+ "how_many_nights": [
+  {
+   "text": "며칠 묵으실 예정입니까?",
+   "register": "formal"
+  },
+  {
+   "text": "며칠 묵을 거야?",
+   "register": "informal"
+  }
+ ],
+ "how_many_people": [
+  {
+   "text": "모두 몇 분이십니까?",
+   "register": "formal"
+  },
+  {
+   "text": "몇 명이야?",
+   "register": "informal"
+  }
+ ],
+ "room_ready": [
+  {
+   "text": "객실이 준비되었습니다.",
+   "register": "formal"
+  },
+  {
+   "text": "방 준비됐어.",
+   "register": "informal"
+  }
+ ],
+ "room_not_ready": [
+  {
+   "text": "객실이 아직 준비되지 않았습니다. 오후 2시쯤 준비될 예정입니다.",
+   "register": "formal"
+  },
+  {
+   "text": "방이 아직 준비 안 됐어. 오후 2시쯤이면 될 거야.",
+   "register": "informal"
+  }
+ ],
+ "leave_luggage": [
+  {
+   "text": "그동안 짐은 여기에 맡기셔도 됩니다.",
+   "register": "formal"
+  },
+  {
+   "text": "그동안 짐은 여기 두고 가도 돼.",
+   "register": "informal"
+  }
+ ],
+ "room_number": [
+  {
+   "text": "객실은 3층 214호입니다.",
+   "register": "formal"
+  },
+  {
+   "text": "네 방은 214호야, 3층.",
+   "register": "informal"
+  }
+ ],
+ "elevator": [
+  {
+   "text": "엘리베이터는 오른쪽에 있습니다.",
+   "register": "formal"
+  }
+ ],
+ "key_card": [
+  {
+   "text": "객실 카드키입니다. 객실 문과 엘리베이터에 사용하실 수 있습니다.",
+   "register": "formal"
+  },
+  {
+   "text": "여기 카드키. 방이랑 엘리베이터 둘 다 열려.",
+   "register": "informal"
+  }
+ ],
+ "wifi_code": [
+  {
+   "text": "와이파이 비밀번호는 이 카드에 적혀 있습니다.",
+   "register": "formal"
+  }
+ ],
+ "breakfast_hours": [
+  {
+   "text": "조식은 오전 7시부터 10시 30분까지 제공됩니다.",
+   "register": "formal"
+  }
+ ],
+ "checkout_time": [
+  {
+   "text": "체크아웃은 오전 11시까지입니다.",
+   "register": "formal"
+  }
+ ],
+ "no_booking_found": [
+  {
+   "text": "예약 내역이 확인되지 않습니다. 예약 확인 번호를 갖고 계십니까?",
+   "register": "formal"
+  },
+  {
+   "text": "예약이 안 보이네. 확인 번호 있어?",
+   "register": "informal"
+  }
+ ],
+ "booked_online": [
+  {
+   "text": "인터넷으로 예약했어요.",
+   "register": "formal"
+  }
+ ],
+ "early_checkin": [
+  {
+   "text": "객실에 좀 더 일찍 들어갈 수 있을까요?",
+   "register": "formal"
+  }
+ ],
+ "hotel_full": [
+  {
+   "text": "죄송합니다. 오늘 밤은 만실입니다.",
+   "register": "formal"
+  }
+ ],
+ "pay_now_or_later": [
+  {
+   "text": "지금 결제하시겠습니까, 아니면 체크아웃 때 하시겠습니까?",
+   "register": "formal"
+  },
+  {
+   "text": "지금 계산할래, 아니면 체크아웃할 때 할래?",
+   "register": "informal"
+  }
+ ],
+ "deposit": [
+  {
+   "text": "보증금 100유로를 받고 있으며, 체크아웃 시 돌려드립니다.",
+   "register": "formal"
+  }
+ ],
+ "card_or_cash": [
+  {
+   "text": "카드로 결제하시겠습니까, 현금으로 하시겠습니까?",
+   "register": "formal"
+  },
+  {
+   "text": "카드로 낼래, 현금으로 낼래?",
+   "register": "informal"
+  }
+ ],
+ "city_tax": [
+  {
+   "text": "숙박세는 1인 1박당 2유로입니다.",
+   "register": "formal"
+  }
+ ],
+ "tax_not_included": [
+  {
+   "text": "숙박세는 예약 요금에 포함되어 있지 않습니다.",
+   "register": "formal"
+  }
+ ],
+ "card_declined": [
+  {
+   "text": "카드 승인이 거절되었습니다. 다른 카드가 있으십니까?",
+   "register": "formal"
+  },
+  {
+   "text": "카드가 안 되네. 다른 카드 있어?",
+   "register": "informal"
+  }
+ ],
+ "enter_pin": [
+  {
+   "text": "비밀번호를 입력해 주십시오.",
+   "register": "formal"
+  },
+  {
+   "text": "비밀번호 눌러도 돼.",
+   "register": "informal"
+  }
+ ],
+ "receipt": [
+  {
+   "text": "영수증 드릴까요?",
+   "register": "formal"
+  },
+  {
+   "text": "영수증 줄까?",
+   "register": "informal"
+  }
+ ],
+ "invoice_company": [
+  {
+   "text": "계산서를 회사 이름으로 발행해 주실 수 있나요?",
+   "register": "formal"
+  }
+ ],
+ "breakfast_included": [
+  {
+   "text": "조식이 포함되어 있나요?",
+   "register": "formal"
+  }
+ ],
+ "price_night": [
+  {
+   "text": "1박에 얼마인가요?",
+   "register": "formal"
+  }
+ ],
+ "cheaper_room": [
+  {
+   "text": "더 저렴한 방이 있나요?",
+   "register": "formal"
+  }
+ ],
+ "room_view": [
+  {
+   "text": "이 객실은 바다 전망입니다.",
+   "register": "formal"
+  }
+ ],
+ "double_twin": [
+  {
+   "text": "더블 침대와 트윈 침대 중 어느 쪽이 좋으십니까?",
+   "register": "formal"
+  },
+  {
+   "text": "큰 침대 하나가 좋아, 아니면 침대 두 개가 좋아?",
+   "register": "informal"
+  }
+ ],
+ "extra_bed": [
+  {
+   "text": "아이를 위해 침대를 하나 추가해 드릴 수 있습니다.",
+   "register": "formal"
+  }
+ ],
+ "baby_cot": [
+  {
+   "text": "아기 침대를 무료로 이용하실 수 있습니다.",
+   "register": "formal"
+  }
+ ],
+ "air_con": [
+  {
+   "text": "에어컨 리모컨은 침대 옆 협탁 위에 있습니다.",
+   "register": "formal"
+  }
+ ],
+ "safe": [
+  {
+   "text": "옷장 안에 금고가 있습니다.",
+   "register": "formal"
+  }
+ ],
+ "minibar": [
+  {
+   "text": "미니바 음료는 유료입니다.",
+   "register": "formal"
+  }
+ ],
+ "non_smoking": [
+  {
+   "text": "모든 객실은 금연입니다.",
+   "register": "formal"
+  }
+ ],
+ "quiet_room": [
+  {
+   "text": "조용한 방으로 부탁드려요.",
+   "register": "formal"
+  }
+ ],
+ "change_room": [
+  {
+   "text": "방을 바꿀 수 있을까요?",
+   "register": "formal"
+  }
+ ],
+ "hair_dryer": [
+  {
+   "text": "헤어드라이어는 욕실에 있습니다.",
+   "register": "formal"
+  }
+ ],
+ "adapter": [
+  {
+   "text": "전원 어댑터 있나요?",
+   "register": "formal"
+  }
+ ],
+ "iron": [
+  {
+   "text": "다리미를 빌릴 수 있을까요?",
+   "register": "formal"
+  }
+ ],
+ "extra_pillow": [
+  {
+   "text": "베개를 하나 더 가져다주실 수 있나요?",
+   "register": "formal"
+  }
+ ],
+ "balcony": [
+  {
+   "text": "이 객실에는 발코니가 있습니다.",
+   "register": "formal"
+  }
+ ],
+ "accessible_room": [
+  {
+   "text": "휠체어로 이용하실 수 있는 객실이 있습니다.",
+   "register": "formal"
+  }
+ ],
+ "housekeeping_time": [
+  {
+   "text": "객실 청소는 몇 시에 해 드릴까요?",
+   "register": "formal"
+  },
+  {
+   "text": "청소 몇 시에 해 줄까?",
+   "register": "informal"
+  }
+ ],
+ "do_not_disturb": [
+  {
+   "text": "방해받고 싶지 않으시면 '방해하지 마세요' 표지판을 문에 걸어 주십시오.",
+   "register": "formal"
+  },
+  {
+   "text": "방해받기 싫으면 '방해하지 마세요' 표지판 걸어 둬.",
+   "register": "informal"
+  }
+ ],
+ "clean_now": [
+  {
+   "text": "지금 객실 청소를 해 드려도 될까요?",
+   "register": "formal"
+  },
+  {
+   "text": "지금 청소해도 돼?",
+   "register": "informal"
+  }
+ ],
+ "come_back_later": [
+  {
+   "text": "나중에 다시 오겠습니다.",
+   "register": "formal"
+  }
+ ],
+ "towels": [
+  {
+   "text": "깨끗한 수건을 받을 수 있을까요?",
+   "register": "formal"
+  }
+ ],
+ "change_sheets": [
+  {
+   "text": "침대 시트는 3일마다 교체해 드립니다.",
+   "register": "formal"
+  }
+ ],
+ "laundry": [
+  {
+   "text": "세탁 서비스가 있습니다. 세탁물은 다음 날 돌려드립니다.",
+   "register": "formal"
+  }
+ ],
+ "toilet_paper": [
+  {
+   "text": "화장지가 다 떨어졌어요.",
+   "register": "formal"
+  }
+ ],
+ "lost_item": [
+  {
+   "text": "혹시 잃어버리신 물건이 있으십니까?",
+   "register": "formal"
+  },
+  {
+   "text": "뭐 잃어버렸어?",
+   "register": "informal"
+  }
+ ],
+ "found_item": [
+  {
+   "text": "고객님 객실에서 이 물건을 발견했습니다.",
+   "register": "formal"
+  },
+  {
+   "text": "네 방에서 이거 찾았어.",
+   "register": "informal"
+  }
+ ],
+ "table_for": [
+  {
+   "text": "몇 분이십니까?",
+   "register": "formal"
+  },
+  {
+   "text": "몇 명이야?",
+   "register": "informal"
+  }
+ ],
+ "breakfast_room": [
+  {
+   "text": "조식은 1층 프런트 옆에서 제공됩니다.",
+   "register": "formal"
+  }
+ ],
+ "buffet": [
+  {
+   "text": "뷔페식이니 편하게 드십시오.",
+   "register": "formal"
+  },
+  {
+   "text": "뷔페니까 마음껏 갖다 먹어.",
+   "register": "informal"
+  }
+ ],
+ "coffee_or_tea": [
+  {
+   "text": "커피와 차 중 어떤 걸로 드릴까요?",
+   "register": "formal"
+  }
+ ],
+ "allergy": [
+  {
+   "text": "음식 알레르기가 있으십니까?",
+   "register": "formal"
+  },
+  {
+   "text": "음식 알레르기 있어?",
+   "register": "informal"
+  }
+ ],
+ "vegetarian": [
+  {
+   "text": "채식 메뉴도 있습니다.",
+   "register": "formal"
+  }
+ ],
+ "halal": [
+  {
+   "text": "이 고기는 할랄인가요?",
+   "register": "formal"
+  }
+ ],
+ "gluten_free": [
+  {
+   "text": "저는 글루텐을 먹지 않아요.",
+   "register": "formal"
+  }
+ ],
+ "room_service": [
+  {
+   "text": "룸서비스는 밤 10시까지 이용하실 수 있습니다.",
+   "register": "formal"
+  }
+ ],
+ "charge_room": [
+  {
+   "text": "객실 요금에 추가해 드릴까요?",
+   "register": "formal"
+  },
+  {
+   "text": "방 앞으로 달아 둘까?",
+   "register": "informal"
+  }
+ ],
+ "restaurant_closed": [
+  {
+   "text": "오늘 저녁에는 레스토랑이 문을 닫습니다.",
+   "register": "formal"
+  }
+ ],
+ "recommend_restaurant": [
+  {
+   "text": "바로 근처에 괜찮은 레스토랑을 추천해 드릴 수 있습니다.",
+   "register": "formal"
+  },
+  {
+   "text": "바로 근처에 괜찮은 식당 추천해 줄 수 있어.",
+   "register": "informal"
+  }
+ ],
+ "enjoy_meal": [
+  {
+   "text": "맛있게 드십시오!",
+   "register": "formal"
+  }
+ ],
+ "problem_room": [
+  {
+   "text": "제 방에 문제가 있어요.",
+   "register": "formal"
+  }
+ ],
+ "ac_broken": [
+  {
+   "text": "에어컨이 작동하지 않아요.",
+   "register": "formal"
+  }
+ ],
+ "no_hot_water": [
+  {
+   "text": "뜨거운 물이 안 나와요.",
+   "register": "formal"
+  }
+ ],
+ "wifi_not_working": [
+  {
+   "text": "와이파이가 안 돼요.",
+   "register": "formal"
+  }
+ ],
+ "too_noisy": [
+  {
+   "text": "너무 시끄러워서 잠을 잘 수가 없어요.",
+   "register": "formal"
+  }
+ ],
+ "room_dirty": [
+  {
+   "text": "방이 깨끗하지 않아요.",
+   "register": "formal"
+  }
+ ],
+ "card_not_working": [
+  {
+   "text": "카드키로 문이 안 열려요.",
+   "register": "formal"
+  }
+ ],
+ "locked_out": [
+  {
+   "text": "카드키를 방 안에 두고 나왔어요.",
+   "register": "formal"
+  }
+ ],
+ "sorry_problem": [
+  {
+   "text": "불편을 드려 정말 죄송합니다.",
+   "register": "formal"
+  }
+ ],
+ "send_technician": [
+  {
+   "text": "지금 바로 직원을 객실로 보내 드리겠습니다.",
+   "register": "formal"
+  },
+  {
+   "text": "지금 바로 사람 보낼게.",
+   "register": "informal"
+  }
+ ],
+ "fixed_soon": [
+  {
+   "text": "늦어도 한 시간 안에 수리해 드리겠습니다.",
+   "register": "formal"
+  }
+ ],
+ "offer_new_room": [
+  {
+   "text": "다른 객실을 준비해 드리겠습니다.",
+   "register": "formal"
+  },
+  {
+   "text": "다른 방 줄게.",
+   "register": "informal"
+  }
+ ],
+ "compensation": [
+  {
+   "text": "사과의 의미로 조식을 무료로 제공해 드리겠습니다.",
+   "register": "formal"
+  },
+  {
+   "text": "미안한 마음으로 아침은 공짜로 줄게.",
+   "register": "informal"
+  }
+ ],
+ "manager": [
+  {
+   "text": "책임자와 이야기하고 싶어요.",
+   "register": "formal"
+  }
+ ],
+ "complaint_noted": [
+  {
+   "text": "불편 사항을 잘 접수했습니다. 책임자가 다시 연락드릴 것입니다.",
+   "register": "formal"
+  },
+  {
+   "text": "불만 사항 잘 적어 뒀어. 책임자가 다시 연락할 거야.",
+   "register": "informal"
+  }
+ ],
+ "taxi": [
+  {
+   "text": "택시를 불러 드릴까요?",
+   "register": "formal"
+  },
+  {
+   "text": "택시 불러 줄까?",
+   "register": "informal"
+  }
+ ],
+ "airport_transfer": [
+  {
+   "text": "공항 셔틀을 운행하고 있습니다. 하루 전까지 예약하셔야 합니다.",
+   "register": "formal"
+  }
+ ],
+ "how_far": [
+  {
+   "text": "걸어가기에 먼가요?",
+   "register": "formal"
+  }
+ ],
+ "ten_minutes_walk": [
+  {
+   "text": "걸어서 10분 거리입니다.",
+   "register": "formal"
+  }
+ ],
+ "map": [
+  {
+   "text": "시내 지도입니다.",
+   "register": "formal"
+  }
+ ],
+ "bus_stop": [
+  {
+   "text": "버스 정류장은 호텔 바로 앞에 있습니다.",
+   "register": "formal"
+  }
+ ],
+ "parking": [
+  {
+   "text": "주차 요금은 하루 15유로입니다.",
+   "register": "formal"
+  }
+ ],
+ "nearest_pharmacy": [
+  {
+   "text": "가장 가까운 약국이 어디인가요?",
+   "register": "formal"
+  }
+ ],
+ "atm": [
+  {
+   "text": "어디에서 돈을 찾을 수 있나요?",
+   "register": "formal"
+  }
+ ],
+ "book_tour": [
+  {
+   "text": "가이드 투어를 예약해 드릴 수 있습니다.",
+   "register": "formal"
+  },
+  {
+   "text": "가이드 투어 예약해 줄 수 있어.",
+   "register": "informal"
+  }
+ ],
+ "safe_area": [
+  {
+   "text": "이 동네는 밤에 안전한가요?",
+   "register": "formal"
+  }
+ ],
+ "doctor": [
+  {
+   "text": "의사가 필요해요.",
+   "register": "formal"
+  }
+ ],
+ "call_doctor": [
+  {
+   "text": "의사를 불러 드리겠습니다.",
+   "register": "formal"
+  },
+  {
+   "text": "의사 불러 줄게.",
+   "register": "informal"
+  }
+ ],
+ "emergency": [
+  {
+   "text": "긴급 상황 시에는 112로 전화하십시오.",
+   "register": "formal"
+  }
+ ],
+ "first_aid": [
+  {
+   "text": "프런트에 구급상자가 있습니다.",
+   "register": "formal"
+  }
+ ],
+ "fire_exit": [
+  {
+   "text": "비상구는 복도 끝에 있습니다.",
+   "register": "formal"
+  }
+ ],
+ "fire_alarm": [
+  {
+   "text": "화재 경보가 울리고 있습니다. 엘리베이터 말고 계단으로 대피하십시오.",
+   "register": "formal"
+  }
+ ],
+ "checkout_question": [
+  {
+   "text": "오늘 체크아웃하십니까?",
+   "register": "formal"
+  },
+  {
+   "text": "오늘 떠나?",
+   "register": "informal"
+  }
+ ],
+ "late_checkout": [
+  {
+   "text": "체크아웃을 늦게 할 수 있을까요?",
+   "register": "formal"
+  }
+ ],
+ "late_checkout_fee": [
+  {
+   "text": "오후 2시까지 레이트 체크아웃은 30유로입니다.",
+   "register": "formal"
+  }
+ ],
+ "minibar_used": [
+  {
+   "text": "미니바에서 이용하신 것이 있으십니까?",
+   "register": "formal"
+  },
+  {
+   "text": "미니바에서 뭐 꺼내 먹었어?",
+   "register": "informal"
+  }
+ ],
+ "here_invoice": [
+  {
+   "text": "계산서 여기 있습니다.",
+   "register": "formal"
+  },
+  {
+   "text": "여기 계산서.",
+   "register": "informal"
+  }
+ ],
+ "invoice_email": [
+  {
+   "text": "계산서를 이메일로 보내 드릴까요?",
+   "register": "formal"
+  },
+  {
+   "text": "계산서 이메일로 보내 줄까?",
+   "register": "informal"
+  }
+ ],
+ "keep_luggage_after": [
+  {
+   "text": "체크아웃 후에도 짐을 보관해 드릴 수 있습니다.",
+   "register": "formal"
+  },
+  {
+   "text": "체크아웃하고 나서도 짐 맡아 줄 수 있어.",
+   "register": "informal"
+  }
+ ],
+ "enjoyed_stay": [
+  {
+   "text": "즐거운 시간 보내셨습니까?",
+   "register": "formal"
+  },
+  {
+   "text": "즐겁게 지냈어?",
+   "register": "informal"
+  }
+ ],
+ "leave_review": [
+  {
+   "text": "만족하셨다면 인터넷에 후기를 남겨 주셔도 좋습니다.",
+   "register": "formal"
+  },
+  {
+   "text": "마음에 들었으면 인터넷에 후기 남겨 줘도 돼.",
+   "register": "informal"
+  }
+ ],
+ "goodbye": [
+  {
+   "text": "감사합니다. 즐거운 여행 되십시오!",
+   "register": "formal"
+  }
+ ],
+ "colleague_help": [
+  {
+   "text": "프런트 좀 도와줄 수 있어?",
+   "register": "informal"
+  }
+ ],
+ "room_free": [
+  {
+   "text": "214호 비었고 청소도 끝났어.",
+   "register": "informal"
+  }
+ ],
+ "guest_waiting": [
+  {
+   "text": "프런트에 손님 한 분 기다리고 있어.",
+   "register": "informal"
+  }
+ ],
+ "vip_arrival": [
+  {
+   "text": "VIP 손님이 오후 3시에 도착해.",
+   "register": "informal"
+  }
+ ],
+ "shift_change": [
+  {
+   "text": "나 18시에 끝나는데, 누가 교대해?",
+   "register": "informal"
+  }
+ ],
+ "broken_report": [
+  {
+   "text": "305호 샤워기 물 새. 시설 담당한테 알려야 해.",
+   "register": "informal"
+  }
+ ]
+}

@@ -1,0 +1,898 @@
+{
+ "welcome_back": [
+  {
+   "text": "Ne bucurăm să vă revedem!",
+   "register": "formal"
+  },
+  {
+   "text": "Mă bucur să te revăd!",
+   "register": "informal"
+  }
+ ],
+ "hello_welcome": [
+  {
+   "text": "Bună ziua și bine ați venit! Cu ce vă pot ajuta?",
+   "register": "formal"
+  },
+  {
+   "text": "Salut, bine ai venit! Te pot ajuta cu ceva?",
+   "register": "informal"
+  }
+ ],
+ "have_booking": [
+  {
+   "text": "Aveți o rezervare?",
+   "register": "formal"
+  },
+  {
+   "text": "Ai rezervare?",
+   "register": "informal"
+  }
+ ],
+ "booking_name": [
+  {
+   "text": "Pe ce nume este rezervarea?",
+   "register": "formal"
+  },
+  {
+   "text": "Pe ce nume e?",
+   "register": "informal"
+  }
+ ],
+ "passport_id": [
+  {
+   "text": "Îmi puteți arăta pașaportul sau cartea de identitate, vă rog?",
+   "register": "formal"
+  },
+  {
+   "text": "Îmi arăți pașaportul sau buletinul?",
+   "register": "informal"
+  }
+ ],
+ "fill_form": [
+  {
+   "text": "Vă rog să completați și să semnați această fișă.",
+   "register": "formal"
+  },
+  {
+   "text": "Poți să completezi și să semnezi fișa asta?",
+   "register": "informal"
+  }
+ ],
+ "how_many_nights": [
+  {
+   "text": "Câte nopți stați la noi?",
+   "register": "formal"
+  },
+  {
+   "text": "Câte nopți stai?",
+   "register": "informal"
+  }
+ ],
+ "how_many_people": [
+  {
+   "text": "Câte persoane sunteți?",
+   "register": "formal"
+  },
+  {
+   "text": "Câți sunteți?",
+   "register": "informal"
+  }
+ ],
+ "room_ready": [
+  {
+   "text": "Camera dumneavoastră este pregătită.",
+   "register": "formal"
+  },
+  {
+   "text": "Camera ta e gata.",
+   "register": "informal"
+  }
+ ],
+ "room_not_ready": [
+  {
+   "text": "Camera dumneavoastră nu este încă pregătită. Va fi gata în jurul orei 14:00.",
+   "register": "formal"
+  },
+  {
+   "text": "Camera ta nu e încă gata. Va fi gata pe la ora 14:00.",
+   "register": "informal"
+  }
+ ],
+ "leave_luggage": [
+  {
+   "text": "Între timp vă puteți lăsa bagajele aici.",
+   "register": "formal"
+  },
+  {
+   "text": "Între timp îți poți lăsa bagajele aici.",
+   "register": "informal"
+  }
+ ],
+ "room_number": [
+  {
+   "text": "Camera dumneavoastră are numărul 214, la etajul doi.",
+   "register": "formal"
+  },
+  {
+   "text": "Camera ta e 214, la etajul doi.",
+   "register": "informal"
+  }
+ ],
+ "elevator": [
+  {
+   "text": "Liftul este în dreapta.",
+   "register": "formal"
+  }
+ ],
+ "key_card": [
+  {
+   "text": "Poftiți cardul dumneavoastră. Deschide camera și liftul.",
+   "register": "formal"
+  },
+  {
+   "text": "Poftim cardul tău. Deschide camera și liftul.",
+   "register": "informal"
+  }
+ ],
+ "wifi_code": [
+  {
+   "text": "Parola de Wi-Fi este scrisă pe acest card.",
+   "register": "formal"
+  }
+ ],
+ "breakfast_hours": [
+  {
+   "text": "Micul dejun se servește între orele 7:00 și 10:30.",
+   "register": "formal"
+  }
+ ],
+ "checkout_time": [
+  {
+   "text": "Check-out-ul se face până la ora 11:00.",
+   "register": "formal"
+  }
+ ],
+ "no_booking_found": [
+  {
+   "text": "Nu găsesc rezervarea dumneavoastră. Aveți numărul de confirmare?",
+   "register": "formal"
+  },
+  {
+   "text": "Nu-ți găsesc rezervarea. Ai numărul de confirmare?",
+   "register": "informal"
+  }
+ ],
+ "booked_online": [
+  {
+   "text": "Am rezervat pe internet.",
+   "register": "formal"
+  }
+ ],
+ "early_checkin": [
+  {
+   "text": "Pot intra în cameră mai devreme?",
+   "register": "formal"
+  }
+ ],
+ "hotel_full": [
+  {
+   "text": "Ne pare rău, hotelul este complet în seara aceasta.",
+   "register": "formal"
+  }
+ ],
+ "pay_now_or_later": [
+  {
+   "text": "Doriți să plătiți acum sau la plecare?",
+   "register": "formal"
+  },
+  {
+   "text": "Preferi să plătești acum sau la plecare?",
+   "register": "informal"
+  }
+ ],
+ "deposit": [
+  {
+   "text": "Solicităm o garanție de 100 de euro, returnată la plecare.",
+   "register": "formal"
+  }
+ ],
+ "card_or_cash": [
+  {
+   "text": "Plătiți cu cardul sau în numerar?",
+   "register": "formal"
+  },
+  {
+   "text": "Plătești cu cardul sau cash?",
+   "register": "informal"
+  }
+ ],
+ "city_tax": [
+  {
+   "text": "Taxa de sejur este de 2 euro de persoană pe noapte.",
+   "register": "formal"
+  }
+ ],
+ "tax_not_included": [
+  {
+   "text": "Taxa de sejur nu este inclusă în prețul rezervării.",
+   "register": "formal"
+  }
+ ],
+ "card_declined": [
+  {
+   "text": "Cardul dumneavoastră a fost refuzat. Aveți alt card?",
+   "register": "formal"
+  },
+  {
+   "text": "Cardul tău a fost refuzat. Ai alt card?",
+   "register": "informal"
+  }
+ ],
+ "enter_pin": [
+  {
+   "text": "Puteți introduce codul PIN.",
+   "register": "formal"
+  },
+  {
+   "text": "Poți introduce codul PIN.",
+   "register": "informal"
+  }
+ ],
+ "receipt": [
+  {
+   "text": "Doriți o chitanță?",
+   "register": "formal"
+  },
+  {
+   "text": "Vrei o chitanță?",
+   "register": "informal"
+  }
+ ],
+ "invoice_company": [
+  {
+   "text": "Puteți emite factura pe numele firmei mele?",
+   "register": "formal"
+  }
+ ],
+ "breakfast_included": [
+  {
+   "text": "Micul dejun este inclus?",
+   "register": "formal"
+  }
+ ],
+ "price_night": [
+  {
+   "text": "Cât costă o noapte?",
+   "register": "formal"
+  }
+ ],
+ "cheaper_room": [
+  {
+   "text": "Aveți o cameră mai ieftină?",
+   "register": "formal"
+  }
+ ],
+ "room_view": [
+  {
+   "text": "Camera are vedere la mare.",
+   "register": "formal"
+  }
+ ],
+ "double_twin": [
+  {
+   "text": "Preferați un pat matrimonial sau două paturi separate?",
+   "register": "formal"
+  },
+  {
+   "text": "Preferi un pat mare sau două paturi?",
+   "register": "informal"
+  }
+ ],
+ "extra_bed": [
+  {
+   "text": "Putem adăuga un pat suplimentar pentru copil.",
+   "register": "formal"
+  }
+ ],
+ "baby_cot": [
+  {
+   "text": "Un pătuț pentru bebeluș este disponibil gratuit.",
+   "register": "formal"
+  }
+ ],
+ "air_con": [
+  {
+   "text": "Telecomanda aerului condiționat este pe noptieră.",
+   "register": "formal"
+  }
+ ],
+ "safe": [
+  {
+   "text": "În dulap există un seif.",
+   "register": "formal"
+  }
+ ],
+ "minibar": [
+  {
+   "text": "Băuturile din minibar se plătesc.",
+   "register": "formal"
+  }
+ ],
+ "non_smoking": [
+  {
+   "text": "Toate camerele sunt pentru nefumători.",
+   "register": "formal"
+  }
+ ],
+ "quiet_room": [
+  {
+   "text": "Aș dori o cameră liniștită, vă rog.",
+   "register": "formal"
+  }
+ ],
+ "change_room": [
+  {
+   "text": "Pot să schimb camera?",
+   "register": "formal"
+  }
+ ],
+ "hair_dryer": [
+  {
+   "text": "Uscătorul de păr este în baie.",
+   "register": "formal"
+  }
+ ],
+ "adapter": [
+  {
+   "text": "Aveți un adaptor pentru priză?",
+   "register": "formal"
+  }
+ ],
+ "iron": [
+  {
+   "text": "Pot primi un fier de călcat?",
+   "register": "formal"
+  }
+ ],
+ "extra_pillow": [
+  {
+   "text": "Mi-ați putea aduce o pernă în plus?",
+   "register": "formal"
+  }
+ ],
+ "balcony": [
+  {
+   "text": "Camera are balcon.",
+   "register": "formal"
+  }
+ ],
+ "accessible_room": [
+  {
+   "text": "Avem o cameră accesibilă pentru scaun cu rotile.",
+   "register": "formal"
+  }
+ ],
+ "housekeeping_time": [
+  {
+   "text": "La ce oră doriți să vă facem curat în cameră?",
+   "register": "formal"
+  },
+  {
+   "text": "La ce oră vrei să-ți facem curat?",
+   "register": "informal"
+  }
+ ],
+ "do_not_disturb": [
+  {
+   "text": "Puneți pe ușă semnul „Nu deranjați” dacă doriți să nu fiți deranjat.",
+   "register": "formal"
+  },
+  {
+   "text": "Pune semnul „Nu deranjați” dacă vrei liniște.",
+   "register": "informal"
+  }
+ ],
+ "clean_now": [
+  {
+   "text": "Îmi permiteți să fac curat acum?",
+   "register": "formal"
+  },
+  {
+   "text": "Pot să fac curat acum?",
+   "register": "informal"
+  }
+ ],
+ "come_back_later": [
+  {
+   "text": "Revin mai târziu.",
+   "register": "formal"
+  }
+ ],
+ "towels": [
+  {
+   "text": "Pot primi prosoape curate?",
+   "register": "formal"
+  }
+ ],
+ "change_sheets": [
+  {
+   "text": "Lenjeria se schimbă la fiecare trei zile.",
+   "register": "formal"
+  }
+ ],
+ "laundry": [
+  {
+   "text": "Avem serviciu de spălătorie. Rufele se returnează a doua zi.",
+   "register": "formal"
+  }
+ ],
+ "toilet_paper": [
+  {
+   "text": "Nu mai este hârtie igienică.",
+   "register": "formal"
+  }
+ ],
+ "lost_item": [
+  {
+   "text": "Ați pierdut ceva?",
+   "register": "formal"
+  },
+  {
+   "text": "Ai pierdut ceva?",
+   "register": "informal"
+  }
+ ],
+ "found_item": [
+  {
+   "text": "Am găsit acest obiect în camera dumneavoastră.",
+   "register": "formal"
+  },
+  {
+   "text": "Am găsit asta în camera ta.",
+   "register": "informal"
+  }
+ ],
+ "table_for": [
+  {
+   "text": "O masă pentru câte persoane?",
+   "register": "formal"
+  },
+  {
+   "text": "Masă pentru câți?",
+   "register": "informal"
+  }
+ ],
+ "breakfast_room": [
+  {
+   "text": "Micul dejun se servește la parter, lângă recepție.",
+   "register": "formal"
+  }
+ ],
+ "buffet": [
+  {
+   "text": "Este bufet: serviți-vă, vă rog.",
+   "register": "formal"
+  },
+  {
+   "text": "E bufet: servește-te.",
+   "register": "informal"
+  }
+ ],
+ "coffee_or_tea": [
+  {
+   "text": "Cafea sau ceai?",
+   "register": "formal"
+  }
+ ],
+ "allergy": [
+  {
+   "text": "Aveți vreo alergie alimentară?",
+   "register": "formal"
+  },
+  {
+   "text": "Ai vreo alergie alimentară?",
+   "register": "informal"
+  }
+ ],
+ "vegetarian": [
+  {
+   "text": "Avem preparate vegetariene.",
+   "register": "formal"
+  }
+ ],
+ "halal": [
+  {
+   "text": "Carnea este halal?",
+   "register": "formal"
+  }
+ ],
+ "gluten_free": [
+  {
+   "text": "Nu mănânc gluten.",
+   "register": "formal"
+  }
+ ],
+ "room_service": [
+  {
+   "text": "Room service-ul este disponibil până la ora 22:00.",
+   "register": "formal"
+  }
+ ],
+ "charge_room": [
+  {
+   "text": "Să-l trec pe camera dumneavoastră?",
+   "register": "formal"
+  },
+  {
+   "text": "Să-l trec pe camera ta?",
+   "register": "informal"
+  }
+ ],
+ "restaurant_closed": [
+  {
+   "text": "Restaurantul este închis în seara aceasta.",
+   "register": "formal"
+  }
+ ],
+ "recommend_restaurant": [
+  {
+   "text": "Vă pot recomanda un restaurant bun foarte aproape.",
+   "register": "formal"
+  },
+  {
+   "text": "Îți pot recomanda un restaurant bun chiar aproape.",
+   "register": "informal"
+  }
+ ],
+ "enjoy_meal": [
+  {
+   "text": "Poftă bună!",
+   "register": "formal"
+  }
+ ],
+ "problem_room": [
+  {
+   "text": "Am o problemă în cameră.",
+   "register": "formal"
+  }
+ ],
+ "ac_broken": [
+  {
+   "text": "Aerul condiționat nu funcționează.",
+   "register": "formal"
+  }
+ ],
+ "no_hot_water": [
+  {
+   "text": "Nu este apă caldă.",
+   "register": "formal"
+  }
+ ],
+ "wifi_not_working": [
+  {
+   "text": "Wi-Fi-ul nu merge.",
+   "register": "formal"
+  }
+ ],
+ "too_noisy": [
+  {
+   "text": "E prea mult zgomot, nu pot să dorm.",
+   "register": "formal"
+  }
+ ],
+ "room_dirty": [
+  {
+   "text": "Camera nu este curată.",
+   "register": "formal"
+  }
+ ],
+ "card_not_working": [
+  {
+   "text": "Cardul meu nu mai deschide ușa.",
+   "register": "formal"
+  }
+ ],
+ "locked_out": [
+  {
+   "text": "Mi-am lăsat cardul în cameră.",
+   "register": "formal"
+  }
+ ],
+ "sorry_problem": [
+  {
+   "text": "Îmi pare foarte rău pentru această problemă.",
+   "register": "formal"
+  }
+ ],
+ "send_technician": [
+  {
+   "text": "Trimit imediat pe cineva în camera dumneavoastră.",
+   "register": "formal"
+  },
+  {
+   "text": "Trimit imediat pe cineva în camera ta.",
+   "register": "informal"
+  }
+ ],
+ "fixed_soon": [
+  {
+   "text": "Va fi reparat în cel mult o oră.",
+   "register": "formal"
+  }
+ ],
+ "offer_new_room": [
+  {
+   "text": "Vă propun o altă cameră.",
+   "register": "formal"
+  },
+  {
+   "text": "Îți propun altă cameră.",
+   "register": "informal"
+  }
+ ],
+ "compensation": [
+  {
+   "text": "Ca să ne cerem scuze, micul dejun vă este oferit din partea casei.",
+   "register": "formal"
+  },
+  {
+   "text": "Ca să ne cerem scuze, micul dejun ți-l oferim noi.",
+   "register": "informal"
+  }
+ ],
+ "manager": [
+  {
+   "text": "Aș dori să vorbesc cu managerul.",
+   "register": "formal"
+  }
+ ],
+ "complaint_noted": [
+  {
+   "text": "Am notat reclamația dumneavoastră. Managerul vă va suna înapoi.",
+   "register": "formal"
+  },
+  {
+   "text": "Am notat reclamația ta. Managerul te va suna înapoi.",
+   "register": "informal"
+  }
+ ],
+ "taxi": [
+  {
+   "text": "Doriți să vă chem un taxi?",
+   "register": "formal"
+  },
+  {
+   "text": "Vrei să-ți chem un taxi?",
+   "register": "informal"
+  }
+ ],
+ "airport_transfer": [
+  {
+   "text": "Oferim transfer la aeroport. Trebuie rezervat cu o zi înainte.",
+   "register": "formal"
+  }
+ ],
+ "how_far": [
+  {
+   "text": "E departe pe jos?",
+   "register": "formal"
+  }
+ ],
+ "ten_minutes_walk": [
+  {
+   "text": "E la zece minute de mers pe jos.",
+   "register": "formal"
+  }
+ ],
+ "map": [
+  {
+   "text": "Poftiți o hartă a orașului.",
+   "register": "formal"
+  }
+ ],
+ "bus_stop": [
+  {
+   "text": "Stația de autobuz este chiar în fața hotelului.",
+   "register": "formal"
+  }
+ ],
+ "parking": [
+  {
+   "text": "Parcarea costă 15 euro pe zi.",
+   "register": "formal"
+  }
+ ],
+ "nearest_pharmacy": [
+  {
+   "text": "Unde este cea mai apropiată farmacie?",
+   "register": "formal"
+  }
+ ],
+ "atm": [
+  {
+   "text": "Unde pot scoate bani?",
+   "register": "formal"
+  }
+ ],
+ "book_tour": [
+  {
+   "text": "Vă pot rezerva un tur ghidat.",
+   "register": "formal"
+  },
+  {
+   "text": "Îți pot rezerva un tur ghidat.",
+   "register": "informal"
+  }
+ ],
+ "safe_area": [
+  {
+   "text": "Cartierul este sigur noaptea?",
+   "register": "formal"
+  }
+ ],
+ "doctor": [
+  {
+   "text": "Am nevoie de un medic.",
+   "register": "formal"
+  }
+ ],
+ "call_doctor": [
+  {
+   "text": "Vă chem un medic.",
+   "register": "formal"
+  },
+  {
+   "text": "Îți chem un medic.",
+   "register": "informal"
+  }
+ ],
+ "emergency": [
+  {
+   "text": "În caz de urgență, sunați la 112.",
+   "register": "formal"
+  }
+ ],
+ "first_aid": [
+  {
+   "text": "Avem o trusă de prim ajutor la recepție.",
+   "register": "formal"
+  }
+ ],
+ "fire_exit": [
+  {
+   "text": "Ieșirea de urgență este la capătul holului.",
+   "register": "formal"
+  }
+ ],
+ "fire_alarm": [
+  {
+   "text": "Sună alarma de incendiu: ieșiți pe scări, nu cu liftul.",
+   "register": "formal"
+  }
+ ],
+ "checkout_question": [
+  {
+   "text": "Plecați astăzi?",
+   "register": "formal"
+  },
+  {
+   "text": "Pleci azi?",
+   "register": "informal"
+  }
+ ],
+ "late_checkout": [
+  {
+   "text": "Pot să plec mai târziu?",
+   "register": "formal"
+  }
+ ],
+ "late_checkout_fee": [
+  {
+   "text": "Check-out-ul târziu, până la ora 14:00, costă 30 de euro.",
+   "register": "formal"
+  }
+ ],
+ "minibar_used": [
+  {
+   "text": "Ați luat ceva din minibar?",
+   "register": "formal"
+  },
+  {
+   "text": "Ai luat ceva din minibar?",
+   "register": "informal"
+  }
+ ],
+ "here_invoice": [
+  {
+   "text": "Poftiți factura dumneavoastră.",
+   "register": "formal"
+  },
+  {
+   "text": "Poftim factura ta.",
+   "register": "informal"
+  }
+ ],
+ "invoice_email": [
+  {
+   "text": "Doriți factura pe e-mail?",
+   "register": "formal"
+  },
+  {
+   "text": "Vrei factura pe e-mail?",
+   "register": "informal"
+  }
+ ],
+ "keep_luggage_after": [
+  {
+   "text": "Vă putem păstra bagajele după check-out.",
+   "register": "formal"
+  },
+  {
+   "text": "Îți putem păstra bagajele după check-out.",
+   "register": "informal"
+  }
+ ],
+ "enjoyed_stay": [
+  {
+   "text": "Ați avut un sejur plăcut?",
+   "register": "formal"
+  },
+  {
+   "text": "Ai avut un sejur plăcut?",
+   "register": "informal"
+  }
+ ],
+ "leave_review": [
+  {
+   "text": "Dacă sunteți mulțumit, puteți lăsa o recenzie pe internet.",
+   "register": "formal"
+  },
+  {
+   "text": "Dacă ești mulțumit, poți lăsa o recenzie pe internet.",
+   "register": "informal"
+  }
+ ],
+ "goodbye": [
+  {
+   "text": "Vă mulțumim și drum bun!",
+   "register": "formal"
+  }
+ ],
+ "colleague_help": [
+  {
+   "text": "Mă poți ajuta la recepție?",
+   "register": "informal"
+  }
+ ],
+ "room_free": [
+  {
+   "text": "Camera 214 e liberă și curată.",
+   "register": "informal"
+  }
+ ],
+ "guest_waiting": [
+  {
+   "text": "Un client așteaptă la recepție.",
+   "register": "informal"
+  }
+ ],
+ "vip_arrival": [
+  {
+   "text": "Un client important sosește la ora 15:00.",
+   "register": "informal"
+  }
+ ],
+ "shift_change": [
+  {
+   "text": "Termin la 18:00, cine mă înlocuiește?",
+   "register": "informal"
+  }
+ ],
+ "broken_report": [
+  {
+   "text": "Dușul de la 305 curge, trebuie anunțat tehnicianul.",
+   "register": "informal"
+  }
+ ]
+}

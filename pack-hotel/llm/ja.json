@@ -1,0 +1,898 @@
+{
+ "welcome_back": [
+  {
+   "text": "またお会いできてうれしいです！",
+   "register": "formal"
+  },
+  {
+   "text": "また会えてうれしいよ！",
+   "register": "informal"
+  }
+ ],
+ "hello_welcome": [
+  {
+   "text": "いらっしゃいませ、ようこそ！ご用件をお伺いいたします。",
+   "register": "formal"
+  },
+  {
+   "text": "やあ、ようこそ！何か手伝おうか？",
+   "register": "informal"
+  }
+ ],
+ "have_booking": [
+  {
+   "text": "ご予約はいただいておりますか？",
+   "register": "formal"
+  },
+  {
+   "text": "予約してる？",
+   "register": "informal"
+  }
+ ],
+ "booking_name": [
+  {
+   "text": "ご予約のお名前をお伺いできますか？",
+   "register": "formal"
+  },
+  {
+   "text": "何て名前で予約した？",
+   "register": "informal"
+  }
+ ],
+ "passport_id": [
+  {
+   "text": "パスポートか身分証明書を拝見してもよろしいでしょうか？",
+   "register": "formal"
+  },
+  {
+   "text": "パスポートか身分証、見せてもらえる？",
+   "register": "informal"
+  }
+ ],
+ "fill_form": [
+  {
+   "text": "こちらの用紙にご記入のうえ、ご署名いただけますか？",
+   "register": "formal"
+  },
+  {
+   "text": "この用紙に書いて、サインしてもらえる？",
+   "register": "informal"
+  }
+ ],
+ "how_many_nights": [
+  {
+   "text": "何泊のご予定でしょうか？",
+   "register": "formal"
+  },
+  {
+   "text": "何泊するの？",
+   "register": "informal"
+  }
+ ],
+ "how_many_people": [
+  {
+   "text": "何名様でいらっしゃいますか？",
+   "register": "formal"
+  },
+  {
+   "text": "何人？",
+   "register": "informal"
+  }
+ ],
+ "room_ready": [
+  {
+   "text": "お部屋のご用意ができております。",
+   "register": "formal"
+  },
+  {
+   "text": "部屋の準備できてるよ。",
+   "register": "informal"
+  }
+ ],
+ "room_not_ready": [
+  {
+   "text": "お部屋はまだご用意ができておりません。14時頃にはご用意できる予定です。",
+   "register": "formal"
+  },
+  {
+   "text": "部屋はまだ準備できてないんだ。14時頃にはできるよ。",
+   "register": "informal"
+  }
+ ],
+ "leave_luggage": [
+  {
+   "text": "それまでお荷物はこちらでお預かりできます。",
+   "register": "formal"
+  },
+  {
+   "text": "それまで荷物はここに置いていっていいよ。",
+   "register": "informal"
+  }
+ ],
+ "room_number": [
+  {
+   "text": "お部屋は3階の214号室でございます。",
+   "register": "formal"
+  },
+  {
+   "text": "部屋は214号室、3階だよ。",
+   "register": "informal"
+  }
+ ],
+ "elevator": [
+  {
+   "text": "エレベーターは右手にございます。",
+   "register": "formal"
+  }
+ ],
+ "key_card": [
+  {
+   "text": "こちらがカードキーでございます。お部屋とエレベーターでお使いいただけます。",
+   "register": "formal"
+  },
+  {
+   "text": "はい、カードキー。部屋とエレベーターで使えるよ。",
+   "register": "informal"
+  }
+ ],
+ "wifi_code": [
+  {
+   "text": "Wi-Fiのパスワードはこちらのカードに記載しております。",
+   "register": "formal"
+  }
+ ],
+ "breakfast_hours": [
+  {
+   "text": "朝食は7時から10時30分までご用意しております。",
+   "register": "formal"
+  }
+ ],
+ "checkout_time": [
+  {
+   "text": "チェックアウトは11時までとなっております。",
+   "register": "formal"
+  }
+ ],
+ "no_booking_found": [
+  {
+   "text": "ご予約が見当たりません。予約確認番号はお持ちでしょうか？",
+   "register": "formal"
+  },
+  {
+   "text": "予約が見つからないな。確認番号ある？",
+   "register": "informal"
+  }
+ ],
+ "booked_online": [
+  {
+   "text": "インターネットで予約しました。",
+   "register": "formal"
+  }
+ ],
+ "early_checkin": [
+  {
+   "text": "早めにお部屋に入ることはできますか？",
+   "register": "formal"
+  }
+ ],
+ "hotel_full": [
+  {
+   "text": "申し訳ございません、本日は満室でございます。",
+   "register": "formal"
+  }
+ ],
+ "pay_now_or_later": [
+  {
+   "text": "お支払いは今になさいますか、それともチェックアウトの際になさいますか？",
+   "register": "formal"
+  },
+  {
+   "text": "支払いは今にする？それともチェックアウトのとき？",
+   "register": "informal"
+  }
+ ],
+ "deposit": [
+  {
+   "text": "デポジットとして100ユーロをお預かりし、チェックアウトの際にご返却いたします。",
+   "register": "formal"
+  }
+ ],
+ "card_or_cash": [
+  {
+   "text": "お支払いはカードと現金のどちらになさいますか？",
+   "register": "formal"
+  },
+  {
+   "text": "カードで払う？現金？",
+   "register": "informal"
+  }
+ ],
+ "city_tax": [
+  {
+   "text": "宿泊税はお一人様1泊につき2ユーロでございます。",
+   "register": "formal"
+  }
+ ],
+ "tax_not_included": [
+  {
+   "text": "宿泊税はご予約料金に含まれておりません。",
+   "register": "formal"
+  }
+ ],
+ "card_declined": [
+  {
+   "text": "こちらのカードはご利用いただけないようです。ほかのカードはお持ちでしょうか？",
+   "register": "formal"
+  },
+  {
+   "text": "このカード、通らないみたい。ほかのカードある？",
+   "register": "informal"
+  }
+ ],
+ "enter_pin": [
+  {
+   "text": "暗証番号をご入力ください。",
+   "register": "formal"
+  },
+  {
+   "text": "暗証番号を入れていいよ。",
+   "register": "informal"
+  }
+ ],
+ "receipt": [
+  {
+   "text": "領収書はご入用ですか？",
+   "register": "formal"
+  },
+  {
+   "text": "レシートいる？",
+   "register": "informal"
+  }
+ ],
+ "invoice_company": [
+  {
+   "text": "請求書を会社名義で発行していただけますか？",
+   "register": "formal"
+  }
+ ],
+ "breakfast_included": [
+  {
+   "text": "朝食は含まれていますか？",
+   "register": "formal"
+  }
+ ],
+ "price_night": [
+  {
+   "text": "1泊いくらですか？",
+   "register": "formal"
+  }
+ ],
+ "cheaper_room": [
+  {
+   "text": "もっと安いお部屋はありますか？",
+   "register": "formal"
+  }
+ ],
+ "room_view": [
+  {
+   "text": "こちらのお部屋はオーシャンビューでございます。",
+   "register": "formal"
+  }
+ ],
+ "double_twin": [
+  {
+   "text": "ダブルとツイン、どちらがよろしいでしょうか？",
+   "register": "formal"
+  },
+  {
+   "text": "ダブルとツイン、どっちがいい？",
+   "register": "informal"
+  }
+ ],
+ "extra_bed": [
+  {
+   "text": "お子様用にベッドを1台追加できます。",
+   "register": "formal"
+  }
+ ],
+ "baby_cot": [
+  {
+   "text": "ベビーベッドを無料でご用意しております。",
+   "register": "formal"
+  }
+ ],
+ "air_con": [
+  {
+   "text": "エアコンのリモコンはベッドサイドテーブルの上にございます。",
+   "register": "formal"
+  }
+ ],
+ "safe": [
+  {
+   "text": "クローゼットの中にセーフティボックスがございます。",
+   "register": "formal"
+  }
+ ],
+ "minibar": [
+  {
+   "text": "ミニバーのお飲み物は有料でございます。",
+   "register": "formal"
+  }
+ ],
+ "non_smoking": [
+  {
+   "text": "全室禁煙でございます。",
+   "register": "formal"
+  }
+ ],
+ "quiet_room": [
+  {
+   "text": "静かな部屋をお願いします。",
+   "register": "formal"
+  }
+ ],
+ "change_room": [
+  {
+   "text": "部屋を替えてもらえますか？",
+   "register": "formal"
+  }
+ ],
+ "hair_dryer": [
+  {
+   "text": "ドライヤーはバスルームにございます。",
+   "register": "formal"
+  }
+ ],
+ "adapter": [
+  {
+   "text": "電源の変換プラグはありますか？",
+   "register": "formal"
+  }
+ ],
+ "iron": [
+  {
+   "text": "アイロンをお借りできますか？",
+   "register": "formal"
+  }
+ ],
+ "extra_pillow": [
+  {
+   "text": "枕をもう一つ持ってきていただけますか？",
+   "register": "formal"
+  }
+ ],
+ "balcony": [
+  {
+   "text": "こちらのお部屋にはバルコニーがございます。",
+   "register": "formal"
+  }
+ ],
+ "accessible_room": [
+  {
+   "text": "車いすでご利用いただけるお部屋がございます。",
+   "register": "formal"
+  }
+ ],
+ "housekeeping_time": [
+  {
+   "text": "お部屋の清掃は何時ごろがよろしいでしょうか？",
+   "register": "formal"
+  },
+  {
+   "text": "掃除は何時がいい？",
+   "register": "informal"
+  }
+ ],
+ "do_not_disturb": [
+  {
+   "text": "お邪魔されたくない場合は、「起こさないでください」の札をドアにお掛けください。",
+   "register": "formal"
+  },
+  {
+   "text": "邪魔されたくないなら、「起こさないでください」の札を掛けておいてね。",
+   "register": "informal"
+  }
+ ],
+ "clean_now": [
+  {
+   "text": "ただいまお部屋の清掃をしてもよろしいでしょうか？",
+   "register": "formal"
+  },
+  {
+   "text": "今、掃除してもいい？",
+   "register": "informal"
+  }
+ ],
+ "come_back_later": [
+  {
+   "text": "のちほど改めて伺います。",
+   "register": "formal"
+  }
+ ],
+ "towels": [
+  {
+   "text": "きれいなタオルをいただけますか？",
+   "register": "formal"
+  }
+ ],
+ "change_sheets": [
+  {
+   "text": "シーツは3日ごとに交換いたします。",
+   "register": "formal"
+  }
+ ],
+ "laundry": [
+  {
+   "text": "ランドリーサービスがございます。お洗濯物は翌日のお返しとなります。",
+   "register": "formal"
+  }
+ ],
+ "toilet_paper": [
+  {
+   "text": "トイレットペーパーがなくなりました。",
+   "register": "formal"
+  }
+ ],
+ "lost_item": [
+  {
+   "text": "何かなくされましたか？",
+   "register": "formal"
+  },
+  {
+   "text": "何かなくしたの？",
+   "register": "informal"
+  }
+ ],
+ "found_item": [
+  {
+   "text": "お客様のお部屋でこちらのお品物が見つかりました。",
+   "register": "formal"
+  },
+  {
+   "text": "君の部屋でこれが見つかったよ。",
+   "register": "informal"
+  }
+ ],
+ "table_for": [
+  {
+   "text": "何名様のお席でしょうか？",
+   "register": "formal"
+  },
+  {
+   "text": "何人の席？",
+   "register": "informal"
+  }
+ ],
+ "breakfast_room": [
+  {
+   "text": "朝食は1階、フロントの隣でご用意しております。",
+   "register": "formal"
+  }
+ ],
+ "buffet": [
+  {
+   "text": "ビュッフェ形式となっておりますので、ご自由にお取りください。",
+   "register": "formal"
+  },
+  {
+   "text": "ビュッフェだから、好きに取ってね。",
+   "register": "informal"
+  }
+ ],
+ "coffee_or_tea": [
+  {
+   "text": "コーヒーと紅茶、どちらになさいますか？",
+   "register": "formal"
+  }
+ ],
+ "allergy": [
+  {
+   "text": "食物アレルギーはございますか？",
+   "register": "formal"
+  },
+  {
+   "text": "食べ物のアレルギーある？",
+   "register": "informal"
+  }
+ ],
+ "vegetarian": [
+  {
+   "text": "ベジタリアン料理もご用意しております。",
+   "register": "formal"
+  }
+ ],
+ "halal": [
+  {
+   "text": "このお肉はハラールですか？",
+   "register": "formal"
+  }
+ ],
+ "gluten_free": [
+  {
+   "text": "グルテンは食べられません。",
+   "register": "formal"
+  }
+ ],
+ "room_service": [
+  {
+   "text": "ルームサービスは22時までご利用いただけます。",
+   "register": "formal"
+  }
+ ],
+ "charge_room": [
+  {
+   "text": "お部屋付けになさいますか？",
+   "register": "formal"
+  },
+  {
+   "text": "部屋付けにしとく？",
+   "register": "informal"
+  }
+ ],
+ "restaurant_closed": [
+  {
+   "text": "本日、レストランは休業しております。",
+   "register": "formal"
+  }
+ ],
+ "recommend_restaurant": [
+  {
+   "text": "すぐ近くのおすすめのレストランをご紹介できます。",
+   "register": "formal"
+  },
+  {
+   "text": "すぐ近くのいい店、教えてあげられるよ。",
+   "register": "informal"
+  }
+ ],
+ "enjoy_meal": [
+  {
+   "text": "どうぞごゆっくりお召し上がりください！",
+   "register": "formal"
+  }
+ ],
+ "problem_room": [
+  {
+   "text": "部屋に問題があります。",
+   "register": "formal"
+  }
+ ],
+ "ac_broken": [
+  {
+   "text": "エアコンが動きません。",
+   "register": "formal"
+  }
+ ],
+ "no_hot_water": [
+  {
+   "text": "お湯が出ません。",
+   "register": "formal"
+  }
+ ],
+ "wifi_not_working": [
+  {
+   "text": "Wi-Fiがつながりません。",
+   "register": "formal"
+  }
+ ],
+ "too_noisy": [
+  {
+   "text": "うるさすぎて眠れません。",
+   "register": "formal"
+  }
+ ],
+ "room_dirty": [
+  {
+   "text": "部屋がきれいになっていません。",
+   "register": "formal"
+  }
+ ],
+ "card_not_working": [
+  {
+   "text": "カードキーでドアが開かなくなりました。",
+   "register": "formal"
+  }
+ ],
+ "locked_out": [
+  {
+   "text": "カードキーを部屋の中に置いたまま出てしまいました。",
+   "register": "formal"
+  }
+ ],
+ "sorry_problem": [
+  {
+   "text": "このたびはご迷惑をおかけし、誠に申し訳ございません。",
+   "register": "formal"
+  }
+ ],
+ "send_technician": [
+  {
+   "text": "すぐに係の者をお部屋に向かわせます。",
+   "register": "formal"
+  },
+  {
+   "text": "すぐに誰か部屋に行かせるね。",
+   "register": "informal"
+  }
+ ],
+ "fixed_soon": [
+  {
+   "text": "遅くとも1時間以内に修理いたします。",
+   "register": "formal"
+  }
+ ],
+ "offer_new_room": [
+  {
+   "text": "別のお部屋をご用意いたします。",
+   "register": "formal"
+  },
+  {
+   "text": "別の部屋を用意するよ。",
+   "register": "informal"
+  }
+ ],
+ "compensation": [
+  {
+   "text": "お詫びのしるしとして、朝食を無料でご提供いたします。",
+   "register": "formal"
+  },
+  {
+   "text": "お詫びに、朝食はサービスするね。",
+   "register": "informal"
+  }
+ ],
+ "manager": [
+  {
+   "text": "責任者の方とお話ししたいのですが。",
+   "register": "formal"
+  }
+ ],
+ "complaint_noted": [
+  {
+   "text": "ご意見はしっかりと承りました。責任者より折り返しご連絡いたします。",
+   "register": "formal"
+  },
+  {
+   "text": "苦情はちゃんとメモしたよ。責任者から折り返し連絡するね。",
+   "register": "informal"
+  }
+ ],
+ "taxi": [
+  {
+   "text": "タクシーをお呼びいたしましょうか？",
+   "register": "formal"
+  },
+  {
+   "text": "タクシー呼ぼうか？",
+   "register": "informal"
+  }
+ ],
+ "airport_transfer": [
+  {
+   "text": "空港までのシャトルバスがございます。前日までにご予約ください。",
+   "register": "formal"
+  }
+ ],
+ "how_far": [
+  {
+   "text": "歩くと遠いですか？",
+   "register": "formal"
+  }
+ ],
+ "ten_minutes_walk": [
+  {
+   "text": "歩いて10分ほどでございます。",
+   "register": "formal"
+  }
+ ],
+ "map": [
+  {
+   "text": "こちらが市内地図でございます。",
+   "register": "formal"
+  }
+ ],
+ "bus_stop": [
+  {
+   "text": "バス停はホテルのすぐ前にございます。",
+   "register": "formal"
+  }
+ ],
+ "parking": [
+  {
+   "text": "駐車場は1日15ユーロでございます。",
+   "register": "formal"
+  }
+ ],
+ "nearest_pharmacy": [
+  {
+   "text": "一番近い薬局はどこですか？",
+   "register": "formal"
+  }
+ ],
+ "atm": [
+  {
+   "text": "どこでお金をおろせますか？",
+   "register": "formal"
+  }
+ ],
+ "book_tour": [
+  {
+   "text": "ガイド付きツアーのご予約を承ります。",
+   "register": "formal"
+  },
+  {
+   "text": "ガイド付きツアー、予約してあげようか。",
+   "register": "informal"
+  }
+ ],
+ "safe_area": [
+  {
+   "text": "このあたりは夜でも安全ですか？",
+   "register": "formal"
+  }
+ ],
+ "doctor": [
+  {
+   "text": "医者に診てもらいたいです。",
+   "register": "formal"
+  }
+ ],
+ "call_doctor": [
+  {
+   "text": "すぐにお医者様をお呼びいたします。",
+   "register": "formal"
+  },
+  {
+   "text": "医者を呼ぶね。",
+   "register": "informal"
+  }
+ ],
+ "emergency": [
+  {
+   "text": "緊急の際は112番におかけください。",
+   "register": "formal"
+  }
+ ],
+ "first_aid": [
+  {
+   "text": "フロントに救急箱をご用意しております。",
+   "register": "formal"
+  }
+ ],
+ "fire_exit": [
+  {
+   "text": "非常口は廊下の突き当たりにございます。",
+   "register": "formal"
+  }
+ ],
+ "fire_alarm": [
+  {
+   "text": "火災報知器が鳴っています。エレベーターではなく階段で避難してください。",
+   "register": "formal"
+  }
+ ],
+ "checkout_question": [
+  {
+   "text": "本日ご出発でいらっしゃいますか？",
+   "register": "formal"
+  },
+  {
+   "text": "今日出発？",
+   "register": "informal"
+  }
+ ],
+ "late_checkout": [
+  {
+   "text": "チェックアウトを遅らせることはできますか？",
+   "register": "formal"
+  }
+ ],
+ "late_checkout_fee": [
+  {
+   "text": "14時までのレイトチェックアウトは30ユーロでございます。",
+   "register": "formal"
+  }
+ ],
+ "minibar_used": [
+  {
+   "text": "ミニバーのお品物はご利用になりましたか？",
+   "register": "formal"
+  },
+  {
+   "text": "ミニバーの物、何か使った？",
+   "register": "informal"
+  }
+ ],
+ "here_invoice": [
+  {
+   "text": "こちらがご請求書でございます。",
+   "register": "formal"
+  },
+  {
+   "text": "はい、請求書。",
+   "register": "informal"
+  }
+ ],
+ "invoice_email": [
+  {
+   "text": "請求書はメールでお送りいたしましょうか？",
+   "register": "formal"
+  },
+  {
+   "text": "請求書、メールで送ろうか？",
+   "register": "informal"
+  }
+ ],
+ "keep_luggage_after": [
+  {
+   "text": "チェックアウト後もお荷物をお預かりできます。",
+   "register": "formal"
+  },
+  {
+   "text": "チェックアウトのあとも荷物は預かれるよ。",
+   "register": "informal"
+  }
+ ],
+ "enjoyed_stay": [
+  {
+   "text": "ご滞在はいかがでしたか？",
+   "register": "formal"
+  },
+  {
+   "text": "滞在は楽しめた？",
+   "register": "informal"
+  }
+ ],
+ "leave_review": [
+  {
+   "text": "ご満足いただけましたら、ぜひインターネットでレビューをお寄せください。",
+   "register": "formal"
+  },
+  {
+   "text": "満足してくれたら、ネットにレビューを書いてね。",
+   "register": "informal"
+  }
+ ],
+ "goodbye": [
+  {
+   "text": "ありがとうございました。どうぞよいご旅行を！",
+   "register": "formal"
+  }
+ ],
+ "colleague_help": [
+  {
+   "text": "フロント、手伝ってくれる？",
+   "register": "informal"
+  }
+ ],
+ "room_free": [
+  {
+   "text": "214号室、空いてて掃除も済んでるよ。",
+   "register": "informal"
+  }
+ ],
+ "guest_waiting": [
+  {
+   "text": "フロントでお客さんが待ってるよ。",
+   "register": "informal"
+  }
+ ],
+ "vip_arrival": [
+  {
+   "text": "15時にVIPのお客さんが来るよ。",
+   "register": "informal"
+  }
+ ],
+ "shift_change": [
+  {
+   "text": "18時に上がるんだけど、交代は誰？",
+   "register": "informal"
+  }
+ ],
+ "broken_report": [
+  {
+   "text": "305のシャワーが水漏れしてる。設備の人に知らせないと。",
+   "register": "informal"
+  }
+ ]
+}

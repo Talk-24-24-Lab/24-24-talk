@@ -1,0 +1,898 @@
+{
+ "welcome_back": [
+  {
+   "text": "Örülünk, hogy újra itt üdvözölhetjük!",
+   "register": "formal"
+  },
+  {
+   "text": "Jó újra látni téged!",
+   "register": "informal"
+  }
+ ],
+ "hello_welcome": [
+  {
+   "text": "Jó napot, üdvözöljük! Miben segíthetek?",
+   "register": "formal"
+  },
+  {
+   "text": "Szia, üdv nálunk! Segíthetek?",
+   "register": "informal"
+  }
+ ],
+ "have_booking": [
+  {
+   "text": "Van foglalása?",
+   "register": "formal"
+  },
+  {
+   "text": "Van foglalásod?",
+   "register": "informal"
+  }
+ ],
+ "booking_name": [
+  {
+   "text": "Milyen névre szól a foglalás?",
+   "register": "formal"
+  },
+  {
+   "text": "Milyen névre?",
+   "register": "informal"
+  }
+ ],
+ "passport_id": [
+  {
+   "text": "Megkérhetném az útlevelét vagy a személyi igazolványát?",
+   "register": "formal"
+  },
+  {
+   "text": "Megnézhetem az útleveled vagy a személyid?",
+   "register": "informal"
+  }
+ ],
+ "fill_form": [
+  {
+   "text": "Kérem, töltse ki és írja alá ezt a lapot.",
+   "register": "formal"
+  },
+  {
+   "text": "Ki tudod tölteni és alá tudod írni ezt a lapot?",
+   "register": "informal"
+  }
+ ],
+ "how_many_nights": [
+  {
+   "text": "Hány éjszakát marad nálunk?",
+   "register": "formal"
+  },
+  {
+   "text": "Hány éjszakát maradsz?",
+   "register": "informal"
+  }
+ ],
+ "how_many_people": [
+  {
+   "text": "Hányan lesznek?",
+   "register": "formal"
+  },
+  {
+   "text": "Hányan vagytok?",
+   "register": "informal"
+  }
+ ],
+ "room_ready": [
+  {
+   "text": "A szobája készen áll.",
+   "register": "formal"
+  },
+  {
+   "text": "A szobád készen áll.",
+   "register": "informal"
+  }
+ ],
+ "room_not_ready": [
+  {
+   "text": "A szobája még nincs kész. 14:00 körül lesz kész.",
+   "register": "formal"
+  },
+  {
+   "text": "A szobád még nincs kész. 14:00 körül lesz kész.",
+   "register": "informal"
+  }
+ ],
+ "leave_luggage": [
+  {
+   "text": "Addig itt hagyhatja a csomagjait.",
+   "register": "formal"
+  },
+  {
+   "text": "Addig itt hagyhatod a csomagjaidat.",
+   "register": "informal"
+  }
+ ],
+ "room_number": [
+  {
+   "text": "Az Ön szobája a 214-es, a második emeleten.",
+   "register": "formal"
+  },
+  {
+   "text": "A szobád a 214-es, a második emeleten.",
+   "register": "informal"
+  }
+ ],
+ "elevator": [
+  {
+   "text": "A lift jobbra van.",
+   "register": "formal"
+  }
+ ],
+ "key_card": [
+  {
+   "text": "Tessék, a kártyája. Ezzel nyílik a szoba és a lift.",
+   "register": "formal"
+  },
+  {
+   "text": "Tessék, a kártyád. Ezzel nyílik a szoba és a lift.",
+   "register": "informal"
+  }
+ ],
+ "wifi_code": [
+  {
+   "text": "A wifi jelszava rá van írva erre a kártyára.",
+   "register": "formal"
+  }
+ ],
+ "breakfast_hours": [
+  {
+   "text": "A reggelit 7:00 és 10:30 között szolgáljuk fel.",
+   "register": "formal"
+  }
+ ],
+ "checkout_time": [
+  {
+   "text": "A kijelentkezés 11:00-ig történik.",
+   "register": "formal"
+  }
+ ],
+ "no_booking_found": [
+  {
+   "text": "Nem találom a foglalását. Megvan Önnek a visszaigazolás száma?",
+   "register": "formal"
+  },
+  {
+   "text": "Nem találom a foglalásodat. Megvan a visszaigazolás száma?",
+   "register": "informal"
+  }
+ ],
+ "booked_online": [
+  {
+   "text": "Interneten foglaltam.",
+   "register": "formal"
+  }
+ ],
+ "early_checkin": [
+  {
+   "text": "Elfoglalhatom korábban a szobát?",
+   "register": "formal"
+  }
+ ],
+ "hotel_full": [
+  {
+   "text": "Sajnálom, ma éjszakára a szálloda teljesen megtelt.",
+   "register": "formal"
+  }
+ ],
+ "pay_now_or_later": [
+  {
+   "text": "Most szeretne fizetni vagy távozáskor?",
+   "register": "formal"
+  },
+  {
+   "text": "Most szeretnél fizetni vagy távozáskor?",
+   "register": "informal"
+  }
+ ],
+ "deposit": [
+  {
+   "text": "100 euró kauciót kérünk, amelyet távozáskor visszaadunk.",
+   "register": "formal"
+  }
+ ],
+ "card_or_cash": [
+  {
+   "text": "Kártyával vagy készpénzzel fizet?",
+   "register": "formal"
+  },
+  {
+   "text": "Kártyával vagy készpénzzel fizetsz?",
+   "register": "informal"
+  }
+ ],
+ "city_tax": [
+  {
+   "text": "Az idegenforgalmi adó 2 euró személyenként és éjszakánként.",
+   "register": "formal"
+  }
+ ],
+ "tax_not_included": [
+  {
+   "text": "Az idegenforgalmi adó nincs benne a foglalás árában.",
+   "register": "formal"
+  }
+ ],
+ "card_declined": [
+  {
+   "text": "A kártyáját elutasították. Van másik kártyája?",
+   "register": "formal"
+  },
+  {
+   "text": "A kártyádat elutasították. Van másik?",
+   "register": "informal"
+  }
+ ],
+ "enter_pin": [
+  {
+   "text": "Beütheti a PIN-kódját.",
+   "register": "formal"
+  },
+  {
+   "text": "Beütheted a PIN-kódodat.",
+   "register": "informal"
+  }
+ ],
+ "receipt": [
+  {
+   "text": "Kér nyugtát?",
+   "register": "formal"
+  },
+  {
+   "text": "Kérsz nyugtát?",
+   "register": "informal"
+  }
+ ],
+ "invoice_company": [
+  {
+   "text": "Ki tudják állítani a számlát a cégem nevére?",
+   "register": "formal"
+  }
+ ],
+ "breakfast_included": [
+  {
+   "text": "A reggeli benne van az árban?",
+   "register": "formal"
+  }
+ ],
+ "price_night": [
+  {
+   "text": "Mennyibe kerül egy éjszaka?",
+   "register": "formal"
+  }
+ ],
+ "cheaper_room": [
+  {
+   "text": "Van olcsóbb szobájuk?",
+   "register": "formal"
+  }
+ ],
+ "room_view": [
+  {
+   "text": "A szoba a tengerre néz.",
+   "register": "formal"
+  }
+ ],
+ "double_twin": [
+  {
+   "text": "Franciaágyat szeretne vagy két külön ágyat?",
+   "register": "formal"
+  },
+  {
+   "text": "Franciaágyat kérsz vagy két ágyat?",
+   "register": "informal"
+  }
+ ],
+ "extra_bed": [
+  {
+   "text": "Tudunk pótágyat tenni a gyereknek.",
+   "register": "formal"
+  }
+ ],
+ "baby_cot": [
+  {
+   "text": "Kiságy ingyenesen kérhető.",
+   "register": "formal"
+  }
+ ],
+ "air_con": [
+  {
+   "text": "A légkondicionáló távirányítója az éjjeliszekrényen van.",
+   "register": "formal"
+  }
+ ],
+ "safe": [
+  {
+   "text": "A szekrényben van egy széf.",
+   "register": "formal"
+  }
+ ],
+ "minibar": [
+  {
+   "text": "A minibárban lévő italok fizetősek.",
+   "register": "formal"
+  }
+ ],
+ "non_smoking": [
+  {
+   "text": "Minden szoba nemdohányzó.",
+   "register": "formal"
+  }
+ ],
+ "quiet_room": [
+  {
+   "text": "Egy csendes szobát szeretnék, kérem.",
+   "register": "formal"
+  }
+ ],
+ "change_room": [
+  {
+   "text": "Átköltözhetek egy másik szobába?",
+   "register": "formal"
+  }
+ ],
+ "hair_dryer": [
+  {
+   "text": "A hajszárító a fürdőszobában van.",
+   "register": "formal"
+  }
+ ],
+ "adapter": [
+  {
+   "text": "Van konnektor-átalakítójuk?",
+   "register": "formal"
+  }
+ ],
+ "iron": [
+  {
+   "text": "Kaphatnék egy vasalót?",
+   "register": "formal"
+  }
+ ],
+ "extra_pillow": [
+  {
+   "text": "Hoznának nekem még egy párnát?",
+   "register": "formal"
+  }
+ ],
+ "balcony": [
+  {
+   "text": "A szobához erkély tartozik.",
+   "register": "formal"
+  }
+ ],
+ "accessible_room": [
+  {
+   "text": "Van kerekesszékkel is megközelíthető szobánk.",
+   "register": "formal"
+  }
+ ],
+ "housekeeping_time": [
+  {
+   "text": "Hány órakor takarítsuk a szobáját?",
+   "register": "formal"
+  },
+  {
+   "text": "Hánykor takarítsunk nálad?",
+   "register": "informal"
+  }
+ ],
+ "do_not_disturb": [
+  {
+   "text": "Ha nem szeretné, hogy zavarják, tegye ki az ajtóra a „Kérem, ne zavarjanak” táblát.",
+   "register": "formal"
+  },
+  {
+   "text": "Tedd ki a „Ne zavarjanak” táblát, ha nyugalmat szeretnél.",
+   "register": "informal"
+  }
+ ],
+ "clean_now": [
+  {
+   "text": "Kitakaríthatok most?",
+   "register": "formal"
+  },
+  {
+   "text": "Takaríthatok most?",
+   "register": "informal"
+  }
+ ],
+ "come_back_later": [
+  {
+   "text": "Később visszajövök.",
+   "register": "formal"
+  }
+ ],
+ "towels": [
+  {
+   "text": "Kaphatnék tiszta törölközőt?",
+   "register": "formal"
+  }
+ ],
+ "change_sheets": [
+  {
+   "text": "Az ágyneműt háromnaponta cseréljük.",
+   "register": "formal"
+  }
+ ],
+ "laundry": [
+  {
+   "text": "Van mosodai szolgáltatásunk. A ruhákat másnap visszahozzuk.",
+   "register": "formal"
+  }
+ ],
+ "toilet_paper": [
+  {
+   "text": "Elfogyott a WC-papír.",
+   "register": "formal"
+  }
+ ],
+ "lost_item": [
+  {
+   "text": "Elvesztett valamit?",
+   "register": "formal"
+  },
+  {
+   "text": "Elvesztettél valamit?",
+   "register": "informal"
+  }
+ ],
+ "found_item": [
+  {
+   "text": "Ezt a tárgyat a szobájában találtuk.",
+   "register": "formal"
+  },
+  {
+   "text": "Ezt a szobádban találtuk.",
+   "register": "informal"
+  }
+ ],
+ "table_for": [
+  {
+   "text": "Hány főre kéri az asztalt?",
+   "register": "formal"
+  },
+  {
+   "text": "Hány főre?",
+   "register": "informal"
+  }
+ ],
+ "breakfast_room": [
+  {
+   "text": "A reggelit a földszinten szolgáljuk fel, a recepció mellett.",
+   "register": "formal"
+  }
+ ],
+ "buffet": [
+  {
+   "text": "Svédasztalos, tessék, szolgálja ki magát.",
+   "register": "formal"
+  },
+  {
+   "text": "Svédasztal van, szolgáld ki magad.",
+   "register": "informal"
+  }
+ ],
+ "coffee_or_tea": [
+  {
+   "text": "Kávét vagy teát?",
+   "register": "formal"
+  }
+ ],
+ "allergy": [
+  {
+   "text": "Van ételallergiája?",
+   "register": "formal"
+  },
+  {
+   "text": "Van ételallergiád?",
+   "register": "informal"
+  }
+ ],
+ "vegetarian": [
+  {
+   "text": "Vannak vegetáriánus ételeink.",
+   "register": "formal"
+  }
+ ],
+ "halal": [
+  {
+   "text": "A hús halal?",
+   "register": "formal"
+  }
+ ],
+ "gluten_free": [
+  {
+   "text": "Nem eszem glutént.",
+   "register": "formal"
+  }
+ ],
+ "room_service": [
+  {
+   "text": "A szobaszerviz 22:00-ig érhető el.",
+   "register": "formal"
+  }
+ ],
+ "charge_room": [
+  {
+   "text": "Felírhatom a szobájára?",
+   "register": "formal"
+  },
+  {
+   "text": "Felírjam a szobádra?",
+   "register": "informal"
+  }
+ ],
+ "restaurant_closed": [
+  {
+   "text": "Az étterem ma este zárva van.",
+   "register": "formal"
+  }
+ ],
+ "recommend_restaurant": [
+  {
+   "text": "Ajánlhatok Önnek egy jó éttermet egészen közel.",
+   "register": "formal"
+  },
+  {
+   "text": "Ajánlhatok neked egy jó kajáldát egészen közel.",
+   "register": "informal"
+  }
+ ],
+ "enjoy_meal": [
+  {
+   "text": "Jó étvágyat!",
+   "register": "formal"
+  }
+ ],
+ "problem_room": [
+  {
+   "text": "Probléma van a szobámban.",
+   "register": "formal"
+  }
+ ],
+ "ac_broken": [
+  {
+   "text": "Nem működik a légkondicionáló.",
+   "register": "formal"
+  }
+ ],
+ "no_hot_water": [
+  {
+   "text": "Nincs meleg víz.",
+   "register": "formal"
+  }
+ ],
+ "wifi_not_working": [
+  {
+   "text": "Nem működik a wifi.",
+   "register": "formal"
+  }
+ ],
+ "too_noisy": [
+  {
+   "text": "Túl nagy a zaj, nem tudok aludni.",
+   "register": "formal"
+  }
+ ],
+ "room_dirty": [
+  {
+   "text": "A szoba nem tiszta.",
+   "register": "formal"
+  }
+ ],
+ "card_not_working": [
+  {
+   "text": "A kártyám már nem nyitja az ajtót.",
+   "register": "formal"
+  }
+ ],
+ "locked_out": [
+  {
+   "text": "Bent hagytam a kártyámat a szobában.",
+   "register": "formal"
+  }
+ ],
+ "sorry_problem": [
+  {
+   "text": "Nagyon sajnálom ezt a problémát.",
+   "register": "formal"
+  }
+ ],
+ "send_technician": [
+  {
+   "text": "Azonnal küldök valakit a szobájához.",
+   "register": "formal"
+  },
+  {
+   "text": "Azonnal küldök valakit a szobádhoz.",
+   "register": "informal"
+  }
+ ],
+ "fixed_soon": [
+  {
+   "text": "Legkésőbb egy órán belül megjavítják.",
+   "register": "formal"
+  }
+ ],
+ "offer_new_room": [
+  {
+   "text": "Felajánlok Önnek egy másik szobát.",
+   "register": "formal"
+  },
+  {
+   "text": "Felajánlok neked egy másik szobát.",
+   "register": "informal"
+  }
+ ],
+ "compensation": [
+  {
+   "text": "Elnézésünk jeléül a reggelije ingyenes.",
+   "register": "formal"
+  },
+  {
+   "text": "Elnézésünk jeléül a reggelid ingyen van.",
+   "register": "informal"
+  }
+ ],
+ "manager": [
+  {
+   "text": "A vezetővel szeretnék beszélni.",
+   "register": "formal"
+  }
+ ],
+ "complaint_noted": [
+  {
+   "text": "Rögzítettem a panaszát. A vezető vissza fogja hívni.",
+   "register": "formal"
+  },
+  {
+   "text": "Rögzítettem a panaszodat. A vezető vissza fog hívni.",
+   "register": "informal"
+  }
+ ],
+ "taxi": [
+  {
+   "text": "Hívjak Önnek taxit?",
+   "register": "formal"
+  },
+  {
+   "text": "Hívjak neked taxit?",
+   "register": "informal"
+  }
+ ],
+ "airport_transfer": [
+  {
+   "text": "Reptéri transzfert is kínálunk. Előző nap kell lefoglalni.",
+   "register": "formal"
+  }
+ ],
+ "how_far": [
+  {
+   "text": "Messze van gyalog?",
+   "register": "formal"
+  }
+ ],
+ "ten_minutes_walk": [
+  {
+   "text": "Gyalog tíz perc.",
+   "register": "formal"
+  }
+ ],
+ "map": [
+  {
+   "text": "Tessék, itt egy várostérkép.",
+   "register": "formal"
+  }
+ ],
+ "bus_stop": [
+  {
+   "text": "A buszmegálló közvetlenül a szálloda előtt van.",
+   "register": "formal"
+  }
+ ],
+ "parking": [
+  {
+   "text": "A parkolás napi 15 euró.",
+   "register": "formal"
+  }
+ ],
+ "nearest_pharmacy": [
+  {
+   "text": "Hol van a legközelebbi gyógyszertár?",
+   "register": "formal"
+  }
+ ],
+ "atm": [
+  {
+   "text": "Hol tudok pénzt felvenni?",
+   "register": "formal"
+  }
+ ],
+ "book_tour": [
+  {
+   "text": "Foglalhatok Önnek egy idegenvezetéses túrát.",
+   "register": "formal"
+  },
+  {
+   "text": "Foglalhatok neked egy idegenvezetéses túrát.",
+   "register": "informal"
+  }
+ ],
+ "safe_area": [
+  {
+   "text": "Biztonságos ez a környék éjszaka?",
+   "register": "formal"
+  }
+ ],
+ "doctor": [
+  {
+   "text": "Orvosra van szükségem.",
+   "register": "formal"
+  }
+ ],
+ "call_doctor": [
+  {
+   "text": "Hívok Önnek orvost.",
+   "register": "formal"
+  },
+  {
+   "text": "Hívok neked orvost.",
+   "register": "informal"
+  }
+ ],
+ "emergency": [
+  {
+   "text": "Vészhelyzet esetén hívja a 112-t.",
+   "register": "formal"
+  }
+ ],
+ "first_aid": [
+  {
+   "text": "A recepción van elsősegélydoboz.",
+   "register": "formal"
+  }
+ ],
+ "fire_exit": [
+  {
+   "text": "A vészkijárat a folyosó végén van.",
+   "register": "formal"
+  }
+ ],
+ "fire_alarm": [
+  {
+   "text": "Tűzriadó van: a lépcsőn menjenek le, ne a lifttel.",
+   "register": "formal"
+  }
+ ],
+ "checkout_question": [
+  {
+   "text": "Ma utazik el?",
+   "register": "formal"
+  },
+  {
+   "text": "Ma utazol el?",
+   "register": "informal"
+  }
+ ],
+ "late_checkout": [
+  {
+   "text": "Kijelentkezhetek később?",
+   "register": "formal"
+  }
+ ],
+ "late_checkout_fee": [
+  {
+   "text": "A késői kijelentkezés 14:00-ig 30 euróba kerül.",
+   "register": "formal"
+  }
+ ],
+ "minibar_used": [
+  {
+   "text": "Fogyasztott valamit a minibárból?",
+   "register": "formal"
+  },
+  {
+   "text": "Kivettél valamit a minibárból?",
+   "register": "informal"
+  }
+ ],
+ "here_invoice": [
+  {
+   "text": "Tessék, a számlája.",
+   "register": "formal"
+  },
+  {
+   "text": "Tessék, a számlád.",
+   "register": "informal"
+  }
+ ],
+ "invoice_email": [
+  {
+   "text": "Kéri e-mailben a számlát?",
+   "register": "formal"
+  },
+  {
+   "text": "Kéred e-mailben a számlát?",
+   "register": "informal"
+  }
+ ],
+ "keep_luggage_after": [
+  {
+   "text": "Kijelentkezés után megőrizhetjük a csomagjait.",
+   "register": "formal"
+  },
+  {
+   "text": "Kijelentkezés után megőrizhetjük a csomagjaidat.",
+   "register": "informal"
+  }
+ ],
+ "enjoyed_stay": [
+  {
+   "text": "Kellemesen telt az itt-tartózkodása?",
+   "register": "formal"
+  },
+  {
+   "text": "Jól telt az itt-tartózkodásod?",
+   "register": "informal"
+  }
+ ],
+ "leave_review": [
+  {
+   "text": "Ha elégedett volt, írhat egy értékelést az interneten.",
+   "register": "formal"
+  },
+  {
+   "text": "Ha elégedett voltál, írhatsz egy értékelést az interneten.",
+   "register": "informal"
+  }
+ ],
+ "goodbye": [
+  {
+   "text": "Köszönjük, és jó utat!",
+   "register": "formal"
+  }
+ ],
+ "colleague_help": [
+  {
+   "text": "Tudsz segíteni a recepción?",
+   "register": "informal"
+  }
+ ],
+ "room_free": [
+  {
+   "text": "A 214-es szoba szabad és tiszta.",
+   "register": "informal"
+  }
+ ],
+ "guest_waiting": [
+  {
+   "text": "Egy vendég vár a recepción.",
+   "register": "informal"
+  }
+ ],
+ "vip_arrival": [
+  {
+   "text": "15:00-kor érkezik egy fontos vendég.",
+   "register": "informal"
+  }
+ ],
+ "shift_change": [
+  {
+   "text": "18:00-kor végzek, ki vált le?",
+   "register": "informal"
+  }
+ ],
+ "broken_report": [
+  {
+   "text": "A 305-ben folyik a zuhany, szólni kell a karbantartónak.",
+   "register": "informal"
+  }
+ ]
+}

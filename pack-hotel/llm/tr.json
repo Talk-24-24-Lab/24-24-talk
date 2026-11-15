@@ -1,0 +1,898 @@
+{
+ "welcome_back": [
+  {
+   "text": "Sizi tekrar görmek ne güzel!",
+   "register": "formal"
+  },
+  {
+   "text": "Seni tekrar görmek güzel!",
+   "register": "informal"
+  }
+ ],
+ "hello_welcome": [
+  {
+   "text": "Merhaba, hoş geldiniz! Size nasıl yardımcı olabilirim?",
+   "register": "formal"
+  },
+  {
+   "text": "Selam, hoş geldin! Yardım edebilir miyim?",
+   "register": "informal"
+  }
+ ],
+ "have_booking": [
+  {
+   "text": "Rezervasyonunuz var mı?",
+   "register": "formal"
+  },
+  {
+   "text": "Rezervasyonun var mı?",
+   "register": "informal"
+  }
+ ],
+ "booking_name": [
+  {
+   "text": "Rezervasyon hangi isimde?",
+   "register": "formal"
+  },
+  {
+   "text": "Hangi isimde?",
+   "register": "informal"
+  }
+ ],
+ "passport_id": [
+  {
+   "text": "Pasaportunuzu veya kimlik kartınızı görebilir miyim, lütfen?",
+   "register": "formal"
+  },
+  {
+   "text": "Pasaportuna ya da kimliğine bakabilir miyim?",
+   "register": "informal"
+  }
+ ],
+ "fill_form": [
+  {
+   "text": "Bu formu doldurup imzalar mısınız, lütfen?",
+   "register": "formal"
+  },
+  {
+   "text": "Bu formu doldurup imzalar mısın?",
+   "register": "informal"
+  }
+ ],
+ "how_many_nights": [
+  {
+   "text": "Kaç gece kalacaksınız?",
+   "register": "formal"
+  },
+  {
+   "text": "Kaç gece kalıyorsun?",
+   "register": "informal"
+  }
+ ],
+ "how_many_people": [
+  {
+   "text": "Kaç kişi olacaksınız?",
+   "register": "formal"
+  },
+  {
+   "text": "Kaç kişisiniz?",
+   "register": "informal"
+  }
+ ],
+ "room_ready": [
+  {
+   "text": "Odanız hazır.",
+   "register": "formal"
+  },
+  {
+   "text": "Odan hazır.",
+   "register": "informal"
+  }
+ ],
+ "room_not_ready": [
+  {
+   "text": "Odanız henüz hazır değil. Saat 14:00 civarında hazır olacak.",
+   "register": "formal"
+  },
+  {
+   "text": "Odan henüz hazır değil. Saat 14:00 civarında hazır olacak.",
+   "register": "informal"
+  }
+ ],
+ "leave_luggage": [
+  {
+   "text": "Bu arada bavullarınızı burada bırakabilirsiniz.",
+   "register": "formal"
+  },
+  {
+   "text": "Bu arada bavullarını burada bırakabilirsin.",
+   "register": "informal"
+  }
+ ],
+ "room_number": [
+  {
+   "text": "Odanız 214 numara, ikinci katta.",
+   "register": "formal"
+  },
+  {
+   "text": "Odan 214, ikinci katta.",
+   "register": "informal"
+  }
+ ],
+ "elevator": [
+  {
+   "text": "Asansör sağda.",
+   "register": "formal"
+  }
+ ],
+ "key_card": [
+  {
+   "text": "Buyurun kartınız. Hem odayı hem asansörü açıyor.",
+   "register": "formal"
+  },
+  {
+   "text": "Al, kartın bu. Hem odayı hem asansörü açıyor.",
+   "register": "informal"
+  }
+ ],
+ "wifi_code": [
+  {
+   "text": "Wi-Fi şifresi bu kartın üzerinde yazıyor.",
+   "register": "formal"
+  }
+ ],
+ "breakfast_hours": [
+  {
+   "text": "Kahvaltı 07:00 ile 10:30 arasında servis edilir.",
+   "register": "formal"
+  }
+ ],
+ "checkout_time": [
+  {
+   "text": "Çıkış saat 11:00'e kadar yapılır.",
+   "register": "formal"
+  }
+ ],
+ "no_booking_found": [
+  {
+   "text": "Rezervasyonunuzu bulamıyorum. Onay numaranız var mı?",
+   "register": "formal"
+  },
+  {
+   "text": "Rezervasyonunu bulamıyorum. Onay numaran var mı?",
+   "register": "informal"
+  }
+ ],
+ "booked_online": [
+  {
+   "text": "İnternetten rezervasyon yaptım.",
+   "register": "formal"
+  }
+ ],
+ "early_checkin": [
+  {
+   "text": "Odaya daha erken girebilir miyim?",
+   "register": "formal"
+  }
+ ],
+ "hotel_full": [
+  {
+   "text": "Üzgünüm, otelimiz bu gece tamamen dolu.",
+   "register": "formal"
+  }
+ ],
+ "pay_now_or_later": [
+  {
+   "text": "Şimdi mi ödemek istersiniz, yoksa çıkışta mı?",
+   "register": "formal"
+  },
+  {
+   "text": "Şimdi mi ödemek istersin, çıkışta mı?",
+   "register": "informal"
+  }
+ ],
+ "deposit": [
+  {
+   "text": "100 euro depozito alıyoruz, çıkışta iade ediliyor.",
+   "register": "formal"
+  }
+ ],
+ "card_or_cash": [
+  {
+   "text": "Kartla mı ödeyeceksiniz, nakit mi?",
+   "register": "formal"
+  },
+  {
+   "text": "Kartla mı ödüyorsun, nakit mi?",
+   "register": "informal"
+  }
+ ],
+ "city_tax": [
+  {
+   "text": "Konaklama vergisi kişi başı gecelik 2 euro.",
+   "register": "formal"
+  }
+ ],
+ "tax_not_included": [
+  {
+   "text": "Konaklama vergisi rezervasyon fiyatına dahil değildir.",
+   "register": "formal"
+  }
+ ],
+ "card_declined": [
+  {
+   "text": "Kartınız reddedildi. Başka bir kartınız var mı?",
+   "register": "formal"
+  },
+  {
+   "text": "Kartın reddedildi. Başka kartın var mı?",
+   "register": "informal"
+  }
+ ],
+ "enter_pin": [
+  {
+   "text": "Şifrenizi girebilirsiniz.",
+   "register": "formal"
+  },
+  {
+   "text": "Şifreni girebilirsin.",
+   "register": "informal"
+  }
+ ],
+ "receipt": [
+  {
+   "text": "Fiş ister misiniz?",
+   "register": "formal"
+  },
+  {
+   "text": "Fiş ister misin?",
+   "register": "informal"
+  }
+ ],
+ "invoice_company": [
+  {
+   "text": "Faturayı şirketimin adına kesebilir misiniz?",
+   "register": "formal"
+  }
+ ],
+ "breakfast_included": [
+  {
+   "text": "Kahvaltı dahil mi?",
+   "register": "formal"
+  }
+ ],
+ "price_night": [
+  {
+   "text": "Bir gecesi ne kadar?",
+   "register": "formal"
+  }
+ ],
+ "cheaper_room": [
+  {
+   "text": "Daha uygun fiyatlı bir odanız var mı?",
+   "register": "formal"
+  }
+ ],
+ "room_view": [
+  {
+   "text": "Oda deniz manzaralı.",
+   "register": "formal"
+  }
+ ],
+ "double_twin": [
+  {
+   "text": "Büyük yatak mı tercih edersiniz, yoksa iki ayrı yatak mı?",
+   "register": "formal"
+  },
+  {
+   "text": "Büyük yatak mı istersin, iki yatak mı?",
+   "register": "informal"
+  }
+ ],
+ "extra_bed": [
+  {
+   "text": "Çocuk için ilave yatak koyabiliriz.",
+   "register": "formal"
+  }
+ ],
+ "baby_cot": [
+  {
+   "text": "Bebek yatağı ücretsiz olarak mevcuttur.",
+   "register": "formal"
+  }
+ ],
+ "air_con": [
+  {
+   "text": "Klimanın kumandası komodinin üzerinde.",
+   "register": "formal"
+  }
+ ],
+ "safe": [
+  {
+   "text": "Dolapta kasa var.",
+   "register": "formal"
+  }
+ ],
+ "minibar": [
+  {
+   "text": "Minibardaki içecekler ücretlidir.",
+   "register": "formal"
+  }
+ ],
+ "non_smoking": [
+  {
+   "text": "Tüm odalarımızda sigara içilmez.",
+   "register": "formal"
+  }
+ ],
+ "quiet_room": [
+  {
+   "text": "Sessiz bir oda istiyorum, lütfen.",
+   "register": "formal"
+  }
+ ],
+ "change_room": [
+  {
+   "text": "Odamı değiştirebilir miyim?",
+   "register": "formal"
+  }
+ ],
+ "hair_dryer": [
+  {
+   "text": "Saç kurutma makinesi banyoda.",
+   "register": "formal"
+  }
+ ],
+ "adapter": [
+  {
+   "text": "Priz adaptörünüz var mı?",
+   "register": "formal"
+  }
+ ],
+ "iron": [
+  {
+   "text": "Bir ütü alabilir miyim?",
+   "register": "formal"
+  }
+ ],
+ "extra_pillow": [
+  {
+   "text": "Bana fazladan bir yastık getirebilir misiniz?",
+   "register": "formal"
+  }
+ ],
+ "balcony": [
+  {
+   "text": "Odanın balkonu var.",
+   "register": "formal"
+  }
+ ],
+ "accessible_room": [
+  {
+   "text": "Tekerlekli sandalyeye uygun bir odamız var.",
+   "register": "formal"
+  }
+ ],
+ "housekeeping_time": [
+  {
+   "text": "Odanızın saat kaçta temizlenmesini istersiniz?",
+   "register": "formal"
+  },
+  {
+   "text": "Odanı saat kaçta temizleyelim?",
+   "register": "informal"
+  }
+ ],
+ "do_not_disturb": [
+  {
+   "text": "Rahatsız edilmek istemezseniz kapıya \"Rahatsız Etmeyin\" kartını asın.",
+   "register": "formal"
+  },
+  {
+   "text": "Rahatsız edilmek istemezsen \"Rahatsız Etmeyin\" kartını as.",
+   "register": "informal"
+  }
+ ],
+ "clean_now": [
+  {
+   "text": "Odayı şimdi temizleyebilir miyim?",
+   "register": "formal"
+  },
+  {
+   "text": "Şimdi temizlik yapabilir miyim?",
+   "register": "informal"
+  }
+ ],
+ "come_back_later": [
+  {
+   "text": "Daha sonra tekrar uğrarım.",
+   "register": "formal"
+  }
+ ],
+ "towels": [
+  {
+   "text": "Temiz havlu alabilir miyim?",
+   "register": "formal"
+  }
+ ],
+ "change_sheets": [
+  {
+   "text": "Çarşaflar üç günde bir değiştirilir.",
+   "register": "formal"
+  }
+ ],
+ "laundry": [
+  {
+   "text": "Çamaşırhane hizmetimiz var. Çamaşırlar ertesi gün teslim edilir.",
+   "register": "formal"
+  }
+ ],
+ "toilet_paper": [
+  {
+   "text": "Tuvalet kâğıdı bitti.",
+   "register": "formal"
+  }
+ ],
+ "lost_item": [
+  {
+   "text": "Bir şey mi kaybettiniz?",
+   "register": "formal"
+  },
+  {
+   "text": "Bir şey mi kaybettin?",
+   "register": "informal"
+  }
+ ],
+ "found_item": [
+  {
+   "text": "Bu eşyayı odanızda bulduk.",
+   "register": "formal"
+  },
+  {
+   "text": "Bunu odanda bulduk.",
+   "register": "informal"
+  }
+ ],
+ "table_for": [
+  {
+   "text": "Kaç kişilik masa istersiniz?",
+   "register": "formal"
+  },
+  {
+   "text": "Kaç kişilik?",
+   "register": "informal"
+  }
+ ],
+ "breakfast_room": [
+  {
+   "text": "Kahvaltı zemin katta, resepsiyonun yanında servis edilir.",
+   "register": "formal"
+  }
+ ],
+ "buffet": [
+  {
+   "text": "Açık büfe, buyurun, kendiniz alın.",
+   "register": "formal"
+  },
+  {
+   "text": "Açık büfe, istediğini al.",
+   "register": "informal"
+  }
+ ],
+ "coffee_or_tea": [
+  {
+   "text": "Kahve mi, çay mı?",
+   "register": "formal"
+  }
+ ],
+ "allergy": [
+  {
+   "text": "Gıda alerjiniz var mı?",
+   "register": "formal"
+  },
+  {
+   "text": "Gıda alerjin var mı?",
+   "register": "informal"
+  }
+ ],
+ "vegetarian": [
+  {
+   "text": "Vejetaryen yemeklerimiz var.",
+   "register": "formal"
+  }
+ ],
+ "halal": [
+  {
+   "text": "Et helal mi?",
+   "register": "formal"
+  }
+ ],
+ "gluten_free": [
+  {
+   "text": "Gluten yemiyorum.",
+   "register": "formal"
+  }
+ ],
+ "room_service": [
+  {
+   "text": "Oda servisi saat 22:00'ye kadar hizmet veriyor.",
+   "register": "formal"
+  }
+ ],
+ "charge_room": [
+  {
+   "text": "Odanızın hesabına yazayım mı?",
+   "register": "formal"
+  },
+  {
+   "text": "Odanın hesabına yazayım mı?",
+   "register": "informal"
+  }
+ ],
+ "restaurant_closed": [
+  {
+   "text": "Restoran bu akşam kapalı.",
+   "register": "formal"
+  }
+ ],
+ "recommend_restaurant": [
+  {
+   "text": "Size çok yakında iyi bir restoran önerebilirim.",
+   "register": "formal"
+  },
+  {
+   "text": "Sana yakınlarda güzel bir lokanta önerebilirim.",
+   "register": "informal"
+  }
+ ],
+ "enjoy_meal": [
+  {
+   "text": "Afiyet olsun!",
+   "register": "formal"
+  }
+ ],
+ "problem_room": [
+  {
+   "text": "Odamda bir sorun var.",
+   "register": "formal"
+  }
+ ],
+ "ac_broken": [
+  {
+   "text": "Klima çalışmıyor.",
+   "register": "formal"
+  }
+ ],
+ "no_hot_water": [
+  {
+   "text": "Sıcak su yok.",
+   "register": "formal"
+  }
+ ],
+ "wifi_not_working": [
+  {
+   "text": "Wi-Fi çalışmıyor.",
+   "register": "formal"
+  }
+ ],
+ "too_noisy": [
+  {
+   "text": "Çok gürültülü, uyuyamıyorum.",
+   "register": "formal"
+  }
+ ],
+ "room_dirty": [
+  {
+   "text": "Oda temiz değil.",
+   "register": "formal"
+  }
+ ],
+ "card_not_working": [
+  {
+   "text": "Kartım artık kapıyı açmıyor.",
+   "register": "formal"
+  }
+ ],
+ "locked_out": [
+  {
+   "text": "Kartımı odada unuttum.",
+   "register": "formal"
+  }
+ ],
+ "sorry_problem": [
+  {
+   "text": "Bu sorun için gerçekten çok özür dilerim.",
+   "register": "formal"
+  }
+ ],
+ "send_technician": [
+  {
+   "text": "Hemen odanıza birini gönderiyorum.",
+   "register": "formal"
+  },
+  {
+   "text": "Hemen odana birini gönderiyorum.",
+   "register": "informal"
+  }
+ ],
+ "fixed_soon": [
+  {
+   "text": "En geç bir saat içinde onarılacak.",
+   "register": "formal"
+  }
+ ],
+ "offer_new_room": [
+  {
+   "text": "Size başka bir oda önerebilirim.",
+   "register": "formal"
+  },
+  {
+   "text": "Sana başka bir oda önerebilirim.",
+   "register": "informal"
+  }
+ ],
+ "compensation": [
+  {
+   "text": "Özür dilemek için kahvaltınız bizden.",
+   "register": "formal"
+  },
+  {
+   "text": "Özür dilemek için kahvaltın bizden.",
+   "register": "informal"
+  }
+ ],
+ "manager": [
+  {
+   "text": "Müdürle görüşmek istiyorum.",
+   "register": "formal"
+  }
+ ],
+ "complaint_noted": [
+  {
+   "text": "Şikâyetinizi not aldım. Müdürümüz sizi geri arayacak.",
+   "register": "formal"
+  },
+  {
+   "text": "Şikâyetini not aldım. Müdür seni geri arayacak.",
+   "register": "informal"
+  }
+ ],
+ "taxi": [
+  {
+   "text": "Size taksi çağırmamı ister misiniz?",
+   "register": "formal"
+  },
+  {
+   "text": "Taksi çağırayım mı?",
+   "register": "informal"
+  }
+ ],
+ "airport_transfer": [
+  {
+   "text": "Havalimanı servisimiz var. Bir gün önceden rezervasyon yapmak gerekiyor.",
+   "register": "formal"
+  }
+ ],
+ "how_far": [
+  {
+   "text": "Yürüyerek uzak mı?",
+   "register": "formal"
+  }
+ ],
+ "ten_minutes_walk": [
+  {
+   "text": "Yürüyerek on dakika.",
+   "register": "formal"
+  }
+ ],
+ "map": [
+  {
+   "text": "Buyurun, şehir haritası.",
+   "register": "formal"
+  }
+ ],
+ "bus_stop": [
+  {
+   "text": "Otobüs durağı otelin hemen önünde.",
+   "register": "formal"
+  }
+ ],
+ "parking": [
+  {
+   "text": "Otopark günlük 15 euro.",
+   "register": "formal"
+  }
+ ],
+ "nearest_pharmacy": [
+  {
+   "text": "En yakın eczane nerede?",
+   "register": "formal"
+  }
+ ],
+ "atm": [
+  {
+   "text": "Nereden para çekebilirim?",
+   "register": "formal"
+  }
+ ],
+ "book_tour": [
+  {
+   "text": "Sizin için rehberli bir tur ayarlayabilirim.",
+   "register": "formal"
+  },
+  {
+   "text": "Sana rehberli bir tur ayarlayabilirim.",
+   "register": "informal"
+  }
+ ],
+ "safe_area": [
+  {
+   "text": "Bu bölge geceleri güvenli mi?",
+   "register": "formal"
+  }
+ ],
+ "doctor": [
+  {
+   "text": "Bir doktora ihtiyacım var.",
+   "register": "formal"
+  }
+ ],
+ "call_doctor": [
+  {
+   "text": "Sizin için doktor çağırıyorum.",
+   "register": "formal"
+  },
+  {
+   "text": "Senin için doktor çağırıyorum.",
+   "register": "informal"
+  }
+ ],
+ "emergency": [
+  {
+   "text": "Acil durumda 112'yi arayın.",
+   "register": "formal"
+  }
+ ],
+ "first_aid": [
+  {
+   "text": "Resepsiyonda ilk yardım çantamız var.",
+   "register": "formal"
+  }
+ ],
+ "fire_exit": [
+  {
+   "text": "Acil çıkış koridorun sonunda.",
+   "register": "formal"
+  }
+ ],
+ "fire_alarm": [
+  {
+   "text": "Yangın alarmı çalıyor: asansörü değil, merdivenleri kullanarak çıkın.",
+   "register": "formal"
+  }
+ ],
+ "checkout_question": [
+  {
+   "text": "Bugün mü ayrılıyorsunuz?",
+   "register": "formal"
+  },
+  {
+   "text": "Bugün mü gidiyorsun?",
+   "register": "informal"
+  }
+ ],
+ "late_checkout": [
+  {
+   "text": "Daha geç çıkış yapabilir miyim?",
+   "register": "formal"
+  }
+ ],
+ "late_checkout_fee": [
+  {
+   "text": "Saat 14:00'e kadar geç çıkış 30 euro.",
+   "register": "formal"
+  }
+ ],
+ "minibar_used": [
+  {
+   "text": "Minibardan bir şey aldınız mı?",
+   "register": "formal"
+  },
+  {
+   "text": "Minibardan bir şey aldın mı?",
+   "register": "informal"
+  }
+ ],
+ "here_invoice": [
+  {
+   "text": "Buyurun, faturanız.",
+   "register": "formal"
+  },
+  {
+   "text": "Al, faturan.",
+   "register": "informal"
+  }
+ ],
+ "invoice_email": [
+  {
+   "text": "Faturayı e-postayla ister misiniz?",
+   "register": "formal"
+  },
+  {
+   "text": "Faturayı e-postayla ister misin?",
+   "register": "informal"
+  }
+ ],
+ "keep_luggage_after": [
+  {
+   "text": "Çıkıştan sonra bavullarınızı saklayabiliriz.",
+   "register": "formal"
+  },
+  {
+   "text": "Çıkıştan sonra bavullarını tutabiliriz.",
+   "register": "informal"
+  }
+ ],
+ "enjoyed_stay": [
+  {
+   "text": "Konaklamanız güzel geçti mi?",
+   "register": "formal"
+  },
+  {
+   "text": "Konaklaman güzel geçti mi?",
+   "register": "informal"
+  }
+ ],
+ "leave_review": [
+  {
+   "text": "Memnun kaldıysanız internette yorum bırakabilirsiniz.",
+   "register": "formal"
+  },
+  {
+   "text": "Memnun kaldıysan internette yorum bırakabilirsin.",
+   "register": "informal"
+  }
+ ],
+ "goodbye": [
+  {
+   "text": "Teşekkürler, iyi yolculuklar!",
+   "register": "formal"
+  }
+ ],
+ "colleague_help": [
+  {
+   "text": "Resepsiyonda bana yardım edebilir misin?",
+   "register": "informal"
+  }
+ ],
+ "room_free": [
+  {
+   "text": "214 numaralı oda boş ve temiz.",
+   "register": "informal"
+  }
+ ],
+ "guest_waiting": [
+  {
+   "text": "Resepsiyonda bir misafir bekliyor.",
+   "register": "informal"
+  }
+ ],
+ "vip_arrival": [
+  {
+   "text": "Saat 15:00'te önemli bir misafir geliyor.",
+   "register": "informal"
+  }
+ ],
+ "shift_change": [
+  {
+   "text": "Saat 18:00'de çıkıyorum, yerime kim geçiyor?",
+   "register": "informal"
+  }
+ ],
+ "broken_report": [
+  {
+   "text": "305'in duşu su kaçırıyor, teknisyene haber vermek lazım.",
+   "register": "informal"
+  }
+ ]
+}

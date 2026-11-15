@@ -1,0 +1,898 @@
+{
+ "welcome_back": [
+  {
+   "text": "很高兴再次见到您！",
+   "register": "formal"
+  },
+  {
+   "text": "很高兴又见到你！",
+   "register": "informal"
+  }
+ ],
+ "hello_welcome": [
+  {
+   "text": "您好，欢迎光临！请问有什么可以帮您？",
+   "register": "formal"
+  },
+  {
+   "text": "嗨，欢迎！需要帮忙吗？",
+   "register": "informal"
+  }
+ ],
+ "have_booking": [
+  {
+   "text": "请问您有预订吗？",
+   "register": "formal"
+  },
+  {
+   "text": "你有预订吗？",
+   "register": "informal"
+  }
+ ],
+ "booking_name": [
+  {
+   "text": "请问预订人的姓名是？",
+   "register": "formal"
+  },
+  {
+   "text": "用什么名字订的？",
+   "register": "informal"
+  }
+ ],
+ "passport_id": [
+  {
+   "text": "麻烦出示一下您的护照或身份证，好吗？",
+   "register": "formal"
+  },
+  {
+   "text": "能看一下你的护照或身份证吗？",
+   "register": "informal"
+  }
+ ],
+ "fill_form": [
+  {
+   "text": "麻烦您填写这张登记表并签字，好吗？",
+   "register": "formal"
+  },
+  {
+   "text": "你能填一下这张表并签个字吗？",
+   "register": "informal"
+  }
+ ],
+ "how_many_nights": [
+  {
+   "text": "请问您住几晚？",
+   "register": "formal"
+  },
+  {
+   "text": "你住几晚？",
+   "register": "informal"
+  }
+ ],
+ "how_many_people": [
+  {
+   "text": "请问您一共几位？",
+   "register": "formal"
+  },
+  {
+   "text": "你们几个人？",
+   "register": "informal"
+  }
+ ],
+ "room_ready": [
+  {
+   "text": "您的房间已经准备好了。",
+   "register": "formal"
+  },
+  {
+   "text": "你的房间准备好了。",
+   "register": "informal"
+  }
+ ],
+ "room_not_ready": [
+  {
+   "text": "您的房间还没有准备好，大约下午2点可以入住。",
+   "register": "formal"
+  },
+  {
+   "text": "你的房间还没准备好，大概下午2点就好了。",
+   "register": "informal"
+  }
+ ],
+ "leave_luggage": [
+  {
+   "text": "您可以先把行李寄存在这里。",
+   "register": "formal"
+  },
+  {
+   "text": "你可以先把行李放这儿。",
+   "register": "informal"
+  }
+ ],
+ "room_number": [
+  {
+   "text": "您的房间是214号，在三楼。",
+   "register": "formal"
+  },
+  {
+   "text": "你的房间是214，在三楼。",
+   "register": "informal"
+  }
+ ],
+ "elevator": [
+  {
+   "text": "电梯在右手边。",
+   "register": "formal"
+  }
+ ],
+ "key_card": [
+  {
+   "text": "这是您的房卡，可以开房门，也可以刷电梯。",
+   "register": "formal"
+  },
+  {
+   "text": "这是你的房卡，能开房门，也能刷电梯。",
+   "register": "informal"
+  }
+ ],
+ "wifi_code": [
+  {
+   "text": "无线网络密码写在这张卡片上。",
+   "register": "formal"
+  }
+ ],
+ "breakfast_hours": [
+  {
+   "text": "早餐供应时间为早上7点到10点半。",
+   "register": "formal"
+  }
+ ],
+ "checkout_time": [
+  {
+   "text": "退房时间为上午11点之前。",
+   "register": "formal"
+  }
+ ],
+ "no_booking_found": [
+  {
+   "text": "我没有查到您的预订。请问您有确认号吗？",
+   "register": "formal"
+  },
+  {
+   "text": "我查不到你的预订。你有确认号吗？",
+   "register": "informal"
+  }
+ ],
+ "booked_online": [
+  {
+   "text": "我是在网上预订的。",
+   "register": "formal"
+  }
+ ],
+ "early_checkin": [
+  {
+   "text": "我可以提前入住吗？",
+   "register": "formal"
+  }
+ ],
+ "hotel_full": [
+  {
+   "text": "很抱歉，今晚酒店已经客满了。",
+   "register": "formal"
+  }
+ ],
+ "pay_now_or_later": [
+  {
+   "text": "请问您是现在付款，还是退房时再付？",
+   "register": "formal"
+  },
+  {
+   "text": "你想现在付还是退房时付？",
+   "register": "informal"
+  }
+ ],
+ "deposit": [
+  {
+   "text": "我们需要收取100欧元押金，退房时退还。",
+   "register": "formal"
+  }
+ ],
+ "card_or_cash": [
+  {
+   "text": "请问您是刷卡还是付现金？",
+   "register": "formal"
+  },
+  {
+   "text": "你刷卡还是付现金？",
+   "register": "informal"
+  }
+ ],
+ "city_tax": [
+  {
+   "text": "城市住宿税为每人每晚2欧元。",
+   "register": "formal"
+  }
+ ],
+ "tax_not_included": [
+  {
+   "text": "城市住宿税不包含在预订价格内。",
+   "register": "formal"
+  }
+ ],
+ "card_declined": [
+  {
+   "text": "您的卡被拒绝了。请问您还有其他卡吗？",
+   "register": "formal"
+  },
+  {
+   "text": "你的卡被拒了。你还有别的卡吗？",
+   "register": "informal"
+  }
+ ],
+ "enter_pin": [
+  {
+   "text": "请您输入密码。",
+   "register": "formal"
+  },
+  {
+   "text": "你可以输密码了。",
+   "register": "informal"
+  }
+ ],
+ "receipt": [
+  {
+   "text": "请问您需要收据吗？",
+   "register": "formal"
+  },
+  {
+   "text": "你要收据吗？",
+   "register": "informal"
+  }
+ ],
+ "invoice_company": [
+  {
+   "text": "发票可以开我们公司的抬头吗？",
+   "register": "formal"
+  }
+ ],
+ "breakfast_included": [
+  {
+   "text": "含早餐吗？",
+   "register": "formal"
+  }
+ ],
+ "price_night": [
+  {
+   "text": "住一晚多少钱？",
+   "register": "formal"
+  }
+ ],
+ "cheaper_room": [
+  {
+   "text": "有便宜一点的房间吗？",
+   "register": "formal"
+  }
+ ],
+ "room_view": [
+  {
+   "text": "这间房是海景房。",
+   "register": "formal"
+  }
+ ],
+ "double_twin": [
+  {
+   "text": "请问您要大床房还是双床房？",
+   "register": "formal"
+  },
+  {
+   "text": "你要大床还是两张床？",
+   "register": "informal"
+  }
+ ],
+ "extra_bed": [
+  {
+   "text": "我们可以为孩子加一张床。",
+   "register": "formal"
+  }
+ ],
+ "baby_cot": [
+  {
+   "text": "我们可以免费提供婴儿床。",
+   "register": "formal"
+  }
+ ],
+ "air_con": [
+  {
+   "text": "空调遥控器在床头柜上。",
+   "register": "formal"
+  }
+ ],
+ "safe": [
+  {
+   "text": "衣柜里有保险箱。",
+   "register": "formal"
+  }
+ ],
+ "minibar": [
+  {
+   "text": "迷你吧里的饮品是收费的。",
+   "register": "formal"
+  }
+ ],
+ "non_smoking": [
+  {
+   "text": "所有房间都是禁烟房。",
+   "register": "formal"
+  }
+ ],
+ "quiet_room": [
+  {
+   "text": "我想要一间安静的房间，谢谢。",
+   "register": "formal"
+  }
+ ],
+ "change_room": [
+  {
+   "text": "我可以换个房间吗？",
+   "register": "formal"
+  }
+ ],
+ "hair_dryer": [
+  {
+   "text": "吹风机在浴室里。",
+   "register": "formal"
+  }
+ ],
+ "adapter": [
+  {
+   "text": "请问有电源转换插头吗？",
+   "register": "formal"
+  }
+ ],
+ "iron": [
+  {
+   "text": "可以给我一个熨斗吗？",
+   "register": "formal"
+  }
+ ],
+ "extra_pillow": [
+  {
+   "text": "能麻烦您再给我拿一个枕头吗？",
+   "register": "formal"
+  }
+ ],
+ "balcony": [
+  {
+   "text": "这间房带阳台。",
+   "register": "formal"
+  }
+ ],
+ "accessible_room": [
+  {
+   "text": "我们有可供轮椅使用的无障碍客房。",
+   "register": "formal"
+  }
+ ],
+ "housekeeping_time": [
+  {
+   "text": "请问您希望我们几点来打扫房间？",
+   "register": "formal"
+  },
+  {
+   "text": "你想几点打扫房间？",
+   "register": "informal"
+  }
+ ],
+ "do_not_disturb": [
+  {
+   "text": "如果您不希望被打扰，请把\"请勿打扰\"牌挂在门上。",
+   "register": "formal"
+  },
+  {
+   "text": "不想被打扰的话，就把\"请勿打扰\"牌挂上。",
+   "register": "informal"
+  }
+ ],
+ "clean_now": [
+  {
+   "text": "请问现在可以为您打扫房间吗？",
+   "register": "formal"
+  },
+  {
+   "text": "现在可以打扫房间吗？",
+   "register": "informal"
+  }
+ ],
+ "come_back_later": [
+  {
+   "text": "我稍后再来。",
+   "register": "formal"
+  }
+ ],
+ "towels": [
+  {
+   "text": "可以给我几条干净的毛巾吗？",
+   "register": "formal"
+  }
+ ],
+ "change_sheets": [
+  {
+   "text": "床单每三天更换一次。",
+   "register": "formal"
+  }
+ ],
+ "laundry": [
+  {
+   "text": "我们提供洗衣服务，衣物次日送回。",
+   "register": "formal"
+  }
+ ],
+ "toilet_paper": [
+  {
+   "text": "卫生纸用完了。",
+   "register": "formal"
+  }
+ ],
+ "lost_item": [
+  {
+   "text": "请问您丢了什么东西吗？",
+   "register": "formal"
+  },
+  {
+   "text": "你丢东西了吗？",
+   "register": "informal"
+  }
+ ],
+ "found_item": [
+  {
+   "text": "我们在您的房间里找到了这件物品。",
+   "register": "formal"
+  },
+  {
+   "text": "我们在你房间里找到了这个。",
+   "register": "informal"
+  }
+ ],
+ "table_for": [
+  {
+   "text": "请问几位用餐？",
+   "register": "formal"
+  },
+  {
+   "text": "几个人？",
+   "register": "informal"
+  }
+ ],
+ "breakfast_room": [
+  {
+   "text": "早餐在一楼供应，就在前台旁边。",
+   "register": "formal"
+  }
+ ],
+ "buffet": [
+  {
+   "text": "这是自助餐，请您自便。",
+   "register": "formal"
+  },
+  {
+   "text": "这是自助餐，自己拿吧。",
+   "register": "informal"
+  }
+ ],
+ "coffee_or_tea": [
+  {
+   "text": "请问您要咖啡还是茶？",
+   "register": "formal"
+  }
+ ],
+ "allergy": [
+  {
+   "text": "请问您有食物过敏吗？",
+   "register": "formal"
+  },
+  {
+   "text": "你有食物过敏吗？",
+   "register": "informal"
+  }
+ ],
+ "vegetarian": [
+  {
+   "text": "我们有素食菜品。",
+   "register": "formal"
+  }
+ ],
+ "halal": [
+  {
+   "text": "这肉是清真的吗？",
+   "register": "formal"
+  }
+ ],
+ "gluten_free": [
+  {
+   "text": "我不吃含麸质的食物。",
+   "register": "formal"
+  }
+ ],
+ "room_service": [
+  {
+   "text": "客房送餐服务供应到晚上10点。",
+   "register": "formal"
+  }
+ ],
+ "charge_room": [
+  {
+   "text": "请问记在您的房账上吗？",
+   "register": "formal"
+  },
+  {
+   "text": "记在你房账上吗？",
+   "register": "informal"
+  }
+ ],
+ "restaurant_closed": [
+  {
+   "text": "今晚餐厅不营业。",
+   "register": "formal"
+  }
+ ],
+ "recommend_restaurant": [
+  {
+   "text": "我可以为您推荐附近一家不错的餐厅。",
+   "register": "formal"
+  },
+  {
+   "text": "我可以给你推荐附近一家不错的馆子。",
+   "register": "informal"
+  }
+ ],
+ "enjoy_meal": [
+  {
+   "text": "祝您用餐愉快！",
+   "register": "formal"
+  }
+ ],
+ "problem_room": [
+  {
+   "text": "我的房间有点问题。",
+   "register": "formal"
+  }
+ ],
+ "ac_broken": [
+  {
+   "text": "空调坏了。",
+   "register": "formal"
+  }
+ ],
+ "no_hot_water": [
+  {
+   "text": "没有热水。",
+   "register": "formal"
+  }
+ ],
+ "wifi_not_working": [
+  {
+   "text": "无线网络连不上。",
+   "register": "formal"
+  }
+ ],
+ "too_noisy": [
+  {
+   "text": "太吵了，我睡不着。",
+   "register": "formal"
+  }
+ ],
+ "room_dirty": [
+  {
+   "text": "房间不干净。",
+   "register": "formal"
+  }
+ ],
+ "card_not_working": [
+  {
+   "text": "我的房卡开不了门了。",
+   "register": "formal"
+  }
+ ],
+ "locked_out": [
+  {
+   "text": "我把房卡落在房间里了。",
+   "register": "formal"
+  }
+ ],
+ "sorry_problem": [
+  {
+   "text": "对于这个问题，我真的非常抱歉。",
+   "register": "formal"
+  }
+ ],
+ "send_technician": [
+  {
+   "text": "我马上派人到您的房间。",
+   "register": "formal"
+  },
+  {
+   "text": "我马上派人去你房间。",
+   "register": "informal"
+  }
+ ],
+ "fixed_soon": [
+  {
+   "text": "最迟一小时内就能修好。",
+   "register": "formal"
+  }
+ ],
+ "offer_new_room": [
+  {
+   "text": "我为您换一间房吧。",
+   "register": "formal"
+  },
+  {
+   "text": "我给你换一间房吧。",
+   "register": "informal"
+  }
+ ],
+ "compensation": [
+  {
+   "text": "为表歉意，我们为您免费提供早餐。",
+   "register": "formal"
+  },
+  {
+   "text": "为了表示歉意，你的早餐免费。",
+   "register": "informal"
+  }
+ ],
+ "manager": [
+  {
+   "text": "我想和经理谈一谈。",
+   "register": "formal"
+  }
+ ],
+ "complaint_noted": [
+  {
+   "text": "您的投诉我已经记录下来了，经理会给您回电。",
+   "register": "formal"
+  },
+  {
+   "text": "你的投诉我记下了，经理会给你回电话。",
+   "register": "informal"
+  }
+ ],
+ "taxi": [
+  {
+   "text": "需要我帮您叫出租车吗？",
+   "register": "formal"
+  },
+  {
+   "text": "要我帮你叫辆出租车吗？",
+   "register": "informal"
+  }
+ ],
+ "airport_transfer": [
+  {
+   "text": "我们提供机场接送班车，需要提前一天预订。",
+   "register": "formal"
+  }
+ ],
+ "how_far": [
+  {
+   "text": "走路过去远吗？",
+   "register": "formal"
+  }
+ ],
+ "ten_minutes_walk": [
+  {
+   "text": "走路大约十分钟。",
+   "register": "formal"
+  }
+ ],
+ "map": [
+  {
+   "text": "这是一张城市地图。",
+   "register": "formal"
+  }
+ ],
+ "bus_stop": [
+  {
+   "text": "公交车站就在酒店门口。",
+   "register": "formal"
+  }
+ ],
+ "parking": [
+  {
+   "text": "停车费每天15欧元。",
+   "register": "formal"
+  }
+ ],
+ "nearest_pharmacy": [
+  {
+   "text": "最近的药店在哪里？",
+   "register": "formal"
+  }
+ ],
+ "atm": [
+  {
+   "text": "我在哪里可以取钱？",
+   "register": "formal"
+  }
+ ],
+ "book_tour": [
+  {
+   "text": "我可以为您预订导游讲解的游览。",
+   "register": "formal"
+  },
+  {
+   "text": "我可以帮你订一个导游带队的游览。",
+   "register": "informal"
+  }
+ ],
+ "safe_area": [
+  {
+   "text": "这一带晚上安全吗？",
+   "register": "formal"
+  }
+ ],
+ "doctor": [
+  {
+   "text": "我需要看医生。",
+   "register": "formal"
+  }
+ ],
+ "call_doctor": [
+  {
+   "text": "我马上为您叫医生。",
+   "register": "formal"
+  },
+  {
+   "text": "我帮你叫医生。",
+   "register": "informal"
+  }
+ ],
+ "emergency": [
+  {
+   "text": "如遇紧急情况，请拨打112。",
+   "register": "formal"
+  }
+ ],
+ "first_aid": [
+  {
+   "text": "前台备有急救箱。",
+   "register": "formal"
+  }
+ ],
+ "fire_exit": [
+  {
+   "text": "紧急出口在走廊尽头。",
+   "register": "formal"
+  }
+ ],
+ "fire_alarm": [
+  {
+   "text": "火警响了：请走楼梯离开，不要乘电梯。",
+   "register": "formal"
+  }
+ ],
+ "checkout_question": [
+  {
+   "text": "请问您今天退房吗？",
+   "register": "formal"
+  },
+  {
+   "text": "你今天走吗？",
+   "register": "informal"
+  }
+ ],
+ "late_checkout": [
+  {
+   "text": "我可以晚点退房吗？",
+   "register": "formal"
+  }
+ ],
+ "late_checkout_fee": [
+  {
+   "text": "延迟退房至下午2点需支付30欧元。",
+   "register": "formal"
+  }
+ ],
+ "minibar_used": [
+  {
+   "text": "请问您用过迷你吧里的东西吗？",
+   "register": "formal"
+  },
+  {
+   "text": "你拿过迷你吧里的东西吗？",
+   "register": "informal"
+  }
+ ],
+ "here_invoice": [
+  {
+   "text": "这是您的账单。",
+   "register": "formal"
+  },
+  {
+   "text": "这是你的账单。",
+   "register": "informal"
+  }
+ ],
+ "invoice_email": [
+  {
+   "text": "请问需要把账单发到您的电子邮箱吗？",
+   "register": "formal"
+  },
+  {
+   "text": "要把账单发到你邮箱吗？",
+   "register": "informal"
+  }
+ ],
+ "keep_luggage_after": [
+  {
+   "text": "退房后我们可以为您寄存行李。",
+   "register": "formal"
+  },
+  {
+   "text": "退房后我们可以帮你看行李。",
+   "register": "informal"
+  }
+ ],
+ "enjoyed_stay": [
+  {
+   "text": "请问您这次住得还满意吗？",
+   "register": "formal"
+  },
+  {
+   "text": "这次住得开心吗？",
+   "register": "informal"
+  }
+ ],
+ "leave_review": [
+  {
+   "text": "如果您满意的话，欢迎在网上给我们留个评价。",
+   "register": "formal"
+  },
+  {
+   "text": "如果你满意，可以在网上留个评价。",
+   "register": "informal"
+  }
+ ],
+ "goodbye": [
+  {
+   "text": "谢谢，祝您旅途愉快！",
+   "register": "formal"
+  }
+ ],
+ "colleague_help": [
+  {
+   "text": "你能来前台帮我一下吗？",
+   "register": "informal"
+  }
+ ],
+ "room_free": [
+  {
+   "text": "214房空着，已经打扫好了。",
+   "register": "informal"
+  }
+ ],
+ "guest_waiting": [
+  {
+   "text": "有位客人在前台等着。",
+   "register": "informal"
+  }
+ ],
+ "vip_arrival": [
+  {
+   "text": "有位贵宾下午3点到。",
+   "register": "informal"
+  }
+ ],
+ "shift_change": [
+  {
+   "text": "我18点下班，谁来接我的班？",
+   "register": "informal"
+  }
+ ],
+ "broken_report": [
+  {
+   "text": "305的淋浴漏水了，得通知维修师傅。",
+   "register": "informal"
+  }
+ ]
+}

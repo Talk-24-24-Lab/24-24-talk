@@ -1,0 +1,898 @@
+{
+ "welcome_back": [
+  {
+   "text": "Lovely to see you again!",
+   "register": "formal"
+  },
+  {
+   "text": "Great to see you again!",
+   "register": "informal"
+  }
+ ],
+ "hello_welcome": [
+  {
+   "text": "Hello and welcome! How may I help you?",
+   "register": "formal"
+  },
+  {
+   "text": "Hi, welcome! Can I help you?",
+   "register": "informal"
+  }
+ ],
+ "have_booking": [
+  {
+   "text": "Do you have a reservation?",
+   "register": "formal"
+  },
+  {
+   "text": "Have you got a booking?",
+   "register": "informal"
+  }
+ ],
+ "booking_name": [
+  {
+   "text": "What name is the reservation under?",
+   "register": "formal"
+  },
+  {
+   "text": "What name is it under?",
+   "register": "informal"
+  }
+ ],
+ "passport_id": [
+  {
+   "text": "May I see your passport or ID card, please?",
+   "register": "formal"
+  },
+  {
+   "text": "Can I see your passport or ID card?",
+   "register": "informal"
+  }
+ ],
+ "fill_form": [
+  {
+   "text": "Could you please fill in and sign this form?",
+   "register": "formal"
+  },
+  {
+   "text": "Can you fill in and sign this form?",
+   "register": "informal"
+  }
+ ],
+ "how_many_nights": [
+  {
+   "text": "How many nights will you be staying?",
+   "register": "formal"
+  },
+  {
+   "text": "How many nights are you staying?",
+   "register": "informal"
+  }
+ ],
+ "how_many_people": [
+  {
+   "text": "How many people are in your party?",
+   "register": "formal"
+  },
+  {
+   "text": "How many of you are there?",
+   "register": "informal"
+  }
+ ],
+ "room_ready": [
+  {
+   "text": "Your room is ready.",
+   "register": "formal"
+  },
+  {
+   "text": "Your room's ready.",
+   "register": "informal"
+  }
+ ],
+ "room_not_ready": [
+  {
+   "text": "Your room isn't ready yet. It will be ready at around 2 pm.",
+   "register": "formal"
+  },
+  {
+   "text": "Your room's not ready yet. It'll be ready around 2 pm.",
+   "register": "informal"
+  }
+ ],
+ "leave_luggage": [
+  {
+   "text": "You're welcome to leave your luggage here in the meantime.",
+   "register": "formal"
+  },
+  {
+   "text": "You can leave your bags here in the meantime.",
+   "register": "informal"
+  }
+ ],
+ "room_number": [
+  {
+   "text": "Your room is number 214, on the second floor.",
+   "register": "formal"
+  },
+  {
+   "text": "You're in 214, on the second floor.",
+   "register": "informal"
+  }
+ ],
+ "elevator": [
+  {
+   "text": "The lift is on the right.",
+   "register": "formal"
+  }
+ ],
+ "key_card": [
+  {
+   "text": "Here is your key card. It opens your room and the lift.",
+   "register": "formal"
+  },
+  {
+   "text": "Here's your key card. It opens the room and the lift.",
+   "register": "informal"
+  }
+ ],
+ "wifi_code": [
+  {
+   "text": "The Wi-Fi password is written on this card.",
+   "register": "formal"
+  }
+ ],
+ "breakfast_hours": [
+  {
+   "text": "Breakfast is served from 7 to 10:30 am.",
+   "register": "formal"
+  }
+ ],
+ "checkout_time": [
+  {
+   "text": "Check-out is before 11 am.",
+   "register": "formal"
+  }
+ ],
+ "no_booking_found": [
+  {
+   "text": "I can't find your reservation. Do you have the confirmation number?",
+   "register": "formal"
+  },
+  {
+   "text": "I can't find your booking. Have you got the confirmation number?",
+   "register": "informal"
+  }
+ ],
+ "booked_online": [
+  {
+   "text": "I booked online.",
+   "register": "formal"
+  }
+ ],
+ "early_checkin": [
+  {
+   "text": "Can I get into the room earlier?",
+   "register": "formal"
+  }
+ ],
+ "hotel_full": [
+  {
+   "text": "I'm sorry, the hotel is fully booked tonight.",
+   "register": "formal"
+  }
+ ],
+ "pay_now_or_later": [
+  {
+   "text": "Would you like to pay now or at check-out?",
+   "register": "formal"
+  },
+  {
+   "text": "Do you want to pay now or when you leave?",
+   "register": "informal"
+  }
+ ],
+ "deposit": [
+  {
+   "text": "We ask for a 100-euro deposit, which is refunded at check-out.",
+   "register": "formal"
+  }
+ ],
+ "card_or_cash": [
+  {
+   "text": "Will you be paying by card or in cash?",
+   "register": "formal"
+  },
+  {
+   "text": "Are you paying by card or cash?",
+   "register": "informal"
+  }
+ ],
+ "city_tax": [
+  {
+   "text": "The city tax is 2 euros per person per night.",
+   "register": "formal"
+  }
+ ],
+ "tax_not_included": [
+  {
+   "text": "The city tax is not included in the booking price.",
+   "register": "formal"
+  }
+ ],
+ "card_declined": [
+  {
+   "text": "I'm afraid your card has been declined. Do you have another card?",
+   "register": "formal"
+  },
+  {
+   "text": "Your card's been declined. Have you got another one?",
+   "register": "informal"
+  }
+ ],
+ "enter_pin": [
+  {
+   "text": "Please enter your PIN.",
+   "register": "formal"
+  },
+  {
+   "text": "You can put your PIN in now.",
+   "register": "informal"
+  }
+ ],
+ "receipt": [
+  {
+   "text": "Would you like a receipt?",
+   "register": "formal"
+  },
+  {
+   "text": "Do you want a receipt?",
+   "register": "informal"
+  }
+ ],
+ "invoice_company": [
+  {
+   "text": "Could you make the invoice out to my company?",
+   "register": "formal"
+  }
+ ],
+ "breakfast_included": [
+  {
+   "text": "Is breakfast included?",
+   "register": "formal"
+  }
+ ],
+ "price_night": [
+  {
+   "text": "How much is it per night?",
+   "register": "formal"
+  }
+ ],
+ "cheaper_room": [
+  {
+   "text": "Do you have a cheaper room?",
+   "register": "formal"
+  }
+ ],
+ "room_view": [
+  {
+   "text": "The room has a sea view.",
+   "register": "formal"
+  }
+ ],
+ "double_twin": [
+  {
+   "text": "Would you prefer a double bed or two single beds?",
+   "register": "formal"
+  },
+  {
+   "text": "Do you want a double or two singles?",
+   "register": "informal"
+  }
+ ],
+ "extra_bed": [
+  {
+   "text": "We can add an extra bed for your child.",
+   "register": "formal"
+  }
+ ],
+ "baby_cot": [
+  {
+   "text": "A baby cot is available free of charge.",
+   "register": "formal"
+  }
+ ],
+ "air_con": [
+  {
+   "text": "The air-conditioning remote is on the bedside table.",
+   "register": "formal"
+  }
+ ],
+ "safe": [
+  {
+   "text": "There is a safe in the wardrobe.",
+   "register": "formal"
+  }
+ ],
+ "minibar": [
+  {
+   "text": "Drinks from the minibar are charged.",
+   "register": "formal"
+  }
+ ],
+ "non_smoking": [
+  {
+   "text": "All our rooms are non-smoking.",
+   "register": "formal"
+  }
+ ],
+ "quiet_room": [
+  {
+   "text": "I'd like a quiet room, please.",
+   "register": "formal"
+  }
+ ],
+ "change_room": [
+  {
+   "text": "Could I change rooms?",
+   "register": "formal"
+  }
+ ],
+ "hair_dryer": [
+  {
+   "text": "The hairdryer is in the bathroom.",
+   "register": "formal"
+  }
+ ],
+ "adapter": [
+  {
+   "text": "Do you have a plug adapter?",
+   "register": "formal"
+  }
+ ],
+ "iron": [
+  {
+   "text": "Could I have an iron, please?",
+   "register": "formal"
+  }
+ ],
+ "extra_pillow": [
+  {
+   "text": "Could you bring me an extra pillow?",
+   "register": "formal"
+  }
+ ],
+ "balcony": [
+  {
+   "text": "The room has a balcony.",
+   "register": "formal"
+  }
+ ],
+ "accessible_room": [
+  {
+   "text": "We have a wheelchair-accessible room.",
+   "register": "formal"
+  }
+ ],
+ "housekeeping_time": [
+  {
+   "text": "What time would you like your room to be cleaned?",
+   "register": "formal"
+  },
+  {
+   "text": "What time do you want your room cleaned?",
+   "register": "informal"
+  }
+ ],
+ "do_not_disturb": [
+  {
+   "text": "Please hang the \"Do Not Disturb\" sign on your door if you'd prefer not to be disturbed.",
+   "register": "formal"
+  },
+  {
+   "text": "Put the \"Do Not Disturb\" sign out if you want some peace.",
+   "register": "informal"
+  }
+ ],
+ "clean_now": [
+  {
+   "text": "May I clean your room now?",
+   "register": "formal"
+  },
+  {
+   "text": "Can I clean the room now?",
+   "register": "informal"
+  }
+ ],
+ "come_back_later": [
+  {
+   "text": "I'll come back later.",
+   "register": "formal"
+  }
+ ],
+ "towels": [
+  {
+   "text": "Could I have some clean towels?",
+   "register": "formal"
+  }
+ ],
+ "change_sheets": [
+  {
+   "text": "The sheets are changed every three days.",
+   "register": "formal"
+  }
+ ],
+ "laundry": [
+  {
+   "text": "We have a laundry service. Your laundry is returned the next day.",
+   "register": "formal"
+  }
+ ],
+ "toilet_paper": [
+  {
+   "text": "There's no toilet paper left.",
+   "register": "formal"
+  }
+ ],
+ "lost_item": [
+  {
+   "text": "Have you lost something?",
+   "register": "formal"
+  },
+  {
+   "text": "Have you lost something?",
+   "register": "informal"
+  }
+ ],
+ "found_item": [
+  {
+   "text": "We found this item in your room.",
+   "register": "formal"
+  },
+  {
+   "text": "We found this in your room.",
+   "register": "informal"
+  }
+ ],
+ "table_for": [
+  {
+   "text": "A table for how many, please?",
+   "register": "formal"
+  },
+  {
+   "text": "Table for how many?",
+   "register": "informal"
+  }
+ ],
+ "breakfast_room": [
+  {
+   "text": "Breakfast is served on the ground floor, next to reception.",
+   "register": "formal"
+  }
+ ],
+ "buffet": [
+  {
+   "text": "It's a buffet, so please help yourself.",
+   "register": "formal"
+  },
+  {
+   "text": "It's a buffet, help yourself.",
+   "register": "informal"
+  }
+ ],
+ "coffee_or_tea": [
+  {
+   "text": "Coffee or tea?",
+   "register": "formal"
+  }
+ ],
+ "allergy": [
+  {
+   "text": "Do you have any food allergies?",
+   "register": "formal"
+  },
+  {
+   "text": "Have you got any food allergies?",
+   "register": "informal"
+  }
+ ],
+ "vegetarian": [
+  {
+   "text": "We have vegetarian dishes.",
+   "register": "formal"
+  }
+ ],
+ "halal": [
+  {
+   "text": "Is the meat halal?",
+   "register": "formal"
+  }
+ ],
+ "gluten_free": [
+  {
+   "text": "I don't eat gluten.",
+   "register": "formal"
+  }
+ ],
+ "room_service": [
+  {
+   "text": "Room service is available until 10 pm.",
+   "register": "formal"
+  }
+ ],
+ "charge_room": [
+  {
+   "text": "Shall I charge it to your room?",
+   "register": "formal"
+  },
+  {
+   "text": "Shall I put it on your room?",
+   "register": "informal"
+  }
+ ],
+ "restaurant_closed": [
+  {
+   "text": "The restaurant is closed this evening.",
+   "register": "formal"
+  }
+ ],
+ "recommend_restaurant": [
+  {
+   "text": "I can recommend a good restaurant nearby.",
+   "register": "formal"
+  },
+  {
+   "text": "I know a good place to eat just round the corner.",
+   "register": "informal"
+  }
+ ],
+ "enjoy_meal": [
+  {
+   "text": "Enjoy your meal!",
+   "register": "formal"
+  }
+ ],
+ "problem_room": [
+  {
+   "text": "There's a problem with my room.",
+   "register": "formal"
+  }
+ ],
+ "ac_broken": [
+  {
+   "text": "The air-conditioning isn't working.",
+   "register": "formal"
+  }
+ ],
+ "no_hot_water": [
+  {
+   "text": "There's no hot water.",
+   "register": "formal"
+  }
+ ],
+ "wifi_not_working": [
+  {
+   "text": "The Wi-Fi isn't working.",
+   "register": "formal"
+  }
+ ],
+ "too_noisy": [
+  {
+   "text": "It's too noisy, I can't sleep.",
+   "register": "formal"
+  }
+ ],
+ "room_dirty": [
+  {
+   "text": "The room isn't clean.",
+   "register": "formal"
+  }
+ ],
+ "card_not_working": [
+  {
+   "text": "My key card doesn't open the door any more.",
+   "register": "formal"
+  }
+ ],
+ "locked_out": [
+  {
+   "text": "I've left my key card in the room.",
+   "register": "formal"
+  }
+ ],
+ "sorry_problem": [
+  {
+   "text": "I'm terribly sorry about this problem.",
+   "register": "formal"
+  }
+ ],
+ "send_technician": [
+  {
+   "text": "I'll send someone up to your room right away.",
+   "register": "formal"
+  },
+  {
+   "text": "I'll send someone to your room right away.",
+   "register": "informal"
+  }
+ ],
+ "fixed_soon": [
+  {
+   "text": "It will be fixed within an hour at the latest.",
+   "register": "formal"
+  }
+ ],
+ "offer_new_room": [
+  {
+   "text": "I can offer you another room.",
+   "register": "formal"
+  },
+  {
+   "text": "I can give you another room.",
+   "register": "informal"
+  }
+ ],
+ "compensation": [
+  {
+   "text": "By way of apology, your breakfast is on us.",
+   "register": "formal"
+  },
+  {
+   "text": "To make up for it, your breakfast is on us.",
+   "register": "informal"
+  }
+ ],
+ "manager": [
+  {
+   "text": "I'd like to speak to the manager.",
+   "register": "formal"
+  }
+ ],
+ "complaint_noted": [
+  {
+   "text": "I've made a note of your complaint. The manager will call you back.",
+   "register": "formal"
+  },
+  {
+   "text": "I've noted your complaint. The manager will call you back.",
+   "register": "informal"
+  }
+ ],
+ "taxi": [
+  {
+   "text": "Would you like me to call you a taxi?",
+   "register": "formal"
+  },
+  {
+   "text": "Do you want me to call you a taxi?",
+   "register": "informal"
+  }
+ ],
+ "airport_transfer": [
+  {
+   "text": "We offer an airport shuttle. It needs to be booked the day before.",
+   "register": "formal"
+  }
+ ],
+ "how_far": [
+  {
+   "text": "Is it far to walk?",
+   "register": "formal"
+  }
+ ],
+ "ten_minutes_walk": [
+  {
+   "text": "It's a ten-minute walk.",
+   "register": "formal"
+  }
+ ],
+ "map": [
+  {
+   "text": "Here's a map of the city.",
+   "register": "formal"
+  }
+ ],
+ "bus_stop": [
+  {
+   "text": "The bus stop is right in front of the hotel.",
+   "register": "formal"
+  }
+ ],
+ "parking": [
+  {
+   "text": "Parking costs 15 euros a day.",
+   "register": "formal"
+  }
+ ],
+ "nearest_pharmacy": [
+  {
+   "text": "Where's the nearest pharmacy?",
+   "register": "formal"
+  }
+ ],
+ "atm": [
+  {
+   "text": "Where can I get some cash out?",
+   "register": "formal"
+  }
+ ],
+ "book_tour": [
+  {
+   "text": "I can book a guided tour for you.",
+   "register": "formal"
+  },
+  {
+   "text": "I can book you a guided tour.",
+   "register": "informal"
+  }
+ ],
+ "safe_area": [
+  {
+   "text": "Is the area safe at night?",
+   "register": "formal"
+  }
+ ],
+ "doctor": [
+  {
+   "text": "I need a doctor.",
+   "register": "formal"
+  }
+ ],
+ "call_doctor": [
+  {
+   "text": "I'll call a doctor for you.",
+   "register": "formal"
+  },
+  {
+   "text": "I'll call a doctor for you.",
+   "register": "informal"
+  }
+ ],
+ "emergency": [
+  {
+   "text": "In an emergency, dial 112.",
+   "register": "formal"
+  }
+ ],
+ "first_aid": [
+  {
+   "text": "We have a first-aid kit at reception.",
+   "register": "formal"
+  }
+ ],
+ "fire_exit": [
+  {
+   "text": "The emergency exit is at the end of the corridor.",
+   "register": "formal"
+  }
+ ],
+ "fire_alarm": [
+  {
+   "text": "The fire alarm is going off: leave by the stairs, not the lift.",
+   "register": "formal"
+  }
+ ],
+ "checkout_question": [
+  {
+   "text": "Are you checking out today?",
+   "register": "formal"
+  },
+  {
+   "text": "Are you leaving today?",
+   "register": "informal"
+  }
+ ],
+ "late_checkout": [
+  {
+   "text": "Could I check out later?",
+   "register": "formal"
+  }
+ ],
+ "late_checkout_fee": [
+  {
+   "text": "Late check-out until 2 pm costs 30 euros.",
+   "register": "formal"
+  }
+ ],
+ "minibar_used": [
+  {
+   "text": "Did you have anything from the minibar?",
+   "register": "formal"
+  },
+  {
+   "text": "Did you take anything from the minibar?",
+   "register": "informal"
+  }
+ ],
+ "here_invoice": [
+  {
+   "text": "Here is your invoice.",
+   "register": "formal"
+  },
+  {
+   "text": "Here's your invoice.",
+   "register": "informal"
+  }
+ ],
+ "invoice_email": [
+  {
+   "text": "Would you like the invoice sent by email?",
+   "register": "formal"
+  },
+  {
+   "text": "Do you want the invoice by email?",
+   "register": "informal"
+  }
+ ],
+ "keep_luggage_after": [
+  {
+   "text": "We can keep your luggage for you after check-out.",
+   "register": "formal"
+  },
+  {
+   "text": "We can hang on to your bags after check-out.",
+   "register": "informal"
+  }
+ ],
+ "enjoyed_stay": [
+  {
+   "text": "Did you enjoy your stay?",
+   "register": "formal"
+  },
+  {
+   "text": "Did you have a good stay?",
+   "register": "informal"
+  }
+ ],
+ "leave_review": [
+  {
+   "text": "If you were happy with your stay, you're welcome to leave us a review online.",
+   "register": "formal"
+  },
+  {
+   "text": "If you liked it, you can leave a review online.",
+   "register": "informal"
+  }
+ ],
+ "goodbye": [
+  {
+   "text": "Thank you, and have a safe journey!",
+   "register": "formal"
+  }
+ ],
+ "colleague_help": [
+  {
+   "text": "Can you give me a hand at reception?",
+   "register": "informal"
+  }
+ ],
+ "room_free": [
+  {
+   "text": "Room 214 is free and clean.",
+   "register": "informal"
+  }
+ ],
+ "guest_waiting": [
+  {
+   "text": "There's a guest waiting at the front desk.",
+   "register": "informal"
+  }
+ ],
+ "vip_arrival": [
+  {
+   "text": "A VIP guest is arriving at 3 pm.",
+   "register": "informal"
+  }
+ ],
+ "shift_change": [
+  {
+   "text": "I finish at 6 pm, who's taking over from me?",
+   "register": "informal"
+  }
+ ],
+ "broken_report": [
+  {
+   "text": "The shower in 305 is leaking, we need to tell maintenance.",
+   "register": "informal"
+  }
+ ]
+}

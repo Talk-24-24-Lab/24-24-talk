@@ -1,0 +1,898 @@
+{
+ "welcome_back": [
+  {
+   "text": "Che piacere rivederLa!",
+   "register": "formal"
+  },
+  {
+   "text": "Che bello rivederti!",
+   "register": "informal"
+  }
+ ],
+ "hello_welcome": [
+  {
+   "text": "Buongiorno e benvenuto! Come posso aiutarLa?",
+   "register": "formal"
+  },
+  {
+   "text": "Ciao, benvenuto! Posso aiutarti?",
+   "register": "informal"
+  }
+ ],
+ "have_booking": [
+  {
+   "text": "Ha una prenotazione?",
+   "register": "formal"
+  },
+  {
+   "text": "Hai una prenotazione?",
+   "register": "informal"
+  }
+ ],
+ "booking_name": [
+  {
+   "text": "A che nome è la prenotazione?",
+   "register": "formal"
+  },
+  {
+   "text": "A che nome è?",
+   "register": "informal"
+  }
+ ],
+ "passport_id": [
+  {
+   "text": "Posso vedere il Suo passaporto o la carta d'identità, per favore?",
+   "register": "formal"
+  },
+  {
+   "text": "Posso vedere il tuo passaporto o la carta d'identità?",
+   "register": "informal"
+  }
+ ],
+ "fill_form": [
+  {
+   "text": "Può compilare e firmare questo modulo, per favore?",
+   "register": "formal"
+  },
+  {
+   "text": "Puoi compilare e firmare questo modulo?",
+   "register": "informal"
+  }
+ ],
+ "how_many_nights": [
+  {
+   "text": "Quante notti si ferma?",
+   "register": "formal"
+  },
+  {
+   "text": "Quante notti ti fermi?",
+   "register": "informal"
+  }
+ ],
+ "how_many_people": [
+  {
+   "text": "Per quante persone?",
+   "register": "formal"
+  },
+  {
+   "text": "Quanti siete?",
+   "register": "informal"
+  }
+ ],
+ "room_ready": [
+  {
+   "text": "La Sua camera è pronta.",
+   "register": "formal"
+  },
+  {
+   "text": "La tua camera è pronta.",
+   "register": "informal"
+  }
+ ],
+ "room_not_ready": [
+  {
+   "text": "La Sua camera non è ancora pronta. Lo sarà verso le 14:00.",
+   "register": "formal"
+  },
+  {
+   "text": "La tua camera non è ancora pronta. Lo sarà verso le 14:00.",
+   "register": "informal"
+  }
+ ],
+ "leave_luggage": [
+  {
+   "text": "Nel frattempo può lasciare qui i Suoi bagagli.",
+   "register": "formal"
+  },
+  {
+   "text": "Nel frattempo puoi lasciare qui i bagagli.",
+   "register": "informal"
+  }
+ ],
+ "room_number": [
+  {
+   "text": "La Sua camera è la numero 214, al secondo piano.",
+   "register": "formal"
+  },
+  {
+   "text": "La tua camera è la 214, al secondo piano.",
+   "register": "informal"
+  }
+ ],
+ "elevator": [
+  {
+   "text": "L'ascensore è a destra.",
+   "register": "formal"
+  }
+ ],
+ "key_card": [
+  {
+   "text": "Ecco la Sua chiave magnetica. Apre la camera e l'ascensore.",
+   "register": "formal"
+  },
+  {
+   "text": "Ecco la tua chiave. Apre la camera e l'ascensore.",
+   "register": "informal"
+  }
+ ],
+ "wifi_code": [
+  {
+   "text": "La password del Wi-Fi è scritta su questo biglietto.",
+   "register": "formal"
+  }
+ ],
+ "breakfast_hours": [
+  {
+   "text": "La colazione è servita dalle 7:00 alle 10:30.",
+   "register": "formal"
+  }
+ ],
+ "checkout_time": [
+  {
+   "text": "Il check-out è entro le 11:00.",
+   "register": "formal"
+  }
+ ],
+ "no_booking_found": [
+  {
+   "text": "Non trovo la Sua prenotazione. Ha il numero di conferma?",
+   "register": "formal"
+  },
+  {
+   "text": "Non trovo la tua prenotazione. Hai il numero di conferma?",
+   "register": "informal"
+  }
+ ],
+ "booked_online": [
+  {
+   "text": "Ho prenotato online.",
+   "register": "formal"
+  }
+ ],
+ "early_checkin": [
+  {
+   "text": "Posso entrare in camera prima?",
+   "register": "formal"
+  }
+ ],
+ "hotel_full": [
+  {
+   "text": "Mi dispiace, stasera l'hotel è al completo.",
+   "register": "formal"
+  }
+ ],
+ "pay_now_or_later": [
+  {
+   "text": "Desidera pagare adesso o alla partenza?",
+   "register": "formal"
+  },
+  {
+   "text": "Preferisci pagare adesso o alla partenza?",
+   "register": "informal"
+  }
+ ],
+ "deposit": [
+  {
+   "text": "Chiediamo una cauzione di 100 euro, che viene restituita alla partenza.",
+   "register": "formal"
+  }
+ ],
+ "card_or_cash": [
+  {
+   "text": "Paga con carta o in contanti?",
+   "register": "formal"
+  },
+  {
+   "text": "Paghi con carta o in contanti?",
+   "register": "informal"
+  }
+ ],
+ "city_tax": [
+  {
+   "text": "La tassa di soggiorno è di 2 euro a persona per notte.",
+   "register": "formal"
+  }
+ ],
+ "tax_not_included": [
+  {
+   "text": "La tassa di soggiorno non è inclusa nel prezzo della prenotazione.",
+   "register": "formal"
+  }
+ ],
+ "card_declined": [
+  {
+   "text": "La Sua carta è stata rifiutata. Ha un'altra carta?",
+   "register": "formal"
+  },
+  {
+   "text": "La tua carta è stata rifiutata. Ne hai un'altra?",
+   "register": "informal"
+  }
+ ],
+ "enter_pin": [
+  {
+   "text": "Può digitare il Suo PIN.",
+   "register": "formal"
+  },
+  {
+   "text": "Puoi digitare il PIN.",
+   "register": "informal"
+  }
+ ],
+ "receipt": [
+  {
+   "text": "Desidera la ricevuta?",
+   "register": "formal"
+  },
+  {
+   "text": "Vuoi la ricevuta?",
+   "register": "informal"
+  }
+ ],
+ "invoice_company": [
+  {
+   "text": "Può intestare la fattura alla mia azienda?",
+   "register": "formal"
+  }
+ ],
+ "breakfast_included": [
+  {
+   "text": "La colazione è inclusa?",
+   "register": "formal"
+  }
+ ],
+ "price_night": [
+  {
+   "text": "Quanto costa una notte?",
+   "register": "formal"
+  }
+ ],
+ "cheaper_room": [
+  {
+   "text": "Avete una camera più economica?",
+   "register": "formal"
+  }
+ ],
+ "room_view": [
+  {
+   "text": "La camera ha vista mare.",
+   "register": "formal"
+  }
+ ],
+ "double_twin": [
+  {
+   "text": "Preferisce un letto matrimoniale o due letti singoli?",
+   "register": "formal"
+  },
+  {
+   "text": "Preferisci un letto matrimoniale o due singoli?",
+   "register": "informal"
+  }
+ ],
+ "extra_bed": [
+  {
+   "text": "Possiamo aggiungere un letto per il bambino.",
+   "register": "formal"
+  }
+ ],
+ "baby_cot": [
+  {
+   "text": "È disponibile gratuitamente una culla.",
+   "register": "formal"
+  }
+ ],
+ "air_con": [
+  {
+   "text": "Il telecomando dell'aria condizionata è sul comodino.",
+   "register": "formal"
+  }
+ ],
+ "safe": [
+  {
+   "text": "C'è una cassaforte nell'armadio.",
+   "register": "formal"
+  }
+ ],
+ "minibar": [
+  {
+   "text": "Le bevande del minibar sono a pagamento.",
+   "register": "formal"
+  }
+ ],
+ "non_smoking": [
+  {
+   "text": "Tutte le camere sono per non fumatori.",
+   "register": "formal"
+  }
+ ],
+ "quiet_room": [
+  {
+   "text": "Vorrei una camera tranquilla, per favore.",
+   "register": "formal"
+  }
+ ],
+ "change_room": [
+  {
+   "text": "Posso cambiare camera?",
+   "register": "formal"
+  }
+ ],
+ "hair_dryer": [
+  {
+   "text": "L'asciugacapelli è in bagno.",
+   "register": "formal"
+  }
+ ],
+ "adapter": [
+  {
+   "text": "Avete un adattatore per la presa?",
+   "register": "formal"
+  }
+ ],
+ "iron": [
+  {
+   "text": "Potrei avere un ferro da stiro?",
+   "register": "formal"
+  }
+ ],
+ "extra_pillow": [
+  {
+   "text": "Potrebbe portarmi un cuscino in più?",
+   "register": "formal"
+  }
+ ],
+ "balcony": [
+  {
+   "text": "La camera ha un balcone.",
+   "register": "formal"
+  }
+ ],
+ "accessible_room": [
+  {
+   "text": "Abbiamo una camera accessibile in sedia a rotelle.",
+   "register": "formal"
+  }
+ ],
+ "housekeeping_time": [
+  {
+   "text": "A che ora desidera che venga rifatta la camera?",
+   "register": "formal"
+  },
+  {
+   "text": "A che ora vuoi che ti sistemiamo la camera?",
+   "register": "informal"
+  }
+ ],
+ "do_not_disturb": [
+  {
+   "text": "Se desidera non essere disturbato, appenda il cartello «Non disturbare» alla porta.",
+   "register": "formal"
+  },
+  {
+   "text": "Metti il cartello «Non disturbare» se vuoi stare tranquillo.",
+   "register": "informal"
+  }
+ ],
+ "clean_now": [
+  {
+   "text": "Posso pulire la camera adesso?",
+   "register": "formal"
+  },
+  {
+   "text": "Posso pulire adesso?",
+   "register": "informal"
+  }
+ ],
+ "come_back_later": [
+  {
+   "text": "Ripasso più tardi.",
+   "register": "formal"
+  }
+ ],
+ "towels": [
+  {
+   "text": "Potrei avere degli asciugamani puliti?",
+   "register": "formal"
+  }
+ ],
+ "change_sheets": [
+  {
+   "text": "Le lenzuola vengono cambiate ogni tre giorni.",
+   "register": "formal"
+  }
+ ],
+ "laundry": [
+  {
+   "text": "Abbiamo un servizio lavanderia. I capi vengono restituiti il giorno dopo.",
+   "register": "formal"
+  }
+ ],
+ "toilet_paper": [
+  {
+   "text": "È finita la carta igienica.",
+   "register": "formal"
+  }
+ ],
+ "lost_item": [
+  {
+   "text": "Ha perso qualcosa?",
+   "register": "formal"
+  },
+  {
+   "text": "Hai perso qualcosa?",
+   "register": "informal"
+  }
+ ],
+ "found_item": [
+  {
+   "text": "Abbiamo trovato questo oggetto nella Sua camera.",
+   "register": "formal"
+  },
+  {
+   "text": "Abbiamo trovato questo in camera tua.",
+   "register": "informal"
+  }
+ ],
+ "table_for": [
+  {
+   "text": "Un tavolo per quante persone?",
+   "register": "formal"
+  },
+  {
+   "text": "Un tavolo per quanti?",
+   "register": "informal"
+  }
+ ],
+ "breakfast_room": [
+  {
+   "text": "La colazione è servita al piano terra, accanto alla reception.",
+   "register": "formal"
+  }
+ ],
+ "buffet": [
+  {
+   "text": "È a buffet: si serva pure.",
+   "register": "formal"
+  },
+  {
+   "text": "È a buffet: serviti pure.",
+   "register": "informal"
+  }
+ ],
+ "coffee_or_tea": [
+  {
+   "text": "Caffè o tè?",
+   "register": "formal"
+  }
+ ],
+ "allergy": [
+  {
+   "text": "Ha qualche allergia alimentare?",
+   "register": "formal"
+  },
+  {
+   "text": "Hai qualche allergia alimentare?",
+   "register": "informal"
+  }
+ ],
+ "vegetarian": [
+  {
+   "text": "Abbiamo piatti vegetariani.",
+   "register": "formal"
+  }
+ ],
+ "halal": [
+  {
+   "text": "La carne è halal?",
+   "register": "formal"
+  }
+ ],
+ "gluten_free": [
+  {
+   "text": "Non mangio glutine.",
+   "register": "formal"
+  }
+ ],
+ "room_service": [
+  {
+   "text": "Il servizio in camera è disponibile fino alle 22:00.",
+   "register": "formal"
+  }
+ ],
+ "charge_room": [
+  {
+   "text": "Lo addebito sulla camera?",
+   "register": "formal"
+  },
+  {
+   "text": "Te lo metto sul conto della camera?",
+   "register": "informal"
+  }
+ ],
+ "restaurant_closed": [
+  {
+   "text": "Stasera il ristorante è chiuso.",
+   "register": "formal"
+  }
+ ],
+ "recommend_restaurant": [
+  {
+   "text": "Posso consigliarLe un buon ristorante qui vicino.",
+   "register": "formal"
+  },
+  {
+   "text": "Ti posso consigliare un buon ristorante qui vicino.",
+   "register": "informal"
+  }
+ ],
+ "enjoy_meal": [
+  {
+   "text": "Buon appetito!",
+   "register": "formal"
+  }
+ ],
+ "problem_room": [
+  {
+   "text": "C'è un problema nella mia camera.",
+   "register": "formal"
+  }
+ ],
+ "ac_broken": [
+  {
+   "text": "L'aria condizionata non funziona.",
+   "register": "formal"
+  }
+ ],
+ "no_hot_water": [
+  {
+   "text": "Non c'è acqua calda.",
+   "register": "formal"
+  }
+ ],
+ "wifi_not_working": [
+  {
+   "text": "Il Wi-Fi non funziona.",
+   "register": "formal"
+  }
+ ],
+ "too_noisy": [
+  {
+   "text": "C'è troppo rumore, non riesco a dormire.",
+   "register": "formal"
+  }
+ ],
+ "room_dirty": [
+  {
+   "text": "La camera non è pulita.",
+   "register": "formal"
+  }
+ ],
+ "card_not_working": [
+  {
+   "text": "La mia chiave non apre più la porta.",
+   "register": "formal"
+  }
+ ],
+ "locked_out": [
+  {
+   "text": "Ho lasciato la chiave in camera.",
+   "register": "formal"
+  }
+ ],
+ "sorry_problem": [
+  {
+   "text": "Sono davvero spiacente per questo problema.",
+   "register": "formal"
+  }
+ ],
+ "send_technician": [
+  {
+   "text": "Le mando subito qualcuno in camera.",
+   "register": "formal"
+  },
+  {
+   "text": "Ti mando subito qualcuno in camera.",
+   "register": "informal"
+  }
+ ],
+ "fixed_soon": [
+  {
+   "text": "Sarà riparato al massimo entro un'ora.",
+   "register": "formal"
+  }
+ ],
+ "offer_new_room": [
+  {
+   "text": "Le propongo un'altra camera.",
+   "register": "formal"
+  },
+  {
+   "text": "Ti propongo un'altra camera.",
+   "register": "informal"
+  }
+ ],
+ "compensation": [
+  {
+   "text": "Per scusarci, la colazione è offerta da noi.",
+   "register": "formal"
+  },
+  {
+   "text": "Per scusarci, la colazione te la offriamo noi.",
+   "register": "informal"
+  }
+ ],
+ "manager": [
+  {
+   "text": "Vorrei parlare con il responsabile.",
+   "register": "formal"
+  }
+ ],
+ "complaint_noted": [
+  {
+   "text": "Ho preso nota del Suo reclamo. Il responsabile La richiamerà.",
+   "register": "formal"
+  },
+  {
+   "text": "Ho preso nota del tuo reclamo. Il responsabile ti richiamerà.",
+   "register": "informal"
+  }
+ ],
+ "taxi": [
+  {
+   "text": "Desidera che Le chiami un taxi?",
+   "register": "formal"
+  },
+  {
+   "text": "Vuoi che ti chiami un taxi?",
+   "register": "informal"
+  }
+ ],
+ "airport_transfer": [
+  {
+   "text": "Offriamo una navetta per l'aeroporto. Va prenotata il giorno prima.",
+   "register": "formal"
+  }
+ ],
+ "how_far": [
+  {
+   "text": "È lontano a piedi?",
+   "register": "formal"
+  }
+ ],
+ "ten_minutes_walk": [
+  {
+   "text": "È a dieci minuti a piedi.",
+   "register": "formal"
+  }
+ ],
+ "map": [
+  {
+   "text": "Ecco una piantina della città.",
+   "register": "formal"
+  }
+ ],
+ "bus_stop": [
+  {
+   "text": "La fermata dell'autobus è proprio davanti all'hotel.",
+   "register": "formal"
+  }
+ ],
+ "parking": [
+  {
+   "text": "Il parcheggio costa 15 euro al giorno.",
+   "register": "formal"
+  }
+ ],
+ "nearest_pharmacy": [
+  {
+   "text": "Dov'è la farmacia più vicina?",
+   "register": "formal"
+  }
+ ],
+ "atm": [
+  {
+   "text": "Dove posso prelevare dei soldi?",
+   "register": "formal"
+  }
+ ],
+ "book_tour": [
+  {
+   "text": "Posso prenotarLe una visita guidata.",
+   "register": "formal"
+  },
+  {
+   "text": "Posso prenotarti una visita guidata.",
+   "register": "informal"
+  }
+ ],
+ "safe_area": [
+  {
+   "text": "Il quartiere è sicuro di notte?",
+   "register": "formal"
+  }
+ ],
+ "doctor": [
+  {
+   "text": "Ho bisogno di un medico.",
+   "register": "formal"
+  }
+ ],
+ "call_doctor": [
+  {
+   "text": "Le chiamo un medico.",
+   "register": "formal"
+  },
+  {
+   "text": "Ti chiamo un medico.",
+   "register": "informal"
+  }
+ ],
+ "emergency": [
+  {
+   "text": "In caso di emergenza, chiami il 112.",
+   "register": "formal"
+  }
+ ],
+ "first_aid": [
+  {
+   "text": "Abbiamo una cassetta di pronto soccorso alla reception.",
+   "register": "formal"
+  }
+ ],
+ "fire_exit": [
+  {
+   "text": "L'uscita di emergenza è in fondo al corridoio.",
+   "register": "formal"
+  }
+ ],
+ "fire_alarm": [
+  {
+   "text": "Sta suonando l'allarme antincendio: uscite dalle scale, non con l'ascensore.",
+   "register": "formal"
+  }
+ ],
+ "checkout_question": [
+  {
+   "text": "Parte oggi?",
+   "register": "formal"
+  },
+  {
+   "text": "Parti oggi?",
+   "register": "informal"
+  }
+ ],
+ "late_checkout": [
+  {
+   "text": "Posso lasciare la camera più tardi?",
+   "register": "formal"
+  }
+ ],
+ "late_checkout_fee": [
+  {
+   "text": "Il late check-out fino alle 14:00 costa 30 euro.",
+   "register": "formal"
+  }
+ ],
+ "minibar_used": [
+  {
+   "text": "Ha preso qualcosa dal minibar?",
+   "register": "formal"
+  },
+  {
+   "text": "Hai preso qualcosa dal minibar?",
+   "register": "informal"
+  }
+ ],
+ "here_invoice": [
+  {
+   "text": "Ecco la Sua fattura.",
+   "register": "formal"
+  },
+  {
+   "text": "Ecco la tua fattura.",
+   "register": "informal"
+  }
+ ],
+ "invoice_email": [
+  {
+   "text": "Desidera ricevere la fattura via e-mail?",
+   "register": "formal"
+  },
+  {
+   "text": "Vuoi la fattura via e-mail?",
+   "register": "informal"
+  }
+ ],
+ "keep_luggage_after": [
+  {
+   "text": "Possiamo custodire i Suoi bagagli dopo il check-out.",
+   "register": "formal"
+  },
+  {
+   "text": "Possiamo tenerti i bagagli dopo il check-out.",
+   "register": "informal"
+  }
+ ],
+ "enjoyed_stay": [
+  {
+   "text": "Ha trascorso un buon soggiorno?",
+   "register": "formal"
+  },
+  {
+   "text": "Ti sei trovato bene durante il soggiorno?",
+   "register": "informal"
+  }
+ ],
+ "leave_review": [
+  {
+   "text": "Se è rimasto soddisfatto, può lasciare una recensione online.",
+   "register": "formal"
+  },
+  {
+   "text": "Se ti è piaciuto, puoi lasciare una recensione online.",
+   "register": "informal"
+  }
+ ],
+ "goodbye": [
+  {
+   "text": "Grazie e buon viaggio!",
+   "register": "formal"
+  }
+ ],
+ "colleague_help": [
+  {
+   "text": "Mi dai una mano alla reception?",
+   "register": "informal"
+  }
+ ],
+ "room_free": [
+  {
+   "text": "La camera 214 è libera e pulita.",
+   "register": "informal"
+  }
+ ],
+ "guest_waiting": [
+  {
+   "text": "C'è un cliente che aspetta alla reception.",
+   "register": "informal"
+  }
+ ],
+ "vip_arrival": [
+  {
+   "text": "Alle 15:00 arriva un cliente importante.",
+   "register": "informal"
+  }
+ ],
+ "shift_change": [
+  {
+   "text": "Io stacco alle 18:00, chi mi dà il cambio?",
+   "register": "informal"
+  }
+ ],
+ "broken_report": [
+  {
+   "text": "La doccia della 305 perde, bisogna avvisare il tecnico.",
+   "register": "informal"
+  }
+ ]
+}

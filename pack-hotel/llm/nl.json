@@ -1,0 +1,898 @@
+{
+ "welcome_back": [
+  {
+   "text": "Wat leuk u weer te zien!",
+   "register": "formal"
+  },
+  {
+   "text": "Leuk je weer te zien!",
+   "register": "informal"
+  }
+ ],
+ "hello_welcome": [
+  {
+   "text": "Goedendag en welkom! Waarmee kan ik u helpen?",
+   "register": "formal"
+  },
+  {
+   "text": "Hoi, welkom! Kan ik je helpen?",
+   "register": "informal"
+  }
+ ],
+ "have_booking": [
+  {
+   "text": "Heeft u een reservering?",
+   "register": "formal"
+  },
+  {
+   "text": "Heb je een reservering?",
+   "register": "informal"
+  }
+ ],
+ "booking_name": [
+  {
+   "text": "Op welke naam staat de reservering?",
+   "register": "formal"
+  },
+  {
+   "text": "Op welke naam?",
+   "register": "informal"
+  }
+ ],
+ "passport_id": [
+  {
+   "text": "Mag ik uw paspoort of identiteitskaart zien, alstublieft?",
+   "register": "formal"
+  },
+  {
+   "text": "Mag ik je paspoort of ID-kaart even zien?",
+   "register": "informal"
+  }
+ ],
+ "fill_form": [
+  {
+   "text": "Wilt u dit formulier invullen en ondertekenen, alstublieft?",
+   "register": "formal"
+  },
+  {
+   "text": "Kun je dit formulier invullen en tekenen?",
+   "register": "informal"
+  }
+ ],
+ "how_many_nights": [
+  {
+   "text": "Hoeveel nachten blijft u?",
+   "register": "formal"
+  },
+  {
+   "text": "Hoeveel nachten blijf je?",
+   "register": "informal"
+  }
+ ],
+ "how_many_people": [
+  {
+   "text": "Met hoeveel personen bent u?",
+   "register": "formal"
+  },
+  {
+   "text": "Met hoeveel zijn jullie?",
+   "register": "informal"
+  }
+ ],
+ "room_ready": [
+  {
+   "text": "Uw kamer is klaar.",
+   "register": "formal"
+  },
+  {
+   "text": "Je kamer is klaar.",
+   "register": "informal"
+  }
+ ],
+ "room_not_ready": [
+  {
+   "text": "Uw kamer is nog niet klaar. Rond 14.00 uur is ze beschikbaar.",
+   "register": "formal"
+  },
+  {
+   "text": "Je kamer is nog niet klaar. Rond 14.00 uur is hij klaar.",
+   "register": "informal"
+  }
+ ],
+ "leave_luggage": [
+  {
+   "text": "In de tussentijd kunt u uw bagage hier laten staan.",
+   "register": "formal"
+  },
+  {
+   "text": "Je kunt je bagage zolang hier laten staan.",
+   "register": "informal"
+  }
+ ],
+ "room_number": [
+  {
+   "text": "U heeft kamer 214, op de tweede verdieping.",
+   "register": "formal"
+  },
+  {
+   "text": "Je zit in 214, op de tweede verdieping.",
+   "register": "informal"
+  }
+ ],
+ "elevator": [
+  {
+   "text": "De lift is aan de rechterkant.",
+   "register": "formal"
+  }
+ ],
+ "key_card": [
+  {
+   "text": "Hier is uw sleutelkaart. Daarmee opent u de kamer en de lift.",
+   "register": "formal"
+  },
+  {
+   "text": "Hier is je kaart. Daarmee kom je in je kamer en in de lift.",
+   "register": "informal"
+  }
+ ],
+ "wifi_code": [
+  {
+   "text": "Het wifi-wachtwoord staat op deze kaart.",
+   "register": "formal"
+  }
+ ],
+ "breakfast_hours": [
+  {
+   "text": "Het ontbijt wordt geserveerd van 7.00 tot 10.30 uur.",
+   "register": "formal"
+  }
+ ],
+ "checkout_time": [
+  {
+   "text": "Uitchecken is vóór 11.00 uur.",
+   "register": "formal"
+  }
+ ],
+ "no_booking_found": [
+  {
+   "text": "Ik kan uw reservering niet vinden. Heeft u het bevestigingsnummer?",
+   "register": "formal"
+  },
+  {
+   "text": "Ik kan je reservering niet vinden. Heb je het bevestigingsnummer?",
+   "register": "informal"
+  }
+ ],
+ "booked_online": [
+  {
+   "text": "Ik heb online geboekt.",
+   "register": "formal"
+  }
+ ],
+ "early_checkin": [
+  {
+   "text": "Kan ik eerder op de kamer?",
+   "register": "formal"
+  }
+ ],
+ "hotel_full": [
+  {
+   "text": "Het spijt me, het hotel is vanavond volgeboekt.",
+   "register": "formal"
+  }
+ ],
+ "pay_now_or_later": [
+  {
+   "text": "Wilt u nu betalen of bij vertrek?",
+   "register": "formal"
+  },
+  {
+   "text": "Wil je nu betalen of bij vertrek?",
+   "register": "informal"
+  }
+ ],
+ "deposit": [
+  {
+   "text": "Wij vragen een borg van 100 euro, die u bij vertrek terugkrijgt.",
+   "register": "formal"
+  }
+ ],
+ "card_or_cash": [
+  {
+   "text": "Betaalt u met de kaart of contant?",
+   "register": "formal"
+  },
+  {
+   "text": "Betaal je met de kaart of contant?",
+   "register": "informal"
+  }
+ ],
+ "city_tax": [
+  {
+   "text": "De toeristenbelasting bedraagt 2 euro per persoon per nacht.",
+   "register": "formal"
+  }
+ ],
+ "tax_not_included": [
+  {
+   "text": "De toeristenbelasting is niet inbegrepen in de prijs van de reservering.",
+   "register": "formal"
+  }
+ ],
+ "card_declined": [
+  {
+   "text": "Uw kaart wordt geweigerd. Heeft u een andere kaart?",
+   "register": "formal"
+  },
+  {
+   "text": "Je kaart wordt geweigerd. Heb je nog een andere?",
+   "register": "informal"
+  }
+ ],
+ "enter_pin": [
+  {
+   "text": "U kunt uw pincode intoetsen.",
+   "register": "formal"
+  },
+  {
+   "text": "Je kunt je pincode intoetsen.",
+   "register": "informal"
+  }
+ ],
+ "receipt": [
+  {
+   "text": "Wilt u een bonnetje?",
+   "register": "formal"
+  },
+  {
+   "text": "Wil je een bonnetje?",
+   "register": "informal"
+  }
+ ],
+ "invoice_company": [
+  {
+   "text": "Kunt u de factuur op naam van mijn bedrijf zetten?",
+   "register": "formal"
+  }
+ ],
+ "breakfast_included": [
+  {
+   "text": "Is het ontbijt inbegrepen?",
+   "register": "formal"
+  }
+ ],
+ "price_night": [
+  {
+   "text": "Hoeveel kost een nacht?",
+   "register": "formal"
+  }
+ ],
+ "cheaper_room": [
+  {
+   "text": "Heeft u een goedkopere kamer?",
+   "register": "formal"
+  }
+ ],
+ "room_view": [
+  {
+   "text": "De kamer heeft uitzicht op zee.",
+   "register": "formal"
+  }
+ ],
+ "double_twin": [
+  {
+   "text": "Heeft u liever een tweepersoonsbed of twee aparte bedden?",
+   "register": "formal"
+  },
+  {
+   "text": "Wil je liever een tweepersoonsbed of twee losse bedden?",
+   "register": "informal"
+  }
+ ],
+ "extra_bed": [
+  {
+   "text": "We kunnen een extra bed voor uw kind bijzetten.",
+   "register": "formal"
+  }
+ ],
+ "baby_cot": [
+  {
+   "text": "Er is gratis een babybedje beschikbaar.",
+   "register": "formal"
+  }
+ ],
+ "air_con": [
+  {
+   "text": "De afstandsbediening van de airco ligt op het nachtkastje.",
+   "register": "formal"
+  }
+ ],
+ "safe": [
+  {
+   "text": "Er staat een kluisje in de kast.",
+   "register": "formal"
+  }
+ ],
+ "minibar": [
+  {
+   "text": "Aan de drankjes uit de minibar zijn kosten verbonden.",
+   "register": "formal"
+  }
+ ],
+ "non_smoking": [
+  {
+   "text": "Alle kamers zijn rookvrij.",
+   "register": "formal"
+  }
+ ],
+ "quiet_room": [
+  {
+   "text": "Ik zou graag een rustige kamer willen.",
+   "register": "formal"
+  }
+ ],
+ "change_room": [
+  {
+   "text": "Kan ik van kamer wisselen?",
+   "register": "formal"
+  }
+ ],
+ "hair_dryer": [
+  {
+   "text": "De föhn ligt in de badkamer.",
+   "register": "formal"
+  }
+ ],
+ "adapter": [
+  {
+   "text": "Heeft u een verloopstekker?",
+   "register": "formal"
+  }
+ ],
+ "iron": [
+  {
+   "text": "Mag ik een strijkijzer lenen?",
+   "register": "formal"
+  }
+ ],
+ "extra_pillow": [
+  {
+   "text": "Zou u een extra kussen kunnen brengen?",
+   "register": "formal"
+  }
+ ],
+ "balcony": [
+  {
+   "text": "De kamer heeft een balkon.",
+   "register": "formal"
+  }
+ ],
+ "accessible_room": [
+  {
+   "text": "We hebben een rolstoeltoegankelijke kamer.",
+   "register": "formal"
+  }
+ ],
+ "housekeeping_time": [
+  {
+   "text": "Hoe laat wilt u dat we uw kamer schoonmaken?",
+   "register": "formal"
+  },
+  {
+   "text": "Hoe laat wil je dat we je kamer schoonmaken?",
+   "register": "informal"
+  }
+ ],
+ "do_not_disturb": [
+  {
+   "text": "Hang het bordje 'Niet storen' aan de deur als u niet gestoord wilt worden.",
+   "register": "formal"
+  },
+  {
+   "text": "Hang het bordje 'Niet storen' op als je rust wilt.",
+   "register": "informal"
+  }
+ ],
+ "clean_now": [
+  {
+   "text": "Mag ik uw kamer nu schoonmaken?",
+   "register": "formal"
+  },
+  {
+   "text": "Kan ik nu schoonmaken?",
+   "register": "informal"
+  }
+ ],
+ "come_back_later": [
+  {
+   "text": "Ik kom straks terug.",
+   "register": "formal"
+  }
+ ],
+ "towels": [
+  {
+   "text": "Mag ik schone handdoeken?",
+   "register": "formal"
+  }
+ ],
+ "change_sheets": [
+  {
+   "text": "De lakens worden om de drie dagen verschoond.",
+   "register": "formal"
+  }
+ ],
+ "laundry": [
+  {
+   "text": "We hebben een wasservice. U krijgt de was de volgende dag terug.",
+   "register": "formal"
+  }
+ ],
+ "toilet_paper": [
+  {
+   "text": "Het wc-papier is op.",
+   "register": "formal"
+  }
+ ],
+ "lost_item": [
+  {
+   "text": "Bent u iets kwijt?",
+   "register": "formal"
+  },
+  {
+   "text": "Ben je iets kwijt?",
+   "register": "informal"
+  }
+ ],
+ "found_item": [
+  {
+   "text": "We hebben dit voorwerp in uw kamer gevonden.",
+   "register": "formal"
+  },
+  {
+   "text": "We hebben dit in je kamer gevonden.",
+   "register": "informal"
+  }
+ ],
+ "table_for": [
+  {
+   "text": "Een tafel voor hoeveel personen?",
+   "register": "formal"
+  },
+  {
+   "text": "Tafel voor hoeveel?",
+   "register": "informal"
+  }
+ ],
+ "breakfast_room": [
+  {
+   "text": "Het ontbijt wordt geserveerd op de begane grond, naast de receptie.",
+   "register": "formal"
+  }
+ ],
+ "buffet": [
+  {
+   "text": "Het is een buffet: u kunt zelf opscheppen.",
+   "register": "formal"
+  },
+  {
+   "text": "Het is een buffet: schep maar lekker op.",
+   "register": "informal"
+  }
+ ],
+ "coffee_or_tea": [
+  {
+   "text": "Koffie of thee?",
+   "register": "formal"
+  }
+ ],
+ "allergy": [
+  {
+   "text": "Heeft u een voedselallergie?",
+   "register": "formal"
+  },
+  {
+   "text": "Heb je een voedselallergie?",
+   "register": "informal"
+  }
+ ],
+ "vegetarian": [
+  {
+   "text": "We hebben vegetarische gerechten.",
+   "register": "formal"
+  }
+ ],
+ "halal": [
+  {
+   "text": "Is het vlees halal?",
+   "register": "formal"
+  }
+ ],
+ "gluten_free": [
+  {
+   "text": "Ik eet geen gluten.",
+   "register": "formal"
+  }
+ ],
+ "room_service": [
+  {
+   "text": "Roomservice is beschikbaar tot 22.00 uur.",
+   "register": "formal"
+  }
+ ],
+ "charge_room": [
+  {
+   "text": "Zal ik het op uw kamer zetten?",
+   "register": "formal"
+  },
+  {
+   "text": "Zal ik het op je kamer zetten?",
+   "register": "informal"
+  }
+ ],
+ "restaurant_closed": [
+  {
+   "text": "Het restaurant is vanavond gesloten.",
+   "register": "formal"
+  }
+ ],
+ "recommend_restaurant": [
+  {
+   "text": "Ik kan u een goed restaurant hier vlakbij aanraden.",
+   "register": "formal"
+  },
+  {
+   "text": "Ik weet een goed restaurantje hier vlakbij.",
+   "register": "informal"
+  }
+ ],
+ "enjoy_meal": [
+  {
+   "text": "Eet smakelijk!",
+   "register": "formal"
+  }
+ ],
+ "problem_room": [
+  {
+   "text": "Er is een probleem met mijn kamer.",
+   "register": "formal"
+  }
+ ],
+ "ac_broken": [
+  {
+   "text": "De airco doet het niet.",
+   "register": "formal"
+  }
+ ],
+ "no_hot_water": [
+  {
+   "text": "Er is geen warm water.",
+   "register": "formal"
+  }
+ ],
+ "wifi_not_working": [
+  {
+   "text": "De wifi doet het niet.",
+   "register": "formal"
+  }
+ ],
+ "too_noisy": [
+  {
+   "text": "Het is te lawaaierig, ik kan niet slapen.",
+   "register": "formal"
+  }
+ ],
+ "room_dirty": [
+  {
+   "text": "De kamer is niet schoon.",
+   "register": "formal"
+  }
+ ],
+ "card_not_working": [
+  {
+   "text": "Mijn kaart opent de deur niet meer.",
+   "register": "formal"
+  }
+ ],
+ "locked_out": [
+  {
+   "text": "Ik heb mijn kaart in de kamer laten liggen.",
+   "register": "formal"
+  }
+ ],
+ "sorry_problem": [
+  {
+   "text": "Het spijt me echt heel erg van dit probleem.",
+   "register": "formal"
+  }
+ ],
+ "send_technician": [
+  {
+   "text": "Ik stuur meteen iemand naar uw kamer.",
+   "register": "formal"
+  },
+  {
+   "text": "Ik stuur meteen iemand naar je kamer.",
+   "register": "informal"
+  }
+ ],
+ "fixed_soon": [
+  {
+   "text": "Het is uiterlijk binnen een uur gerepareerd.",
+   "register": "formal"
+  }
+ ],
+ "offer_new_room": [
+  {
+   "text": "Ik kan u een andere kamer aanbieden.",
+   "register": "formal"
+  },
+  {
+   "text": "Ik kan je een andere kamer geven.",
+   "register": "informal"
+  }
+ ],
+ "compensation": [
+  {
+   "text": "Om het goed te maken, bieden we u het ontbijt aan.",
+   "register": "formal"
+  },
+  {
+   "text": "Om het goed te maken, is je ontbijt van ons.",
+   "register": "informal"
+  }
+ ],
+ "manager": [
+  {
+   "text": "Ik wil graag de manager spreken.",
+   "register": "formal"
+  }
+ ],
+ "complaint_noted": [
+  {
+   "text": "Ik heb uw klacht genoteerd. De manager belt u terug.",
+   "register": "formal"
+  },
+  {
+   "text": "Ik heb je klacht genoteerd. De manager belt je terug.",
+   "register": "informal"
+  }
+ ],
+ "taxi": [
+  {
+   "text": "Zal ik een taxi voor u bellen?",
+   "register": "formal"
+  },
+  {
+   "text": "Zal ik een taxi voor je bellen?",
+   "register": "informal"
+  }
+ ],
+ "airport_transfer": [
+  {
+   "text": "We bieden een pendeldienst naar het vliegveld aan. Die moet u de dag ervoor reserveren.",
+   "register": "formal"
+  }
+ ],
+ "how_far": [
+  {
+   "text": "Is het ver lopen?",
+   "register": "formal"
+  }
+ ],
+ "ten_minutes_walk": [
+  {
+   "text": "Het is tien minuten lopen.",
+   "register": "formal"
+  }
+ ],
+ "map": [
+  {
+   "text": "Hier is een plattegrond van de stad.",
+   "register": "formal"
+  }
+ ],
+ "bus_stop": [
+  {
+   "text": "De bushalte is vlak voor het hotel.",
+   "register": "formal"
+  }
+ ],
+ "parking": [
+  {
+   "text": "Parkeren kost 15 euro per dag.",
+   "register": "formal"
+  }
+ ],
+ "nearest_pharmacy": [
+  {
+   "text": "Waar is de dichtstbijzijnde apotheek?",
+   "register": "formal"
+  }
+ ],
+ "atm": [
+  {
+   "text": "Waar kan ik geld pinnen?",
+   "register": "formal"
+  }
+ ],
+ "book_tour": [
+  {
+   "text": "Ik kan een rondleiding met gids voor u reserveren.",
+   "register": "formal"
+  },
+  {
+   "text": "Ik kan een rondleiding voor je boeken.",
+   "register": "informal"
+  }
+ ],
+ "safe_area": [
+  {
+   "text": "Is de buurt 's nachts veilig?",
+   "register": "formal"
+  }
+ ],
+ "doctor": [
+  {
+   "text": "Ik heb een dokter nodig.",
+   "register": "formal"
+  }
+ ],
+ "call_doctor": [
+  {
+   "text": "Ik bel een dokter voor u.",
+   "register": "formal"
+  },
+  {
+   "text": "Ik bel een dokter voor je.",
+   "register": "informal"
+  }
+ ],
+ "emergency": [
+  {
+   "text": "Bel in geval van nood 112.",
+   "register": "formal"
+  }
+ ],
+ "first_aid": [
+  {
+   "text": "We hebben een EHBO-doos bij de receptie.",
+   "register": "formal"
+  }
+ ],
+ "fire_exit": [
+  {
+   "text": "De nooduitgang is aan het einde van de gang.",
+   "register": "formal"
+  }
+ ],
+ "fire_alarm": [
+  {
+   "text": "Het brandalarm gaat af: verlaat het gebouw via de trap, niet met de lift.",
+   "register": "formal"
+  }
+ ],
+ "checkout_question": [
+  {
+   "text": "Vertrekt u vandaag?",
+   "register": "formal"
+  },
+  {
+   "text": "Vertrek je vandaag?",
+   "register": "informal"
+  }
+ ],
+ "late_checkout": [
+  {
+   "text": "Kan ik later uitchecken?",
+   "register": "formal"
+  }
+ ],
+ "late_checkout_fee": [
+  {
+   "text": "Laat uitchecken tot 14.00 uur kost 30 euro.",
+   "register": "formal"
+  }
+ ],
+ "minibar_used": [
+  {
+   "text": "Heeft u iets uit de minibar genomen?",
+   "register": "formal"
+  },
+  {
+   "text": "Heb je iets uit de minibar gepakt?",
+   "register": "informal"
+  }
+ ],
+ "here_invoice": [
+  {
+   "text": "Hier is uw factuur.",
+   "register": "formal"
+  },
+  {
+   "text": "Hier is je factuur.",
+   "register": "informal"
+  }
+ ],
+ "invoice_email": [
+  {
+   "text": "Wilt u de factuur per e-mail ontvangen?",
+   "register": "formal"
+  },
+  {
+   "text": "Wil je de factuur per mail?",
+   "register": "informal"
+  }
+ ],
+ "keep_luggage_after": [
+  {
+   "text": "We kunnen uw bagage na het uitchecken bewaren.",
+   "register": "formal"
+  },
+  {
+   "text": "We kunnen je bagage na het uitchecken bewaren.",
+   "register": "informal"
+  }
+ ],
+ "enjoyed_stay": [
+  {
+   "text": "Heeft u een prettig verblijf gehad?",
+   "register": "formal"
+  },
+  {
+   "text": "Heb je een fijn verblijf gehad?",
+   "register": "informal"
+  }
+ ],
+ "leave_review": [
+  {
+   "text": "Als u tevreden bent, kunt u een online review achterlaten.",
+   "register": "formal"
+  },
+  {
+   "text": "Als je tevreden bent, kun je een review online achterlaten.",
+   "register": "informal"
+  }
+ ],
+ "goodbye": [
+  {
+   "text": "Bedankt en goede reis!",
+   "register": "formal"
+  }
+ ],
+ "colleague_help": [
+  {
+   "text": "Kun je me even helpen bij de receptie?",
+   "register": "informal"
+  }
+ ],
+ "room_free": [
+  {
+   "text": "Kamer 214 is vrij en schoon.",
+   "register": "informal"
+  }
+ ],
+ "guest_waiting": [
+  {
+   "text": "Er staat een gast te wachten bij de receptie.",
+   "register": "informal"
+  }
+ ],
+ "vip_arrival": [
+  {
+   "text": "Om 15.00 uur komt er een belangrijke gast aan.",
+   "register": "informal"
+  }
+ ],
+ "shift_change": [
+  {
+   "text": "Ik ben om 18.00 uur klaar, wie neemt het van me over?",
+   "register": "informal"
+  }
+ ],
+ "broken_report": [
+  {
+   "text": "De douche in 305 lekt, we moeten de technische dienst waarschuwen.",
+   "register": "informal"
+  }
+ ]
+}

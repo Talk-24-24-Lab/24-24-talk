@@ -1,0 +1,898 @@
+{
+ "welcome_back": [
+  {
+   "text": "Så trevligt att se er igen!",
+   "register": "formal"
+  },
+  {
+   "text": "Kul att se dig igen!",
+   "register": "informal"
+  }
+ ],
+ "hello_welcome": [
+  {
+   "text": "Hej och varmt välkommen! Hur kan jag hjälpa er?",
+   "register": "formal"
+  },
+  {
+   "text": "Hej, välkommen! Kan jag hjälpa dig?",
+   "register": "informal"
+  }
+ ],
+ "have_booking": [
+  {
+   "text": "Har ni en bokning?",
+   "register": "formal"
+  },
+  {
+   "text": "Har du bokat?",
+   "register": "informal"
+  }
+ ],
+ "booking_name": [
+  {
+   "text": "Vilket namn är bokningen på?",
+   "register": "formal"
+  },
+  {
+   "text": "Vilket namn står den på?",
+   "register": "informal"
+  }
+ ],
+ "passport_id": [
+  {
+   "text": "Får jag be att få se ert pass eller id-kort?",
+   "register": "formal"
+  },
+  {
+   "text": "Kan jag få se ditt pass eller id-kort?",
+   "register": "informal"
+  }
+ ],
+ "fill_form": [
+  {
+   "text": "Skulle ni vilja fylla i och skriva under den här blanketten?",
+   "register": "formal"
+  },
+  {
+   "text": "Kan du fylla i och skriva under den här blanketten?",
+   "register": "informal"
+  }
+ ],
+ "how_many_nights": [
+  {
+   "text": "Hur många nätter stannar ni?",
+   "register": "formal"
+  },
+  {
+   "text": "Hur många nätter stannar du?",
+   "register": "informal"
+  }
+ ],
+ "how_many_people": [
+  {
+   "text": "Hur många personer gäller det?",
+   "register": "formal"
+  },
+  {
+   "text": "Hur många är ni?",
+   "register": "informal"
+  }
+ ],
+ "room_ready": [
+  {
+   "text": "Ert rum är klart.",
+   "register": "formal"
+  },
+  {
+   "text": "Ditt rum är klart.",
+   "register": "informal"
+  }
+ ],
+ "room_not_ready": [
+  {
+   "text": "Ert rum är tyvärr inte klart än. Det blir klart runt kl. 14.00.",
+   "register": "formal"
+  },
+  {
+   "text": "Ditt rum är inte klart än. Det blir klart runt två.",
+   "register": "informal"
+  }
+ ],
+ "leave_luggage": [
+  {
+   "text": "Ni är välkomna att lämna ert bagage här så länge.",
+   "register": "formal"
+  },
+  {
+   "text": "Du kan lämna väskorna här så länge.",
+   "register": "informal"
+  }
+ ],
+ "room_number": [
+  {
+   "text": "Ni har rum nummer 214, på andra våningen.",
+   "register": "formal"
+  },
+  {
+   "text": "Du har 214, på andra våningen.",
+   "register": "informal"
+  }
+ ],
+ "elevator": [
+  {
+   "text": "Hissen ligger till höger.",
+   "register": "formal"
+  }
+ ],
+ "key_card": [
+  {
+   "text": "Här är ert nyckelkort. Det öppnar både rummet och hissen.",
+   "register": "formal"
+  },
+  {
+   "text": "Här är ditt kort. Det funkar till rummet och hissen.",
+   "register": "informal"
+  }
+ ],
+ "wifi_code": [
+  {
+   "text": "Lösenordet till wifi:t står på det här kortet.",
+   "register": "formal"
+  }
+ ],
+ "breakfast_hours": [
+  {
+   "text": "Frukost serveras mellan kl. 7.00 och 10.30.",
+   "register": "formal"
+  }
+ ],
+ "checkout_time": [
+  {
+   "text": "Utcheckning sker senast kl. 11.00.",
+   "register": "formal"
+  }
+ ],
+ "no_booking_found": [
+  {
+   "text": "Jag hittar tyvärr inte er bokning. Har ni bokningsnumret?",
+   "register": "formal"
+  },
+  {
+   "text": "Jag hittar inte din bokning. Har du bokningsnumret?",
+   "register": "informal"
+  }
+ ],
+ "booked_online": [
+  {
+   "text": "Jag bokade på nätet.",
+   "register": "formal"
+  }
+ ],
+ "early_checkin": [
+  {
+   "text": "Kan jag få komma in på rummet tidigare?",
+   "register": "formal"
+  }
+ ],
+ "hotel_full": [
+  {
+   "text": "Tyvärr är hotellet fullbokat i kväll.",
+   "register": "formal"
+  }
+ ],
+ "pay_now_or_later": [
+  {
+   "text": "Vill ni betala nu eller vid utcheckning?",
+   "register": "formal"
+  },
+  {
+   "text": "Vill du betala nu eller när du checkar ut?",
+   "register": "informal"
+  }
+ ],
+ "deposit": [
+  {
+   "text": "Vi tar en deposition på 100 euro, som återbetalas vid utcheckning.",
+   "register": "formal"
+  }
+ ],
+ "card_or_cash": [
+  {
+   "text": "Betalar ni med kort eller kontant?",
+   "register": "formal"
+  },
+  {
+   "text": "Betalar du med kort eller kontant?",
+   "register": "informal"
+  }
+ ],
+ "city_tax": [
+  {
+   "text": "Turistskatten är 2 euro per person och natt.",
+   "register": "formal"
+  }
+ ],
+ "tax_not_included": [
+  {
+   "text": "Turistskatten ingår inte i bokningspriset.",
+   "register": "formal"
+  }
+ ],
+ "card_declined": [
+  {
+   "text": "Ert kort nekas tyvärr. Har ni ett annat kort?",
+   "register": "formal"
+  },
+  {
+   "text": "Ditt kort nekas. Har du ett annat?",
+   "register": "informal"
+  }
+ ],
+ "enter_pin": [
+  {
+   "text": "Ni kan slå in er kod nu.",
+   "register": "formal"
+  },
+  {
+   "text": "Du kan slå in din kod nu.",
+   "register": "informal"
+  }
+ ],
+ "receipt": [
+  {
+   "text": "Önskar ni kvitto?",
+   "register": "formal"
+  },
+  {
+   "text": "Vill du ha kvitto?",
+   "register": "informal"
+  }
+ ],
+ "invoice_company": [
+  {
+   "text": "Kan ni ställa ut fakturan på mitt företag?",
+   "register": "formal"
+  }
+ ],
+ "breakfast_included": [
+  {
+   "text": "Ingår frukost?",
+   "register": "formal"
+  }
+ ],
+ "price_night": [
+  {
+   "text": "Vad kostar en natt?",
+   "register": "formal"
+  }
+ ],
+ "cheaper_room": [
+  {
+   "text": "Har ni något billigare rum?",
+   "register": "formal"
+  }
+ ],
+ "room_view": [
+  {
+   "text": "Rummet har havsutsikt.",
+   "register": "formal"
+  }
+ ],
+ "double_twin": [
+  {
+   "text": "Föredrar ni en dubbelsäng eller två separata sängar?",
+   "register": "formal"
+  },
+  {
+   "text": "Vill du ha dubbelsäng eller två sängar?",
+   "register": "informal"
+  }
+ ],
+ "extra_bed": [
+  {
+   "text": "Vi kan ställa in en extrasäng till barnet.",
+   "register": "formal"
+  }
+ ],
+ "baby_cot": [
+  {
+   "text": "Barnsäng finns att låna utan kostnad.",
+   "register": "formal"
+  }
+ ],
+ "air_con": [
+  {
+   "text": "Fjärrkontrollen till luftkonditioneringen ligger på nattduksbordet.",
+   "register": "formal"
+  }
+ ],
+ "safe": [
+  {
+   "text": "Det finns ett kassaskåp i garderoben.",
+   "register": "formal"
+  }
+ ],
+ "minibar": [
+  {
+   "text": "Dryckerna i minibaren kostar extra.",
+   "register": "formal"
+  }
+ ],
+ "non_smoking": [
+  {
+   "text": "Alla rum är rökfria.",
+   "register": "formal"
+  }
+ ],
+ "quiet_room": [
+  {
+   "text": "Jag skulle vilja ha ett lugnt rum, tack.",
+   "register": "formal"
+  }
+ ],
+ "change_room": [
+  {
+   "text": "Kan jag få byta rum?",
+   "register": "formal"
+  }
+ ],
+ "hair_dryer": [
+  {
+   "text": "Hårtorken finns i badrummet.",
+   "register": "formal"
+  }
+ ],
+ "adapter": [
+  {
+   "text": "Har ni en adapter till eluttaget?",
+   "register": "formal"
+  }
+ ],
+ "iron": [
+  {
+   "text": "Skulle jag kunna få låna ett strykjärn?",
+   "register": "formal"
+  }
+ ],
+ "extra_pillow": [
+  {
+   "text": "Skulle ni kunna ta med en extra kudde till mig?",
+   "register": "formal"
+  }
+ ],
+ "balcony": [
+  {
+   "text": "Rummet har balkong.",
+   "register": "formal"
+  }
+ ],
+ "accessible_room": [
+  {
+   "text": "Vi har ett rullstolsanpassat rum.",
+   "register": "formal"
+  }
+ ],
+ "housekeeping_time": [
+  {
+   "text": "Vilken tid vill ni att vi städar rummet?",
+   "register": "formal"
+  },
+  {
+   "text": "När vill du att vi städar?",
+   "register": "informal"
+  }
+ ],
+ "do_not_disturb": [
+  {
+   "text": "Häng skylten ”Stör ej” på dörren om ni vill vara ostörda.",
+   "register": "formal"
+  },
+  {
+   "text": "Häng ut ”Stör ej”-skylten om du vill vara ifred.",
+   "register": "informal"
+  }
+ ],
+ "clean_now": [
+  {
+   "text": "Går det bra att jag städar nu?",
+   "register": "formal"
+  },
+  {
+   "text": "Kan jag städa nu?",
+   "register": "informal"
+  }
+ ],
+ "come_back_later": [
+  {
+   "text": "Jag kommer tillbaka senare.",
+   "register": "formal"
+  }
+ ],
+ "towels": [
+  {
+   "text": "Kan jag få rena handdukar?",
+   "register": "formal"
+  }
+ ],
+ "change_sheets": [
+  {
+   "text": "Lakanen byts var tredje dag.",
+   "register": "formal"
+  }
+ ],
+ "laundry": [
+  {
+   "text": "Vi har tvättservice. Tvätten lämnas tillbaka dagen efter.",
+   "register": "formal"
+  }
+ ],
+ "toilet_paper": [
+  {
+   "text": "Toalettpappret är slut.",
+   "register": "formal"
+  }
+ ],
+ "lost_item": [
+  {
+   "text": "Har ni tappat bort något?",
+   "register": "formal"
+  },
+  {
+   "text": "Har du tappat bort något?",
+   "register": "informal"
+  }
+ ],
+ "found_item": [
+  {
+   "text": "Vi hittade det här föremålet på ert rum.",
+   "register": "formal"
+  },
+  {
+   "text": "Vi hittade det här på ditt rum.",
+   "register": "informal"
+  }
+ ],
+ "table_for": [
+  {
+   "text": "Ett bord för hur många personer?",
+   "register": "formal"
+  },
+  {
+   "text": "Bord för hur många?",
+   "register": "informal"
+  }
+ ],
+ "breakfast_room": [
+  {
+   "text": "Frukosten serveras på bottenvåningen, bredvid receptionen.",
+   "register": "formal"
+  }
+ ],
+ "buffet": [
+  {
+   "text": "Det är buffé, så var så goda och ta själva.",
+   "register": "formal"
+  },
+  {
+   "text": "Det är buffé, ta för dig.",
+   "register": "informal"
+  }
+ ],
+ "coffee_or_tea": [
+  {
+   "text": "Kaffe eller te?",
+   "register": "formal"
+  }
+ ],
+ "allergy": [
+  {
+   "text": "Har ni någon matallergi?",
+   "register": "formal"
+  },
+  {
+   "text": "Har du någon matallergi?",
+   "register": "informal"
+  }
+ ],
+ "vegetarian": [
+  {
+   "text": "Vi har vegetariska rätter.",
+   "register": "formal"
+  }
+ ],
+ "halal": [
+  {
+   "text": "Är köttet halal?",
+   "register": "formal"
+  }
+ ],
+ "gluten_free": [
+  {
+   "text": "Jag äter inte gluten.",
+   "register": "formal"
+  }
+ ],
+ "room_service": [
+  {
+   "text": "Rumsservice finns till kl. 22.00.",
+   "register": "formal"
+  }
+ ],
+ "charge_room": [
+  {
+   "text": "Ska jag lägga det på ert rum?",
+   "register": "formal"
+  },
+  {
+   "text": "Ska jag lägga det på ditt rum?",
+   "register": "informal"
+  }
+ ],
+ "restaurant_closed": [
+  {
+   "text": "Restaurangen är stängd i kväll.",
+   "register": "formal"
+  }
+ ],
+ "recommend_restaurant": [
+  {
+   "text": "Jag kan rekommendera en bra restaurang alldeles i närheten.",
+   "register": "formal"
+  },
+  {
+   "text": "Jag kan tipsa om ett bra ställe att äta på här i närheten.",
+   "register": "informal"
+  }
+ ],
+ "enjoy_meal": [
+  {
+   "text": "Smaklig måltid!",
+   "register": "formal"
+  }
+ ],
+ "problem_room": [
+  {
+   "text": "Det är problem med mitt rum.",
+   "register": "formal"
+  }
+ ],
+ "ac_broken": [
+  {
+   "text": "Luftkonditioneringen fungerar inte.",
+   "register": "formal"
+  }
+ ],
+ "no_hot_water": [
+  {
+   "text": "Det finns inget varmvatten.",
+   "register": "formal"
+  }
+ ],
+ "wifi_not_working": [
+  {
+   "text": "Wifi:t fungerar inte.",
+   "register": "formal"
+  }
+ ],
+ "too_noisy": [
+  {
+   "text": "Det är för mycket oväsen, jag kan inte sova.",
+   "register": "formal"
+  }
+ ],
+ "room_dirty": [
+  {
+   "text": "Rummet är inte städat.",
+   "register": "formal"
+  }
+ ],
+ "card_not_working": [
+  {
+   "text": "Mitt kort öppnar inte dörren längre.",
+   "register": "formal"
+  }
+ ],
+ "locked_out": [
+  {
+   "text": "Jag har glömt kortet inne på rummet.",
+   "register": "formal"
+  }
+ ],
+ "sorry_problem": [
+  {
+   "text": "Jag ber verkligen om ursäkt för det här problemet.",
+   "register": "formal"
+  }
+ ],
+ "send_technician": [
+  {
+   "text": "Jag skickar upp någon till ert rum direkt.",
+   "register": "formal"
+  },
+  {
+   "text": "Jag skickar någon till ditt rum direkt.",
+   "register": "informal"
+  }
+ ],
+ "fixed_soon": [
+  {
+   "text": "Det kommer att vara åtgärdat inom högst en timme.",
+   "register": "formal"
+  }
+ ],
+ "offer_new_room": [
+  {
+   "text": "Jag kan erbjuda er ett annat rum.",
+   "register": "formal"
+  },
+  {
+   "text": "Jag kan ge dig ett annat rum.",
+   "register": "informal"
+  }
+ ],
+ "compensation": [
+  {
+   "text": "Som en ursäkt bjuder vi på er frukost.",
+   "register": "formal"
+  },
+  {
+   "text": "Som ursäkt bjuder vi på din frukost.",
+   "register": "informal"
+  }
+ ],
+ "manager": [
+  {
+   "text": "Jag skulle vilja prata med den ansvarige.",
+   "register": "formal"
+  }
+ ],
+ "complaint_noted": [
+  {
+   "text": "Jag har noterat ert klagomål. Den ansvarige kommer att ringa upp er.",
+   "register": "formal"
+  },
+  {
+   "text": "Jag har noterat ditt klagomål. Den ansvarige ringer upp dig.",
+   "register": "informal"
+  }
+ ],
+ "taxi": [
+  {
+   "text": "Vill ni att jag ringer efter en taxi?",
+   "register": "formal"
+  },
+  {
+   "text": "Vill du att jag ringer efter en taxi?",
+   "register": "informal"
+  }
+ ],
+ "airport_transfer": [
+  {
+   "text": "Vi erbjuder flygplatstransfer. Den måste bokas dagen innan.",
+   "register": "formal"
+  }
+ ],
+ "how_far": [
+  {
+   "text": "Är det långt att gå?",
+   "register": "formal"
+  }
+ ],
+ "ten_minutes_walk": [
+  {
+   "text": "Det är tio minuters promenad.",
+   "register": "formal"
+  }
+ ],
+ "map": [
+  {
+   "text": "Här är en karta över staden.",
+   "register": "formal"
+  }
+ ],
+ "bus_stop": [
+  {
+   "text": "Busshållplatsen ligger precis utanför hotellet.",
+   "register": "formal"
+  }
+ ],
+ "parking": [
+  {
+   "text": "Parkering kostar 15 euro per dygn.",
+   "register": "formal"
+  }
+ ],
+ "nearest_pharmacy": [
+  {
+   "text": "Var ligger närmaste apotek?",
+   "register": "formal"
+  }
+ ],
+ "atm": [
+  {
+   "text": "Var kan jag ta ut pengar?",
+   "register": "formal"
+  }
+ ],
+ "book_tour": [
+  {
+   "text": "Jag kan boka en guidad tur åt er.",
+   "register": "formal"
+  },
+  {
+   "text": "Jag kan boka en guidad tur åt dig.",
+   "register": "informal"
+  }
+ ],
+ "safe_area": [
+  {
+   "text": "Är området säkert på natten?",
+   "register": "formal"
+  }
+ ],
+ "doctor": [
+  {
+   "text": "Jag behöver en läkare.",
+   "register": "formal"
+  }
+ ],
+ "call_doctor": [
+  {
+   "text": "Jag ringer efter en läkare åt er.",
+   "register": "formal"
+  },
+  {
+   "text": "Jag ringer efter en läkare åt dig.",
+   "register": "informal"
+  }
+ ],
+ "emergency": [
+  {
+   "text": "Vid nödsituation, ring 112.",
+   "register": "formal"
+  }
+ ],
+ "first_aid": [
+  {
+   "text": "Vi har en förbandslåda i receptionen.",
+   "register": "formal"
+  }
+ ],
+ "fire_exit": [
+  {
+   "text": "Nödutgången finns i slutet av korridoren.",
+   "register": "formal"
+  }
+ ],
+ "fire_alarm": [
+  {
+   "text": "Brandlarmet går: gå ut via trappan, inte hissen.",
+   "register": "formal"
+  }
+ ],
+ "checkout_question": [
+  {
+   "text": "Checkar ni ut i dag?",
+   "register": "formal"
+  },
+  {
+   "text": "Åker du i dag?",
+   "register": "informal"
+  }
+ ],
+ "late_checkout": [
+  {
+   "text": "Kan jag få checka ut senare?",
+   "register": "formal"
+  }
+ ],
+ "late_checkout_fee": [
+  {
+   "text": "Sen utcheckning till kl. 14.00 kostar 30 euro.",
+   "register": "formal"
+  }
+ ],
+ "minibar_used": [
+  {
+   "text": "Har ni tagit något ur minibaren?",
+   "register": "formal"
+  },
+  {
+   "text": "Har du tagit något ur minibaren?",
+   "register": "informal"
+  }
+ ],
+ "here_invoice": [
+  {
+   "text": "Här är er faktura.",
+   "register": "formal"
+  },
+  {
+   "text": "Här är din faktura.",
+   "register": "informal"
+  }
+ ],
+ "invoice_email": [
+  {
+   "text": "Vill ni ha fakturan via e-post?",
+   "register": "formal"
+  },
+  {
+   "text": "Vill du ha fakturan på mejlen?",
+   "register": "informal"
+  }
+ ],
+ "keep_luggage_after": [
+  {
+   "text": "Vi kan förvara ert bagage efter utcheckningen.",
+   "register": "formal"
+  },
+  {
+   "text": "Vi kan ta hand om dina väskor efter utcheckningen.",
+   "register": "informal"
+  }
+ ],
+ "enjoyed_stay": [
+  {
+   "text": "Har ni haft en trevlig vistelse?",
+   "register": "formal"
+  },
+  {
+   "text": "Har du haft det bra här?",
+   "register": "informal"
+  }
+ ],
+ "leave_review": [
+  {
+   "text": "Om ni är nöjda får ni gärna lämna ett omdöme på nätet.",
+   "register": "formal"
+  },
+  {
+   "text": "Om du är nöjd får du gärna lämna ett omdöme på nätet.",
+   "register": "informal"
+  }
+ ],
+ "goodbye": [
+  {
+   "text": "Tack och trevlig resa!",
+   "register": "formal"
+  }
+ ],
+ "colleague_help": [
+  {
+   "text": "Kan du hjälpa mig i receptionen?",
+   "register": "informal"
+  }
+ ],
+ "room_free": [
+  {
+   "text": "Rum 214 är ledigt och städat.",
+   "register": "informal"
+  }
+ ],
+ "guest_waiting": [
+  {
+   "text": "Det står en gäst och väntar i receptionen.",
+   "register": "informal"
+  }
+ ],
+ "vip_arrival": [
+  {
+   "text": "En viktig gäst kommer kl. 15.00.",
+   "register": "informal"
+  }
+ ],
+ "shift_change": [
+  {
+   "text": "Jag slutar kl. 18, vem tar över efter mig?",
+   "register": "informal"
+  }
+ ],
+ "broken_report": [
+  {
+   "text": "Duschen i 305 läcker, vi måste meddela fastighetsteknikern.",
+   "register": "informal"
+  }
+ ]
+}

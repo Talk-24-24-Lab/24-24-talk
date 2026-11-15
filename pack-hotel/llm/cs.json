@@ -1,0 +1,898 @@
+{
+ "welcome_back": [
+  {
+   "text": "Rádi Vás opět vidíme!",
+   "register": "formal"
+  },
+  {
+   "text": "Rád tě zase vidím!",
+   "register": "informal"
+  }
+ ],
+ "hello_welcome": [
+  {
+   "text": "Dobrý den a vítejte! Jak Vám mohu pomoci?",
+   "register": "formal"
+  },
+  {
+   "text": "Ahoj, vítej! Můžu ti pomoct?",
+   "register": "informal"
+  }
+ ],
+ "have_booking": [
+  {
+   "text": "Máte rezervaci?",
+   "register": "formal"
+  },
+  {
+   "text": "Máš rezervaci?",
+   "register": "informal"
+  }
+ ],
+ "booking_name": [
+  {
+   "text": "Na jaké jméno je rezervace?",
+   "register": "formal"
+  },
+  {
+   "text": "Na jaké jméno?",
+   "register": "informal"
+  }
+ ],
+ "passport_id": [
+  {
+   "text": "Mohu prosím vidět Váš pas nebo občanský průkaz?",
+   "register": "formal"
+  },
+  {
+   "text": "Můžu vidět tvůj pas nebo občanku?",
+   "register": "informal"
+  }
+ ],
+ "fill_form": [
+  {
+   "text": "Vyplňte a podepište prosím tento formulář.",
+   "register": "formal"
+  },
+  {
+   "text": "Můžeš vyplnit a podepsat tenhle formulář?",
+   "register": "informal"
+  }
+ ],
+ "how_many_nights": [
+  {
+   "text": "Na kolik nocí u nás zůstanete?",
+   "register": "formal"
+  },
+  {
+   "text": "Na kolik nocí zůstáváš?",
+   "register": "informal"
+  }
+ ],
+ "how_many_people": [
+  {
+   "text": "Kolik vás bude osob?",
+   "register": "formal"
+  },
+  {
+   "text": "Kolik vás je?",
+   "register": "informal"
+  }
+ ],
+ "room_ready": [
+  {
+   "text": "Váš pokoj je připravený.",
+   "register": "formal"
+  },
+  {
+   "text": "Tvůj pokoj je připravený.",
+   "register": "informal"
+  }
+ ],
+ "room_not_ready": [
+  {
+   "text": "Váš pokoj ještě není připravený. Bude hotový kolem 14:00.",
+   "register": "formal"
+  },
+  {
+   "text": "Tvůj pokoj ještě není připravený. Bude hotový kolem 14:00.",
+   "register": "informal"
+  }
+ ],
+ "leave_luggage": [
+  {
+   "text": "Mezitím si zde můžete nechat zavazadla.",
+   "register": "formal"
+  },
+  {
+   "text": "Mezitím si tu můžeš nechat zavazadla.",
+   "register": "informal"
+  }
+ ],
+ "room_number": [
+  {
+   "text": "Máte pokoj číslo 214 ve druhém patře.",
+   "register": "formal"
+  },
+  {
+   "text": "Máš pokoj 214 ve druhém patře.",
+   "register": "informal"
+  }
+ ],
+ "elevator": [
+  {
+   "text": "Výtah je vpravo.",
+   "register": "formal"
+  }
+ ],
+ "key_card": [
+  {
+   "text": "Tady je Vaše karta. Otevírá pokoj i výtah.",
+   "register": "formal"
+  },
+  {
+   "text": "Tady je tvoje karta. Otevírá pokoj i výtah.",
+   "register": "informal"
+  }
+ ],
+ "wifi_code": [
+  {
+   "text": "Heslo k Wi-Fi je napsané na této kartičce.",
+   "register": "formal"
+  }
+ ],
+ "breakfast_hours": [
+  {
+   "text": "Snídaně se podává od 7:00 do 10:30.",
+   "register": "formal"
+  }
+ ],
+ "checkout_time": [
+  {
+   "text": "Pokoj je třeba uvolnit do 11:00.",
+   "register": "formal"
+  }
+ ],
+ "no_booking_found": [
+  {
+   "text": "Nemohu najít Vaši rezervaci. Máte číslo potvrzení?",
+   "register": "formal"
+  },
+  {
+   "text": "Nemůžu najít tvoji rezervaci. Máš číslo potvrzení?",
+   "register": "informal"
+  }
+ ],
+ "booked_online": [
+  {
+   "text": "Rezervaci mám přes internet.",
+   "register": "formal"
+  }
+ ],
+ "early_checkin": [
+  {
+   "text": "Mohu se ubytovat dřív?",
+   "register": "formal"
+  }
+ ],
+ "hotel_full": [
+  {
+   "text": "Je nám líto, na dnešní noc je hotel plně obsazený.",
+   "register": "formal"
+  }
+ ],
+ "pay_now_or_later": [
+  {
+   "text": "Přejete si zaplatit hned, nebo při odjezdu?",
+   "register": "formal"
+  },
+  {
+   "text": "Chceš zaplatit hned, nebo při odjezdu?",
+   "register": "informal"
+  }
+ ],
+ "deposit": [
+  {
+   "text": "Vybíráme zálohu 100 eur, kterou vracíme při odjezdu.",
+   "register": "formal"
+  }
+ ],
+ "card_or_cash": [
+  {
+   "text": "Platíte kartou, nebo hotově?",
+   "register": "formal"
+  },
+  {
+   "text": "Platíš kartou, nebo hotově?",
+   "register": "informal"
+  }
+ ],
+ "city_tax": [
+  {
+   "text": "Pobytová taxa je 2 eura za osobu a noc.",
+   "register": "formal"
+  }
+ ],
+ "tax_not_included": [
+  {
+   "text": "Pobytová taxa není zahrnuta v ceně rezervace.",
+   "register": "formal"
+  }
+ ],
+ "card_declined": [
+  {
+   "text": "Vaše karta byla zamítnuta. Máte jinou kartu?",
+   "register": "formal"
+  },
+  {
+   "text": "Tvoje karta byla zamítnuta. Máš jinou?",
+   "register": "informal"
+  }
+ ],
+ "enter_pin": [
+  {
+   "text": "Můžete zadat PIN.",
+   "register": "formal"
+  },
+  {
+   "text": "Můžeš zadat PIN.",
+   "register": "informal"
+  }
+ ],
+ "receipt": [
+  {
+   "text": "Přejete si účtenku?",
+   "register": "formal"
+  },
+  {
+   "text": "Chceš účtenku?",
+   "register": "informal"
+  }
+ ],
+ "invoice_company": [
+  {
+   "text": "Můžete vystavit fakturu na mou firmu?",
+   "register": "formal"
+  }
+ ],
+ "breakfast_included": [
+  {
+   "text": "Je snídaně v ceně?",
+   "register": "formal"
+  }
+ ],
+ "price_night": [
+  {
+   "text": "Kolik stojí jedna noc?",
+   "register": "formal"
+  }
+ ],
+ "cheaper_room": [
+  {
+   "text": "Máte levnější pokoj?",
+   "register": "formal"
+  }
+ ],
+ "room_view": [
+  {
+   "text": "Pokoj má výhled na moře.",
+   "register": "formal"
+  }
+ ],
+ "double_twin": [
+  {
+   "text": "Přejete si manželskou postel, nebo dvě oddělená lůžka?",
+   "register": "formal"
+  },
+  {
+   "text": "Chceš velkou postel, nebo dvě?",
+   "register": "informal"
+  }
+ ],
+ "extra_bed": [
+  {
+   "text": "Můžeme přidat přistýlku pro dítě.",
+   "register": "formal"
+  }
+ ],
+ "baby_cot": [
+  {
+   "text": "Dětská postýlka je k dispozici zdarma.",
+   "register": "formal"
+  }
+ ],
+ "air_con": [
+  {
+   "text": "Ovladač klimatizace je na nočním stolku.",
+   "register": "formal"
+  }
+ ],
+ "safe": [
+  {
+   "text": "Ve skříni je trezor.",
+   "register": "formal"
+  }
+ ],
+ "minibar": [
+  {
+   "text": "Nápoje z minibaru se platí.",
+   "register": "formal"
+  }
+ ],
+ "non_smoking": [
+  {
+   "text": "Všechny pokoje jsou nekuřácké.",
+   "register": "formal"
+  }
+ ],
+ "quiet_room": [
+  {
+   "text": "Prosím o tichý pokoj.",
+   "register": "formal"
+  }
+ ],
+ "change_room": [
+  {
+   "text": "Mohu si vyměnit pokoj?",
+   "register": "formal"
+  }
+ ],
+ "hair_dryer": [
+  {
+   "text": "Fén je v koupelně.",
+   "register": "formal"
+  }
+ ],
+ "adapter": [
+  {
+   "text": "Máte adaptér do zásuvky?",
+   "register": "formal"
+  }
+ ],
+ "iron": [
+  {
+   "text": "Mohu dostat žehličku?",
+   "register": "formal"
+  }
+ ],
+ "extra_pillow": [
+  {
+   "text": "Mohu poprosit o další polštář?",
+   "register": "formal"
+  }
+ ],
+ "balcony": [
+  {
+   "text": "Pokoj má balkon.",
+   "register": "formal"
+  }
+ ],
+ "accessible_room": [
+  {
+   "text": "Máme bezbariérový pokoj pro vozíčkáře.",
+   "register": "formal"
+  }
+ ],
+ "housekeeping_time": [
+  {
+   "text": "V kolik hodin Vám máme uklidit pokoj?",
+   "register": "formal"
+  },
+  {
+   "text": "V kolik ti mám uklidit?",
+   "register": "informal"
+  }
+ ],
+ "do_not_disturb": [
+  {
+   "text": "Pokud si přejete klid, pověste na dveře cedulku „Nerušit“.",
+   "register": "formal"
+  },
+  {
+   "text": "Pověs cedulku „Nerušit“, jestli chceš mít klid.",
+   "register": "informal"
+  }
+ ],
+ "clean_now": [
+  {
+   "text": "Mohu teď uklidit pokoj?",
+   "register": "formal"
+  },
+  {
+   "text": "Můžu teď uklidit?",
+   "register": "informal"
+  }
+ ],
+ "come_back_later": [
+  {
+   "text": "Přijdu později.",
+   "register": "formal"
+  }
+ ],
+ "towels": [
+  {
+   "text": "Mohu dostat čisté ručníky?",
+   "register": "formal"
+  }
+ ],
+ "change_sheets": [
+  {
+   "text": "Povlečení se mění každé tři dny.",
+   "register": "formal"
+  }
+ ],
+ "laundry": [
+  {
+   "text": "Nabízíme službu prádelny. Prádlo vracíme druhý den.",
+   "register": "formal"
+  }
+ ],
+ "toilet_paper": [
+  {
+   "text": "Došel toaletní papír.",
+   "register": "formal"
+  }
+ ],
+ "lost_item": [
+  {
+   "text": "Ztratil(a) jste něco?",
+   "register": "formal"
+  },
+  {
+   "text": "Ztratil jsi něco?",
+   "register": "informal"
+  }
+ ],
+ "found_item": [
+  {
+   "text": "Tento předmět jsme našli ve Vašem pokoji.",
+   "register": "formal"
+  },
+  {
+   "text": "Tohle jsme našli u tebe na pokoji.",
+   "register": "informal"
+  }
+ ],
+ "table_for": [
+  {
+   "text": "Stůl pro kolik osob?",
+   "register": "formal"
+  },
+  {
+   "text": "Stůl pro kolik?",
+   "register": "informal"
+  }
+ ],
+ "breakfast_room": [
+  {
+   "text": "Snídaně se podává v přízemí vedle recepce.",
+   "register": "formal"
+  }
+ ],
+ "buffet": [
+  {
+   "text": "Je to formou bufetu – obsluhujte se, prosím.",
+   "register": "formal"
+  },
+  {
+   "text": "Je to bufet – vezmi si, co chceš.",
+   "register": "informal"
+  }
+ ],
+ "coffee_or_tea": [
+  {
+   "text": "Kávu, nebo čaj?",
+   "register": "formal"
+  }
+ ],
+ "allergy": [
+  {
+   "text": "Máte nějakou potravinovou alergii?",
+   "register": "formal"
+  },
+  {
+   "text": "Máš nějakou potravinovou alergii?",
+   "register": "informal"
+  }
+ ],
+ "vegetarian": [
+  {
+   "text": "Máme vegetariánská jídla.",
+   "register": "formal"
+  }
+ ],
+ "halal": [
+  {
+   "text": "Je to maso halal?",
+   "register": "formal"
+  }
+ ],
+ "gluten_free": [
+  {
+   "text": "Nejím lepek.",
+   "register": "formal"
+  }
+ ],
+ "room_service": [
+  {
+   "text": "Pokojová služba je k dispozici do 22:00.",
+   "register": "formal"
+  }
+ ],
+ "charge_room": [
+  {
+   "text": "Mám to připsat na Váš pokoj?",
+   "register": "formal"
+  },
+  {
+   "text": "Mám to připsat na tvůj pokoj?",
+   "register": "informal"
+  }
+ ],
+ "restaurant_closed": [
+  {
+   "text": "Restaurace je dnes večer zavřená.",
+   "register": "formal"
+  }
+ ],
+ "recommend_restaurant": [
+  {
+   "text": "Mohu Vám doporučit dobrou restauraci kousek odsud.",
+   "register": "formal"
+  },
+  {
+   "text": "Můžu ti doporučit dobrou restauraci kousek odsud.",
+   "register": "informal"
+  }
+ ],
+ "enjoy_meal": [
+  {
+   "text": "Dobrou chuť!",
+   "register": "formal"
+  }
+ ],
+ "problem_room": [
+  {
+   "text": "Na pokoji mám problém.",
+   "register": "formal"
+  }
+ ],
+ "ac_broken": [
+  {
+   "text": "Klimatizace nefunguje.",
+   "register": "formal"
+  }
+ ],
+ "no_hot_water": [
+  {
+   "text": "Neteče teplá voda.",
+   "register": "formal"
+  }
+ ],
+ "wifi_not_working": [
+  {
+   "text": "Wi-Fi nefunguje.",
+   "register": "formal"
+  }
+ ],
+ "too_noisy": [
+  {
+   "text": "Je tu moc hluk, nemůžu spát.",
+   "register": "formal"
+  }
+ ],
+ "room_dirty": [
+  {
+   "text": "Pokoj není čistý.",
+   "register": "formal"
+  }
+ ],
+ "card_not_working": [
+  {
+   "text": "Moje karta už neotevírá dveře.",
+   "register": "formal"
+  }
+ ],
+ "locked_out": [
+  {
+   "text": "Karta mi zůstala v pokoji.",
+   "register": "formal"
+  }
+ ],
+ "sorry_problem": [
+  {
+   "text": "Moc se omlouvám za tento problém.",
+   "register": "formal"
+  }
+ ],
+ "send_technician": [
+  {
+   "text": "Hned Vám někoho pošlu na pokoj.",
+   "register": "formal"
+  },
+  {
+   "text": "Hned ti někoho pošlu na pokoj.",
+   "register": "informal"
+  }
+ ],
+ "fixed_soon": [
+  {
+   "text": "Nejpozději do hodiny to bude opravené.",
+   "register": "formal"
+  }
+ ],
+ "offer_new_room": [
+  {
+   "text": "Mohu Vám nabídnout jiný pokoj.",
+   "register": "formal"
+  },
+  {
+   "text": "Můžu ti nabídnout jiný pokoj.",
+   "register": "informal"
+  }
+ ],
+ "compensation": [
+  {
+   "text": "Jako omluvu máte snídani zdarma.",
+   "register": "formal"
+  },
+  {
+   "text": "Jako omluvu máš snídani zdarma.",
+   "register": "informal"
+  }
+ ],
+ "manager": [
+  {
+   "text": "Chci mluvit s vedoucím.",
+   "register": "formal"
+  }
+ ],
+ "complaint_noted": [
+  {
+   "text": "Vaše stížnost byla zaznamenána. Vedoucí Vám zavolá zpět.",
+   "register": "formal"
+  },
+  {
+   "text": "Tvoje stížnost je zaznamenaná. Vedoucí ti zavolá zpět.",
+   "register": "informal"
+  }
+ ],
+ "taxi": [
+  {
+   "text": "Mám Vám zavolat taxi?",
+   "register": "formal"
+  },
+  {
+   "text": "Mám ti zavolat taxi?",
+   "register": "informal"
+  }
+ ],
+ "airport_transfer": [
+  {
+   "text": "Nabízíme kyvadlovou dopravu na letiště. Je nutné ji objednat den předem.",
+   "register": "formal"
+  }
+ ],
+ "how_far": [
+  {
+   "text": "Je to daleko pěšky?",
+   "register": "formal"
+  }
+ ],
+ "ten_minutes_walk": [
+  {
+   "text": "Je to deset minut pěšky.",
+   "register": "formal"
+  }
+ ],
+ "map": [
+  {
+   "text": "Tady je mapa města.",
+   "register": "formal"
+  }
+ ],
+ "bus_stop": [
+  {
+   "text": "Autobusová zastávka je přímo před hotelem.",
+   "register": "formal"
+  }
+ ],
+ "parking": [
+  {
+   "text": "Parkování stojí 15 eur za den.",
+   "register": "formal"
+  }
+ ],
+ "nearest_pharmacy": [
+  {
+   "text": "Kde je nejbližší lékárna?",
+   "register": "formal"
+  }
+ ],
+ "atm": [
+  {
+   "text": "Kde si můžu vybrat peníze?",
+   "register": "formal"
+  }
+ ],
+ "book_tour": [
+  {
+   "text": "Mohu Vám zarezervovat prohlídku s průvodcem.",
+   "register": "formal"
+  },
+  {
+   "text": "Můžu ti zarezervovat prohlídku s průvodcem.",
+   "register": "informal"
+  }
+ ],
+ "safe_area": [
+  {
+   "text": "Je ta čtvrť v noci bezpečná?",
+   "register": "formal"
+  }
+ ],
+ "doctor": [
+  {
+   "text": "Potřebuji lékaře.",
+   "register": "formal"
+  }
+ ],
+ "call_doctor": [
+  {
+   "text": "Zavolám Vám lékaře.",
+   "register": "formal"
+  },
+  {
+   "text": "Zavolám ti lékaře.",
+   "register": "informal"
+  }
+ ],
+ "emergency": [
+  {
+   "text": "V případě nouze volejte 112.",
+   "register": "formal"
+  }
+ ],
+ "first_aid": [
+  {
+   "text": "Na recepci máme lékárničku první pomoci.",
+   "register": "formal"
+  }
+ ],
+ "fire_exit": [
+  {
+   "text": "Nouzový východ je na konci chodby.",
+   "register": "formal"
+  }
+ ],
+ "fire_alarm": [
+  {
+   "text": "Zní požární poplach: odejděte po schodech, ne výtahem.",
+   "register": "formal"
+  }
+ ],
+ "checkout_question": [
+  {
+   "text": "Odjíždíte dnes?",
+   "register": "formal"
+  },
+  {
+   "text": "Odjíždíš dnes?",
+   "register": "informal"
+  }
+ ],
+ "late_checkout": [
+  {
+   "text": "Mohu odjet později?",
+   "register": "formal"
+  }
+ ],
+ "late_checkout_fee": [
+  {
+   "text": "Pozdní odjezd do 14:00 stojí 30 eur.",
+   "register": "formal"
+  }
+ ],
+ "minibar_used": [
+  {
+   "text": "Vzal(a) jste si něco z minibaru?",
+   "register": "formal"
+  },
+  {
+   "text": "Vzal sis něco z minibaru?",
+   "register": "informal"
+  }
+ ],
+ "here_invoice": [
+  {
+   "text": "Tady je Vaše faktura.",
+   "register": "formal"
+  },
+  {
+   "text": "Tady je tvoje faktura.",
+   "register": "informal"
+  }
+ ],
+ "invoice_email": [
+  {
+   "text": "Přejete si fakturu e-mailem?",
+   "register": "formal"
+  },
+  {
+   "text": "Chceš fakturu e-mailem?",
+   "register": "informal"
+  }
+ ],
+ "keep_luggage_after": [
+  {
+   "text": "Po odhlášení Vám můžeme uschovat zavazadla.",
+   "register": "formal"
+  },
+  {
+   "text": "Po odhlášení ti můžeme pohlídat zavazadla.",
+   "register": "informal"
+  }
+ ],
+ "enjoyed_stay": [
+  {
+   "text": "Byl Váš pobyt příjemný?",
+   "register": "formal"
+  },
+  {
+   "text": "Byl tvůj pobyt fajn?",
+   "register": "informal"
+  }
+ ],
+ "leave_review": [
+  {
+   "text": "Pokud jste spokojeni, můžete napsat recenzi na internetu.",
+   "register": "formal"
+  },
+  {
+   "text": "Jestli jsi spokojený, můžeš napsat recenzi na internetu.",
+   "register": "informal"
+  }
+ ],
+ "goodbye": [
+  {
+   "text": "Děkujeme a šťastnou cestu!",
+   "register": "formal"
+  }
+ ],
+ "colleague_help": [
+  {
+   "text": "Můžeš mi pomoct na recepci?",
+   "register": "informal"
+  }
+ ],
+ "room_free": [
+  {
+   "text": "Pokoj 214 je volný a uklizený.",
+   "register": "informal"
+  }
+ ],
+ "guest_waiting": [
+  {
+   "text": "Na recepci čeká host.",
+   "register": "informal"
+  }
+ ],
+ "vip_arrival": [
+  {
+   "text": "V 15:00 přijíždí důležitý host.",
+   "register": "informal"
+  }
+ ],
+ "shift_change": [
+  {
+   "text": "Končím v 18:00, kdo mě vystřídá?",
+   "register": "informal"
+  }
+ ],
+ "broken_report": [
+  {
+   "text": "Ve 305 teče sprcha, je potřeba dát vědět technikovi.",
+   "register": "informal"
+  }
+ ]
+}

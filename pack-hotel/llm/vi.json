@@ -1,0 +1,898 @@
+{
+ "welcome_back": [
+  {
+   "text": "Rất vui được gặp lại Quý khách!",
+   "register": "formal"
+  },
+  {
+   "text": "Vui quá được gặp lại bạn!",
+   "register": "informal"
+  }
+ ],
+ "hello_welcome": [
+  {
+   "text": "Xin chào và chào mừng Quý khách! Tôi có thể giúp gì cho Quý khách ạ?",
+   "register": "formal"
+  },
+  {
+   "text": "Chào bạn, chào mừng nhé! Mình giúp gì được không?",
+   "register": "informal"
+  }
+ ],
+ "have_booking": [
+  {
+   "text": "Quý khách đã đặt phòng trước chưa ạ?",
+   "register": "formal"
+  },
+  {
+   "text": "Bạn có đặt phòng chưa?",
+   "register": "informal"
+  }
+ ],
+ "booking_name": [
+  {
+   "text": "Quý khách đặt phòng dưới tên gì ạ?",
+   "register": "formal"
+  },
+  {
+   "text": "Đặt tên ai vậy?",
+   "register": "informal"
+  }
+ ],
+ "passport_id": [
+  {
+   "text": "Cho tôi xem hộ chiếu hoặc căn cước của Quý khách được không ạ?",
+   "register": "formal"
+  },
+  {
+   "text": "Cho mình xem hộ chiếu hoặc căn cước của bạn nhé?",
+   "register": "informal"
+  }
+ ],
+ "fill_form": [
+  {
+   "text": "Quý khách vui lòng điền và ký vào phiếu này giúp tôi ạ.",
+   "register": "formal"
+  },
+  {
+   "text": "Bạn điền rồi ký vào phiếu này giúp mình nhé?",
+   "register": "informal"
+  }
+ ],
+ "how_many_nights": [
+  {
+   "text": "Quý khách ở lại mấy đêm ạ?",
+   "register": "formal"
+  },
+  {
+   "text": "Bạn ở mấy đêm?",
+   "register": "informal"
+  }
+ ],
+ "how_many_people": [
+  {
+   "text": "Quý khách đi mấy người ạ?",
+   "register": "formal"
+  },
+  {
+   "text": "Các bạn đi mấy người?",
+   "register": "informal"
+  }
+ ],
+ "room_ready": [
+  {
+   "text": "Phòng của Quý khách đã sẵn sàng.",
+   "register": "formal"
+  },
+  {
+   "text": "Phòng của bạn xong rồi đó.",
+   "register": "informal"
+  }
+ ],
+ "room_not_ready": [
+  {
+   "text": "Phòng của Quý khách chưa sẵn sàng. Khoảng 14 giờ sẽ có phòng ạ.",
+   "register": "formal"
+  },
+  {
+   "text": "Phòng của bạn chưa xong. Khoảng 14 giờ là có nhé.",
+   "register": "informal"
+  }
+ ],
+ "leave_luggage": [
+  {
+   "text": "Trong lúc chờ, Quý khách có thể gửi hành lý ở đây ạ.",
+   "register": "formal"
+  },
+  {
+   "text": "Trong lúc chờ, bạn cứ để hành lý ở đây nhé.",
+   "register": "informal"
+  }
+ ],
+ "room_number": [
+  {
+   "text": "Phòng của Quý khách là phòng 214, ở tầng hai ạ.",
+   "register": "formal"
+  },
+  {
+   "text": "Phòng bạn là 214, ở tầng hai nhé.",
+   "register": "informal"
+  }
+ ],
+ "elevator": [
+  {
+   "text": "Thang máy ở bên phải ạ.",
+   "register": "formal"
+  }
+ ],
+ "key_card": [
+  {
+   "text": "Đây là thẻ phòng của Quý khách. Thẻ dùng để mở cửa phòng và đi thang máy ạ.",
+   "register": "formal"
+  },
+  {
+   "text": "Thẻ phòng của bạn đây. Dùng mở cửa phòng và đi thang máy nhé.",
+   "register": "informal"
+  }
+ ],
+ "wifi_code": [
+  {
+   "text": "Mật khẩu wifi được ghi trên tấm thẻ này ạ.",
+   "register": "formal"
+  }
+ ],
+ "breakfast_hours": [
+  {
+   "text": "Bữa sáng được phục vụ từ 7 giờ đến 10 giờ 30 ạ.",
+   "register": "formal"
+  }
+ ],
+ "checkout_time": [
+  {
+   "text": "Quý khách vui lòng trả phòng trước 11 giờ ạ.",
+   "register": "formal"
+  }
+ ],
+ "no_booking_found": [
+  {
+   "text": "Tôi không tìm thấy đặt phòng của Quý khách. Quý khách có mã xác nhận không ạ?",
+   "register": "formal"
+  },
+  {
+   "text": "Mình không tìm thấy đặt phòng của bạn. Bạn có mã xác nhận không?",
+   "register": "informal"
+  }
+ ],
+ "booked_online": [
+  {
+   "text": "Tôi đã đặt phòng qua mạng.",
+   "register": "formal"
+  }
+ ],
+ "early_checkin": [
+  {
+   "text": "Tôi có thể nhận phòng sớm hơn được không?",
+   "register": "formal"
+  }
+ ],
+ "hotel_full": [
+  {
+   "text": "Xin lỗi Quý khách, tối nay khách sạn đã hết phòng.",
+   "register": "formal"
+  }
+ ],
+ "pay_now_or_later": [
+  {
+   "text": "Quý khách muốn thanh toán bây giờ hay khi trả phòng ạ?",
+   "register": "formal"
+  },
+  {
+   "text": "Bạn muốn trả tiền luôn hay lúc trả phòng?",
+   "register": "informal"
+  }
+ ],
+ "deposit": [
+  {
+   "text": "Chúng tôi xin đặt cọc 100 euro, sẽ hoàn lại khi Quý khách trả phòng.",
+   "register": "formal"
+  }
+ ],
+ "card_or_cash": [
+  {
+   "text": "Quý khách thanh toán bằng thẻ hay tiền mặt ạ?",
+   "register": "formal"
+  },
+  {
+   "text": "Bạn trả bằng thẻ hay tiền mặt?",
+   "register": "informal"
+  }
+ ],
+ "city_tax": [
+  {
+   "text": "Thuế lưu trú là 2 euro mỗi người mỗi đêm ạ.",
+   "register": "formal"
+  }
+ ],
+ "tax_not_included": [
+  {
+   "text": "Thuế lưu trú chưa bao gồm trong giá đặt phòng ạ.",
+   "register": "formal"
+  }
+ ],
+ "card_declined": [
+  {
+   "text": "Thẻ của Quý khách bị từ chối. Quý khách có thẻ khác không ạ?",
+   "register": "formal"
+  },
+  {
+   "text": "Thẻ của bạn bị từ chối rồi. Bạn có thẻ khác không?",
+   "register": "informal"
+  }
+ ],
+ "enter_pin": [
+  {
+   "text": "Quý khách có thể nhập mã PIN ạ.",
+   "register": "formal"
+  },
+  {
+   "text": "Bạn nhập mã PIN đi.",
+   "register": "informal"
+  }
+ ],
+ "receipt": [
+  {
+   "text": "Quý khách có lấy biên lai không ạ?",
+   "register": "formal"
+  },
+  {
+   "text": "Bạn có lấy biên lai không?",
+   "register": "informal"
+  }
+ ],
+ "invoice_company": [
+  {
+   "text": "Có thể xuất hóa đơn theo tên công ty tôi được không?",
+   "register": "formal"
+  }
+ ],
+ "breakfast_included": [
+  {
+   "text": "Giá đã bao gồm bữa sáng chưa?",
+   "register": "formal"
+  }
+ ],
+ "price_night": [
+  {
+   "text": "Một đêm bao nhiêu tiền?",
+   "register": "formal"
+  }
+ ],
+ "cheaper_room": [
+  {
+   "text": "Có phòng nào rẻ hơn không?",
+   "register": "formal"
+  }
+ ],
+ "room_view": [
+  {
+   "text": "Phòng này nhìn ra biển ạ.",
+   "register": "formal"
+  }
+ ],
+ "double_twin": [
+  {
+   "text": "Quý khách thích một giường đôi hay hai giường đơn ạ?",
+   "register": "formal"
+  },
+  {
+   "text": "Bạn thích giường đôi hay hai giường?",
+   "register": "informal"
+  }
+ ],
+ "extra_bed": [
+  {
+   "text": "Chúng tôi có thể kê thêm một giường cho bé ạ.",
+   "register": "formal"
+  }
+ ],
+ "baby_cot": [
+  {
+   "text": "Có nôi em bé miễn phí ạ.",
+   "register": "formal"
+  }
+ ],
+ "air_con": [
+  {
+   "text": "Điều khiển máy lạnh ở trên tủ đầu giường ạ.",
+   "register": "formal"
+  }
+ ],
+ "safe": [
+  {
+   "text": "Trong tủ quần áo có két sắt ạ.",
+   "register": "formal"
+  }
+ ],
+ "minibar": [
+  {
+   "text": "Đồ uống trong minibar có tính phí ạ.",
+   "register": "formal"
+  }
+ ],
+ "non_smoking": [
+  {
+   "text": "Tất cả các phòng đều không hút thuốc ạ.",
+   "register": "formal"
+  }
+ ],
+ "quiet_room": [
+  {
+   "text": "Cho tôi một phòng yên tĩnh nhé.",
+   "register": "formal"
+  }
+ ],
+ "change_room": [
+  {
+   "text": "Tôi có thể đổi phòng được không?",
+   "register": "formal"
+  }
+ ],
+ "hair_dryer": [
+  {
+   "text": "Máy sấy tóc ở trong phòng tắm ạ.",
+   "register": "formal"
+  }
+ ],
+ "adapter": [
+  {
+   "text": "Ở đây có ổ chuyển đổi phích cắm điện không?",
+   "register": "formal"
+  }
+ ],
+ "iron": [
+  {
+   "text": "Cho tôi mượn bàn là được không?",
+   "register": "formal"
+  }
+ ],
+ "extra_pillow": [
+  {
+   "text": "Phiền anh/chị mang thêm cho tôi một cái gối được không?",
+   "register": "formal"
+  }
+ ],
+ "balcony": [
+  {
+   "text": "Phòng có ban công ạ.",
+   "register": "formal"
+  }
+ ],
+ "accessible_room": [
+  {
+   "text": "Chúng tôi có phòng dành cho người đi xe lăn ạ.",
+   "register": "formal"
+  }
+ ],
+ "housekeeping_time": [
+  {
+   "text": "Quý khách muốn chúng tôi dọn phòng lúc mấy giờ ạ?",
+   "register": "formal"
+  },
+  {
+   "text": "Bạn muốn dọn phòng lúc mấy giờ?",
+   "register": "informal"
+  }
+ ],
+ "do_not_disturb": [
+  {
+   "text": "Nếu không muốn bị làm phiền, Quý khách vui lòng treo biển \"Xin đừng làm phiền\" ở cửa ạ.",
+   "register": "formal"
+  },
+  {
+   "text": "Không muốn ai làm phiền thì treo biển \"Xin đừng làm phiền\" lên nhé.",
+   "register": "informal"
+  }
+ ],
+ "clean_now": [
+  {
+   "text": "Tôi có thể dọn phòng bây giờ không ạ?",
+   "register": "formal"
+  },
+  {
+   "text": "Mình dọn phòng bây giờ được không?",
+   "register": "informal"
+  }
+ ],
+ "come_back_later": [
+  {
+   "text": "Lát nữa tôi quay lại ạ.",
+   "register": "formal"
+  }
+ ],
+ "towels": [
+  {
+   "text": "Cho tôi xin mấy chiếc khăn sạch được không?",
+   "register": "formal"
+  }
+ ],
+ "change_sheets": [
+  {
+   "text": "Ga trải giường được thay ba ngày một lần ạ.",
+   "register": "formal"
+  }
+ ],
+ "laundry": [
+  {
+   "text": "Chúng tôi có dịch vụ giặt là. Đồ sẽ được trả vào hôm sau ạ.",
+   "register": "formal"
+  }
+ ],
+ "toilet_paper": [
+  {
+   "text": "Hết giấy vệ sinh rồi.",
+   "register": "formal"
+  }
+ ],
+ "lost_item": [
+  {
+   "text": "Quý khách có bị mất đồ gì không ạ?",
+   "register": "formal"
+  },
+  {
+   "text": "Bạn bị mất gì à?",
+   "register": "informal"
+  }
+ ],
+ "found_item": [
+  {
+   "text": "Chúng tôi tìm thấy món đồ này trong phòng của Quý khách.",
+   "register": "formal"
+  },
+  {
+   "text": "Bọn mình tìm thấy cái này trong phòng bạn.",
+   "register": "informal"
+  }
+ ],
+ "table_for": [
+  {
+   "text": "Quý khách cần bàn cho mấy người ạ?",
+   "register": "formal"
+  },
+  {
+   "text": "Bàn cho mấy người?",
+   "register": "informal"
+  }
+ ],
+ "breakfast_room": [
+  {
+   "text": "Bữa sáng được phục vụ ở tầng trệt, cạnh quầy lễ tân ạ.",
+   "register": "formal"
+  }
+ ],
+ "buffet": [
+  {
+   "text": "Đây là tiệc buffet, Quý khách cứ tự nhiên lấy ạ.",
+   "register": "formal"
+  },
+  {
+   "text": "Buffet đó, bạn cứ tự lấy nhé.",
+   "register": "informal"
+  }
+ ],
+ "coffee_or_tea": [
+  {
+   "text": "Quý khách dùng cà phê hay trà ạ?",
+   "register": "formal"
+  }
+ ],
+ "allergy": [
+  {
+   "text": "Quý khách có bị dị ứng thực phẩm không ạ?",
+   "register": "formal"
+  },
+  {
+   "text": "Bạn có dị ứng đồ ăn gì không?",
+   "register": "informal"
+  }
+ ],
+ "vegetarian": [
+  {
+   "text": "Chúng tôi có các món chay ạ.",
+   "register": "formal"
+  }
+ ],
+ "halal": [
+  {
+   "text": "Thịt này có phải halal không?",
+   "register": "formal"
+  }
+ ],
+ "gluten_free": [
+  {
+   "text": "Tôi không ăn được gluten.",
+   "register": "formal"
+  }
+ ],
+ "room_service": [
+  {
+   "text": "Dịch vụ phục vụ tại phòng hoạt động đến 22 giờ ạ.",
+   "register": "formal"
+  }
+ ],
+ "charge_room": [
+  {
+   "text": "Tôi tính vào tiền phòng của Quý khách nhé?",
+   "register": "formal"
+  },
+  {
+   "text": "Mình tính vào tiền phòng của bạn nhé?",
+   "register": "informal"
+  }
+ ],
+ "restaurant_closed": [
+  {
+   "text": "Tối nay nhà hàng đóng cửa ạ.",
+   "register": "formal"
+  }
+ ],
+ "recommend_restaurant": [
+  {
+   "text": "Tôi có thể giới thiệu cho Quý khách một nhà hàng ngon ngay gần đây.",
+   "register": "formal"
+  },
+  {
+   "text": "Mình giới thiệu cho bạn một quán ngon ngay gần đây nhé.",
+   "register": "informal"
+  }
+ ],
+ "enjoy_meal": [
+  {
+   "text": "Chúc Quý khách ngon miệng!",
+   "register": "formal"
+  }
+ ],
+ "problem_room": [
+  {
+   "text": "Phòng tôi có vấn đề.",
+   "register": "formal"
+  }
+ ],
+ "ac_broken": [
+  {
+   "text": "Máy lạnh không chạy.",
+   "register": "formal"
+  }
+ ],
+ "no_hot_water": [
+  {
+   "text": "Không có nước nóng.",
+   "register": "formal"
+  }
+ ],
+ "wifi_not_working": [
+  {
+   "text": "Wifi không vào được.",
+   "register": "formal"
+  }
+ ],
+ "too_noisy": [
+  {
+   "text": "Ồn quá, tôi không ngủ được.",
+   "register": "formal"
+  }
+ ],
+ "room_dirty": [
+  {
+   "text": "Phòng không sạch.",
+   "register": "formal"
+  }
+ ],
+ "card_not_working": [
+  {
+   "text": "Thẻ của tôi không mở được cửa nữa.",
+   "register": "formal"
+  }
+ ],
+ "locked_out": [
+  {
+   "text": "Tôi để quên thẻ trong phòng rồi.",
+   "register": "formal"
+  }
+ ],
+ "sorry_problem": [
+  {
+   "text": "Tôi thành thật xin lỗi Quý khách về sự cố này.",
+   "register": "formal"
+  }
+ ],
+ "send_technician": [
+  {
+   "text": "Tôi cho người lên phòng Quý khách ngay ạ.",
+   "register": "formal"
+  },
+  {
+   "text": "Mình cho người lên phòng bạn ngay nhé.",
+   "register": "informal"
+  }
+ ],
+ "fixed_soon": [
+  {
+   "text": "Chậm nhất trong một tiếng nữa sẽ sửa xong ạ.",
+   "register": "formal"
+  }
+ ],
+ "offer_new_room": [
+  {
+   "text": "Tôi xin đổi cho Quý khách một phòng khác ạ.",
+   "register": "formal"
+  },
+  {
+   "text": "Mình đổi cho bạn phòng khác nhé.",
+   "register": "informal"
+  }
+ ],
+ "compensation": [
+  {
+   "text": "Để xin lỗi, chúng tôi xin mời Quý khách bữa sáng miễn phí.",
+   "register": "formal"
+  },
+  {
+   "text": "Để xin lỗi, bữa sáng của bạn miễn phí nhé.",
+   "register": "informal"
+  }
+ ],
+ "manager": [
+  {
+   "text": "Tôi muốn nói chuyện với người quản lý.",
+   "register": "formal"
+  }
+ ],
+ "complaint_noted": [
+  {
+   "text": "Tôi đã ghi nhận khiếu nại của Quý khách. Người quản lý sẽ gọi lại cho Quý khách ạ.",
+   "register": "formal"
+  },
+  {
+   "text": "Mình ghi lại khiếu nại của bạn rồi. Quản lý sẽ gọi lại cho bạn.",
+   "register": "informal"
+  }
+ ],
+ "taxi": [
+  {
+   "text": "Quý khách có muốn tôi gọi taxi không ạ?",
+   "register": "formal"
+  },
+  {
+   "text": "Bạn có muốn mình gọi taxi không?",
+   "register": "informal"
+  }
+ ],
+ "airport_transfer": [
+  {
+   "text": "Chúng tôi có xe đưa đón sân bay. Quý khách cần đặt trước một ngày ạ.",
+   "register": "formal"
+  }
+ ],
+ "how_far": [
+  {
+   "text": "Đi bộ có xa không?",
+   "register": "formal"
+  }
+ ],
+ "ten_minutes_walk": [
+  {
+   "text": "Đi bộ mất khoảng mười phút ạ.",
+   "register": "formal"
+  }
+ ],
+ "map": [
+  {
+   "text": "Đây là bản đồ thành phố ạ.",
+   "register": "formal"
+  }
+ ],
+ "bus_stop": [
+  {
+   "text": "Trạm xe buýt ở ngay trước khách sạn ạ.",
+   "register": "formal"
+  }
+ ],
+ "parking": [
+  {
+   "text": "Phí đỗ xe là 15 euro một ngày ạ.",
+   "register": "formal"
+  }
+ ],
+ "nearest_pharmacy": [
+  {
+   "text": "Hiệu thuốc gần nhất ở đâu?",
+   "register": "formal"
+  }
+ ],
+ "atm": [
+  {
+   "text": "Tôi có thể rút tiền ở đâu?",
+   "register": "formal"
+  }
+ ],
+ "book_tour": [
+  {
+   "text": "Tôi có thể đặt tour có hướng dẫn viên cho Quý khách ạ.",
+   "register": "formal"
+  },
+  {
+   "text": "Mình đặt tour có hướng dẫn viên cho bạn được đó.",
+   "register": "informal"
+  }
+ ],
+ "safe_area": [
+  {
+   "text": "Khu này buổi tối có an toàn không?",
+   "register": "formal"
+  }
+ ],
+ "doctor": [
+  {
+   "text": "Tôi cần gặp bác sĩ.",
+   "register": "formal"
+  }
+ ],
+ "call_doctor": [
+  {
+   "text": "Tôi sẽ gọi bác sĩ cho Quý khách ạ.",
+   "register": "formal"
+  },
+  {
+   "text": "Mình gọi bác sĩ cho bạn nhé.",
+   "register": "informal"
+  }
+ ],
+ "emergency": [
+  {
+   "text": "Trong trường hợp khẩn cấp, xin vui lòng gọi 112.",
+   "register": "formal"
+  }
+ ],
+ "first_aid": [
+  {
+   "text": "Quầy lễ tân có hộp sơ cứu ạ.",
+   "register": "formal"
+  }
+ ],
+ "fire_exit": [
+  {
+   "text": "Lối thoát hiểm ở cuối hành lang ạ.",
+   "register": "formal"
+  }
+ ],
+ "fire_alarm": [
+  {
+   "text": "Chuông báo cháy đang kêu: Quý khách vui lòng thoát ra bằng cầu thang bộ, không dùng thang máy.",
+   "register": "formal"
+  }
+ ],
+ "checkout_question": [
+  {
+   "text": "Hôm nay Quý khách trả phòng phải không ạ?",
+   "register": "formal"
+  },
+  {
+   "text": "Hôm nay bạn đi à?",
+   "register": "informal"
+  }
+ ],
+ "late_checkout": [
+  {
+   "text": "Tôi có thể trả phòng muộn hơn không?",
+   "register": "formal"
+  }
+ ],
+ "late_checkout_fee": [
+  {
+   "text": "Trả phòng muộn đến 14 giờ có phí 30 euro ạ.",
+   "register": "formal"
+  }
+ ],
+ "minibar_used": [
+  {
+   "text": "Quý khách có dùng gì trong minibar không ạ?",
+   "register": "formal"
+  },
+  {
+   "text": "Bạn có lấy gì trong minibar không?",
+   "register": "informal"
+  }
+ ],
+ "here_invoice": [
+  {
+   "text": "Đây là hóa đơn của Quý khách ạ.",
+   "register": "formal"
+  },
+  {
+   "text": "Hóa đơn của bạn đây.",
+   "register": "informal"
+  }
+ ],
+ "invoice_email": [
+  {
+   "text": "Quý khách có muốn nhận hóa đơn qua email không ạ?",
+   "register": "formal"
+  },
+  {
+   "text": "Bạn có muốn nhận hóa đơn qua email không?",
+   "register": "informal"
+  }
+ ],
+ "keep_luggage_after": [
+  {
+   "text": "Sau khi trả phòng, chúng tôi có thể giữ hành lý giúp Quý khách ạ.",
+   "register": "formal"
+  },
+  {
+   "text": "Trả phòng xong bọn mình vẫn giữ hành lý giúp bạn được.",
+   "register": "informal"
+  }
+ ],
+ "enjoyed_stay": [
+  {
+   "text": "Quý khách có hài lòng với kỳ nghỉ không ạ?",
+   "register": "formal"
+  },
+  {
+   "text": "Bạn ở có vui không?",
+   "register": "informal"
+  }
+ ],
+ "leave_review": [
+  {
+   "text": "Nếu hài lòng, Quý khách có thể để lại đánh giá trên mạng ạ.",
+   "register": "formal"
+  },
+  {
+   "text": "Nếu thấy hài lòng thì bạn để lại đánh giá trên mạng nhé.",
+   "register": "informal"
+  }
+ ],
+ "goodbye": [
+  {
+   "text": "Cảm ơn Quý khách và chúc thượng lộ bình an!",
+   "register": "formal"
+  }
+ ],
+ "colleague_help": [
+  {
+   "text": "Bạn ra quầy lễ tân giúp mình được không?",
+   "register": "informal"
+  }
+ ],
+ "room_free": [
+  {
+   "text": "Phòng 214 trống và đã dọn sạch rồi.",
+   "register": "informal"
+  }
+ ],
+ "guest_waiting": [
+  {
+   "text": "Có một khách đang đợi ở quầy lễ tân.",
+   "register": "informal"
+  }
+ ],
+ "vip_arrival": [
+  {
+   "text": "Có một khách quan trọng đến lúc 15 giờ.",
+   "register": "informal"
+  }
+ ],
+ "shift_change": [
+  {
+   "text": "Mình hết ca lúc 18 giờ, ai thay mình?",
+   "register": "informal"
+  }
+ ],
+ "broken_report": [
+  {
+   "text": "Vòi sen phòng 305 bị rò nước, phải báo kỹ thuật.",
+   "register": "informal"
+  }
+ ]
+}
