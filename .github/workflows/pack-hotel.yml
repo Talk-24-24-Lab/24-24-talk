@@ -19,7 +19,8 @@ jobs:
           python3 -c "
           import json
           d=json.load(open('pack-hotel/demande.json'))
-          print('m='+json.dumps({'include':[{'l':l,'t':t,'mode':d.get('mode','aller')} for l in d['langues'].split() for t in d.get('lots','0 1 2 3').split()]}))" >> $GITHUB_OUTPUT
+          P=[x.split(':') for x in d['paires'].split()] if d.get('paires') else [(l,t) for l in d['langues'].split() for t in d.get('lots','0 1 2 3').split()]
+          print('m='+json.dumps({'include':[{'l':l,'t':t,'mode':d.get('mode','aller')} for l,t in P]}))" >> $GITHUB_OUTPUT
   trad:
     needs: plan
     runs-on: ubuntu-latest
