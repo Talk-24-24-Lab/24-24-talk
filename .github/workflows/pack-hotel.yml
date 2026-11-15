@@ -5,7 +5,7 @@ on:
     branches: [claude/project-thread-a9v28q]
     paths: ["pack-hotel/demande.json"]
 permissions:
-  contents: read
+  contents: write
 jobs:
   plan:
     runs-on: ubuntu-latest
@@ -35,3 +35,18 @@ jobs:
       - run: node pack-hotel/robot.mjs ${{ matrix.l }} ${{ matrix.t }} 4 ${{ matrix.mode }}
       - uses: actions/upload-artifact@v4
         with: { name: "hotel-${{ matrix.l }}-${{ matrix.t }}-${{ matrix.mode }}", path: resultats/ }
+  recolte:
+    needs: trad
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { path: art, pattern: "hotel-*", merge-multiple: true }
+      - run: |
+          mkdir -p pack-hotel/resultats
+          cp art/*.json pack-hotel/resultats/ 2>/dev/null || true
+          git config user.name "robot-pack-hotel"; git config user.email "robot@users.noreply.github.com"
+          git add pack-hotel/resultats
+          git commit -qm "Pack Hôtel : résultats du robot (run ${{ github.run_id }})" || exit 0
+          for i in 1 2 3 4; do git pull -q --rebase origin claude/project-thread-a9v28q && git push -q origin HEAD:claude/project-thread-a9v28q && break; sleep 5; done
