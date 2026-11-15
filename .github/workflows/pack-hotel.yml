@@ -20,7 +20,7 @@ jobs:
           import json
           d=json.load(open('pack-hotel/demande.json'))
           P=[x.split(':') for x in d['paires'].split()] if d.get('paires') else [(l,t) for l in d['langues'].split() for t in d.get('lots','0 1 2 3').split()]
-          print('m='+json.dumps({'include':[{'l':l,'t':t,'mode':d.get('mode','aller')} for l,t in P]}))" >> $GITHUB_OUTPUT
+          print('m='+json.dumps({'include':[{'l':l,'t':t,'mode':d.get('mode','aller'),'p':d.get('pack','pack-hotel')} for l,t in P]}))" >> $GITHUB_OUTPUT
   trad:
     needs: plan
     runs-on: ubuntu-latest
@@ -30,12 +30,12 @@ jobs:
       matrix: ${{ fromJSON(needs.plan.outputs.m) }}
     steps:
       - uses: actions/checkout@v4
-        with: { sparse-checkout: pack-hotel }
+        with: { sparse-checkout: "${{ matrix.p }}" }
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
-      - run: node pack-hotel/robot.mjs ${{ matrix.l }} ${{ matrix.t }} 4 ${{ matrix.mode }}
+      - run: node ${{ matrix.p }}/robot.mjs ${{ matrix.l }} ${{ matrix.t }} 4 ${{ matrix.mode }}
       - uses: actions/upload-artifact@v4
-        with: { name: "hotel-${{ matrix.l }}-${{ matrix.t }}-${{ matrix.mode }}", path: resultats/ }
+        with: { name: "${{ matrix.p }}-${{ matrix.l }}-${{ matrix.t }}-${{ matrix.mode }}", path: resultats/ }
   recolte:
     needs: trad
     if: always()
@@ -43,11 +43,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
-        with: { path: art, pattern: "hotel-*", merge-multiple: true }
+        with: { path: art, pattern: "pack-*", merge-multiple: true }
       - run: |
-          mkdir -p pack-hotel/resultats
-          cp art/*.json pack-hotel/resultats/ 2>/dev/null || true
+          P=$(python3 -c "import json;print(json.load(open('pack-hotel/demande.json')).get('pack','pack-hotel'))")
+          mkdir -p $P/resultats
+          cp art/*.json $P/resultats/ 2>/dev/null || true
           git config user.name "robot-pack-hotel"; git config user.email "robot@users.noreply.github.com"
-          git add pack-hotel/resultats
+          git add pack-*/resultats
           git commit -qm "Pack Hôtel : résultats du robot (run ${{ github.run_id }})" || exit 0
           for i in 1 2 3 4; do git pull -q --rebase origin claude/project-thread-a9v28q && git push -q origin HEAD:claude/project-thread-a9v28q && break; sleep 5; done
