@@ -3,14 +3,15 @@
 set -euo pipefail
 A=android/app/src/main
 mkdir -p $A/java/com/oneworld2424/app $A/assets
-cp native/MainActivity.java $A/java/com/oneworld2424/app/MainActivity.java
+cp native/MainActivity.java native/OwVeilleService.java native/OwVeillePlugin.java $A/java/com/oneworld2424/app/
 cp native/polyfill.js $A/assets/ow-polyfill.js
 python3 - <<'PY'
 p="android/app/src/main/AndroidManifest.xml"; s=open(p).read()
-perms=["RECORD_AUDIO","MODIFY_AUDIO_SETTINGS","CAMERA","WAKE_LOCK","POST_NOTIFICATIONS"]
+perms=["RECORD_AUDIO","MODIFY_AUDIO_SETTINGS","CAMERA","WAKE_LOCK","POST_NOTIFICATIONS","FOREGROUND_SERVICE","FOREGROUND_SERVICE_MICROPHONE"]
 add="".join('    <uses-permission android:name="android.permission.%s" />\n'%x for x in perms if x not in s)
 add+='    <queries>\n        <intent><action android:name="android.speech.RecognitionService" /></intent>\n        <intent><action android:name="android.intent.action.TTS_SERVICE" /></intent>\n    </queries>\n'
-s=s.replace("</manifest>",add+"</manifest>"); open(p,"w").write(s)
+s=s.replace("</manifest>",add+"</manifest>")
+s=s.replace("</application>",'        <service android:name=".OwVeilleService" android:exported="false" android:foregroundServiceType="microphone" />\n    </application>',1); open(p,"w").write(s)
 g="android/app/build.gradle"; t=open(g).read()
 t=t.replace("dependencies {","dependencies {\n    implementation \"androidx.webkit:webkit:1.11.0\"",1); open(g,"w").write(t)
 PY

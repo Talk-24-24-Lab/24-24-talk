@@ -13,6 +13,15 @@
     clearTimeout(sleepTimer);
     sleepTimer = setTimeout(function () { try { K.allowSleep(); } catch (e) {} }, 120000);
   }
+  // Écran éteint : pendant une conversation, un service « micro » garde l'appli en vie (notification).
+  // Il s'arrête tout seul 90 s après la dernière écoute.
+  var veilleStop = null;
+  function veille(on) {
+    var V = P("OwVeille"); if (!V) return;
+    clearTimeout(veilleStop);
+    if (on) { try { V.start(); } catch (e) {} }
+    else veilleStop = setTimeout(function () { try { V.stop(); } catch (e) {} }, 90000);
+  }
   function Rec() {
     this.lang = "fr-FR"; this.interimResults = false; this.continuous = false; this.maxAlternatives = 1;
     this.onresult = this.onerror = this.onend = this.onstart = null;
@@ -23,13 +32,14 @@
   Rec.prototype.removeEventListener = function (t, f) { this._ls[t] = (this._ls[t] || []).filter(function (x) { return x !== f; }); };
   Rec.prototype._fire = function (t, ev) {
     ev = ev || {}; ev.type = t;
+    if (t === "end") veille(false);
     try { if (typeof this["on" + t] === "function") this["on" + t](ev); } catch (e) { setTimeout(function () { throw e; }); }
     (this._ls[t] || []).forEach(function (f) { try { f(ev); } catch (e) {} });
   };
   Rec.prototype.start = function () {
     var self = this, SR = P("SpeechRecognition");
     if (!SR) { setTimeout(function () { self._fire("error", { error: "not-allowed" }); self._fire("end"); }); return; }
-    self._live = true; awake();
+    self._live = true; awake(); veille(true);
     SR.requestPermissions().then(function (p) {
       if (p && p.speechRecognition && p.speechRecognition !== "granted") throw { error: "not-allowed" };
       self._fire("start"); self._fire("audiostart"); self._fire("soundstart"); self._fire("speechstart");

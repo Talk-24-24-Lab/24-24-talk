@@ -11,6 +11,7 @@ import java.util.Collections;
 public class MainActivity extends BridgeActivity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
+    registerPlugin(OwVeillePlugin.class);
     super.onCreate(savedInstanceState);
     try {
       if (WebViewFeature.isFeatureSupported(WebViewFeature.DOCUMENT_START_SCRIPT)) {
@@ -26,4 +27,18 @@ public class MainActivity extends BridgeActivity {
       android.util.Log.e("OneWorld", "polyfill", e);
     }
   }
+
+  // Écran éteint pendant une traduction : la page continue de tourner.
+  private void garderPage() {
+    if (OwVeillePlugin.actif && getBridge() != null) {
+      getBridge().getWebView().onResume();
+      getBridge().getWebView().resumeTimers();
+    }
+  }
+
+  @Override
+  public void onPause() { super.onPause(); garderPage(); }
+
+  @Override
+  public void onStop() { super.onStop(); garderPage(); }
 }
