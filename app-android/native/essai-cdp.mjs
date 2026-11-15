@@ -24,6 +24,8 @@ try {
   rec("Lecture à voix haute « Bonjour » (info)", true, tts);
   const cam = await ev("navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}}).then(st=>{const t=st.getVideoTracks()[0];const c=t.getCapabilities?t.getCapabilities():{};const r='caméra ouverte : '+t.label+' · flash '+(c.torch?'disponible':'non signalé');st.getTracks().forEach(x=>x.stop());return r}).catch(e=>'refus '+e.name)");
   rec("Caméra arrière ouverte dans l'appli (scan de document)", /caméra ouverte/.test(cam || ""), cam);
+  const torch = await ev("navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}}).then(st=>new Promise(r=>{setTimeout(()=>{const b=document.getElementById('owTorch');if(!b){st.getTracks().forEach(x=>x.stop());return r('pas de bouton')}b.click();setTimeout(()=>{const on=b.dataset.on;st.getVideoTracks()[0].stop();setTimeout(()=>r('bouton présent · allumé='+on+' · retiré à la fermeture='+!document.getElementById('owTorch')),300)},800)},300)})).catch(e=>'refus '+e.name)");
+  rec("Bouton lampe 🔦 pendant le scan (info)", true, torch);
   const err = await ev("String((document.body&&document.body.innerText||'').slice(0,160)).replace(/\\s+/g,' ')");
   rec("Texte affiché (début)", !!err, err);
   out.ok = out.checks.slice(0, 6).every((c) => c.ok);

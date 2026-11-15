@@ -76,4 +76,37 @@
   };
   try { Object.defineProperty(window, "speechSynthesis", { configurable: true, get: function () { return synth; } }); } catch (e) { window.speechSynthesis = synth; }
   window.SpeechSynthesisUtterance = Utt;
+
+  // Lampe (flash) pendant le scan d'un document : quand le site ouvre la caméra arrière et que le téléphone a un flash,
+  // un bouton 🔦 apparaît en bas à droite ; il disparaît quand la caméra se ferme.
+  function torchButton(track) {
+    var old = document.getElementById("owTorch"); if (old) old.remove();
+    var on = false, b = document.createElement("button");
+    b.id = "owTorch"; b.type = "button"; b.textContent = "🔦"; b.setAttribute("aria-label", "Lampe");
+    b.style.cssText = "position:fixed;right:16px;bottom:96px;z-index:2147483647;width:56px;height:56px;border-radius:50%;border:2px solid #fff;background:rgba(0,0,0,.6);color:#fff;font-size:26px";
+    b.addEventListener("click", function () {
+      on = !on;
+      track.applyConstraints({ advanced: [{ torch: on }] }).then(function () { b.style.background = on ? "#f5c400" : "rgba(0,0,0,.6)"; b.dataset.on = on ? "1" : "0"; }, function () { on = !on; });
+    });
+    (document.body || document.documentElement).appendChild(b);
+    var gone = function () { b.remove(); };
+    track.addEventListener("ended", gone);
+    var st = track.stop.bind(track); track.stop = function () { gone(); st(); };
+  }
+  function hookCam() {
+    var md = navigator.mediaDevices; if (!md || !md.getUserMedia || md.__owHook) return;
+    md.__owHook = true;
+    var orig = md.getUserMedia.bind(md);
+    md.getUserMedia = function (c) {
+      return orig(c).then(function (stream) {
+        try {
+          var t = stream.getVideoTracks()[0], cap = t && t.getCapabilities ? t.getCapabilities() : {};
+          if (t && cap.torch) torchButton(t);
+        } catch (e) {}
+        return stream;
+      });
+    };
+  }
+  hookCam();
+  document.addEventListener("DOMContentLoaded", hookCam);
 })();
