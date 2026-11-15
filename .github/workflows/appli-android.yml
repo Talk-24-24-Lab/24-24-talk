@@ -20,8 +20,13 @@ jobs:
       - name: Garder la clé de signature
         uses: actions/cache@v4
         with:
-          path: ~/.android/debug.keystore
-          key: ow-cle-signature-v1
+          path: ~/ow-signature
+          key: ow-cle-signature-v2
+      - name: Créer la clé de signature (une seule fois)
+        run: |
+          mkdir -p ~/ow-signature
+          [ -f ~/ow-signature/ow.jks ] || keytool -genkeypair -v -keystore ~/ow-signature/ow.jks -storetype PKCS12 -storepass android -keypass android -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=24-24 ONE WORLD, O=24-24 ONE WORLD, C=FR"
+          echo "OW_KEYSTORE=$HOME/ow-signature/ow.jks" >> $GITHUB_ENV
       - name: Préparer le projet Android (Capacitor)
         working-directory: app-android
         run: |
@@ -35,7 +40,7 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon -q
           ls -la app/build/outputs/apk/debug/
-          echo "Empreinte de la clé de signature :"; keytool -list -keystore ~/.android/debug.keystore -storepass android 2>/dev/null | grep -i "SHA-256" || true
+          echo "Empreinte de la clé de signature :"; keytool -list -keystore ~/ow-signature/ow.jks -storepass android 2>/dev/null | grep -i "SHA-256" || true
       - name: Activer KVM pour le téléphone virtuel
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules

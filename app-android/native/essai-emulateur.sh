@@ -6,8 +6,10 @@ for i in $(seq 1 30); do adb shell ping -c 1 -W 2 sebastienchevrier.github.io >/
 # Mise à jour : on installe d'abord la version publiée, puis la nouvelle par-dessus (comme sur le téléphone de Sébastien).
 curl -sL -o ancienne.apk https://github.com/Talk-24-24-Lab/24-24-talk/releases/download/android/one-world.apk
 adb install ancienne.apk >/dev/null 2>&1
-if adb install -r "$APK" 2>&1 | tee maj.txt | grep -q Success; then echo "MAJ OK : la nouvelle version s'installe par-dessus la version publiée" | tee essai-maj.txt
-else echo "MAJ REFUSÉE : $(tail -1 maj.txt)" | tee essai-maj.txt; adb uninstall com.oneworld2424.app; adb install "$APK"; fi
+OUT=$(adb install -r "$APK" 2>&1); echo "$OUT"
+if echo "$OUT" | grep -q Success; then echo "MAJ OK : la nouvelle version s'installe par-dessus la version publiée" > essai-maj.txt
+else echo "MAJ REFUSÉE : $(echo "$OUT" | tail -1)" > essai-maj.txt; adb uninstall com.oneworld2424.app; adb install "$APK"; fi
+cat essai-maj.txt
 adb shell pm grant com.oneworld2424.app android.permission.RECORD_AUDIO || true
 adb shell pm grant com.oneworld2424.app android.permission.CAMERA || true
 adb shell pm grant com.oneworld2424.app android.permission.POST_NOTIFICATIONS || true

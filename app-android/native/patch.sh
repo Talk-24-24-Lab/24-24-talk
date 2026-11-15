@@ -15,6 +15,9 @@ s=s.replace("</application>",'        <service android:name=".OwVeilleService" a
 g="android/app/build.gradle"; t=open(g).read()
 import os, re
 run=os.environ.get("GITHUB_RUN_NUMBER","1")
+ks=os.environ.get("OW_KEYSTORE")
+if ks:
+    t=t.replace("android {","android {\n    signingConfigs { debug { storeFile file('%s'); storePassword 'android'; keyAlias 'androiddebugkey'; keyPassword 'android' } }" % ks,1)
 t=re.sub(r"versionCode \d+","versionCode "+run,t,1); t=re.sub(r'versionName "[^"]*"','versionName "1.0.'+run+'"',t,1)
 t=t.replace("dependencies {","dependencies {\n    implementation \"androidx.webkit:webkit:1.11.0\"",1); open(g,"w").write(t)
 PY
