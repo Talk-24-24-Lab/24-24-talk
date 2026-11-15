@@ -39,7 +39,7 @@ jobs:
           api-level: 33
           target: google_apis
           arch: x86_64
-          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -dns-server 8.8.8.8,1.1.1.1
           script: bash app-android/native/essai-emulateur.sh
       - name: Résultat de l'essai
         run: cat essai-resultats.json; tail -30 essai-logcat.txt || true

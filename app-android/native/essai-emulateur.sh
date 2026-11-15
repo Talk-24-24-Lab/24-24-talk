@@ -2,6 +2,7 @@
 # Essai de l'APK sur un téléphone Android virtuel : installe, ouvre, lit l'état de la page par le débogueur de la WebView.
 set -x
 APK=app-android/android/app/build/outputs/apk/debug/app-debug.apk
+for i in $(seq 1 30); do adb shell ping -c 1 -W 2 sebastienchevrier.github.io >/dev/null 2>&1 && { echo "réseau prêt ($i)"; break; }; sleep 3; done
 adb install -r "$APK"
 adb shell pm grant com.oneworld2424.app android.permission.RECORD_AUDIO || true
 adb shell pm grant com.oneworld2424.app android.permission.CAMERA || true
