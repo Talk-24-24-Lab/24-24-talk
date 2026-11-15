@@ -1,8 +1,9 @@
 // Pack complet : contrôle des phrases écrites pour compléter les packs Hôtel et Business.
 // Retraduit chaque phrase vers le français avec MyMemory (gratuit) ; l'assemblage garde celles dont la retraduction est fidèle.
 import fs from "node:fs";
-const [lang, lot, nLots] = process.argv.slice(2);
-const all = JSON.parse(fs.readFileSync(new URL(`./a-verifier/${lang}.json`, import.meta.url)));
+const [lang, lot, nLots, mode] = process.argv.slice(2);
+const r2 = mode === "r2";
+const all = JSON.parse(fs.readFileSync(new URL(`./a-verifier${r2 ? "2" : ""}/${lang}.json`, import.meta.url)));
 const per = Math.ceil(all.length / Number(nLots));
 const part = all.slice(Number(lot) * per, (Number(lot) + 1) * per);
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -28,5 +29,5 @@ for (const it of part) {
   out.push({ ...it, back: b.text || null, err: b.err || null });
 }
 fs.mkdirSync("resultats", { recursive: true });
-fs.writeFileSync(`resultats/${lang}-${lot}.json`, JSON.stringify({ lang, lot: Number(lot), out }, null, 0));
+fs.writeFileSync(`resultats/${lang}-${r2 ? "r2-" : ""}${lot}.json`, JSON.stringify({ lang, lot: Number(lot), out }, null, 0));
 console.log(lang, lot, "ok", out.filter((x) => !x.err).length, "/", out.length, quota ? "QUOTA" : "");
