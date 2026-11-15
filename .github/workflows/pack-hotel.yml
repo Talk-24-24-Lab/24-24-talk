@@ -1,0 +1,36 @@
+name: Pack Hôtel 112 langues
+on:
+  workflow_dispatch:
+    inputs:
+      langues: { description: "codes séparés par des espaces", required: true }
+      lots: { description: "lots à faire, ex. 0 1", default: "0 1 2 3" }
+      mode: { description: "aller (MyMemory) ou retour (vérifier les langues écrites à la main)", default: "aller" }
+permissions:
+  contents: read
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      m: ${{ steps.m.outputs.m }}
+    steps:
+      - id: m
+        run: |
+          python3 -c "
+          import json
+          L='${{ inputs.langues }}'.split(); T='${{ inputs.lots }}'.split()
+          print('m='+json.dumps({'include':[{'l':l,'t':t} for l in L for t in T]}))" >> $GITHUB_OUTPUT
+  trad:
+    needs: plan
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix: ${{ fromJSON(needs.plan.outputs.m) }}
+    steps:
+      - uses: actions/checkout@v4
+        with: { sparse-checkout: pack-hotel }
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: node pack-hotel/robot.mjs ${{ matrix.l }} ${{ matrix.t }} 4 ${{ inputs.mode }}
+      - uses: actions/upload-artifact@v4
+        with: { name: "hotel-${{ matrix.l }}-${{ matrix.t }}-${{ inputs.mode }}", path: resultats/ }
