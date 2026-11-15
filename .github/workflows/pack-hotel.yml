@@ -1,10 +1,9 @@
 name: Pack Hôtel 112 langues
+# Lancé en modifiant pack-hotel/demande.json : {"langues": "sw yo", "lots": "0 1 2 3", "mode": "aller" | "retour"}
 on:
-  workflow_dispatch:
-    inputs:
-      langues: { description: "codes séparés par des espaces", required: true }
-      lots: { description: "lots à faire, ex. 0 1", default: "0 1 2 3" }
-      mode: { description: "aller (MyMemory) ou retour (vérifier les langues écrites à la main)", default: "aller" }
+  push:
+    branches: [claude/project-thread-a9v28q]
+    paths: ["pack-hotel/demande.json"]
 permissions:
   contents: read
 jobs:
@@ -13,12 +12,14 @@ jobs:
     outputs:
       m: ${{ steps.m.outputs.m }}
     steps:
+      - uses: actions/checkout@v4
+        with: { sparse-checkout: pack-hotel }
       - id: m
         run: |
           python3 -c "
           import json
-          L='${{ inputs.langues }}'.split(); T='${{ inputs.lots }}'.split()
-          print('m='+json.dumps({'include':[{'l':l,'t':t} for l in L for t in T]}))" >> $GITHUB_OUTPUT
+          d=json.load(open('pack-hotel/demande.json'))
+          print('m='+json.dumps({'include':[{'l':l,'t':t,'mode':d.get('mode','aller')} for l in d['langues'].split() for t in d.get('lots','0 1 2 3').split()]}))" >> $GITHUB_OUTPUT
   trad:
     needs: plan
     runs-on: ubuntu-latest
@@ -31,6 +32,6 @@ jobs:
         with: { sparse-checkout: pack-hotel }
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
-      - run: node pack-hotel/robot.mjs ${{ matrix.l }} ${{ matrix.t }} 4 ${{ inputs.mode }}
+      - run: node pack-hotel/robot.mjs ${{ matrix.l }} ${{ matrix.t }} 4 ${{ matrix.mode }}
       - uses: actions/upload-artifact@v4
-        with: { name: "hotel-${{ matrix.l }}-${{ matrix.t }}-${{ inputs.mode }}", path: resultats/ }
+        with: { name: "hotel-${{ matrix.l }}-${{ matrix.t }}-${{ matrix.mode }}", path: resultats/ }
