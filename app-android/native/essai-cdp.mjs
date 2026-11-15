@@ -22,6 +22,8 @@ try {
   rec("Écoute disponible sur ce téléphone virtuel (info)", true, avail);
   const tts = await ev("new Promise(r=>{const u=new SpeechSynthesisUtterance('Bonjour');u.lang='fr-FR';u.onend=()=>r('lu');u.onerror=e=>r('erreur '+e.error);speechSynthesis.speak(u);setTimeout(()=>r('pas de réponse en 15 s'),15000);})");
   rec("Lecture à voix haute « Bonjour » (info)", true, tts);
+  const cam = await ev("navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}}).then(st=>{const t=st.getVideoTracks()[0];const c=t.getCapabilities?t.getCapabilities():{};const r='caméra ouverte : '+t.label+' · flash '+(c.torch?'disponible':'non signalé');st.getTracks().forEach(x=>x.stop());return r}).catch(e=>'refus '+e.name)");
+  rec("Caméra arrière ouverte dans l'appli (scan de document)", /caméra ouverte/.test(cam || ""), cam);
   const err = await ev("String((document.body&&document.body.innerText||'').slice(0,160)).replace(/\\s+/g,' ')");
   rec("Texte affiché (début)", !!err, err);
   out.ok = out.checks.slice(0, 6).every((c) => c.ok);
