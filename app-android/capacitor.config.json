@@ -1,0 +1,10 @@
+{
+  "appId": "com.oneworld2424.app",
+  "appName": "24/24 ONE WORLD",
+  "webDir": "www",
+  "server": {
+    "url": "https://sebastienchevrier.github.io/24-24-talk/",
+    "allowNavigation": ["sebastienchevrier.github.io", "*.supabase.co", "api.mymemory.translated.net"]
+  },
+  "android": { "allowMixedContent": false }
+}
