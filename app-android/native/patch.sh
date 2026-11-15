@@ -18,6 +18,8 @@ run=os.environ.get("GITHUB_RUN_NUMBER","1")
 ks=os.environ.get("OW_KEYSTORE")
 if ks:
     t=t.replace("android {","android {\n    signingConfigs { debug { storeFile file('%s'); storePassword 'android'; keyAlias 'androiddebugkey'; keyPassword 'android' } }" % ks,1)
+# Nouvel identifiant d'appli (15 nov.) : évite tout conflit avec une ancienne version restée sur le téléphone.
+t=re.sub(r'applicationId "[^"]+"','applicationId "com.oneworld2424.monde"',t,1)
 t=re.sub(r"versionCode \d+","versionCode "+run,t,1); t=re.sub(r'versionName "[^"]*"','versionName "1.0.'+run+'"',t,1)
 t=t.replace("dependencies {","dependencies {\n    implementation \"androidx.webkit:webkit:1.11.0\"",1); open(g,"w").write(t)
 PY

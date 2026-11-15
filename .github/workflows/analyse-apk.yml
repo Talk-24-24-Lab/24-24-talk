@@ -39,4 +39,4 @@ jobs:
           script: |
             adb push ow.apk /data/local/tmp/ow.apk
             adb shell pm install -r /data/local/tmp/ow.apk && echo "INSTALL API ${{ matrix.api }} : OK" || echo "INSTALL API ${{ matrix.api }} : ÉCHEC"
-            adb shell dumpsys package com.oneworld2424.app | grep -E "versionName|versionCode|targetSdk|minSdk|flags=" | head -5
+            adb shell dumpsys package com.oneworld2424.monde | grep -E "versionName|versionCode|targetSdk|minSdk|flags=" | head -5
