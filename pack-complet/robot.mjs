@@ -39,7 +39,7 @@ async function gt(q, from) {
 const out = [];
 for (const it of part) {
   let b = await mm(it.text, src, "fr"); await sleep(700);
-  if (b.err && /INVALID/i.test(b.err)) b = await gt(it.text, lang);
+  if ((b.err && /INVALID/i.test(b.err)) || (!b.err && !b.text.trim())) b = await gt(it.text, lang);
   out.push({ ...it, back: b.text || null, err: b.err || null, moteur: b.moteur || "mymemory" });
 }
 fs.mkdirSync("resultats", { recursive: true });
