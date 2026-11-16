@@ -23,10 +23,24 @@ async function mm(q, from, to) {
   }
   return { err: "réseau" };
 }
+// Secours gratuit quand MyMemory ne connaît pas la langue (javanais, tongien…) : point d'accès public de Google Traduction, sans clé.
+const GT = { jv: "jw", "es-MX": "es" };
+async function gt(q, from) {
+  for (let i = 0; i < 3; i++) {
+    try {
+      const r = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${GT[from] || from}&tl=fr&dt=t&q=${encodeURIComponent(q)}`);
+      if (r.status === 429) { await sleep(5000 * (i + 1)); continue; }
+      const j = await r.json();
+      return { text: (j[0] || []).map((x) => x[0]).join(""), moteur: "google" };
+    } catch (e) { await sleep(3000); }
+  }
+  return { err: "réseau" };
+}
 const out = [];
 for (const it of part) {
-  const b = await mm(it.text, src, "fr"); await sleep(700);
-  out.push({ ...it, back: b.text || null, err: b.err || null });
+  let b = await mm(it.text, src, "fr"); await sleep(700);
+  if (b.err && /INVALID/i.test(b.err)) b = await gt(it.text, lang);
+  out.push({ ...it, back: b.text || null, err: b.err || null, moteur: b.moteur || "mymemory" });
 }
 fs.mkdirSync("resultats", { recursive: true });
 fs.writeFileSync(`resultats/${lang}-${r2 ? "r2-" : ""}${lot}.json`, JSON.stringify({ lang, lot: Number(lot), out }, null, 0));
