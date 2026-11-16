@@ -2,7 +2,7 @@
 // Retraduit chaque phrase vers le français avec MyMemory (gratuit) ; l'assemblage garde celles dont la retraduction est fidèle.
 import fs from "node:fs";
 const [lang, lot, nLots, mode] = process.argv.slice(2);
-const suf = { r2: "2", r3: "3", r4: "4", r5: "5", r6: "6", r7: "7" }[mode] || "";
+const suf = { r2: "2", r3: "3", r4: "4", r5: "5", r6: "6", r7: "7", r8: "8" }[mode] || "";
 const all = JSON.parse(fs.readFileSync(new URL(`./a-verifier${suf}/${lang}.json`, import.meta.url)));
 const per = Math.ceil(all.length / Number(nLots));
 const part = all.slice(Number(lot) * per, (Number(lot) + 1) * per);
@@ -41,7 +41,7 @@ for (const it of part) {
   let b = mode === "r4" ? await gt(it.text, lang) : await mm(it.text, src, "fr"); await sleep(mode === "r4" ? 300 : 700);
   if ((b.err && /INVALID/i.test(b.err)) || (!b.err && !b.text.trim())) b = await gt(it.text, lang);
   out.push({ ...it, back: b.text || null, err: b.err || null, moteur: b.moteur || "mymemory" });
-  if (["r5", "r6", "r7"].includes(mode) && b.moteur !== "google") { const g = await gt(it.text, lang); await sleep(300); out.push({ ...it, back: g.text || null, err: g.err || null, moteur: "google" }); }
+  if (["r5", "r6", "r7", "r8"].includes(mode) && b.moteur !== "google") { const g = await gt(it.text, lang); await sleep(300); out.push({ ...it, back: g.text || null, err: g.err || null, moteur: "google" }); }
 }
 fs.mkdirSync("resultats", { recursive: true });
 fs.writeFileSync(`resultats/${lang}-${suf ? mode + "-" : ""}${lot}.json`, JSON.stringify({ lang, lot: Number(lot), out }, null, 0));
