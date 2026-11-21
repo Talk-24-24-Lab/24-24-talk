@@ -9,7 +9,7 @@
   var DSN_KEY = "4d236be6953a509f6a9fc5e80fee3ec8";
   var URL_ENVOI = "https://o4512271356788736.ingest.de.sentry.io/api/4512271364194384/envelope/?sentry_key=" + DSN_KEY + "&sentry_version=7";
   var VERSION = "one-world@0.8.5";
-  if (location.hostname !== "sebastienchevrier.github.io" && !window.__SENTINELLE_TEST) return;
+  if (location.hostname !== "talk-24-24-lab.github.io" && !window.__SENTINELLE_TEST) return;
 
   var envoyes = 0, deja = {};
   // Retire tout ce qui pourrait désigner une personne : paramètres d'adresse (?ajouter=pseudo), jetons, adresses e-mail.
