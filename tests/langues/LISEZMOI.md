@@ -67,3 +67,18 @@ Le dictionnaire vérifié couvre 111 langues, mais seulement des **phrases très
 coûte », « où sont les toilettes »…). Sur les 20 phrases types, il en reconnaît 2 dans la plupart des
 langues, soit 187 traductions sur 2 220. **Plus de 90 % des traductions dépendent donc du moteur en ligne**,
 dont la qualité n'est pas encore mesurée : c'est ce que ce test sert à établir.
+
+## Pack pro : les langues commerciales d'abord
+
+Pour les 10 langues commerciales de l'appli (anglais, espagnol, portugais, allemand, italien, chinois,
+japonais, arabe, russe, malgache), `phrases-pro.tsv` contient 40 phrases professionnelles (accueil, hôtel,
+restaurant, commerce, transport, plage, santé) traduites avec soin, dans les deux sens et entre ces langues.
+L'appli les donne aussitôt, même hors connexion, avec la mention « Phrase pro (relecture native en cours) ».
+
+Ces traductions ont été rédigées par Claude (IA). Elles sont nettement plus sûres que le moteur gratuit,
+mais **elles ne deviennent « vérifiées » qu'après relecture par un locuteur natif**. Le malgache demande
+la relecture la plus attentive.
+
+Pour corriger ou ajouter une phrase : modifier `phrases-pro.tsv` (une ligne par phrase, une colonne par
+langue, séparées par des tabulations), puis `node tests/langues/pack-pro.mjs`, qui recopie le tout dans
+index.html.

@@ -3690,6 +3690,70 @@ function lookupPhrasebook(text, sourceCode, targetCode) {
   return null;
 }
 
+// PRO_PACK_DEBUT — généré par tests/langues/pack-pro.mjs depuis tests/langues/phrases-pro.tsv : ne pas modifier ici.
+// Phrases professionnelles (hôtel, restaurant, commerce, transport, santé) traduites avec soin pour les langues
+// commerciales. Relecture par des locuteurs natifs en cours : l'appli les affiche comme « phrase pro », pas « vérifiée ».
+const PRO_LANGS = ["en","es","pt","de","it","zh","ja","ar","ru","mg"];
+const PRO_PACK = [
+  {"fr":"Bonjour, bienvenue.","en":"Hello, welcome.","es":"Hola, bienvenido.","pt":"Olá, bem-vindo.","de":"Hallo, willkommen.","it":"Buongiorno, benvenuto.","zh":"您好，欢迎光临。","ja":"こんにちは、ようこそ。","ar":"مرحبًا، أهلًا وسهلًا.","ru":"Здравствуйте, добро пожаловать.","mg":"Manao ahoana, tonga soa."},
+  {"fr":"Merci beaucoup pour votre aide.","en":"Thank you very much for your help.","es":"Muchas gracias por su ayuda.","pt":"Muito obrigado pela sua ajuda.","de":"Vielen Dank für Ihre Hilfe.","it":"Grazie mille per il suo aiuto.","zh":"非常感谢您的帮助。","ja":"助けていただき、本当にありがとうございます。","ar":"شكرًا جزيلًا على مساعدتك.","ru":"Большое спасибо за вашу помощь.","mg":"Misaotra betsaka tamin'ny fanampianao."},
+  {"fr":"Combien ça coûte ?","en":"How much does it cost?","es":"¿Cuánto cuesta?","pt":"Quanto custa?","de":"Wie viel kostet das?","it":"Quanto costa?","zh":"这个多少钱？","ja":"これはいくらですか？","ar":"كم ثمن هذا؟","ru":"Сколько это стоит?","mg":"Ohatrinona ity?"},
+  {"fr":"Où sont les toilettes ?","en":"Where are the toilets?","es":"¿Dónde están los baños?","pt":"Onde ficam os sanitários?","de":"Wo sind die Toiletten?","it":"Dove sono i bagni?","zh":"洗手间在哪里？","ja":"お手洗いはどこですか？","ar":"أين دورة المياه؟","ru":"Где туалет?","mg":"Aiza ny trano fivoahana?"},
+  {"fr":"J'ai besoin d'un médecin, c'est urgent.","en":"I need a doctor, it's urgent.","es":"Necesito un médico, es urgente.","pt":"Preciso de um médico, é urgente.","de":"Ich brauche einen Arzt, es ist dringend.","it":"Ho bisogno di un medico, è urgente.","zh":"我需要医生，情况紧急。","ja":"医者が必要です。緊急です。","ar":"أحتاج إلى طبيب، الأمر عاجل.","ru":"Мне нужен врач, это срочно.","mg":"Mila dokotera aho, maika be."},
+  {"fr":"Appelez une ambulance, s'il vous plaît.","en":"Please call an ambulance.","es":"Llame a una ambulancia, por favor.","pt":"Chame uma ambulância, por favor.","de":"Rufen Sie bitte einen Krankenwagen.","it":"Chiami un'ambulanza, per favore.","zh":"请叫救护车。","ja":"救急車を呼んでください。","ar":"من فضلك اتصل بالإسعاف.","ru":"Вызовите, пожалуйста, скорую помощь.","mg":"Antsoy ny fiara mpitondra marary, azafady."},
+  {"fr":"Votre chambre est prête, voici la clé.","en":"Your room is ready, here is the key.","es":"Su habitación está lista, aquí tiene la llave.","pt":"O seu quarto está pronto, aqui está a chave.","de":"Ihr Zimmer ist fertig, hier ist der Schlüssel.","it":"La sua camera è pronta, ecco la chiave.","zh":"您的房间已经准备好了，这是钥匙。","ja":"お部屋の準備ができました。こちらが鍵です。","ar":"غرفتك جاهزة، تفضل المفتاح.","ru":"Ваш номер готов, вот ключ.","mg":"Vonona ny efitranonao, ity ny lakile."},
+  {"fr":"Le petit-déjeuner est servi de 7 heures à 10 heures.","en":"Breakfast is served from 7 to 10 a.m.","es":"El desayuno se sirve de 7:00 a 10:00.","pt":"O pequeno-almoço é servido das 7h às 10h.","de":"Das Frühstück wird von 7 bis 10 Uhr serviert.","it":"La colazione è servita dalle 7 alle 10.","zh":"早餐供应时间为早上7点到10点。","ja":"朝食は7時から10時までです。","ar":"يُقدَّم الفطور من الساعة السابعة حتى العاشرة.","ru":"Завтрак подаётся с 7 до 10 часов.","mg":"Omena manomboka amin'ny 7 ora ka hatramin'ny 10 ora ny sakafo maraina."},
+  {"fr":"Je ne comprends pas, pouvez-vous répéter plus lentement ?","en":"I don't understand, could you repeat that more slowly?","es":"No entiendo, ¿puede repetirlo más despacio?","pt":"Não entendo, pode repetir mais devagar?","de":"Ich verstehe nicht, können Sie das bitte langsamer wiederholen?","it":"Non capisco, può ripetere più lentamente?","zh":"我听不懂，您能说慢一点再说一遍吗？","ja":"わかりません。もう少しゆっくり繰り返していただけますか？","ar":"لا أفهم، هل يمكنك أن تعيد ببطء أكثر؟","ru":"Я не понимаю, можете повторить помедленнее?","mg":"Tsy azoko, azonao averina moramora kokoa ve?"},
+  {"fr":"Je suis allergique aux arachides.","en":"I am allergic to peanuts.","es":"Soy alérgico a los cacahuetes.","pt":"Sou alérgico a amendoins.","de":"Ich bin allergisch gegen Erdnüsse.","it":"Sono allergico alle arachidi.","zh":"我对花生过敏。","ja":"ピーナッツアレルギーがあります。","ar":"لدي حساسية من الفول السوداني.","ru":"У меня аллергия на арахис.","mg":"Tsy mahazaka voanjo aho."},
+  {"fr":"À quelle heure part le prochain bus pour l'aéroport ?","en":"What time does the next bus to the airport leave?","es":"¿A qué hora sale el próximo autobús al aeropuerto?","pt":"A que horas parte o próximo autocarro para o aeroporto?","de":"Wann fährt der nächste Bus zum Flughafen?","it":"A che ora parte il prossimo autobus per l'aeroporto?","zh":"下一班去机场的公交车几点出发？","ja":"空港行きの次のバスは何時に出ますか？","ar":"متى تغادر الحافلة التالية إلى المطار؟","ru":"Во сколько отправляется следующий автобус в аэропорт?","mg":"Amin'ny firy no hiainga ny fiara fitateram-bahoaka manaraka ho any amin'ny seranam-piaramanidina?"},
+  {"fr":"Pouvez-vous m'aider à trouver cette adresse ?","en":"Can you help me find this address?","es":"¿Puede ayudarme a encontrar esta dirección?","pt":"Pode ajudar-me a encontrar este endereço?","de":"Können Sie mir helfen, diese Adresse zu finden?","it":"Può aiutarmi a trovare questo indirizzo?","zh":"您能帮我找到这个地址吗？","ja":"この住所を探すのを手伝っていただけますか？","ar":"هل يمكنك مساعدتي في العثور على هذا العنوان؟","ru":"Не могли бы вы помочь мне найти этот адрес?","mg":"Azonao ampiana hitady ity adiresy ity ve aho?"},
+  {"fr":"Je voudrais payer par carte bancaire.","en":"I would like to pay by card.","es":"Quisiera pagar con tarjeta.","pt":"Gostaria de pagar com cartão.","de":"Ich möchte mit Karte bezahlen.","it":"Vorrei pagare con la carta.","zh":"我想刷卡付款。","ja":"カードで支払いたいです。","ar":"أود الدفع بالبطاقة البنكية.","ru":"Я хотел бы оплатить картой.","mg":"Te handoa amin'ny karatra banky aho."},
+  {"fr":"Il y a un problème avec ma réservation.","en":"There is a problem with my booking.","es":"Hay un problema con mi reserva.","pt":"Há um problema com a minha reserva.","de":"Es gibt ein Problem mit meiner Reservierung.","it":"C'è un problema con la mia prenotazione.","zh":"我的预订有问题。","ja":"予約に問題があります。","ar":"هناك مشكلة في حجزي.","ru":"С моим бронированием возникла проблема.","mg":"Misy olana ny famandrihako."},
+  {"fr":"Le magasin ferme à 18 heures.","en":"The shop closes at 6 p.m.","es":"La tienda cierra a las 18:00.","pt":"A loja fecha às 18h.","de":"Das Geschäft schließt um 18 Uhr.","it":"Il negozio chiude alle 18.","zh":"商店下午6点关门。","ja":"お店は18時に閉まります。","ar":"يُغلق المتجر في الساعة السادسة مساءً.","ru":"Магазин закрывается в 18:00.","mg":"Mihidy amin'ny 6 ora hariva ny fivarotana."},
+  {"fr":"Prenez ce médicament deux fois par jour après le repas.","en":"Take this medicine twice a day after meals.","es":"Tome este medicamento dos veces al día después de las comidas.","pt":"Tome este medicamento duas vezes por dia depois das refeições.","de":"Nehmen Sie dieses Medikament zweimal täglich nach dem Essen.","it":"Prenda questo medicinale due volte al giorno dopo i pasti.","zh":"这种药每天服用两次，饭后服用。","ja":"この薬は1日2回、食後に飲んでください。","ar":"تناول هذا الدواء مرتين يوميًا بعد الأكل.","ru":"Принимайте это лекарство два раза в день после еды.","mg":"Sotroy indroa isan'andro aorian'ny sakafo ity fanafody ity."},
+  {"fr":"Ma fille a de la fièvre depuis hier soir.","en":"My daughter has had a fever since last night.","es":"Mi hija tiene fiebre desde anoche.","pt":"A minha filha está com febre desde ontem à noite.","de":"Meine Tochter hat seit gestern Abend Fieber.","it":"Mia figlia ha la febbre da ieri sera.","zh":"我女儿从昨晚开始发烧。","ja":"娘が昨夜から熱を出しています。","ar":"ابنتي مصابة بالحمى منذ مساء أمس.","ru":"У моей дочери температура со вчерашнего вечера.","mg":"Manavy hatramin'ny halina ny zanako vavy."},
+  {"fr":"Je t'appelle ce soir, on se voit demain.","en":"I'll call you tonight, see you tomorrow.","es":"Te llamo esta noche, nos vemos mañana.","pt":"Ligo-te esta noite, vemo-nos amanhã.","de":"Ich rufe dich heute Abend an, wir sehen uns morgen.","it":"Ti chiamo stasera, ci vediamo domani.","zh":"我今晚给你打电话，明天见。","ja":"今夜電話するね。また明日。","ar":"سأتصل بك هذا المساء، أراك غدًا.","ru":"Я позвоню тебе вечером, увидимся завтра.","mg":"Hiantso anao aho anio hariva, mifankahita rahampitso."},
+  {"fr":"Est-ce que tu as bien reçu mon message ?","en":"Did you get my message?","es":"¿Recibiste mi mensaje?","pt":"Recebeste a minha mensagem?","de":"Hast du meine Nachricht bekommen?","it":"Hai ricevuto il mio messaggio?","zh":"你收到我的消息了吗？","ja":"私のメッセージ、届いた？","ar":"هل وصلتك رسالتي؟","ru":"Ты получил моё сообщение?","mg":"Voarainao ve ny hafatro?"},
+  {"fr":"Bonne journée et à bientôt !","en":"Have a nice day and see you soon!","es":"¡Que tenga un buen día y hasta pronto!","pt":"Tenha um bom dia e até breve!","de":"Einen schönen Tag noch und bis bald!","it":"Buona giornata e a presto!","zh":"祝您愉快，回头见！","ja":"良い一日を。またお会いしましょう！","ar":"أتمنى لك يومًا سعيدًا، وإلى اللقاء قريبًا!","ru":"Хорошего дня и до скорой встречи!","mg":"Tontolo andro mahafinaritra ary mandra-pihaona!"},
+  {"fr":"Avez-vous une réservation ?","en":"Do you have a reservation?","es":"¿Tiene una reserva?","pt":"Tem reserva?","de":"Haben Sie eine Reservierung?","it":"Ha una prenotazione?","zh":"您有预订吗？","ja":"ご予約はございますか？","ar":"هل لديك حجز؟","ru":"У вас есть бронь?","mg":"Efa nanao famandrihana ve ianao?"},
+  {"fr":"Puis-je voir votre passeport, s'il vous plaît ?","en":"May I see your passport, please?","es":"¿Me permite su pasaporte, por favor?","pt":"Posso ver o seu passaporte, por favor?","de":"Darf ich bitte Ihren Reisepass sehen?","it":"Posso vedere il suo passaporto, per favore?","zh":"我可以看一下您的护照吗？","ja":"パスポートを拝見してもよろしいですか？","ar":"هل يمكنني رؤية جواز سفرك من فضلك؟","ru":"Можно ваш паспорт, пожалуйста?","mg":"Azoko jerena ve ny pasipaoronao, azafady?"},
+  {"fr":"Le Wi-Fi est gratuit, voici le mot de passe.","en":"The Wi-Fi is free, here is the password.","es":"El wifi es gratuito, aquí tiene la contraseña.","pt":"O Wi-Fi é gratuito, aqui está a palavra-passe.","de":"Das WLAN ist kostenlos, hier ist das Passwort.","it":"Il Wi-Fi è gratuito, ecco la password.","zh":"Wi-Fi免费，这是密码。","ja":"Wi-Fiは無料です。こちらがパスワードです。","ar":"الواي فاي مجاني، وهذه كلمة المرور.","ru":"Wi-Fi бесплатный, вот пароль.","mg":"Maimaim-poana ny Wi-Fi, ity ny teny miafina."},
+  {"fr":"Le départ se fait avant 11 heures.","en":"Check-out is before 11 a.m.","es":"La salida es antes de las 11:00.","pt":"O check-out é até às 11h.","de":"Der Check-out ist bis 11 Uhr.","it":"Il check-out è entro le 11.","zh":"退房时间为11点之前。","ja":"チェックアウトは11時までです。","ar":"يجب تسجيل المغادرة قبل الساعة الحادية عشرة.","ru":"Выезд до 11 часов.","mg":"Tsy maintsy miala alohan'ny 11 ora."},
+  {"fr":"Une table pour combien de personnes ?","en":"A table for how many people?","es":"¿Una mesa para cuántas personas?","pt":"Uma mesa para quantas pessoas?","de":"Ein Tisch für wie viele Personen?","it":"Un tavolo per quante persone?","zh":"请问几位？","ja":"何名様ですか？","ar":"طاولة لكم شخصًا؟","ru":"Столик на сколько человек?","mg":"Latabatra ho an'olona firy?"},
+  {"fr":"Voici le menu.","en":"Here is the menu.","es":"Aquí tiene la carta.","pt":"Aqui está o menu.","de":"Hier ist die Speisekarte.","it":"Ecco il menù.","zh":"这是菜单。","ja":"こちらがメニューです。","ar":"تفضل قائمة الطعام.","ru":"Вот меню.","mg":"Ity ny lisitry ny sakafo."},
+  {"fr":"Que désirez-vous boire ?","en":"What would you like to drink?","es":"¿Qué desea beber?","pt":"O que deseja beber?","de":"Was möchten Sie trinken?","it":"Cosa desidera da bere?","zh":"您想喝点什么？","ja":"お飲み物は何になさいますか？","ar":"ماذا تحب أن تشرب؟","ru":"Что вы будете пить?","mg":"Inona no tianao hosotroina?"},
+  {"fr":"L'addition, s'il vous plaît.","en":"The bill, please.","es":"La cuenta, por favor.","pt":"A conta, por favor.","de":"Die Rechnung, bitte.","it":"Il conto, per favore.","zh":"请结账。","ja":"お会計をお願いします。","ar":"الحساب من فضلك.","ru":"Счёт, пожалуйста.","mg":"Ny faktiora, azafady."},
+  {"fr":"Le service est compris.","en":"Service is included.","es":"El servicio está incluido.","pt":"O serviço está incluído.","de":"Die Bedienung ist inbegriffen.","it":"Il servizio è compreso.","zh":"已包含服务费。","ja":"サービス料は含まれています。","ar":"الخدمة مشمولة.","ru":"Обслуживание включено.","mg":"Efa tafiditra ao anatin'ny vidiny ny serivisy."},
+  {"fr":"Nous acceptons les cartes bancaires.","en":"We accept cards.","es":"Aceptamos tarjetas.","pt":"Aceitamos cartões.","de":"Wir akzeptieren Kartenzahlung.","it":"Accettiamo le carte di pagamento.","zh":"我们接受银行卡。","ja":"カードがご利用いただけます。","ar":"نقبل البطاقات البنكية.","ru":"Мы принимаем банковские карты.","mg":"Mandray karatra banky izahay."},
+  {"fr":"Voulez-vous un sac ?","en":"Would you like a bag?","es":"¿Quiere una bolsa?","pt":"Deseja um saco?","de":"Möchten Sie eine Tüte?","it":"Vuole una busta?","zh":"您需要袋子吗？","ja":"袋はご利用ですか？","ar":"هل تريد كيسًا؟","ru":"Вам нужен пакет?","mg":"Mila kitapo ve ianao?"},
+  {"fr":"Voici votre ticket de caisse.","en":"Here is your receipt.","es":"Aquí tiene su recibo.","pt":"Aqui está o seu recibo.","de":"Hier ist Ihr Kassenbon.","it":"Ecco lo scontrino.","zh":"这是您的小票。","ja":"こちらがレシートです。","ar":"تفضل الإيصال.","ru":"Вот ваш чек.","mg":"Ity ny tapakilan'ny fandoavam-bola."},
+  {"fr":"C'est en promotion aujourd'hui.","en":"It's on sale today.","es":"Hoy está en oferta.","pt":"Hoje está em promoção.","de":"Das ist heute im Angebot.","it":"Oggi è in offerta.","zh":"这个今天打折。","ja":"これは本日セール中です。","ar":"هذا عليه تخفيض اليوم.","ru":"Сегодня на это скидка.","mg":"Mihena ny vidiny anio."},
+  {"fr":"Avez-vous une autre taille ?","en":"Do you have another size?","es":"¿Tiene otra talla?","pt":"Tem outro tamanho?","de":"Haben Sie eine andere Größe?","it":"Ha un'altra taglia?","zh":"有别的尺码吗？","ja":"他のサイズはありますか？","ar":"هل لديك مقاس آخر؟","ru":"У вас есть другой размер?","mg":"Misy habe hafa ve?"},
+  {"fr":"Le taxi arrive dans cinq minutes.","en":"The taxi will arrive in five minutes.","es":"El taxi llega en cinco minutos.","pt":"O táxi chega dentro de cinco minutos.","de":"Das Taxi kommt in fünf Minuten.","it":"Il taxi arriva tra cinque minuti.","zh":"出租车五分钟后到。","ja":"タクシーは5分後に到着します。","ar":"ستصل سيارة الأجرة خلال خمس دقائق.","ru":"Такси приедет через пять минут.","mg":"Ho tonga afaka dimy minitra ny taksi."},
+  {"fr":"C'est à dix minutes à pied.","en":"It's a ten-minute walk.","es":"Está a diez minutos a pie.","pt":"Fica a dez minutos a pé.","de":"Es ist zehn Minuten zu Fuß.","it":"È a dieci minuti a piedi.","zh":"步行十分钟就到。","ja":"歩いて10分です。","ar":"إنه على بعد عشر دقائق سيرًا على الأقدام.","ru":"Это в десяти минутах ходьбы.","mg":"Folo minitra an-tongotra."},
+  {"fr":"La plage est par ici.","en":"The beach is this way.","es":"La playa está por aquí.","pt":"A praia é por aqui.","de":"Der Strand ist hier entlang.","it":"La spiaggia è da questa parte.","zh":"海滩在这边。","ja":"ビーチはこちらです。","ar":"الشاطئ من هنا.","ru":"Пляж в этой стороне.","mg":"Amin'ity lalana ity ny tora-pasika."},
+  {"fr":"Attention, la mer est dangereuse ici.","en":"Be careful, the sea is dangerous here.","es":"Cuidado, el mar es peligroso aquí.","pt":"Atenção, o mar é perigoso aqui.","de":"Vorsicht, das Meer ist hier gefährlich.","it":"Attenzione, qui il mare è pericoloso.","zh":"注意，这里的海域很危险。","ja":"注意してください。ここの海は危険です。","ar":"انتبه، البحر خطير هنا.","ru":"Осторожно, здесь опасное море.","mg":"Tandremo, mampidi-doza ny ranomasina eto."},
+  {"fr":"Où avez-vous mal ?","en":"Where does it hurt?","es":"¿Dónde le duele?","pt":"Onde é que dói?","de":"Wo haben Sie Schmerzen?","it":"Dove le fa male?","zh":"您哪里疼？","ja":"どこが痛いですか？","ar":"أين تشعر بالألم؟","ru":"Где у вас болит?","mg":"Aiza no marary aminao?"},
+  {"fr":"Avez-vous des allergies ?","en":"Do you have any allergies?","es":"¿Tiene alguna alergia?","pt":"Tem alguma alergia?","de":"Haben Sie Allergien?","it":"Ha delle allergie?","zh":"您有过敏吗？","ja":"アレルギーはありますか？","ar":"هل لديك أي حساسية؟","ru":"У вас есть аллергия?","mg":"Misy zavatra tsy zakan'ny vatanao ve?"}
+];
+// PRO_PACK_FIN
+function normalizePro(s) {
+  return normalizePhrase(String(s || "")).replace(/[¿¡。？！、，．「」؟،]/g, "").replace(/\s+/g, " ").trim();
+}
+const PRO_INDEX = {};
+["fr"].concat(PRO_LANGS).forEach((code) => {
+  const m = new Map();
+  PRO_PACK.forEach((p, i) => { const k = normalizePro(p[code]); if (k && !m.has(k)) m.set(k, i); });
+  PRO_INDEX[code] = m;
+});
+/** Phrase professionnelle connue (dans n'importe quel sens entre le français et les langues commerciales). */
+function lookupProPack(text, sourceCode, targetCode) {
+  if (sourceCode === targetCode || !PRO_INDEX[sourceCode] || !PRO_INDEX[targetCode]) return null;
+  const i = PRO_INDEX[sourceCode].get(normalizePro(text));
+  if (i === undefined) return null;
+  return { text: PRO_PACK[i][targetCode], pron: null };
+}
+
 </script>
 <script>
 // 24/24 ONE WORLD — © 2026 Sébastien Chevrier. Tous droits réservés.
@@ -3752,7 +3816,7 @@ const UI_STRINGS = {
     err_session: "Votre session a expiré. Reconnectez-vous puis réessayez.",
     err_refused: "Ce texte ne peut pas être traduit. Essayez une autre formulation.",
     err_generic: "Une erreur est survenue. Réessayez.",
-    pron: "Prononciation : {p}", badge_verified: "✓ Phrase courante vérifiée", badge_auto: "Traduction automatique",
+    pron: "Prononciation : {p}", badge_verified: "✓ Phrase courante vérifiée", badge_auto: "Traduction automatique", badge_pro: "✓ Phrase pro (relecture native en cours)",
     copied: "Copié.", copy_fail: "Impossible de copier automatiquement. Sélectionnez le texte manuellement.",
     share_copied: "Partage non disponible ici : texte copié, collez-le où vous voulez.",
     share_fail: "Partage non disponible ici. Sélectionnez le texte pour le copier.",
@@ -3827,7 +3891,7 @@ const UI_STRINGS = {
     err_session: "Your session has expired. Sign in again and retry.",
     err_refused: "This text can't be translated. Try rephrasing it.",
     err_generic: "Something went wrong. Try again.",
-    pron: "Pronunciation: {p}", badge_verified: "✓ Verified common phrase", badge_auto: "Automatic translation",
+    pron: "Pronunciation: {p}", badge_verified: "✓ Verified common phrase", badge_auto: "Automatic translation", badge_pro: "✓ Pro phrase (native review in progress)",
     copied: "Copied.", copy_fail: "Couldn't copy automatically. Select the text manually.",
     share_copied: "Sharing isn't available here: text copied, paste it wherever you like.",
     share_fail: "Sharing isn't available here. Select the text to copy it.",
@@ -3902,7 +3966,7 @@ const UI_STRINGS = {
     err_session: "Tu sesión ha caducado. Vuelve a iniciar sesión e inténtalo de nuevo.",
     err_refused: "Este texto no se puede traducir. Prueba a reformularlo.",
     err_generic: "Se ha producido un error. Inténtalo de nuevo.",
-    pron: "Pronunciación: {p}", badge_verified: "✓ Frase común verificada", badge_auto: "Traducción automática",
+    pron: "Pronunciación: {p}", badge_verified: "✓ Frase común verificada", badge_auto: "Traducción automática", badge_pro: "✓ Frase profesional (revisión nativa en curso)",
     copied: "Copiado.", copy_fail: "No se pudo copiar automáticamente. Selecciona el texto manualmente.",
     share_copied: "Compartir no está disponible aquí: texto copiado, pégalo donde quieras.",
     share_fail: "Compartir no está disponible aquí. Selecciona el texto para copiarlo.",
@@ -3977,7 +4041,7 @@ const UI_STRINGS = {
     err_session: "Sua sessão expirou. Entre novamente e tente outra vez.",
     err_refused: "Este texto não pode ser traduzido. Tente reformulá-lo.",
     err_generic: "Ocorreu um erro. Tente novamente.",
-    pron: "Pronúncia: {p}", badge_verified: "✓ Frase comum verificada", badge_auto: "Tradução automática",
+    pron: "Pronúncia: {p}", badge_verified: "✓ Frase comum verificada", badge_auto: "Tradução automática", badge_pro: "✓ Frase profissional (revisão nativa em curso)",
     copied: "Copiado.", copy_fail: "Não foi possível copiar automaticamente. Selecione o texto manualmente.",
     share_copied: "Compartilhar não está disponível aqui: texto copiado, cole onde quiser.",
     share_fail: "Compartilhar não está disponível aqui. Selecione o texto para copiá-lo.",
@@ -4052,7 +4116,7 @@ const UI_STRINGS = {
     err_session: "Deine Sitzung ist abgelaufen. Melde dich erneut an und versuche es noch einmal.",
     err_refused: "Dieser Text kann nicht übersetzt werden. Formuliere ihn anders.",
     err_generic: "Ein Fehler ist aufgetreten. Versuche es erneut.",
-    pron: "Aussprache: {p}", badge_verified: "✓ Geprüfter gängiger Satz", badge_auto: "Automatische Übersetzung",
+    pron: "Aussprache: {p}", badge_verified: "✓ Geprüfter gängiger Satz", badge_auto: "Automatische Übersetzung", badge_pro: "✓ Profi-Satz (muttersprachliche Prüfung läuft)",
     copied: "Kopiert.", copy_fail: "Automatisches Kopieren nicht möglich. Markiere den Text manuell.",
     share_copied: "Teilen ist hier nicht verfügbar: Text kopiert, füge ihn ein, wo du möchtest.",
     share_fail: "Teilen ist hier nicht verfügbar. Markiere den Text, um ihn zu kopieren.",
@@ -4127,7 +4191,7 @@ const UI_STRINGS = {
     err_session: "La sessione è scaduta. Accedi di nuovo e riprova.",
     err_refused: "Questo testo non può essere tradotto. Prova a riformularlo.",
     err_generic: "Si è verificato un errore. Riprova.",
-    pron: "Pronuncia: {p}", badge_verified: "✓ Frase comune verificata", badge_auto: "Traduzione automatica",
+    pron: "Pronuncia: {p}", badge_verified: "✓ Frase comune verificata", badge_auto: "Traduzione automatica", badge_pro: "✓ Frase professionale (revisione madrelingua in corso)",
     copied: "Copiato.", copy_fail: "Impossibile copiare automaticamente. Seleziona il testo manualmente.",
     share_copied: "Condivisione non disponibile qui: testo copiato, incollalo dove vuoi.",
     share_fail: "Condivisione non disponibile qui. Seleziona il testo per copiarlo.",
@@ -4202,7 +4266,7 @@ const UI_STRINGS = {
     err_session: "你的会话已过期。请重新登录后再试。",
     err_refused: "这段文字无法翻译。请换个说法。",
     err_generic: "出错了。请重试。",
-    pron: "发音：{p}", badge_verified: "✓ 已核实的常用语", badge_auto: "自动翻译",
+    pron: "发音：{p}", badge_verified: "✓ 已核实的常用语", badge_auto: "自动翻译", badge_pro: "✓ 专业用语（母语审校中）",
     copied: "已复制。", copy_fail: "无法自动复制。请手动选择文字。",
     share_copied: "此处无法分享：文字已复制，可以粘贴到任何地方。",
     share_fail: "此处无法分享。请选择文字进行复制。",
@@ -4277,7 +4341,7 @@ const UI_STRINGS = {
     err_session: "セッションの有効期限が切れました。もう一度ログインしてからお試しください。",
     err_refused: "このテキストは翻訳できません。言い方を変えてみてください。",
     err_generic: "エラーが発生しました。もう一度お試しください。",
-    pron: "発音：{p}", badge_verified: "✓ 確認済みの定番フレーズ", badge_auto: "自動翻訳",
+    pron: "発音：{p}", badge_verified: "✓ 確認済みの定番フレーズ", badge_auto: "自動翻訳", badge_pro: "✓ 業務用フレーズ（ネイティブ確認中）",
     copied: "コピーしました。", copy_fail: "自動でコピーできませんでした。テキストを手動で選択してください。",
     share_copied: "ここでは共有できません。テキストをコピーしたので、好きな場所に貼り付けてください。",
     share_fail: "ここでは共有できません。テキストを選択してコピーしてください。",
@@ -4352,7 +4416,7 @@ const UI_STRINGS = {
     err_session: "انتهت صلاحية جلستك. سجّل الدخول مجددًا ثم حاول مرة أخرى.",
     err_refused: "لا يمكن ترجمة هذا النص. جرّب صياغة أخرى.",
     err_generic: "حدث خطأ. حاول مرة أخرى.",
-    pron: "النطق: {p}", badge_verified: "✓ عبارة شائعة موثّقة", badge_auto: "ترجمة آلية",
+    pron: "النطق: {p}", badge_verified: "✓ عبارة شائعة موثّقة", badge_auto: "ترجمة آلية", badge_pro: "✓ عبارة مهنية (مراجعة المتحدث الأصلي جارية)",
     copied: "تم النسخ.", copy_fail: "تعذّر النسخ تلقائيًا. حدّد النص يدويًا.",
     share_copied: "المشاركة غير متاحة هنا: تم نسخ النص، الصقه حيث تشاء.",
     share_fail: "المشاركة غير متاحة هنا. حدّد النص لنسخه.",
@@ -4427,7 +4491,7 @@ const UI_STRINGS = {
     err_session: "Сеанс истёк. Войдите снова и повторите попытку.",
     err_refused: "Этот текст невозможно перевести. Попробуйте сформулировать иначе.",
     err_generic: "Произошла ошибка. Попробуйте ещё раз.",
-    pron: "Произношение: {p}", badge_verified: "✓ Проверенная распространённая фраза", badge_auto: "Автоматический перевод",
+    pron: "Произношение: {p}", badge_verified: "✓ Проверенная распространённая фраза", badge_auto: "Автоматический перевод", badge_pro: "✓ Профессиональная фраза (идёт проверка носителем языка)",
     copied: "Скопировано.", copy_fail: "Не удалось скопировать автоматически. Выделите текст вручную.",
     share_copied: "Здесь нельзя поделиться: текст скопирован, вставьте его куда нужно.",
     share_fail: "Здесь нельзя поделиться. Выделите текст, чтобы скопировать его.",
@@ -4525,7 +4589,7 @@ const UI_STRINGS = {
     err_generic: "Nisy olana. Andramo indray.",
     pron: "Fanononana: {p}",
     badge_verified: "✓ Fehezanteny mahazatra voamarina",
-    badge_auto: "Fandikana ho azy",
+    badge_auto: "Fandikana ho azy", badge_pro: "✓ Fehezanteny matihanina (mbola hamarinin'ny tompon-teny)",
     copied: "Voatahaka.",
     copy_fail: "Tsy afaka maka tahaka ho azy. Fidio amin'ny tanana ny lahatsoratra.",
     share_copied: "Tsy azo atao eto ny fizarana: voatahaka ny lahatsoratra, apetaho amin'izay tianao.",
@@ -4908,7 +4972,7 @@ async function mmFetchOne(text, sourceCode, targetCode) {
 }
 
 // ---------- Fournisseur de traduction (abstraction, comme dans l'app native) ----------
-// translate() retourne { text, source: "phrasebook" | "engine" } pour que l'UI puisse indiquer
+// translate() retourne { text, source: "phrasebook" | "pro" | "engine" } pour que l'UI puisse indiquer
 // honnêtement d'où vient la traduction : dictionnaire vérifié (instantané, hors-ligne) ou moteur
 // générique gratuit (qualité variable, en particulier pour le malgache).
 const TranslationProvider = {
@@ -4921,6 +4985,12 @@ const TranslationProvider = {
     if (typeof lookupPhrasebook === "function") {
       const hit = lookupPhrasebook(text, sourceCode, targetCode);
       if (hit) return { text: hit.text, pron: hit.pron, source: "phrasebook" };
+    }
+
+    // 1 bis. Phrases professionnelles des langues commerciales (hôtel, restaurant, commerce, santé…)
+    if (typeof lookupProPack === "function") {
+      const pro = lookupProPack(text, sourceCode, targetCode);
+      if (pro) return { text: pro.text, pron: null, source: "pro" };
     }
 
     // 2. Moteur générique en ligne, pour tout le reste
@@ -5140,9 +5210,9 @@ async function doTranslate() {
     outputText.textContent = translated;
     document.getElementById("pronText").textContent = result.pron ? t("pron", { p: result.pron }) : "";
     document.getElementById("sourceBadge").textContent =
-      result.source === "phrasebook" ? t("badge_verified") : t("badge_auto");
+      result.source === "phrasebook" ? t("badge_verified") : result.source === "pro" ? t("badge_pro") : t("badge_auto");
     document.getElementById("sourceBadge").className =
-      result.source === "phrasebook" ? "srcbadge verified" : "srcbadge";
+      result.source === "phrasebook" || result.source === "pro" ? "srcbadge verified" : "srcbadge";
     homeResult.style.display = "block";
     lastEntry = {
       id: uid(),
