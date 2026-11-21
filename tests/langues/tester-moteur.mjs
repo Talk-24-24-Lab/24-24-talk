@@ -15,7 +15,9 @@
  *   node tests/langues/tester-moteur.mjs --langues=mg,sw,ht  → quelques langues
  *   node tests/langues/tester-moteur.mjs --lot=1             → lot de 20 langues (lots 1 à 6)
  *   node tests/langues/tester-moteur.mjs --simuler           → sans réseau, pour vérifier le script lui-même
+ *   node tests/langues/tester-moteur.mjs --moteur=google     → moteur Google Translate (variable GOOGLE_TRANSLATE_KEY)
  * Variable facultative MYMEMORY_EMAIL : relève le quota gratuit de MyMemory (environ 5 000 → 50 000 caractères/jour).
+ * Avec Google, les 112 langues passent d'un coup (environ 180 000 caractères, sous les 500 000 gratuits par mois).
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -28,7 +30,11 @@ const args = Object.fromEntries(process.argv.slice(2).map((a) => {
   return [k, v === undefined ? true : v];
 }));
 const SIMULER = !!args.simuler;
-const PAUSE_MS = SIMULER ? 0 : Number(args.pause || 1200);
+const MOTEUR = String(args.moteur || (process.env.GOOGLE_TRANSLATE_KEY ? "google" : "mymemory")).toLowerCase();
+if (MOTEUR === "google" && !SIMULER && !process.env.GOOGLE_TRANSLATE_KEY) {
+  console.error("Moteur Google choisi, mais la variable GOOGLE_TRANSLATE_KEY est absente."); process.exit(2);
+}
+const PAUSE_MS = SIMULER ? 0 : Number(args.pause || (MOTEUR === "google" ? 100 : 1200));
 const TAILLE_LOT = 20;
 
 // ---------- Ce que l'appli utilise vraiment : liste des langues et dictionnaire vérifié ----------
@@ -75,8 +81,23 @@ function decoder(x) {
   });
 }
 class Quota extends Error {}
+// Codes de l'appli → codes Google (variantes régionales que Google ne distingue pas)
+const CODE_GOOGLE = { "zh": "zh-CN", "pt-BR": "pt", "es-MX": "es", "he": "iw", "jv": "jw" };
+async function google(texte, de, vers) {
+  const res = await fetch("https://translation.googleapis.com/language/translate/v2?key=" + encodeURIComponent(process.env.GOOGLE_TRANSLATE_KEY), {
+    method: "POST", headers: { "Content-Type": "application/json" }, signal: AbortSignal.timeout(15000),
+    body: JSON.stringify({ q: texte, source: CODE_GOOGLE[de] || de, target: CODE_GOOGLE[vers] || vers, format: "text" }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (res.status === 429 || res.status === 403 && /quota|limit/i.test(JSON.stringify(data))) throw new Quota("quota");
+  if (!res.ok) throw new Error(((data.error && data.error.message) || "HTTP " + res.status).slice(0, 120));
+  const tr = data.data && data.data.translations && data.data.translations[0] && data.data.translations[0].translatedText;
+  if (!tr) throw new Error("réponse vide");
+  return String(tr);
+}
 async function moteur(texte, de, vers) {
   if (SIMULER) return de === "fr" ? "[" + vers + "] " + texte : texte.replace(/^\[[^\]]+\] /, "");
+  if (MOTEUR === "google") return google(texte, de, vers);
   let url = "https://api.mymemory.translated.net/get?q=" + encodeURIComponent(texte) +
     "&langpair=" + encodeURIComponent(de) + "|" + encodeURIComponent(vers);
   if (process.env.MYMEMORY_EMAIL) url += "&de=" + encodeURIComponent(process.env.MYMEMORY_EMAIL);
@@ -118,7 +139,7 @@ function verdictAuto(ligne) {
 const date = new Date().toISOString().slice(0, 10);
 const dossier = path.join(ICI, "resultats");
 fs.mkdirSync(dossier, { recursive: true });
-const suffixe = SIMULER ? "-simulation" : "";
+const suffixe = (MOTEUR === "google" ? "-google" : "-mymemory") + (SIMULER ? "-simulation" : "");
 const fichierEtat = path.join(dossier, `etat-${date}${suffixe}.json`);
 const etat = fs.existsSync(fichierEtat) ? JSON.parse(fs.readFileSync(fichierEtat, "utf8")) : {};
 let arretQuota = false;
@@ -128,7 +149,7 @@ for (const lang of langues) {
   for (const p of phrases) {
     const cle = lang.code + "|" + p.id;
     if (etat[cle] && !etat[cle].erreur) continue; // déjà fait (reprise après une coupure de quota)
-    const ligne = { code: lang.code, langue: lang.name, id: p.id, domaine: p.domaine, francais: p.fr, traduction: "", retour: "", source: "moteur", proximite: 0, erreur: "" };
+    const ligne = { code: lang.code, langue: lang.name, id: p.id, domaine: p.domaine, francais: p.fr, traduction: "", retour: "", source: MOTEUR, proximite: 0, erreur: "" };
     const hit = lookupPhrasebook(p.fr, "fr", lang.code);
     try {
       if (hit) {
@@ -170,7 +191,7 @@ for (const l of lignes) {
   else r.douteux++;
 }
 const dicoLangues = Object.keys(PHRASEBOOK).length;
-let md = `# Test de traduction — ${date}${SIMULER ? " (SIMULATION, sans réseau)" : ""}\n\n` +
+let md = `# Test de traduction — ${date} — moteur ${MOTEUR === "google" ? "Google Translate" : "MyMemory"}${SIMULER ? " (SIMULATION, sans réseau)" : ""}\n\n` +
   `${phrases.length} phrases types × ${Object.keys(parLangue).length} langues testées. ` +
   `Dictionnaire vérifié de l'appli : ${dicoLangues} langues.\n\n` +
   `**Attention** : le contrôle automatique compare la phrase d'origine avec sa traduction retour en français. ` +
