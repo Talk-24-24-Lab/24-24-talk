@@ -1,0 +1,26 @@
+{
+  "description": "Phrases types pour tester la traduction de 24/24 ONE WORLD dans les 112 langues. Source : français. Domaines visés : accueil, hôtellerie, tourisme, santé, vie quotidienne, messagerie.",
+  "source": "fr",
+  "phrases": [
+    { "id": "P01", "domaine": "accueil", "fr": "Bonjour, bienvenue." },
+    { "id": "P02", "domaine": "accueil", "fr": "Merci beaucoup pour votre aide." },
+    { "id": "P03", "domaine": "commerce", "fr": "Combien ça coûte ?" },
+    { "id": "P04", "domaine": "tourisme", "fr": "Où sont les toilettes ?" },
+    { "id": "P05", "domaine": "santé", "fr": "J'ai besoin d'un médecin, c'est urgent." },
+    { "id": "P06", "domaine": "santé", "fr": "Appelez une ambulance, s'il vous plaît." },
+    { "id": "P07", "domaine": "hôtellerie", "fr": "Votre chambre est prête, voici la clé." },
+    { "id": "P08", "domaine": "hôtellerie", "fr": "Le petit-déjeuner est servi de 7 heures à 10 heures." },
+    { "id": "P09", "domaine": "communication", "fr": "Je ne comprends pas, pouvez-vous répéter plus lentement ?" },
+    { "id": "P10", "domaine": "santé", "fr": "Je suis allergique aux arachides." },
+    { "id": "P11", "domaine": "tourisme", "fr": "À quelle heure part le prochain bus pour l'aéroport ?" },
+    { "id": "P12", "domaine": "tourisme", "fr": "Pouvez-vous m'aider à trouver cette adresse ?" },
+    { "id": "P13", "domaine": "commerce", "fr": "Je voudrais payer par carte bancaire." },
+    { "id": "P14", "domaine": "hôtellerie", "fr": "Il y a un problème avec ma réservation." },
+    { "id": "P15", "domaine": "commerce", "fr": "Le magasin ferme à 18 heures." },
+    { "id": "P16", "domaine": "santé", "fr": "Prenez ce médicament deux fois par jour après le repas." },
+    { "id": "P17", "domaine": "santé", "fr": "Ma fille a de la fièvre depuis hier soir." },
+    { "id": "P18", "domaine": "messagerie", "fr": "Je t'appelle ce soir, on se voit demain." },
+    { "id": "P19", "domaine": "messagerie", "fr": "Est-ce que tu as bien reçu mon message ?" },
+    { "id": "P20", "domaine": "accueil", "fr": "Bonne journée et à bientôt !" }
+  ]
+}
