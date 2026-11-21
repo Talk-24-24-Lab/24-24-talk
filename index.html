@@ -1,7 +1,7 @@
 <!doctype html>
 <!--
   24/24 ONE WORLD — © 2026 Sébastien Chevrier (La Réunion). Tous droits réservés.
-  Version officielle : https://sebastienchevrier.github.io/24-24-talk/
+  Version officielle : https://talk-24-24-lab.github.io/24-24-talk/
   Code, nom, logo, textes et visuels protégés par le droit d'auteur (Code de la propriété
   intellectuelle, art. L.111-1 et L.122-4). Toute reproduction, modification ou réutilisation sans
   autorisation écrite de l'auteur est interdite et constitue une contrefaçon (art. L.335-2 et suivants).
@@ -9,6 +9,8 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8" />
+<meta name="tdm-reservation" content="1" />
+<meta name="robots" content="noai, noimageai" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
 <title>24/24 ONE WORLD — Le monde se parle. Enfin.</title>
 <script src="everywhere/sentinelle.js?v=0.8.5"></script>
@@ -64,7 +66,7 @@
 <script>
 /* 24/24 ONE WORLD — langue de l'interface. 11 langues sont incluses dans l'appli ; les autres sont de petits
    fichiers (i18n/xx.js) téléchargés seulement par les téléphones réglés dans cette langue. */
-window.UI_PACKS = ["bg", "bn", "bs", "ca", "cs", "da", "el", "fa", "fi", "he", "hi", "hr", "ht", "hu", "id", "ko", "ms", "nb", "nl", "pl", "ro", "sk", "sl", "sr", "sv", "sw", "ta", "th", "tl", "tr", "uk", "ur", "vi", "zh-TW"];
+window.UI_PACKS = ["af", "am", "as", "az", "be", "bg", "bn", "bs", "ca", "ceb", "cs", "cy", "da", "el", "et", "eu", "fa", "fi", "fj", "ga", "gl", "gn", "gu", "ha", "haw", "he", "hi", "hr", "ht", "hu", "hy", "id", "ig", "is", "jv", "ka", "kk", "km", "kn", "ko", "ku", "ky", "lb", "ln", "lo", "lt", "lv", "mi", "mk", "ml", "mn", "mos", "mr", "ms", "mt", "my", "nb", "ne", "nl", "ny", "om", "or", "pa", "pl", "ps", "qu", "rn", "ro", "rw", "si", "sk", "sl", "sm", "sn", "so", "sq", "sr", "st", "su", "sv", "sw", "ta", "te", "tg", "th", "ti", "tk", "tl", "to", "tr", "uk", "ur", "uz", "vi", "wo", "xh", "yo", "zh-TW", "zu"];
 (function () {
   var BUILTIN = ["fr", "en", "es", "pt", "de", "it", "zh", "ja", "ar", "ru", "mg"];
   var pref = "auto";
@@ -119,7 +121,7 @@ window.UI_PACKS = ["bg", "bn", "bs", "ca", "cs", "da", "el", "fa", "fi", "he", "
 <!-- Aperçu du lien quand il est partagé -->
 <meta property="og:type" content="website" />
 <meta property="og:title" content="24/24, Let's go – Clic ici pour ouvrir le lien de l'appli" />
-<meta property="og:image" content="https://sebastienchevrier.github.io/24-24-talk/24-24-Talk-invitation-v4.jpg" />
+<meta property="og:image" content="https://talk-24-24-lab.github.io/24-24-talk/24-24-Talk-invitation-v4.jpg" />
 <meta property="og:image:type" content="image/jpeg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
@@ -128,7 +130,7 @@ window.UI_PACKS = ["bg", "bn", "bs", "ca", "cs", "da", "el", "fa", "fi", "he", "
 <!-- Aperçu du lien sur X/Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="24/24, Let's go – Clic ici pour ouvrir le lien de l'appli" />
-<meta name="twitter:image" content="https://sebastienchevrier.github.io/24-24-talk/24-24-Talk-invitation-v4.jpg" />
+<meta name="twitter:image" content="https://talk-24-24-lab.github.io/24-24-talk/24-24-Talk-invitation-v4.jpg" />
 <style>
   /* Nuit d'abord (24h/24) : sombre par défaut, clair si l'appareil ou la personne le demande. */
   :root{
@@ -3691,7 +3693,7 @@ function lookupPhrasebook(text, sourceCode, targetCode) {
 </script>
 <script>
 // 24/24 ONE WORLD — © 2026 Sébastien Chevrier. Tous droits réservés.
-// Interface dans la langue du téléphone : 11 langues. Toute autre langue de téléphone → anglais.
+// Interface dans la langue du téléphone : 11 langues incluses ici, les autres dans i18n/xx.js (112 en tout). Langue inconnue → anglais.
 // Les pages légales restent en français (c'est la version qui fait foi).
 
 const UI_LANGS = ["fr", "en", "es", "pt", "de", "it", "zh", "ja", "ar", "ru", "mg"];
@@ -3760,9 +3762,9 @@ const UI_STRINGS = {
     mic_needed_voice: "Autorisation microphone nécessaire pour le mode vocal.",
     no_speech: "Aucune voix détectée. Réessayez.", stt_fail: "Transcription impossible. Réessayez.",
     mic_loop: "Le micro s'interrompt sans arrêt sur cet appareil. Réessayez ou utilisez le bouton 🎤.",
-    mic_help_android: "🔓 Pour débloquer le micro : dans Chrome, menu ⋮ → Paramètres → Paramètres des sites → Micro → sebastienchevrier.github.io → Autoriser. Si ça ne suffit pas : Paramètres du téléphone → Applications → Chrome → Autorisations → Micro → Autoriser. Puis rouvrez l'appli.",
+    mic_help_android: "🔓 Pour débloquer le micro : dans Chrome, menu ⋮ → Paramètres → Paramètres des sites → Micro → talk-24-24-lab.github.io → Autoriser. Si ça ne suffit pas : Paramètres du téléphone → Applications → Chrome → Autorisations → Micro → Autoriser. Puis rouvrez l'appli.",
     mic_help_ios: "🔓 Pour débloquer le micro : Réglages de l'iPhone → Safari → Microphone → Autoriser, puis rechargez la page.",
-    mic_help_app: "📲 Appli installée : ouvrez Chrome, allez sur sebastienchevrier.github.io/24-24-talk, appuyez sur l'icône à gauche de l'adresse → Autorisations → Micro → Autoriser (ou « Réinitialiser les autorisations »). Puis fermez et rouvrez l'appli.",
+    mic_help_app: "📲 Appli installée : ouvrez Chrome, allez sur talk-24-24-lab.github.io/24-24-talk, appuyez sur l'icône à gauche de l'adresse → Autorisations → Micro → Autoriser (ou « Réinitialiser les autorisations »). Puis fermez et rouvrez l'appli.",
     keep_hist: "Enregistrer l'historique sur ce téléphone",
     stats_opt: "Statistiques de visite anonymes",
     hist_off: "L'enregistrement de l'historique est désactivé (Paramètres).",
@@ -3835,9 +3837,9 @@ const UI_STRINGS = {
     mic_needed_voice: "Microphone permission is needed for voice mode.",
     no_speech: "No voice detected. Try again.", stt_fail: "Transcription failed. Try again.",
     mic_loop: "The microphone keeps stopping on this device. Try again or use the 🎤 button.",
-    mic_help_android: "🔓 To unblock the microphone: in Chrome, menu ⋮ → Settings → Site settings → Microphone → sebastienchevrier.github.io → Allow. If that is not enough: phone Settings → Apps → Chrome → Permissions → Microphone → Allow. Then reopen the app.",
+    mic_help_android: "🔓 To unblock the microphone: in Chrome, menu ⋮ → Settings → Site settings → Microphone → talk-24-24-lab.github.io → Allow. If that is not enough: phone Settings → Apps → Chrome → Permissions → Microphone → Allow. Then reopen the app.",
     mic_help_ios: "🔓 To unblock the microphone: iPhone Settings → Safari → Microphone → Allow, then reload the page.",
-    mic_help_app: "📲 Installed app: open Chrome, go to sebastienchevrier.github.io/24-24-talk, tap the icon left of the address → Permissions → Microphone → Allow (or “Reset permissions”). Then close and reopen the app.",
+    mic_help_app: "📲 Installed app: open Chrome, go to talk-24-24-lab.github.io/24-24-talk, tap the icon left of the address → Permissions → Microphone → Allow (or “Reset permissions”). Then close and reopen the app.",
     keep_hist: "Save history on this phone",
     stats_opt: "Anonymous visit statistics",
     hist_off: "Saving history is turned off (Settings).",
@@ -3910,9 +3912,9 @@ const UI_STRINGS = {
     mic_needed_voice: "Se necesita permiso del micrófono para el modo voz.",
     no_speech: "No se detectó ninguna voz. Inténtalo de nuevo.", stt_fail: "No se pudo transcribir. Inténtalo de nuevo.",
     mic_loop: "El micrófono se interrumpe continuamente en este dispositivo. Inténtalo de nuevo o usa el botón 🎤.",
-    mic_help_android: "🔓 Para desbloquear el micrófono: en Chrome, menú ⋮ → Configuración → Configuración de sitios → Micrófono → sebastienchevrier.github.io → Permitir. Si no basta: Ajustes del teléfono → Aplicaciones → Chrome → Permisos → Micrófono → Permitir. Luego vuelve a abrir la app.",
+    mic_help_android: "🔓 Para desbloquear el micrófono: en Chrome, menú ⋮ → Configuración → Configuración de sitios → Micrófono → talk-24-24-lab.github.io → Permitir. Si no basta: Ajustes del teléfono → Aplicaciones → Chrome → Permisos → Micrófono → Permitir. Luego vuelve a abrir la app.",
     mic_help_ios: "🔓 Para desbloquear el micrófono: Ajustes del iPhone → Safari → Micrófono → Permitir, y recarga la página.",
-    mic_help_app: "📲 App instalada: abre Chrome, ve a sebastienchevrier.github.io/24-24-talk, toca el icono a la izquierda de la dirección → Permisos → Micrófono → Permitir (o «Restablecer permisos»). Luego cierra y vuelve a abrir la app.",
+    mic_help_app: "📲 App instalada: abre Chrome, ve a talk-24-24-lab.github.io/24-24-talk, toca el icono a la izquierda de la dirección → Permisos → Micrófono → Permitir (o «Restablecer permisos»). Luego cierra y vuelve a abrir la app.",
     keep_hist: "Guardar el historial en este teléfono",
     stats_opt: "Estadísticas de visitas anónimas",
     hist_off: "El guardado del historial está desactivado (Ajustes).",
@@ -3985,9 +3987,9 @@ const UI_STRINGS = {
     mic_needed_voice: "É necessária a permissão do microfone para o modo voz.",
     no_speech: "Nenhuma voz detectada. Tente novamente.", stt_fail: "Não foi possível transcrever. Tente novamente.",
     mic_loop: "O microfone para o tempo todo neste aparelho. Tente novamente ou use o botão 🎤.",
-    mic_help_android: "🔓 Para desbloquear o microfone: no Chrome, menu ⋮ → Configurações → Configurações do site → Microfone → sebastienchevrier.github.io → Permitir. Se não bastar: Configurações do telefone → Apps → Chrome → Permissões → Microfone → Permitir. Depois reabra o app.",
+    mic_help_android: "🔓 Para desbloquear o microfone: no Chrome, menu ⋮ → Configurações → Configurações do site → Microfone → talk-24-24-lab.github.io → Permitir. Se não bastar: Configurações do telefone → Apps → Chrome → Permissões → Microfone → Permitir. Depois reabra o app.",
     mic_help_ios: "🔓 Para desbloquear o microfone: Ajustes do iPhone → Safari → Microfone → Permitir e recarregue a página.",
-    mic_help_app: "📲 App instalado: abra o Chrome, vá para sebastienchevrier.github.io/24-24-talk, toque no ícone à esquerda do endereço → Permissões → Microfone → Permitir (ou «Redefinir permissões»). Depois feche e reabra o app.",
+    mic_help_app: "📲 App instalado: abra o Chrome, vá para talk-24-24-lab.github.io/24-24-talk, toque no ícone à esquerda do endereço → Permissões → Microfone → Permitir (ou «Redefinir permissões»). Depois feche e reabra o app.",
     keep_hist: "Guardar o histórico neste telefone",
     stats_opt: "Estatísticas anônimas de visitas",
     hist_off: "O registo do histórico está desativado (Definições).",
@@ -4060,9 +4062,9 @@ const UI_STRINGS = {
     mic_needed_voice: "Für den Sprachmodus wird die Mikrofonberechtigung benötigt.",
     no_speech: "Keine Stimme erkannt. Versuche es erneut.", stt_fail: "Transkription fehlgeschlagen. Versuche es erneut.",
     mic_loop: "Das Mikrofon bricht auf diesem Gerät ständig ab. Versuche es erneut oder nutze die 🎤-Taste.",
-    mic_help_android: "🔓 Mikrofon freigeben: In Chrome Menü ⋮ → Einstellungen → Website-Einstellungen → Mikrofon → sebastienchevrier.github.io → Zulassen. Falls das nicht reicht: Handy-Einstellungen → Apps → Chrome → Berechtigungen → Mikrofon → Zulassen. Danach die App neu öffnen.",
+    mic_help_android: "🔓 Mikrofon freigeben: In Chrome Menü ⋮ → Einstellungen → Website-Einstellungen → Mikrofon → talk-24-24-lab.github.io → Zulassen. Falls das nicht reicht: Handy-Einstellungen → Apps → Chrome → Berechtigungen → Mikrofon → Zulassen. Danach die App neu öffnen.",
     mic_help_ios: "🔓 Mikrofon freigeben: iPhone-Einstellungen → Safari → Mikrofon → Erlauben, dann die Seite neu laden.",
-    mic_help_app: "📲 Installierte App: Chrome öffnen, sebastienchevrier.github.io/24-24-talk aufrufen, auf das Symbol links neben der Adresse tippen → Berechtigungen → Mikrofon → Zulassen (oder „Berechtigungen zurücksetzen“). Dann die App schließen und neu öffnen.",
+    mic_help_app: "📲 Installierte App: Chrome öffnen, talk-24-24-lab.github.io/24-24-talk aufrufen, auf das Symbol links neben der Adresse tippen → Berechtigungen → Mikrofon → Zulassen (oder „Berechtigungen zurücksetzen“). Dann die App schließen und neu öffnen.",
     keep_hist: "Verlauf auf diesem Handy speichern",
     stats_opt: "Anonyme Besuchsstatistik",
     hist_off: "Das Speichern des Verlaufs ist ausgeschaltet (Einstellungen).",
@@ -4135,9 +4137,9 @@ const UI_STRINGS = {
     mic_needed_voice: "Serve l'autorizzazione al microfono per la modalità voce.",
     no_speech: "Nessuna voce rilevata. Riprova.", stt_fail: "Trascrizione non riuscita. Riprova.",
     mic_loop: "Il microfono si interrompe continuamente su questo dispositivo. Riprova o usa il pulsante 🎤.",
-    mic_help_android: "🔓 Per sbloccare il microfono: in Chrome, menu ⋮ → Impostazioni → Impostazioni sito → Microfono → sebastienchevrier.github.io → Consenti. Se non basta: Impostazioni del telefono → App → Chrome → Autorizzazioni → Microfono → Consenti. Poi riapri l'app.",
+    mic_help_android: "🔓 Per sbloccare il microfono: in Chrome, menu ⋮ → Impostazioni → Impostazioni sito → Microfono → talk-24-24-lab.github.io → Consenti. Se non basta: Impostazioni del telefono → App → Chrome → Autorizzazioni → Microfono → Consenti. Poi riapri l'app.",
     mic_help_ios: "🔓 Per sbloccare il microfono: Impostazioni dell'iPhone → Safari → Microfono → Consenti, poi ricarica la pagina.",
-    mic_help_app: "📲 App installata: apri Chrome, vai su sebastienchevrier.github.io/24-24-talk, tocca l'icona a sinistra dell'indirizzo → Autorizzazioni → Microfono → Consenti (o «Reimposta autorizzazioni»). Poi chiudi e riapri l'app.",
+    mic_help_app: "📲 App installata: apri Chrome, vai su talk-24-24-lab.github.io/24-24-talk, tocca l'icona a sinistra dell'indirizzo → Autorizzazioni → Microfono → Consenti (o «Reimposta autorizzazioni»). Poi chiudi e riapri l'app.",
     keep_hist: "Salva la cronologia su questo telefono",
     stats_opt: "Statistiche di visita anonime",
     hist_off: "Il salvataggio della cronologia è disattivato (Impostazioni).",
@@ -4210,9 +4212,9 @@ const UI_STRINGS = {
     mic_needed_voice: "语音模式需要麦克风权限。",
     no_speech: "未检测到声音。请重试。", stt_fail: "无法转写。请重试。",
     mic_loop: "此设备上的麦克风一直中断。请重试或使用 🎤 按钮。",
-    mic_help_android: "🔓 解除麦克风限制：在 Chrome 中，菜单 ⋮ → 设置 → 网站设置 → 麦克风 → sebastienchevrier.github.io → 允许。如果仍不行：手机设置 → 应用 → Chrome → 权限 → 麦克风 → 允许。然后重新打开应用。",
+    mic_help_android: "🔓 解除麦克风限制：在 Chrome 中，菜单 ⋮ → 设置 → 网站设置 → 麦克风 → talk-24-24-lab.github.io → 允许。如果仍不行：手机设置 → 应用 → Chrome → 权限 → 麦克风 → 允许。然后重新打开应用。",
     mic_help_ios: "🔓 解除麦克风限制：iPhone 设置 → Safari → 麦克风 → 允许，然后重新加载页面。",
-    mic_help_app: "📲 已安装的应用：打开 Chrome，访问 sebastienchevrier.github.io/24-24-talk，点按地址左侧的图标 → 权限 → 麦克风 → 允许（或“重置权限”）。然后关闭并重新打开应用。",
+    mic_help_app: "📲 已安装的应用：打开 Chrome，访问 talk-24-24-lab.github.io/24-24-talk，点按地址左侧的图标 → 权限 → 麦克风 → 允许（或“重置权限”）。然后关闭并重新打开应用。",
     keep_hist: "在本手机上保存历史记录",
     stats_opt: "匿名访问统计",
     hist_off: "已关闭历史记录保存（设置）。",
@@ -4285,9 +4287,9 @@ const UI_STRINGS = {
     mic_needed_voice: "音声モードにはマイクの許可が必要です。",
     no_speech: "音声が検出されませんでした。もう一度お試しください。", stt_fail: "文字起こしできませんでした。もう一度お試しください。",
     mic_loop: "この端末ではマイクが何度も止まります。もう一度試すか、🎤 ボタンを使ってください。",
-    mic_help_android: "🔓 マイクのブロックを解除するには：Chrome のメニュー ⋮ → 設定 → サイトの設定 → マイク → sebastienchevrier.github.io → 許可。それでもだめな場合：端末の設定 → アプリ → Chrome → 権限 → マイク → 許可。その後アプリを開き直してください。",
+    mic_help_android: "🔓 マイクのブロックを解除するには：Chrome のメニュー ⋮ → 設定 → サイトの設定 → マイク → talk-24-24-lab.github.io → 許可。それでもだめな場合：端末の設定 → アプリ → Chrome → 権限 → マイク → 許可。その後アプリを開き直してください。",
     mic_help_ios: "🔓 マイクのブロックを解除するには：iPhone の設定 → Safari → マイク → 許可、その後ページを再読み込みしてください。",
-    mic_help_app: "📲 インストール済みアプリ：Chrome を開き sebastienchevrier.github.io/24-24-talk にアクセスし、アドレス左のアイコン → 権限 → マイク → 許可（または「権限をリセット」）。その後アプリを閉じて開き直してください。",
+    mic_help_app: "📲 インストール済みアプリ：Chrome を開き talk-24-24-lab.github.io/24-24-talk にアクセスし、アドレス左のアイコン → 権限 → マイク → 許可（または「権限をリセット」）。その後アプリを閉じて開き直してください。",
     keep_hist: "この端末に履歴を保存する",
     stats_opt: "匿名の利用統計",
     hist_off: "履歴の保存はオフになっています（設定）。",
@@ -4360,9 +4362,9 @@ const UI_STRINGS = {
     mic_needed_voice: "يلزم إذن الميكروفون للوضع الصوتي.",
     no_speech: "لم يُكتشف أي صوت. حاول مرة أخرى.", stt_fail: "تعذّر تحويل الكلام إلى نص. حاول مرة أخرى.",
     mic_loop: "الميكروفون يتوقف باستمرار على هذا الجهاز. حاول مرة أخرى أو استخدم زر 🎤.",
-    mic_help_android: "🔓 لإلغاء حظر الميكروفون: في Chrome، القائمة ⋮ ← الإعدادات ← إعدادات المواقع ← الميكروفون ← sebastienchevrier.github.io ← السماح. إذا لم يكفِ ذلك: إعدادات الهاتف ← التطبيقات ← Chrome ← الأذونات ← الميكروفون ← السماح. ثم أعد فتح التطبيق.",
+    mic_help_android: "🔓 لإلغاء حظر الميكروفون: في Chrome، القائمة ⋮ ← الإعدادات ← إعدادات المواقع ← الميكروفون ← talk-24-24-lab.github.io ← السماح. إذا لم يكفِ ذلك: إعدادات الهاتف ← التطبيقات ← Chrome ← الأذونات ← الميكروفون ← السماح. ثم أعد فتح التطبيق.",
     mic_help_ios: "🔓 لإلغاء حظر الميكروفون: إعدادات iPhone ← Safari ← الميكروفون ← السماح، ثم أعد تحميل الصفحة.",
-    mic_help_app: "📲 التطبيق المثبّت: افتح Chrome وانتقل إلى ⁦sebastienchevrier.github.io/24-24-talk⁩، ثم اضغط على الأيقونة يسار العنوان ← الأذونات ← الميكروفون ← السماح (أو «إعادة ضبط الأذونات»). ثم أغلق التطبيق وأعد فتحه.",
+    mic_help_app: "📲 التطبيق المثبّت: افتح Chrome وانتقل إلى ⁦talk-24-24-lab.github.io/24-24-talk⁩، ثم اضغط على الأيقونة يسار العنوان ← الأذونات ← الميكروفون ← السماح (أو «إعادة ضبط الأذونات»). ثم أغلق التطبيق وأعد فتحه.",
     keep_hist: "حفظ السجلّ على هذا الهاتف",
     stats_opt: "إحصاءات زيارات مجهولة الهوية",
     hist_off: "حفظ السجلّ متوقف (الإعدادات).",
@@ -4435,9 +4437,9 @@ const UI_STRINGS = {
     mic_needed_voice: "Для голосового режима нужен доступ к микрофону.",
     no_speech: "Голос не обнаружен. Попробуйте ещё раз.", stt_fail: "Не удалось распознать речь. Попробуйте ещё раз.",
     mic_loop: "Микрофон постоянно отключается на этом устройстве. Попробуйте снова или используйте кнопку 🎤.",
-    mic_help_android: "🔓 Чтобы разблокировать микрофон: в Chrome меню ⋮ → Настройки → Настройки сайтов → Микрофон → sebastienchevrier.github.io → Разрешить. Если не помогло: Настройки телефона → Приложения → Chrome → Разрешения → Микрофон → Разрешить. Затем снова откройте приложение.",
+    mic_help_android: "🔓 Чтобы разблокировать микрофон: в Chrome меню ⋮ → Настройки → Настройки сайтов → Микрофон → talk-24-24-lab.github.io → Разрешить. Если не помогло: Настройки телефона → Приложения → Chrome → Разрешения → Микрофон → Разрешить. Затем снова откройте приложение.",
     mic_help_ios: "🔓 Чтобы разблокировать микрофон: Настройки iPhone → Safari → Микрофон → Разрешить, затем перезагрузите страницу.",
-    mic_help_app: "📲 Установленное приложение: откройте Chrome, перейдите на sebastienchevrier.github.io/24-24-talk, нажмите значок слева от адреса → Разрешения → Микрофон → Разрешить (или «Сбросить разрешения»). Затем закройте и снова откройте приложение.",
+    mic_help_app: "📲 Установленное приложение: откройте Chrome, перейдите на talk-24-24-lab.github.io/24-24-talk, нажмите значок слева от адреса → Разрешения → Микрофон → Разрешить (или «Сбросить разрешения»). Затем закройте и снова откройте приложение.",
     keep_hist: "Сохранять историю на этом телефоне",
     stats_opt: "Анонимная статистика посещений",
     hist_off: "Сохранение истории выключено (Настройки).",
@@ -4535,9 +4537,9 @@ const UI_STRINGS = {
     no_speech: "Tsy nisy feo re. Andramo indray.",
     stt_fail: "Tsy afaka nosoratana ny feo. Andramo indray.",
     mic_loop: "Tapaka foana ny mikrô amin'ity fitaovana ity. Andramo indray na ampiasao ny bokotra 🎤.",
-    mic_help_android: "🔓 Hamahana ny mikrô: ao amin'ny Chrome, menu ⋮ → Paramètres → Paramètres des sites → Micro → sebastienchevrier.github.io → Autoriser. Raha tsy ampy izany: Paramètres an'ny finday → Applications → Chrome → Autorisations → Micro → Autoriser. Avy eo sokafy indray ny appli.",
+    mic_help_android: "🔓 Hamahana ny mikrô: ao amin'ny Chrome, menu ⋮ → Paramètres → Paramètres des sites → Micro → talk-24-24-lab.github.io → Autoriser. Raha tsy ampy izany: Paramètres an'ny finday → Applications → Chrome → Autorisations → Micro → Autoriser. Avy eo sokafy indray ny appli.",
     mic_help_ios: "🔓 Hamahana ny mikrô: Réglages an'ny iPhone → Safari → Microphone → Autoriser, avy eo avereno sokafana ny pejy.",
-    mic_help_app: "📲 Appli efa voapetraka: sokafy ny Chrome, mankanesa any amin'ny sebastienchevrier.github.io/24-24-talk, tsindrio ny sary eo ankavian'ny adiresy → Autorisations → Micro → Autoriser (na « Réinitialiser les autorisations »). Avy eo akatony ary sokafy indray ny appli.",
+    mic_help_app: "📲 Appli efa voapetraka: sokafy ny Chrome, mankanesa any amin'ny talk-24-24-lab.github.io/24-24-talk, tsindrio ny sary eo ankavian'ny adiresy → Autorisations → Micro → Autoriser (na « Réinitialiser les autorisations »). Avy eo akatony ary sokafy indray ny appli.",
     keep_hist: "Hitahiry ny tantara ao amin'ity finday ity",
     stats_opt: "Antontan'isa tsy mitonona anarana momba ny fitsidihana",
     hist_off: "Tsy mandeha ny fitahirizana ny tantara (Fikirana).",
@@ -4689,11 +4691,11 @@ function applyStaticI18n() {
 applyStaticI18n();
 
 // ---------- Version officielle ----------
-// 24/24 ONE WORLD © 2026 Sébastien Chevrier — https://sebastienchevrier.github.io/24-24-talk/
+// 24/24 ONE WORLD © 2026 Sébastien Chevrier — https://talk-24-24-lab.github.io/24-24-talk/
 // Copiée sur un autre site, l'appli le signale et renvoie vers la version officielle ;
 // le réseau (messages et appels) n'y fonctionne pas.
-const AUTEUR_24_24_TALK = "24/24 ONE WORLD — © 2026 Sébastien Chevrier (La Réunion) — version officielle : https://sebastienchevrier.github.io/24-24-talk/";
-const OFFICIAL_URL = "https://sebastienchevrier.github.io/24-24-talk/";
+const AUTEUR_24_24_TALK = "24/24 ONE WORLD — © 2026 Sébastien Chevrier (La Réunion) — version officielle : https://talk-24-24-lab.github.io/24-24-talk/";
+const OFFICIAL_URL = "https://talk-24-24-lab.github.io/24-24-talk/";
 const IS_OFFICIAL_SITE = ["sebastienchevrier.github.io", "talk-24-24-lab.github.io", "localhost", "127.0.0.1", ""].includes(location.hostname);
 // Ouvert dans le portail 24/24 EVERYWHERE (même site) : le portail affiche déjà le logo, le bandeau et l'installation.
 const EMBEDDED = (() => { try { return window.parent !== window && /[?&]embed=1\b/.test(location.search) && window.parent.location.origin === location.origin; } catch (e) { return false; } })();
@@ -4703,7 +4705,7 @@ if (!IS_OFFICIAL_SITE) {
   const bar = document.createElement("div");
   bar.className = "unofficial";
   bar.setAttribute("role", "alert");
-  bar.innerHTML = '⚠️ Copie non officielle · Unofficial copy — Version officielle : <a href="' + OFFICIAL_URL + '">sebastienchevrier.github.io/24-24-talk</a> · © Sébastien Chevrier';
+  bar.innerHTML = '⚠️ Copie non officielle · Unofficial copy — Version officielle : <a href="' + OFFICIAL_URL + '">talk-24-24-lab.github.io/24-24-talk</a> · © Sébastien Chevrier';
   document.body.insertBefore(bar, document.body.firstChild);
 }
 

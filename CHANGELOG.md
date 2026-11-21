@@ -2,6 +2,15 @@
 
 > © 2026 Sébastien Chevrier. Tous droits réservés. La production n'est concernée par aucune de ces versions.
 
+## Interface en 112 langues (21 novembre 2026)
+
+### Ajouté
+- **Menus et boutons de l'appli dans les 112 langues** proposées (avant : 31). 79 nouveaux fichiers `i18n/xx.js`, chacun avec
+  les 233 textes de l'interface, téléchargés seulement par les téléphones réglés dans cette langue. Le portugais du Brésil
+  et l'espagnol du Mexique utilisent le portugais et l'espagnol. Le pachto s'affiche de droite à gauche.
+- À faire relire par des locuteurs natifs, en priorité pour les langues rares (mooré, guarani, fidjien, tongien, quechua,
+  wolof, lingala, kirundi…).
+
 ## 0.8.5 (prototype, 15 octobre 2026) — nouvelle phrase d'accueil, site de test seulement
 
 ### Modifié
