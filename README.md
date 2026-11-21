@@ -44,7 +44,4 @@ Astuce : sur l'écran d'accueil, le bouton **Ajouter à l'écran d'accueil** ins
 
 © 2026 Sébastien Chevrier — La Réunion. Tous droits réservés.
 Le code de cette application est visible publiquement, mais il n'est pas libre de droits : toute reproduction, modification ou réutilisation sans autorisation écrite de l'auteur est interdite.
-
----
-
-© 2026 Sébastien Chevrier. Tous droits réservés, y compris sur l’interface traduite en 112 langues. Aucune réutilisation, copie ou fouille de données (IA comprise) sans autorisation écrite : voir [LICENSE.md](LICENSE.md).
+Cela vaut aussi pour l’interface traduite en 112 langues et pour toute fouille de données ou entraînement d’IA : voir [LICENSE.md](LICENSE.md).
