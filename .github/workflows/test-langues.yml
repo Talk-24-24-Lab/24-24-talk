@@ -3,10 +3,15 @@ name: Test des 112 langues
 on:
   workflow_dispatch:
     inputs:
+      moteur:
+        description: "Moteur à tester (google = les 112 langues d'un coup ; mymemory = 20 langues par jour)"
+        type: choice
+        options: [google, mymemory]
+        default: google
       lot:
-        description: "Lot de 20 langues à tester (1 à 6). Laisser vide pour utiliser « langues »."
+        description: "Lot de 20 langues (1 à 6). Laisser vide = toutes les langues."
         required: false
-        default: "1"
+        default: ""
       langues:
         description: "Ou une liste de codes séparés par des virgules (ex. mg,sw,ht). Prioritaire sur le lot."
         required: false
@@ -25,10 +30,14 @@ jobs:
       - name: Traduire les phrases types et faire l'aller-retour
         env:
           MYMEMORY_EMAIL: ${{ secrets.MYMEMORY_EMAIL }}
+          GOOGLE_TRANSLATE_KEY: ${{ secrets.GOOGLE_TRANSLATE_KEY }}
+          MOTEUR: ${{ github.event.inputs.moteur }}
           LANGUES: ${{ github.event.inputs.langues }}
           LOT: ${{ github.event.inputs.lot }}
         run: |
-          if [ -n "$LANGUES" ]; then node tests/langues/tester-moteur.mjs --langues="$LANGUES"; else node tests/langues/tester-moteur.mjs --lot="$LOT"; fi || [ $? -eq 3 ]
+          OPT="--moteur=$MOTEUR"
+          if [ -n "$LANGUES" ]; then OPT="$OPT --langues=$LANGUES"; elif [ -n "$LOT" ]; then OPT="$OPT --lot=$LOT"; fi
+          node tests/langues/tester-moteur.mjs $OPT || [ $? -eq 3 ]
       - name: Résumé dans la page du test
         if: always()
         run: cat tests/langues/resultats/resume-*.md >> "$GITHUB_STEP_SUMMARY" || true

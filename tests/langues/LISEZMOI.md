@@ -15,16 +15,27 @@ moteur en ligne (MyMemory) pour tout le reste.
 
 ## Lancer un test (depuis GitHub, sans ordinateur)
 
-1. Une seule fois : dans **Settings → Secrets and variables → Actions → New repository secret**, créez
-   `MYMEMORY_EMAIL` avec une adresse e-mail valide. Le quota gratuit du moteur passe d'environ 5 000 à
-   50 000 caractères par jour. Sans ce secret, le test marche mais s'arrête plus vite.
-2. Onglet **Actions → Test des 112 langues → Run workflow**.
-3. Choisissez un **lot** (1 à 6, soit 20 langues chacun) ou tapez des codes de langue (ex. `mg,sw,ht`).
+**Avec Google Translate (recommandé : les 112 langues en une seule fois)**
+
+1. Une seule fois, créez une clé Google :
+   - sur https://console.cloud.google.com, créez un projet (ex. « one-world-test ») et ajoutez un moyen de
+     paiement (Google l'exige, mais les 500 000 premiers caractères par mois sont gratuits ; un test complet
+     en utilise environ 180 000) ;
+   - menu **API et services → Bibliothèque**, cherchez **Cloud Translation API**, cliquez **Activer** ;
+   - menu **API et services → Identifiants → Créer des identifiants → Clé API** ; copiez la clé, puis
+     **Restreindre la clé** à « Cloud Translation API » seulement.
+2. Sur GitHub : **Settings → Secrets and variables → Actions → New repository secret**, nom
+   `GOOGLE_TRANSLATE_KEY`, valeur : la clé. Ne collez jamais la clé ailleurs (ni dans le code, ni dans un message).
+3. Onglet **Actions → Test des 112 langues → Run workflow**, moteur `google`, lot vide.
 4. À la fin, le résumé s'affiche dans la page du test, et la grille se télécharge dans **Artifacts**.
 
-Un lot de 20 langues utilise environ 35 000 caractères du quota : comptez un lot par jour.
+**Avec MyMemory (le moteur actuel de l'appli, gratuit mais limité)**
 
-En local : `node tests/langues/tester-moteur.mjs --langues=mg,sw` (ou `--lot=1`, ou `--simuler` sans réseau).
+Créez le secret `MYMEMORY_EMAIL` (une adresse e-mail valide : le quota passe de 5 000 à 50 000 caractères
+par jour), puis lancez avec le moteur `mymemory` et un lot de 1 à 6 : comptez un lot de 20 langues par jour.
+Ce test reste utile, car c'est MyMemory que l'appli utilise aujourd'hui.
+
+En local : `node tests/langues/tester-moteur.mjs --moteur=google --langues=mg,sw` (ou `--lot=1`, ou `--simuler` sans réseau).
 
 ## Lire les résultats
 
