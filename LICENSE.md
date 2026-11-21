@@ -10,7 +10,7 @@ schéma de données), dictionnaire de phrases vérifiées, contenus textuels, vi
 bulles de dialogue imbriquées), nom "24/24 Talk" et charte graphique — sont la propriété exclusive
 de **Sébastien Chevrier**, auteur et éditeur, créés à La Réunion.
 
-Version officielle et unique : https://sebastienchevrier.github.io/24-24-talk/
+Version officielle et unique : https://talk-24-24-lab.github.io/24-24-talk/
 
 Le fait que ce code soit visible publiquement ne donne **aucun droit** de l'utiliser : aucune
 licence libre ou open source n'est accordée.
