@@ -56,8 +56,9 @@ const codeAppli =
   bloc("const LANGUAGES = [", "function langByCode") +
   bloc("const PHRASEBOOK = {", "function lookupPhrasebook") +
   fonctionComplete("lookupPhrasebook") +
-  "\nreturn { LANGUAGES, lookupPhrasebook, PHRASEBOOK };";
-const { LANGUAGES, lookupPhrasebook, PHRASEBOOK } = new Function(codeAppli)();
+  bloc("// PRO_PACK_DEBUT", "/** Phrase professionnelle") + fonctionComplete("lookupProPack") +
+  "\nreturn { LANGUAGES, lookupPhrasebook, PHRASEBOOK, lookupProPack };";
+const { LANGUAGES, lookupPhrasebook, PHRASEBOOK, lookupProPack } = new Function(codeAppli)();
 
 const { phrases } = JSON.parse(fs.readFileSync(path.join(ICI, "phrases.json"), "utf8"));
 
@@ -128,6 +129,7 @@ function proximite(a, b) {
 }
 function verdictAuto(ligne) {
   if (ligne.source === "dictionnaire") return "dictionnaire vérifié";
+  if (ligne.source === "pack pro") return "phrase pro (relecture native à faire)";
   if (ligne.erreur) return "échec : " + ligne.erreur;
   if (mots(ligne.traduction).size && proximite(ligne.francais, ligne.traduction) > 0.8) return "suspect : laissé en français";
   if (ligne.proximite >= 0.5) return "aller-retour proche";
@@ -151,9 +153,12 @@ for (const lang of langues) {
     if (etat[cle] && !etat[cle].erreur) continue; // déjà fait (reprise après une coupure de quota)
     const ligne = { code: lang.code, langue: lang.name, id: p.id, domaine: p.domaine, francais: p.fr, traduction: "", retour: "", source: MOTEUR, proximite: 0, erreur: "" };
     const hit = lookupPhrasebook(p.fr, "fr", lang.code);
+    const pro = hit ? null : lookupProPack(p.fr, "fr", lang.code);
     try {
       if (hit) {
         ligne.traduction = hit.text; ligne.source = "dictionnaire"; ligne.proximite = 1;
+      } else if (pro) {
+        ligne.traduction = pro.text; ligne.source = "pack pro"; ligne.proximite = 1;
       } else {
         ligne.traduction = await moteur(p.fr, "fr", lang.code);
         await pause(PAUSE_MS);
@@ -182,9 +187,10 @@ fs.writeFileSync(path.join(dossier, `grille-${date}${suffixe}.csv`), csv);
 
 const parLangue = {};
 for (const l of lignes) {
-  const r = (parLangue[l.code] ||= { langue: l.langue, total: 0, dico: 0, proche: 0, partiel: 0, douteux: 0, echec: 0 });
+  const r = (parLangue[l.code] ||= { langue: l.langue, total: 0, dico: 0, pro: 0, proche: 0, partiel: 0, douteux: 0, echec: 0 });
   r.total++;
   if (l.verdict_auto === "dictionnaire vérifié") r.dico++;
+  else if (l.verdict_auto.startsWith("phrase pro")) r.pro++;
   else if (l.verdict_auto === "aller-retour proche") r.proche++;
   else if (l.verdict_auto === "aller-retour partiel") r.partiel++;
   else if (l.verdict_auto.startsWith("échec")) r.echec++;
@@ -197,9 +203,9 @@ let md = `# Test de traduction — ${date} — moteur ${MOTEUR === "google" ? "G
   `**Attention** : le contrôle automatique compare la phrase d'origine avec sa traduction retour en français. ` +
   `Il repère les problèmes évidents, il ne prouve pas qu'une traduction est juste. Seule la relecture par un ` +
   `locuteur natif (colonnes à remplir dans la grille CSV) valide une langue.\n\n` +
-  `| Code | Langue | Dictionnaire | Aller-retour proche | Partiel | À vérifier | Échec |\n|---|---|---|---|---|---|---|\n`;
+  `| Code | Langue | Dictionnaire | Phrase pro | Aller-retour proche | Partiel | À vérifier | Échec |\n|---|---|---|---|---|---|---|---|\n`;
 for (const [code, r] of Object.entries(parLangue).sort((a, b) => (b[1].echec + b[1].douteux) - (a[1].echec + a[1].douteux))) {
-  md += `| ${code} | ${r.langue} | ${r.dico} | ${r.proche} | ${r.partiel} | ${r.douteux} | ${r.echec} |\n`;
+  md += `| ${code} | ${r.langue} | ${r.dico} | ${r.pro} | ${r.proche} | ${r.partiel} | ${r.douteux} | ${r.echec} |\n`;
 }
 fs.writeFileSync(path.join(dossier, `resume-${date}${suffixe}.md`), md);
 console.log(`Fait : ${lignes.length} traductions. Voir ${path.relative(RACINE, dossier)}/`);
