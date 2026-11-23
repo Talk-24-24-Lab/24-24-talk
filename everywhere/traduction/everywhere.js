@@ -26,7 +26,7 @@
       idle: "Pause après 2 minutes sans parole : l'écran peut de nouveau s'éteindre. Touchez un micro pour reprendre.",
       title: "EVERYWHERE", sub: "Traduire et connecter partout.",
       face: "Conversation côte à côte", face_d: "Téléphone posé entre vous deux", call: "Appeler sur TALK", call_d: "Appel traduit avec un contact",
-      trip: "Voyage", trip_d: "Phrases utiles, préparation, faible connexion", fav_group: "★ Favorites", c_also: "Parle aussi {l}",
+      trip: "Voyage", trip_d: "Phrases utiles, préparation, faible connexion", paper: "SCAN", paper_d: "Photographiez un menu, une facture, une ordonnance : lisez-le dans votre langue", fav_group: "★ Favorites", c_also: "Parle aussi {l}",
       my_langs: "Mes langues", settings: "Configurations", settings_d: "Son, volume, texte", back: "← EVERYWHERE",
       p1: "Personne 1", p2: "Personne 2", p3: "Personne 3", lang_third: "Langue de la personne 3", three_btn: "À trois",
       three_on: "Conversation à trois : chacun lit tout dans sa langue.", three_off: "Retour à deux personnes.", speak: "Parler", speak_in: "Parler en {l}", type: "Écrire", type_in: "Écrire en {l}", send: "Traduire",
@@ -68,7 +68,7 @@
       idle: "Paused after 2 minutes without speech: the screen can turn off again. Tap a microphone to resume.",
       title: "EVERYWHERE", sub: "Translate and connect everywhere.",
       face: "Side-by-side conversation", face_d: "Phone placed between you", call: "Call on TALK", call_d: "Translated call with a contact",
-      trip: "Travel", trip_d: "Useful phrases, preparation, weak connection", fav_group: "★ Favorites", c_also: "Also speaks {l}",
+      trip: "Travel", trip_d: "Useful phrases, preparation, weak connection", paper: "SCAN", paper_d: "Take a photo of a menu, a bill, a prescription: read it in your language", fav_group: "★ Favorites", c_also: "Also speaks {l}",
       my_langs: "My languages", settings: "Settings", settings_d: "Sound, volume, text", back: "← EVERYWHERE",
       p1: "Person 1", p2: "Person 2", p3: "Person 3", lang_third: "Person 3's language", three_btn: "Three",
       three_on: "Three-way conversation: everyone reads everything in their language.", three_off: "Back to two people.", speak: "Speak", speak_in: "Speak in {l}", type: "Type", type_in: "Type in {l}", send: "Translate",
@@ -170,7 +170,8 @@
     kb: '<rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/>',
     replay: '<path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/>',
     send: '<path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/>',
-    trip: '<rect x="4" y="7" width="16" height="13" rx="2.5"/><path d="M9 7V4.5h6V7"/><path d="M4 12h16"/>'
+    trip: '<rect x="4" y="7" width="16" height="13" rx="2.5"/><path d="M9 7V4.5h6V7"/><path d="M4 12h16"/>',
+    paper: '<path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><path d="M8 10h8M8 14h5"/>'
   };
   function ic(n) { return '<svg viewBox="0 0 24 24" aria-hidden="true">' + ICON[n] + "</svg>"; }
   function home(root) {
@@ -181,6 +182,7 @@
       '<a class="tr-big call" id="trGoCall" href="#/everywhere/appel"><span class="tr-big-ic">' + ic("call") + "</span><span><b>" + esc(t("call")) + "</b><small>" + esc(t("call_d")) + "</small></span></a>" +
       (window.EWPartout ? (function (h) { return '<a class="tr-big partout" id="trGoPartout" href="#/everywhere/partout"><span class="tr-big-ic">' + ic("send") + "</span><span><b>" + esc(h.b) + "</b><small>" + esc(h.d) + "</small></span></a>"; })(window.EWPartout.homeLabel(lang)) : "") +
       '<a class="tr-big trip" id="trGoTrip" href="#/everywhere/voyage"><span class="tr-big-ic">' + ic("trip") + "</span><span><b>" + esc(t("trip")) + "</b><small>" + esc(t("trip_d")) + "</small></span></a>" +
+      '<a class="tr-big trip" id="trGoPaper" href="#/everywhere/papier"><span class="tr-big-ic">' + ic("paper") + "</span><span><b>" + esc(t("paper")) + "</b><small>" + esc(t("paper_d")) + "</small></span></a>" +
       '<button type="button" class="tr-big invite" id="trGoInvite" data-invite-now><span class="tr-big-ic tr-wave" aria-hidden="true">👋</span><span><b>' + esc(t("invite_talk").replace(/^📨\s*/, "")) + "</b><small>" + esc(t("invite_talk_d")) + "</small></span></button>" +
       '<a class="tr-row" href="#/everywhere/langues"><b>' + esc(t("my_langs")) + "</b><span>" + esc(langName(p.me)) + " ⇄ " + esc(langName(p.other)) + "</span></a>" +
       '<a class="tr-row" href="#/everywhere/reglages"><b>' + esc(t("settings")) + "</b><span>" + esc(t("settings_d")) + "</span></a>";
@@ -713,6 +715,7 @@
     var old = document.getElementById("trSheet");
     if (old) old.remove();
     if (window.EWVoyage) window.EWVoyage.leave();
+    if (window.EWPapier) window.EWPapier.leave();
     var s = (parts || [])[0] || "";
     root.classList.toggle("tr-full", s === "face");
     if (s === "face") { faceScreen(root); return t("face"); }
@@ -720,6 +723,7 @@
     if (s === "langues") { langsScreen(root); return t("my_langs"); }
     if (s === "reglages") { settingsScreen(root); return t("settings"); }
     if (s === "voyage" && window.EWVoyage) return window.EWVoyage.show(root, lang);
+    if (s === "papier" && window.EWPapier) return window.EWPapier.show(root, lang, prefs().me);
     if (s === "partout" && window.EWPartout) return window.EWPartout.show(root, lang, { prefs: prefs, langOptions: langOptions });
     home(root);
     return t("title");

@@ -178,3 +178,14 @@ html.reduce-motion .tr-wave{animation:none;}
 .pt-apps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
 .pt-app{text-decoration:none;font-weight:600;white-space:nowrap;}
 .pt-check{display:flex;gap:8px;align-items:center;margin-top:10px;font-size:15px;}
+
+/* SCAN (papier.js) */
+.es-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px;}
+.es-small{font-size:13px;margin-top:8px;}
+.pp-row{flex-wrap:wrap;gap:10px;}
+.pp-file{cursor:pointer;}
+.pp-msg{font-weight:700;min-height:1.2em;}
+.pp-cam{margin:12px 0;}
+.pp-cam video{display:block;width:100%;max-height:60vh;object-fit:cover;border-radius:12px;background:#000;margin-bottom:10px;}
+.pp-tr{font-size:1.15rem;line-height:1.5;white-space:pre-wrap;}
+.tr-field textarea{width:100%;box-sizing:border-box;border-radius:12px;padding:10px;font:inherit;}
