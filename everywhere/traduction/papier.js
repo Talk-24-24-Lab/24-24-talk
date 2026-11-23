@@ -34,7 +34,7 @@
       e_cam: "La caméra ne s'ouvre pas. Utilisez « Appareil photo du téléphone » ou « Choisir une image ».",
       e_cam_no: "La caméra est bloquée pour ONE WORLD. Touchez « Appareil photo du téléphone » ci-dessous : il marche sans autorisation. Pour débloquer : Chrome → ⋮ → Paramètres → Paramètres des sites → Appareil photo.",
       e_cam_busy: "La caméra est déjà prise par une autre appli (appel, visio). Fermez-la, ou touchez « Appareil photo du téléphone ».",
-      native: "📷 Appareil photo du téléphone", live: "🎥 Caméra dans la page", e_nophoto: "Aucune photo reçue. Touchez « Photographier » et validez la photo (✓)."
+      native: "📷 Appareil photo du téléphone", live: "🎥 Caméra dans la page", cam_wait: "Ouverture de la caméra… Si le téléphone le demande, touchez « Autoriser ».", e_nophoto: "Aucune photo reçue. Touchez « Photographier » et validez la photo (✓)."
     },
     en: {
       title: "📄 SCAN", back: "← Translate",
@@ -54,7 +54,7 @@
       e_cam: "The camera does not open. Use “Phone camera” or “Choose an image”.",
       e_cam_no: "The camera is blocked for ONE WORLD. Tap “Phone camera” below: it works without permission. To unblock: Chrome → ⋮ → Settings → Site settings → Camera.",
       e_cam_busy: "The camera is already used by another app (call, video). Close it, or tap “Phone camera”.",
-      native: "📷 Phone camera", live: "🎥 In-page camera", e_nophoto: "No photo received. Tap “Take a photo” and confirm the picture (✓)."
+      native: "📷 Phone camera", live: "🎥 In-page camera", cam_wait: "Opening the camera… If your phone asks, tap “Allow”.", e_nophoto: "No photo received. Tap “Take a photo” and confirm the picture (✓)."
     }
   };
   function t(k, v) {
@@ -101,10 +101,11 @@
         '<div class="es-row pp-row"><button type="button" class="btn primary" id="ppShoot">' + esc(t("shoot")) + '</button>' +
         '<input id="ppCam" type="file" accept="image/*" capture="environment" hidden>' +
         '<label class="btn pp-file">' + esc(t("pick")) + '<input id="ppPick" type="file" accept="image/*" hidden></label>' +
-        '<button type="button" class="btn" id="ppLive">' + esc(t("live")) + "</button></div>" +
+        '<button type="button" class="btn" id="ppLive">' + esc(t("native")) + "</button></div>" +
         '<div id="ppCamBox" class="pp-cam" hidden><video id="ppVideo" playsinline muted autoplay></video>' +
         '<div class="es-row pp-row"><button type="button" class="btn primary" id="ppSnap">' + esc(t("snap")) + '</button><button type="button" class="btn" id="ppCamStop">' + esc(t("cancel")) + "</button></div></div>" +
         '<p id="ppMsg" class="pp-msg" role="status" aria-live="polite"></p>' +
+        '<button type="button" class="btn primary" id="ppNative2" hidden>' + esc(t("native")) + "</button>" +
         '<p class="muted es-small">' + esc(t("private")) + " " + esc(t("first")) + "</p>" +
       "</div>" +
       '<div id="ppOut" hidden><div class="card"><label class="tr-field">' + esc(t("read_t")) + '<textarea id="ppText" rows="6" dir="auto"></textarea></label>' +
@@ -126,19 +127,20 @@
     }
     var camBox = root.querySelector("#ppCamBox"), video = root.querySelector("#ppVideo");
     function camOff() { stopCam(); video.srcObject = null; camBox.hidden = true; }
-    // « Photographier » ouvre l'appareil photo du téléphone : c'est ce qui marche partout (Chrome, fenêtre Gmail,
-    // appli installée), sans autorisation à donner. La caméra dans la page reste en secours (#ppLive).
-    root.querySelector("#ppShoot").addEventListener("click", function () {
-      msg.textContent = "";
-      root.querySelector("#ppCam").click();
-    });
-    root.querySelector("#ppLive").addEventListener("click", function () {
+    // « Photographier » : caméra DANS la page (la page reste ouverte : sur Xiaomi et autres Android, l'appareil photo
+    // externe fait fermer la page et la photo est perdue). Si la caméra ne démarre pas en 6 s ou est refusée :
+    // bouton « Appareil photo du téléphone » affiché, avec le message.
+    function live() {
       var md = navigator.mediaDevices;
-      if (!md || !md.getUserMedia) { openNativeCamera(); return; } // appareil photo externe si la caméra intégrée n’est pas disponible
-      msg.textContent = "";
+      if (!md || !md.getUserMedia) { root.querySelector("#ppNative2").hidden = false; root.querySelector("#ppCam").click(); return; }
+      var started = false;
+      setTimeout(function () { if (!started && tok === token && camBox.hidden) { msg.textContent = t("e_cam"); root.querySelector("#ppNative2").hidden = false; } }, 6000);
+      msg.textContent = t("cam_wait");
       stopCam();
       md.getUserMedia({ video: { facingMode: { ideal: "environment" }, width: { ideal: 1920 }, height: { ideal: 1080 } }, audio: false }).then(function (s) {
         if (tok !== token) { s.getTracks().forEach(function (tr) { tr.stop(); }); return; }
+        started = true;
+        msg.textContent = "";
         stream = s;
         video.srcObject = s;
         camBox.hidden = false;
@@ -149,9 +151,13 @@
         // Caméra refusée ou occupée : l'appareil photo du téléphone (input capture) ne demande aucune autorisation au site.
         var n = err && err.name;
         msg.textContent = t(n === "NotAllowedError" || n === "SecurityError" ? "e_cam_no" : n === "NotReadableError" || n === "AbortError" ? "e_cam_busy" : "e_cam");
-        try { root.querySelector("#ppCam").click(); } catch (e) { /* le bouton Photographier reste là */ }
+        started = true;
+        root.querySelector("#ppNative2").hidden = false;
       });
-    });
+    }
+    root.querySelector("#ppShoot").addEventListener("click", function () { msg.textContent = ""; live(); });
+    root.querySelector("#ppNative2").addEventListener("click", function () { root.querySelector("#ppCam").click(); });
+    root.querySelector("#ppLive").addEventListener("click", function () { msg.textContent = ""; root.querySelector("#ppCam").click(); });
     root.querySelector("#ppCamStop").addEventListener("click", camOff);
     root.querySelector("#ppSnap").addEventListener("click", function () {
       var w = video.videoWidth, h = video.videoHeight;
