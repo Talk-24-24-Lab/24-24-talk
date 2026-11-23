@@ -34,7 +34,7 @@
       e_cam: "La caméra ne s'ouvre pas. Utilisez « Appareil photo du téléphone » ou « Choisir une image ».",
       e_cam_no: "La caméra est bloquée pour ONE WORLD. Touchez « Appareil photo du téléphone » ci-dessous : il marche sans autorisation. Pour débloquer : Chrome → ⋮ → Paramètres → Paramètres des sites → Appareil photo.",
       e_cam_busy: "La caméra est déjà prise par une autre appli (appel, visio). Fermez-la, ou touchez « Appareil photo du téléphone ».",
-      native: "📷 Appareil photo du téléphone"
+      native: "📷 Appareil photo du téléphone", live: "🎥 Caméra dans la page", e_nophoto: "Aucune photo reçue. Touchez « Photographier » et validez la photo (✓)."
     },
     en: {
       title: "📄 SCAN", back: "← Translate",
@@ -54,7 +54,7 @@
       e_cam: "The camera does not open. Use “Phone camera” or “Choose an image”.",
       e_cam_no: "The camera is blocked for ONE WORLD. Tap “Phone camera” below: it works without permission. To unblock: Chrome → ⋮ → Settings → Site settings → Camera.",
       e_cam_busy: "The camera is already used by another app (call, video). Close it, or tap “Phone camera”.",
-      native: "📷 Phone camera"
+      native: "📷 Phone camera", live: "🎥 In-page camera", e_nophoto: "No photo received. Tap “Take a photo” and confirm the picture (✓)."
     }
   };
   function t(k, v) {
@@ -99,8 +99,9 @@
         '<label class="tr-field">' + esc(t("from")) + '<select id="ppFrom">' + langOpts(from) + "</select></label>" +
         '<label class="tr-field">' + esc(t("to")) + '<select id="ppTo">' + langOpts(mine) + "</select></label>" +
         '<div class="es-row pp-row"><button type="button" class="btn primary" id="ppShoot">' + esc(t("shoot")) + '</button>' +
-        '<label class="btn pp-file" id="ppNative" hidden>' + esc(t("native")) + '<input id="ppCam" type="file" accept="image/*" capture="environment" hidden></label>' +
-        '<label class="btn pp-file">' + esc(t("pick")) + '<input id="ppPick" type="file" accept="image/*" hidden></label></div>' +
+        '<input id="ppCam" type="file" accept="image/*" capture="environment" hidden>' +
+        '<label class="btn pp-file">' + esc(t("pick")) + '<input id="ppPick" type="file" accept="image/*" hidden></label>' +
+        '<button type="button" class="btn" id="ppLive">' + esc(t("live")) + "</button></div>" +
         '<div id="ppCamBox" class="pp-cam" hidden><video id="ppVideo" playsinline muted autoplay></video>' +
         '<div class="es-row pp-row"><button type="button" class="btn primary" id="ppSnap">' + esc(t("snap")) + '</button><button type="button" class="btn" id="ppCamStop">' + esc(t("cancel")) + "</button></div></div>" +
         '<p id="ppMsg" class="pp-msg" role="status" aria-live="polite"></p>' +
@@ -116,18 +117,22 @@
     function onFile(e) {
       var f = e.target.files && e.target.files[0];
       e.target.value = "";
-      if (!f) return;
+      if (!f) { msg.textContent = t("e_nophoto"); return; }
       read(f);
     }
     root.querySelector("#ppCam").addEventListener("change", onFile);
     function openNativeCamera() {
-      var native = root.querySelector("#ppNative");
-      native.hidden = false;
       root.querySelector("#ppCam").click();
     }
     var camBox = root.querySelector("#ppCamBox"), video = root.querySelector("#ppVideo");
     function camOff() { stopCam(); video.srcObject = null; camBox.hidden = true; }
+    // « Photographier » ouvre l'appareil photo du téléphone : c'est ce qui marche partout (Chrome, fenêtre Gmail,
+    // appli installée), sans autorisation à donner. La caméra dans la page reste en secours (#ppLive).
     root.querySelector("#ppShoot").addEventListener("click", function () {
+      msg.textContent = "";
+      root.querySelector("#ppCam").click();
+    });
+    root.querySelector("#ppLive").addEventListener("click", function () {
       var md = navigator.mediaDevices;
       if (!md || !md.getUserMedia) { openNativeCamera(); return; } // appareil photo externe si la caméra intégrée n’est pas disponible
       msg.textContent = "";
@@ -144,8 +149,7 @@
         // Caméra refusée ou occupée : l'appareil photo du téléphone (input capture) ne demande aucune autorisation au site.
         var n = err && err.name;
         msg.textContent = t(n === "NotAllowedError" || n === "SecurityError" ? "e_cam_no" : n === "NotReadableError" || n === "AbortError" ? "e_cam_busy" : "e_cam");
-        root.querySelector("#ppNative").hidden = false;
-        try { root.querySelector("#ppCam").click(); } catch (e) { /* le bouton reste là */ }
+        try { root.querySelector("#ppCam").click(); } catch (e) { /* le bouton Photographier reste là */ }
       });
     });
     root.querySelector("#ppCamStop").addEventListener("click", camOff);
