@@ -108,7 +108,7 @@
   document.querySelectorAll("[data-t-aria]").forEach(function (el) { el.setAttribute("aria-label", t(el.getAttribute("data-t-aria"))); });
 
   // ---------- Bandeau d'environnement ----------
-  if (CFG.env !== "production") { $("envBanner").textContent = t("env_test"); $("envBanner").hidden = false; }
+  if (CFG.env !== "production" && CFG.banner !== false) { $("envBanner").textContent = t("env_test"); $("envBanner").hidden = false; }
   else document.body.classList.add("no-banner");
   $("versionTxt").textContent = VERSION + (CFG.env !== "production" ? " · " + CFG.env : "");
 

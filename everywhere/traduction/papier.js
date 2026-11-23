@@ -103,9 +103,9 @@
         '<label class="btn pp-file">' + esc(t("pick")) + '<input id="ppPick" type="file" accept="image/*" hidden></label></div>' +
         '<div id="ppCamBox" class="pp-cam" hidden><video id="ppVideo" playsinline muted autoplay></video>' +
         '<div class="es-row pp-row"><button type="button" class="btn primary" id="ppSnap">' + esc(t("snap")) + '</button><button type="button" class="btn" id="ppCamStop">' + esc(t("cancel")) + "</button></div></div>" +
+        '<p id="ppMsg" class="pp-msg" role="status" aria-live="polite"></p>' +
         '<p class="muted es-small">' + esc(t("private")) + " " + esc(t("first")) + "</p>" +
       "</div>" +
-      '<p id="ppMsg" class="pp-msg" role="status" aria-live="polite"></p>' +
       '<div id="ppOut" hidden><div class="card"><label class="tr-field">' + esc(t("read_t")) + '<textarea id="ppText" rows="6" dir="auto"></textarea></label>' +
         '<button type="button" class="btn primary" id="ppGo">' + esc(t("translate")) + "</button></div>" +
         '<div class="card" id="ppRes" hidden><h2 class="tr-h2">' + esc(t("result")) + '</h2><p id="ppTr" class="pp-tr" dir="auto"></p>' +
@@ -145,6 +145,7 @@
         var n = err && err.name;
         msg.textContent = t(n === "NotAllowedError" || n === "SecurityError" ? "e_cam_no" : n === "NotReadableError" || n === "AbortError" ? "e_cam_busy" : "e_cam");
         root.querySelector("#ppNative").hidden = false;
+        try { root.querySelector("#ppCam").click(); } catch (e) { /* le bouton reste là */ }
       });
     });
     root.querySelector("#ppCamStop").addEventListener("click", camOff);
