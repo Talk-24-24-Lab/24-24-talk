@@ -101,11 +101,11 @@
         '<div class="es-row pp-row"><button type="button" class="btn primary" id="ppShoot">' + esc(t("shoot")) + '</button>' +
         '<input id="ppCam" type="file" accept="image/*" capture="environment" hidden>' +
         '<label class="btn pp-file">' + esc(t("pick")) + '<input id="ppPick" type="file" accept="image/*" hidden></label>' +
-        '<button type="button" class="btn" id="ppLive">' + esc(t("native")) + "</button></div>" +
+        '<label class="btn pp-file" id="ppLive">' + esc(t("native")) + '<input class="ppCamIn" type="file" accept="image/*" capture="environment" hidden></label></div>' +
         '<div id="ppCamBox" class="pp-cam" hidden><video id="ppVideo" playsinline muted autoplay></video>' +
         '<div class="es-row pp-row"><button type="button" class="btn primary" id="ppSnap">' + esc(t("snap")) + '</button><button type="button" class="btn" id="ppCamStop">' + esc(t("cancel")) + "</button></div></div>" +
         '<p id="ppMsg" class="pp-msg" role="status" aria-live="polite"></p>' +
-        '<button type="button" class="btn primary" id="ppNative2" hidden>' + esc(t("native")) + "</button>" +
+        '<label class="btn primary pp-file" id="ppNative2" hidden>' + esc(t("native")) + '<input class="ppCamIn" type="file" accept="image/*" capture="environment" hidden></label>' +
         '<p class="muted es-small">' + esc(t("private")) + " " + esc(t("first")) + "</p>" +
       "</div>" +
       '<div id="ppOut" hidden><div class="card"><label class="tr-field">' + esc(t("read_t")) + '<textarea id="ppText" rows="6" dir="auto"></textarea></label>' +
@@ -156,8 +156,7 @@
       });
     }
     root.querySelector("#ppShoot").addEventListener("click", function () { msg.textContent = ""; live(); });
-    root.querySelector("#ppNative2").addEventListener("click", function () { root.querySelector("#ppCam").click(); });
-    root.querySelector("#ppLive").addEventListener("click", function () { msg.textContent = ""; root.querySelector("#ppCam").click(); });
+    Array.prototype.forEach.call(root.querySelectorAll(".ppCamIn"), function (inp) { inp.addEventListener("change", onFile); });
     root.querySelector("#ppCamStop").addEventListener("click", camOff);
     root.querySelector("#ppSnap").addEventListener("click", function () {
       var w = video.videoWidth, h = video.videoHeight;
